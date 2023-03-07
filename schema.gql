@@ -1,0 +1,100 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ClientGroup {
+  _id: ID!
+  createdAt: DateTime!
+  isDeleted: String!
+  title: String!
+  userId: ID!
+}
+
+input CreateClientGroupDto {
+  title: String!
+}
+
+input CreateProgramTagDto {
+  title: String!
+}
+
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DeleteClientGroupDto {
+  _id: String!
+}
+
+input DeleteProgramTagDto {
+  _id: String!
+}
+
+type Ingredient {
+  amount: Float!
+  name: Boolean!
+  unit: Float!
+}
+
+type JwtDto {
+  token: String!
+  userId: String!
+}
+
+input LoginDto {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createClientGroup(input: CreateClientGroupDto!): ClientGroup!
+  createProgramTag(input: CreateProgramTagDto!): ProgramTag!
+  createUser(input: CreateUserInput!): User!
+  deleteClientGroup(input: DeleteClientGroupDto!): ClientGroup!
+  deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
+  logIn(input: LoginDto!): JwtDto!
+  updateClientGroup(input: UpdateClientGroupDto!): ClientGroup!
+  updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
+}
+
+type ProgramTag {
+  _id: ID!
+  createdAt: DateTime!
+  isDeleted: String!
+  title: String!
+  userId: ID!
+}
+
+type Query {
+  getClientGroups: [ClientGroup!]!
+  getProgramTags: [ProgramTag!]!
+  sayHello: String!
+}
+
+input UpdateClientGroupDto {
+  _id: String!
+  title: String!
+}
+
+input UpdateProgramTagDto {
+  _id: String!
+  title: String!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  firstName: String!
+  image: String!
+  isDarkMode: Boolean!
+  lastName: String!
+  userId: ID!
+}

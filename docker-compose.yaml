@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+  mongo1:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - $PWD/mongo-data:/data/db'
