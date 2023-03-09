@@ -2,26 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
+import { Ingredient, IngredientSchema } from 'src/shared/models/ingredients';
 
 @ObjectType()
-@Schema({ _id: false })
-export class Ingredient {
-  @Field()
-  @Prop({ type: String, required: true })
-  name!: boolean;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  amount!: number;
-
-  @Field()
-  @Prop({ type: String, required: true })
-  unit!: number;
-}
-const IngredientSchema = SchemaFactory.createForClass(Ingredient);
-
-@ObjectType()
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'CustomMeals' })
 export class CustomMeal extends BaseSchema {
   @Field(() => ID)
   _id!: string;

@@ -1,30 +1,15 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsNumber, IsString } from 'class-validator';
-
-@ObjectType()
-class Ingredient {
-  @Field()
-  @IsString()
-  name: string;
-
-  @Field()
-  @IsNumber()
-  amount: number;
-
-  @Field()
-  @IsString()
-  unit: string;
-}
-
+import { Field, InputType } from '@nestjs/graphql';
+import { IsArray,    IsString } from 'class-validator';
+import { IngredientInput } from 'src/modules/users/custom-meals/adapters/in/dtos/shared';
 @InputType()
 export class CreateCustomMealDto {
   @Field()
   @IsString()
   name: string;
 
-  @Field(() => [Ingredient])
-  @IsString()
-  ingredients: Ingredient[];
+  @Field(() => [IngredientInput], { nullable: false })
+  @IsArray()
+  ingredients: IngredientInput[];
 
   @Field()
   @IsString()

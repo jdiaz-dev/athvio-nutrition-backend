@@ -39,5 +39,8 @@ module.exports = {
     'no-console': 2,
     'no-param-reassign': 2,
     'immutable/no-let': 2,
+
+    'no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': 0,
   },
 };

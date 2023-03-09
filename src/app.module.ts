@@ -88,3 +88,8 @@ import configuration from './configuration';
   providers: [AppService],
 })
 export class AppModule {}
+
+/*
+  todo:
+    add rules to create week plans, verify the amount of days in week
+*/

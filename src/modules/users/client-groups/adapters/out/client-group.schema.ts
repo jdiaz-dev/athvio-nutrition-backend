@@ -4,7 +4,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'ClientGroups' })
 export class ClientGroup extends BaseSchema {
   @Field(() => ID)
   _id!: string;
@@ -26,6 +26,6 @@ export type ClientGroupDocument = ClientGroup & Document;
 export const ClientGroupSchema = SchemaFactory.createForClass(ClientGroup);
 ClientGroupSchema.methods.toJSON = function () {
   let { __v, createdAt, updatedAt, ...clientGroup } = this.toObject();
-//   console.log('----------clientGroup json', clientGroup);
+  //   console.log('----------clientGroup json', clientGroup);
   return clientGroup;
 };

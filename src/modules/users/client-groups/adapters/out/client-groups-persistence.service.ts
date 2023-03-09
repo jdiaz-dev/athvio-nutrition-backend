@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CreateClientGroupDto } from 'src/modules/users/client-groups/adapters/in/dtos/create-client-group.dto';
+import { DeleteClientGroupDto } from 'src/modules/users/client-groups/adapters/in/dtos/delete-client-group.dto';
+import { UpdateClientGroupDto } from 'src/modules/users/client-groups/adapters/in/dtos/update-client-group.dto';
+import { ClientGroup, ClientGroupDocument } from 'src/modules/users/client-groups/adapters/out/client-group.schema';
 import { ErrorClientGroupEnum } from 'src/shared/enums/messages-bad-request';
-import { CreateClientGroupDto } from '../in/dtos/create-client-group.dto';
-import { DeleteClientGroupDto } from '../in/dtos/delete-client-group.dto';
-import { UpdateClientGroupDto } from '../in/dtos/update-client-group.dto';
-import { ClientGroup, ClientGroupDocument } from './client-group.schema';
 
 @Injectable()
 export class ClientGroupsPersistenceService {

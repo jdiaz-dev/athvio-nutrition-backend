@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateUserInput } from 'src/modules/users/programs/adapters/out/inputs/create-user.input';
-import { User } from '../out/user.schema';
-import { UsersPersistenceService } from '../out/users-persistence.service';
+import { CreateUserDto } from 'src/modules/users/users/adapters/in/dtos/create-user.dto';
+import { User } from 'src/modules/users/users/adapters/out/user.schema';
+import { UsersPersistenceService } from 'src/modules/users/users/adapters/out/users-persistence.service';
 
 @Resolver()
 export class UsersResolver {
@@ -12,8 +12,8 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Args('input') user: CreateUserInput) {
-    const _user = await this.ups.createUser(user);
+  async createUser(@Args('input') dto: CreateUserDto) {
+    const _user = await this.ups.createUser(dto);
     return _user;
   }
 }

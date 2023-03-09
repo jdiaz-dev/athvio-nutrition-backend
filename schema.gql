@@ -2,6 +2,28 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddPlanMealDto {
+  ingredients: [IngredientsInput!]!
+  macros: MacrosInput!
+  planId: String!
+  position: Float!
+  programId: String!
+  recipe: String!
+  recipeName: String!
+}
+
+input AddProgramPlanDto {
+  day: Float!
+  programId: String!
+  week: Float!
+}
+
+input AddProgramTagDto {
+  _id: String!
+  action: String!
+  programTagId: String!
+}
+
 type ClientGroup {
   _id: ID!
   createdAt: DateTime!
@@ -14,15 +36,36 @@ input CreateClientGroupDto {
   title: String!
 }
 
+input CreateCustomMealDto {
+  ingredients: [IngredientInput!]!
+  name: String!
+  recipe: String!
+}
+
+input CreateProgramDto {
+  description: String!
+  name: String!
+}
+
 input CreateProgramTagDto {
   title: String!
 }
 
-input CreateUserInput {
+input CreateUserDto {
   email: String!
   firstName: String!
   lastName: String!
   password: String!
+}
+
+type CustomMeal {
+  _id: ID!
+  createdAt: DateTime!
+  ingredients: [Ingredient!]!
+  isDeleted: String!
+  name: String!
+  recipe: String!
+  userId: ID!
 }
 
 """
@@ -34,14 +77,61 @@ input DeleteClientGroupDto {
   _id: String!
 }
 
+input DeleteCustomMealDto {
+  _id: String!
+}
+
+input DeleteProgramDto {
+  _id: String!
+}
+
+input DeleteProgramPlanDto {
+  planId: String!
+  programId: String!
+}
+
 input DeleteProgramTagDto {
   _id: String!
 }
 
+input GetCustomMealDto {
+  _id: String!
+}
+
+input GetCustomMealsDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  search: String
+}
+
+input GetProgramDto {
+  _id: String!
+}
+
+input GetProgramsDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  search: String
+}
+
 type Ingredient {
   amount: Float!
-  name: Boolean!
+  name: String!
   unit: Float!
+}
+
+input IngredientInput {
+  amount: Float!
+  name: String!
+  unit: String!
+}
+
+input IngredientsInput {
+  amount: Float!
+  ingredient: String!
+  unit: String!
 }
 
 type JwtDto {
@@ -54,15 +144,69 @@ input LoginDto {
   password: String!
 }
 
+type Macros {
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  protein: Float!
+}
+
+input MacrosInput {
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  protein: Float!
+}
+
+type Meal {
+  ingredients: [Ingredient!]!
+  isDeleted: Boolean!
+  macros: Macros!
+  position: Float!
+  recipe: String!
+  recipeName: String!
+  tagFood: String!
+}
+
 type Mutation {
+  addProgramPlan(input: AddProgramPlanDto!): Program!
+  addProgramTag(input: AddProgramTagDto!): Program!
   createClientGroup(input: CreateClientGroupDto!): ClientGroup!
+  createCustomMeal(input: CreateCustomMealDto!): CustomMeal!
+  createPlanMeal(input: AddPlanMealDto!): Program!
+  createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
-  createUser(input: CreateUserInput!): User!
+  createUser(input: CreateUserDto!): User!
   deleteClientGroup(input: DeleteClientGroupDto!): ClientGroup!
+  deleteCustomMeal(input: DeleteCustomMealDto!): CustomMeal!
+  deleteProgram(input: DeleteProgramDto!): Program!
+  deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
   logIn(input: LoginDto!): JwtDto!
   updateClientGroup(input: UpdateClientGroupDto!): ClientGroup!
+  updateCustomMeal(input: UpdateCustomMealDto!): CustomMeal!
+  updateProgram(input: UpdateProgramDto!): Program!
+  updateProgramPlan(input: UpdateProgramPlanDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
+}
+
+type Plan {
+  _id: ID!
+  day: Float!
+  isDeleted: Boolean!
+  planMeals: [Meal!]!
+  week: Float!
+}
+
+type Program {
+  _id: ID!
+  clients: [String!]!
+  createdAt: DateTime!
+  description: String!
+  name: String!
+  plans: [Plan!]!
+  tags: [ProgramTag!]!
+  userId: ID!
 }
 
 type ProgramTag {
@@ -75,13 +219,37 @@ type ProgramTag {
 
 type Query {
   getClientGroups: [ClientGroup!]!
+  getCustomMeal(input: GetCustomMealDto!): CustomMeal!
+  getCustomMeals(input: GetCustomMealsDto!): [CustomMeal!]!
+  getProgram(input: GetProgramDto!): Program!
   getProgramTags: [ProgramTag!]!
+  getPrograms(input: GetProgramsDto!): [Program!]!
   sayHello: String!
 }
 
 input UpdateClientGroupDto {
   _id: String!
   title: String!
+}
+
+input UpdateCustomMealDto {
+  _id: String!
+  ingredients: [IngredientInput!]!
+  name: String!
+  recipe: String!
+}
+
+input UpdateProgramDto {
+  _id: String!
+  description: String!
+  name: String!
+}
+
+input UpdateProgramPlanDto {
+  day: Float!
+  planId: String!
+  programId: String!
+  week: Float!
 }
 
 input UpdateProgramTagDto {

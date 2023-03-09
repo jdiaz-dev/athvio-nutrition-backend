@@ -8,8 +8,16 @@ export enum ErrorProgramTagEnum {
   PROGRAM_TAG_NOT_FOUND = 'This program tag does not exist.',
 }
 
+export enum ErrorProgramEnum {
+  PROGRAM_NOT_FOUND = 'This program does not exist.',
+}
+
 export enum ErrorClientGroupEnum {
-  CLIENT_GROUP_NOT_FOUND = 'This client group tag does not exist.',
+  CLIENT_GROUP_NOT_FOUND = 'This client group does not exist.',
+}
+
+export enum ErrorCustomMealEnum {
+  CUSTOM_MEAL_NOT_FOUND = 'This custom meal does not exist.',
 }
 
 /* export enum ErrorCommentTicketEnum {

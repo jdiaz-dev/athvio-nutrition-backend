@@ -1,7 +1,7 @@
-import { CreateUserInput } from 'src/modules/users/programs/adapters/out/inputs/create-user.input';
+import { CreateUserDto } from "src/modules/users/users/adapters/in/dtos/create-user.dto";
 
 export interface IUserRepository {
-  createUser(user: CreateUserInput): any;
+  createUser(user: CreateUserDto): any;
   getUser(email: string): any;
   getUserEmail(email: string): any;
 }

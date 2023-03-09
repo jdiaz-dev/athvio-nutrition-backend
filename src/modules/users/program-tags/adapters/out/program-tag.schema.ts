@@ -4,7 +4,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'ProgramTags' })
 export class ProgramTag extends BaseSchema {
   @Field(() => ID)
   _id!: string;
@@ -26,6 +26,6 @@ export type ProgramTagDocument = ProgramTag & Document;
 export const ProgramTagSchema = SchemaFactory.createForClass(ProgramTag);
 ProgramTagSchema.methods.toJSON = function () {
   let { __v, createdAt, updatedAt, ...programTag } = this.toObject();
-//   console.log('----------programTag json', programTag);
+  //   console.log('----------programTag json', programTag);
   return programTag;
 };

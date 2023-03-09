@@ -1,14 +1,13 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/security/adapters/in/guards/authorization.guard';
+import { CreateProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/create-program-tag.dto';
+import { DeleteProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/delete-program-tag.dto';
+import { UpdateProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/update-program-tag.dto';
+import { ProgramTag } from 'src/modules/users/program-tags/adapters/out/program-tag.schema';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { IUserContext } from 'src/shared/interfaces/user-context';
 import { ProgramTagsPersistenceService } from '../out/program-tags-persistence.service';
-import { ProgramTag } from '../out/program-tag.schema';
-import { CreateProgramTagDto } from './dtos/create-program-tag.dto';
-import { DeleteProgramTagDto } from './dtos/delete-program-tag.dto';
-// import { GetProgramTagsDto } from './dtos/get-program.tag.dto';
-import { UpdateProgramTagDto } from './dtos/update-program-tag.dto';
 
 @Resolver()
 export class ProgramTagsResolver {
@@ -16,8 +15,8 @@ export class ProgramTagsResolver {
 
   @Mutation(() => ProgramTag)
   @UseGuards(AuthorizationGuard)
-  createProgramTag(@Args('input') ticketDto: CreateProgramTagDto, @Context() context: any): Promise<ProgramTag> {
-    return this.ptps.createProgramTag(ticketDto, context.req.user.userId);
+  createProgramTag(@Args('input') dto: CreateProgramTagDto, @Context() context: any): Promise<ProgramTag> {
+    return this.ptps.createProgramTag(dto, context.req.user.userId);
   }
 
   @Query(() => [ProgramTag])

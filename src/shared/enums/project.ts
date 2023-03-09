@@ -3,3 +3,8 @@ export enum EnumEnvironments {
   DEVELOPMENT = 'development',
   LOCAL = 'local',
 }
+
+export enum ManageProgramTags {
+  ADD = 'add',
+  REMOVE = 'remove',
+}

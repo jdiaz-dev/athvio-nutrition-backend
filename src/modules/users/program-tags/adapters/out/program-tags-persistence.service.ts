@@ -1,12 +1,12 @@
-import { CreateProgramTagDto } from '../in/dtos/create-program-tag.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ProgramTag, ProgramTagDocument } from './program-tag.schema';
 import { Model } from 'mongoose';
-import { UpdateProgramTagDto } from '../in/dtos/update-program-tag.dto';
 import { BadRequestException } from '@nestjs/common';
 import { ErrorProgramTagEnum } from 'src/shared/enums/messages-bad-request';
-import { DeleteProgramTagDto } from '../in/dtos/delete-program-tag.dto';
+import { ProgramTag, ProgramTagDocument } from 'src/modules/users/program-tags/adapters/out/program-tag.schema';
+import { CreateProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/create-program-tag.dto';
+import { UpdateProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/update-program-tag.dto';
+import { DeleteProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/delete-program-tag.dto';
 
 @Injectable()
 export class ProgramTagsPersistenceService {
@@ -17,6 +17,15 @@ export class ProgramTagsPersistenceService {
       userId,
       ...dto,
     });
+    return programTag;
+  }
+  async getProgramTag(userId: string, programTagId: string): Promise<ProgramTag> {
+    const programTag = await this.programTagModel.findOne({
+      userId,
+      _id: programTagId,
+      isDeleted: false,
+    });
+    if (!programTag) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
     return programTag;
   }
   async getProgramTags(userId: string): Promise<ProgramTag[]> {

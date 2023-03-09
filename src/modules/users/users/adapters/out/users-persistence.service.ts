@@ -4,15 +4,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcryptjs from 'bcryptjs';
 
-import { CreateUserInput } from 'src/modules/users/programs/adapters/out/inputs/create-user.input';
 import { ErrorUsersEnum } from 'src/shared/enums/messages-bad-request';
-import { User, UserDocument } from './user.schema';
+import { User, UserDocument } from 'src/modules/users/users/adapters/out/user.schema';
+import { CreateUserDto } from 'src/modules/users/users/adapters/in/dtos/create-user.dto';
 
 @Injectable()
 export class UsersPersistenceService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async createUser(user: CreateUserInput) {
+  async createUser(user: CreateUserDto) {
     const userExists = await this.userModel.findOne({ email: user.email });
 
     if (userExists) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);

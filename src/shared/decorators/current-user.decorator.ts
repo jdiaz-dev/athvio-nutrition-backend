@@ -4,9 +4,10 @@ import { IUserContext } from '../interfaces/user-context';
 
 export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext): IUserContext => {
   data;
-  // console.log('---------context decorator', context);
+  // console.log('---------context decorator', context.getArgs());
 
   const ctx = GqlExecutionContext.create(context);
-  // console.log('---------ctx', ctx.getContext());
+  // console.log('---------ctx', ctx.getInfo().fieldNodes[0].arguments);
+  // console.log('---------ctx', ctx.getInfo().fieldNodes[0].selectionSet);
   return ctx.getContext().req.user;
 });
