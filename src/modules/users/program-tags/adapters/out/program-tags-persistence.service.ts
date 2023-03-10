@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BadRequestException } from '@nestjs/common';
-import { ErrorProgramTagEnum } from 'src/shared/enums/messages-bad-request';
+import { ErrorProgramTagEnum } from 'src/shared/enums/messages-response';
 import { ProgramTag, ProgramTagDocument } from 'src/modules/users/program-tags/adapters/out/program-tag.schema';
 import { CreateProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/create-program-tag.dto';
 import { UpdateProgramTagDto } from 'src/modules/users/program-tags/adapters/in/dtos/update-program-tag.dto';
@@ -35,9 +35,9 @@ export class ProgramTagsPersistenceService {
     });
     return programTags;
   }
-  async updateProgramTag({ _id, ...rest }: UpdateProgramTagDto, userId: string): Promise<ProgramTag> {
+  async updateProgramTag({ programTagId, ...rest }: UpdateProgramTagDto, userId: string): Promise<ProgramTag> {
     const programTag = await this.programTagModel.findOneAndUpdate(
-      { _id, userId, isDeleted: false },
+      { _id: programTagId, userId, isDeleted: false },
       { ...rest },
       { new: true },
     );
@@ -48,7 +48,7 @@ export class ProgramTagsPersistenceService {
 
   async deleteProgramTag(dto: DeleteProgramTagDto, userId: string): Promise<ProgramTag> {
     const programTag = await this.programTagModel.findOneAndUpdate({
-      _id: dto._id,
+      _id: dto.programTagId,
       userId,
       isDeleted: true,
     });

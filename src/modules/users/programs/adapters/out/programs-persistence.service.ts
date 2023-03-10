@@ -10,7 +10,7 @@ import { GetProgramsDto } from 'src/modules/users/programs/adapters/in/dtos/prog
 import { ManageProgramTagDto } from 'src/modules/users/programs/adapters/in/dtos/program/manage-program-tag.dto';
 import { UpdateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/update-program.dto';
 import { Program, ProgramDocument } from 'src/modules/users/programs/adapters/out/program.schema';
-import { ErrorProgramEnum } from 'src/shared/enums/messages-bad-request';
+import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { ManageProgramTags } from 'src/shared/enums/project';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ProgramsPersistenceService {
     const program = await this.programModel.findOne(
       {
         userId,
-        _id: dto._id,
+        _id: dto.programId,
         isDeleted: false,
       },
       selectors,
@@ -55,9 +55,9 @@ export class ProgramsPersistenceService {
       .populate('tags');
     return programs;
   }
-  async updateProgram({ _id, ...rest }: UpdateProgramDto, userId: string): Promise<Program> {
+  async updateProgram({ programId, ...rest }: UpdateProgramDto, userId: string): Promise<Program> {
     const program = await this.programModel.findOneAndUpdate(
-      { _id, userId, isDeleted: false },
+      { _id: programId, userId, isDeleted: false },
       { ...rest },
       { new: true },
     );
@@ -66,23 +66,15 @@ export class ProgramsPersistenceService {
     return program;
   }
 
-  async updateProgramTag(
-    { programId, action, ...rest }: ManageProgramTagDto,
-    userId: string,
-  ): Promise<Program> {
-
+  async updateProgramTag({ programId, action, ...rest }: ManageProgramTagDto, userId: string): Promise<Program> {
     const _action =
       action === ManageProgramTags.ADD
         ? { $push: { tags: rest.programTagId } }
         : { $pull: { tags: rest.programTagId } };
-    const program = await this.programModel.findOneAndUpdate(
-      { _id: programId, userId },
-      _action,
-      {
-        new: true,
-        populate: 'tags',
-      },
-    )
+    const program = await this.programModel.findOneAndUpdate({ _id: programId, userId }, _action, {
+      new: true,
+      populate: 'tags',
+    });
     return program;
   }
 
@@ -90,7 +82,7 @@ export class ProgramsPersistenceService {
     const program = await this.programModel
       .findOneAndUpdate(
         {
-          _id: dto._id,
+          _id: dto.programId,
           userId,
           isDeleted: false,
         },

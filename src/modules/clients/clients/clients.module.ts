@@ -9,5 +9,6 @@ import { ClientGroupsModule } from 'src/modules/users/client-groups/client-group
 @Module({
   imports: [MongooseModule.forFeature([{ name: Client.name, schema: ClientSchema }]), ClientGroupsModule],
   providers: [ClientsResolver, ClientsPersistenceService, ManageClientGroupService],
+  exports: [ClientsPersistenceService],
 })
 export class ClientsModule {}

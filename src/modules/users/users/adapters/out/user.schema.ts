@@ -32,7 +32,10 @@ export class User extends BaseSchema {
   @Prop({ type: Boolean, required: true, default: true })
   isDarkMode!: true;
 
-  @Prop({ type: Boolean, required: false })
+  @Prop({ type: Boolean, required: true, default: true })
+  isActive!: boolean;
+
+  @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: boolean;
 }
 

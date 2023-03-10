@@ -1,19 +1,19 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNumber, IsString } from 'class-validator';
+import { IsMongoId, IsNumber, IsString } from 'class-validator';
 import { IngredientsInput, MacrosInput } from 'src/modules/users/programs/adapters/in/dtos/meal/shared';
 
 @InputType()
 export class UpdateMealDto {
   @Field()
-  @IsString()
+  @IsMongoId()
   programId: string;
 
   @Field()
-  @IsString()
+  @IsMongoId()
   planId: string;
 
   @Field()
-  @IsString()
+  @IsMongoId()
   mealId: string;
 
   @Field()

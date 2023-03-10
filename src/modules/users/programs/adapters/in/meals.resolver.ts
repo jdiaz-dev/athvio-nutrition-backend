@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/security/adapters/in/guards/authorization.guard';
-import { AddMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/add-meal.dto';
-import { DeleteMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/delete-meal.dto';
+import { AddPlanMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/add-plan-meal.dto';
+import { DeletePlanMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/delete-plan-meal.dto';
 import { UpdateMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/update-meal.dto';
 import { MealsPersistenceService } from 'src/modules/users/programs/adapters/out/meals-persistence.service';
 import { Program } from 'src/modules/users/programs/adapters/out/program.schema';
@@ -17,7 +17,7 @@ export class MealsResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   createPlanMeal(
-    @Args('input') dto: AddMealDto,
+    @Args('input') dto: AddPlanMealDto,
     @CurrentUser() context: IUserContext,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
@@ -37,7 +37,7 @@ export class MealsResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   async deletePlanMeal(
-    @Args('input') dto: DeleteMealDto,
+    @Args('input') dto: DeletePlanMealDto,
     @CurrentUser() context: IUserContext,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {

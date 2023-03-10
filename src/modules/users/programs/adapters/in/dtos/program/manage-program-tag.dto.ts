@@ -1,15 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsMongoId } from 'class-validator';
 import { ManageProgramTags } from 'src/shared/enums/project';
 
 @InputType()
 export class ManageProgramTagDto {
   @Field()
-  @IsString()
+  @IsMongoId()
   programId: string;
 
   @Field()
-  @IsString()
+  @IsMongoId()
   programTagId: string;
 
   @Field()

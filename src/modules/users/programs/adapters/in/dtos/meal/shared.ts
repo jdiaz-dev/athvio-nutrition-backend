@@ -28,7 +28,7 @@ export class IngredientsInput {
 
   @Field()
   @IsString()
-  ingredient: string;
+  ingredientName: string;
 
   @Field()
   @IsString()

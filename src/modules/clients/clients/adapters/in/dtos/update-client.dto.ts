@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsEmail, IsNumber, IsDate, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsEmail, IsNumber, IsDate, IsEnum, IsOptional, IsMongoId } from 'class-validator';
 import { AlloweGender } from 'src/shared/enums/project';
 
 @InputType()
 export class UpdateClientDto {
   @Field()
-  @IsString()
+  @IsMongoId()
   clientId: string;
 
   @Field()

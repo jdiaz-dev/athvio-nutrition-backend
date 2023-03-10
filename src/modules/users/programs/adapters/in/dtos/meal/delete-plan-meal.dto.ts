@@ -1,17 +1,17 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsMongoId } from 'class-validator';
 
 @InputType()
-export class DeleteMealDto {
+export class DeletePlanMealDto {
   @Field()
-  @IsString()
+  @IsMongoId()
   programId: string;
 
   @Field()
-  @IsString()
+  @IsMongoId()
   planId: string;
 
   @Field()
-  @IsString()
+  @IsMongoId()
   mealId: string;
 }

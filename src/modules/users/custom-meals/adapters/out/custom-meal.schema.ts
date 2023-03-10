@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { Ingredient, IngredientSchema } from 'src/shared/models/ingredients';
+import { Ingredient, IngredientSchema } from 'src/shared/models/ingredient';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'CustomMeals' })

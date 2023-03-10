@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import { AddMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/add-meal.dto';
-import { DeleteMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/delete-meal.dto';
+import { AddPlanMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/add-plan-meal.dto';
+import { DeletePlanMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/delete-plan-meal.dto';
 import { UpdateMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/update-meal.dto';
 import { Program, ProgramDocument } from 'src/modules/users/programs/adapters/out/program.schema';
 
@@ -11,7 +11,7 @@ import { Program, ProgramDocument } from 'src/modules/users/programs/adapters/ou
 export class MealsPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addPlanMeal({ programId, planId, ...rest }: AddMealDto, userId: string, selectors: string[]): Promise<Program> {
+  async addPlanMeal({ programId, planId, ...rest }: AddPlanMealDto, userId: string, selectors: string[]): Promise<Program> {
     const program = await this.programModel.findOneAndUpdate(
       { _id: programId, userId },
       { $push: { 'plans.$[el].planMeals': { ...rest } } },
@@ -61,7 +61,7 @@ export class MealsPersistenceService {
   }
 
   async deletePlanMeal(
-    { programId, planId, mealId }: DeleteMealDto,
+    { programId, planId, mealId }: DeletePlanMealDto,
     userId: string,
     selectors: string[],
   ): Promise<Program> {

@@ -91,5 +91,6 @@ export class AppModule {}
 
 /*
   todo:
-    add rules to create week plans, verify the amount of days in week
+    - add rules to create week plans, verify the amount of days in week
+    - endpoint to relationate clients with programs (plans)
 */

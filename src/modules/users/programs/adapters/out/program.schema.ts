@@ -2,69 +2,18 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { Ingredient, IngredientSchema } from 'src/shared/models/ingredients';
 import { ProgramTag } from 'src/modules/users/program-tags/adapters/out/program-tag.schema';
-
-@ObjectType()
-@Schema({ _id: false })
-export class Macros {
-  @Field()
-  @Prop({ type: Number, required: true })
-  calories!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  protein!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  carbs!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  fat!: number;
-}
-
-@ObjectType()
-@Schema({ _id: true, timestamps: true })
-export class Meal {
-  @Field(() => ID)
-  _id!: string;
-
-  @Field()
-  @Prop({ type: String, required: false })
-  tagFood: string; //I don't remember the use case
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  position: number;
-
-  @Field()
-  @Prop({ type: String, required: true })
-  recipeName: string;
-
-  @Field(() => [Ingredient])
-  @Prop({ type: [IngredientSchema], required: true })
-  ingredients: Ingredient[];
-
-  @Field()
-  @Prop({ type: String, required: true })
-  recipe: string;
-
-  @Prop({ type: Boolean, required: true })
-  isDeleted: boolean;
-
-  @Field()
-  @Prop({ type: Macros, required: true })
-  macros: Macros;
-}
-const MealSchema = SchemaFactory.createForClass(Meal);
+import { Meal, MealSchema } from 'src/shared/models/meal';
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class Plan {
   @Field(() => ID)
   _id!: string;
+
+  @Field()
+  @Prop({ type: String, required: false })
+  title!: string;
 
   @Field()
   @Prop({ type: Number, required: true })

@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsMongoId, IsString } from 'class-validator';
 
 @InputType()
 export class UpdateClientGroupDto {
   @Field()
-  @IsString()
-  _id: string;
+  @IsMongoId()
+  clientGroupId: string;
 
   @Field()
   @IsString()

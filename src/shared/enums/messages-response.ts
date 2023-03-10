@@ -1,7 +1,11 @@
 export enum ErrorUsersEnum {
   USER_NOT_FOUND = 'This user does not exist.',
-  EMAIL_EXISTS = 'Este email ya está en uso, porfavor usa otro.',
+  EMAIL_EXISTS = 'This email already exists.',
   // INVALID_PASSWORD = 'La contraseña es incorrecta',
+}
+
+export enum ErrorClientsEnum {
+  CLIENT_NOT_FOUND = 'This client does not exist.',
 }
 
 export enum ErrorProgramTagEnum {
@@ -16,16 +20,14 @@ export enum ErrorClientGroupEnum {
   CLIENT_GROUP_NOT_FOUND = 'This client group does not exist.',
 }
 
+export enum ErrorClientPlanEnum {
+  CLIENT_PLAN_NOT_FOUND = 'This client plan does not exist.',
+}
+
 export enum ErrorCustomMealEnum {
   CUSTOM_MEAL_NOT_FOUND = 'This custom meal does not exist.',
 }
 
-/* export enum ErrorCommentTicketEnum {
-  IMPOSSIBLE_DELETE_COMMENT = 'It is impossible to delete de comment',
-  IMPOSSIBLE_UPDATE_COMMENT = 'It is impossible to update de comment',
+export enum ErrorCaloryEnum {
+  CALORY_NOT_FOUND = 'This calory does not exist.',
 }
-
-export enum ErrorWorkStream {
-  WORK_STREAM_NO_SAVED = 'An error has ocurred trying to save workstream',
-  WORK_STREAM_NO_UPDATED = 'An error has ocurred trying to update workstream',
-} */

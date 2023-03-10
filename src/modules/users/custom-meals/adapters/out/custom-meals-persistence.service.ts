@@ -7,7 +7,7 @@ import { GetCustomMealDto } from 'src/modules/users/custom-meals/adapters/in/dto
 import { GetCustomMealsDto } from 'src/modules/users/custom-meals/adapters/in/dtos/get-custom-meals.dto';
 import { UpdateCustomMealDto } from 'src/modules/users/custom-meals/adapters/in/dtos/update-custom-meal.dto';
 import { DeleteCustomMealDto } from 'src/modules/users/custom-meals/adapters/in/dtos/delete-custom-meal.dto';
-import { ErrorCustomMealEnum } from 'src/shared/enums/messages-bad-request';
+import { ErrorCustomMealEnum } from 'src/shared/enums/messages-response';
 import { CreateCustomMealDto } from 'src/modules/users/custom-meals/adapters/in/dtos/create-custom-meal.dto';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class CustomMealsPersistenceService {
   async getCustomMeal(dto: GetCustomMealDto, userId: string, selectors: any[]): Promise<CustomMeal> {
     const customMeal = await this.customMealModel.findOne(
       {
-        _id: dto._id,
+        _id: dto.customMealId,
         userId,
         isDeleted: false,
       },
@@ -47,9 +47,9 @@ export class CustomMealsPersistenceService {
     );
     return customMeals;
   }
-  async updateCustomMeal({ _id, ...rest }: UpdateCustomMealDto, userId: string): Promise<CustomMeal> {
+  async updateCustomMeal({ customMealId, ...rest }: UpdateCustomMealDto, userId: string): Promise<CustomMeal> {
     const customMeal = await this.customMealModel.findOneAndUpdate(
-      { _id, userId, isDeleted: false },
+      { _id: customMealId, userId, isDeleted: false },
       { ...rest },
       { new: true },
     );
@@ -60,7 +60,7 @@ export class CustomMealsPersistenceService {
 
   async deleteCustomMeal(dto: DeleteCustomMealDto, userId: string): Promise<CustomMeal> {
     const customMeal = await this.customMealModel.findOneAndUpdate({
-      _id: dto._id,
+      _id: dto.customMealId,
       userId,
       isDeleted: true,
     });

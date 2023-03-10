@@ -17,11 +17,11 @@ export class AuthService implements IValidateUserUseCase {
     this.getUserForSecurity = usersPersistence;
   }
   async validateUser(email: string): Promise<any> {
-    const user = await this.getUserEmailForSecurity.getUserEmail(email);
+    const user = await this.getUserEmailForSecurity.getUserByEmail(email);
     return user;
   }
   async login(loginDto: LoginDto) {
-    const { userId, password, ...user } = (await this.getUserForSecurity.getUser(loginDto.email)).toJSON();
+    const { userId, password, ...user } = (await this.getUserForSecurity.getUserByEmail(loginDto.email)).toJSON();
     user;
     const validPassword = bcryptjs.compare(loginDto.password, password);
 

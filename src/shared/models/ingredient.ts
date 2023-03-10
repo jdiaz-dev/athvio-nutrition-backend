@@ -6,7 +6,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 export class Ingredient {
   @Field()
   @Prop({ type: String, required: true })
-  name!: string;
+  ingredientName!: string;
 
   @Field()
   @Prop({ type: Number, required: true })

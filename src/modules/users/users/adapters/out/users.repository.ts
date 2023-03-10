@@ -2,6 +2,5 @@ import { CreateUserDto } from "src/modules/users/users/adapters/in/dtos/create-u
 
 export interface IUserRepository {
   createUser(user: CreateUserDto): any;
-  getUser(email: string): any;
-  getUserEmail(email: string): any;
+  getUserByEmail(email: string): any;
 }

@@ -1,15 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsMongoId } from 'class-validator';
 import { ManageClientGroup } from 'src/shared/enums/project';
 
 @InputType()
 export class ManageClientGroupDto {
   @Field()
-  @IsString()
+  @IsMongoId()
   clientId!: string;
 
   @Field()
-  @IsString()
+  @IsMongoId()
   groupId!: string;
 
   @Field()

@@ -1,4 +1,29 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ClientPlanCommentsResolver } from 'src/modules/clients/client-plans/adapters/in/client-plans-comments.resolver';
+import { ClientPlansResolver } from 'src/modules/clients/client-plans/adapters/in/client-plans.resolver';
+import { ClientPlanCommentPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plan-comment-persistence.service';
+import { ClientPlan, ClientPlanSchema } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
+import { ClientPlansPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plans-persistence.service';
+import { AddClientPlanCommentService } from 'src/modules/clients/client-plans/application/add-client-plan-comment.service';
+import { CreateClientPlanService } from 'src/modules/clients/client-plans/application/create-client-plan.service';
+import { ClientsModule } from 'src/modules/clients/clients/clients.module';
+import { UsersModule } from 'src/modules/users/users/users.module';
 
-@Module({})
+@Module({
+  imports: [
+    MongooseModule.forFeature([{ name: ClientPlan.name, schema: ClientPlanSchema }]),
+    UsersModule,
+    ClientsModule,
+  ],
+  providers: [
+    ...[ClientPlansResolver, ClientPlanCommentsResolver],
+    ...[
+      ClientPlansPersistenceService,
+      CreateClientPlanService,
+      ClientPlanCommentPersistenceService,
+      AddClientPlanCommentService,
+    ],
+  ],
+})
 export class PlansModule {}

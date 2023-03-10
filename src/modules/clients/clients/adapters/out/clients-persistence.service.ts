@@ -5,10 +5,10 @@ import { CreateClientDto } from 'src/modules/clients/clients/adapters/in/dtos/cr
 import { GetClientsDto } from 'src/modules/clients/clients/adapters/in/dtos/get-clients.dto';
 import { UpdateClientDto } from 'src/modules/clients/clients/adapters/in/dtos/update-client.dto';
 import { Client, ClientDocument } from 'src/modules/clients/clients/adapters/out/client.schema';
-import { ErrorUsersEnum } from 'src/shared/enums/messages-bad-request';
+import { ErrorClientsEnum } from 'src/shared/enums/messages-response';
 import { ManageClientStateDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-state.dto';
 import { ManageClientGroupDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-group.dto';
-import { ManageClientGroup } from 'src/shared/enums/project';
+import { ClientState, ManageClientGroup } from 'src/shared/enums/project';
 
 @Injectable()
 export class ClientsPersistenceService {
@@ -19,6 +19,17 @@ export class ClientsPersistenceService {
       userId,
       ...dto,
     });
+    return client;
+  }
+  async getClient(clientId: string, userId: string) {
+    const client = await this.clientModel.findOne({
+      _id: clientId,
+      userId,
+      isDeleted: false,
+      state: ClientState.ACTIVE,
+
+    });
+    if (!client) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return client;
   }
   async getClients(dto: GetClientsDto, userId: string, selectors: string[]): Promise<Client[]> {
@@ -44,20 +55,17 @@ export class ClientsPersistenceService {
       { projection: selectors, new: true },
     );
 
-    if (client == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
+    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return client;
   }
-  async updateClientGroup(
-    { clientId, action, groupId }: ManageClientGroupDto,
-    userId: string,
-  ): Promise<Client> {
+  async updateClientGroup({ clientId, action, groupId }: ManageClientGroupDto, userId: string): Promise<Client> {
     const _action = action === ManageClientGroup.ADD ? { $push: { groups: groupId } } : { $pull: { groups: groupId } };
 
     const client = await this.clientModel.findOneAndUpdate({ _id: clientId, userId }, _action, {
       new: true,
       populate: 'groups',
     });
-    if (client == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
+    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
 
     return client;
   }
@@ -72,7 +80,7 @@ export class ClientsPersistenceService {
       { projection: selectors },
     );
 
-    if (client == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
+    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
 
     return client;
   }

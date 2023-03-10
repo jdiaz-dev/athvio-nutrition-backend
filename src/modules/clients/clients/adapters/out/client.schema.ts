@@ -80,7 +80,7 @@ export class Client extends BaseSchema {
   notes!: string;
 
   @Prop({ type: String, enum: ClientState, required: true, default: ClientState.ACTIVE })
-  state!: string;
+  state!: ClientState;
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: string;

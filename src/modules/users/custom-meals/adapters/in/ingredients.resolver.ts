@@ -2,7 +2,7 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 
 import { CustomMeal } from 'src/modules/users/custom-meals/adapters/out/custom-meal.schema';
-import { Ingredient } from 'src/shared/models/ingredients';
+import { Ingredient } from 'src/shared/models/ingredient';
 
 @Resolver(() => CustomMeal)
 export class IngredientsResolver {

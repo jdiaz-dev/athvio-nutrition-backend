@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsMongoId } from 'class-validator';
 import { ClientState } from 'src/shared/enums/project';
 
 @InputType()
 export class ManageClientStateDto {
   @Field()
-  @IsString()
+  @IsMongoId()
   clientId: string;
 
   @Field()

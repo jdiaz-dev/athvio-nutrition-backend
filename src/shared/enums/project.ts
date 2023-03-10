@@ -24,3 +24,14 @@ export enum ClientState {
   ACTIVE = 'active',
   ARCHIVED = 'archived',
 }
+
+export enum PlanState {
+  COMPLETED = 'completed',
+  MISSED = 'missed',
+  UPCOMING = 'upcoming',
+}
+
+export enum CommenterType {
+  USER = 'user',
+  CLIENT = 'client',
+}

@@ -5,7 +5,7 @@ import { CreateClientGroupDto } from 'src/modules/users/client-groups/adapters/i
 import { DeleteClientGroupDto } from 'src/modules/users/client-groups/adapters/in/dtos/delete-client-group.dto';
 import { UpdateClientGroupDto } from 'src/modules/users/client-groups/adapters/in/dtos/update-client-group.dto';
 import { ClientGroup, ClientGroupDocument } from 'src/modules/users/client-groups/adapters/out/client-group.schema';
-import { ErrorClientGroupEnum } from 'src/shared/enums/messages-bad-request';
+import { ErrorClientGroupEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class ClientGroupsPersistenceService {
@@ -36,9 +36,9 @@ export class ClientGroupsPersistenceService {
     });
     return clientGroups;
   }
-  async updateClientGroup({ _id, ...rest }: UpdateClientGroupDto, userId: string): Promise<ClientGroup> {
+  async updateClientGroup({ clientGroupId, ...rest }: UpdateClientGroupDto, userId: string): Promise<ClientGroup> {
     const clientGroup = await this.programTagModel.findOneAndUpdate(
-      { _id, userId, isDeleted: false },
+      { _id: clientGroupId, userId, isDeleted: false },
       { ...rest },
       { new: true },
     );
@@ -49,7 +49,7 @@ export class ClientGroupsPersistenceService {
 
   async deleteClientGroup(dto: DeleteClientGroupDto, userId: string): Promise<ClientGroup> {
     const clientGroup = await this.programTagModel.findOneAndUpdate({
-      _id: dto._id,
+      _id: dto.clientGropId,
       userId,
       isDeleted: true,
     });

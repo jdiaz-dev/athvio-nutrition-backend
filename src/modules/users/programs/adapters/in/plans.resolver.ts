@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Info, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/security/adapters/in/guards/authorization.guard';
-import { AddPlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/add-plan.dto';
-import { DeletePlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/delete-plan.dto';
-import { UpdatePlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/update-plan.dto';
+import { AddProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/add-program-plan.dto';
+import { DeleteProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/delete-program-plan.dto';
+import { UpdateProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/update-program-plan.dto';
 import { PlansPersistenceService } from 'src/modules/users/programs/adapters/out/plans-persistence.service';
 
 import { Program } from 'src/modules/users/programs/adapters/out/program.schema';
@@ -18,7 +18,7 @@ export class PlansResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   addProgramPlan(
-    @Args('input') dto: AddPlanDto,
+    @Args('input') dto: AddProgramPlanDto,
     @Context() context: any,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
@@ -28,7 +28,7 @@ export class PlansResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   async updateProgramPlan(
-    @Args('input') dto: UpdatePlanDto,
+    @Args('input') dto: UpdateProgramPlanDto,
     @CurrentUser() context: IUserContext,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
@@ -37,7 +37,7 @@ export class PlansResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   async deleteProgramPlan(
-    @Args('input') dto: DeletePlanDto,
+    @Args('input') dto: DeleteProgramPlanDto,
     @CurrentUser() context: IUserContext,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
