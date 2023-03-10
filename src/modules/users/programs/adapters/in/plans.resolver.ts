@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Info, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/security/adapters/in/guards/authorization.guard';
-import { AddProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/program-plan/add-program-plan.dto';
-import { DeleteProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/program-plan/delete-program-plan.dto';
-import { UpdateProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/program-plan/update-program-plan.dto';
+import { AddPlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/add-plan.dto';
+import { DeletePlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/delete-plan.dto';
+import { UpdatePlanDto } from 'src/modules/users/programs/adapters/in/dtos/plan/update-plan.dto';
 import { PlansPersistenceService } from 'src/modules/users/programs/adapters/out/plans-persistence.service';
 
 import { Program } from 'src/modules/users/programs/adapters/out/program.schema';
@@ -18,7 +18,7 @@ export class PlansResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   addProgramPlan(
-    @Args('input') dto: AddProgramPlanDto,
+    @Args('input') dto: AddPlanDto,
     @Context() context: any,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
@@ -28,7 +28,7 @@ export class PlansResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   async updateProgramPlan(
-    @Args('input') dto: UpdateProgramPlanDto,
+    @Args('input') dto: UpdatePlanDto,
     @CurrentUser() context: IUserContext,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
@@ -37,7 +37,7 @@ export class PlansResolver {
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
   async deleteProgramPlan(
-    @Args('input') dto: DeleteProgramPlanDto,
+    @Args('input') dto: DeletePlanDto,
     @CurrentUser() context: IUserContext,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {

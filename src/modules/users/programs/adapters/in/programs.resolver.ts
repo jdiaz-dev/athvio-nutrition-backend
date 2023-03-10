@@ -1,12 +1,12 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/security/adapters/in/guards/authorization.guard';
-import { CreateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/create-program.dto';
-import { DeleteProgramDto } from 'src/modules/users/programs/adapters/in/dtos/delete-program.dto';
-import { GetProgramDto } from 'src/modules/users/programs/adapters/in/dtos/get-program.dto';
-import { GetProgramsDto } from 'src/modules/users/programs/adapters/in/dtos/get-programs.dto';
-import { AddProgramTagDto } from 'src/modules/users/programs/adapters/in/dtos/update-program-tag.dto';
-import { UpdateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/update-program.dto';
+import { CreateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/create-program.dto';
+import { DeleteProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/delete-program.dto';
+import { GetProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/get-program.dto';
+import { GetProgramsDto } from 'src/modules/users/programs/adapters/in/dtos/program/get-programs.dto';
+import { ManageProgramTagDto } from 'src/modules/users/programs/adapters/in/dtos/program/manage-program-tag.dto';
+import { UpdateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/update-program.dto';
 import { Program } from 'src/modules/users/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/users/programs/adapters/out/programs-persistence.service';
 import { ManageProgramTagService } from 'src/modules/users/programs/application/manage-program-tag.service';
@@ -54,12 +54,11 @@ export class ProgramsResolver {
 
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)
-  async addProgramTag(
-    @Args('input') dto: AddProgramTagDto,
+  async manageProgramTag(
+    @Args('input') dto: ManageProgramTagDto,
     @CurrentUser() context: IUserContext,
-    @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
-    return this.mpts.manageProgramTag(dto, context.userId, selectors);
+    return this.mpts.manageProgramTag(dto, context.userId);
   }
   @Mutation(() => Program)
   @UseGuards(AuthorizationGuard)

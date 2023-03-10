@@ -3,14 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { CreateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/create-program.dto';
-import { DeleteProgramDto } from 'src/modules/users/programs/adapters/in/dtos/delete-program.dto';
-import { GetProgramDto } from 'src/modules/users/programs/adapters/in/dtos/get-program.dto';
-import { GetProgramsDto } from 'src/modules/users/programs/adapters/in/dtos/get-programs.dto';
-import { AddProgramTagDto } from 'src/modules/users/programs/adapters/in/dtos/update-program-tag.dto';
-import { UpdateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/update-program.dto';
+import { CreateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/create-program.dto';
+import { DeleteProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/delete-program.dto';
+import { GetProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/get-program.dto';
+import { GetProgramsDto } from 'src/modules/users/programs/adapters/in/dtos/program/get-programs.dto';
+import { ManageProgramTagDto } from 'src/modules/users/programs/adapters/in/dtos/program/manage-program-tag.dto';
+import { UpdateProgramDto } from 'src/modules/users/programs/adapters/in/dtos/program/update-program.dto';
 import { Program, ProgramDocument } from 'src/modules/users/programs/adapters/out/program.schema';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-bad-request';
+import { ManageProgramTags } from 'src/shared/enums/project';
 
 @Injectable()
 export class ProgramsPersistenceService {
@@ -65,22 +66,23 @@ export class ProgramsPersistenceService {
     return program;
   }
 
-  async addProgramTag({ _id, ...rest }: AddProgramTagDto, userId: string, selectors: string[]): Promise<Program> {
-    //ensuring tags field
-    selectors.includes('tags') ? selectors : selectors.push('tags');
-    const program = await this.programModel
-      .findOneAndUpdate({ _id, userId }, { $push: { tags: rest.programTagId } }, { new: true, projection: selectors })
-      .populate('tags');
-    return program;
-  }
+  async updateProgramTag(
+    { programId, action, ...rest }: ManageProgramTagDto,
+    userId: string,
+  ): Promise<Program> {
 
-  async deleteProgramTag({ _id, ...rest }: AddProgramTagDto, userId: string, selectors: string[]): Promise<Program> {
-    //ensuring tags field
-    selectors.includes('tags') ? selectors : selectors.push('tags');
-    const program = await this.programModel
-      .findOneAndUpdate({ _id, userId }, { $pull: { tags: rest.programTagId } }, { new: true, projection: selectors })
-      .populate('tags');
-
+    const _action =
+      action === ManageProgramTags.ADD
+        ? { $push: { tags: rest.programTagId } }
+        : { $pull: { tags: rest.programTagId } };
+    const program = await this.programModel.findOneAndUpdate(
+      { _id: programId, userId },
+      _action,
+      {
+        new: true,
+        populate: 'tags',
+      },
+    )
     return program;
   }
 

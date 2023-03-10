@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsNumber, IsString } from 'class-validator';
 
 @InputType()
-export class AddProgramPlanDto {
+export class AddPlanDto {
   @Field()
   @IsString()
   programId: string;

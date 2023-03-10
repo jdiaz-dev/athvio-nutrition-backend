@@ -13,8 +13,8 @@ import { ManageProgramTagService } from 'src/modules/users/programs/application/
 @Module({
   imports: [MongooseModule.forFeature([{ name: Program.name, schema: ProgramSchema }]), ProgramTagsModule],
   providers: [
-    [ProgramsResolver, PlansResolver, MealsResolver],
-    [ProgramsPersistenceService, ManageProgramTagService, PlansPersistenceService, MealsPersistenceService],
-  ].flat(),
+    ...[ProgramsResolver, PlansResolver, MealsResolver],
+    ...[ProgramsPersistenceService, ManageProgramTagService, PlansPersistenceService, MealsPersistenceService],
+  ],
 })
 export class ProgramsModule {}

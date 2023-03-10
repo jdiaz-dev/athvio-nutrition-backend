@@ -2,16 +2,16 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 
 @InputType()
-export class AddProgramTagDto {
+export class DeleteMealDto {
   @Field()
   @IsString()
-  _id: string;
+  programId: string;
 
   @Field()
   @IsString()
-  programTagId: string;
+  planId: string;
 
   @Field()
   @IsString()
-  action: string;
+  mealId: string;
 }

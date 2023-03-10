@@ -2,20 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import { AddPlanMealDto } from 'src/modules/users/programs/adapters/in/dtos/plan-meal/add-plan-meal.dto';
-import { DeleteProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/program-plan/delete-program-plan.dto';
-import { UpdateProgramPlanDto } from 'src/modules/users/programs/adapters/in/dtos/program-plan/update-program-plan.dto';
+import { AddMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/add-meal.dto';
+import { DeleteMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/delete-meal.dto';
+import { UpdateMealDto } from 'src/modules/users/programs/adapters/in/dtos/meal/update-meal.dto';
 import { Program, ProgramDocument } from 'src/modules/users/programs/adapters/out/program.schema';
 
 @Injectable()
 export class MealsPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addPlanMeal(
-    { programId, planId, ...rest }: AddPlanMealDto,
-    userId: string,
-    selectors: string[],
-  ): Promise<Program> {
+  async addPlanMeal({ programId, planId, ...rest }: AddMealDto, userId: string, selectors: string[]): Promise<Program> {
     const program = await this.programModel.findOneAndUpdate(
       { _id: programId, userId },
       { $push: { 'plans.$[el].planMeals': { ...rest } } },
@@ -26,45 +22,70 @@ export class MealsPersistenceService {
       },
     );
     selectors;
-    // .populate('tags plans');
-    console.log('-------program PLAN MEAL', program);
     return program;
-
-    /* const program = await this.programModel.create({
-      userId,
-      ...dto,
-    });
-    return program; */
   }
 
-  async updateProgramPlan(dto: UpdateProgramPlanDto, userId: string, selectors: string[]): Promise<Program> {
-    selectors;
-    // const myselector = ['name', 'plans.week', 'plans.day']
+  async updatePlanMeal(
+    { programId, planId, mealId, ...rest }: UpdateMealDto,
+    userId: string,
+    selectors: string[],
+  ): Promise<Program> {
+    rest;
+
     const program = await this.programModel.findOneAndUpdate(
-      { _id: dto.programId, userId, isDeleted: false },
-      { $set: { 'plans.$[el].week': dto.week, 'plans.$[el].day': dto.day } },
+      { _id: programId, userId },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(dto.planId), 'el.isDeleted': false }],
+        $set: {
+          'plans.$[plan].planMeals.$[meal].position': rest.position,
+          'plans.$[plan].planMeals.$[meal].recipeName': rest.recipeName,
+          'plans.$[plan].planMeals.$[meal].ingredients': rest.ingredients,
+          'plans.$[plan].planMeals.$[meal].recipe': rest.recipe,
+          'plans.$[plan].planMeals.$[meal].macros': rest.macros,
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            'plan._id': new Types.ObjectId(planId),
+            'plan.isDeleted': false,
+          },
+          {
+            'meal._id': new Types.ObjectId(mealId),
+          },
+        ],
         new: true,
         projection: selectors,
       },
     );
-    console.log('-------program', program);
     return program;
   }
 
-  async deleteProgramPlan(dto: DeleteProgramPlanDto, userId: string, selectors: string[]): Promise<Program> {
-    selectors;
+  async deletePlanMeal(
+    { programId, planId, mealId }: DeleteMealDto,
+    userId: string,
+    selectors: string[],
+  ): Promise<Program> {
     const program = await this.programModel.findOneAndUpdate(
-      { _id: dto.programId, userId, isDeleted: false },
-      { $set: { 'plans.$[el].isDeleted': true } },
+      { _id: programId, userId },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(dto.planId), 'el.isDeleted': false }],
+        $pull: {
+          'plans.$[plan].planMeals': { _id: new Types.ObjectId(mealId) },
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            'plan._id': new Types.ObjectId(planId),
+            'plan.isDeleted': false,
+          },
+          /* {
+            'meal._id': new Types.ObjectId(mealId),
+          }, */
+        ],
         new: true,
         projection: selectors,
       },
     );
-    console.log('-------program', program);
     return program;
   }
 }

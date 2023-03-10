@@ -7,5 +7,6 @@ import { ClientGroupsPersistenceService } from './adapters/out/client-groups-per
 @Module({
   imports: [MongooseModule.forFeature([{ name: ClientGroup.name, schema: ClientGroupSchema }])],
   providers: [ClientGroupsResolver, ClientGroupsPersistenceService],
+  exports: [ClientGroupsPersistenceService],
 })
 export class ClientGroupsModule {}

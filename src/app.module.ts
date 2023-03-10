@@ -16,7 +16,7 @@ import { ClientGroupsModule } from './modules/users/client-groups/client-groups.
 import { CustomMealsModule } from './modules/users/custom-meals/custom-meals.module';
 import { ClientsModule } from './modules/clients/clients/clients.module';
 import { CaloriesModule } from './modules/clients/calories/calories.module';
-import { PlansModule } from './modules/clients/plans/plans.module';
+import { PlansModule } from './modules/clients/client-plans/plans.module';
 import { ChatsModule } from './modules/clients/chats/chats.module';
 import { SecurityModule } from './modules/security/security.module';
 import { EnumEnvironments } from './shared/enums/project';

@@ -26,8 +26,11 @@ export class Macros {
 }
 
 @ObjectType()
-@Schema({ _id: false })
+@Schema({ _id: true, timestamps: true })
 export class Meal {
+  @Field(() => ID)
+  _id!: string;
+
   @Field()
   @Prop({ type: String, required: false })
   tagFood: string; //I don't remember the use case
@@ -48,7 +51,6 @@ export class Meal {
   @Prop({ type: String, required: true })
   recipe: string;
 
-  @Field()
   @Prop({ type: Boolean, required: true })
   isDeleted: boolean;
 
@@ -59,7 +61,7 @@ export class Meal {
 const MealSchema = SchemaFactory.createForClass(Meal);
 
 @ObjectType()
-@Schema({ timestamps: true, _id: true })
+@Schema({ _id: true, timestamps: true })
 export class Plan {
   @Field(() => ID)
   _id!: string;

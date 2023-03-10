@@ -1,7 +1,7 @@
 export enum ErrorUsersEnum {
-  USER_NOT_FOUND = 'No existe un usuario para este correo, porfavor registrate.',
+  USER_NOT_FOUND = 'This user does not exist.',
   EMAIL_EXISTS = 'Este email ya está en uso, porfavor usa otro.',
-  INVALID_PASSWORD = 'La contraseña es incorrecta',
+  // INVALID_PASSWORD = 'La contraseña es incorrecta',
 }
 
 export enum ErrorProgramTagEnum {

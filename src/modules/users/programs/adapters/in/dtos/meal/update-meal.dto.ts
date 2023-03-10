@@ -1,42 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNumber, IsString } from 'class-validator';
+import { IngredientsInput, MacrosInput } from 'src/modules/users/programs/adapters/in/dtos/meal/shared';
 
 @InputType()
-export class MacrosInput {
-  @Field()
-  @IsNumber()
-  protein: number;
-
-  @Field()
-  @IsNumber()
-  fat: number;
-
-  @Field()
-  @IsNumber()
-  carbs: number;
-
-  @Field()
-  @IsNumber()
-  calories: number;
-}
-
-@InputType()
-export class IngredientsInput {
-  @Field()
-  @IsNumber()
-  amount: number;
-
-  @Field()
-  @IsString()
-  ingredient: string;
-
-  @Field()
-  @IsString()
-  unit: string;
-}
-
-@InputType()
-export class AddPlanMealDto {
+export class UpdateMealDto {
   @Field()
   @IsString()
   programId: string;
@@ -44,6 +11,10 @@ export class AddPlanMealDto {
   @Field()
   @IsString()
   planId: string;
+
+  @Field()
+  @IsString()
+  mealId: string;
 
   @Field()
   @IsNumber()

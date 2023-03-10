@@ -18,12 +18,23 @@ export class ClientGroupsPersistenceService {
     });
     return clientGroup;
   }
-  async getClientGroups(userId: string): Promise<ClientGroup[]> {
-    const programTags = await this.programTagModel.find({
+  async getClientGroup(userId: string, groupId: string): Promise<ClientGroup> {
+    const clientGroup = await this.programTagModel.findOne({
+      _id: groupId,
       userId,
       isDeleted: false,
     });
-    return programTags;
+
+    if (clientGroup == null) throw new BadRequestException(ErrorClientGroupEnum.CLIENT_GROUP_NOT_FOUND);
+
+    return clientGroup;
+  }
+  async getClientGroups(userId: string): Promise<ClientGroup[]> {
+    const clientGroups = await this.programTagModel.find({
+      userId,
+      isDeleted: false,
+    });
+    return clientGroups;
   }
   async updateClientGroup({ _id, ...rest }: UpdateClientGroupDto, userId: string): Promise<ClientGroup> {
     const clientGroup = await this.programTagModel.findOneAndUpdate(
