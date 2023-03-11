@@ -12,7 +12,7 @@ export class SecurityResolver {
   @UseGuards(AuthenticationGuard)
   @Mutation(() => JwtDto)
   async logIn(@Args('input') body: LoginDto, @Context() context: any) {
-    context;
+    console.log('-----context', context);
     return await this.authService.login(body);
   }
 }

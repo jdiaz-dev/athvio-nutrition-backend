@@ -7,22 +7,24 @@ import { CreateCaloryDto } from 'src/modules/clients/calories/adapters/in/dtos/c
 import { Calory } from 'src/modules/clients/calories/adapters/out/calory.schema';
 import { GetCaloryDto } from 'src/modules/clients/calories/adapters/in/dtos/get-calory.dto';
 import { UpdateCaloryDto } from 'src/modules/clients/calories/adapters/in/dtos/update-calory.dto';
+import { CreateCaloryService } from 'src/modules/clients/calories/application/create-calory-persistence.service';
+import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
+import { IUserContext } from 'src/shared/interfaces/user-context';
 
 @Resolver(() => Calory)
 export class CaloryResolver {
-  constructor(private cps: CaloriesPersistenceService) {}
+  constructor(private cps: CaloriesPersistenceService, private ccs: CreateCaloryService) {}
 
   @Mutation(() => Calory)
   @UseGuards(AuthorizationGuard)
-  createCalory(@Args('input') dto: CreateCaloryDto): Promise<Calory> {
-    return this.cps.createCalory(dto);
+  createCalory(@Args('input') dto: CreateCaloryDto, @CurrentUser() context: IUserContext): Promise<Calory> {
+    return this.ccs.createCalory(dto, context.userId);
   }
 
-  @Query(() => [Calory])
+  @Query(() => Calory)
   @UseGuards(AuthorizationGuard)
   async getCalory(
     @Args('input') dto: GetCaloryDto,
-
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Calory> {
     return await this.cps.getCalory(dto, selectors);

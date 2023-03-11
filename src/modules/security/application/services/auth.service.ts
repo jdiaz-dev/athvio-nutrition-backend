@@ -28,7 +28,8 @@ export class AuthService implements IValidateUserUseCase {
     if (!validPassword) throw new UnauthorizedException();
     return {
       userId: userId,
-      token: this.jwtService.sign({ userId }),
+      token: this.jwtService.sign({ userId , algo: "asdadsf"}),
     };
   }
 }
+

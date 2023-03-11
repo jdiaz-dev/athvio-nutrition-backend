@@ -24,9 +24,7 @@ export class CaloriesPersistenceService {
         clientId,
         isDeleted: false,
       },
-      {
-        projection: selectors,
-      },
+      selectors,
     );
     if (!calory) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return calory;

@@ -7,12 +7,14 @@ import { ConfigService } from '@nestjs/config';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), 
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('tokenKey'),
     });
   }
-  validate({ userId }: { userId: string; iat: number; exp: number }) {
-    return { userId }; 
+  validate({ userId, ...rest }: { userId: string; iat: number; exp: number }) {
+    console.log('---------userId', userId);
+    console.log('---------rest', rest);
+    return { userId };
   }
 }

@@ -396,7 +396,7 @@ type ProgramTag {
 }
 
 type Query {
-  getCalory(input: GetCaloryDto!): [Calory!]!
+  getCalory(input: GetCaloryDto!): Calory!
   getClientGroups: [ClientGroup!]!
   getClientPlans(input: GetClientPlansDto!): [ClientPlan!]!
   getClients(input: GetClientsDto!): [Client!]!
