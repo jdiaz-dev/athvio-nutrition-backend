@@ -22,6 +22,7 @@ export enum AlloweGender {
 
 export enum ClientState {
   ACTIVE = 'active',
+  INACTIVE = 'inactive',
   ARCHIVED = 'archived',
 }
 
@@ -32,6 +33,12 @@ export enum PlanState {
 }
 
 export enum CommenterType {
-  USER = 'user',
+  PROFESSIONAL = 'professional',
   CLIENT = 'client',
 }
+
+export enum UnitPreference {
+  IMPERIAL = 'imperial',
+  METRIC = 'metric',
+}
+

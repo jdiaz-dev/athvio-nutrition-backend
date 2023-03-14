@@ -6,25 +6,20 @@ import { UpdateClientPlanCommentDto } from 'src/modules/clients/client-plans/ada
 import { ClientPlanCommentPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plan-comment-persistence.service';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { AddClientPlanCommentService } from 'src/modules/clients/client-plans/application/add-client-plan-comment.service';
-import { AuthorizationGuard } from 'src/modules/security/adapters/in/guards/authorization.guard';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
+import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
 import { selectorExtractor } from 'src/shared/helpers/functions';
-import { IUserContext } from 'src/shared/interfaces/user-context';
 
 @Resolver()
 export class ClientPlanCommentsResolver {
-  constructor(private cpcps: ClientPlanCommentPersistenceService,
-    private acpcs:AddClientPlanCommentService
-    ) {}
+  constructor(private cpcps: ClientPlanCommentPersistenceService, private acpcs: AddClientPlanCommentService) {}
 
   @Mutation(() => ClientPlan)
   @UseGuards(AuthorizationGuard)
   addClientPlanComment(
     @Args('input') dto: AddClientPlanCommentDto,
-    @CurrentUser() context: IUserContext,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<ClientPlan> {
-    return this.acpcs.addClientPlanComment(dto, context.userId, selectors);
+    return this.acpcs.addClientPlanComment(dto, selectors);
   }
 
   @Mutation(() => ClientPlan)

@@ -9,18 +9,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './modules/users/users/users.module';
-import { ProgramsModule } from './modules/users/programs/programs.module';
-import { ProgramTagsModule } from './modules/users/program-tags/program-tags.module';
-import { ClientGroupsModule } from './modules/users/client-groups/client-groups.module';
-import { CustomMealsModule } from './modules/users/custom-meals/custom-meals.module';
+import { ProfessionalsModule } from './modules/professionals/professionals/professionals.module';
+import { ProgramsModule } from './modules/professionals/programs/programs.module';
+import { ProgramTagsModule } from './modules/professionals/program-tags/program-tags.module';
+import { ClientGroupsModule } from './modules/professionals/client-groups/client-groups.module';
+import { CustomMealsModule } from './modules/professionals/custom-meals/custom-meals.module';
 import { ClientsModule } from './modules/clients/clients/clients.module';
 import { CaloriesModule } from './modules/clients/calories/calories.module';
-import { PlansModule } from './modules/clients/client-plans/plans.module';
+import { ClientPlansModule } from './modules/clients/client-plans/plans.module';
 import { ChatsModule } from './modules/clients/chats/chats.module';
-import { SecurityModule } from './modules/security/security.module';
+import { SecurityModule } from './modules/security/security/security.module';
 import { EnumEnvironments } from './shared/enums/project';
 import configuration from './configuration';
+import { UsersModule } from 'src/modules/security/users/users.module';
 
 @Module({
   imports: [
@@ -74,13 +75,14 @@ import configuration from './configuration';
       },
     }),
     UsersModule,
+    ProfessionalsModule,
     ProgramsModule,
     ProgramTagsModule,
     ClientGroupsModule,
     CustomMealsModule,
     ClientsModule,
     CaloriesModule,
-    PlansModule,
+    ClientPlansModule,
     ChatsModule,
     SecurityModule,
   ],
@@ -94,4 +96,11 @@ export class AppModule {}
     - add rules to create week plans, verify the amount of days in week
     - endpoint to relationate clients with programs (plans)
     - create roles and permissions
+
+    - endpoint to update isTrialPeriod
+    - update basic information of client (professional and client views)
+    - update some information of client (from professional view)
+
+
+
 */

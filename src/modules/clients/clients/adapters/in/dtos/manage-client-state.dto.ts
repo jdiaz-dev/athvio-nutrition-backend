@@ -6,6 +6,10 @@ import { ClientState } from 'src/shared/enums/project';
 export class ManageClientStateDto {
   @Field()
   @IsMongoId()
+  professionalId: string;
+
+  @Field()
+  @IsMongoId()
   clientId: string;
 
   @Field()

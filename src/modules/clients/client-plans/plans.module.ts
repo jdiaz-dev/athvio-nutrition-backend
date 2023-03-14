@@ -8,12 +8,14 @@ import { ClientPlansPersistenceService } from 'src/modules/clients/client-plans/
 import { AddClientPlanCommentService } from 'src/modules/clients/client-plans/application/add-client-plan-comment.service';
 import { CreateClientPlanService } from 'src/modules/clients/client-plans/application/create-client-plan.service';
 import { ClientsModule } from 'src/modules/clients/clients/clients.module';
-import { UsersModule } from 'src/modules/users/users/users.module';
+import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
+import { UsersModule } from 'src/modules/security/users/users.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: ClientPlan.name, schema: ClientPlanSchema }]),
     UsersModule,
+    ProfessionalsModule,
     ClientsModule,
   ],
   providers: [
@@ -26,4 +28,4 @@ import { UsersModule } from 'src/modules/users/users/users.module';
     ],
   ],
 })
-export class PlansModule {}
+export class ClientPlansModule {}

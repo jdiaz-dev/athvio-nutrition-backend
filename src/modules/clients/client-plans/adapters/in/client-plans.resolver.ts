@@ -8,23 +8,21 @@ import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/i
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { ClientPlansPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plans-persistence.service';
 import { CreateClientPlanService } from 'src/modules/clients/client-plans/application/create-client-plan.service';
-import { AuthorizationGuard } from 'src/modules/security/adapters/in/guards/authorization.guard';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
+import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor } from 'src/shared/helpers/functions';
-import { IUserContext } from 'src/shared/interfaces/user-context';
 
 @Resolver()
+@UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class ClientPlansResolver {
   constructor(private readonly cpps: ClientPlansPersistenceService, private ccps: CreateClientPlanService) {}
 
   @Mutation(() => ClientPlan)
-  @UseGuards(AuthorizationGuard)
-  createClientPlan(@Args('input') dto: CreateClientPlanDto, @CurrentUser() context: IUserContext): Promise<ClientPlan> {
-    return this.ccps.createClientPlan(dto, context.userId);
+  createClientPlan(@Args('input') dto: CreateClientPlanDto): Promise<ClientPlan> {
+    return this.ccps.createClientPlan(dto);
   }
 
   @Query(() => [ClientPlan])
-  @UseGuards(AuthorizationGuard)
   async getClientPlans(
     @Args('input') dto: GetClientPlansDto,
     @Info(...selectorExtractor()) selectors: string[],
@@ -34,7 +32,6 @@ export class ClientPlansResolver {
   }
 
   @Mutation(() => ClientPlan)
-  @UseGuards(AuthorizationGuard)
   async updateClientPlan(
     @Args('input') dto: UpdateClientPlanDto,
     @Info(...selectorExtractor()) selectors: string[],
@@ -43,7 +40,6 @@ export class ClientPlansResolver {
   }
 
   @Mutation(() => ClientPlan)
-  @UseGuards(AuthorizationGuard)
   async updateClientPlanDate(
     @Args('input') dto: UpdateClientPlanDateDto,
     @Info(...selectorExtractor()) selectors: string[],
@@ -52,7 +48,6 @@ export class ClientPlansResolver {
   }
 
   @Mutation(() => ClientPlan)
-  @UseGuards(AuthorizationGuard)
   deleteClientPlan(
     @Args('input') dto: DeleteClientPlanDto,
     @Info(...selectorExtractor()) selectors: string[],

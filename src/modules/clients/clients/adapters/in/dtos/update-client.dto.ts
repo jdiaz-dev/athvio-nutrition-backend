@@ -1,23 +1,38 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsEmail, IsNumber, IsDate, IsEnum, IsOptional, IsMongoId } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsString, IsNumber, IsDate, IsEnum, IsMongoId, IsBoolean, ValidateNested, IsOptional } from 'class-validator';
 import { AlloweGender } from 'src/shared/enums/project';
 
 @InputType()
-export class UpdateClientDto {
+class UpdateUserInfoDto {
+  @Field()
+  @IsMongoId()
+  userId: string;
+
+  @Field()
+  @IsString()
+  password!: string;
+
+  @Field()
+  @IsBoolean()
+  acceptedTerms!: boolean;
+}
+
+//class destined for app
+@InputType()
+export class UpdateClientMobileDto {
+  @Field()
+  @IsMongoId()
+  professionalId: string;
+
   @Field()
   @IsMongoId()
   clientId: string;
 
   @Field()
-  firstName!: string;
-
-  @Field()
-  @IsString()
-  lastName!: string;
-
-  @Field()
-  @IsEmail()
-  email!: string;
+  @ValidateNested()
+  @Type(() => UpdateUserInfoDto)
+  updateUserInfo: UpdateUserInfoDto;
 
   @Field()
   @IsString()
@@ -27,44 +42,32 @@ export class UpdateClientDto {
   @IsString()
   timezone!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNumber()
+  @IsOptional()
   height!: number;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNumber()
+  @IsOptional()
   weight!: number;
 
   @Field()
   @IsDate()
   birthday!: Date;
 
-  @Field()
+  @Field({ nullable: true })
   @IsEnum(AlloweGender)
-  gender!: string;
+  @IsOptional()
+  gender!: AlloweGender;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   @IsOptional()
-  profilePicture!: string;
-
-  @Field()
-  @IsString()
   codeCountry!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
+  @IsOptional()
   phone!: string;
-
-  @Field()
-  @IsString()
-  target!: string;
-
-  @Field()
-  @IsString()
-  limitation!: string;
-
-  @Field()
-  @IsString()
-  notes!: string;
 }

@@ -14,6 +14,7 @@ input AddPlanMealDto {
   macros: MacrosInput!
   planId: String!
   position: Float!
+  professionalId: String!
   programId: String!
   recipe: String!
   recipeName: String!
@@ -22,6 +23,7 @@ input AddPlanMealDto {
 input AddProgramPlanDto {
   day: Float!
   planMeals: [MealInput!]
+  professionalId: String!
   programId: String!
   week: Float!
 }
@@ -42,20 +44,17 @@ type Client {
   birthday: DateTime!
   codeCountry: String!
   createdAt: DateTime!
-  email: String!
-  firstName: String!
   gender: String!
   groups: [ClientGroup!]!
   height: Float!
-  lastName: String!
   limitation: String!
   location: String!
   notes: String!
   phone: String!
+  professionalId: ID!
   profilePicture: String!
   target: String!
   timezone: String!
-  userId: ID!
   weight: Float!
 }
 
@@ -63,8 +62,8 @@ type ClientGroup {
   _id: ID!
   createdAt: DateTime!
   isDeleted: String!
+  professionalId: ID!
   title: String!
-  userId: ID!
 }
 
 type ClientPlan {
@@ -110,22 +109,22 @@ input CreateCaloryDto {
 input CreateClientDto {
   birthday: DateTime!
   codeCountry: String!
-  email: String!
-  firstName: String!
   gender: String!
   height: Float!
-  lastName: String!
   limitation: String!
   location: String!
   notes: String!
   phone: String!
+  professionalId: String!
   profilePicture: String!
   target: String!
   timezone: String!
+  userInfo: CreateUserInfoDto!
   weight: Float!
 }
 
 input CreateClientGroupDto {
+  professionalId: String!
   title: String!
 }
 
@@ -139,23 +138,32 @@ input CreateClientPlanDto {
 input CreateCustomMealDto {
   ingredients: [IngredientInput!]!
   name: String!
+  professionalId: String!
   recipe: String!
+}
+
+input CreateProfesionalInfoDto {
+  businessName: String
+  country: String
+  countryCode: String
+  phone: String
 }
 
 input CreateProgramDto {
   description: String!
   name: String!
+  professionalId: String!
 }
 
 input CreateProgramTagDto {
+  professionalId: String!
   title: String!
 }
 
-input CreateUserDto {
+input CreateUserInfoDto {
   email: String!
   firstName: String!
   lastName: String!
-  password: String!
 }
 
 type CustomMeal {
@@ -164,8 +172,8 @@ type CustomMeal {
   ingredients: [Ingredient!]!
   isDeleted: String!
   name: String!
+  professionalId: ID!
   recipe: String!
-  userId: ID!
 }
 
 """
@@ -174,7 +182,8 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 input DeleteClientGroupDto {
-  clientGropId: String!
+  clientGroupId: String!
+  professionalId: String!
 }
 
 input DeleteClientPlanCommentDto {
@@ -190,30 +199,39 @@ input DeleteClientPlanDto {
 
 input DeleteCustomMealDto {
   customMealId: String!
+  professionalId: String!
 }
 
 input DeletePlanMealDto {
   mealId: String!
   planId: String!
+  professionalId: String!
   programId: String!
 }
 
 input DeleteProgramDto {
+  professionalId: String!
   programId: String!
 }
 
 input DeleteProgramPlanDto {
   planId: String!
+  professionalId: String!
   programId: String!
 }
 
 input DeleteProgramTagDto {
+  professionalId: String!
   programTagId: String!
 }
 
 input GetCaloryDto {
   caloryId: String!
   clientId: String!
+}
+
+input GetClientGroupsDto {
+  professionalId: String!
 }
 
 input GetClientPlansDto {
@@ -228,29 +246,38 @@ input GetClientsDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
+  professionalId: String!
   search: String
   state: String!
 }
 
 input GetCustomMealDto {
   customMealId: String!
+  professionalId: String!
 }
 
 input GetCustomMealsDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
+  professionalId: String!
   search: String
 }
 
 input GetProgramDto {
+  professionalId: String!
   programId: String!
+}
+
+input GetProgramTagsDto {
+  professionalId: String!
 }
 
 input GetProgramsDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
+  professionalId: String!
   search: String
 }
 
@@ -262,7 +289,7 @@ type Ingredient {
 
 input IngredientInput {
   amount: Float!
-  name: String!
+  ingredientName: String!
   unit: String!
 }
 
@@ -300,15 +327,18 @@ input ManageClientGroupDto {
   action: String!
   clientId: String!
   groupId: String!
+  professionalId: String!
 }
 
 input ManageClientStateDto {
   clientId: String!
+  professionalId: String!
   state: String!
 }
 
 input ManageProgramTagDto {
   action: String!
+  professionalId: String!
   programId: String!
   programTagId: String!
 }
@@ -341,7 +371,6 @@ type Mutation {
   createPlanMeal(input: AddPlanMealDto!): Program!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
-  createUser(input: CreateUserDto!): User!
   deleteClientGroup(input: DeleteClientGroupDto!): ClientGroup!
   deleteClientPlan(input: DeleteClientPlanDto!): ClientPlan!
   deleteClientPlanComment(input: DeleteClientPlanCommentDto!): ClientPlan!
@@ -354,17 +383,28 @@ type Mutation {
   manageClientGroup(input: ManageClientGroupDto!): Client!
   manageClientState(input: ManageClientStateDto!): Client!
   manageProgramTag(input: ManageProgramTagDto!): Program!
+  signUp(input: SignUpUserDto!): User!
   updateCalory(input: UpdateCaloryDto!): Calory!
-  updateClient(input: UpdateClientDto!): Client!
   updateClientGroup(input: UpdateClientGroupDto!): ClientGroup!
   updateClientPlan(input: UpdateClientPlanDto!): ClientPlan!
   updateClientPlanComment(input: UpdateClientPlanCommentDto!): ClientPlan!
   updateClientPlanDate(input: UpdateClientPlanDateDto!): ClientPlan!
   updateCustomMeal(input: UpdateCustomMealDto!): CustomMeal!
+  updatePassword(input: UpdatePasswordDto!): User!
   updatePlanMeal(input: UpdateMealDto!): Program!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramPlan(input: UpdateProgramPlanDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
+  updateUser(input: UpdateUserDto!): User!
+}
+
+type Organization {
+  address: String!
+  businessName: String!
+  city: String!
+  country: String!
+  postalCode: String!
+  province: String!
 }
 
 type Plan {
@@ -383,29 +423,39 @@ type Program {
   description: String!
   name: String!
   plans: [Plan!]!
+  professionalId: ID!
   tags: [ProgramTag!]!
-  userId: ID!
 }
 
 type ProgramTag {
   _id: ID!
   createdAt: DateTime!
   isDeleted: String!
+  professionalId: ID!
   title: String!
-  userId: ID!
 }
 
 type Query {
   getCalory(input: GetCaloryDto!): Calory!
-  getClientGroups: [ClientGroup!]!
+  getClientGroups(input: GetClientGroupsDto!): [ClientGroup!]!
   getClientPlans(input: GetClientPlansDto!): [ClientPlan!]!
   getClients(input: GetClientsDto!): [Client!]!
   getCustomMeal(input: GetCustomMealDto!): CustomMeal!
   getCustomMeals(input: GetCustomMealsDto!): [CustomMeal!]!
   getProgram(input: GetProgramDto!): Program!
-  getProgramTags: [ProgramTag!]!
+  getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): [Program!]!
   sayHello: String!
+}
+
+input SignUpUserDto {
+  acceptedTerms: Boolean!
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  professionalInfo: CreateProfesionalInfoDto!
+  timezone: String!
 }
 
 input UpdateCaloryDto {
@@ -417,27 +467,9 @@ input UpdateCaloryDto {
   protein: Float!
 }
 
-input UpdateClientDto {
-  birthday: DateTime!
-  clientId: String!
-  codeCountry: String!
-  email: String!
-  firstName: String!
-  gender: String!
-  height: Float!
-  lastName: String!
-  limitation: String!
-  location: String!
-  notes: String!
-  phone: String!
-  profilePicture: String!
-  target: String!
-  timezone: String!
-  weight: Float!
-}
-
 input UpdateClientGroupDto {
   clientGroupId: String!
+  professionalId: String!
   title: String!
 }
 
@@ -466,6 +498,7 @@ input UpdateCustomMealDto {
   customMealId: String!
   ingredients: [IngredientInput!]!
   name: String!
+  professionalId: String!
   recipe: String!
 }
 
@@ -475,35 +508,53 @@ input UpdateMealDto {
   mealId: String!
   planId: String!
   position: Float!
+  professionalId: String!
   programId: String!
   recipe: String!
   recipeName: String!
 }
 
+input UpdatePasswordDto {
+  password: String!
+  userId: String!
+}
+
 input UpdateProgramDto {
   description: String!
   name: String!
+  professionalId: String!
   programId: String!
 }
 
 input UpdateProgramPlanDto {
   day: Float!
   planId: String!
+  professionalId: String!
   programId: String!
   week: Float!
 }
 
 input UpdateProgramTagDto {
+  professionalId: String!
   programTagId: String!
   title: String!
 }
 
+input UpdateUserDto {
+  email: String!
+  firstName: String!
+  lastName: String!
+  userId: String!
+}
+
 type User {
+  _id: ID!
+  clientId: String!
   createdAt: DateTime!
   email: String!
   firstName: String!
-  image: String!
   isDarkMode: Boolean!
   lastName: String!
-  userId: ID!
+  professionalId: String!
+  timezone: String!
 }

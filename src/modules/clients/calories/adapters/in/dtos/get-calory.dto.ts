@@ -5,9 +5,9 @@ import { IsMongoId } from 'class-validator';
 export class GetCaloryDto {
   @Field()
   @IsMongoId()
-  caloryId!: string;
+  clientId!: string;
 
   @Field()
   @IsMongoId()
-  clientId!: string;
+  caloryId!: string;
 }

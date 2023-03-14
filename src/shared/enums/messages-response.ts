@@ -4,6 +4,10 @@ export enum ErrorUsersEnum {
   // INVALID_PASSWORD = 'La contraseña es incorrecta',
 }
 
+export enum ProfessionalMessages {
+  PROFESSIONAL_NOT_FOUND = 'This professional does not exist.',
+}
+
 export enum ErrorClientsEnum {
   CLIENT_NOT_FOUND = 'This client does not exist.',
 }
@@ -30,4 +34,8 @@ export enum ErrorCustomMealEnum {
 
 export enum ErrorCaloryEnum {
   CALORY_NOT_FOUND = 'This calory does not exist.',
+}
+
+export enum AuthorizationMessages {
+  NOT_AUTHORIZED = 'You are not authorized',
 }

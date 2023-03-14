@@ -3,7 +3,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { AlloweGender, ClientState } from 'src/shared/enums/project';
-import { ClientGroup } from 'src/modules/users/client-groups/adapters/out/client-group.schema';
+import { ClientGroup } from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Clients' })
@@ -13,26 +13,14 @@ export class Client extends BaseSchema {
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
-  userId!: string;
+  professionalId!: string;
 
   @Field(() => [ClientGroup])
   @Prop({ type: [String], required: true, default: [], ref: ClientGroup.name })
   groups!: [string];
 
   @Field()
-  @Prop({ type: String, required: true })
-  firstName!: string;
-
-  @Field()
-  @Prop({ type: String, required: true })
-  lastName!: string;
-
-  @Field()
-  @Prop({ type: String, required: true })
-  email!: string;
-
-  @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   location!: string;
 
   @Field()
@@ -40,19 +28,19 @@ export class Client extends BaseSchema {
   timezone!: string;
 
   @Field()
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number, required: false })
   height!: number;
 
   @Field()
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number, required: false })
   weight!: number;
 
   @Field()
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date, required: false })
   birthday!: Date;
 
   @Field()
-  @Prop({ type: String, enum: AlloweGender, required: true })
+  @Prop({ type: String, enum: AlloweGender, required: false })
   gender!: string;
 
   @Field()
@@ -60,30 +48,28 @@ export class Client extends BaseSchema {
   profilePicture!: string;
 
   @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   codeCountry!: string;
 
   @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   phone!: string;
 
   @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   target!: string;
 
   @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   limitation!: string;
 
   @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   notes!: string;
 
-  @Prop({ type: String, enum: ClientState, required: true, default: ClientState.ACTIVE })
+  @Prop({ type: String, enum: ClientState, required: true, default: ClientState.INACTIVE })
   state!: ClientState;
 
-  @Prop({ type: Boolean, required: true, default: false })
-  isDeleted!: string;
 }
 
 export type ClientDocument = Client & Document;

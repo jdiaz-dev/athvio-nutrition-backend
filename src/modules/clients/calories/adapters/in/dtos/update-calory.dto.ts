@@ -5,11 +5,11 @@ import { IsNumber, IsMongoId } from 'class-validator';
 export class UpdateCaloryDto {
   @Field()
   @IsMongoId()
-  caloryId!: string;
+  clientId!: string;
 
   @Field()
   @IsMongoId()
-  clientId!: string;
+  caloryId!: string;
 
   @Field()
   @IsNumber()
