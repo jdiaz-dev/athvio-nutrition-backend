@@ -14,9 +14,6 @@ export class Organization {
   @Prop({ type: String, required: false })
   homePage!: string;
 
-  @Field()
-  @Prop({ type: String, required: false })
-  country!: string;
 
   @Field()
   @Prop({ type: String, required: false })
@@ -49,6 +46,10 @@ export class Professional extends BaseSchema {
   @Field()
   @Prop({ type: String, required: true, enum: UnitPreference, default: UnitPreference.METRIC })
   unitPreference!: string;
+
+  @Field()
+  @Prop({ type: String, required: false })
+  country!: string;
 
   @Field()
   @Prop({ type: String, required: false })

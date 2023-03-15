@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "CommonJS", //very important for vscode sugges absolute path
     "importHelpers": true,
     "declaration": true,
     "declarationMap": true,

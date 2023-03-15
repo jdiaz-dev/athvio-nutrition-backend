@@ -19,7 +19,7 @@ import { CaloriesModule } from './modules/clients/calories/calories.module';
 import { ClientPlansModule } from './modules/clients/client-plans/plans.module';
 import { ChatsModule } from './modules/clients/chats/chats.module';
 import { SecurityModule } from './modules/security/security/security.module';
-import { EnumEnvironments } from './shared/enums/project';
+// import { EnumEnvironments } from './shared/enums/project';
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/security/users/users.module';
 
@@ -64,8 +64,11 @@ import { UsersModule } from 'src/modules/security/users/users.module';
           },
           formatError: (error: GraphQLError): GraphQLFormattedError | any => {
             //removing stacktrace of code
-            if (error.extensions) delete error.extensions.exception;
-            if (process.env.NODE_ENV === EnumEnvironments.LOCAL) return error as GraphQLFormattedError;
+            /* if (error.extensions) delete error.extensions.exception;
+            if (process.env.NODE_ENV === EnumEnvironments.LOCAL) return error as GraphQLFormattedError; */
+
+            return error
+
           },
           cors: {
             origin: configService.get<string[]>('whiteListOrigins'),

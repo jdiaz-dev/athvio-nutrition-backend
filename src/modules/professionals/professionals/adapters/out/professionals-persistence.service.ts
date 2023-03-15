@@ -13,10 +13,10 @@ import { CreateProfessional } from 'src/modules/professionals/professionals/adap
 export class ProfessionalsPersistenceService {
   constructor(@InjectModel(Professional.name) private professionalModel: Model<ProfessionalDocument>) {}
 
-  async createProfessional(dto: CreateProfessional) {
-    return (await this.professionalModel.create(dto)).toJSON();
+  async createProfessional(dto: CreateProfessional): Promise<Professional> {
+    return await this.professionalModel.create(dto);
   }
-  async getProfessionalById(professionalId: string) {
+  async getProfessionalById(professionalId: string): Promise<Professional> {
     const professional = await this.professionalModel
       .findOne({ _id: professionalId, isActive: true })
       .select('_id firstName');

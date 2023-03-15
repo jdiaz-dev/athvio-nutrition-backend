@@ -402,7 +402,6 @@ type Organization {
   address: String!
   businessName: String!
   city: String!
-  country: String!
   postalCode: String!
   province: String!
 }
