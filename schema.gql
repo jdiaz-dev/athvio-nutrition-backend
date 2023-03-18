@@ -28,6 +28,18 @@ input AddProgramPlanDto {
   week: Float!
 }
 
+input AdditionalInfoDto {
+  birthday: DateTime
+  countryCode: String
+  gender: String
+  height: Float
+  location: String
+  phone: String
+  profilePicture: String
+  timezone: String
+  weight: Float
+}
+
 type Calory {
   _id: ID!
   calories: Float!
@@ -41,21 +53,21 @@ type Calory {
 
 type Client {
   _id: ID!
-  birthday: DateTime!
-  codeCountry: String!
+  birthday: DateTime
+  countryCode: String
   createdAt: DateTime!
-  gender: String!
+  gender: String
   groups: [ClientGroup!]!
-  height: Float!
-  limitation: String!
-  location: String!
-  notes: String!
-  phone: String!
+  height: Float
+  limitation: String
+  location: String
+  notes: String
+  phone: String
   professionalId: ID!
-  profilePicture: String!
-  target: String!
-  timezone: String!
-  weight: Float!
+  profilePicture: String
+  target: String
+  timezone: String
+  weight: Float
 }
 
 type ClientGroup {
@@ -107,20 +119,9 @@ input CreateCaloryDto {
 }
 
 input CreateClientDto {
-  birthday: DateTime!
-  codeCountry: String!
-  gender: String!
-  height: Float!
-  limitation: String!
-  location: String!
-  notes: String!
-  phone: String!
+  additionalInfo: AdditionalInfoDto
   professionalId: String!
-  profilePicture: String!
-  target: String!
-  timezone: String!
   userInfo: CreateUserInfoDto!
-  weight: Float!
 }
 
 input CreateClientGroupDto {
@@ -144,9 +145,6 @@ input CreateCustomMealDto {
 
 input CreateProfesionalInfoDto {
   businessName: String
-  country: String
-  countryCode: String
-  phone: String
 }
 
 input CreateProgramDto {
@@ -300,8 +298,9 @@ input IngredientsInput {
 }
 
 type JwtDto {
+  _id: String!
   token: String!
-  userId: String!
+  userType: String!
 }
 
 input LoginDto {
@@ -449,12 +448,14 @@ type Query {
 
 input SignUpUserDto {
   acceptedTerms: Boolean!
+  country: String
+  countryCode: String!
   email: String!
   firstName: String!
   lastName: String!
   password: String!
+  phone: String!
   professionalInfo: CreateProfesionalInfoDto!
-  timezone: String!
 }
 
 input UpdateCaloryDto {
@@ -549,11 +550,13 @@ input UpdateUserDto {
 type User {
   _id: ID!
   clientId: String!
+  country: String!
+  countryCode: String!
   createdAt: DateTime!
   email: String!
   firstName: String!
   isDarkMode: Boolean!
   lastName: String!
+  phone: String!
   professionalId: String!
-  timezone: String!
 }

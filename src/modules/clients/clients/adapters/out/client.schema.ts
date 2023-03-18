@@ -19,57 +19,56 @@ export class Client extends BaseSchema {
   @Prop({ type: [String], required: true, default: [], ref: ClientGroup.name })
   groups!: [string];
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   location!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   timezone!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: Number, required: false })
   height!: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: Number, required: false })
   weight!: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: Date, required: false })
   birthday!: Date;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, enum: AlloweGender, required: false })
   gender!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   profilePicture!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
-  codeCountry!: string;
+  countryCode!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   phone!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   target!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   limitation!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   notes!: string;
 
   @Prop({ type: String, enum: ClientState, required: true, default: ClientState.INACTIVE })
   state!: ClientState;
-
 }
 
 export type ClientDocument = Client & Document;

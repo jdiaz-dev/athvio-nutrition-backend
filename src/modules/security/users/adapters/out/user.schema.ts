@@ -26,7 +26,15 @@ export class User extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: false })
-  timezone!: string;
+  countryCode!: string;
+
+  @Field()
+  @Prop({ type: String, required: false })
+  country!: string;
+
+  @Field()
+  @Prop({ type: String, required: false })
+  phone!: string;
 
   @Field()
   @Prop({ type: String, required: false, ref: 'Professionals' })

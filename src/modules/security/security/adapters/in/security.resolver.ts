@@ -12,7 +12,8 @@ export class SecurityResolver {
   @Mutation(() => JwtDto)
   @UseGuards(AuthenticationGuard)
   async logIn(@Args('input') body: LoginDto, @Context() context: any) {
-    context
-    return await this.authService.login(body);
+    context;
+    const userLoged = await this.authService.login(body);
+    return userLoged;
   }
 }

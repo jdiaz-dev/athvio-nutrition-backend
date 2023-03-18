@@ -47,6 +47,7 @@ import { UsersModule } from 'src/modules/security/users/users.module';
           playground: false,
           autoSchemaFile: 'schema.gql',
           fieldResolverEnhancers: ['interceptors'],
+          includeStacktraceInErrorResponses: false,
           plugins: [ApolloServerPluginLandingPageLocalDefault()],
           sortSchema: true,
           context: ({ req, res }) => {

@@ -16,10 +16,22 @@ export class UsersPersistenceService {
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    const client = await this.userModel.findOne({
-      email,
-    });
-    return client;
+    const client = await this.userModel.aggregate([
+      {
+        $match: {
+          email,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          password: 1,
+          professionalId: 1,
+          clientId: 1,
+        },
+      },
+    ]);
+    return client[0];
   }
   async getUserById(userId: string): Promise<User> {
     const client = await this.userModel.findOne(

@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional } from 'class-validator';
+import { IsEmail, IsString, ValidateNested, IsBoolean } from 'class-validator';
 import { CreateProfesionalInfoDto } from 'src/shared/dtos/create-professional-info.dto';
 
 @InputType()
@@ -23,8 +23,15 @@ export class SignUpUserDto {
 
   @Field()
   @IsString()
-  @IsOptional()
-  timezone!: string;
+  countryCode!: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  country: string;
+
+  @Field()
+  @IsString()
+  phone!: string;
 
   @Field()
   @IsBoolean()

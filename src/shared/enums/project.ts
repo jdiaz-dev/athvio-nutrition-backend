@@ -42,3 +42,7 @@ export enum UnitPreference {
   METRIC = 'metric',
 }
 
+export enum UserType {
+  PROFESSIONAL = 'professional',
+  CLIENT = 'client',
+}

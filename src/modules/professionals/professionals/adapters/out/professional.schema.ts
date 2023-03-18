@@ -49,15 +49,7 @@ export class Professional extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: false })
-  country!: string;
-
-  @Field()
-  @Prop({ type: String, required: false })
-  countryCode!: string;
-
-  @Field()
-  @Prop({ type: String, required: false })
-  phone!: string;
+  timezone!: string;
 
   @Field()
   @Prop({ type: String, required: false })
