@@ -4,12 +4,17 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { AlloweGender, ClientState } from 'src/shared/enums/project';
 import { ClientGroup } from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
+import { User } from 'src/modules/security/users/adapters/out/user.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Clients' })
 export class Client extends BaseSchema {
   @Field(() => ID)
   _id!: string;
+
+  @Field(() => User)
+  @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
+  user!: string;
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
@@ -74,6 +79,6 @@ export class Client extends BaseSchema {
 export type ClientDocument = Client & Document;
 export const ClientSchema = SchemaFactory.createForClass(Client);
 ClientSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...clientGroup } = this.toObject();
-  return clientGroup;
+  let { __v, createdAt, updatedAt, ...client } = this.toObject();
+  return client;
 };

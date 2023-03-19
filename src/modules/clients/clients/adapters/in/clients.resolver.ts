@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateClientDto } from 'src/modules/clients/clients/adapters/in/dtos/create-client.dto';
+import { CreateClientDto, CreateClientResponse } from 'src/modules/clients/clients/adapters/in/dtos/create-client.dto';
 import { GetClientsDto } from 'src/modules/clients/clients/adapters/in/dtos/get-clients.dto';
 import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
 import { ClientsPersistenceService } from 'src/modules/clients/clients/adapters/out/clients-persistence.service';
@@ -21,9 +21,9 @@ export class ClientsResolver {
     private cms: ClientManagementService,
   ) {}
 
-  @Mutation(() => Client)
+  @Mutation(() => CreateClientResponse)
   //AuthorizationProfessionalGuard
-  createClient(@Args('input') dto: CreateClientDto): Promise<Client> {
+  createClient(@Args('input') dto: CreateClientDto): Promise<CreateClientResponse> {
     return this.cms.createClient(dto);
   }
 

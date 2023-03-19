@@ -67,6 +67,7 @@ type Client {
   profilePicture: String
   target: String
   timezone: String
+  user: User!
   weight: Float
 }
 
@@ -136,6 +137,22 @@ input CreateClientPlanDto {
   title: String
 }
 
+type CreateClientResponse {
+  _id: ID!
+  birthday: DateTime
+  countryCode: String
+  gender: String
+  groups: [ClientGroup!]!
+  height: Float
+  location: String
+  phone: String
+  professionalId: ID!
+  profilePicture: String
+  timezone: String
+  userInfo: CreateUserInfoResponse!
+  weight: Float
+}
+
 input CreateCustomMealDto {
   ingredients: [IngredientInput!]!
   name: String!
@@ -159,6 +176,12 @@ input CreateProgramTagDto {
 }
 
 input CreateUserInfoDto {
+  email: String!
+  firstName: String!
+  lastName: String!
+}
+
+type CreateUserInfoResponse {
   email: String!
   firstName: String!
   lastName: String!
@@ -363,7 +386,7 @@ type Mutation {
   addClientPlanComment(input: AddClientPlanCommentDto!): ClientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   createCalory(input: CreateCaloryDto!): Calory!
-  createClient(input: CreateClientDto!): Client!
+  createClient(input: CreateClientDto!): CreateClientResponse!
   createClientGroup(input: CreateClientGroupDto!): ClientGroup!
   createClientPlan(input: CreateClientPlanDto!): ClientPlan!
   createCustomMeal(input: CreateCustomMealDto!): CustomMeal!

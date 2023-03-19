@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FlattenMaps, Model } from 'mongoose';
 import { GetClientsDto } from 'src/modules/clients/clients/adapters/in/dtos/get-clients.dto';
 import { Client, ClientDocument } from 'src/modules/clients/clients/adapters/out/client.schema';
 import { ErrorClientsEnum } from 'src/shared/enums/messages-response';
@@ -13,12 +13,12 @@ import { CreateClient, UpdateClient } from 'src/modules/clients/clients/adapters
 export class ClientsPersistenceService {
   constructor(@InjectModel(Client.name) private readonly clientModel: Model<ClientDocument>) {}
 
-  async createClient({ professionalId, ...body }: CreateClient): Promise<Client> {
+  async createClient({ professionalId, ...body }: CreateClient): Promise<FlattenMaps<Client>> {
     const client = await this.clientModel.create({
       professionalId,
       ...body,
     });
-    return client;
+    return client.toJSON();
   }
   async getClient(professionalId: string, clientId: string) {
     const client = await this.clientModel.findOne({
@@ -38,18 +38,21 @@ export class ClientsPersistenceService {
     return client;
   }
   async getClients({ professionalId, ...dto }: GetClientsDto, selectors: string[]): Promise<Client[]> {
+    selectors;
     const clients = await this.clientModel.find(
       {
         professionalId,
         state: dto.state,
       },
-      selectors,
+      {},
       {
         limit: dto.limit,
         skip: dto.offset,
         sort: dto.orderBy,
+        populate: 'user',
       },
     );
+    console.log('--------clients', clients);
     return clients;
   }
   async updateClient({ clientId, professionalId, ...rest }: UpdateClient, selectors: string[]): Promise<Client> {
@@ -58,6 +61,12 @@ export class ClientsPersistenceService {
       { ...rest },
       { projection: selectors, new: true },
     );
+
+    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    return client;
+  }
+  async updateUser(clientId: string, userId: string): Promise<Client> {
+    const client = await this.clientModel.findOneAndUpdate({ _id: clientId }, { user: userId }, { new: true });
 
     if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return client;
