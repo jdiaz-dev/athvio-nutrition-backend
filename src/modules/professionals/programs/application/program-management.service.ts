@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
+import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { ProgramTagsPersistenceService } from 'src/modules/professionals/program-tags/adapters/out/program-tags-persistence.service';
 import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
 import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
@@ -12,11 +12,11 @@ export class ProgramManagementService {
   constructor(
     private ptps: ProgramTagsPersistenceService,
     private pps: ProgramsPersistenceService,
-    private pms: ProfessionalsManagementService,
+    private prps: ProfessionalsPersistenceService,
   ) {}
 
   async createProgram(dto: CreateProgramDto) {
-    await this.pms.getProfessionalById(dto.professionalId);
+    await this.prps.getProfessionalById(dto.professionalId);
     const program = await this.pps.createProgram(dto);
     return program;
   }

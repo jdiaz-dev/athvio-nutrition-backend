@@ -3,29 +3,32 @@ import { CreateClientDto, CreateClientResponse } from 'src/modules/clients/clien
 import { UpdateClientMobileDto } from 'src/modules/clients/clients/adapters/in/dtos/update-client.dto';
 import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
 import { ClientsPersistenceService } from 'src/modules/clients/clients/adapters/out/clients-persistence.service';
-import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { UserManagementService } from 'src/modules/security/users/application/user-management.service';
 import { ClientState } from 'src/shared/enums/project';
 import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
+import { CreateUser } from 'src/modules/security/users/adapters/out/users-types';
+import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
+import { UsersPersistenceService } from 'src/modules/security/users/adapters/out/users-persistence.service';
 
 @Injectable()
 export class ClientManagementService {
   constructor(
     private cps: ClientsPersistenceService,
     private ums: UserManagementService,
-    private pms: ProfessionalsManagementService,
+    private ups: UsersPersistenceService,
+    private pps: ProfessionalsPersistenceService,
   ) {}
 
   async createClient({ professionalId, userInfo, additionalInfo }: CreateClientDto): Promise<CreateClientResponse> {
-    const userEmail = await this.ums.getUserByEmail(userInfo.email);
+    const userEmail = await this.ups.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
 
-    await this.pms.getProfessionalById(professionalId);
+    await this.pps.getProfessionalById(professionalId);
 
     const client = await this.cps.createClient({ professionalId, ...additionalInfo, isActive: true });
-    const _user = {
+    const _user: CreateUser = {
       ...userInfo,
-      clientId: client._id,
+      client: client._id,
     };
     const user = await this.ums.createUserAndClient(_user);
     await this.cps.updateUser(client._id, user._id);
@@ -40,11 +43,6 @@ export class ClientManagementService {
     };
     return _client;
   }
-  async getClientById(clientId: string) {
-    const client = await this.cps.getClientById(clientId);
-    return client;
-  }
-
   //without use still
   async activateClient({ updateUserInfo, ...rest }: UpdateClientMobileDto, selectors: string[]): Promise<Client> {
     await this.ums.activateUserAndClient(updateUserInfo);

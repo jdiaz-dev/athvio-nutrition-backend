@@ -14,9 +14,9 @@ export class ManageClientGroupDto {
 
   @Field()
   @IsMongoId()
-  groupId!: string;
+  clientGroupId!: string;
 
   @Field()
   @IsEnum(ManageClientGroup)
-  action!: string;
+  action!: ManageClientGroup;
 }

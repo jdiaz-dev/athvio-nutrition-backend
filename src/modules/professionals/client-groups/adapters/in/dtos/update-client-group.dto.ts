@@ -13,5 +13,5 @@ export class UpdateClientGroupDto {
 
   @Field()
   @IsString()
-  title: string;
+  groupName: string;
 }

@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UsersPersistenceService } from 'src/modules/security/users/adapters/out/users-persistence.service';
 
-import { UserManagementService } from 'src/modules/security/users/application/user-management.service';
 
 @Injectable()
 export class AuthorizationService {
-  constructor(private ums: UserManagementService) {}
+  constructor(private ups: UsersPersistenceService) {}
   async verifyIfIsProfessional(userId: string): Promise<any> {
-    const user = await this.ums.getUserById(userId);
+    const user = await this.ups.getUserById(userId);
     if (!user.isProfessional) throw new UnauthorizedException();
     return user;
   }

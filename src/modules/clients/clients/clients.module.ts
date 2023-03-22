@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ClientsResolver } from 'src/modules/clients/clients/adapters/in/clients.resolver';
 import { Client, ClientSchema } from 'src/modules/clients/clients/adapters/out/client.schema';
@@ -13,10 +13,10 @@ import { UsersModule } from 'src/modules/security/users/users.module';
   imports: [
     MongooseModule.forFeature([{ name: Client.name, schema: ClientSchema }]),
     UsersModule,
-    ClientGroupsModule,
+    forwardRef(() => ClientGroupsModule),
     ProfessionalsModule,
   ],
   providers: [ClientsResolver, ...[ClientsPersistenceService, ManageClientGroupService, ClientManagementService]],
-  exports: [ClientManagementService],
+  exports: [ClientsPersistenceService],
 })
 export class ClientsModule {}

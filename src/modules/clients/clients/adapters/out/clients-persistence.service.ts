@@ -1,13 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FlattenMaps, Model } from 'mongoose';
+import { FlattenMaps, Model, UpdateWriteOpResult, Types } from 'mongoose';
 import { GetClientsDto } from 'src/modules/clients/clients/adapters/in/dtos/get-clients.dto';
 import { Client, ClientDocument } from 'src/modules/clients/clients/adapters/out/client.schema';
 import { ErrorClientsEnum } from 'src/shared/enums/messages-response';
 import { ManageClientStateDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-state.dto';
 import { ManageClientGroupDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-group.dto';
 import { ClientState, ManageClientGroup } from 'src/shared/enums/project';
-import { CreateClient, UpdateClient } from 'src/modules/clients/clients/adapters/out/client.types';
+import {
+  CreateClient,
+  DeleteManyClientGroup,
+  UpdateClient,
+} from 'src/modules/clients/clients/adapters/out/client.types';
 
 @Injectable()
 export class ClientsPersistenceService {
@@ -15,7 +19,7 @@ export class ClientsPersistenceService {
 
   async createClient({ professionalId, ...body }: CreateClient): Promise<FlattenMaps<Client>> {
     const client = await this.clientModel.create({
-      professionalId,
+      professional: professionalId,
       ...body,
     });
     return client.toJSON();
@@ -23,7 +27,7 @@ export class ClientsPersistenceService {
   async getClient(professionalId: string, clientId: string) {
     const client = await this.clientModel.findOne({
       _id: clientId,
-      professionalId,
+      professional: professionalId,
       state: ClientState.ACTIVE,
     });
     if (!client) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
@@ -38,26 +42,59 @@ export class ClientsPersistenceService {
     return client;
   }
   async getClients({ professionalId, ...dto }: GetClientsDto, selectors: string[]): Promise<Client[]> {
-    selectors;
-    const clients = await this.clientModel.find(
+    const clients = await this.clientModel.aggregate([
       {
-        professionalId,
-        state: dto.state,
+        $match: {
+          professional: new Types.ObjectId(professionalId),
+          state: dto.state,
+        },
       },
-      {},
       {
-        limit: dto.limit,
-        skip: dto.offset,
-        sort: dto.orderBy,
-        populate: 'user',
+        $limit: dto.limit,
       },
-    );
-    console.log('--------clients', clients);
+      {
+        $skip: dto.offset,
+      },
+      {
+        $lookup: {
+          from: 'Users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        $lookup: {
+          from: 'ClientGroups',
+          localField: 'groups',
+          foreignField: '_id',
+          as: 'groups',
+        },
+      },
+      {
+        $match: {
+          $or: [{ 'user.firstName': new RegExp(dto.search) }, { 'user.lastName': new RegExp(dto.search) }],
+        },
+      },
+      /* {
+        $project: {
+          user: {
+            $arrayElemAt: ['$user', 0],
+          },
+          ...removeFieldFromAgregationSelectors(selectors, 'user'),
+        },
+      },
+      {
+        $project: selectors,
+      }, */
+    ]);
+    selectors
+    console.log('......clients', clients);
     return clients;
   }
   async updateClient({ clientId, professionalId, ...rest }: UpdateClient, selectors: string[]): Promise<Client> {
     const client = await this.clientModel.findOneAndUpdate(
-      { _id: clientId, professionalId },
+      { _id: clientId, professional: professionalId },
       { ...rest },
       { projection: selectors, new: true },
     );
@@ -71,10 +108,11 @@ export class ClientsPersistenceService {
     if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return client;
   }
-  async updateClientGroup({ professionalId, clientId, action, groupId }: ManageClientGroupDto): Promise<Client> {
-    const _action = action === ManageClientGroup.ADD ? { $push: { groups: groupId } } : { $pull: { groups: groupId } };
+  async updateClientGroup({ professionalId, clientId, action, clientGroupId }: ManageClientGroupDto): Promise<Client> {
+    const _action =
+      action === ManageClientGroup.ADD ? { $push: { groups: clientGroupId } } : { $pull: { groups: clientGroupId } };
 
-    const client = await this.clientModel.findOneAndUpdate({ _id: clientId, professionalId }, _action, {
+    const client = await this.clientModel.findOneAndUpdate({ _id: clientId, professional: professionalId }, _action, {
       new: true,
       populate: 'groups',
     });
@@ -82,11 +120,18 @@ export class ClientsPersistenceService {
 
     return client;
   }
+  async deleteManyClientGroup({ professionalId, clientGroupId }: DeleteManyClientGroup): Promise<UpdateWriteOpResult> {
+    const recordsUpdated = await this.clientModel.updateMany(
+      { professional: professionalId, groups: clientGroupId },
+      { $pull: { groups: clientGroupId } },
+    );
+    return recordsUpdated;
+  }
   async manageClientState({ professionalId, ...dto }: ManageClientStateDto, selectors: string[]): Promise<Client> {
     const client = await this.clientModel.findOneAndUpdate(
       {
         _id: dto.clientId,
-        professionalId,
+        professional: professionalId,
       },
       { state: dto.state },
       { projection: selectors },

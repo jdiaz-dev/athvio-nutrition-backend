@@ -35,7 +35,7 @@ export class ProgramsPersistenceService {
       selectors,
     );
 
-    console.log('-------program', program);
+    // console.log('-------program', program);
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     return program;
   }

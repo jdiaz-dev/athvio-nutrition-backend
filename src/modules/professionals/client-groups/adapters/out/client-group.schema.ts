@@ -11,11 +11,11 @@ export class ClientGroup extends BaseSchema {
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
-  professionalId!: string;
+  professional!: string;
 
   @Field()
   @Prop({ type: String, required: true })
-  title!: string;
+  groupName!: string;
 
   @Field()
   @Prop({ type: Boolean, required: true, default: false })

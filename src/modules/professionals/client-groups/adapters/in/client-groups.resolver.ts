@@ -13,12 +13,12 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class ClientGroupsResolver {
-  constructor(private readonly cgps: ClientGroupsPersistenceService, private cgm: ClientGroupsManagementService) {}
+  constructor(private readonly cgps: ClientGroupsPersistenceService, private cgms: ClientGroupsManagementService) {}
 
   @Mutation(() => ClientGroup)
   @UseGuards(AuthorizationGuard)
   createClientGroup(@Args('input') dto: CreateClientGroupDto): Promise<ClientGroup> {
-    return this.cgm.createClientGroup(dto);
+    return this.cgms.createClientGroup(dto);
   }
 
   @Query(() => [ClientGroup])
@@ -37,6 +37,6 @@ export class ClientGroupsResolver {
   @Mutation(() => ClientGroup)
   @UseGuards(AuthorizationGuard)
   deleteClientGroup(@Args('input') dto: DeleteClientGroupDto): Promise<ClientGroup> {
-    return this.cgps.deleteClientGroup(dto);
+    return this.cgms.deleteClientGroup(dto);
   }
 }

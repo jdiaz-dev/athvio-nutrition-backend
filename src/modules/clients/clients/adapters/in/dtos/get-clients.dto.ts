@@ -11,5 +11,5 @@ export class GetClientsDto extends GetRecordsBaseDto {
 
   @Field()
   @IsEnum(ClientState)
-  state!: string;
+  state!: ClientState;
 }

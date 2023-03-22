@@ -6,11 +6,11 @@ import * as bcryptjs from 'bcryptjs';
 import { User } from 'src/modules/security/users/adapters/out/user.schema';
 import { SignUpUserDto } from 'src/modules/security/users/adapters/in/dtos/sign-up-user.dto';
 import { CreateUser, UpdateUser } from 'src/modules/security/users/adapters/out/users-types';
-import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
+import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 
 @Injectable()
 export class UserManagementService {
-  constructor(private ups: UsersPersistenceService, private pms: ProfessionalsManagementService) {}
+  constructor(private ups: UsersPersistenceService, private pps: ProfessionalsPersistenceService) {}
 
   async createUserAndProfessional({ professionalInfo, ...userDto }: SignUpUserDto): Promise<User> {
     const user = await this.ups.getUserByEmail(userDto.email);
@@ -21,23 +21,23 @@ export class UserManagementService {
       ...professionalInfo,
       isTrialPeriod: true,
     };
-    const professional = await this.pms.createProfessional(_professional);
+    const professional = await this.pps.createProfessional(_professional);
 
     const salt = bcryptjs.genSaltSync();
     const _user: CreateUser = {
       ...userDto,
       password: bcryptjs.hashSync(userDto.password, salt),
-      professionalId: professional._id,
-      clientId: null as any,
+      professional: professional._id,
+      client: null as any,
       isProfessional: true,
       isActive: true,
     };
     return this.ups.createUser(_user);
   }
   async createUserAndClient(body: CreateUser): Promise<User> {
-    const _user = {
+    const _user: CreateUser = {
       ...body,
-      professionalId: null as any,
+      professional: null as any,
       isProfessional: false,
       acceptedTerms: false,
       isActive: false,
@@ -65,11 +65,5 @@ export class UserManagementService {
 
     const user = await this.ups.updateUser(_user);
     return user;
-  }
-  getUserByEmail(email: string): Promise<User> {
-    return this.ups.getUserByEmail(email);
-  }
-  getUserById(email: string): Promise<User> {
-    return this.ups.getUserById(email);
   }
 }

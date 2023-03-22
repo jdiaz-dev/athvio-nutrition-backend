@@ -19,9 +19,7 @@ export interface UpdateClient extends CreateClient {
   state: ClientState;
 }
 
-/*
-target?: string;
-limitation?: string;
-notes?: string;
-
- */
+export interface DeleteManyClientGroup {
+  professionalId: string;
+  clientGroupId: string;
+}

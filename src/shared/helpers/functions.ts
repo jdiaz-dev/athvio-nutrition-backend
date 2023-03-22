@@ -1,4 +1,4 @@
-function extractor(value: any) {
+function extractor(value: any): string[] {
   const rawSelections = value.fieldNodes[0].selectionSet.selections as any[];
 
   function extractorHelper(node: any[]): string[] {
@@ -18,6 +18,15 @@ function extractor(value: any) {
   return res;
 }
 
+function extractorForAggregation(value: any) {
+  const res = extractor(value).reduce((acc: any, item) => {
+    acc[item] = 1;
+    return acc;
+  }, {});
+  // console.log('------res', res);
+
+  return res;
+}
 
 export function selectorExtractor() {
   return [
@@ -26,3 +35,21 @@ export function selectorExtractor() {
     },
   ];
 }
+
+export function selectorExtractorForAggregation() {
+  return [
+    {
+      transform: extractorForAggregation,
+    },
+  ];
+}
+
+export const removeFieldFromAgregationSelectors = (selectors: any, fieldName: string) => {
+  let _selectors = { ...selectors };
+  for (let x in _selectors) {
+    if (x.includes(fieldName)) {
+      delete _selectors[x];
+    }
+  }
+  return _selectors;
+};

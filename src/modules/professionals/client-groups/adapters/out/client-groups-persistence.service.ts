@@ -17,7 +17,7 @@ export class ClientGroupsPersistenceService {
 
   async createClientGroup({ professionalId, ...rest }: CreateClientGroupDto): Promise<ClientGroup> {
     const clientGroup = await this.programTagModel.create({
-      professionalId,
+      professional: professionalId,
       ...rest,
     });
     return clientGroup;
@@ -25,7 +25,7 @@ export class ClientGroupsPersistenceService {
   async getClientGroup(professionalId: string, groupId: string): Promise<ClientGroup> {
     const clientGroup = await this.programTagModel.findOne({
       _id: groupId,
-      professionalId,
+      professional: professionalId,
       isDeleted: false,
     });
 
@@ -35,14 +35,14 @@ export class ClientGroupsPersistenceService {
   }
   async getClientGroups({ professionalId }: GetClientGroupsDto): Promise<ClientGroup[]> {
     const clientGroups = await this.programTagModel.find({
-      professionalId,
+      professional: professionalId,
       isDeleted: false,
     });
     return clientGroups;
   }
   async updateClientGroup({ professionalId, clientGroupId, ...rest }: UpdateClientGroupDto): Promise<ClientGroup> {
     const clientGroup = await this.programTagModel.findOneAndUpdate(
-      { _id: clientGroupId, professionalId, isDeleted: false },
+      { _id: clientGroupId, professional: professionalId, isDeleted: false },
       { ...rest },
       { new: true },
     );
@@ -52,11 +52,19 @@ export class ClientGroupsPersistenceService {
   }
 
   async deleteClientGroup({ professionalId, clientGroupId }: DeleteClientGroupDto): Promise<ClientGroup> {
-    const clientGroup = await this.programTagModel.findOneAndUpdate({
-      _id: clientGroupId,
-      professionalId,
-      isDeleted: true,
-    });
+    const clientGroup = await this.programTagModel.findOneAndUpdate(
+      {
+        _id: clientGroupId,
+        professional: professionalId,
+        isDeleted: false,
+      },
+      {
+        isDeleted: true,
+      },
+      {
+        new: true,
+      },
+    );
 
     if (clientGroup == null) throw new BadRequestException(ErrorClientGroupEnum.CLIENT_GROUP_NOT_FOUND);
 

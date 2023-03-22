@@ -4,7 +4,7 @@ import { CreateClientDto, CreateClientResponse } from 'src/modules/clients/clien
 import { GetClientsDto } from 'src/modules/clients/clients/adapters/in/dtos/get-clients.dto';
 import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
 import { ClientsPersistenceService } from 'src/modules/clients/clients/adapters/out/clients-persistence.service';
-import { selectorExtractor } from 'src/shared/helpers/functions';
+import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/functions';
 import { ManageClientStateDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-state.dto';
 import { ManageClientGroupDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-group.dto';
 import { ManageClientGroupService } from 'src/modules/clients/clients/application/manage-client-group.service';
@@ -30,7 +30,7 @@ export class ClientsResolver {
   @Query(() => [Client])
   async getClients(
     @Args('input') dto: GetClientsDto,
-    @Info(...selectorExtractor()) selectors: string[],
+    @Info(...selectorExtractorForAggregation()) selectors: string[],
   ): Promise<Client[]> {
     const clientGroup = await this.cps.getClients(dto, selectors);
     return clientGroup;

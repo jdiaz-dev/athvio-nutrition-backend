@@ -9,6 +9,6 @@ import { UserManagementService } from 'src/modules/security/users/application/us
 @Module({
   imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), ProfessionalsModule],
   providers: [UsersResolver, ...[UsersPersistenceService, UserManagementService]],
-  exports: [UserManagementService],
+  exports: [UserManagementService, UsersPersistenceService],
 })
 export class UsersModule {}

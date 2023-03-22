@@ -117,7 +117,7 @@ export class CreateClientResponse {
   _id!: string;
 
   @Field(() => ID)
-  professionalId: string;
+  professional: string;
 
   @Field(() => [ClientGroup])
   groups: string[];

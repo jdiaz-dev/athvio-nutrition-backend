@@ -9,5 +9,5 @@ export class CreateClientGroupDto {
 
   @Field()
   @IsString()
-  title: string;
+  groupName: string;
 }

@@ -63,7 +63,7 @@ type Client {
   location: String
   notes: String
   phone: String
-  professionalId: ID!
+  professional: ID!
   profilePicture: String
   target: String
   timezone: String
@@ -74,9 +74,9 @@ type Client {
 type ClientGroup {
   _id: ID!
   createdAt: DateTime!
+  groupName: String!
   isDeleted: String!
-  professionalId: ID!
-  title: String!
+  professional: ID!
 }
 
 type ClientPlan {
@@ -126,8 +126,8 @@ input CreateClientDto {
 }
 
 input CreateClientGroupDto {
+  groupName: String!
   professionalId: String!
-  title: String!
 }
 
 input CreateClientPlanDto {
@@ -146,7 +146,7 @@ type CreateClientResponse {
   height: Float
   location: String
   phone: String
-  professionalId: ID!
+  professional: ID!
   profilePicture: String
   timezone: String
   userInfo: CreateUserInfoResponse!
@@ -347,8 +347,8 @@ input MacrosInput {
 
 input ManageClientGroupDto {
   action: String!
+  clientGroupId: String!
   clientId: String!
-  groupId: String!
   professionalId: String!
 }
 
@@ -492,8 +492,8 @@ input UpdateCaloryDto {
 
 input UpdateClientGroupDto {
   clientGroupId: String!
+  groupName: String!
   professionalId: String!
-  title: String!
 }
 
 input UpdateClientPlanCommentDto {
@@ -572,7 +572,7 @@ input UpdateUserDto {
 
 type User {
   _id: ID!
-  clientId: String!
+  client: String!
   country: String!
   countryCode: String!
   createdAt: DateTime!
@@ -581,5 +581,5 @@ type User {
   isDarkMode: Boolean!
   lastName: String!
   phone: String!
-  professionalId: String!
+  professional: String!
 }

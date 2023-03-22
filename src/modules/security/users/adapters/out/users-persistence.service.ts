@@ -26,8 +26,8 @@ export class UsersPersistenceService {
         $project: {
           _id: 1,
           password: 1,
-          professionalId: 1,
-          clientId: 1,
+          professional: 1,
+          client: 1,
         },
       },
     ]);

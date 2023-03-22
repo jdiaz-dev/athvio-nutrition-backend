@@ -13,15 +13,15 @@ export class Client extends BaseSchema {
   _id!: string;
 
   @Field(() => User)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
+  @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name, index: true })
   user!: string;
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
-  professionalId!: string;
+  professional!: string;
 
   @Field(() => [ClientGroup])
-  @Prop({ type: [String], required: true, default: [], ref: ClientGroup.name })
+  @Prop({ type: [String], required: true, default: [], ref: ClientGroup.name, index: true })
   groups!: [string];
 
   @Field({ nullable: true })

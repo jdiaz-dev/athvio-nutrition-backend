@@ -4,8 +4,8 @@ export interface CreateUser {
   email: string;
   password?: string;
   timezone?: string;
-  professionalId?: string | null;
-  clientId?: string | null;
+  professional?: string | null;
+  client?: string | null;
   isProfessional?: boolean;
   acceptedTerms?: boolean;
   isActive?: boolean;

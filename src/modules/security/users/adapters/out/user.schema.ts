@@ -38,11 +38,11 @@ export class User extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: false, ref: 'Professionals' })
-  professionalId!: string;
+  professional!: string;
 
   @Field()
   @Prop({ type: String, required: false, ref: 'Clients' })
-  clientId!: string;
+  client!: string;
 
   @Prop({ type: Boolean, required: true })
   isProfessional!: boolean;
