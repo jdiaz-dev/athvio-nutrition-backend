@@ -43,6 +43,7 @@ import { UsersModule } from 'src/modules/security/users/users.module';
         configService: ConfigService,
         // trackingActivityService: TrackingActivityService,
       ) => {
+        configService
         return {
           playground: false,
           autoSchemaFile: 'schema.gql',
@@ -71,10 +72,10 @@ import { UsersModule } from 'src/modules/security/users/users.module';
             return error
 
           },
-          cors: {
+          /* cors: {
             origin: configService.get<string[]>('whiteListOrigins'),
             credentials: true,
-          },
+          }, */
         };
       },
     }),

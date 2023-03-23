@@ -11,7 +11,7 @@ import { ProgramsPersistenceService } from 'src/modules/professionals/programs/a
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractor } from 'src/shared/helpers/functions';
+import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])

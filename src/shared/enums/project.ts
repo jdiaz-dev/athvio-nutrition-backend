@@ -46,3 +46,9 @@ export enum UserType {
   PROFESSIONAL = 'professional',
   CLIENT = 'client',
 }
+
+export enum Pagination {
+  DATA = 'data',
+  TOTAL = 'total',
+  META = 'meta',
+}

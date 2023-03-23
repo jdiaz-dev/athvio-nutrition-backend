@@ -1,6 +1,5 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { selectorExtractor } from 'src/shared/helpers/functions';
 import { CaloriesPersistenceService } from 'src/modules/clients/calories/adapters/out/calories-persistence.service';
 import { CreateCaloryDto } from 'src/modules/clients/calories/adapters/in/dtos/create-calory.dto';
 import { Calory } from 'src/modules/clients/calories/adapters/out/calory.schema';
@@ -9,6 +8,7 @@ import { UpdateCaloryDto } from 'src/modules/clients/calories/adapters/in/dtos/u
 import { CreateCaloryService } from 'src/modules/clients/calories/application/create-calory-persistence.service';
 import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver(() => Calory)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])

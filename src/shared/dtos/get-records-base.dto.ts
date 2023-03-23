@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsInt, IsNumber, IsOptional, IsString, Max } from 'class-validator';
+import { IsInt, IsNumber, IsOptional, IsString, Max, IsArray } from 'class-validator';
 
 @InputType()
 export class GetRecordsBaseDto {
@@ -21,9 +21,8 @@ export class GetRecordsBaseDto {
   @IsString()
   orderBy!: string;
 
-  @Field({ nullable: true })
+  @Field(() => [String], { nullable: true })
   @IsOptional()
-  @IsString()
-  search: string;
+  @IsArray()
+  search: (string | undefined)[] = [undefined];
 }
-

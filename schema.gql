@@ -260,7 +260,7 @@ input GetClientPlansDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
-  search: String
+  search: [String!] = []
 }
 
 input GetClientsDto {
@@ -268,8 +268,13 @@ input GetClientsDto {
   offset: Float = 0
   orderBy: String
   professionalId: String!
-  search: String
+  search: [String!] = []
   state: String!
+}
+
+type GetClientsResponse {
+  data: [Client!]!
+  meta: Meta!
 }
 
 input GetCustomMealDto {
@@ -282,7 +287,7 @@ input GetCustomMealsDto {
   offset: Float = 0
   orderBy: String
   professionalId: String!
-  search: String
+  search: [String!] = []
 }
 
 input GetProgramDto {
@@ -299,7 +304,7 @@ input GetProgramsDto {
   offset: Float = 0
   orderBy: String
   professionalId: String!
-  search: String
+  search: [String!] = []
 }
 
 type Ingredient {
@@ -382,6 +387,12 @@ input MealInput {
   recipeName: String!
 }
 
+type Meta {
+  limit: Float!
+  offset: Float!
+  total: Float!
+}
+
 type Mutation {
   addClientPlanComment(input: AddClientPlanCommentDto!): ClientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
@@ -460,7 +471,7 @@ type Query {
   getCalory(input: GetCaloryDto!): Calory!
   getClientGroups(input: GetClientGroupsDto!): [ClientGroup!]!
   getClientPlans(input: GetClientPlansDto!): [ClientPlan!]!
-  getClients(input: GetClientsDto!): [Client!]!
+  getClients(input: GetClientsDto!): GetClientsResponse!
   getCustomMeal(input: GetCustomMealDto!): CustomMeal!
   getCustomMeals(input: GetCustomMealsDto!): [CustomMeal!]!
   getProgram(input: GetProgramDto!): Program!

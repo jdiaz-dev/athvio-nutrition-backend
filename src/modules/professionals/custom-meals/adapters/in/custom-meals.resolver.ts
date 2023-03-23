@@ -12,7 +12,7 @@ import { CustomMealsManagementService } from 'src/modules/professionals/custom-m
 import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractor } from 'src/shared/helpers/functions';
+import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 import { IUserContext } from 'src/shared/interfaces/user-context';
 
 @Resolver(() => CustomMeal)
