@@ -12,7 +12,8 @@ import {
   DeleteManyClientGroup,
   UpdateClient,
 } from 'src/modules/clients/clients/adapters/out/client.types';
-import { removeFieldFromAgregationSelectors, searchByFieldsGenerator } from 'src/shared/helpers/graphql-helpers';
+import { removeFieldFromAgregationSelectors } from 'src/shared/helpers/graphql-helpers';
+import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
 @Injectable()
 export class ClientsPersistenceService {
@@ -43,6 +44,9 @@ export class ClientsPersistenceService {
     return client;
   }
   async getClients({ professionalId, ...dto }: GetClientsDto, selectors: string[]): Promise<GetClientsResponse> {
+    const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
+    const restFields = removeFieldFromAgregationSelectors(selectors, 'user');
+
     const lookupUsers = {
       $lookup: {
         from: 'Users',
@@ -51,8 +55,7 @@ export class ClientsPersistenceService {
         as: 'user',
       },
     };
-    const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
-    const restFields = removeFieldFromAgregationSelectors(selectors, 'user');
+
     const clients = await this.clientModel.aggregate([
       {
         $match: {
@@ -88,7 +91,14 @@ export class ClientsPersistenceService {
                 as: 'groups',
               },
             },
-
+            {
+              $project: {
+                user: {
+                  $arrayElemAt: ['$user', 0],
+                },
+                ...restFields,
+              },
+            },
             {
               $match: {
                 $or: fieldsToSearch,
@@ -100,20 +110,20 @@ export class ClientsPersistenceService {
             {
               $skip: dto.offset,
             },
-            {
-              $project: {
-                user: {
-                  $arrayElemAt: ['$user', 0],
-                },
-                ...restFields,
-              },
-            },
+
             {
               $project: selectors,
             },
           ],
           meta: [
             lookupUsers,
+            {
+              $project: {
+                user: {
+                  $arrayElemAt: ['$user', 0],
+                },
+              },
+            },
             {
               $match: {
                 $or: fieldsToSearch,

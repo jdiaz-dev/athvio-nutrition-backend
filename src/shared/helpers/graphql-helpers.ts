@@ -72,13 +72,3 @@ export const removeFieldFromAgregationSelectors = (selectors: any, fieldName: st
   }
   return _selectors;
 };
-
-export const searchByFieldsGenerator = (fields: string[], words: (string | undefined)[]) => {
-  const res = fields.map((field) =>
-    words.map((word) => {
-      console.log('-------------word', word)
-      return { [field]: new RegExp(word) };
-    }),
-  );
-  return res.flat();
-};

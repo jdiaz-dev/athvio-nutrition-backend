@@ -7,6 +7,7 @@ db.Users.createIndex({ firstName: 'text' });
 db.Users.dropIndex('firstName_text');
 
 
+
 db.Clients.aggregate([
   {
     $match: {
@@ -50,7 +51,21 @@ db.Clients.aggregate([
 
         {
           $match: {
-            $or: [{ 'user.firstName': /m/ig }, { 'user.lastName': /m/ig }],
+            $or: [
+              { 'user.firstName': /z/gi },
+              { 'user.lastName': /z/gi },
+              {
+                $expr: {
+                  $regexMatch: {
+                    input: {
+                      $concat: ['user.firstNames', ' ', 'user.lastName'],
+                    },
+                    regex: /maria maria/,
+                    // options: 'i',
+                  },
+                },
+              },
+            ],
           },
         },
         {
@@ -92,7 +107,7 @@ db.Clients.aggregate([
         },
         {
           $match: {
-            $or: [{ 'user.firstName': /m/ig }, { 'user.lastName': /m/ig }],
+            $or: [{ 'user.firstName': /m/gi }, { 'user.lastName': /m/gi }],
           },
         },
         { $count: 'total' },
