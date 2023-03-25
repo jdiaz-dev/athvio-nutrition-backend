@@ -14,6 +14,6 @@ export class Ingredient {
 
   @Field()
   @Prop({ type: String, required: true })
-  unit!: number;
+  unit!: string;
 }
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);

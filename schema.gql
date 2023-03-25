@@ -246,6 +246,13 @@ input DeleteProgramTagDto {
   programTagId: String!
 }
 
+type Food {
+  _id: ID!
+  createdAt: DateTime!
+  isDeleted: String!
+  name: String!
+}
+
 input GetCaloryDto {
   caloryId: String!
   clientId: String!
@@ -290,6 +297,18 @@ input GetCustomMealsDto {
   search: [String!] = []
 }
 
+input GetFoodsDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  search: [String!] = []
+}
+
+type GetFoodsResponse {
+  data: [Food!]!
+  meta: Meta!
+}
+
 input GetProgramDto {
   professionalId: String!
   programId: String!
@@ -310,7 +329,7 @@ input GetProgramsDto {
 type Ingredient {
   amount: Float!
   ingredientName: String!
-  unit: Float!
+  unit: String!
 }
 
 input IngredientInput {
@@ -474,6 +493,7 @@ type Query {
   getClients(input: GetClientsDto!): GetClientsResponse!
   getCustomMeal(input: GetCustomMealDto!): CustomMeal!
   getCustomMeals(input: GetCustomMealsDto!): [CustomMeal!]!
+  getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): [Program!]!

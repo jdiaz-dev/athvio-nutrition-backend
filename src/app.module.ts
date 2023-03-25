@@ -22,6 +22,7 @@ import { SecurityModule } from './modules/security/security/security.module';
 // import { EnumEnvironments } from './shared/enums/project';
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/security/users/users.module';
+import { FoodsModule } from 'src/modules/foods/foods.module';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { UsersModule } from 'src/modules/security/users/users.module';
         configService: ConfigService,
         // trackingActivityService: TrackingActivityService,
       ) => {
-        configService
+        configService;
         return {
           playground: false,
           autoSchemaFile: 'schema.gql',
@@ -69,8 +70,7 @@ import { UsersModule } from 'src/modules/security/users/users.module';
             /* if (error.extensions) delete error.extensions.exception;
             if (process.env.NODE_ENV === EnumEnvironments.LOCAL) return error as GraphQLFormattedError; */
 
-            return error
-
+            return error;
           },
           /* cors: {
             origin: configService.get<string[]>('whiteListOrigins'),
@@ -90,6 +90,7 @@ import { UsersModule } from 'src/modules/security/users/users.module';
     ClientPlansModule,
     ChatsModule,
     SecurityModule,
+    FoodsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

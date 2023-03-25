@@ -6,7 +6,7 @@ db.Clients.dropIndex('user_text');
 db.Users.createIndex({ firstName: 'text' });
 db.Users.dropIndex('firstName_text');
 
-
+//get clients
 
 db.Clients.aggregate([
   {
@@ -48,7 +48,13 @@ db.Clients.aggregate([
             as: 'groups',
           },
         },
-
+        {
+          $project: {
+            user: { $arrayElemAt: ['$user', 0] },
+            location: 1,
+            groups: 1,
+          },
+        },
         {
           $match: {
             $or: [
@@ -58,7 +64,7 @@ db.Clients.aggregate([
                 $expr: {
                   $regexMatch: {
                     input: {
-                      $concat: ['user.firstNames', ' ', 'user.lastName'],
+                      $concat: ['$user.firstName', ' ', '$user.lastName'],
                     },
                     regex: /maria maria/,
                     // options: 'i',
@@ -83,13 +89,6 @@ db.Clients.aggregate([
             'groups': 1,
           },
         },
-        {
-          $project: {
-            user: { $arrayElemAt: ['$user', 0] },
-            location: 1,
-            groups: 1,
-          },
-        },
       ],
       totalDocuments: [
         {
@@ -106,8 +105,29 @@ db.Clients.aggregate([
           },
         },
         {
+          $project: {
+            user: { $arrayElemAt: ['$user', 0] },
+            location: 1,
+            groups: 1,
+          },
+        },
+        {
           $match: {
-            $or: [{ 'user.firstName': /m/gi }, { 'user.lastName': /m/gi }],
+            $or: [
+              { 'user.firstName': /z/gi },
+              { 'user.lastName': /z/gi },
+              {
+                $expr: {
+                  $regexMatch: {
+                    input: {
+                      $concat: ['$user.firstName', ' ', '$user.lastName'],
+                    },
+                    regex: /maria maria/,
+                    // options: 'i',
+                  },
+                },
+              },
+            ],
           },
         },
         { $count: 'total' },
@@ -121,3 +141,4 @@ db.Clients.aggregate([
     },
   },
 ]);
+
