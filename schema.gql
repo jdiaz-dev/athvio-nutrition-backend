@@ -193,7 +193,7 @@ type CustomMeal {
   ingredients: [Ingredient!]!
   isDeleted: String!
   name: String!
-  professionalId: ID!
+  professional: ID!
   recipe: String!
 }
 
@@ -297,6 +297,11 @@ input GetCustomMealsDto {
   search: [String!] = []
 }
 
+type GetCustomMealsResponse {
+  data: [CustomMeal!]!
+  meta: Meta!
+}
+
 input GetFoodsDto {
   limit: Float = 30
   offset: Float = 0
@@ -328,13 +333,21 @@ input GetProgramsDto {
 
 type Ingredient {
   amount: Float!
+  calories: Float
+  carbs: Float
+  fat: Float
   ingredientName: String!
+  protein: Float
   unit: String!
 }
 
 input IngredientInput {
   amount: Float!
+  calories: Float
+  carbs: Float
+  fat: Float
   ingredientName: String!
+  protein: Float
   unit: String!
 }
 
@@ -492,7 +505,7 @@ type Query {
   getClientPlans(input: GetClientPlansDto!): [ClientPlan!]!
   getClients(input: GetClientsDto!): GetClientsResponse!
   getCustomMeal(input: GetCustomMealDto!): CustomMeal!
-  getCustomMeals(input: GetCustomMealsDto!): [CustomMeal!]!
+  getCustomMeals(input: GetCustomMealsDto!): GetCustomMealsResponse!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!

@@ -12,18 +12,18 @@ export class CustomMeal extends BaseSchema {
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
-  professionalId!: string;
+  professional!: string;
 
   @Field()
   @Prop({ type: String, required: true })
   name!: string;
 
   @Field(() => [Ingredient])
-  @Prop({ type: [IngredientSchema], required: true })
+  @Prop({ type: [IngredientSchema], required: false })
   ingredients!: Ingredient[];
 
   @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   recipe!: string;
 
   @Field()

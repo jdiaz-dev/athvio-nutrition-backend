@@ -13,28 +13,21 @@ export class FoodsPersistenceService {
     const fieldToSearch = searchByFieldsGenerator(['name'], search);
     const foods = await this.foodModel.aggregate([
       {
+        $match: {
+          $or: fieldToSearch,
+        },
+      },
+      {
         $facet: {
           data: [
             {
-              $match: {
-                $or: fieldToSearch,
-              },
+              $skip: offset,
             },
             {
               $limit: limit,
             },
-            {
-              $skip: offset,
-            },
           ],
-          meta: [
-            {
-              $match: {
-                $or: fieldToSearch,
-              },
-            },
-            { $count: 'total' },
-          ],
+          meta: [{ $count: 'total' }],
         },
       },
       {

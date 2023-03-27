@@ -43,18 +43,9 @@ export class ClientsPersistenceService {
     if (!client) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return client;
   }
-  async getClients({ professionalId, ...dto }: GetClientsDto, selectors: string[]): Promise<GetClientsResponse> {
+  async getClients({ professionalId, ...dto }: GetClientsDto, selectors: Object): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
     const restFields = removeFieldFromAgregationSelectors(selectors, 'user');
-
-    const lookupUsers = {
-      $lookup: {
-        from: 'Users',
-        localField: 'user',
-        foreignField: '_id',
-        as: 'user',
-      },
-    };
 
     const clients = await this.clientModel.aggregate([
       {
@@ -64,73 +55,65 @@ export class ClientsPersistenceService {
         },
       },
       {
-        $facet: {
-          data: [
-            lookupUsers,
-            {
-              //looking group for every _id contained in groups array
-              $lookup: {
-                from: 'ClientGroups',
-                let: {
-                  letGroups: '$groups',
-                },
-                pipeline: [
-                  {
-                    $match: {
-                      $expr: {
-                        $in: [
-                          {
-                            $toString: '$_id',
-                          },
-                          '$$letGroups',
-                        ],
-                      },
-                    },
-                  },
-                ],
-                as: 'groups',
-              },
-            },
-            {
-              $project: {
-                user: {
-                  $arrayElemAt: ['$user', 0],
-                },
-                ...restFields,
-              },
-            },
+        $lookup: {
+          from: 'Users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        //looking group for every _id contained in groups array
+        $lookup: {
+          from: 'ClientGroups',
+          let: {
+            letGroups: '$groups',
+          },
+          pipeline: [
             {
               $match: {
-                $or: fieldsToSearch,
+                $expr: {
+                  $in: [
+                    {
+                      $toString: '$_id',
+                    },
+                    '$$letGroups',
+                  ],
+                },
               },
+            },
+          ],
+          as: 'groups',
+        },
+      },
+      {
+        $project: {
+          // to get user as object instead of array
+          user: {
+            $arrayElemAt: ['$user', 0],
+          },
+          ...restFields,
+        },
+      },
+      {
+        $match: {
+          $or: fieldsToSearch,
+        },
+      },
+      {
+        $facet: {
+          data: [
+            {
+              $skip: dto.offset,
             },
             {
               $limit: dto.limit,
             },
             {
-              $skip: dto.offset,
-            },
-
-            {
               $project: selectors,
             },
           ],
-          meta: [
-            lookupUsers,
-            {
-              $project: {
-                user: {
-                  $arrayElemAt: ['$user', 0],
-                },
-              },
-            },
-            {
-              $match: {
-                $or: fieldsToSearch,
-              },
-            },
-            { $count: 'total' },
-          ],
+          meta: [{ $count: 'total' }],
         },
       },
       {

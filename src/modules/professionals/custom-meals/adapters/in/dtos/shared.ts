@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class IngredientInput {
@@ -14,4 +14,24 @@ export class IngredientInput {
   @Field()
   @IsString()
   unit: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsNumber()
+  protein!: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsNumber()
+  carbs!: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsNumber()
+  fat!: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsNumber()
+  calories!: number;
 }
