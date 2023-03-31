@@ -17,18 +17,18 @@ import { GetCustomMealDto } from 'src/modules/professionals/custom-meals/adapter
 export class CustomMealsPersistenceService {
   constructor(@InjectModel(CustomMeal.name) private readonly customMealModel: Model<CustomMealDocument>) {}
 
-  async createCustomMeal({ professionalId, ...rest }: CreateCustomMealDto): Promise<CustomMeal> {
+  async createCustomMeal({ professional, ...rest }: CreateCustomMealDto): Promise<CustomMeal> {
     const customMeal = await this.customMealModel.create({
-      professional: professionalId,
+      professional,
       ...rest,
     });
     return customMeal;
   }
-  async getCustomMeal({ professionalId, ...rest }: GetCustomMealDto, selectors: any[]): Promise<CustomMeal> {
+  async getCustomMeal({ professional, ...rest }: GetCustomMealDto, selectors: any[]): Promise<CustomMeal> {
     const customMeal = await this.customMealModel.findOne(
       {
-        _id: rest.customMealId,
-        professional: professionalId,
+        _id: rest.customMeal,
+        professional,
         isDeleted: false,
       },
       selectors,
@@ -38,13 +38,13 @@ export class CustomMealsPersistenceService {
     return customMeal;
   }
   async getCustomMeals(
-    { professionalId, ...rest }: GetCustomMealsDto,
+    { professional, ...rest }: GetCustomMealsDto,
     selectors: Object,
   ): Promise<GetCustomMealsResponse> {
     const customMeals = await this.customMealModel.aggregate([
       {
         $match: {
-          professional: new Types.ObjectId(professionalId),
+          professional: new Types.ObjectId(professional),
           isDeleted: false,
         },
       },
@@ -71,48 +71,43 @@ export class CustomMealsPersistenceService {
         },
       },
     ]);
-    console.log('----------_customMeals', customMeals);
+
     const res: GetCustomMealsResponse = {
       data: customMeals[0].data,
       meta: {
-        total: customMeals[0].total,
+        total: customMeals[0].total ? customMeals[0].total : 0,
         limit: rest.limit,
         offset: rest.offset,
       },
     };
-    return res;
 
-    /* const customMeals = await this.customMealModel.find(
-      {
-        professionalId,
-        isDeleted: false,
-      },
-      selectors,
-      {
-        limit: rest.limit,
-        skip: rest.offset,
-        sort: rest.orderBy,
-      },
-    );
-    return customMeals; */
+    return res;
   }
-  async updateCustomMeal({ professionalId, customMealId, ...rest }: UpdateCustomMealDto): Promise<CustomMeal> {
-    const customMeal = await this.customMealModel.findOneAndUpdate(
-      { _id: customMealId, professional: professionalId, isDeleted: false },
+  async updateCustomMeal({ professional, customMeal, ...rest }: UpdateCustomMealDto): Promise<CustomMeal> {
+    const customMealRes = await this.customMealModel.findOneAndUpdate(
+      { _id: customMeal, professional, isDeleted: false },
       { ...rest },
       { new: true },
     );
 
     if (customMeal == null) throw new BadRequestException(ErrorCustomMealEnum.CUSTOM_MEAL_NOT_FOUND);
-    return customMeal;
+    return customMealRes;
   }
 
-  async deleteCustomMeal(rest: DeleteCustomMealDto, professionalId: string): Promise<CustomMeal> {
-    const customMeal = await this.customMealModel.findOneAndUpdate({
-      _id: rest.customMealId,
-      professional: professionalId,
-      isDeleted: true,
-    });
+  async deleteCustomMeal({ professional, ...rest }: DeleteCustomMealDto): Promise<CustomMeal> {
+    const customMeal = await this.customMealModel.findOneAndUpdate(
+      {
+        _id: rest.customMeal,
+        professional: professional,
+        isDeleted: false,
+      },
+      {
+        isDeleted: true,
+      },
+      {
+        new: true,
+      },
+    );
 
     if (customMeal == null) throw new BadRequestException(ErrorCustomMealEnum.CUSTOM_MEAL_NOT_FOUND);
 

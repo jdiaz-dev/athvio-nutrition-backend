@@ -19,38 +19,37 @@ import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 export class ClientsPersistenceService {
   constructor(@InjectModel(Client.name) private readonly clientModel: Model<ClientDocument>) {}
 
-  async createClient({ professionalId, ...body }: CreateClient): Promise<FlattenMaps<Client>> {
+  async createClient({ professional, ...body }: CreateClient): Promise<FlattenMaps<Client>> {
     const client = await this.clientModel.create({
-      professional: professionalId,
+      professional,
       ...body,
     });
     return client.toJSON();
   }
   async getClient(professionalId: string, clientId: string) {
-    const client = await this.clientModel.findOne({
+    const clientRes = await this.clientModel.findOne({
       _id: clientId,
       professional: professionalId,
       state: ClientState.ACTIVE,
     });
-    if (!client) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
-    return client;
+    if (!clientRes) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    return clientRes;
   }
   async getClientById(clientId: string) {
-    const client = await this.clientModel.findOne({
+    const clientRes = await this.clientModel.findOne({
       _id: clientId,
       state: ClientState.ACTIVE,
     });
-    if (!client) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
-    return client;
+    if (!clientRes) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    return clientRes;
   }
-  async getClients({ professionalId, ...dto }: GetClientsDto, selectors: Object): Promise<GetClientsResponse> {
+  async getClients({ professional, ...dto }: GetClientsDto, selectors: Object): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
     const restFields = removeFieldFromAgregationSelectors(selectors, 'user');
-
     const clients = await this.clientModel.aggregate([
       {
         $match: {
-          professional: new Types.ObjectId(professionalId),
+          professional: new Types.ObjectId(professional),
           state: dto.state,
         },
       },
@@ -135,53 +134,53 @@ export class ClientsPersistenceService {
 
     return res;
   }
-  async updateClient({ clientId, professionalId, ...rest }: UpdateClient, selectors: string[]): Promise<Client> {
-    const client = await this.clientModel.findOneAndUpdate(
-      { _id: clientId, professional: professionalId },
+  async updateClient({ client, professional, ...rest }: UpdateClient, selectors: string[]): Promise<Client> {
+    const clientRes = await this.clientModel.findOneAndUpdate(
+      { _id: client, professional },
       { ...rest },
       { projection: selectors, new: true },
     );
 
-    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
-    return client;
+    if (clientRes == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    return clientRes;
   }
   async updateUser(clientId: string, userId: string): Promise<Client> {
-    const client = await this.clientModel.findOneAndUpdate({ _id: clientId }, { user: userId }, { new: true });
+    const clientRes = await this.clientModel.findOneAndUpdate({ _id: clientId }, { user: userId }, { new: true });
 
-    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
-    return client;
+    if (clientRes == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    return clientRes;
   }
-  async updateClientGroup({ professionalId, clientId, action, clientGroupId }: ManageClientGroupDto): Promise<Client> {
+  async updateClientGroup({ professional, client, action, clientGroup }: ManageClientGroupDto): Promise<Client> {
     const _action =
-      action === ManageClientGroup.ADD ? { $push: { groups: clientGroupId } } : { $pull: { groups: clientGroupId } };
+      action === ManageClientGroup.ADD ? { $push: { groups: clientGroup } } : { $pull: { groups: clientGroup } };
 
-    const client = await this.clientModel.findOneAndUpdate({ _id: clientId, professional: professionalId }, _action, {
+    const clientRes = await this.clientModel.findOneAndUpdate({ _id: client, professional }, _action, {
       new: true,
       populate: 'groups',
     });
-    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    if (clientRes == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
 
-    return client;
+    return clientRes;
   }
-  async deleteManyClientGroup({ professionalId, clientGroupId }: DeleteManyClientGroup): Promise<UpdateWriteOpResult> {
+  async deleteManyClientGroup({ professional, clientGroup }: DeleteManyClientGroup): Promise<UpdateWriteOpResult> {
     const recordsUpdated = await this.clientModel.updateMany(
-      { professional: professionalId, groups: clientGroupId },
-      { $pull: { groups: clientGroupId } },
+      { professional, groups: clientGroup },
+      { $pull: { groups: clientGroup } },
     );
     return recordsUpdated;
   }
-  async manageClientState({ professionalId, ...dto }: ManageClientStateDto, selectors: string[]): Promise<Client> {
-    const client = await this.clientModel.findOneAndUpdate(
+  async manageClientState({ professional, ...dto }: ManageClientStateDto, selectors: string[]): Promise<Client> {
+    const clientRes = await this.clientModel.findOneAndUpdate(
       {
-        _id: dto.clientId,
-        professional: professionalId,
+        _id: dto.client,
+        professional: professional,
       },
       { state: dto.state },
       { projection: selectors },
     );
 
-    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    if (clientRes == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
 
-    return client;
+    return clientRes;
   }
 }

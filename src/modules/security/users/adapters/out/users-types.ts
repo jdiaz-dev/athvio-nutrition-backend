@@ -12,12 +12,12 @@ export interface CreateUser {
 }
 
 export interface UpdateUser {
-  userId: string;
+  user: string;
   password: string;
   acceptedTerms?: boolean;
 }
 
 export interface UpdatePassword {
-  userId: string;
+  user: string;
   password: string;
 }

@@ -6,15 +6,15 @@ import { ManageClientGroup } from 'src/shared/enums/project';
 export class ManageClientGroupDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  clientId!: string;
+  client!: string;
 
   @Field()
   @IsMongoId()
-  clientGroupId!: string;
+  clientGroup!: string;
 
   @Field()
   @IsEnum(ManageClientGroup)

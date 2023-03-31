@@ -16,12 +16,12 @@ export class ProgramManagementService {
   ) {}
 
   async createProgram(dto: CreateProgramDto) {
-    await this.prps.getProfessionalById(dto.professionalId);
+    await this.prps.getProfessionalById(dto.professional);
     const program = await this.pps.createProgram(dto);
     return program;
   }
   async manageProgramTag(dto: ManageProgramTagDto): Promise<Program> {
-    await this.ptps.getProgramTag(dto.professionalId, dto.programTagId);
+    await this.ptps.getProgramTag(dto.professional, dto.programTag);
     return this.pps.updateProgramTag(dto);
   }
 }

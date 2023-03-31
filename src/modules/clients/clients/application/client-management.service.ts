@@ -19,13 +19,13 @@ export class ClientManagementService {
     private pps: ProfessionalsPersistenceService,
   ) {}
 
-  async createClient({ professionalId, userInfo, additionalInfo }: CreateClientDto): Promise<CreateClientResponse> {
+  async createClient({ professional, userInfo, additionalInfo }: CreateClientDto): Promise<CreateClientResponse> {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
 
-    await this.pps.getProfessionalById(professionalId);
+    await this.pps.getProfessionalById(professional);
 
-    const client = await this.cps.createClient({ professionalId, ...additionalInfo, isActive: true });
+    const client = await this.cps.createClient({ professional, ...additionalInfo, isActive: true });
     const _user: CreateUser = {
       ...userInfo,
       client: client._id,

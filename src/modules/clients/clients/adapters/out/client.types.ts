@@ -1,7 +1,7 @@
 import { ClientState } from 'src/shared/enums/project';
 
 export interface CreateClient {
-  professionalId: string;
+  professional: string;
   isActive: boolean;
   location?: string;
   timezone?: string;
@@ -15,11 +15,11 @@ export interface CreateClient {
 }
 
 export interface UpdateClient extends CreateClient {
-  clientId: string;
+  client: string;
   state: ClientState;
 }
 
 export interface DeleteManyClientGroup {
-  professionalId: string;
-  clientGroupId: string;
+  professional: string;
+  clientGroup: string;
 }

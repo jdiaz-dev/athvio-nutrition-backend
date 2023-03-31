@@ -107,6 +107,6 @@ export class AppModule {}
     - update basic information of client (professional and client views)
     - update some information of client (from professional view)
 
-
+    - update foreingKeys on schemas without use Id prefix
 
 */

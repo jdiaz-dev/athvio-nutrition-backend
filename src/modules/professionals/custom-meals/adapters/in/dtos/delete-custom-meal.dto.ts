@@ -5,9 +5,9 @@ import { IsMongoId } from 'class-validator';
 export class DeleteCustomMealDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  customMealId: string;
+  customMeal: string;
 }

@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsArray, IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsMongoId, IsOptional, IsString, ValidateNested, IsNumber } from 'class-validator';
 import { IngredientInput } from 'src/modules/professionals/custom-meals/adapters/in/dtos/shared';
 @InputType()
 export class CreateCustomMealDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsString()
@@ -21,4 +21,20 @@ export class CreateCustomMealDto {
   @IsString()
   @IsOptional()
   recipe: string;
+
+  @Field()
+  @IsNumber()
+  totalProtein!: number;
+
+  @Field()
+  @IsNumber()
+  totalCarbs!: number;
+
+  @Field()
+  @IsNumber()
+  totalFat!: number;
+
+  @Field()
+  @IsNumber()
+  totalCalories!: number;
 }

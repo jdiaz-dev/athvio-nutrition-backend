@@ -6,19 +6,19 @@ import { IngredientsInput, MacrosInput } from 'src/modules/professionals/program
 export class UpdateMealDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  programId: string;
+  program: string;
 
   @Field()
   @IsMongoId()
-  planId: string;
+  plan: string;
 
   @Field()
   @IsMongoId()
-  mealId: string;
+  meal: string;
 
   @Field()
   @IsNumber()

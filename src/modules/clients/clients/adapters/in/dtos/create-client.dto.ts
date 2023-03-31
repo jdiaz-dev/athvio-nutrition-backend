@@ -83,7 +83,7 @@ export class CreateUserInfoDto {
 export class CreateClientDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @ValidateNested()

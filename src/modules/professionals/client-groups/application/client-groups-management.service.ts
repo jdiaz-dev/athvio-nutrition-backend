@@ -15,15 +15,15 @@ export class ClientGroupsManagementService {
   ) {}
 
   async createClientGroup(dto: CreateClientGroupDto): Promise<ClientGroup> {
-    await this.pps.getProfessionalById(dto.professionalId);
+    await this.pps.getProfessionalById(dto.professional);
     const clientGroup = await this.cgps.createClientGroup(dto);
 
     return clientGroup;
   }
   async deleteClientGroup(dto: DeleteClientGroupDto) {
     await this.cps.deleteManyClientGroup({
-      professionalId: dto.professionalId,
-      clientGroupId: dto.clientGroupId,
+      professional: dto.professional,
+      clientGroup: dto.clientGroup,
     });
     return this.cgps.deleteClientGroup(dto);
   }

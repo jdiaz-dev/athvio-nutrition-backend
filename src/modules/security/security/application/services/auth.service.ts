@@ -23,7 +23,7 @@ export class AuthService implements IValidateUserUseCase {
     return {
       _id: user.professional ? user.professional : user.client,
       userType: user.professional ? UserType.PROFESSIONAL : UserType.CLIENT,
-      token: this.jwtService.sign({ userId: _id.toString() }),
+      token: this.jwtService.sign({ user: _id.toString() }),
     };
   }
 }

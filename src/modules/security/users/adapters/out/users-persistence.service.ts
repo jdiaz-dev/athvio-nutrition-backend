@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUser, UpdatePassword, UpdateUser } from 'src/modules/security/users/adapters/out/users-types';
 import { User, UserDocument } from 'src/modules/security/users/adapters/out/user.schema';
-import { ErrorClientsEnum } from 'src/shared/enums/messages-response';
+import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
 import { UpdateUserDto } from 'src/modules/security/users/adapters/in/dtos/update-user.dto';
 
 @Injectable()
@@ -33,22 +33,22 @@ export class UsersPersistenceService {
     ]);
     return client[0];
   }
-  async getUserById(userId: string): Promise<User> {
-    const client = await this.userModel.findOne(
+  async getUserById(user: string): Promise<User> {
+    const _user = await this.userModel.findOne(
       {
-        _id: userId,
+        _id: user,
       },
-      ['_id', 'isProfessional', 'professionalId', 'email'],
+      ['_id', 'isProfessional', 'professional', 'email'],
     );
 
-    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
-    return client;
+    if (_user == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
+    return _user;
   }
 
-  async updateUser({ userId, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
-    const client = await this.userModel.findOneAndUpdate({ _id: userId }, { ...rest }, { new: true });
+  async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
+    const client = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
 
-    if (client == null) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
+    if (client == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
     return client;
   }
   /* async getClient(clientId: string, professionalId: string) {

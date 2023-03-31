@@ -5,7 +5,7 @@ import { IsString, IsMongoId } from 'class-validator';
 export class UpdatePasswordDto {
   @Field()
   @IsMongoId()
-  userId: string;
+  user: string;
 
   @Field()
   @IsString()

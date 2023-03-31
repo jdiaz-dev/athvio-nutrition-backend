@@ -15,9 +15,9 @@ import { ErrorClientGroupEnum } from 'src/shared/enums/messages-response';
 export class ClientGroupsPersistenceService {
   constructor(@InjectModel(ClientGroup.name) private readonly programTagModel: Model<ClientGroupDocument>) {}
 
-  async createClientGroup({ professionalId, ...rest }: CreateClientGroupDto): Promise<ClientGroup> {
+  async createClientGroup({ professional, ...rest }: CreateClientGroupDto): Promise<ClientGroup> {
     const clientGroup = await this.programTagModel.create({
-      professional: professionalId,
+      professional,
       ...rest,
     });
     return clientGroup;
@@ -33,29 +33,29 @@ export class ClientGroupsPersistenceService {
 
     return clientGroup;
   }
-  async getClientGroups({ professionalId }: GetClientGroupsDto): Promise<ClientGroup[]> {
+  async getClientGroups({ professional }: GetClientGroupsDto): Promise<ClientGroup[]> {
     const clientGroups = await this.programTagModel.find({
-      professional: professionalId,
+      professional,
       isDeleted: false,
     });
     return clientGroups;
   }
-  async updateClientGroup({ professionalId, clientGroupId, ...rest }: UpdateClientGroupDto): Promise<ClientGroup> {
-    const clientGroup = await this.programTagModel.findOneAndUpdate(
-      { _id: clientGroupId, professional: professionalId, isDeleted: false },
+  async updateClientGroup({ professional, clientGroup, ...rest }: UpdateClientGroupDto): Promise<ClientGroup> {
+    const clientGroupRes = await this.programTagModel.findOneAndUpdate(
+      { _id: clientGroup, professional, isDeleted: false },
       { ...rest },
       { new: true },
     );
 
     if (clientGroup == null) throw new BadRequestException(ErrorClientGroupEnum.CLIENT_GROUP_NOT_FOUND);
-    return clientGroup;
+    return clientGroupRes;
   }
 
-  async deleteClientGroup({ professionalId, clientGroupId }: DeleteClientGroupDto): Promise<ClientGroup> {
-    const clientGroup = await this.programTagModel.findOneAndUpdate(
+  async deleteClientGroup({ professional, clientGroup }: DeleteClientGroupDto): Promise<ClientGroup> {
+    const clientGroupRes = await this.programTagModel.findOneAndUpdate(
       {
-        _id: clientGroupId,
-        professional: professionalId,
+        _id: clientGroup,
+        professional,
         isDeleted: false,
       },
       {
@@ -66,8 +66,8 @@ export class ClientGroupsPersistenceService {
       },
     );
 
-    if (clientGroup == null) throw new BadRequestException(ErrorClientGroupEnum.CLIENT_GROUP_NOT_FOUND);
+    if (clientGroupRes == null) throw new BadRequestException(ErrorClientGroupEnum.CLIENT_GROUP_NOT_FOUND);
 
-    return clientGroup;
+    return clientGroupRes;
   }
 }

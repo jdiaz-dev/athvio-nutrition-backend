@@ -14,8 +14,8 @@ export class ManageClientGroupService {
   ) {}
 
   async manageClientGroup(dto: ManageClientGroupDto): Promise<Client> {
-    await this.pps.getProfessionalById(dto.professionalId);
-    await this.cgps.getClientGroup(dto.professionalId, dto.clientGroupId);
+    await this.pps.getProfessionalById(dto.professional);
+    await this.cgps.getClientGroup(dto.professional, dto.clientGroup);
     const client = await this.cps.updateClientGroup(dto);
     return client;
   }

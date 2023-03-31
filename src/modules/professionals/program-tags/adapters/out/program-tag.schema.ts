@@ -11,7 +11,7 @@ export class ProgramTag extends BaseSchema {
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
-  professionalId!: string;
+  professional!: string;
 
   @Field()
   @Prop({ type: String, required: true })

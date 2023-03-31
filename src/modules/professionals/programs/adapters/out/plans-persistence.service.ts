@@ -13,47 +13,44 @@ import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 export class PlansPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addProgramPlan(
-    { professionalId, programId, ...rest }: AddProgramPlanDto,
-    selectors: string[],
-  ): Promise<Program> {
-    const program = await this.programModel
-      .findOneAndUpdate({ _id: programId, professionalId }, { $push: { plans: { ...rest } } }, { new: true })
+  async addProgramPlan({ professional, program, ...rest }: AddProgramPlanDto, selectors: string[]): Promise<Program> {
+    const programRes = await this.programModel
+      .findOneAndUpdate({ _id: program, professional }, { $push: { plans: { ...rest } } }, { new: true })
       .populate('tags plans');
     selectors;
-    if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-    return program;
+    return programRes;
   }
 
-  async updateProgramPlan({ professionalId, ...rest }: UpdateProgramPlanDto, selectors: string[]): Promise<Program> {
-    const program = await this.programModel.findOneAndUpdate(
-      { _id: rest.programId, professionalId, isDeleted: false },
+  async updateProgramPlan({ professional, ...rest }: UpdateProgramPlanDto, selectors: string[]): Promise<Program> {
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: rest.program, professional, isDeleted: false },
       { $set: { 'plans.$[el].week': rest.week, 'plans.$[el].day': rest.day } },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(rest.planId), 'el.isDeleted': false }],
+        arrayFilters: [{ 'el._id': new Types.ObjectId(rest.plan), 'el.isDeleted': false }],
         new: true,
         projection: selectors,
       },
     );
-    if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-    return program;
+    return programRes;
   }
 
-  async deleteProgramPlan({ professionalId, ...rest }: DeleteProgramPlanDto, selectors: string[]): Promise<Program> {
+  async deleteProgramPlan({ professional, ...rest }: DeleteProgramPlanDto, selectors: string[]): Promise<Program> {
     selectors;
-    const program = await this.programModel.findOneAndUpdate(
-      { _id: rest.programId, professionalId, isDeleted: false },
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: rest.program, professional, isDeleted: false },
       { $set: { 'plans.$[el].isDeleted': true } },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(rest.planId), 'el.isDeleted': false }],
+        arrayFilters: [{ 'el._id': new Types.ObjectId(rest.plan), 'el.isDeleted': false }],
         new: true,
         projection: selectors,
       },
     );
-    if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-    return program;
+    return programRes;
   }
 }

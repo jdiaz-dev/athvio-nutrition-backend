@@ -5,9 +5,9 @@ import { IsMongoId } from 'class-validator';
 export class GetProgramDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  programId: string;
+  program: string;
 }

@@ -4,16 +4,17 @@ import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateCustomMealDto } from 'src/modules/professionals/custom-meals/adapters/in/dtos/create-custom-meal.dto';
 import { DeleteCustomMealDto } from 'src/modules/professionals/custom-meals/adapters/in/dtos/delete-custom-meal.dto';
 import { GetCustomMealDto } from 'src/modules/professionals/custom-meals/adapters/in/dtos/get-custom-meal.dto';
-import { GetCustomMealsDto, GetCustomMealsResponse } from 'src/modules/professionals/custom-meals/adapters/in/dtos/get-custom-meals.dto';
+import {
+  GetCustomMealsDto,
+  GetCustomMealsResponse,
+} from 'src/modules/professionals/custom-meals/adapters/in/dtos/get-custom-meals.dto';
 import { UpdateCustomMealDto } from 'src/modules/professionals/custom-meals/adapters/in/dtos/update-custom-meal.dto';
 import { CustomMeal } from 'src/modules/professionals/custom-meals/adapters/out/custom-meal.schema';
 import { CustomMealsPersistenceService } from 'src/modules/professionals/custom-meals/adapters/out/custom-meals-persistence.service';
 import { CustomMealsManagementService } from 'src/modules/professionals/custom-meals/application/custom-meals-management.service';
 import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
-import { IUserContext } from 'src/shared/interfaces/user-context';
 
 @Resolver(() => CustomMeal)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -49,7 +50,7 @@ export class CustomMealsResolver {
   }
 
   @Mutation(() => CustomMeal)
-  deleteCustomMeal(@Args('input') dto: DeleteCustomMealDto, @CurrentUser() context: IUserContext): Promise<CustomMeal> {
-    return this.cmps.deleteCustomMeal(dto, context.professionalId);
+  deleteCustomMeal(@Args('input') dto: DeleteCustomMealDto): Promise<CustomMeal> {
+    return this.cmps.deleteCustomMeal(dto);
   }
 }

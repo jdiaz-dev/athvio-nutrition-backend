@@ -43,7 +43,7 @@ export class Program extends BaseSchema {
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
-  professionalId!: string;
+  professional!: string;
 
   @Field()
   @Prop({ type: String, required: true })
@@ -56,7 +56,7 @@ export class Program extends BaseSchema {
   // @Field
   @Field(() => [ProgramTag])
   @Prop({ type: [String], required: true, default: [], ref: ProgramTag.name })
-  tags: String[];
+  programTags: String[];
 
   @Field(() => [Plan])
   @Prop({ type: [PlanSchema], required: false })

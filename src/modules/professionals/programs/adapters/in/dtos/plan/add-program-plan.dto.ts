@@ -7,11 +7,11 @@ import { MealInput } from 'src/modules/professionals/programs/adapters/in/dtos/m
 export class AddProgramPlanDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  programId: string;
+  program: string;
 
   @Field()
   @IsNumber()

@@ -5,11 +5,11 @@ import { IsMongoId, IsString } from 'class-validator';
 export class UpdateProgramTagDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  programTagId: string;
+  programTag: string;
 
   @Field()
   @IsString()

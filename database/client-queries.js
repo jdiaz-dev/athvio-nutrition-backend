@@ -15,39 +15,39 @@ db.Clients.aggregate([
     },
   },
   {
+    $lookup: {
+      from: 'Users',
+      localField: 'user',
+      foreignField: '_id',
+      as: 'user',
+    },
+  },
+  {
+    $lookup: {
+      from: 'ClientGroups',
+      let: {
+        letGroups: '$groups',
+      },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $in: [
+                {
+                  $toString: '$_id',
+                },
+                '$$letGroups',
+              ],
+            },
+          },
+        },
+      ],
+      as: 'groups',
+    },
+  },
+  {
     $facet: {
       data: [
-        {
-          $lookup: {
-            from: 'Users',
-            localField: 'user',
-            foreignField: '_id',
-            as: 'user',
-          },
-        },
-        {
-          $lookup: {
-            from: 'ClientGroups',
-            let: {
-              letGroups: '$groups',
-            },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $in: [
-                      {
-                        $toString: '$_id',
-                      },
-                      '$$letGroups',
-                    ],
-                  },
-                },
-              },
-            ],
-            as: 'groups',
-          },
-        },
         {
           $project: {
             user: { $arrayElemAt: ['$user', 0] },
@@ -55,6 +55,10 @@ db.Clients.aggregate([
             groups: 1,
           },
         },
+       /*  {
+          $project:
+          user
+        } */
         {
           $match: {
             $or: [
@@ -141,4 +145,3 @@ db.Clients.aggregate([
     },
   },
 ]);
-

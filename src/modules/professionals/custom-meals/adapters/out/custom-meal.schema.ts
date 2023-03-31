@@ -26,6 +26,22 @@ export class CustomMeal extends BaseSchema {
   @Prop({ type: String, required: false })
   recipe!: string;
 
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
+  totalProtein!: number;
+
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
+  totalCarbs!: number;
+
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
+  totalFat!: number;
+
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
+  totalCalories!: number;
+
   @Field()
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: string;

@@ -9,7 +9,7 @@ import { ClientState } from 'src/shared/enums/project';
 export class GetClientsDto extends GetRecordsBaseDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsEnum(ClientState)

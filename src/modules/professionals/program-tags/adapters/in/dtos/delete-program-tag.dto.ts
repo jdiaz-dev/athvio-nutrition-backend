@@ -5,9 +5,9 @@ import { IsMongoId } from 'class-validator';
 export class DeleteProgramTagDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  programTagId: string;
+  programTag: string;
 }

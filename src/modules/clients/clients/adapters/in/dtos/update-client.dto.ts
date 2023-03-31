@@ -7,7 +7,7 @@ import { AlloweGender } from 'src/shared/enums/project';
 class UpdateUserInfoDto {
   @Field()
   @IsMongoId()
-  userId: string;
+  user: string;
 
   @Field()
   @IsString()
@@ -23,11 +23,11 @@ class UpdateUserInfoDto {
 export class UpdateClientMobileDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  clientId: string;
+  client: string;
 
   @Field()
   @ValidateNested()

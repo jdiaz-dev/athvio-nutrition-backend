@@ -56,14 +56,14 @@ export class UserManagementService {
     const user = await this.ups.updateUser(_user);
     return user;
   }
-  async updatePassword({ password, userId }: UpdatePasswordDto): Promise<User> {
+  async updatePassword({ password, user }: UpdatePasswordDto): Promise<User> {
     const salt = bcryptjs.genSaltSync();
     const _user = {
-      userId,
+      user,
       password: bcryptjs.hashSync(password, salt),
     };
 
-    const user = await this.ups.updateUser(_user);
-    return user;
+    const userUpdated = await this.ups.updateUser(_user);
+    return userUpdated;
   }
 }

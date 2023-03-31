@@ -13,49 +13,49 @@ import { GetProgramTagsDto } from 'src/modules/professionals/program-tags/adapte
 export class ProgramTagsPersistenceService {
   constructor(@InjectModel(ProgramTag.name) private readonly programTagModel: Model<ProgramTagDocument>) {}
 
-  async createProgramTag({ professionalId, ...rest }: CreateProgramTagDto): Promise<ProgramTag> {
+  async createProgramTag({ professional, ...rest }: CreateProgramTagDto): Promise<ProgramTag> {
     const programTag = await this.programTagModel.create({
-      professionalId,
+      professional,
       ...rest,
     });
     return programTag;
   }
-  async getProgramTag(professionalId: string, programTagId: string): Promise<ProgramTag> {
-    const programTag = await this.programTagModel.findOne({
-      professionalId,
-      _id: programTagId,
+  async getProgramTag(professional: string, programTag: string): Promise<ProgramTag> {
+    const programTagRes = await this.programTagModel.findOne({
+      professional,
+      _id: programTag,
       isDeleted: false,
     });
-    if (!programTag) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
-    return programTag;
+    if (!programTagRes) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
+    return programTagRes;
   }
-  async getProgramTags({ professionalId }: GetProgramTagsDto): Promise<ProgramTag[]> {
+  async getProgramTags({ professional }: GetProgramTagsDto): Promise<ProgramTag[]> {
     const programTags = await this.programTagModel.find({
-      professionalId,
+      professional,
       isDeleted: false,
     });
     return programTags;
   }
-  async updateProgramTag({ professionalId, programTagId, ...rest }: UpdateProgramTagDto): Promise<ProgramTag> {
-    const programTag = await this.programTagModel.findOneAndUpdate(
-      { _id: programTagId, professionalId, isDeleted: false },
+  async updateProgramTag({ professional, programTag, ...rest }: UpdateProgramTagDto): Promise<ProgramTag> {
+    const programTagRes = await this.programTagModel.findOneAndUpdate(
+      { _id: programTag, professional, isDeleted: false },
       { ...rest },
       { new: true },
     );
 
-    if (programTag == null) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
-    return programTag;
+    if (programTagRes == null) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
+    return programTagRes;
   }
 
-  async deleteProgramTag(dto: DeleteProgramTagDto, professionalId: string): Promise<ProgramTag> {
-    const programTag = await this.programTagModel.findOneAndUpdate({
-      _id: dto.programTagId,
-      professionalId,
+  async deleteProgramTag(dto: DeleteProgramTagDto, professional: string): Promise<ProgramTag> {
+    const programTagRes = await this.programTagModel.findOneAndUpdate({
+      _id: dto.programTag,
+      professional,
       isDeleted: true,
     });
 
-    if (programTag == null) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
+    if (programTagRes == null) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
 
-    return programTag;
+    return programTagRes;
   }
 }

@@ -8,7 +8,7 @@ import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
 export class GetCustomMealsDto extends GetRecordsBaseDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 }
 
 @ObjectType()

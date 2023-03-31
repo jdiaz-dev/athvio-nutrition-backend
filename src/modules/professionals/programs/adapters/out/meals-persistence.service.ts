@@ -12,31 +12,28 @@ import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 export class MealsPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addPlanMeal(
-    { professionalId, programId, planId, ...rest }: AddPlanMealDto,
-    selectors: string[],
-  ): Promise<Program> {
-    const program = await this.programModel.findOneAndUpdate(
-      { _id: programId, professionalId },
+  async addPlanMeal({ professional, program, plan, ...rest }: AddPlanMealDto, selectors: string[]): Promise<Program> {
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: program, professional },
       { $push: { 'plans.$[el].planMeals': { ...rest } } },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(planId), 'el.isDeleted': false }],
+        arrayFilters: [{ 'el._id': new Types.ObjectId(plan), 'el.isDeleted': false }],
         new: true,
         projection: selectors,
       },
     );
     selectors;
-    return program;
+    return programRes;
   }
 
   async updatePlanMeal(
-    { professionalId, programId, planId, mealId, ...rest }: UpdateMealDto,
+    { professional, program, plan, meal, ...rest }: UpdateMealDto,
     selectors: string[],
   ): Promise<Program> {
     rest;
 
-    const program = await this.programModel.findOneAndUpdate(
-      { _id: programId, professionalId },
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: program, professional },
       {
         $set: {
           'plans.$[plan].planMeals.$[meal].position': rest.position,
@@ -49,41 +46,41 @@ export class MealsPersistenceService {
       {
         arrayFilters: [
           {
-            'plan._id': new Types.ObjectId(planId),
+            'plan._id': new Types.ObjectId(plan),
             'plan.isDeleted': false,
           },
           {
-            'meal._id': new Types.ObjectId(mealId),
+            'meal._id': new Types.ObjectId(meal),
           },
         ],
         new: true,
         projection: selectors,
       },
     );
-    if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-    return program;
+    return programRes;
   }
 
   async deletePlanMeal(
-    { professionalId, programId, planId, mealId }: DeletePlanMealDto,
+    { professional, program, plan, meal }: DeletePlanMealDto,
     selectors: string[],
   ): Promise<Program> {
-    const program = await this.programModel.findOneAndUpdate(
-      { _id: programId, professionalId },
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: program, professional },
       {
         $pull: {
-          'plans.$[plan].planMeals': { _id: new Types.ObjectId(mealId) },
+          'plans.$[plan].planMeals': { _id: new Types.ObjectId(meal) },
         },
       },
       {
         arrayFilters: [
           {
-            'plan._id': new Types.ObjectId(planId),
+            'plan._id': new Types.ObjectId(plan),
             'plan.isDeleted': false,
           },
           /* {
-            'meal._id': new Types.ObjectId(mealId),
+            'meal._id': new Types.ObjectId(meal),
           }, */
         ],
         new: true,
@@ -91,8 +88,8 @@ export class MealsPersistenceService {
       },
     );
 
-    if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-    return program;
+    return programRes;
   }
 }

@@ -5,7 +5,7 @@ import { IsMongoId, IsString } from 'class-validator';
 export class CreateProgramTagDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsString()

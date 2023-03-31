@@ -5,5 +5,5 @@ import { IsMongoId } from 'class-validator';
 export class GetClientGroupsDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 }

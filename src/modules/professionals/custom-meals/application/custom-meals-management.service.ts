@@ -10,7 +10,7 @@ export class CustomMealsManagementService {
   constructor(private pps: ProfessionalsPersistenceService, private cmps: CustomMealsPersistenceService) {}
 
   async createCustomMeal(dto: CreateCustomMealDto): Promise<CustomMeal> {
-    await this.pps.getProfessionalById(dto.professionalId);
+    await this.pps.getProfessionalById(dto.professional);
     const customMeal = await this.cmps.createCustomMeal(dto);
     return customMeal;
   }

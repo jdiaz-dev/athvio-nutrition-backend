@@ -5,13 +5,13 @@ import { IsMongoId } from 'class-validator';
 export class DeleteProgramPlanDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  programId: string;
+  program: string;
 
   @Field()
   @IsMongoId()
-  planId: string;
+  plan: string;
 }

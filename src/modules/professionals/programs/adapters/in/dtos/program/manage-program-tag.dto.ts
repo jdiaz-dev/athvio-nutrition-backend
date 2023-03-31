@@ -6,15 +6,15 @@ import { ManageProgramTags } from 'src/shared/enums/project';
 export class ManageProgramTagDto {
   @Field()
   @IsMongoId()
-  professionalId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  programId: string;
+  program: string;
 
   @Field()
   @IsMongoId()
-  programTagId: string;
+  programTag: string;
 
   @Field()
   @IsEnum(ManageProgramTags)
