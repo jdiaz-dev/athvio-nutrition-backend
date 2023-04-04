@@ -2,6 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
+import { GetProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-program.dto';
 import {
   GetProgramsDto,
   GetProgramsResponse,
@@ -25,14 +26,14 @@ export class ProgramsResolver {
     return this.pps.createProgram(dto);
   }
 
-  /* @Query(() => Program)
+  @Query(() => Program)
   async getProgram(
     @Args('input') dto: GetProgramDto,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
     const program = await this.pps.getProgram(dto, selectors);
     return program;
-  } */
+  }
 
   @Query(() => GetProgramsResponse)
   async getPrograms(

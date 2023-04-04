@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsMongoId, IsNumber, IsString } from 'class-validator';
-import { IngredientsInput, MacrosInput } from 'src/modules/professionals/programs/adapters/in/dtos/meal/shared';
+import { IngredientsInput } from 'src/shared/dtos/ingredient-input.dto';
+import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
 @InputType()
 export class UpdateMealDto {

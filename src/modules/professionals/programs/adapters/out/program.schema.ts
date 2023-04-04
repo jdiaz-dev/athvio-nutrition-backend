@@ -3,7 +3,8 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
-import { Meal, MealSchema } from 'src/shared/models/meal';
+import { MealPlan, MealPlanSchema } from 'src/shared/models/meal-plan';
+import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
@@ -23,9 +24,9 @@ export class Plan {
   @Prop({ type: Number, required: true })
   day!: number;
 
-  @Field(() => [Meal])
-  @Prop({ type: [MealSchema], required: true, default: [] })
-  planMeals!: Meal[];
+  @Field(() => [MealPlan])
+  @Prop({ type: [MealPlanSchema], required: true, default: [] })
+  mealPlans!: MealPlan[];
 
   //planWorkouts: any;
 
@@ -50,20 +51,19 @@ export class Program extends BaseSchema {
   name!: string;
 
   @Field()
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   description!: string;
 
-  // @Field
   @Field(() => [ProgramTag])
   @Prop({ type: [String], required: true, default: [], ref: ProgramTag.name })
   programTags: String[];
 
   @Field(() => [Plan])
   @Prop({ type: [PlanSchema], required: false })
-  plans!: [Plan];
+  plans!: Plan[];
 
-  @Field(() => [String])
-  @Prop({ type: [String], required: true, default: [] })
+  @Field(() => [Client])
+  @Prop({ type: [String], required: true, default: [], ref: Client.name })
   clients: string[];
 
   @Prop({ type: Boolean, required: true, default: false })

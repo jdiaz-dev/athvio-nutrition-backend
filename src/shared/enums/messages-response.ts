@@ -28,8 +28,8 @@ export enum ErrorClientPlanEnum {
   CLIENT_PLAN_NOT_FOUND = 'This client plan does not exist.',
 }
 
-export enum ErrorCustomMealEnum {
-  CUSTOM_MEAL_NOT_FOUND = 'This custom meal does not exist.',
+export enum ErrorCustomRecipeEnum {
+  CUSTOM_RECIPE_NOT_FOUND = 'This custom recipe does not exist.',
 }
 
 export enum ErrorCaloryEnum {

@@ -45,7 +45,6 @@ type Calory {
   calories: Float!
   carbs: Float!
   clientId: ID!
-  createdAt: DateTime!
   fat: Float!
   isDeleted: String!
   protein: Float!
@@ -55,7 +54,6 @@ type Client {
   _id: ID!
   birthday: DateTime
   countryCode: String
-  createdAt: DateTime!
   gender: String
   groups: [ClientGroup!]!
   height: Float
@@ -73,7 +71,6 @@ type Client {
 
 type ClientGroup {
   _id: ID!
-  createdAt: DateTime!
   groupName: String!
   isDeleted: String!
   professional: ID!
@@ -85,9 +82,8 @@ type ClientPlan {
   clientId: String!
   commentResult: String!
   comments: [Comment!]!
-  createdAt: DateTime!
   isDeleted: String!
-  planMeals: [Meal!]!
+  mealPlans: [MealPlan!]!
   state: String!
   title: String!
 }
@@ -95,14 +91,12 @@ type ClientPlan {
 type Comment {
   _id: ID!
   commenter: Commenter!
-  createdAt: DateTime!
   isDeleted: String!
   message: String!
 }
 
 type Commenter {
   commenterId: String!
-  createdAt: DateTime!
   type: String!
 }
 
@@ -153,15 +147,12 @@ type CreateClientResponse {
   weight: Float
 }
 
-input CreateCustomMealDto {
+input CreateCustomRecipeDto {
+  cookingInstruction: String!
   ingredients: [IngredientInput!]!
+  macros: MacrosInput!
   name: String!
   professional: String!
-  recipe: String!
-  totalCalories: Float!
-  totalCarbs: Float!
-  totalFat: Float!
-  totalProtein: Float!
 }
 
 input CreateProfesionalInfoDto {
@@ -191,18 +182,13 @@ type CreateUserInfoResponse {
   lastName: String!
 }
 
-type CustomMeal {
+type CustomRecipe {
   _id: ID!
-  createdAt: DateTime!
+  cookingInstruction: String!
   ingredients: [Ingredient!]!
-  isDeleted: String!
+  macros: Macros!
   name: String!
   professional: ID!
-  recipe: String!
-  totalCalories: Float
-  totalCarbs: Float
-  totalFat: Float
-  totalProtein: Float
 }
 
 """
@@ -226,8 +212,8 @@ input DeleteClientPlanDto {
   clientPlanId: String!
 }
 
-input DeleteCustomMealDto {
-  customMeal: String!
+input DeleteCustomRecipeDto {
+  customRecipe: String!
   professional: String!
 }
 
@@ -256,7 +242,6 @@ input DeleteProgramTagDto {
 
 type Food {
   _id: ID!
-  createdAt: DateTime!
   isDeleted: String!
   name: String!
 }
@@ -292,12 +277,12 @@ type GetClientsResponse {
   meta: Meta!
 }
 
-input GetCustomMealDto {
-  customMeal: String!
+input GetCustomRecipeDto {
+  customRecipe: String!
   professional: String!
 }
 
-input GetCustomMealsDto {
+input GetCustomRecipesDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
@@ -305,8 +290,8 @@ input GetCustomMealsDto {
   search: [String!] = []
 }
 
-type GetCustomMealsResponse {
-  data: [CustomMeal!]!
+type GetCustomRecipesResponse {
+  data: [CustomRecipe!]!
   meta: Meta!
 }
 
@@ -320,6 +305,11 @@ input GetFoodsDto {
 type GetFoodsResponse {
   data: [Food!]!
   meta: Meta!
+}
+
+input GetProgramDto {
+  professional: String!
+  program: String!
 }
 
 input GetProgramTagsDto {
@@ -410,21 +400,21 @@ input ManageProgramTagDto {
   programTag: String!
 }
 
-type Meal {
-  _id: ID!
-  ingredients: [Ingredient!]!
-  macros: Macros!
-  position: Float!
-  recipe: String!
-  recipeName: String!
-  tagFood: String!
-}
-
 input MealInput {
   ingredients: [IngredientsInput!]!
   macros: MacrosInput!
   recipe: String!
   recipeName: String!
+}
+
+type MealPlan {
+  _id: ID!
+  cookingInstruction: String!
+  ingredients: [Ingredient!]!
+  macros: Macros!
+  position: Float!
+  recipeName: String!
+  tagFood: String!
 }
 
 type Meta {
@@ -440,14 +430,14 @@ type Mutation {
   createClient(input: CreateClientDto!): CreateClientResponse!
   createClientGroup(input: CreateClientGroupDto!): ClientGroup!
   createClientPlan(input: CreateClientPlanDto!): ClientPlan!
-  createCustomMeal(input: CreateCustomMealDto!): CustomMeal!
+  createCustomRecipe(input: CreateCustomRecipeDto!): CustomRecipe!
   createPlanMeal(input: AddPlanMealDto!): Program!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteClientGroup(input: DeleteClientGroupDto!): ClientGroup!
   deleteClientPlan(input: DeleteClientPlanDto!): ClientPlan!
   deleteClientPlanComment(input: DeleteClientPlanCommentDto!): ClientPlan!
-  deleteCustomMeal(input: DeleteCustomMealDto!): CustomMeal!
+  deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deletePlanMeal(input: DeletePlanMealDto!): Program!
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
@@ -462,7 +452,7 @@ type Mutation {
   updateClientPlan(input: UpdateClientPlanDto!): ClientPlan!
   updateClientPlanComment(input: UpdateClientPlanCommentDto!): ClientPlan!
   updateClientPlanDate(input: UpdateClientPlanDateDto!): ClientPlan!
-  updateCustomMeal(input: UpdateCustomMealDto!): CustomMeal!
+  updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updatePassword(input: UpdatePasswordDto!): User!
   updatePlanMeal(input: UpdateMealDto!): Program!
   updateProgram(input: UpdateProgramDto!): Program!
@@ -483,15 +473,14 @@ type Plan {
   _id: ID!
   day: Float!
   isDeleted: Boolean!
-  planMeals: [Meal!]!
+  mealPlans: [MealPlan!]!
   title: String!
   week: Float!
 }
 
 type Program {
   _id: ID!
-  clients: [String!]!
-  createdAt: DateTime!
+  clients: [Client!]!
   description: String!
   name: String!
   plans: [Plan!]!
@@ -501,7 +490,6 @@ type Program {
 
 type ProgramTag {
   _id: ID!
-  createdAt: DateTime!
   isDeleted: String!
   professional: ID!
   title: String!
@@ -512,9 +500,10 @@ type Query {
   getClientGroups(input: GetClientGroupsDto!): [ClientGroup!]!
   getClientPlans(input: GetClientPlansDto!): [ClientPlan!]!
   getClients(input: GetClientsDto!): GetClientsResponse!
-  getCustomMeal(input: GetCustomMealDto!): CustomMeal!
-  getCustomMeals(input: GetCustomMealsDto!): GetCustomMealsResponse!
+  getCustomRecipe(input: GetCustomRecipeDto!): CustomRecipe!
+  getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
+  getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
   sayHello: String!
@@ -568,16 +557,13 @@ input UpdateClientPlanDto {
   title: String
 }
 
-input UpdateCustomMealDto {
-  customMeal: String!
+input UpdateCustomRecipeDto {
+  cookingInstruction: String!
+  customRecipe: String!
   ingredients: [IngredientInput!]!
+  macros: MacrosInput!
   name: String!
   professional: String!
-  recipe: String!
-  totalCalories: Float!
-  totalCarbs: Float!
-  totalFat: Float!
-  totalProtein: Float!
 }
 
 input UpdateMealDto {
@@ -630,7 +616,6 @@ type User {
   client: String!
   country: String!
   countryCode: String!
-  createdAt: DateTime!
   email: String!
   firstName: String!
   isDarkMode: Boolean!

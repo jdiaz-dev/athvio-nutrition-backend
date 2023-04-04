@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsString } from 'class-validator';
+import { IsMongoId, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class CreateProgramDto {
@@ -12,6 +12,7 @@ export class CreateProgramDto {
   name: string;
 
   @Field()
+  @IsOptional()
   @IsString()
   description: string;
 }

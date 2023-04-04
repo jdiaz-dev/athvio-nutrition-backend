@@ -13,7 +13,6 @@ import { ProfessionalsModule } from './modules/professionals/professionals/profe
 import { ProgramsModule } from './modules/professionals/programs/programs.module';
 import { ProgramTagsModule } from './modules/professionals/program-tags/program-tags.module';
 import { ClientGroupsModule } from './modules/professionals/client-groups/client-groups.module';
-import { CustomMealsModule } from './modules/professionals/custom-meals/custom-meals.module';
 import { ClientsModule } from './modules/clients/clients/clients.module';
 import { CaloriesModule } from './modules/clients/calories/calories.module';
 import { ClientPlansModule } from './modules/clients/client-plans/plans.module';
@@ -23,6 +22,7 @@ import { SecurityModule } from './modules/security/security/security.module';
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/security/users/users.module';
 import { FoodsModule } from 'src/modules/foods/foods.module';
+import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/custom-recipes.module';
 
 @Module({
   imports: [
@@ -84,7 +84,7 @@ import { FoodsModule } from 'src/modules/foods/foods.module';
     ProgramsModule,
     ProgramTagsModule,
     ClientGroupsModule,
-    CustomMealsModule,
+    CustomRecipesModule,
     ClientsModule,
     CaloriesModule,
     ClientPlansModule,
@@ -107,6 +107,5 @@ export class AppModule {}
     - update basic information of client (professional and client views)
     - update some information of client (from professional view)
 
-    - update foreingKeys on schemas without use Id prefix
 
 */

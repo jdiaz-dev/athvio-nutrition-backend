@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { Meal, MealSchema } from 'src/shared/models/meal';
+import { MealPlan, MealPlanSchema } from 'src/shared/models/meal-plan';
 import { PlanState } from 'src/shared/enums/project';
 
 @ObjectType()
@@ -56,9 +56,9 @@ export class ClientPlan extends BaseSchema {
   @Prop({ type: Date, required: true })
   assignedDate!: Date;
 
-  @Field(() => [Meal])
-  @Prop({ type: [MealSchema], required: true, default: [] })
-  planMeals!: Meal[];
+  @Field(() => [MealPlan])
+  @Prop({ type: [MealPlanSchema], required: true, default: [] })
+  mealPlans!: MealPlan[];
 
   // planWorkouts!: any[];
 

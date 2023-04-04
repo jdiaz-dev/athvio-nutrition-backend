@@ -7,10 +7,6 @@ import { Ingredient, IngredientSchema } from 'src/shared/models/ingredient';
 export class Macros {
   @Field()
   @Prop({ type: Number, required: true })
-  calories!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
   protein!: number;
 
   @Field()
@@ -20,18 +16,22 @@ export class Macros {
   @Field()
   @Prop({ type: Number, required: true })
   fat!: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
+  calories!: number;
 }
-const MacroSchema = SchemaFactory.createForClass(Macros);
+export const MacroSchema = SchemaFactory.createForClass(Macros);
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
-export class Meal {
+export class MealPlan {
   @Field(() => ID)
   _id!: string;
 
   @Field()
   @Prop({ type: String, required: false })
-  tagFood: string; //I don't remember the use case
+  tagFood: string; //I don't remember the use case, I believe that the use case is to use as breakfast, luch or dinner,
 
   @Field()
   @Prop({ type: Number, required: false })
@@ -47,7 +47,7 @@ export class Meal {
 
   @Field()
   @Prop({ type: String, required: true })
-  recipe: string;
+  cookingInstruction: string;
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted: boolean;
@@ -56,4 +56,4 @@ export class Meal {
   @Prop({ type: MacroSchema, required: true })
   macros: Macros;
 }
-export const MealSchema = SchemaFactory.createForClass(Meal);
+export const MealPlanSchema = SchemaFactory.createForClass(MealPlan);

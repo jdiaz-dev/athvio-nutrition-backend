@@ -38,12 +38,11 @@ export class ProgramsPersistenceService {
       selectors,
     );
 
-    // console.log('-------program', program);
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     return programRes;
   }
   async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Object): Promise<GetProgramsResponse> {
-    const customMeals = await this.programModel.aggregate([
+    const programs = await this.programModel.aggregate([
       {
         $match: {
           professional: new Types.ObjectId(professional),
@@ -97,11 +96,10 @@ export class ProgramsPersistenceService {
         },
       },
     ]);
-    console.log('---------customMeals', customMeals);
     const res: GetProgramsResponse = {
-      data: customMeals[0].data,
+      data: programs[0].data,
       meta: {
-        total: customMeals[0].total ? customMeals[0].total : 0,
+        total: programs[0].total ? programs[0].total : 0,
         limit: rest.limit,
         offset: rest.offset,
       },
@@ -109,22 +107,6 @@ export class ProgramsPersistenceService {
 
     return res;
 
-    /* const programs = await this.programModel
-      .find(
-        {
-          professional,
-          isDeleted: false,
-        },
-        {},
-        {
-          limit: rest.limit,
-          skip: rest.offset,
-          sort: rest.orderBy,
-        },
-      )
-      .populate('tags');
-    selectors;
-    return programs; */
   }
   async updateProgram({ professional, program, ...rest }: UpdateProgramDto): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
