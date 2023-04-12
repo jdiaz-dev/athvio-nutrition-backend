@@ -39,7 +39,7 @@ export class MealPlan {
 
   @Field()
   @Prop({ type: String, required: true })
-  recipeName: string;
+  name: string;
 
   @Field(() => [Ingredient])
   @Prop({ type: [IngredientSchema], required: true })
@@ -49,11 +49,11 @@ export class MealPlan {
   @Prop({ type: String, required: true })
   cookingInstruction: string;
 
-  @Prop({ type: Boolean, required: true, default: false })
-  isDeleted: boolean;
-
   @Field()
   @Prop({ type: MacroSchema, required: true })
   macros: Macros;
+
+  @Prop({ type: Boolean, required: true, default: false })
+  isDeleted: boolean;
 }
 export const MealPlanSchema = SchemaFactory.createForClass(MealPlan);

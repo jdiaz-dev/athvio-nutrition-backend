@@ -1,5 +1,5 @@
 const Ingredient = {
-    ingredientName!: string;
+    name!: string;
     amount!: number;
     unit!: string;
     protein!: number;
@@ -39,7 +39,7 @@ const MealPlan = {
 }
 const Plan = {
     _id!: string;
-    title!: string;
+    title!: string;  // fix : make optional
     week!: number;
     day!: number;
     mealPlans!: MealPlan[]; //rename to recipes
@@ -51,11 +51,47 @@ const Program = {
   professional!: string;
   name!: string;
   description!: string;
-  programTags: String[];
+  programTags: ProgramTags[];
   plans!: Plan[];
-  clients: string[];
+  clients: Client[];
   isDeleted!: string;
 }
+
+
+//--------for redux
+const _Program = {
+  _id!: string;
+  professional!: string;
+  name!: string;
+  description!: string;
+  programTags: ProgramTags[];
+  plans!: {
+    byId:{
+      plan1: {
+        _id!: string;
+        title!: string;
+        week!: number;
+        day!: number;
+        mealPlans: [mealPlan1, mealPlan2, mealPlan3]
+      },
+      plan2: {
+        _id!: string;
+        title!: string;
+        week!: number;
+        day!: number;
+        mealPlans: [mealPlan4, mealPlan5, mealPlan6]
+      }
+    },
+    allIds: [plan1, plan2]
+  },
+  mealPlans: {
+
+  }
+
+  clients: Client[];
+}
+
+
 
 //--------------------------------------------------------------------------------
 const ClientPlan = {

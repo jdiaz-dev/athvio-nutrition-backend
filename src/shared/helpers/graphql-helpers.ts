@@ -63,11 +63,13 @@ export function selectorExtractorForAggregation() {
   ];
 }
 
-export const removeFieldFromAgregationSelectors = (selectors: any, fieldName: string) => {
+export const removeFieldsFromAgregationSelectors = (selectors: any, fieldName: string[]) => {
   let _selectors = { ...selectors };
   for (let x in _selectors) {
-    if (x.includes(fieldName)) {
-      delete _selectors[x];
+    for(let y of fieldName) {
+      if (x.includes(y)) {
+        delete _selectors[x];
+      }
     }
   }
   return _selectors;

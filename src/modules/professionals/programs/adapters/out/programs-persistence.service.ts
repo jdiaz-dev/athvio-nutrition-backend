@@ -15,6 +15,7 @@ import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { ManageProgramTags } from 'src/shared/enums/project';
+import { removeFieldsFromAgregationSelectors } from 'src/shared/helpers/graphql-helpers';
 
 @Injectable()
 export class ProgramsPersistenceService {
@@ -28,18 +29,32 @@ export class ProgramsPersistenceService {
     return programRes;
   }
 
-  async getProgram({ professional, ...rest }: GetProgramDto, selectors: string[]): Promise<Program> {
-    const programRes = await this.programModel.findOne(
+  async getProgram({ professional, program }: GetProgramDto, selectors: Object): Promise<Program> {
+    const restFields = removeFieldsFromAgregationSelectors(selectors, ['plans']);
+    const programRes = await this.programModel.aggregate([
       {
-        professional,
-        _id: rest.program,
-        isDeleted: false,
+        $match: {
+          _id: new Types.ObjectId(program),
+          professional: new Types.ObjectId(professional),
+          isDeleted: false,
+        },
       },
-      selectors,
-    );
+      {
+        $project: {
+          ...restFields,
+          plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
+        },
+      },
+      {
+        $project: {
+          ...restFields,
+          plans: { $sortArray: { input: '$plans', sortBy: { day: 1 } } },
+        },
+      },
+    ]);
 
-    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-    return programRes;
+    if (programRes[0] == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    return programRes[0];
   }
   async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Object): Promise<GetProgramsResponse> {
     const programs = await this.programModel.aggregate([
@@ -106,7 +121,6 @@ export class ProgramsPersistenceService {
     };
 
     return res;
-
   }
   async updateProgram({ professional, program, ...rest }: UpdateProgramDto): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
@@ -125,14 +139,10 @@ export class ProgramsPersistenceService {
         ? { $push: { programTags: rest.programTag } }
         : { $pull: { programTags: rest.programTag } };
 
-    const programRes = await this.programModel.findOneAndUpdate(
-      { _id: program, professional, isDeleted: false },
-      _action,
-      {
-        new: true,
-        populate: 'programTags',
-      },
-    );
+    const programRes = await this.programModel.findOneAndUpdate({ _id: program, professional, isDeleted: false }, _action, {
+      new: true,
+      populate: 'programTags',
+    });
 
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 

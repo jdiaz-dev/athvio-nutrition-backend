@@ -52,13 +52,23 @@ export class ClientPlan extends BaseSchema {
   @Prop({ type: String, required: false })
   title!: string;
 
-  @Field(() => ID)
+  @Field(() => Date)
   @Prop({ type: Date, required: true })
   assignedDate!: Date;
 
   @Field(() => [MealPlan])
   @Prop({ type: [MealPlanSchema], required: true, default: [] })
   mealPlans!: MealPlan[];
+  /*
+    after extends from MealPlan, add the next properties
+    userInteraction:{
+      isAccomplish: boolean
+      likeStatus: boolean,
+      imageLikeStatus: string,
+      comments: Comment[]
+    }
+
+  */
 
   // planWorkouts!: any[];
 

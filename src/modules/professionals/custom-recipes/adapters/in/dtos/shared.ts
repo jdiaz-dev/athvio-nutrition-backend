@@ -5,7 +5,7 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 export class IngredientInput {
   @Field()
   @IsString()
-  ingredientName: string;
+  name: string;
 
   @Field()
   @IsNumber()

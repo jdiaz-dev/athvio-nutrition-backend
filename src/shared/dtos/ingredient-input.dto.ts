@@ -9,9 +9,25 @@ export class IngredientsInput {
 
   @Field()
   @IsString()
-  ingredientName: string;
+  name: string;
 
   @Field()
   @IsString()
   unit: string;
+
+  @Field()
+  @IsNumber()
+  protein: number;
+
+  @Field()
+  @IsNumber()
+  fat: number;
+
+  @Field()
+  @IsNumber()
+  carbs: number;
+
+  @Field()
+  @IsNumber()
+  calories: number;
 }

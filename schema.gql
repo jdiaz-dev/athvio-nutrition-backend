@@ -9,20 +9,16 @@ input AddClientPlanCommentDto {
   message: String!
 }
 
-input AddPlanMealDto {
-  ingredients: [IngredientsInput!]!
-  macros: MacrosInput!
+input AddMealPlanDto {
+  mealPlanBody: MealBodyInput!
   plan: String!
-  position: Float!
   professional: String!
   program: String!
-  recipe: String!
-  recipeName: String!
 }
 
 input AddProgramPlanDto {
   day: Float!
-  planMeals: [MealInput!]
+  mealPlans: [MealBodyInput!]
   professional: String!
   program: String!
   week: Float!
@@ -78,7 +74,7 @@ type ClientGroup {
 
 type ClientPlan {
   _id: ID!
-  assignedDate: ID!
+  assignedDate: DateTime!
   clientId: String!
   commentResult: String!
   comments: [Comment!]!
@@ -127,7 +123,7 @@ input CreateClientGroupDto {
 input CreateClientPlanDto {
   assignedDate: DateTime!
   clientId: String!
-  planMeals: [MealInput!]
+  planMeals: [MealBodyInput!]
   title: String
 }
 
@@ -217,8 +213,8 @@ input DeleteCustomRecipeDto {
   professional: String!
 }
 
-input DeletePlanMealDto {
-  meal: String!
+input DeleteMealPlanDto {
+  mealPlan: String!
   plan: String!
   professional: String!
   program: String!
@@ -334,7 +330,7 @@ type Ingredient {
   calories: Float
   carbs: Float
   fat: Float
-  ingredientName: String!
+  name: String!
   protein: Float
   unit: String!
 }
@@ -344,14 +340,18 @@ input IngredientInput {
   calories: Float
   carbs: Float
   fat: Float
-  ingredientName: String!
+  name: String!
   protein: Float
   unit: String!
 }
 
 input IngredientsInput {
   amount: Float!
-  ingredientName: String!
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  name: String!
+  protein: Float!
   unit: String!
 }
 
@@ -400,11 +400,12 @@ input ManageProgramTagDto {
   programTag: String!
 }
 
-input MealInput {
+input MealBodyInput {
+  cookingInstruction: String!
   ingredients: [IngredientsInput!]!
   macros: MacrosInput!
-  recipe: String!
-  recipeName: String!
+  name: String!
+  position: Float!
 }
 
 type MealPlan {
@@ -412,8 +413,8 @@ type MealPlan {
   cookingInstruction: String!
   ingredients: [Ingredient!]!
   macros: Macros!
+  name: String!
   position: Float!
-  recipeName: String!
   tagFood: String!
 }
 
@@ -431,14 +432,14 @@ type Mutation {
   createClientGroup(input: CreateClientGroupDto!): ClientGroup!
   createClientPlan(input: CreateClientPlanDto!): ClientPlan!
   createCustomRecipe(input: CreateCustomRecipeDto!): CustomRecipe!
-  createPlanMeal(input: AddPlanMealDto!): Program!
+  createMealPlan(input: AddMealPlanDto!): Program!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteClientGroup(input: DeleteClientGroupDto!): ClientGroup!
   deleteClientPlan(input: DeleteClientPlanDto!): ClientPlan!
   deleteClientPlanComment(input: DeleteClientPlanCommentDto!): ClientPlan!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
-  deletePlanMeal(input: DeletePlanMealDto!): Program!
+  deleteMealPlan(input: DeleteMealPlanDto!): Program!
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
@@ -453,8 +454,8 @@ type Mutation {
   updateClientPlanComment(input: UpdateClientPlanCommentDto!): ClientPlan!
   updateClientPlanDate(input: UpdateClientPlanDateDto!): ClientPlan!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
+  updateMealPlan(input: UpdateMealPlanDto!): Program!
   updatePassword(input: UpdatePasswordDto!): User!
-  updatePlanMeal(input: UpdateMealDto!): Program!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramPlan(input: UpdateProgramPlanDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
@@ -553,7 +554,7 @@ input UpdateClientPlanDto {
   assignedDate: DateTime!
   clientId: String!
   clientPlanId: String!
-  planMeals: [MealInput!]
+  planMeals: [MealBodyInput!]
   title: String
 }
 
@@ -566,16 +567,12 @@ input UpdateCustomRecipeDto {
   professional: String!
 }
 
-input UpdateMealDto {
-  ingredients: [IngredientsInput!]!
-  macros: MacrosInput!
-  meal: String!
+input UpdateMealPlanDto {
+  mealPlan: String!
+  mealPlanBody: MealBodyInput!
   plan: String!
-  position: Float!
   professional: String!
   program: String!
-  recipe: String!
-  recipeName: String!
 }
 
 input UpdatePasswordDto {

@@ -5,10 +5,14 @@ import { IngredientsInput } from 'src/shared/dtos/ingredient-input.dto';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
 @InputType()
-export class MealInput {
+export class MealBodyInput {
+  @Field()
+  @IsNumber()
+  position: number;
+
   @Field()
   @IsString()
-  recipeName: string;
+  name: string;
 
   @Field(() => [IngredientsInput])
   @IsArray()
@@ -18,7 +22,7 @@ export class MealInput {
 
   @Field()
   @IsString()
-  recipe: string;
+  cookingInstruction: string;
 
   @Field(() => MacrosInput)
   @ValidateNested()
@@ -26,7 +30,7 @@ export class MealInput {
   macros: MacrosInput;
 }
 @InputType()
-export class AddPlanMealDto extends MealInput {
+export class AddMealPlanDto {
   @Field()
   @IsMongoId()
   professional: string;
@@ -40,6 +44,7 @@ export class AddPlanMealDto extends MealInput {
   plan: string;
 
   @Field()
-  @IsNumber()
-  position: number;
+  @ValidateNested()
+  @Type(() => MealBodyInput)
+  mealPlanBody: MealBodyInput;
 }

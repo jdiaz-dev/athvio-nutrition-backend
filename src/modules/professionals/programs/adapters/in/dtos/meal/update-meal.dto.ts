@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsNumber, IsString } from 'class-validator';
-import { IngredientsInput } from 'src/shared/dtos/ingredient-input.dto';
-import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
+import { IsMongoId, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { MealBodyInput } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-plan-meal.dto';
 
 @InputType()
-export class UpdateMealDto {
+export class UpdateMealPlanDto {
   @Field()
   @IsMongoId()
   professional: string;
@@ -19,23 +19,10 @@ export class UpdateMealDto {
 
   @Field()
   @IsMongoId()
-  meal: string;
+  mealPlan: string;
 
   @Field()
-  @IsNumber()
-  position: number;
-
-  @Field()
-  @IsString()
-  recipeName: string;
-
-  @Field(() => [IngredientsInput])
-  ingredients: [IngredientsInput];
-
-  @Field()
-  @IsString()
-  recipe: string;
-
-  @Field(() => MacrosInput)
-  macros: MacrosInput;
+  @ValidateNested()
+  @Type(() => MealBodyInput)
+  mealPlanBody: MealBodyInput;
 }

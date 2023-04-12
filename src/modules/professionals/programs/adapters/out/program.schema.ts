@@ -13,7 +13,7 @@ export class Plan {
   _id!: string;
 
   @Field()
-  @Prop({ type: String, required: false })
+  @Prop({ type: String, required: true, default: '' })
   title!: string;
 
   @Field()
@@ -56,7 +56,7 @@ export class Program extends BaseSchema {
 
   @Field(() => [ProgramTag])
   @Prop({ type: [String], required: true, default: [], ref: ProgramTag.name })
-  programTags: String[];
+  programTags: ProgramTag[];
 
   @Field(() => [Plan])
   @Prop({ type: [PlanSchema], required: false })
@@ -64,7 +64,7 @@ export class Program extends BaseSchema {
 
   @Field(() => [Client])
   @Prop({ type: [String], required: true, default: [], ref: Client.name })
-  clients: string[];
+  clients: Client[];
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: string;

@@ -29,7 +29,7 @@ export class ProgramsResolver {
   @Query(() => Program)
   async getProgram(
     @Args('input') dto: GetProgramDto,
-    @Info(...selectorExtractor()) selectors: string[],
+    @Info(...selectorExtractorForAggregation()) selectors: Object,
   ): Promise<Program> {
     const program = await this.pps.getProgram(dto, selectors);
     return program;

@@ -7,7 +7,6 @@ db.Users.createIndex({ firstName: 'text' });
 db.Users.dropIndex('firstName_text');
 
 //get clients
-
 db.Clients.aggregate([
   {
     $match: {

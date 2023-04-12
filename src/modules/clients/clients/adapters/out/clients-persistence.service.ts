@@ -12,7 +12,7 @@ import {
   DeleteManyClientGroup,
   UpdateClient,
 } from 'src/modules/clients/clients/adapters/out/client.types';
-import { removeFieldFromAgregationSelectors } from 'src/shared/helpers/graphql-helpers';
+import { removeFieldsFromAgregationSelectors } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
 @Injectable()
@@ -45,7 +45,7 @@ export class ClientsPersistenceService {
   }
   async getClients({ professional, ...dto }: GetClientsDto, selectors: Object): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
-    const restFields = removeFieldFromAgregationSelectors(selectors, 'user');
+    const restFields = removeFieldsFromAgregationSelectors(selectors, ['user']);
     const clients = await this.clientModel.aggregate([
       {
         $match: {
