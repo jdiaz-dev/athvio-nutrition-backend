@@ -1,47 +1,40 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-
-import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
-import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
-import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
+import { AddMealPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal-plan/add-meal-plan.dto';
+import { DeleteMealPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal-plan/delete-meal-plan.dto';
+import { UpdateMealPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal-plan/update-meal-plan.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
-export class MealsPersistenceService {
+export class MealPlansPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addMeal({ professional, program, plan, mealPlan, mealBody }: AddMealDto, selectors: string[]): Promise<Program> {
+  async addMealPlan({ professional, program, plan, mealPlanBody }: AddMealPlanDto, selectors: string[]): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: program, professional },
-      { $push: { 'plans.$[plan].mealPlans.$[mealPlan].meals': { ...mealBody } } },
+      { $push: { 'plans.$[plan].mealPlans': { ...mealPlanBody } } },
       {
-        arrayFilters: [
-          { 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false },
-          { 'mealPlan._id': new Types.ObjectId(mealPlan), 'mealPlan.isDeleted': false },
-        ],
+        arrayFilters: [{ 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false }],
         new: true,
         projection: selectors,
       },
     );
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-
     return programRes;
   }
 
-  async updateMeal(
-    { professional, program, plan, mealPlan, meal, mealBody }: UpdateMealDto,
+  async updateMealPlan(
+    { professional, program, plan, mealPlan, mealPlanBody }: UpdateMealPlanDto,
     selectors: string[],
   ): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: program, professional },
       {
         $set: {
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].name': mealBody.name,
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].ingredients': mealBody.ingredients,
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].cookingInstruction': mealBody.cookingInstruction,
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].macros': mealBody.macros,
+          'plans.$[plan].mealPlans.$[mealPlan].position': mealPlanBody.position,
+          'plans.$[plan].mealPlans.$[mealPlan].mealTag': mealPlanBody.mealTag,
         },
       },
       {
@@ -52,9 +45,6 @@ export class MealsPersistenceService {
           },
           {
             'mealPlan._id': new Types.ObjectId(mealPlan),
-          },
-          {
-            'meal._id': new Types.ObjectId(meal),
           },
         ],
         new: true,
@@ -66,12 +56,12 @@ export class MealsPersistenceService {
     return programRes;
   }
 
-  async deleteMeal({ professional, program, plan, meal, mealPlan }: DeleteMealDto, selectors: string[]): Promise<Program> {
+  async deleteMealPlan({ professional, program, plan, mealPlan }: DeleteMealPlanDto, selectors: string[]): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: program, professional },
       {
         $pull: {
-          'plans.$[plan].mealPlans.$[mealPlan].meals': { _id: new Types.ObjectId(meal) },
+          'plans.$[plan].mealPlans': { _id: new Types.ObjectId(mealPlan) },
         },
       },
       {
@@ -79,10 +69,6 @@ export class MealsPersistenceService {
           {
             'plan._id': new Types.ObjectId(plan),
             'plan.isDeleted': false,
-          },
-          {
-            'mealPlan._id': new Types.ObjectId(mealPlan),
-            'mealPlan.isDeleted': false,
           },
         ],
         new: true,

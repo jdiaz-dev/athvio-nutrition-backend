@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Resolver } from '@nestjs/graphql';
-import { AddMealPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-plan-meal.dto';
-import { DeleteMealPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-plan-meal.dto';
-import { UpdateMealPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
+import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
+import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
+import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
 import { MealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
@@ -15,26 +15,17 @@ export class MealsResolver {
   constructor(private readonly mps: MealsPersistenceService) {}
 
   @Mutation(() => Program)
-  createMealPlan(
-    @Args('input') dto: AddMealPlanDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Program> {
-    return this.mps.addMealPlan(dto, selectors);
+  createMeal(@Args('input') dto: AddMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
+    return this.mps.addMeal(dto, selectors);
   }
 
   @Mutation(() => Program)
-  async updateMealPlan(
-    @Args('input') dto: UpdateMealPlanDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Program> {
-    return this.mps.updateMealPlan(dto, selectors);
+  async updateMeal(@Args('input') dto: UpdateMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
+    return this.mps.updateMeal(dto, selectors);
   }
 
   @Mutation(() => Program)
-  async deleteMealPlan(
-    @Args('input') dto: DeleteMealPlanDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Program> {
-    return this.mps.deleteMealPlan(dto, selectors);
+  async deleteMeal(@Args('input') dto: DeleteMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
+    return this.mps.deleteMeal(dto, selectors);
   }
 }

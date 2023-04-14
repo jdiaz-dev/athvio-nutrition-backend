@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsMongoId, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { MealBodyInput } from 'src/modules/professionals/programs/adapters/in/dtos/meal/meal-body.input';
+import { MealPlanBodyInput } from 'src/modules/professionals/programs/adapters/in/dtos/meal-plan/meal-plan-body.input';
 
 @InputType()
-export class UpdateMealDto {
+export class UpdateMealPlanDto {
   @Field()
   @IsMongoId()
   professional: string;
@@ -22,11 +22,7 @@ export class UpdateMealDto {
   mealPlan: string;
 
   @Field()
-  @IsMongoId()
-  meal: string;
-
-  @Field()
   @ValidateNested()
-  @Type(() => MealBodyInput)
-  mealBody: MealBodyInput;
+  @Type(() => MealPlanBodyInput)
+  mealPlanBody: MealPlanBodyInput;
 }

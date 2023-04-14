@@ -1,6 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
-import { MealBodyInput } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-plan-meal.dto';
 
 @InputType()
 export class UpdateClientPlanDto {
@@ -21,7 +20,7 @@ export class UpdateClientPlanDto {
   @IsString()
   title: string;
 
-  @Field(() => [MealBodyInput], { nullable: true })
+  /*  @Field(() => [MealBodyInput], { nullable: true })
   @IsOptional()
-  planMeals: [MealBodyInput];
+  planMeals: [MealBodyInput]; */
 }
