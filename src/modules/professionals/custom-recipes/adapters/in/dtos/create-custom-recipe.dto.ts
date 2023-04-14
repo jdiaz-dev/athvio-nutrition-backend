@@ -28,7 +28,20 @@ export const IngredientDetailSchema = SchemaFactory.createForClass(IngredientDet
 
 */
 
-export class
+export class IngredientDetail {
+  @Field()
+  type: IngredientType;
+
+  @Field({ nullable: true })
+  customIngredient: Ingredient[];
+
+  @Field({ nullable: true })
+  ingredient: Ingredient;
+
+  @Field(() => [IngredientDetail])
+  //the reason of this type is self nested schema
+  equivalents: IngredientDetail[];
+}
 
 @InputType()
 export class CreateCustomRecipeDto {
@@ -44,7 +57,7 @@ export class CreateCustomRecipeDto {
   @IsArray()
   @ValidateNested()
   @IsOptional()
-  ingredients: IngredientInput[];
+  ingredientDetail: IngredientDetail;
 
   @Field()
   @IsString()
