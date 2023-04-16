@@ -110,4 +110,5 @@ export class AppModule {}
     - fix creaateAt and updatedAt, it is not creating in sub documents of programs
     - implement equivalent ingredients
 
+    - ValidateIf is not working (EquivalentInputs InputType)
 */

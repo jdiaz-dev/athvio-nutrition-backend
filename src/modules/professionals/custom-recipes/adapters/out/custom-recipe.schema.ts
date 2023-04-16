@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { Ingredient, IngredientSchema } from 'src/shared/models/ingredient';
 import { IngredientDetail, IngredientDetailSchema, Macros, MacroSchema } from 'src/shared/models/meal-plan';
 
 @ObjectType()
@@ -11,7 +10,7 @@ export class CustomRecipe extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
-  @Field(() => ID)
+  @Field(() => String)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
   professional!: string;
 
@@ -19,13 +18,13 @@ export class CustomRecipe extends BaseSchema {
   @Prop({ type: String, required: true })
   name!: string;
 
-  @Field(() => IngredientDetail)
-  @Prop({ type: IngredientDetailSchema, required: true })
-  ingredientDetail: IngredientDetail;
+  @Field(() => [IngredientDetail])
+  @Prop({ type: [IngredientDetailSchema], required: true })
+  ingredientDetails: IngredientDetail[];
 
   @Field()
   @Prop({ type: String, required: false })
-  cookingInstruction!: string;
+  cookingInstructions!: string;
 
   @Field()
   @Prop({ type: MacroSchema, required: true })

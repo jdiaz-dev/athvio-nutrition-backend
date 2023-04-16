@@ -47,13 +47,13 @@ export enum UserType {
   CLIENT = 'client',
 }
 
-export enum IngredientType {
-  CUSTOM_INGREDIENT = 'custom ingredient',
-  UNIQUE_INGREDIENT = 'unique ingredient',
-}
-
 export enum Pagination {
   DATA = 'data',
   TOTAL = 'total',
   META = 'meta',
+}
+
+export enum IngredientType {
+  CUSTOM_INGREDIENT = 'custom ingredient',
+  UNIQUE_INGREDIENT = 'unique ingredient',
 }

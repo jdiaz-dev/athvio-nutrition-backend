@@ -150,8 +150,8 @@ type CreateClientResponse {
 }
 
 input CreateCustomRecipeDto {
-  cookingInstruction: String!
-  ingredients: [IngredientInput!]!
+  cookingInstructions: String!
+  ingredientDetails: [IngredientDetailInput!]!
   macros: MacrosInput!
   name: String!
   professional: String!
@@ -184,13 +184,24 @@ type CreateUserInfoResponse {
   lastName: String!
 }
 
+type CustomIngredient {
+  ingredients: [Ingredient!]
+  name: String!
+}
+
+input CustomIngredientInput {
+  ingredients: [IngredientInput!]
+  name: String!
+}
+
 type CustomRecipe {
   _id: ID!
-  cookingInstruction: String!
-  ingredients: [Ingredient!]!
+  cookingInstructions: String!
+  ingredientDetails: [IngredientDetail!]!
+  ingredients: [IngredientDetail!]!
   macros: Macros!
   name: String!
-  professional: ID!
+  professional: String!
 }
 
 """
@@ -248,6 +259,18 @@ input DeleteProgramPlanDto {
 input DeleteProgramTagDto {
   professional: String!
   programTag: String!
+}
+
+type Equivalent {
+  customIngredient: CustomIngredient
+  ingredient: Ingredient
+  ingredientType: IngredientType!
+}
+
+input EquivalentsInput {
+  customIngredient: CustomIngredientInput
+  ingredient: IngredientInput
+  ingredientType: String!
 }
 
 type Food {
@@ -349,17 +372,21 @@ type Ingredient {
   unit: String!
 }
 
-input IngredientInput {
-  amount: Float!
-  calories: Float
-  carbs: Float
-  fat: Float
-  name: String!
-  protein: Float
-  unit: String!
+type IngredientDetail {
+  customIngredient: CustomIngredient
+  equivalents: [Equivalent!]!
+  ingredient: Ingredient
+  ingredientType: IngredientType!
 }
 
-input IngredientsInput {
+input IngredientDetailInput {
+  customIngredient: CustomIngredientInput
+  equivalents: [EquivalentsInput!]!
+  ingredient: IngredientInput
+  ingredientType: String!
+}
+
+input IngredientInput {
   amount: Float!
   calories: Float!
   carbs: Float!
@@ -367,6 +394,11 @@ input IngredientsInput {
   name: String!
   protein: Float!
   unit: String!
+}
+
+enum IngredientType {
+  CUSTOM_INGREDIENT
+  UNIQUE_INGREDIENT
 }
 
 type JwtDto {
@@ -417,14 +449,14 @@ input ManageProgramTagDto {
 type Meal {
   _id: ID!
   cookingInstruction: String!
-  ingredients: [Ingredient!]!
+  ingredientDetail: [IngredientDetail!]!
   macros: Macros!
   name: String!
 }
 
 input MealBodyInput {
   cookingInstruction: String!
-  ingredients: [IngredientsInput!]!
+  ingredientDetail: IngredientDetailInput!
   macros: MacrosInput!
   name: String!
 }
@@ -585,9 +617,9 @@ input UpdateClientPlanDto {
 }
 
 input UpdateCustomRecipeDto {
-  cookingInstruction: String!
+  cookingInstructions: String!
   customRecipe: String!
-  ingredients: [IngredientInput!]!
+  ingredientDetails: [IngredientDetailInput!]!
   macros: MacrosInput!
   name: String!
   professional: String!

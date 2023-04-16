@@ -1,47 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsArray, IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { IngredientInput } from 'src/modules/professionals/custom-recipes/adapters/in/dtos/shared';
+import { IngredientDetailInput } from 'src/shared/dtos/ingredient-detail-input';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
-
-/*
-@ObjectType()
-@Schema({ _id: false })
-export class IngredientDetail {
-  @Field()
-  @Prop({ type: String, enum: IngredientType, required: true })
-  type: IngredientType;
-
-  @Field({ nullable: true })
-  @Prop({ type: [IngredientSchema], required: false })
-  customIngredient: Ingredient[];
-
-  @Field({ nullable: true })
-  @Prop({ type: IngredientSchema, required: false })
-  ingredient: Ingredient;
-
-  @Field(() => [IngredientDetail])
-  //the reason of this type is self nested schema
-  @Prop({ type: [SchemaFactory.createForClass(IngredientDetail)], required: true, default: [] })
-  equivalents: IngredientDetail[];
-}
-export const IngredientDetailSchema = SchemaFactory.createForClass(IngredientDetail);
-
-*/
-
-export class IngredientDetail {
-  @Field()
-  type: IngredientType;
-
-  @Field({ nullable: true })
-  customIngredient: Ingredient[];
-
-  @Field({ nullable: true })
-  ingredient: Ingredient;
-
-  @Field(() => [IngredientDetail])
-  //the reason of this type is self nested schema
-  equivalents: IngredientDetail[];
-}
 
 @InputType()
 export class CreateCustomRecipeDto {
@@ -53,16 +13,15 @@ export class CreateCustomRecipeDto {
   @IsString()
   name: string;
 
-  @Field(() => [IngredientInput], { nullable: false })
+  @Field(() => [IngredientDetailInput], { nullable: false })
   @IsArray()
   @ValidateNested()
-  @IsOptional()
-  ingredientDetail: IngredientDetail;
+  ingredientDetails: IngredientDetailInput[];
 
   @Field()
   @IsString()
   @IsOptional()
-  cookingInstruction: string;
+  cookingInstructions: string;
 
   @Field(() => MacrosInput)
   macros: MacrosInput;

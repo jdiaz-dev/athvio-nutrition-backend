@@ -2,10 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import {
-  CustomRecipe,
-  CustomRecipeDocument,
-} from 'src/modules/professionals/custom-recipes/adapters/out/custom-recipe.schema';
+import { CustomRecipe, CustomRecipeDocument } from 'src/modules/professionals/custom-recipes/adapters/out/custom-recipe.schema';
 import {
   GetCustomRecipesDto,
   GetCustomRecipesResponse,
@@ -28,7 +25,7 @@ export class CustomRecipesPersistenceService {
     return customRecipe;
   }
   async getCustomRecipe({ professional, ...rest }: GetCustomRecipeDto, selectors: any[]): Promise<CustomRecipe> {
-    const customRecipe = await this.customRecipeModel.findOne(
+    const customRecipeRes = await this.customRecipeModel.findOne(
       {
         _id: rest.customRecipe,
         professional,
@@ -36,14 +33,11 @@ export class CustomRecipesPersistenceService {
       },
       selectors,
     );
-    if (customRecipe == null) throw new BadRequestException(ErrorCustomRecipeEnum.CUSTOM_RECIPE_NOT_FOUND);
+    if (customRecipeRes === null) throw new BadRequestException(ErrorCustomRecipeEnum.CUSTOM_RECIPE_NOT_FOUND);
 
-    return customRecipe;
+    return customRecipeRes;
   }
-  async getCustomRecipes(
-    { professional, ...rest }: GetCustomRecipesDto,
-    selectors: Object,
-  ): Promise<GetCustomRecipesResponse> {
+  async getCustomRecipes({ professional, ...rest }: GetCustomRecipesDto, selectors: Object): Promise<GetCustomRecipesResponse> {
     const customRecipes = await this.customRecipeModel.aggregate([
       {
         $match: {
@@ -93,12 +87,12 @@ export class CustomRecipesPersistenceService {
       { new: true },
     );
 
-    if (customRecipe == null) throw new BadRequestException(ErrorCustomRecipeEnum.CUSTOM_RECIPE_NOT_FOUND);
+    if (customRecipeRes === null) throw new BadRequestException(ErrorCustomRecipeEnum.CUSTOM_RECIPE_NOT_FOUND);
     return customRecipeRes;
   }
 
   async deleteCustomRecipe({ professional, ...rest }: DeleteCustomRecipeDto): Promise<CustomRecipe> {
-    const customRecipe = await this.customRecipeModel.findOneAndUpdate(
+    const customRecipeRes = await this.customRecipeModel.findOneAndUpdate(
       {
         _id: rest.customRecipe,
         professional: professional,
@@ -112,8 +106,8 @@ export class CustomRecipesPersistenceService {
       },
     );
 
-    if (customRecipe == null) throw new BadRequestException(ErrorCustomRecipeEnum.CUSTOM_RECIPE_NOT_FOUND);
+    if (customRecipeRes === null) throw new BadRequestException(ErrorCustomRecipeEnum.CUSTOM_RECIPE_NOT_FOUND);
 
-    return customRecipe;
+    return customRecipeRes;
   }
 }

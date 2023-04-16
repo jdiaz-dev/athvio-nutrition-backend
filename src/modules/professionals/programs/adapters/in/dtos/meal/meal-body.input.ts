@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
-import { IngredientsInput } from 'src/shared/dtos/ingredient-input.dto';
+import { IngredientDetailInput } from 'src/shared/dtos/ingredient-detail-input';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
 @InputType()
@@ -10,11 +10,10 @@ export class MealBodyInput {
   @IsString()
   name: string;
 
-  @Field(() => [IngredientsInput])
+  @Field(() => IngredientDetailInput, { nullable: false })
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => IngredientsInput)
-  ingredients: [IngredientsInput];
+  @ValidateNested()
+  ingredientDetail: IngredientDetailInput;
 
   @Field()
   @IsString()

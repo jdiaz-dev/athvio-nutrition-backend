@@ -39,7 +39,7 @@ export class MealsPersistenceService {
       {
         $set: {
           'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].name': mealBody.name,
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].ingredients': mealBody.ingredients,
+          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].ingredients': mealBody.ingredientDetail,
           'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].cookingInstruction': mealBody.cookingInstruction,
           'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].macros': mealBody.macros,
         },
