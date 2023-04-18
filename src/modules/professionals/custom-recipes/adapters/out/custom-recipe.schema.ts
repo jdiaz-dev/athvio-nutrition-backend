@@ -27,6 +27,10 @@ export class CustomRecipe extends BaseSchema {
   cookingInstructions!: string;
 
   @Field()
+  @Prop({ type: Number, required: true })
+  totalWeight: number;
+
+  @Field()
   @Prop({ type: MacroSchema, required: true })
   macros: Macros;
 

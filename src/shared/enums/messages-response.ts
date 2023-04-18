@@ -39,3 +39,7 @@ export enum ErrorCaloryEnum {
 export enum AuthorizationMessages {
   NOT_AUTHORIZED = 'You are not authorized',
 }
+
+export enum ErrorFoodsProvider {
+  FOOD_PARSER = 'An error has happened at moment to get food parser',
+}

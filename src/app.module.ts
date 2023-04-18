@@ -112,3 +112,21 @@ export class AppModule {}
 
     - ValidateIf is not working (EquivalentInputs InputType)
 */
+
+
+/*
+  ---------measure labels [
+  'Tablespoon', 'Cup',
+  'Stick',      'Gram',
+  'Ounce',      'Pound',
+  'Pat',        'Serving',
+  undefined,    undefined,
+  undefined,    'Slice',
+  'Wedge',      'Piece',
+  'Round',      'Cubic inch',
+  'Package',    'Block',
+  'Chip',       'Slab',
+  'Cube'
+]
+
+*/
