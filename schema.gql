@@ -155,6 +155,7 @@ input CreateCustomRecipeDto {
   macros: MacrosInput!
   name: String!
   professional: String!
+  totalWeight: Float!
 }
 
 input CreateProfesionalInfoDto {
@@ -209,6 +210,11 @@ type CustomRecipe {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type DefaultMeasure {
+  amount: Float!
+  unit: String!
+}
 
 input DeleteClientGroupDto {
   clientGroup: String!
@@ -275,11 +281,20 @@ input EquivalentsInput {
 }
 
 type Food {
-  defaultMeasure: String!
+  defaultMeasure: DefaultMeasure!
   foodId: String
   macros: Macros!
   measures: [Measure!]
   name: String!
+}
+
+input GetAutocompleteFoodNamesDto {
+  professional: String!
+  search: String!
+}
+
+type GetAutocompleteFoodNamesResponse {
+  foodNames: [String!]!
 }
 
 input GetCaloryDto {
@@ -335,7 +350,7 @@ input GetFoodsDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
-  search: [String!] = []
+  search: [String!] = [""]
 }
 
 type GetFoodsResponse {
@@ -400,7 +415,10 @@ input IngredientInput {
 }
 
 enum IngredientType {
+  """custom ingredient"""
   CUSTOM_INGREDIENT
+
+  """unique ingredient"""
   UNIQUE_INGREDIENT
 }
 
@@ -565,6 +583,7 @@ type ProgramTag {
 }
 
 type Query {
+  getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getClientGroups(input: GetClientGroupsDto!): [ClientGroup!]!
   getClientPlans(input: GetClientPlansDto!): [ClientPlan!]!
@@ -632,6 +651,7 @@ input UpdateCustomRecipeDto {
   macros: MacrosInput!
   name: String!
   professional: String!
+  totalWeight: Float!
 }
 
 input UpdateMealDto {

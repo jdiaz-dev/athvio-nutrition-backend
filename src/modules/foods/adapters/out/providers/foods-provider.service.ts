@@ -6,18 +6,27 @@ import { HttpWrapperService } from 'src/shared/services/http-wrapper.service';
 
 @Injectable()
 export class FoodsProviderService {
-  constructor(private http: HttpWrapperService, private configService: ConfigService) {}
+  private readonly baseUrl: string;
+  private readonly appId: string;
+  private readonly key: string;
 
-  async getFoods(foodText: string): Promise<FoodParsedResponse> {
-    const baseUrl = this.configService.get('foodProvider.foodApi.edamamFoodParserUrl');
+  constructor(private http: HttpWrapperService, private configService: ConfigService) {
+    this.baseUrl = this.configService.get('foodProvider.foodApi.edamamFoodParserUrl');
+    this.appId = this.configService.get('foodProvider.foodApi.edamamFoodAppId');
+    this.key = this.configService.get('foodProvider.foodApi.edamamFoodKey');
+  }
+
+  async getFoods(ingredientsText: string): Promise<FoodParsedResponse> {
     const parserDomain = '/api/food-database/v2/parser';
-    const appId = this.configService.get('foodProvider.foodApi.edamamFoodAppId');
-    const key = this.configService.get('foodProvider.foodApi.edamamFoodKey');
-
-    const url = `${baseUrl}${parserDomain}?app_id=${appId}&app_key=${key}&ingr=${foodText}`;
+    const url = `${this.baseUrl}${parserDomain}?app_id=${this.appId}&app_key=${this.key}&ingr=${ingredientsText}`;
 
     const res = await this.http.get<FoodParsedResponse>(url, ErrorFoodsProvider.FOOD_PARSER);
     return res;
   }
-  autoCompleteText() {}
+  async autoCompleteText(foodText: string): Promise<string[]> {
+    const autoCompleteDomain = '/auto-complete';
+    const url = `${this.baseUrl}${autoCompleteDomain}?app_id=${this.appId}&app_key=${this.key}&q=${foodText}`;
+    const res = await this.http.get<string[]>(url, ErrorFoodsProvider.FOOD_AUTOCOMPLETE);
+    return res;
+  }
 }

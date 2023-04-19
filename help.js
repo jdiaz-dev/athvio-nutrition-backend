@@ -67,3 +67,7 @@ const getFood = async () => {
   console.log(end - start);
 };
 getFood();
+
+const arr = ['uno', 'dos', 'tres'];
+const res = arr.join(' ');
+console.log('---res', res);

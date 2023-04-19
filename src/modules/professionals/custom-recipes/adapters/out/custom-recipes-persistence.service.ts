@@ -38,6 +38,7 @@ export class CustomRecipesPersistenceService {
     return customRecipeRes;
   }
   async getCustomRecipes({ professional, ...rest }: GetCustomRecipesDto, selectors: Object): Promise<GetCustomRecipesResponse> {
+    console.log('----------selectors', selectors);
     const customRecipes = await this.customRecipeModel.aggregate([
       {
         $match: {

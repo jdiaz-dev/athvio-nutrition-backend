@@ -18,5 +18,6 @@ const services = [CustomRecipesPersistenceService, CustomRecipesManagementServic
     UsersModule,
   ],
   providers: [...resolvers, ...services],
+  exports: [CustomRecipesPersistenceService],
 })
 export class CustomRecipesModule {}

@@ -54,6 +54,6 @@ export enum Pagination {
 }
 
 export enum IngredientType {
-  CUSTOM_INGREDIENT = 'custom ingredient',
-  UNIQUE_INGREDIENT = 'unique ingredient',
+  CUSTOM_INGREDIENT = 'CUSTOM_INGREDIENT',
+  UNIQUE_INGREDIENT = 'UNIQUE_INGREDIENT',
 }

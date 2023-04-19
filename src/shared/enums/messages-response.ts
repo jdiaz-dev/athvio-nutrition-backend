@@ -42,4 +42,5 @@ export enum AuthorizationMessages {
 
 export enum ErrorFoodsProvider {
   FOOD_PARSER = 'An error has happened at moment to get food parser',
+  FOOD_AUTOCOMPLETE = 'An error has happened at moment to get food autocomplete',
 }

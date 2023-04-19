@@ -1,4 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { IsArray, IsOptional } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
 import { Macros } from 'src/shared/models/meal-plan';
@@ -16,6 +17,15 @@ class Measure {
 }
 
 @ObjectType()
+class DefaultMeasure {
+  @Field()
+  amount: number;
+
+  @Field()
+  unit: string;
+}
+
+@ObjectType()
 export class Food {
   @Field()
   name: string;
@@ -23,8 +33,8 @@ export class Food {
   @Field(() => Macros)
   macros: Macros;
 
-  @Field()
-  defaultMeasure: string;
+  @Field(() => DefaultMeasure)
+  defaultMeasure: DefaultMeasure;
 
   @Field({ nullable: true })
   foodId?: string;
@@ -34,7 +44,14 @@ export class Food {
 }
 
 @InputType()
-export class GetFoodsDto extends GetRecordsBaseDto {}
+export class GetFoodsDto extends GetRecordsBaseDto {
+  professional: string;
+
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  search: string[] = [''];
+}
 
 @ObjectType()
 export class GetFoodsResponse extends GetRecordsResponse {

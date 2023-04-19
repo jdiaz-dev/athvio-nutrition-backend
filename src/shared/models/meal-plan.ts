@@ -52,7 +52,17 @@ class Equivalent {
   @Prop({ type: IngredientSchema, required: false, isRequired: false })
   ingredient: Ingredient;
 }
-registerEnumType(IngredientType, { name: 'IngredientType' });
+registerEnumType(IngredientType, {
+  name: 'IngredientType',
+  valuesMap: {
+    CUSTOM_INGREDIENT: {
+      description: 'custom ingredient',
+    },
+    UNIQUE_INGREDIENT: {
+      description: 'unique ingredient',
+    },
+  },
+});
 const EquivalentSchema = SchemaFactory.createForClass(Equivalent);
 
 @ObjectType()
