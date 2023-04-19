@@ -12,6 +12,7 @@ import { ErrorCustomRecipeEnum } from 'src/shared/enums/messages-response';
 import { CreateCustomRecipeDto } from 'src/modules/professionals/custom-recipes/adapters/in/dtos/create-custom-recipe.dto';
 import { GetCustomRecipeDto } from 'src/modules/professionals/custom-recipes/adapters/in/dtos/get-custom-recipe.dto';
 import { UpdateCustomRecipeDto } from 'src/modules/professionals/custom-recipes/adapters/in/dtos/update-custom-recipe.dto';
+import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
 @Injectable()
 export class CustomRecipesPersistenceService {
@@ -38,12 +39,18 @@ export class CustomRecipesPersistenceService {
     return customRecipeRes;
   }
   async getCustomRecipes({ professional, ...rest }: GetCustomRecipesDto, selectors: Object): Promise<GetCustomRecipesResponse> {
-    console.log('----------selectors', selectors);
+    const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
+    fieldsToSearch;
     const customRecipes = await this.customRecipeModel.aggregate([
       {
         $match: {
           professional: new Types.ObjectId(professional),
           isDeleted: false,
+        },
+      },
+      {
+        $match: {
+          $or: fieldsToSearch,
         },
       },
       {

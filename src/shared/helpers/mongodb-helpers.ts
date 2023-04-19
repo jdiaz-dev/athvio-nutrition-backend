@@ -1,4 +1,4 @@
-export const searchByFieldsGenerator = (fields: string[], words: (string | undefined)[]) => {
+export const searchByFieldsGenerator = (fields: string[], words: string[]) => {
   const uniqueFields = fields.map((field) =>
     words.map((word) => {
       return { [field]: new RegExp(word) };
@@ -8,7 +8,6 @@ export const searchByFieldsGenerator = (fields: string[], words: (string | undef
   const fieldsConcatenated = fields.reduce((acc, field, index) => {
     acc.push(`$${field}`);
     if (index < fields.length - 1) acc.push(' ');
-
     return acc;
   }, []);
 
@@ -25,6 +24,6 @@ export const searchByFieldsGenerator = (fields: string[], words: (string | undef
     };
   });
   const res = uniqueFields.flat().concat(concatenatedFields);
-//   console.log('-------res', res);
+  //   console.log('-------res', res);
   return res;
 };

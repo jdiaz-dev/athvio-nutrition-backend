@@ -1,11 +1,12 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsArray, IsOptional } from 'class-validator';
+import { IsEnum, IsMongoId } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
+import { FoodDatabases } from 'src/shared/enums/project';
 import { Macros } from 'src/shared/models/meal-plan';
 
 @ObjectType()
-class Measure {
+export class Measure {
   @Field()
   uri: string;
 
@@ -45,12 +46,13 @@ export class Food {
 
 @InputType()
 export class GetFoodsDto extends GetRecordsBaseDto {
+  @Field()
+  @IsMongoId()
   professional: string;
 
-  @Field(() => [String], { nullable: true })
-  @IsOptional()
-  @IsArray()
-  search: string[] = [''];
+  @Field()
+  @IsEnum(FoodDatabases)
+  foodDatabase: FoodDatabases;
 }
 
 @ObjectType()

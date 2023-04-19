@@ -9,7 +9,7 @@ db.Users.dropIndex('firstName_text');
 //get clients
 db.Clients.aggregate([
   {
-    $match: {
+      $match: {
       professional: ObjectId('6419a238517095f39a0a571c'),
     },
   },

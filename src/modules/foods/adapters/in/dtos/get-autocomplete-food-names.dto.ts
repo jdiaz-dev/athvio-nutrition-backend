@@ -1,5 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsMongoId, IsString } from 'class-validator';
+import { IsEnum, IsMongoId, IsString } from 'class-validator';
+import { FoodDatabases } from 'src/shared/enums/project';
 
 @InputType()
 export class GetAutocompleteFoodNamesDto {
@@ -10,6 +11,10 @@ export class GetAutocompleteFoodNamesDto {
   @Field()
   @IsString()
   search: string;
+
+  @Field()
+  @IsEnum(FoodDatabases)
+  foodDatabase: FoodDatabases;
 }
 
 @ObjectType()

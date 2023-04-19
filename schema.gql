@@ -289,6 +289,7 @@ type Food {
 }
 
 input GetAutocompleteFoodNamesDto {
+  foodDatabase: String!
   professional: String!
   search: String!
 }
@@ -311,7 +312,7 @@ input GetClientPlansDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
-  search: [String!] = []
+  search: [String!] = [""]
 }
 
 input GetClientsDto {
@@ -319,7 +320,7 @@ input GetClientsDto {
   offset: Float = 0
   orderBy: String
   professional: String!
-  search: [String!] = []
+  search: [String!] = [""]
   state: String!
 }
 
@@ -338,7 +339,7 @@ input GetCustomRecipesDto {
   offset: Float = 0
   orderBy: String
   professional: String!
-  search: [String!] = []
+  search: [String!] = [""]
 }
 
 type GetCustomRecipesResponse {
@@ -347,9 +348,11 @@ type GetCustomRecipesResponse {
 }
 
 input GetFoodsDto {
+  foodDatabase: String!
   limit: Float = 30
   offset: Float = 0
   orderBy: String
+  professional: String!
   search: [String!] = [""]
 }
 
@@ -372,7 +375,7 @@ input GetProgramsDto {
   offset: Float = 0
   orderBy: String
   professional: String!
-  search: [String!] = []
+  search: [String!] = [""]
 }
 
 type GetProgramsResponse {
@@ -590,6 +593,7 @@ type Query {
   getClients(input: GetClientsDto!): GetClientsResponse!
   getCustomRecipe(input: GetCustomRecipeDto!): CustomRecipe!
   getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
+  getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!

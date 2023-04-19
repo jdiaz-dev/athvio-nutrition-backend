@@ -145,7 +145,7 @@ export class AppModule {}
   * pagination
    - total wil be parsed summed with total of custom recipes
    - if there aren't nothing in search text, use only edamam
-    - if offset is 15 , sum to total 20, and return next link provided by edamam
+   - if offset is 15 , sum to total 20, and return next link provided by edamam
 
 
 */

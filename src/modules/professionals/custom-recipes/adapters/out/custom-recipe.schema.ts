@@ -16,7 +16,7 @@ export class CustomRecipe extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: true })
-  name!: string;
+  name: string;
 
   @Field(() => [IngredientDetail])
   @Prop({ type: [IngredientDetailSchema], required: true })

@@ -7,11 +7,7 @@ import { ErrorClientsEnum } from 'src/shared/enums/messages-response';
 import { ManageClientStateDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-state.dto';
 import { ManageClientGroupDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-group.dto';
 import { ClientState, ManageClientGroup } from 'src/shared/enums/project';
-import {
-  CreateClient,
-  DeleteManyClientGroup,
-  UpdateClient,
-} from 'src/modules/clients/clients/adapters/out/client.types';
+import { CreateClient, DeleteManyClientGroup, UpdateClient } from 'src/modules/clients/clients/adapters/out/client.types';
 import { removeFieldsFromAgregationSelectors } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
@@ -46,6 +42,7 @@ export class ClientsPersistenceService {
   async getClients({ professional, ...dto }: GetClientsDto, selectors: Object): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
     const restFields = removeFieldsFromAgregationSelectors(selectors, ['user']);
+
     const clients = await this.clientModel.aggregate([
       {
         $match: {
@@ -151,8 +148,7 @@ export class ClientsPersistenceService {
     return clientRes;
   }
   async updateClientGroup({ professional, client, action, clientGroup }: ManageClientGroupDto): Promise<Client> {
-    const _action =
-      action === ManageClientGroup.ADD ? { $push: { groups: clientGroup } } : { $pull: { groups: clientGroup } };
+    const _action = action === ManageClientGroup.ADD ? { $push: { groups: clientGroup } } : { $pull: { groups: clientGroup } };
 
     const clientRes = await this.clientModel.findOneAndUpdate({ _id: client, professional }, _action, {
       new: true,

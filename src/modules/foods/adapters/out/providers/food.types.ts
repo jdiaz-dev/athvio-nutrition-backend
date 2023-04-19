@@ -23,7 +23,7 @@ interface Qualified {
   weight: number;
 }
 
-export interface Measure {
+export interface FoodMeasure {
   uri: string;
   label?: string;
   weight: number;
@@ -35,7 +35,7 @@ export interface FoodParsed {
 }
 
 export interface FoodHint extends FoodParsed {
-  measures: Measure[];
+  measures: FoodMeasure[];
 }
 
 export interface FoodParsedResponse {

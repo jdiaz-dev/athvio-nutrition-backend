@@ -24,5 +24,5 @@ export class GetRecordsBaseDto {
   @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsArray()
-  search: (string | undefined)[] = [undefined];
+  search: string[] = [''];
 }

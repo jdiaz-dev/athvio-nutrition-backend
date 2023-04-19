@@ -1,3 +1,5 @@
+export const defaultSizePageFoodProvider = 20;
+
 export enum EnumEnvironments {
   PRODUCTION = 'production',
   DEVELOPMENT = 'development',
@@ -51,6 +53,12 @@ export enum Pagination {
   DATA = 'data',
   TOTAL = 'total',
   META = 'meta',
+}
+
+export enum FoodDatabases {
+  ALL = 'ALL',
+  SYSTEM = 'SYSTEM',
+  CUSTOM_RECIPES = 'CUSTOM_RECIPES',
 }
 
 export enum IngredientType {
