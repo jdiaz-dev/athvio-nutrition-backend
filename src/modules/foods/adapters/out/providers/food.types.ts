@@ -38,14 +38,18 @@ export interface FoodHint extends FoodParsed {
   measures: FoodMeasure[];
 }
 
+export interface NextLink {
+  title: string;
+  href: string;
+}
+
+interface Links {
+  next: NextLink;
+}
+
 export interface FoodParsedResponse {
   text: string;
   parsed: FoodParsed[];
   hints: FoodHint[];
-  _links: {
-    next: {
-      title: string;
-      href: string;
-    };
-  };
+  _links?: Links;
 }

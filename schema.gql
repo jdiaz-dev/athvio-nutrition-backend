@@ -288,6 +288,18 @@ type Food {
   name: String!
 }
 
+type FoodProviderSession {
+  nextSession: Float!
+  title: String!
+}
+
+type FoodsMeta {
+  foodProviderSessions: FoodProviderSession
+  limit: Float!
+  offset: Float!
+  total: Float!
+}
+
 input GetAutocompleteFoodNamesDto {
   foodDatabase: String!
   professional: String!
@@ -354,11 +366,12 @@ input GetFoodsDto {
   orderBy: String
   professional: String!
   search: [String!] = [""]
+  session: Float
 }
 
 type GetFoodsResponse {
   data: [Food!]!
-  meta: Meta!
+  meta: FoodsMeta!
 }
 
 input GetProgramDto {

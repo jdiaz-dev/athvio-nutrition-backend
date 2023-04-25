@@ -1,9 +1,18 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsEnum, IsMongoId } from 'class-validator';
+import { IsEnum, IsMongoId, IsNumber, IsOptional } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
-import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
+import { Meta } from 'src/shared/dtos/get-records-response';
 import { FoodDatabases } from 'src/shared/enums/project';
 import { Macros } from 'src/shared/models/meal-plan';
+
+@ObjectType()
+class FoodProviderSession {
+  @Field()
+  title: string;
+
+  @Field()
+  nextSession: number;
+}
 
 @ObjectType()
 export class Measure {
@@ -53,10 +62,24 @@ export class GetFoodsDto extends GetRecordsBaseDto {
   @Field()
   @IsEnum(FoodDatabases)
   foodDatabase: FoodDatabases;
+
+  @Field({ nullable: true })
+  @IsNumber()
+  @IsOptional()
+  session?: number;
 }
 
 @ObjectType()
-export class GetFoodsResponse extends GetRecordsResponse {
+class FoodsMeta extends Meta {
+  @Field(() => FoodProviderSession, { nullable: true })
+  foodProviderSessions?: FoodProviderSession;
+}
+
+@ObjectType()
+export class GetFoodsResponse {
   @Field(() => [Food])
   data: Food[];
+
+  @Field(() => FoodsMeta)
+  meta: FoodsMeta;
 }

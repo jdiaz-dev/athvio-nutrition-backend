@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-class Meta {
+export class Meta {
   @Field()
   total: number;
 
