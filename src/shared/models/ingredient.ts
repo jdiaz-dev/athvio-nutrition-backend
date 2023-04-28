@@ -1,9 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Macros } from 'src/shared/models/macros';
 
 @ObjectType()
 @Schema({ _id: false })
-export class Ingredient {
+export class Ingredient extends Macros {
   @Field()
   @Prop({ type: String, required: true })
   name!: string;
@@ -14,22 +15,6 @@ export class Ingredient {
 
   @Field()
   @Prop({ type: String, required: true })
-  unit!: string;
-
-  @Field({ nullable: true })
-  @Prop({ type: Number, required: false })
-  protein!: number;
-
-  @Field({ nullable: true })
-  @Prop({ type: Number, required: false })
-  carbs!: number;
-
-  @Field({ nullable: true })
-  @Prop({ type: Number, required: false })
-  fat!: number;
-
-  @Field({ nullable: true })
-  @Prop({ type: Number, required: false })
-  calories!: number;
+  label!: string;
 }
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);

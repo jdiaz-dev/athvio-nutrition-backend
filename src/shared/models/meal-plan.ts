@@ -2,38 +2,30 @@ import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IngredientType } from 'src/shared/enums/project';
 import { Ingredient, IngredientSchema } from 'src/shared/models/ingredient';
-
-@ObjectType()
-@Schema({ _id: false })
-export class Macros {
-  @Field()
-  @Prop({ type: Number, required: true })
-  protein!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  carbs!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  fat!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  calories!: number;
-}
-export const MacroSchema = SchemaFactory.createForClass(Macros);
+import { Macros, MacroSchema } from 'src/shared/models/macros';
 
 @ObjectType()
 @Schema({ _id: false })
 class CustomIngredient {
   @Field()
   @Prop({ type: String, required: true })
+  amount: string;
+
+  @Field()
+  @Prop({ type: String, required: true })
+  label: string;
+
+  @Field()
+  @Prop({ type: String, required: true })
   name: string;
 
   @Field(() => [Ingredient], { nullable: true })
-  @Prop({ type: [IngredientSchema], required: false, isRequired: false })
+  @Prop({ type: [IngredientSchema], required: false })
   ingredients: Ingredient[];
+
+  @Field(() => Macros)
+  @Prop({ type: MacroSchema, required: true })
+  macros: Macros;
 }
 const CustomIngredientSchema = SchemaFactory.createForClass(CustomIngredient);
 

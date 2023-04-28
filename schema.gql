@@ -155,7 +155,6 @@ input CreateCustomRecipeDto {
   macros: MacrosInput!
   name: String!
   professional: String!
-  totalWeight: Float!
 }
 
 input CreateProfesionalInfoDto {
@@ -186,12 +185,18 @@ type CreateUserInfoResponse {
 }
 
 type CustomIngredient {
+  amount: String!
   ingredients: [Ingredient!]
+  label: String!
+  macros: Macros!
   name: String!
 }
 
 input CustomIngredientInput {
+  amount: Float!
   ingredients: [IngredientInput!]
+  label: String!
+  macros: MacrosInput!
   name: String!
 }
 
@@ -203,18 +208,12 @@ type CustomRecipe {
   macros: Macros!
   name: String!
   professional: String!
-  totalWeight: Float!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-type DefaultMeasure {
-  amount: Float!
-  unit: String!
-}
 
 input DeleteClientGroupDto {
   clientGroup: String!
@@ -281,10 +280,10 @@ input EquivalentsInput {
 }
 
 type Food {
-  defaultMeasure: DefaultMeasure!
+  availableMeasures: [Measure!]
+  foodDatabase: String!
   foodId: String
   macros: Macros!
-  measures: [Measure!]
   name: String!
 }
 
@@ -398,12 +397,13 @@ type GetProgramsResponse {
 
 type Ingredient {
   amount: Float!
-  calories: Float
-  carbs: Float
-  fat: Float
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  label: String!
   name: String!
-  protein: Float
-  unit: String!
+  protein: Float!
+  weightInGrams: Float!
 }
 
 type IngredientDetail {
@@ -425,9 +425,10 @@ input IngredientInput {
   calories: Float!
   carbs: Float!
   fat: Float!
+  label: String!
   name: String!
   protein: Float!
-  unit: String!
+  weightInGrams: Float!
 }
 
 enum IngredientType {
@@ -454,6 +455,7 @@ type Macros {
   carbs: Float!
   fat: Float!
   protein: Float!
+  weightInGrams: Float!
 }
 
 input MacrosInput {
@@ -461,6 +463,7 @@ input MacrosInput {
   carbs: Float!
   fat: Float!
   protein: Float!
+  weightInGrams: Float!
 }
 
 input ManageClientGroupDto {
@@ -514,7 +517,7 @@ input MealPlanBodyInput {
 type Measure {
   label: String!
   uri: String!
-  weight: Float!
+  weightInGrams: Float!
 }
 
 type Meta {

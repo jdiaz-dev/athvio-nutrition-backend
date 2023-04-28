@@ -1,8 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNumber, IsString } from 'class-validator';
+import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
 @InputType()
-export class IngredientInput {
+export class IngredientInput extends MacrosInput {
   @Field()
   @IsNumber()
   amount: number;
@@ -13,21 +14,5 @@ export class IngredientInput {
 
   @Field()
   @IsString()
-  unit: string;
-
-  @Field()
-  @IsNumber()
-  protein: number;
-
-  @Field()
-  @IsNumber()
-  fat: number;
-
-  @Field()
-  @IsNumber()
-  carbs: number;
-
-  @Field()
-  @IsNumber()
-  calories: number;
+  label: string;
 }

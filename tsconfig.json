@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "module": "CommonJS", //very important for vscode sugges absolute path
+    "rootDir": ".", //cause error to import from shared folder
     "importHelpers": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": false,
-    "rootDir": ".", //cause error to import from shared folder
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -27,15 +27,15 @@
       "test/*": ["./test/*"],
       "types/*": ["./types/*"]
     }, */
+    "allowJs": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "ES6",
+    "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"],
       //"./src/modules*"
     },
-    "allowJs": false,
-    "target": "ES6",
-    "baseUrl": "./",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "noEmitOnError": true, //to void create js file in root of shared folder in error case
     "types": ["node"],
     //to allow use external packages : https://stackoverflow.com/questions/48189713/visual-studio-shared-typescript-library-ts6059-file-is-not-under-rootd

@@ -5,6 +5,10 @@ import { IsNumber } from 'class-validator';
 export class MacrosInput {
   @Field()
   @IsNumber()
+  weightInGrams: number;
+
+  @Field()
+  @IsNumber()
   protein: number;
 
   @Field()

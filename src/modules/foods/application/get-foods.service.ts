@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GetFoodsDto, GetFoodsResponse } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
+import { Food, GetFoodsDto, GetFoodsResponse } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
 import { SerializeFoodsFromProviderService } from 'src/modules/foods/application/serialize-foods-from-provider.service';
 import { CustomRecipesPersistenceService } from 'src/modules/professionals/custom-recipes/adapters/out/custom-recipes-persistence.service';
 import { FoodDatabases } from 'src/shared/enums/project';
@@ -11,23 +11,29 @@ export class GetFoodsService {
     private readonly sfrps: SerializeFoodsFromProviderService,
   ) {}
 
-  async getFoodFromCustomRecipes(dto: GetFoodsDto) {
+  async getFoodFromCustomRecipes(dto: GetFoodsDto): Promise<GetFoodsResponse> {
     const graphqlSelectors = {
       'name': 1,
-      'totalWeight': 1,
       'macros.protein': 1,
       'macros.carbs': 1,
       'macros.fat': 1,
       'macros.calories': 1,
+      'macros.weightInGrams': 1,
     };
 
     const { data, meta } = await this.crps.getCustomRecipes(dto, graphqlSelectors);
-    return {
-      data: data.map((recipe) => ({
+    const customRecipesForFood: Food[] = data.map((recipe) => {
+      const res = {
         name: recipe.name,
         macros: recipe.macros,
-        defaultMeasure: { amount: recipe.totalWeight, unit: 'g' },
-      })),
+        foodDatabase: FoodDatabases.CUSTOM_RECIPES,
+        feo: 'feo',
+      };
+      return res;
+    });
+
+    return {
+      data: customRecipesForFood,
       meta,
     };
   }

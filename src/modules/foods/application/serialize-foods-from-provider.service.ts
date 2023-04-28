@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Food, GetFoodsDto, GetFoodsResponse, Measure } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
 import { FoodHint, FoodMeasure, NextLink } from 'src/modules/foods/adapters/out/providers/food.types';
 import { FoodsProviderService } from 'src/modules/foods/adapters/out/providers/foods-provider.service';
-import { defaultSizePageFoodProvider } from 'src/shared/enums/project';
+import { defaultSizePageFoodProvider, FoodDatabases } from 'src/shared/enums/project';
 
 @Injectable()
 export class SerializeFoodsFromProviderService {
@@ -17,12 +17,12 @@ export class SerializeFoodsFromProviderService {
   }
   private transformMeasure(measures: FoodMeasure[]): Measure[] {
     return measures
-      .filter((measure) => measure.label !== 'Whole' && measure.label !== 'Kilogram')
+      .filter((measure) => measure.label && measure.label !== 'Whole' && measure.label !== 'Kilogram')
       .map((measure) => {
         return {
           uri: measure.uri,
-          label: measure.label ? measure.label : 'default',
-          weight: measure.weight,
+          label: measure.label,
+          weightInGrams: parseFloat(Number(measure.weight).toFixed(2)),
         };
       });
   }
@@ -34,13 +34,11 @@ export class SerializeFoodsFromProviderService {
         carbs: item.food.nutrients.CHOCDF,
         fat: item.food.nutrients.FAT,
         calories: item.food.nutrients.ENERC_KCAL,
+        weightInGrams: 100,
       },
-      defaultMeasure: {
-        amount: 100,
-        unit: 'g',
-      },
+      foodDatabase: FoodDatabases.ALL,
       foodId: item.food.foodId,
-      measures: this.transformMeasure(item.measures),
+      availableMeasures: this.transformMeasure(item.measures),
     }));
     return res;
   }

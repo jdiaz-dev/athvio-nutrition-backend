@@ -3,7 +3,7 @@ import { IsEnum, IsMongoId, IsNumber, IsOptional } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { Meta } from 'src/shared/dtos/get-records-response';
 import { FoodDatabases } from 'src/shared/enums/project';
-import { Macros } from 'src/shared/models/meal-plan';
+import { Macros } from 'src/shared/models/macros';
 
 @ObjectType()
 class FoodProviderSession {
@@ -23,16 +23,7 @@ export class Measure {
   label: string;
 
   @Field()
-  weight: number;
-}
-
-@ObjectType()
-class DefaultMeasure {
-  @Field()
-  amount: number;
-
-  @Field()
-  unit: string;
+  weightInGrams: number;
 }
 
 @ObjectType()
@@ -43,14 +34,14 @@ export class Food {
   @Field(() => Macros)
   macros: Macros;
 
-  @Field(() => DefaultMeasure)
-  defaultMeasure: DefaultMeasure;
+  @Field()
+  foodDatabase: FoodDatabases;
 
   @Field({ nullable: true })
   foodId?: string;
 
   @Field(() => [Measure], { nullable: true })
-  measures?: Measure[];
+  availableMeasures?: Measure[];
 }
 
 @InputType()

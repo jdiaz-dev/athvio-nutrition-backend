@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsArray, IsMongoId, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { IngredientDetailInput } from 'src/shared/dtos/ingredient-detail-input';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
@@ -22,10 +22,6 @@ export class CreateCustomRecipeDto {
   @IsString()
   @IsOptional()
   cookingInstructions: string;
-
-  @Field()
-  @IsNumber()
-  totalWeight: number;
 
   @Field(() => MacrosInput)
   macros: MacrosInput;
