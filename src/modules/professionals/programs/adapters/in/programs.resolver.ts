@@ -29,7 +29,7 @@ export class ProgramsResolver {
   @Query(() => Program)
   async getProgram(
     @Args('input') dto: GetProgramDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Object,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
     const program = await this.pps.getProgram(dto, selectors);
     return program;
@@ -38,7 +38,7 @@ export class ProgramsResolver {
   @Query(() => GetProgramsResponse)
   async getPrograms(
     @Args('input') dto: GetProgramsDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Object,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetProgramsResponse> {
     const program = await this.pps.getPrograms(dto, selectors);
     return program;
@@ -54,10 +54,7 @@ export class ProgramsResolver {
     return this.mpts.manageProgramTag(dto);
   }
   @Mutation(() => Program)
-  deleteProgram(
-    @Args('input') dto: DeleteProgramDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Program> {
+  deleteProgram(@Args('input') dto: DeleteProgramDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
     return this.pps.deleteProgram(dto, selectors);
   }
 }

@@ -8,11 +8,7 @@ import { ProgramTagsManagementService } from 'src/modules/professionals/program-
 import { UsersModule } from 'src/modules/security/users/users.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: ProgramTag.name, schema: ProgramTagSchema }]),
-    UsersModule,
-    ProfessionalsModule,
-  ],
+  imports: [MongooseModule.forFeature([{ name: ProgramTag.name, schema: ProgramTagSchema }]), UsersModule, ProfessionalsModule],
   providers: [ProgramTagsResolver, ...[ProgramTagsPersistenceService, ProgramTagsManagementService]],
   exports: [ProgramTagsPersistenceService],
 })

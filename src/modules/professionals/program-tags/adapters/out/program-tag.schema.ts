@@ -24,8 +24,8 @@ export class ProgramTag extends BaseSchema {
 
 export type ProgramTagDocument = ProgramTag & Document;
 export const ProgramTagSchema = SchemaFactory.createForClass(ProgramTag);
-ProgramTagSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...programTag } = this.toObject();
+ProgramTagSchema.methods.toJSON = function (): Partial<ProgramTag> {
+  const { __v, createdAt, updatedAt, ...programTag } = this.toObject();
   //   console.log('----------programTag json', programTag);
-  return programTag;
+  return programTag as Partial<ProgramTag>;
 };

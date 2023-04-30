@@ -8,7 +8,7 @@ import { defaultSizePageFoodProvider, FoodDatabases } from 'src/shared/enums/pro
 export class SerializeFoodsFromProviderService {
   constructor(private readonly foodProvider: FoodsProviderService) {}
 
-  private getNextSession(nextLink: NextLink) {
+  private getNextSession(nextLink: NextLink): number {
     const nextLinkParams = nextLink.href.split('?')[1];
     const sessionParam = nextLinkParams.split('&')[0];
     const nextSessionValue = sessionParam.split('=')[1];
@@ -54,6 +54,7 @@ export class SerializeFoodsFromProviderService {
       offset: dto.offset,
     };
 
+    // eslint-disable-next-line immutable/no-let
     let res: GetFoodsResponse;
     if (totalParsedFoods === 0) {
       res = {

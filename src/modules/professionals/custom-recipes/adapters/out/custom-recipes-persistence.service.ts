@@ -25,7 +25,7 @@ export class CustomRecipesPersistenceService {
     });
     return customRecipe;
   }
-  async getCustomRecipe({ professional, ...rest }: GetCustomRecipeDto, selectors: any[]): Promise<CustomRecipe> {
+  async getCustomRecipe({ professional, ...rest }: GetCustomRecipeDto, selectors: string[]): Promise<CustomRecipe> {
     const customRecipeRes = await this.customRecipeModel.findOne(
       {
         _id: rest.customRecipe,
@@ -38,7 +38,10 @@ export class CustomRecipesPersistenceService {
 
     return customRecipeRes;
   }
-  async getCustomRecipes({ professional, ...rest }: GetCustomRecipesDto, selectors: Object): Promise<GetCustomRecipesResponse> {
+  async getCustomRecipes(
+    { professional, ...rest }: GetCustomRecipesDto,
+    selectors: Record<string, number>,
+  ): Promise<GetCustomRecipesResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
     fieldsToSearch;
     const customRecipes = await this.customRecipeModel.aggregate([

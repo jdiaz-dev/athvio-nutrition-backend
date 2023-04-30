@@ -73,7 +73,7 @@ export class Program extends BaseSchema {
 export type ProgramDocument = Program & Document;
 export const ProgramSchema = SchemaFactory.createForClass(Program);
 ProgramSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...program } = this.toObject();
+  const { __v, createdAt, updatedAt, ...program } = this.toObject();
   //   console.log('----------programTag json', programTag);
   return program;
 };

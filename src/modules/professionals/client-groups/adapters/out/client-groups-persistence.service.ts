@@ -5,10 +5,7 @@ import { CreateClientGroupDto } from 'src/modules/professionals/client-groups/ad
 import { DeleteClientGroupDto } from 'src/modules/professionals/client-groups/adapters/in/dtos/delete-client-group.dto';
 import { GetClientGroupsDto } from 'src/modules/professionals/client-groups/adapters/in/dtos/get-client-groups.dto';
 import { UpdateClientGroupDto } from 'src/modules/professionals/client-groups/adapters/in/dtos/update-client-group.dto';
-import {
-  ClientGroup,
-  ClientGroupDocument,
-} from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
+import { ClientGroup, ClientGroupDocument } from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
 import { ErrorClientGroupEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()

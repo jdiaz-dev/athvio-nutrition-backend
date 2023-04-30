@@ -8,7 +8,7 @@ import { FoodDatabases } from 'src/shared/enums/project';
 export class FoodTextSearcherService {
   constructor(private readonly fps: FoodsProviderService, private readonly crps: CustomRecipesPersistenceService) {}
 
-  private async getFoodNamesFromCustomRecipes({ professional, search }: GetAutocompleteFoodNamesDto) {
+  private async getFoodNamesFromCustomRecipes({ professional, search }: GetAutocompleteFoodNamesDto): Promise<string[]> {
     const dto = {
       professional,
       search: [search],
@@ -25,7 +25,7 @@ export class FoodTextSearcherService {
     const res = customRecipes.data.map((recipe) => recipe.name);
     return res;
   }
-  getFoodNamesFromProvider(search: string) {
+  getFoodNamesFromProvider(search: string): Promise<string[]> {
     return this.fps.autoCompleteText(search);
   }
   async getFoodNames(dto: GetAutocompleteFoodNamesDto): Promise<string[]> {

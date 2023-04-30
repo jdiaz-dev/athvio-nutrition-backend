@@ -92,7 +92,7 @@ export class ClientPlan extends BaseSchema {
 export type ClientPlanDocument = ClientPlan & Document;
 export const ClientPlanSchema = SchemaFactory.createForClass(ClientPlan);
 ClientPlanSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...clientGroup } = this.toObject();
+  const { __v, createdAt, updatedAt, ...clientGroup } = this.toObject();
   //   console.log('----------clientGroup json', clientGroup);
   return clientGroup;
 };

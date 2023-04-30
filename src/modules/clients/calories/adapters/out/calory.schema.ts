@@ -37,6 +37,6 @@ export class Calory extends BaseSchema {
 export type CaloryDocument = Calory & Document;
 export const CalorySchema = SchemaFactory.createForClass(Calory);
 CalorySchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...rest } = this.toObject();
+  const { __v, createdAt, updatedAt, ...rest } = this.toObject();
   return rest;
 };

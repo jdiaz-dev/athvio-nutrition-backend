@@ -22,7 +22,7 @@ export class ClientsPersistenceService {
     });
     return client.toJSON();
   }
-  async getClient(professionalId: string, clientId: string) {
+  async getClient(professionalId: string, clientId: string): Promise<Client> {
     const clientRes = await this.clientModel.findOne({
       _id: clientId,
       professional: professionalId,
@@ -31,7 +31,7 @@ export class ClientsPersistenceService {
     if (!clientRes) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return clientRes;
   }
-  async getClientById(clientId: string) {
+  async getClientById(clientId: string): Promise<Client> {
     const clientRes = await this.clientModel.findOne({
       _id: clientId,
       state: ClientState.ACTIVE,
@@ -39,7 +39,7 @@ export class ClientsPersistenceService {
     if (!clientRes) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return clientRes;
   }
-  async getClients({ professional, ...dto }: GetClientsDto, selectors: Object): Promise<GetClientsResponse> {
+  async getClients({ professional, ...dto }: GetClientsDto, selectors: Record<string, number>): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
     const restFields = removeFieldsFromAgregationSelectors(selectors, ['user']);
 
@@ -180,3 +180,4 @@ export class ClientsPersistenceService {
     return clientRes;
   }
 }
+

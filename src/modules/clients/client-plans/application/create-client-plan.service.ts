@@ -6,10 +6,7 @@ import { ClientsPersistenceService } from 'src/modules/clients/clients/adapters/
 
 @Injectable()
 export class CreateClientPlanService {
-  constructor(
-    private cps: ClientsPersistenceService,
-    private cpps: ClientPlansPersistenceService,
-  ) {}
+  constructor(private cps: ClientsPersistenceService, private cpps: ClientPlansPersistenceService) {}
 
   async createClientPlan(dto: CreateClientPlanDto): Promise<ClientPlan> {
     await this.cps.getClientById(dto.clientId);

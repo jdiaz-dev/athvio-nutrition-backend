@@ -11,5 +11,4 @@ export class ProfessionalsResolver {
   }
 
   //update organization info
-
 }

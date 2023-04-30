@@ -21,18 +21,12 @@ export class CaloryResolver {
   }
 
   @Query(() => Calory)
-  async getCalory(
-    @Args('input') dto: GetCaloryDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Calory> {
+  async getCalory(@Args('input') dto: GetCaloryDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Calory> {
     return await this.cps.getCalory(dto, selectors);
   }
 
   @Mutation(() => Calory)
-  async updateCalory(
-    @Args('input') dto: UpdateCaloryDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Calory> {
+  async updateCalory(@Args('input') dto: UpdateCaloryDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Calory> {
     return this.cps.updateCalory(dto, selectors);
   }
 }

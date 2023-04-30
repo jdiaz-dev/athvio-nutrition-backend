@@ -38,7 +38,7 @@ export class CustomRecipesResolver {
   @Query(() => GetCustomRecipesResponse)
   async getCustomRecipes(
     @Args('input') dto: GetCustomRecipesDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Object,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetCustomRecipesResponse> {
     const customRecipe = await this.crps.getCustomRecipes(dto, selectors);
     return customRecipe;

@@ -20,7 +20,7 @@ export class ClientGroupsManagementService {
 
     return clientGroup;
   }
-  async deleteClientGroup(dto: DeleteClientGroupDto) {
+  async deleteClientGroup(dto: DeleteClientGroupDto): Promise<ClientGroup> {
     await this.cps.deleteManyClientGroup({
       professional: dto.professional,
       clientGroup: dto.clientGroup,

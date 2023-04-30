@@ -7,7 +7,7 @@ export class AuthenticationGuard extends AuthGuard('local') {
   constructor() {
     super();
   }
-  getRequest(context: ExecutionContext) {
+  getRequest(context: ExecutionContext): unknown {
     const ctx = GqlExecutionContext.create(context);
     const request = ctx.getContext();
     request.body = ctx.getArgs().input;

@@ -18,5 +18,4 @@ export class HttpWrapperService {
     );
     return res.data;
   }
-  post() {}
 }

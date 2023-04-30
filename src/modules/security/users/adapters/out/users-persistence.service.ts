@@ -31,7 +31,7 @@ export class UsersPersistenceService {
         },
       },
     ]);
-    return client[0];
+    return client[0] as User;
   }
   async getUserById(user: string): Promise<User> {
     const _user = await this.userModel.findOne(

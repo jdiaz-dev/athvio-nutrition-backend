@@ -1,4 +1,4 @@
-import { IWinstonLogger } from "../environment.interface";
+import { IWinstonLogger } from '../environment.interface';
 
 export const WINSTON_LOGGER: IWinstonLogger = {
   nameAzureStorage: process.env.ACCOUNT_AZURE_STORAGE,

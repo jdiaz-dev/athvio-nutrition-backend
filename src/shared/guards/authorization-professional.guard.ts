@@ -9,7 +9,7 @@ export class AuthorizationProfessionalGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
     const userContext = ctx.getContext().req.user;
-    const user = await this.ups.getUserById(userContext.user);
+    const user = await this.ups.getUserById(userContext.user as string);
 
     if (!user.isProfessional) throw new UnauthorizedException(AuthorizationMessages.NOT_AUTHORIZED);
     return true;

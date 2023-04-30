@@ -29,7 +29,7 @@ export class ProgramsPersistenceService {
     return programRes;
   }
 
-  async getProgram({ professional, program }: GetProgramDto, selectors: Object): Promise<Program> {
+  async getProgram({ professional, program }: GetProgramDto, selectors: Record<string, number>): Promise<Program> {
     const restFields = removeFieldsFromAgregationSelectors(selectors, ['plans']);
     const programRes = await this.programModel.aggregate([
       {
@@ -56,7 +56,7 @@ export class ProgramsPersistenceService {
     if (programRes[0] == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     return programRes[0];
   }
-  async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Object): Promise<GetProgramsResponse> {
+  async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Record<string, number>): Promise<GetProgramsResponse> {
     const programs = await this.programModel.aggregate([
       {
         $match: {

@@ -14,7 +14,6 @@ export class Organization {
   @Prop({ type: String, required: false })
   homePage!: string;
 
-
   @Field()
   @Prop({ type: String, required: false })
   address: string;
@@ -68,7 +67,7 @@ export class Professional extends BaseSchema {
 
 export type ProfessionalDocument = Professional & Document;
 export const ProfessionalSchema = SchemaFactory.createForClass(Professional);
-ProfessionalSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...profesional } = this.toObject();
-  return profesional;
+ProfessionalSchema.methods.toJSON = function (): Partial<Professional> {
+  const { __v, createdAt, updatedAt, ...profesional } = this.toObject();
+  return profesional as Partial<Professional>;
 };

@@ -57,15 +57,15 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
           },
 
           autoTransformHttpErrors: true,
-          formatResponse: (response: GraphQLResponse | any): GraphQLResponse => {
+          formatResponse: (response: GraphQLResponse): GraphQLResponse => {
             if (response.errors && response.errors.length > 1) {
               while (response.errors.length != 1) {
-                response.errors.pop();
+                // response.errors.pop();
               }
             }
             return response;
           },
-          formatError: (error: GraphQLError): GraphQLFormattedError | any => {
+          formatError: (error: GraphQLError): GraphQLFormattedError => {
             //removing stacktrace of code
             /* if (error.extensions) delete error.extensions.exception;
             if (process.env.NODE_ENV === EnumEnvironments.LOCAL) return error as GraphQLFormattedError; */
@@ -113,7 +113,6 @@ export class AppModule {}
     - ValidateIf is not working (EquivalentInputs InputType)
 */
 
-
 /*
   ---------measure labels [
   'Tablespoon', 'Cup',
@@ -130,7 +129,6 @@ export class AppModule {}
 ]
 
 */
-
 
 /*
   * bar searcher algorithm

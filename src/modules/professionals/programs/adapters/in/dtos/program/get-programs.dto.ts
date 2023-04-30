@@ -11,7 +11,6 @@ export class GetProgramsDto extends GetRecordsBaseDto {
   professional: string;
 }
 
-
 @ObjectType()
 export class GetProgramsResponse extends GetRecordsResponse {
   @Field(() => [Program])

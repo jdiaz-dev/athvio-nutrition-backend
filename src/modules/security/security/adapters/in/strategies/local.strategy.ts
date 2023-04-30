@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { IValidateUserUseCase } from 'src/modules/security/security/application/ports/in/validate-user.use-case';
 import { AuthService } from 'src/modules/security/security/application/services/auth.service';
+import { User } from 'src/modules/security/users/adapters/out/user.schema';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -14,8 +15,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     this.validateUserUseCase = authService;
   }
 
-  async validate(email: string, password: string): Promise<any> {
-    password
+  async validate(email: string, password: string): Promise<User> {
+    password;
     const user = await this.validateUserUseCase.validateUser(email);
 
     if (!user) {

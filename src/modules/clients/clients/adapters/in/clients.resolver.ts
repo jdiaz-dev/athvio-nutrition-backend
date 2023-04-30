@@ -30,7 +30,7 @@ export class ClientsResolver {
   @Query(() => GetClientsResponse)
   async getClients(
     @Args('input') dto: GetClientsDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Object,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetClientsResponse> {
     const clientGroup = await this.cps.getClients(dto, selectors);
     return clientGroup;

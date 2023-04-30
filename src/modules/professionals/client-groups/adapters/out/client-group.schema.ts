@@ -24,8 +24,8 @@ export class ClientGroup extends BaseSchema {
 
 export type ClientGroupDocument = ClientGroup & Document;
 export const ClientGroupSchema = SchemaFactory.createForClass(ClientGroup);
-ClientGroupSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...clientGroup } = this.toObject();
+ClientGroupSchema.methods.toJSON = function (): Partial<ClientGroup> {
+  const { __v, createdAt, updatedAt, ...clientGroup } = this.toObject();
   //   console.log('----------clientGroup json', clientGroup);
-  return clientGroup;
+  return clientGroup as Partial<ClientGroup>;
 };

@@ -60,7 +60,7 @@ export class User extends BaseSchema {
 
 export type UserDocument = User & Document;
 export const UserSchema = SchemaFactory.createForClass(User);
-UserSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...user } = this.toObject();
-  return user;
+UserSchema.methods.toJSON = function (): Partial<User> {
+  const { __v, createdAt, updatedAt, ...user } = this.toObject();
+  return user as Partial<User>;
 };

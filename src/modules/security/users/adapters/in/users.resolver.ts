@@ -14,20 +14,20 @@ export class UsersResolver {
   constructor(private ums: UserManagementService, private ups: UsersPersistenceService) {}
 
   @Mutation(() => User)
-  async signUp(@Args('input') dto: SignUpUserDto, @Context() context: any): Promise<User> {
+  async signUp(@Args('input') dto: SignUpUserDto, @Context() context: unknown): Promise<User> {
     context;
     return await this.ums.createUserAndProfessional(dto);
   }
 
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)
-  async updateUser(@Args('input') dto: UpdateUserDto) {
+  async updateUser(@Args('input') dto: UpdateUserDto): Promise<User> {
     return this.ups.updateUser(dto);
   }
 
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)
-  async updatePassword(@Args('input') dto: UpdatePasswordDto) {
+  async updatePassword(@Args('input') dto: UpdatePasswordDto): Promise<User> {
     return this.ums.updatePassword(dto);
   }
 }

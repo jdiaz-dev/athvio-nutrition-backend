@@ -1,24 +1,15 @@
+import { FieldNode, GraphQLResolveInfo } from 'graphql';
 import { Pagination } from 'src/shared/enums/project';
 
-function extractor(value: any): string[] {
-  const rawSelections = value.fieldNodes[0].selectionSet.selections as any[];
-
-  function extractorHelper(node: any[]): string[] {
+function extractor(value: GraphQLResolveInfo): string[] {
+  const rawSelections = value.fieldNodes[0].selectionSet.selections as FieldNode[];
+  function extractorHelper(node: FieldNode[]): string[] {
     if (!node) return null;
 
     return node
-      .map((item: any) => {
+      .map((item) => {
         if (item.selectionSet) {
-          /* return extractorHelper(item.selectionSet.selections).map((elem: string) => {
-            console.log('-----------elem', item.name.value);
-
-            if (item.name.value !== 'meta' && item.name.value !== 'data' ) {
-              return `${item.name.value}.${elem}`;
-            }
-            return elem !== 'total' ? elem : '';
-          }); */
-
-          return extractorHelper(item.selectionSet.selections).reduce((acc: any[], elem: string) => {
+          return extractorHelper(item.selectionSet.selections as FieldNode[]).reduce((acc: string[], elem: string) => {
             if (item.name.value !== Pagination.META && item.name.value !== Pagination.DATA) {
               acc.push(`${item.name.value}.${elem}`);
               return acc;
@@ -37,17 +28,16 @@ function extractor(value: any): string[] {
   return res;
 }
 
-function extractorForAggregation(value: any) {
-  const res = extractor(value).reduce((acc: any, item) => {
+function extractorForAggregation(value: GraphQLResolveInfo): Record<string, number> {
+  const res = extractor(value).reduce((acc: Record<string, number>, item) => {
     acc[item] = 1;
     return acc;
   }, {});
   // console.log('------res', res);
-
   return res;
 }
 
-export function selectorExtractor() {
+export function selectorExtractor(): { transform: (value: GraphQLResolveInfo) => string[] }[] {
   return [
     {
       transform: extractor,
@@ -55,7 +45,7 @@ export function selectorExtractor() {
   ];
 }
 
-export function selectorExtractorForAggregation() {
+export function selectorExtractorForAggregation(): { transform: (value: GraphQLResolveInfo) => Record<string, number> }[] {
   return [
     {
       transform: extractorForAggregation,
@@ -63,10 +53,13 @@ export function selectorExtractorForAggregation() {
   ];
 }
 
-export const removeFieldsFromAgregationSelectors = (selectors: any, fieldName: string[]) => {
-  let _selectors = { ...selectors };
-  for (let x in _selectors) {
-    for(let y of fieldName) {
+export const removeFieldsFromAgregationSelectors = (
+  selectors: Record<string, number>,
+  fieldName: string[],
+): Record<string, number> => {
+  const _selectors = { ...selectors };
+  for (const x in _selectors) {
+    for (const y of fieldName) {
       if (x.includes(y)) {
         delete _selectors[x];
       }

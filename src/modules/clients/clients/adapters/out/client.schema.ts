@@ -79,6 +79,6 @@ export class Client extends BaseSchema {
 export type ClientDocument = Client & Document;
 export const ClientSchema = SchemaFactory.createForClass(Client);
 ClientSchema.methods.toJSON = function () {
-  let { __v, createdAt, updatedAt, ...client } = this.toObject();
+  const { __v, createdAt, updatedAt, ...client } = this.toObject();
   return client;
 };

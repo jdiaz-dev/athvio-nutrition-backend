@@ -28,7 +28,7 @@ export class UserManagementService {
       ...userDto,
       password: bcryptjs.hashSync(userDto.password, salt),
       professional: professional._id,
-      client: null as any,
+      client: null,
       isProfessional: true,
       isActive: true,
     };
@@ -37,7 +37,7 @@ export class UserManagementService {
   async createUserAndClient(body: CreateUser): Promise<User> {
     const _user: CreateUser = {
       ...body,
-      professional: null as any,
+      professional: null,
       isProfessional: false,
       acceptedTerms: false,
       isActive: false,

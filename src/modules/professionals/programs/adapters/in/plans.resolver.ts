@@ -16,10 +16,7 @@ export class PlansResolver {
   constructor(private readonly pps: PlansPersistenceService) {}
 
   @Mutation(() => Program)
-  addProgramPlan(
-    @Args('input') dto: AddProgramPlanDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Program> {
+  addProgramPlan(@Args('input') dto: AddProgramPlanDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
     return this.pps.addProgramPlan(dto, selectors);
   }
 

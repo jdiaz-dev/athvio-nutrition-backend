@@ -20,12 +20,7 @@ import { UsersModule } from 'src/modules/security/users/users.module';
   ],
   providers: [
     ...[ClientPlansResolver, ClientPlanCommentsResolver],
-    ...[
-      ClientPlansPersistenceService,
-      CreateClientPlanService,
-      ClientPlanCommentPersistenceService,
-      AddClientPlanCommentService,
-    ],
+    ...[ClientPlansPersistenceService, CreateClientPlanService, ClientPlanCommentPersistenceService, AddClientPlanCommentService],
   ],
 })
 export class ClientPlansModule {}
