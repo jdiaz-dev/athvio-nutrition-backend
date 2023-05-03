@@ -25,6 +25,7 @@ export class CustomRecipesPersistenceService {
     });
     return customRecipe;
   }
+
   async getCustomRecipe({ professional, ...rest }: GetCustomRecipeDto, selectors: string[]): Promise<CustomRecipe> {
     const customRecipeRes = await this.customRecipeModel.findOne(
       {

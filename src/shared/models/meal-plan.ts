@@ -8,8 +8,8 @@ import { Macros, MacroSchema } from 'src/shared/models/macros';
 @Schema({ _id: false })
 class CustomIngredient {
   @Field()
-  @Prop({ type: String, required: true })
-  amount: string;
+  @Prop({ type: Number, required: true })
+  amount: number;
 
   @Field()
   @Prop({ type: String, required: true })

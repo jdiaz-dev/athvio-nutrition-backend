@@ -1,3 +1,4 @@
+export const weightIngrams = 100;
 export const defaultSizePageFoodProvider = 20;
 
 export enum EnumEnvironments {

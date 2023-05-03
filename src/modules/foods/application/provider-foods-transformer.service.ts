@@ -5,7 +5,7 @@ import { FoodsProviderService } from 'src/modules/foods/adapters/out/providers/f
 import { defaultSizePageFoodProvider, FoodDatabases } from 'src/shared/enums/project';
 
 @Injectable()
-export class SerializeFoodsFromProviderService {
+export class ProviderFoodTransformerService {
   constructor(private readonly foodProvider: FoodsProviderService) {}
 
   private getNextSession(nextLink: NextLink): number {
@@ -36,7 +36,7 @@ export class SerializeFoodsFromProviderService {
         calories: item.food.nutrients.ENERC_KCAL,
         weightInGrams: 100,
       },
-      foodDatabase: FoodDatabases.ALL,
+      foodDatabase: FoodDatabases.SYSTEM,
       foodId: item.food.foodId,
       availableMeasures: this.transformMeasure(item.measures),
     }));

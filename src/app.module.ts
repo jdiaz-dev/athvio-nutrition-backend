@@ -111,6 +111,8 @@ export class AppModule {}
     - implement equivalent ingredients
 
     - ValidateIf is not working (EquivalentInputs InputType)
+
+    - check application layer if foods module, check right implementation for hexagonal architecture
 */
 
 /*
@@ -127,23 +129,5 @@ export class AppModule {}
   'Chip',       'Slab',
   'Cube'
 ]
-
-*/
-
-/*
-  * bar searcher algorithm
-    search in edamam and cutom recipes
-    merge results
-
-  * results
-   - if there are not nothing in edamam, merge results of custom recipes
-   - if there are nothing in custom recipes, merge with edamam equally (using parsed foods)
-   - if there are nothing in both, return empty array
-
-  * pagination
-   - total wil be parsed summed with total of custom recipes
-   - if there aren't nothing in search text, use only edamam
-   - if offset is 15 , sum to total 20, and return next link provided by edamam
-
 
 */

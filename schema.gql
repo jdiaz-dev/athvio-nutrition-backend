@@ -185,7 +185,7 @@ type CreateUserInfoResponse {
 }
 
 type CustomIngredient {
-  amount: String!
+  amount: Float!
   ingredients: [Ingredient!]
   label: String!
   macros: Macros!
@@ -283,6 +283,7 @@ type Food {
   availableMeasures: [Measure!]
   foodDatabase: String!
   foodId: String
+  ingredientDetails: [IngredientDetail!]
   macros: Macros!
   name: String!
 }
@@ -516,7 +517,7 @@ input MealPlanBodyInput {
 
 type Measure {
   label: String!
-  uri: String!
+  uri: String
   weightInGrams: Float!
 }
 
@@ -671,7 +672,6 @@ input UpdateCustomRecipeDto {
   macros: MacrosInput!
   name: String!
   professional: String!
-  totalWeight: Float!
 }
 
 input UpdateMealDto {

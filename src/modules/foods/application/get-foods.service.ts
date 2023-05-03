@@ -1,57 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { Food, GetFoodsDto, GetFoodsResponse } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
-import { SerializeFoodsFromProviderService } from 'src/modules/foods/application/serialize-foods-from-provider.service';
-import { CustomRecipesPersistenceService } from 'src/modules/professionals/custom-recipes/adapters/out/custom-recipes-persistence.service';
+import { GetFoodsDto, GetFoodsResponse } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
+import { CustomRecipesTransformerService } from 'src/modules/foods/application/custom-recipes-transformer.service';
+import { ProviderFoodTransformerService } from 'src/modules/foods/application/provider-foods-transformer.service';
 import { FoodDatabases } from 'src/shared/enums/project';
 
 @Injectable()
 export class GetFoodsService {
   constructor(
-    private readonly crps: CustomRecipesPersistenceService,
-    private readonly sfrps: SerializeFoodsFromProviderService,
+    private readonly customRecipesTransformer: CustomRecipesTransformerService,
+    private readonly foodsTransformer: ProviderFoodTransformerService,
   ) {}
 
-  async getFoodFromCustomRecipes(dto: GetFoodsDto): Promise<GetFoodsResponse> {
-    const graphqlSelectors = {
-      'name': 1,
-      'macros.protein': 1,
-      'macros.carbs': 1,
-      'macros.fat': 1,
-      'macros.calories': 1,
-      'macros.weightInGrams': 1,
-    };
-
-    const { data, meta } = await this.crps.getCustomRecipes(dto, graphqlSelectors);
-    const customRecipesForFood: Food[] = data.map((recipe) => {
-      const res = {
-        name: recipe.name,
-        macros: recipe.macros,
-        foodDatabase: FoodDatabases.CUSTOM_RECIPES,
-        feo: 'feo',
-      };
-      return res;
-    });
-
-    return {
-      data: customRecipesForFood,
-      meta,
-    };
-  }
-  async getFoods(dto: GetFoodsDto): Promise<GetFoodsResponse> {
+  async getFoods(dto: GetFoodsDto, selectors: Record<string, number>): Promise<GetFoodsResponse> {
     //default search
     if (dto.foodDatabase === FoodDatabases.ALL && dto.search[0] === '') {
-      return this.sfrps.getFoodFromProvider(dto);
+      return this.foodsTransformer.getFoodFromProvider(dto);
     }
     if (dto.foodDatabase === FoodDatabases.SYSTEM) {
-      return this.sfrps.getFoodFromProvider(dto);
+      return this.foodsTransformer.getFoodFromProvider(dto);
     }
     if (dto.foodDatabase === FoodDatabases.CUSTOM_RECIPES) {
-      return this.getFoodFromCustomRecipes(dto);
+      return this.customRecipesTransformer.getFoodFromCustomRecipes(dto, selectors);
     }
 
     const [providerFoods, customRecipes] = await Promise.all([
-      this.sfrps.getFoodFromProvider(dto),
-      this.getFoodFromCustomRecipes(dto),
+      this.foodsTransformer.getFoodFromProvider(dto),
+      this.customRecipesTransformer.getFoodFromCustomRecipes(dto, selectors),
     ]);
     return {
       data: [...providerFoods.data, ...customRecipes.data],

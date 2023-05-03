@@ -4,6 +4,7 @@ import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { Meta } from 'src/shared/dtos/get-records-response';
 import { FoodDatabases } from 'src/shared/enums/project';
 import { Macros } from 'src/shared/models/macros';
+import { IngredientDetail } from 'src/shared/models/meal-plan';
 
 @ObjectType()
 class FoodProviderSession {
@@ -16,8 +17,8 @@ class FoodProviderSession {
 
 @ObjectType()
 export class Measure {
-  @Field()
-  uri: string;
+  @Field({ nullable: true })
+  uri?: string;
 
   @Field()
   label: string;
@@ -29,13 +30,16 @@ export class Measure {
 @ObjectType()
 export class Food {
   @Field()
+  foodDatabase: FoodDatabases;
+
+  @Field()
   name: string;
 
   @Field(() => Macros)
   macros: Macros;
 
-  @Field()
-  foodDatabase: FoodDatabases;
+  @Field(() => [IngredientDetail], { nullable: true })
+  ingredientDetails?: IngredientDetail[];
 
   @Field({ nullable: true })
   foodId?: string;
