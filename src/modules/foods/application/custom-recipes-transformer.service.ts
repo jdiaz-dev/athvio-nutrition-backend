@@ -9,9 +9,11 @@ export class CustomRecipesTransformerService {
   constructor(private readonly customRecipesPersistence: CustomRecipesPersistenceService) {}
 
   private calculateMacrosFixingDecimals(weightRef: number, macroRef: number): number {
+    if (macroRef <= 0) return 0;
     const numerator = Math.round((Math.round(weightIngrams * 100) / 100) * (Math.round(macroRef * 100) / 100) * 100) / 100;
     const demoninator = Math.round(weightRef * 100) / 100;
-    return Math.round((numerator / demoninator) * 100) / 100;
+    const res = Math.round((numerator / demoninator) * 100) / 100;
+    return res;
   }
 
   private macrosFor100Grams(macrosRef: Macros): Macros {

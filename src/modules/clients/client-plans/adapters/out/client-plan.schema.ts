@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { MealPlan, MealPlanSchema } from 'src/shared/models/meal-plan';
+import { Meal, MealSchema } from 'src/shared/models/meal-plan';
 import { PlanState } from 'src/shared/enums/project';
 
 @ObjectType()
@@ -56,9 +56,9 @@ export class ClientPlan extends BaseSchema {
   @Prop({ type: Date, required: true })
   assignedDate!: Date;
 
-  @Field(() => [MealPlan])
-  @Prop({ type: [MealPlanSchema], required: true, default: [] })
-  mealPlans!: MealPlan[];
+  @Field(() => [Meal])
+  @Prop({ type: [MealSchema], required: true, default: [] })
+  meals!: Meal[];
   /*
     after extends from MealPlan, add the next properties
     userInteraction:{
@@ -91,8 +91,8 @@ export class ClientPlan extends BaseSchema {
 
 export type ClientPlanDocument = ClientPlan & Document;
 export const ClientPlanSchema = SchemaFactory.createForClass(ClientPlan);
-ClientPlanSchema.methods.toJSON = function () {
-  const { __v, createdAt, updatedAt, ...clientGroup } = this.toObject();
-  //   console.log('----------clientGroup json', clientGroup);
-  return clientGroup;
+ClientPlanSchema.methods.toJSON = function (): Partial<ClientPlan> {
+  const { __v, createdAt, updatedAt, ...clientPlan } = this.toObject();
+  //   console.log('----------clientPlan json', clientPlan);
+  return clientPlan as Partial<ClientPlan>;
 };

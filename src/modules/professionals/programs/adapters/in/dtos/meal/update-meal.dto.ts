@@ -19,10 +19,6 @@ export class UpdateMealDto {
 
   @Field()
   @IsMongoId()
-  mealPlan: string;
-
-  @Field()
-  @IsMongoId()
   meal: string;
 
   @Field()

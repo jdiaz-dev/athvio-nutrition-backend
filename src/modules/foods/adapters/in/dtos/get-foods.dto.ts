@@ -44,8 +44,8 @@ export class Food {
   @Field({ nullable: true })
   foodId?: string;
 
-  @Field(() => [Measure], { nullable: true })
-  availableMeasures?: Measure[];
+  @Field(() => [Measure])
+  availableMeasures: Measure[];
 }
 
 @InputType()

@@ -3,7 +3,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
-import { MealPlan, MealPlanSchema } from 'src/shared/models/meal-plan';
+import { Meal, MealSchema } from 'src/shared/models/meal-plan';
 import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
 
 @ObjectType()
@@ -24,9 +24,9 @@ export class Plan {
   @Prop({ type: Number, required: true })
   day!: number;
 
-  @Field(() => [MealPlan])
-  @Prop({ type: [MealPlanSchema], required: true, default: [] })
-  mealPlans!: MealPlan[];
+  @Field(() => [Meal])
+  @Prop({ type: [MealSchema], required: true, default: [] })
+  meals!: Meal[];
 
   //planWorkouts: any;
 
@@ -72,8 +72,8 @@ export class Program extends BaseSchema {
 
 export type ProgramDocument = Program & Document;
 export const ProgramSchema = SchemaFactory.createForClass(Program);
-ProgramSchema.methods.toJSON = function () {
+ProgramSchema.methods.toJSON = function (): Partial<Program> {
   const { __v, createdAt, updatedAt, ...program } = this.toObject();
-  //   console.log('----------programTag json', programTag);
-  return program;
+  //   console.log('----------program json', program);
+  return program as Partial<Program>;
 };

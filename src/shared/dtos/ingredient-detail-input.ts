@@ -51,7 +51,7 @@ export class EquivalentsInput {
 }
 
 @InputType()
-export class IngredientDetailInput extends EquivalentsInput {
+export class IngredientDetailsInput extends EquivalentsInput {
   @Field(() => [EquivalentsInput])
   @ValidateNested()
   @IsArray()

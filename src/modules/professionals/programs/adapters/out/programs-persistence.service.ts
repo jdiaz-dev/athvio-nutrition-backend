@@ -54,7 +54,7 @@ export class ProgramsPersistenceService {
     ]);
 
     if (programRes[0] == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-    return programRes[0];
+    return programRes[0] as Program;
   }
   async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Record<string, number>): Promise<GetProgramsResponse> {
     const programs = await this.programModel.aggregate([

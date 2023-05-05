@@ -7,14 +7,14 @@ import { Macros } from 'src/shared/models/macros';
 export class Ingredient extends Macros {
   @Field()
   @Prop({ type: String, required: true })
-  name!: string;
+  name: string;
 
   @Field()
   @Prop({ type: Number, required: true })
-  amount!: number;
+  amount: number;
 
   @Field()
   @Prop({ type: String, required: true })
-  label!: string;
+  label: string;
 }
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);

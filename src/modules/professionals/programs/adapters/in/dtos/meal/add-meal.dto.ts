@@ -18,10 +18,6 @@ export class AddMealDto {
   plan: string;
 
   @Field()
-  @IsMongoId()
-  mealPlan: string;
-
-  @Field()
   @ValidateNested()
   @Type(() => MealBodyInput)
   mealBody: MealBodyInput;

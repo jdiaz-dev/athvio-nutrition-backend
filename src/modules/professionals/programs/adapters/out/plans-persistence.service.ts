@@ -15,7 +15,7 @@ export class PlansPersistenceService {
 
   async addProgramPlan({ professional, program, ...rest }: AddProgramPlanDto, selectors: string[]): Promise<Program> {
     const programRes = await this.programModel
-      .findOneAndUpdate({ _id: program, professional }, { $push: { plans: { ...rest } } }, { new: true })
+      .findOneAndUpdate({ _id: program, professional, isDeleted: false }, { $push: { plans: { ...rest } } }, { new: true })
       .populate('programTags plans');
     selectors;
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);

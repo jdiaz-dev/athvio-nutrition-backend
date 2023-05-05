@@ -12,15 +12,12 @@ import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 export class MealsPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addMeal({ professional, program, plan, mealPlan, mealBody }: AddMealDto, selectors: string[]): Promise<Program> {
+  async addMeal({ professional, program, plan, mealBody }: AddMealDto, selectors: string[]): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: program, professional },
-      { $push: { 'plans.$[plan].mealPlans.$[mealPlan].meals': { ...mealBody } } },
+      { $push: { 'plans.$[plan].meals': { ...mealBody } } },
       {
-        arrayFilters: [
-          { 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false },
-          { 'mealPlan._id': new Types.ObjectId(mealPlan), 'mealPlan.isDeleted': false },
-        ],
+        arrayFilters: [{ 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false }],
         new: true,
         projection: selectors,
       },
@@ -30,18 +27,17 @@ export class MealsPersistenceService {
     return programRes;
   }
 
-  async updateMeal(
-    { professional, program, plan, mealPlan, meal, mealBody }: UpdateMealDto,
-    selectors: string[],
-  ): Promise<Program> {
+  async updateMeal({ professional, program, plan, meal, mealBody }: UpdateMealDto, selectors: string[]): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: program, professional },
       {
         $set: {
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].name': mealBody.name,
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].ingredients': mealBody.ingredientDetail,
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].cookingInstruction': mealBody.cookingInstruction,
-          'plans.$[plan].mealPlans.$[mealPlan].meals.$[meal].macros': mealBody.macros,
+          'plans.$[plan].meals.$[meal].position': mealBody.position,
+          'plans.$[plan].meals.$[meal].mealTag': mealBody.mealTag,
+          'plans.$[plan].meals.$[meal].name': mealBody.name,
+          'plans.$[plan].meals.$[meal].ingredientDetails': mealBody.ingredientDetails,
+          'plans.$[plan].meals.$[meal].cookingInstructions': mealBody.cookingInstructions,
+          'plans.$[plan].meals.$[meal].macros': mealBody.macros,
         },
       },
       {
@@ -49,9 +45,6 @@ export class MealsPersistenceService {
           {
             'plan._id': new Types.ObjectId(plan),
             'plan.isDeleted': false,
-          },
-          {
-            'mealPlan._id': new Types.ObjectId(mealPlan),
           },
           {
             'meal._id': new Types.ObjectId(meal),
@@ -66,12 +59,12 @@ export class MealsPersistenceService {
     return programRes;
   }
 
-  async deleteMeal({ professional, program, plan, meal, mealPlan }: DeleteMealDto, selectors: string[]): Promise<Program> {
+  async deleteMeal({ professional, program, plan, meal }: DeleteMealDto, selectors: string[]): Promise<Program> {
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: program, professional },
       {
         $pull: {
-          'plans.$[plan].mealPlans.$[mealPlan].meals': { _id: new Types.ObjectId(meal) },
+          'plans.$[plan].meals': { _id: new Types.ObjectId(meal) },
         },
       },
       {
@@ -79,10 +72,6 @@ export class MealsPersistenceService {
           {
             'plan._id': new Types.ObjectId(plan),
             'plan.isDeleted': false,
-          },
-          {
-            'mealPlan._id': new Types.ObjectId(mealPlan),
-            'mealPlan.isDeleted': false,
           },
         ],
         new: true,

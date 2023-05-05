@@ -69,9 +69,17 @@ export const IngredientDetailSchema = SchemaFactory.createForClass(IngredientDet
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
-class Meal {
+export class Meal {
   @Field(() => ID)
   _id!: string;
+
+  @Field()
+  @Prop({ type: Number, required: false })
+  position: number;
+
+  @Field()
+  @Prop({ type: String, required: false })
+  mealTag: string; //Example breakfast, luch or dinner, emal1
 
   @Field()
   @Prop({ type: String, required: true })
@@ -79,11 +87,11 @@ class Meal {
 
   @Field(() => [IngredientDetail])
   @Prop({ type: [IngredientDetailSchema], required: true })
-  ingredientDetail: IngredientDetail[];
+  ingredientDetails: IngredientDetail[];
 
   @Field()
   @Prop({ type: String, required: false })
-  cookingInstruction: string;
+  cookingInstructions: string;
 
   @Field()
   @Prop({ type: MacroSchema, required: true })
@@ -94,33 +102,4 @@ class Meal {
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted: boolean;
 }
-const MealSchema = SchemaFactory.createForClass(Meal);
-
-@ObjectType()
-@Schema({ _id: true, timestamps: true })
-export class MealPlan {
-  @Field(() => ID)
-  _id!: string;
-
-  @Field()
-  @Prop({ type: String, required: false })
-  mealTag: string; //Example breakfast, luch or dinner, emal1
-
-  @Field()
-  @Prop({ type: Number, required: false })
-  position: number;
-
-  @Field(() => [Meal])
-  @Prop({ type: [MealSchema], required: true, default: [] })
-  meals: Meal[];
-
-  @Field()
-  @Prop({ type: MacroSchema, required: true })
-  macros: Macros;
-
-  //micros
-
-  @Prop({ type: Boolean, required: true, default: false })
-  isDeleted: boolean;
-}
-export const MealPlanSchema = SchemaFactory.createForClass(MealPlan);
+export const MealSchema = SchemaFactory.createForClass(Meal);

@@ -11,14 +11,6 @@ input AddClientPlanCommentDto {
 
 input AddMealDto {
   mealBody: MealBodyInput!
-  mealPlan: String!
-  plan: String!
-  professional: String!
-  program: String!
-}
-
-input AddMealPlanDto {
-  mealPlanBody: MealPlanBodyInput!
   plan: String!
   professional: String!
   program: String!
@@ -86,7 +78,7 @@ type ClientPlan {
   commentResult: String!
   comments: [Comment!]!
   isDeleted: String!
-  mealPlans: [MealPlan!]!
+  meals: [Meal!]!
   state: String!
   title: String!
 }
@@ -151,7 +143,7 @@ type CreateClientResponse {
 
 input CreateCustomRecipeDto {
   cookingInstructions: String!
-  ingredientDetails: [IngredientDetailInput!]!
+  ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   name: String!
   professional: String!
@@ -238,14 +230,6 @@ input DeleteCustomRecipeDto {
 
 input DeleteMealDto {
   meal: String!
-  mealPlan: String!
-  plan: String!
-  professional: String!
-  program: String!
-}
-
-input DeleteMealPlanDto {
-  mealPlan: String!
   plan: String!
   professional: String!
   program: String!
@@ -280,7 +264,7 @@ input EquivalentsInput {
 }
 
 type Food {
-  availableMeasures: [Measure!]
+  availableMeasures: [Measure!]!
   foodDatabase: String!
   foodId: String
   ingredientDetails: [IngredientDetail!]
@@ -414,7 +398,7 @@ type IngredientDetail {
   ingredientType: IngredientType!
 }
 
-input IngredientDetailInput {
+input IngredientDetailsInput {
   customIngredient: CustomIngredientInput
   equivalents: [EquivalentsInput!]!
   ingredient: IngredientInput
@@ -489,29 +473,20 @@ input ManageProgramTagDto {
 
 type Meal {
   _id: ID!
-  cookingInstruction: String!
-  ingredientDetail: [IngredientDetail!]!
-  macros: Macros!
-  name: String!
-}
-
-input MealBodyInput {
-  cookingInstruction: String!
-  ingredientDetail: IngredientDetailInput!
-  macros: MacrosInput!
-  name: String!
-}
-
-type MealPlan {
-  _id: ID!
+  cookingInstructions: String!
+  ingredientDetails: [IngredientDetail!]!
   macros: Macros!
   mealTag: String!
-  meals: [Meal!]!
+  name: String!
   position: Float!
 }
 
-input MealPlanBodyInput {
+input MealBodyInput {
+  cookingInstructions: String!
+  ingredientDetails: [IngredientDetailsInput!]!
+  macros: MacrosInput!
   mealTag: String!
+  name: String!
   position: Float!
 }
 
@@ -529,7 +504,6 @@ type Meta {
 
 type Mutation {
   addClientPlanComment(input: AddClientPlanCommentDto!): ClientPlan!
-  addMealPlan(input: AddMealPlanDto!): Program!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   createCalory(input: CreateCaloryDto!): Calory!
   createClient(input: CreateClientDto!): CreateClientResponse!
@@ -544,7 +518,6 @@ type Mutation {
   deleteClientPlanComment(input: DeleteClientPlanCommentDto!): ClientPlan!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deleteMeal(input: DeleteMealDto!): Program!
-  deleteMealPlan(input: DeleteMealPlanDto!): Program!
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
@@ -560,7 +533,6 @@ type Mutation {
   updateClientPlanDate(input: UpdateClientPlanDateDto!): ClientPlan!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
-  updateMealPlan(input: UpdateMealPlanDto!): Program!
   updatePassword(input: UpdatePasswordDto!): User!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramPlan(input: UpdateProgramPlanDto!): Program!
@@ -580,7 +552,7 @@ type Plan {
   _id: ID!
   day: Float!
   isDeleted: Boolean!
-  mealPlans: [MealPlan!]!
+  meals: [Meal!]!
   title: String!
   week: Float!
 }
@@ -668,7 +640,7 @@ input UpdateClientPlanDto {
 input UpdateCustomRecipeDto {
   cookingInstructions: String!
   customRecipe: String!
-  ingredientDetails: [IngredientDetailInput!]!
+  ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   name: String!
   professional: String!
@@ -677,15 +649,6 @@ input UpdateCustomRecipeDto {
 input UpdateMealDto {
   meal: String!
   mealBody: MealBodyInput!
-  mealPlan: String!
-  plan: String!
-  professional: String!
-  program: String!
-}
-
-input UpdateMealPlanDto {
-  mealPlan: String!
-  mealPlanBody: MealPlanBodyInput!
   plan: String!
   professional: String!
   program: String!

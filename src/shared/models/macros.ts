@@ -6,22 +6,22 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export class Macros {
   @Field()
   @Prop({ type: Number, required: true })
-  weightInGrams!: number;
+  weightInGrams: number;
 
   @Field()
   @Prop({ type: Number, required: true })
-  protein!: number;
+  protein: number;
 
   @Field()
   @Prop({ type: Number, required: true })
-  carbs!: number;
+  carbs: number;
 
   @Field()
   @Prop({ type: Number, required: true })
-  fat!: number;
+  fat: number;
 
   @Field()
   @Prop({ type: Number, required: true })
-  calories!: number;
+  calories: number;
 }
 export const MacroSchema = SchemaFactory.createForClass(Macros);

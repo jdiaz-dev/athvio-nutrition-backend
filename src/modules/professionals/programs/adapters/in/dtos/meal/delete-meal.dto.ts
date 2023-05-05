@@ -17,9 +17,5 @@ export class DeleteMealDto {
 
   @Field()
   @IsMongoId()
-  mealPlan: string;
-
-  @Field()
-  @IsMongoId()
   meal: string;
 }
