@@ -100,7 +100,6 @@ export class AppModule {}
 /*
   todo:
     - add rules to create week plans, verify the amount of days in week
-    - endpoint to relationate clients with programs (plans)
     - create roles and permissions
 
     - endpoint to update isTrialPeriod
@@ -113,6 +112,9 @@ export class AppModule {}
     - ValidateIf is not working (EquivalentInputs InputType)
 
     - check application layer if foods module, check right implementation for hexagonal architecture
+
+    - endpoint to relationate clients with programs (plans) <----------------- working
+
 */
 
 /*
