@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/create-client-plan.dto';
-import { DeleteClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/delete-client-plan.dto';
-import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/get-client-plans.dto';
-import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/update-client-plan-date.dto';
-import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/update-client-plan.dto';
+import { CreateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/create-client-plan.dto';
+import { DeleteClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/delete-client-plan.dto';
+import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/get-client-plans.dto';
+import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan-date.dto';
+import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan.dto';
 import { ClientPlan, ClientPlanDocument } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { ErrorClientPlanEnum } from 'src/shared/enums/messages-response';
 
@@ -19,10 +19,10 @@ export class ClientPlansPersistenceService {
     });
     return clientPlan;
   }
-  async getClientPlans({ clientId, ...rest }: GetClientPlansDto, selectors: string[]): Promise<ClientPlan[]> {
+  async getClientPlans({ client, ...rest }: GetClientPlansDto, selectors: string[]): Promise<ClientPlan[]> {
     const clientPlans = await this.clienPlanModel.find(
       {
-        clientId,
+        client,
         isDeleted: false,
       },
       selectors,
@@ -35,24 +35,24 @@ export class ClientPlansPersistenceService {
     return clientPlans;
   }
   async updateClientPlan(
-    { clientPlanId, clientId, ...rest }: UpdateClientPlanDto | UpdateClientPlanDateDto,
+    { clientPlan, client, ...rest }: UpdateClientPlanDto | UpdateClientPlanDateDto,
     selectors: string[],
   ): Promise<ClientPlan> {
-    const clientPlan = await this.clienPlanModel.findOneAndUpdate(
-      { _id: clientPlanId, clientId, isDeleted: false },
+    const clientPlanRes = await this.clienPlanModel.findOneAndUpdate(
+      { _id: clientPlan, client, isDeleted: false },
       { ...rest },
       { new: true, projection: selectors },
     );
 
-    if (clientPlan == null) throw new BadRequestException(ErrorClientPlanEnum.CLIENT_PLAN_NOT_FOUND);
-    return clientPlan;
+    if (clientPlanRes == null) throw new BadRequestException(ErrorClientPlanEnum.CLIENT_PLAN_NOT_FOUND);
+    return clientPlanRes;
   }
 
-  async deleteClientPlan({ clientPlanId, clientId }: DeleteClientPlanDto, selectors: string[]): Promise<ClientPlan> {
-    const clientPlan = await this.clienPlanModel.findOneAndUpdate(
+  async deleteClientPlan({ clientPlan, client }: DeleteClientPlanDto, selectors: string[]): Promise<ClientPlan> {
+    const clientPlanRes = await this.clienPlanModel.findOneAndUpdate(
       {
-        _id: clientPlanId,
-        clientId,
+        _id: clientPlan,
+        client,
         isDeleted: false,
       },
       {
@@ -63,8 +63,8 @@ export class ClientPlansPersistenceService {
         projection: selectors,
       },
     );
-    if (clientPlan == null) throw new BadRequestException(ErrorClientPlanEnum.CLIENT_PLAN_NOT_FOUND);
+    if (clientPlanRes == null) throw new BadRequestException(ErrorClientPlanEnum.CLIENT_PLAN_NOT_FOUND);
 
-    return clientPlan;
+    return clientPlanRes;
   }
 }

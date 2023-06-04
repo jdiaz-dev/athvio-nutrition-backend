@@ -113,8 +113,8 @@ export class AppModule {}
 
     - check application layer if foods module, check right implementation for hexagonal architecture
 
-    - endpoint to relationate clients with programs (plans) <----------------- working
-
+    - endpoint to relationate clients with programs (plans) 
+    - creating endpoint to add meals to client plan <----------------- working
 */
 
 /*

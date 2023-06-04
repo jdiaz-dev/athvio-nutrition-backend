@@ -1,10 +1,10 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/create-client-plan.dto';
-import { DeleteClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/delete-client-plan.dto';
-import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/get-client-plans.dto';
-import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/update-client-plan-date.dto';
-import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/client-plan/update-client-plan.dto';
+import { CreateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/create-client-plan.dto';
+import { DeleteClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/delete-client-plan.dto';
+import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/get-client-plans.dto';
+import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan-date.dto';
+import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan.dto';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { ClientPlansPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plans-persistence.service';
 import { CreateClientPlanService } from 'src/modules/clients/client-plans/application/create-client-plan.service';

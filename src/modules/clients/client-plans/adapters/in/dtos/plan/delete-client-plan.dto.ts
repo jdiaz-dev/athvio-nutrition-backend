@@ -5,9 +5,13 @@ import { IsMongoId } from 'class-validator';
 export class DeleteClientPlanDto {
   @Field()
   @IsMongoId()
-  clientId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  clientPlanId: string;
+  client: string;
+
+  @Field()
+  @IsMongoId()
+  clientPlan: string;
 }

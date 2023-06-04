@@ -16,6 +16,13 @@ input AddMealDto {
   program: String!
 }
 
+input AddPlanMealDto {
+  client: String!
+  clientPlan: String!
+  mealBody: MealBodyInput!
+  professional: String!
+}
+
 input AddProgramPlanDto {
   day: Float!
   professional: String!
@@ -74,11 +81,11 @@ type ClientGroup {
 type ClientPlan {
   _id: ID!
   assignedDate: DateTime!
-  clientId: String!
+  client: String!
   commentResult: String!
   comments: [Comment!]!
   isDeleted: String!
-  meals: [Meal!]!
+  meals: [Meal!]
   state: String!
   title: String!
 }
@@ -121,7 +128,8 @@ input CreateClientGroupDto {
 
 input CreateClientPlanDto {
   assignedDate: DateTime!
-  clientId: String!
+  client: String!
+  professional: String!
   title: String
 }
 
@@ -219,8 +227,9 @@ input DeleteClientPlanCommentDto {
 }
 
 input DeleteClientPlanDto {
-  clientId: String!
-  clientPlanId: String!
+  client: String!
+  clientPlan: String!
+  professional: String!
 }
 
 input DeleteCustomRecipeDto {
@@ -233,6 +242,13 @@ input DeleteMealDto {
   plan: String!
   professional: String!
   program: String!
+}
+
+input DeletePlanMealDto {
+  client: String!
+  clientPlan: String!
+  meal: String!
+  professional: String!
 }
 
 input DeleteProgramDto {
@@ -304,10 +320,11 @@ input GetClientGroupsDto {
 }
 
 input GetClientPlansDto {
-  clientId: String!
+  client: String!
   limit: Float = 30
   offset: Float = 0
   orderBy: String
+  professional: String!
   search: [String!] = [""]
 }
 
@@ -504,6 +521,7 @@ type Meta {
 
 type Mutation {
   addClientPlanComment(input: AddClientPlanCommentDto!): ClientPlan!
+  addPlanMeal(input: AddPlanMealDto!): ClientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   createCalory(input: CreateCaloryDto!): Calory!
   createClient(input: CreateClientDto!): CreateClientResponse!
@@ -518,6 +536,7 @@ type Mutation {
   deleteClientPlanComment(input: DeleteClientPlanCommentDto!): ClientPlan!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deleteMeal(input: DeleteMealDto!): Program!
+  deletePlanMeal(input: DeletePlanMealDto!): ClientPlan!
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
@@ -534,6 +553,7 @@ type Mutation {
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
   updatePassword(input: UpdatePasswordDto!): User!
+  updatePlanMeal(input: UpdatePlanMealDto!): ClientPlan!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramPlan(input: UpdateProgramPlanDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
@@ -626,14 +646,16 @@ input UpdateClientPlanCommentDto {
 
 input UpdateClientPlanDateDto {
   assignedDate: DateTime!
-  clientId: String!
-  clientPlanId: String!
+  client: String!
+  clientPlan: String!
+  professional: String!
 }
 
 input UpdateClientPlanDto {
   assignedDate: DateTime!
-  clientId: String!
-  clientPlanId: String!
+  client: String!
+  clientPlan: String!
+  professional: String!
   title: String
 }
 
@@ -657,6 +679,14 @@ input UpdateMealDto {
 input UpdatePasswordDto {
   password: String!
   user: String!
+}
+
+input UpdatePlanMealDto {
+  client: String!
+  clientPlan: String!
+  meal: String!
+  mealBody: MealBodyInput!
+  professional: String!
 }
 
 input UpdateProgramDto {

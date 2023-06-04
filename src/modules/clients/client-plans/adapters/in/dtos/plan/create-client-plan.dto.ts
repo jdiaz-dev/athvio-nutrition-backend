@@ -2,14 +2,14 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 @InputType()
-export class UpdateClientPlanDto {
+export class CreateClientPlanDto {
   @Field()
   @IsMongoId()
-  clientId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  clientPlanId: string;
+  client: string;
 
   @Field()
   @IsDate()
@@ -20,7 +20,7 @@ export class UpdateClientPlanDto {
   @IsString()
   title: string;
 
-  /*  @Field(() => [MealBodyInput], { nullable: true })
+  /* @Field(() => [MealBodyInput], { nullable: true })
   @IsOptional()
   planMeals: [MealBodyInput]; */
 }

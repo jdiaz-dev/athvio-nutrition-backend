@@ -6,5 +6,9 @@ import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 export class GetClientPlansDto extends GetRecordsBaseDto {
   @Field()
   @IsMongoId()
-  clientId: string;
+  professional: string;
+
+  @Field()
+  @IsMongoId()
+  client: string;
 }

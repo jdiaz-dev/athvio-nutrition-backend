@@ -10,6 +10,17 @@ import { CreateClientPlanService } from 'src/modules/clients/client-plans/applic
 import { ClientsModule } from 'src/modules/clients/clients/clients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { UsersModule } from 'src/modules/security/users/users.module';
+import { PlanMealsPersistenceService } from 'src/modules/clients/client-plans/adapters/out/plan-meals-persistence.service';
+import { MealsResolver } from 'src/modules/clients/client-plans/adapters/in/meals.resolver';
+
+const resolvers = [ClientPlansResolver, ClientPlanCommentsResolver, MealsResolver];
+const services = [
+  ClientPlansPersistenceService,
+  CreateClientPlanService,
+  ClientPlanCommentPersistenceService,
+  AddClientPlanCommentService,
+  PlanMealsPersistenceService,
+];
 
 @Module({
   imports: [
@@ -18,9 +29,6 @@ import { UsersModule } from 'src/modules/security/users/users.module';
     ProfessionalsModule,
     ClientsModule,
   ],
-  providers: [
-    ...[ClientPlansResolver, ClientPlanCommentsResolver],
-    ...[ClientPlansPersistenceService, CreateClientPlanService, ClientPlanCommentPersistenceService, AddClientPlanCommentService],
-  ],
+  providers: [...resolvers, ...services],
 })
 export class ClientPlansModule {}

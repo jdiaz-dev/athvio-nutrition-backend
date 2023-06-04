@@ -46,7 +46,7 @@ export class ClientPlan extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: true })
-  clientId!: string;
+  client!: string;
 
   @Field()
   @Prop({ type: String, required: false })
@@ -56,7 +56,7 @@ export class ClientPlan extends BaseSchema {
   @Prop({ type: Date, required: true })
   assignedDate!: Date;
 
-  @Field(() => [Meal])
+  @Field(() => [Meal], { nullable: true })
   @Prop({ type: [MealSchema], required: true, default: [] })
   meals!: Meal[];
   /*

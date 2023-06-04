@@ -5,11 +5,15 @@ import { IsDate, IsMongoId } from 'class-validator';
 export class UpdateClientPlanDateDto {
   @Field()
   @IsMongoId()
-  clientId: string;
+  professional: string;
 
   @Field()
   @IsMongoId()
-  clientPlanId: string;
+  client: string;
+
+  @Field()
+  @IsMongoId()
+  clientPlan: string;
 
   @Field()
   @IsDate()
