@@ -87,7 +87,7 @@ type ClientPlan {
   isDeleted: String!
   meals: [Meal!]
   state: String!
-  title: String!
+  title: String
 }
 
 type Comment {

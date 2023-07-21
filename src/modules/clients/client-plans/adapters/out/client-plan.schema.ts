@@ -48,7 +48,7 @@ export class ClientPlan extends BaseSchema {
   @Prop({ type: String, required: true })
   client!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   title!: string;
 

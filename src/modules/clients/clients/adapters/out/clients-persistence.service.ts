@@ -42,7 +42,6 @@ export class ClientsPersistenceService {
   async getClients({ professional, ...dto }: GetClientsDto, selectors: Record<string, number>): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
     const restFields = removeFieldsFromAgregationSelectors(selectors, ['user']);
-
     const clients = await this.clientModel.aggregate([
       {
         $match: {
