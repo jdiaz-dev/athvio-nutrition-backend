@@ -42,6 +42,14 @@ input AdditionalInfoDto {
   weight: Float
 }
 
+input AssignProgramDto {
+  assignmentStartDay: DateTime!
+  client: String!
+  professional: String!
+  program: String!
+  startingDay: Float!
+}
+
 type Calory {
   _id: ID!
   calories: Float!
@@ -523,6 +531,7 @@ type Mutation {
   addClientPlanComment(input: AddClientPlanCommentDto!): ClientPlan!
   addPlanMeal(input: AddPlanMealDto!): ClientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
+  assignProgram(input: AssignProgramDto!): String!
   createCalory(input: CreateCaloryDto!): Calory!
   createClient(input: CreateClientDto!): CreateClientResponse!
   createClientGroup(input: CreateClientGroupDto!): ClientGroup!

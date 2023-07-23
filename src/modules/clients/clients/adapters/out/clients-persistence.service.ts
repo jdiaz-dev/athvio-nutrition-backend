@@ -8,7 +8,7 @@ import { ManageClientStateDto } from 'src/modules/clients/clients/adapters/in/dt
 import { ManageClientGroupDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-group.dto';
 import { ClientState, ManageClientGroup } from 'src/shared/enums/project';
 import { CreateClient, DeleteManyClientGroup, UpdateClient } from 'src/modules/clients/clients/adapters/out/client.types';
-import { removeFieldsFromAgregationSelectors } from 'src/shared/helpers/graphql-helpers';
+import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
 @Injectable()
@@ -22,10 +22,10 @@ export class ClientsPersistenceService {
     });
     return client.toJSON();
   }
-  async getClient(professionalId: string, clientId: string): Promise<Client> {
+  async getClient(professional: string, client: string): Promise<Client> {
     const clientRes = await this.clientModel.findOne({
-      _id: clientId,
-      professional: professionalId,
+      _id: client,
+      professional: professional,
       state: ClientState.ACTIVE,
     });
     if (!clientRes) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
@@ -41,7 +41,7 @@ export class ClientsPersistenceService {
   }
   async getClients({ professional, ...dto }: GetClientsDto, selectors: Record<string, number>): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
-    const restFields = removeFieldsFromAgregationSelectors(selectors, ['user']);
+    const restFields = removeAttributesWithFieldNames(selectors, ['user']);
     const clients = await this.clientModel.aggregate([
       {
         $match: {

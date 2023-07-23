@@ -69,7 +69,7 @@ db.Programs.aggregate([
       description: 1,
       programTags: 1,
       clients: 1,
-      result: { $sortArray: { input: '$plans', sortBy: { day: 1 } } },
+      result: {$sortArray: {input: '$plans', sortBy: {day: 1}}},
     },
   },
 ]);
@@ -90,3 +90,34 @@ db.Programs.aggregate([
        }
     }
  ] ) */
+db.Programs.aggregate([
+  {
+    $match: {
+      _id: ObjectId("6473d0f163aef9ff8297a864"),
+      professional: ObjectId("6473cf8763aef9ff8297a80a"),
+      isDeleted: false,
+    },
+  },
+  {
+    $project: {
+      // ...restFields,
+      plans: {
+        $filter: {
+          input: '$plans',
+          as: 'plan',
+          cond: {
+            $and: [
+              {$eq: ['$$plan.isDeleted', false]}, {$gt: ['$$plan.day', 7]}
+            ]
+          }
+        }
+      },
+    },
+  },
+  {
+    $project: {
+      // ...restFields,
+      plans: {$sortArray: {input: '$plans', sortBy: {day: 1}}},
+    },
+  },
+]);

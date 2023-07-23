@@ -15,7 +15,7 @@ import { ProgramTagsModule } from './modules/professionals/program-tags/program-
 import { ClientGroupsModule } from './modules/professionals/client-groups/client-groups.module';
 import { ClientsModule } from './modules/clients/clients/clients.module';
 import { CaloriesModule } from './modules/clients/calories/calories.module';
-import { ClientPlansModule } from './modules/clients/client-plans/plans.module';
+import { ClientPlansModule } from './modules/clients/client-plans/client-plans.module';
 import { ChatsModule } from './modules/clients/chats/chats.module';
 import { SecurityModule } from './modules/security/security/security.module';
 // import { EnumEnvironments } from './shared/enums/project';
@@ -131,5 +131,12 @@ export class AppModule {}
   'Chip',       'Slab',
   'Cube'
 ]
+
+*/
+
+/* 
+  now
+    - implement query for get programs from day selected
+    - query to create many clientPlans
 
 */

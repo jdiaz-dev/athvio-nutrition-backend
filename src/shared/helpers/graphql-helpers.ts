@@ -53,13 +53,13 @@ export function selectorExtractorForAggregation(): { transform: (value: GraphQLR
   ];
 }
 
-export const removeFieldsFromAgregationSelectors = (
+export const removeAttributesWithFieldNames = (
   selectors: Record<string, number>,
-  fieldName: string[],
+  fieldNames: string[],
 ): Record<string, number> => {
   const _selectors = { ...selectors };
   for (const x in _selectors) {
-    for (const y of fieldName) {
+    for (const y of fieldNames) {
       if (x.includes(y)) {
         delete _selectors[x];
       }

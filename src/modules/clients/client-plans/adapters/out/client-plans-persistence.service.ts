@@ -7,6 +7,7 @@ import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/
 import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan-date.dto';
 import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan.dto';
 import { ClientPlan, ClientPlanDocument } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
+import { ClientPlanPartial } from 'src/modules/clients/client-plans/adapters/out/client-plan.type';
 import { ErrorClientPlanEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
@@ -17,6 +18,10 @@ export class ClientPlansPersistenceService {
     const clientPlan = await this.clienPlanModel.create({
       ...dto,
     });
+    return clientPlan;
+  }
+  async createManyClientPlan(dto: ClientPlanPartial[]): Promise<ClientPlan[]> {
+    const clientPlan = await this.clienPlanModel.insertMany(dto);
     return clientPlan;
   }
   async getClientPlans({ client, ...rest }: GetClientPlansDto, selectors: string[]): Promise<ClientPlan[]> {

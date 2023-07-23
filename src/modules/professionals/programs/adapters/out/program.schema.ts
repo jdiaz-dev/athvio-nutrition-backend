@@ -66,6 +66,8 @@ export class Program extends BaseSchema {
   @Prop({ type: [String], required: true, default: [], ref: Client.name })
   clients: Client[];
 
+  // isSyncActive
+
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: string;
 }

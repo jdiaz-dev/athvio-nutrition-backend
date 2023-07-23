@@ -15,7 +15,7 @@ import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { ManageProgramTags } from 'src/shared/enums/project';
-import { removeFieldsFromAgregationSelectors } from 'src/shared/helpers/graphql-helpers';
+import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
 @Injectable()
 export class ProgramsPersistenceService {
@@ -30,7 +30,7 @@ export class ProgramsPersistenceService {
   }
 
   async getProgram({ professional, program }: GetProgramDto, selectors: Record<string, number>): Promise<Program> {
-    const restFields = removeFieldsFromAgregationSelectors(selectors, ['plans']);
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const programRes = await this.programModel.aggregate([
       {
         $match: {

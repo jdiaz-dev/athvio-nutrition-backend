@@ -1,5 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/assign-program.dto';
 import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
 import { GetProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-program.dto';
@@ -11,6 +12,7 @@ import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
+import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -19,7 +21,7 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class ProgramsResolver {
-  constructor(private readonly pps: ProgramsPersistenceService, private mpts: ProgramManagementService) {}
+  constructor(private readonly pps: ProgramsPersistenceService, private mpts: ProgramManagementService, private aps: AssignProgramService) {}
 
   @Mutation(() => Program)
   createProgram(@Args('input') dto: CreateProgramDto): Promise<Program> {
@@ -52,6 +54,10 @@ export class ProgramsResolver {
   @Mutation(() => Program)
   async manageProgramTag(@Args('input') dto: ManageProgramTagDto): Promise<Program> {
     return this.mpts.manageProgramTag(dto);
+  }
+  @Mutation(() => String)
+  async assignProgram(@Args('input') dto: AssignProgramDto): Promise<String> {
+    return this.aps.assignProgramToClient(dto);
   }
   @Mutation(() => Program)
   deleteProgram(@Args('input') dto: DeleteProgramDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {

@@ -8,7 +8,7 @@ import { UpdatePlanMealDto } from 'src/modules/clients/client-plans/adapters/in/
 import { DeletePlanMealDto } from 'src/modules/clients/client-plans/adapters/in/dtos/meals/delete-meal-plan.dto';
 
 @Injectable()
-export class PlanMealsPersistenceService {
+export class ClientPlanMealsPersistenceService {
   constructor(@InjectModel(ClientPlan.name) private readonly clienPlanModel: Model<ClientPlanDocument>) {}
 
   async addMealToPlan({ client, clientPlan, mealBody }: AddPlanMealDto, selectors: string[]): Promise<ClientPlan> {
