@@ -1,5 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/assign-program.dto';
 import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
@@ -55,8 +56,8 @@ export class ProgramsResolver {
   async manageProgramTag(@Args('input') dto: ManageProgramTagDto): Promise<Program> {
     return this.mpts.manageProgramTag(dto);
   }
-  @Mutation(() => String)
-  async assignProgram(@Args('input') dto: AssignProgramDto): Promise<String> {
+  @Mutation(() => [ClientPlan])
+  async assignProgram(@Args('input') dto: AssignProgramDto): Promise<ClientPlan[]> {
     return this.aps.assignProgramToClient(dto);
   }
   @Mutation(() => Program)
