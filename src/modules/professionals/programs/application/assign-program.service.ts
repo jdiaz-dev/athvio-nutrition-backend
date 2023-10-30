@@ -4,7 +4,6 @@ import { ClientPlansPersistenceService } from 'src/modules/clients/client-plans/
 import { ClientsPersistenceService } from 'src/modules/clients/clients/adapters/out/clients-persistence.service';
 import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/assign-program.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
-// import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import dayjs from 'dayjs';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { planSelectors } from 'src/shared/enums/selectors';

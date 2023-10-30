@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDate, IsMongoId, IsNumber } from 'class-validator';
+import { IsArray, IsDate, IsMongoId, IsNumber } from 'class-validator';
 
 @InputType()
 export class AssignProgramDto {
@@ -13,7 +13,8 @@ export class AssignProgramDto {
 
   @Field()
   @IsMongoId()
-  client: string;
+  @IsArray()
+  clients: string[];
 
   @Field()
   @IsDate()
