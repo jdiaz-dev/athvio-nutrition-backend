@@ -10,6 +10,7 @@ export enum ProfessionalMessages {
 
 export enum ErrorClientsEnum {
   CLIENT_NOT_FOUND = 'This client does not exist.',
+  CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching clients'
 }
 
 export enum ErrorProgramTagEnum {

@@ -13,26 +13,28 @@ export class AssignProgramService {
   constructor(
     private cps: ClientsPersistenceService,
     private cpps: ClientPlansPersistenceService,
-    private plps: PlansPersistenceService,
-
-  ) {
-    this.cpps;
-  }
+    private pps: PlansPersistenceService,
+  ) {}
 
   async assignProgramToClient(dto: AssignProgramDto): Promise<ClientPlan[]> {
-    await this.cps.getClient(dto.professional, dto.client);
-    const program = await this.plps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, planSelectors);
+    await this.cps.getManyClientsById(dto.clients);
+    const program = await this.pps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, planSelectors);
 
     const clientPlans: ClientPlanPartial[] = [];
+
     let clientPlan: ClientPlanPartial;
-    program.plans.forEach((plan, index) => {
-      clientPlan = {
-        assignedDate: new Date(dayjs(dto.assignmentStartDay).set('date', dayjs(dto.assignmentStartDay).get('date') + index).toString()),
-        client: dto.client,
-        meals: plan.meals
-      };
-      clientPlans.push(clientPlan);
-    });
+    for (const client of dto.clients) {
+      let index = 0;
+      for (const plan of program.plans) {
+        clientPlan = {
+          assignedDate: new Date(dayjs(dto.assignmentStartDay).set('date', dayjs(dto.assignmentStartDay).get('date') + index).toString()),
+          client: client,
+          meals: plan.meals
+        };
+        clientPlans.push(clientPlan);
+        index++;
+      }
+    }
 
     const res = await this.cpps.createManyClientPlan(clientPlans);
     return res;

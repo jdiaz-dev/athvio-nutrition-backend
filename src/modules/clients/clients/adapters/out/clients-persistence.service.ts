@@ -39,6 +39,13 @@ export class ClientsPersistenceService {
     if (!clientRes) throw new BadRequestException(ErrorClientsEnum.CLIENT_NOT_FOUND);
     return clientRes;
   }
+  async getManyClientsById(clients: string[]): Promise<Client[]> {
+    const clientsRes = await this.clientModel.find({ _id: { $in: clients } }, { _id: 1 });
+    if (clients.length !== clientsRes.length)
+      throw new BadRequestException(ErrorClientsEnum.CLIENTS_TO_SEARCH_ERROR);
+
+    return clientsRes;
+  }
   async getClients({ professional, ...dto }: GetClientsDto, selectors: Record<string, number>): Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
     const restFields = removeAttributesWithFieldNames(selectors, ['user']);

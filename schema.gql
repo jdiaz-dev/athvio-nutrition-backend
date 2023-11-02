@@ -44,7 +44,7 @@ input AdditionalInfoDto {
 
 input AssignProgramDto {
   assignmentStartDay: DateTime!
-  client: String!
+  clients: [String!]!
   professional: String!
   program: String!
   startingDay: Float!
