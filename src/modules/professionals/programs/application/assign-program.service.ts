@@ -24,15 +24,15 @@ export class AssignProgramService {
 
     let clientPlan: ClientPlanPartial;
     for (const client of dto.clients) {
-      let index = 0;
+      let dayToAdd = 0;
       for (const plan of program.plans) {
         clientPlan = {
-          assignedDate: new Date(dayjs(dto.assignmentStartDay).set('date', dayjs(dto.assignmentStartDay).get('date') + index).toString()),
+          assignedDate: new Date(dayjs(dto.assignmentStartDate).set('date', dayjs(dto.assignmentStartDate).get('date') + dayToAdd).toString()),
           client: client,
           meals: plan.meals
         };
         clientPlans.push(clientPlan);
-        index++;
+        dayToAdd++;
       }
     }
 

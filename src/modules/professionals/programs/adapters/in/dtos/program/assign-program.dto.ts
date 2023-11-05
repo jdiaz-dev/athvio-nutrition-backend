@@ -19,7 +19,7 @@ export class AssignProgramDto {
 
   @Field()
   @IsDate()
-  assignmentStartDay: Date;
+  assignmentStartDate: Date;
 
   @Field()
   @IsNumber()

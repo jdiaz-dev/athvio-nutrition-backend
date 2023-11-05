@@ -57,12 +57,39 @@ export class ProgramsPersistenceService {
     return programRes[0] as Program;
   }
   async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Record<string, number>): Promise<GetProgramsResponse> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+
     const programs = await this.programModel.aggregate([
       {
         $match: {
           professional: new Types.ObjectId(professional),
           isDeleted: false,
         },
+      },
+      {
+        $project: {
+          ...restFields,
+          plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
+        },
+      },
+      {
+        $unwind: {
+          path: '$plans',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $sort: { _id: 1, "plans.day": 1 }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          professional: { $first: "$professional" },
+          name: { $first: "$name" },
+          description: { $first: "$description" },
+          plans: { $push: "$plans" },
+          programTags: { $push: "$programTags" },
+        }
       },
       {
         //looking group for every _id contained in groups array

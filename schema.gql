@@ -43,7 +43,7 @@ input AdditionalInfoDto {
 }
 
 input AssignProgramDto {
-  assignmentStartDay: DateTime!
+  assignmentStartDate: DateTime!
   clients: [String!]!
   professional: String!
   program: String!
