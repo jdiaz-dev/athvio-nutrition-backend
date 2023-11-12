@@ -1,5 +1,7 @@
 export const planSelectors = {
   _id: 1,
+  isSyncActive: 1,
+  clients: 1,
   'plans._id': 1,
   'plans.title': 1,
   'plans.week': 1,

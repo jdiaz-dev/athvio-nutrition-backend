@@ -7,7 +7,7 @@ import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/
 import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan-date.dto';
 import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan.dto';
 import { ClientPlan, ClientPlanDocument } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
-import { ClientPlanPartial } from 'src/modules/clients/client-plans/adapters/out/client-plan.type';
+import { ClientPlanPartial, ClientWithAssignedDate } from 'src/modules/clients/client-plans/adapters/out/client-plan.type';
 import { ErrorClientPlanEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
@@ -37,6 +37,22 @@ export class ClientPlansPersistenceService {
         sort: rest.orderBy,
       },
     );
+    return clientPlans;
+  }
+  async getManyClientPlans(clientWithAssignedDate: ClientWithAssignedDate[], selectors: Record<string, number>): Promise<ClientPlan[]> {
+    const clientPlans = await this.clienPlanModel.find(
+      {
+        $or: clientWithAssignedDate
+      },
+      selectors,
+      /* 
+      {
+        limit: rest.limit,
+        skip: rest.offset,
+        sort: rest.orderBy,
+      }, */
+    );
+    console.log('-------------clientPlans', clientPlans);
     return clientPlans;
   }
   async updateClientPlan(

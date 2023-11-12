@@ -175,6 +175,15 @@ export class ProgramsPersistenceService {
 
     return programRes;
   }
+  async updateProgramClients(program: string, professional: string, clients: string[]) {
+    const programRes = await this.programModel.findOneAndUpdate({ _id: program, professional, isDeleted: false }, { $push: { clients } }, {
+      new: true,
+      populate: 'programTags',
+    });
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    console.log('------programRes', programRes);
+    return programRes;
+  }
 
   async deleteProgram({ professional, ...rest }: DeleteProgramDto, selectors: string[]): Promise<Program> {
     selectors;

@@ -92,7 +92,7 @@ type ClientPlan {
   client: String!
   commentResult: String!
   comments: [Comment!]!
-  isDeleted: String!
+  isDeleted: Boolean!
   meals: [Meal!]
   state: String!
   title: String
@@ -590,6 +590,7 @@ type Program {
   _id: ID!
   clients: [Client!]!
   description: String!
+  isSyncActive: Boolean!
   name: String!
   plans: [Plan!]!
   professional: ID!

@@ -86,7 +86,7 @@ export class ClientPlan extends BaseSchema {
 
   @Field()
   @Prop({ type: Boolean, required: true, default: false })
-  isDeleted!: string;
+  isDeleted!: boolean;
 }
 
 export type ClientPlanDocument = ClientPlan & Document;
