@@ -7,7 +7,7 @@ import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/i
 import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/delete-program-plan.dto';
 import { UpdateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-program-plan.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { ProgramPlanFilteredByDay } from 'src/modules/professionals/programs/adapters/out/program.types';
+import { ProgramPatial, ProgramPlanFilteredByDay } from 'src/modules/professionals/programs/adapters/out/program.types';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
@@ -39,7 +39,7 @@ export class PlansPersistenceService {
 
     return programRes;
   }
-  async getProgramPlanFilteredByDay({ professional, program, day }: ProgramPlanFilteredByDay, selectors: Record<string, number>): Promise<Pick<Program, 'plans'>> {
+  async getProgramPlanFilteredByDay({ professional, program, day }: ProgramPlanFilteredByDay, selectors: Record<string, number>): Promise<ProgramPatial> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const programRes = await this.programModel.aggregate([
       {

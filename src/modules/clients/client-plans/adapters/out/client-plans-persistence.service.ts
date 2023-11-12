@@ -45,14 +45,7 @@ export class ClientPlansPersistenceService {
         $or: clientWithAssignedDate
       },
       selectors,
-      /* 
-      {
-        limit: rest.limit,
-        skip: rest.offset,
-        sort: rest.orderBy,
-      }, */
     );
-    console.log('-------------clientPlans', clientPlans);
     return clientPlans;
   }
   async updateClientPlan(

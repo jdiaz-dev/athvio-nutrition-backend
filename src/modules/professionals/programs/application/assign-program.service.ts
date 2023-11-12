@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { planSelectors } from 'src/shared/enums/selectors';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
+import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
+import { ProgramPatial } from 'src/modules/professionals/programs/adapters/out/program.types';
 
 @Injectable()
 export class AssignProgramService {
@@ -18,28 +20,44 @@ export class AssignProgramService {
     private prps: ProgramsPersistenceService
   ) {}
 
-  async assignProgramToClient(dto: AssignProgramDto): Promise<ClientPlan[]> {
-    await this.cps.getManyClientsById(dto.clients);
-    const program = await this.pps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, planSelectors);
+  private prepareClientPlanBodies(plans: Plan[], dto: AssignProgramDto): ClientPlanPartial[] {
     const clientPlans: ClientPlanPartial[] = [];
 
     let clientPlan: ClientPlanPartial;
     for (const client of dto.clients) {
-      for (const plan of program.plans) {
-        const presitionDay = plan.day - dto.startingDay;
+      for (const plan of plans) {
+        const precitionDay = plan.day - dto.startingDay;
         clientPlan = {
-          assignedDate: new Date(dayjs(dto.assignmentStartDate).set('date', dayjs(dto.assignmentStartDate).get('date') + presitionDay).toString()),
+          assignedDate: new Date(dayjs(dto.assignmentStartDate).set('date', dayjs(dto.assignmentStartDate).get('date') + precitionDay).toString()),
           client: client,
           meals: plan.meals
         };
         clientPlans.push(clientPlan);
       }
     }
+    return clientPlans;
+  }
+  private async manageProgramSyncronization(newClientPlans: ClientPlanPartial[], program: ProgramPatial) {
+    const clientPlansToSearch: ClientWithAssignedDate[] = newClientPlans.map((clientPlan) => ({ client: clientPlan.client, assignedDate: clientPlan.assignedDate, isDeleted: false }));
 
-    const clientPlansToSearch: ClientWithAssignedDate[] = clientPlans.map((clientPlan) => ({ client: clientPlan.client, assignedDate: clientPlan.assignedDate, isDeleted: false }));
+    if (program.isSyncActive && program.clients.length === 0) {
+      //TODO: remove clientPlans and full again clientPlans
+    } else {
+      const clientPlans = await this.cpps.getManyClientPlans(clientPlansToSearch, { _id: 1, assignedDate: 1 });
+      newClientPlans = newClientPlans.filter((newClientPlan) => {
+        let clientPlanFound = clientPlans.filter((clientPlan) => newClientPlan.assignedDate.toString() === clientPlan.assignedDate.toString()
+        );
+        return clientPlanFound.length >= 1 ? 0 : 1;
+      });
+    }
+  }
+  async assignProgramToClient(dto: AssignProgramDto): Promise<ClientPlan[]> {
+    await this.cps.getManyClientsById(dto.clients);
+    const program = await this.pps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, planSelectors);
+    const newClientPlans: ClientPlanPartial[] = this.prepareClientPlanBodies(program.plans, dto);
 
-    await this.cpps.getManyClientPlans(clientPlansToSearch, { _id: 1, assignedDate: 1 });
-    const res = await this.cpps.createManyClientPlan(clientPlans);
+    await this.manageProgramSyncronization(newClientPlans, program);
+    const res = await this.cpps.createManyClientPlan(newClientPlans);
     await this.prps.updateProgramClients(dto.program, dto.professional, dto.clients);
     return res;
   }

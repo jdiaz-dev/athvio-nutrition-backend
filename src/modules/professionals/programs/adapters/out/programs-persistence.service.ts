@@ -181,7 +181,6 @@ export class ProgramsPersistenceService {
       populate: 'programTags',
     });
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-    console.log('------programRes', programRes);
     return programRes;
   }
 
