@@ -25,8 +25,9 @@ export enum AlloweGender {
 
 export enum ClientState {
   ACTIVE = 'active',
-  INACTIVE = 'inactive',
+  // INACTIVE = 'inactive',
   ARCHIVED = 'archived',
+  INVITATION_PENDING = 'invitation_pending'
 }
 
 export enum PlanState {

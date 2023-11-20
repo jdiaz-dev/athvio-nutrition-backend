@@ -73,6 +73,7 @@ type Client {
   phone: String
   professional: ID!
   profilePicture: String
+  state: String
   target: String
   timezone: String
   user: User!

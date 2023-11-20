@@ -46,14 +46,20 @@ export class ClientsPersistenceService {
 
     return clientsRes;
   }
-  async getClients({ professional, ...dto }: GetClientsDto, selectors: Record<string, number>): Promise<GetClientsResponse> {
+  async getClients({ professional, ...dto }: GetClientsDto, selectors: Record<string, number>):
+    Promise<GetClientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
     const restFields = removeAttributesWithFieldNames(selectors, ['user']);
+    const states = dto.state === ClientState.ACTIVE ? [
+      { state: dto.state },
+      { state: ClientState.INVITATION_PENDING },
+    ] : [{ state: ClientState.ARCHIVED }];
+
     const clients = await this.clientModel.aggregate([
       {
         $match: {
           professional: new Types.ObjectId(professional),
-          state: dto.state,
+          $or: states
         },
       },
       {
@@ -121,7 +127,7 @@ export class ClientsPersistenceService {
       {
         $project: {
           data: 1,
-          total: { $arrayElemAt: ['$meta.total', 0] },
+          total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
         },
       },
     ]);
@@ -134,7 +140,6 @@ export class ClientsPersistenceService {
         offset: dto.offset,
       },
     };
-
     return res;
   }
   async updateClient({ client, professional, ...rest }: UpdateClient, selectors: string[]): Promise<Client> {

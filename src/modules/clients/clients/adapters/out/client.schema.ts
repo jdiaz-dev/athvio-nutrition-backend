@@ -72,7 +72,8 @@ export class Client extends BaseSchema {
   @Prop({ type: String, required: false })
   notes!: string;
 
-  @Prop({ type: String, enum: ClientState, required: true, default: ClientState.INACTIVE })
+  @Field({ nullable: true })
+  @Prop({ type: String, enum: ClientState, required: true, default: ClientState.INVITATION_PENDING })
   state!: ClientState;
 }
 
