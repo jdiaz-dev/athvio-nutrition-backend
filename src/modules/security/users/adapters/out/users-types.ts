@@ -4,6 +4,8 @@ export interface CreateUser {
   email: string;
   password?: string;
   timezone?: string;
+  countryCode?: string;
+  country?: string;
   professional?: string | null;
   client?: string | null;
   isProfessional?: boolean;

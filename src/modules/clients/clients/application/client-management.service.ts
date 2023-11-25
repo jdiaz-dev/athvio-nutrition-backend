@@ -30,6 +30,10 @@ export class ClientManagementService {
       ...userInfo,
       client: client._id,
     };
+    
+    if (additionalInfo.countryCode) _user.countryCode = additionalInfo.countryCode;
+    if (additionalInfo.country) _user.country = additionalInfo.country;
+
     const user = await this.ums.createUserAndClient(_user);
     await this.cps.updateUser(client._id, user._id);
 

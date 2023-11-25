@@ -44,7 +44,7 @@ export class CustomRecipesPersistenceService {
     selectors: Record<string, number>,
   ): Promise<GetCustomRecipesResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
-    fieldsToSearch;
+
     const customRecipes = await this.customRecipeModel.aggregate([
       {
         $match: {

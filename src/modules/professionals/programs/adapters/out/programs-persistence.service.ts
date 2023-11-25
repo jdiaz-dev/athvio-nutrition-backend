@@ -69,6 +69,7 @@ export class ProgramsPersistenceService {
       {
         $project: {
           ...restFields,
+          createdAt: 1,
           plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
         },
       },
@@ -79,8 +80,9 @@ export class ProgramsPersistenceService {
         }
       },
       {
-        $sort: { _id: 1, "plans.day": 1 }
+        $sort: { _id: 1, "plans.day": 1, }
       },
+
       {
         $group: {
           _id: "$_id",
@@ -89,6 +91,7 @@ export class ProgramsPersistenceService {
           description: { $first: "$description" },
           plans: { $push: "$plans" },
           programTags: { $push: "$programTags" },
+          createdAt: { $push: "$createdAt" },
         }
       },
       {
@@ -116,6 +119,9 @@ export class ProgramsPersistenceService {
         },
       },
       {
+        $sort: { createdAt: 1 }
+      },
+      {
         $facet: {
           data: [
             {
@@ -138,6 +144,7 @@ export class ProgramsPersistenceService {
         },
       },
     ]);
+    console.log('---------programs', programs[0].data);
     const res: GetProgramsResponse = {
       data: programs[0].data,
       meta: {

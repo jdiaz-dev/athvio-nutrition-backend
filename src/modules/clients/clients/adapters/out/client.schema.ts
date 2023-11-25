@@ -54,10 +54,6 @@ export class Client extends BaseSchema {
 
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
-  countryCode!: string;
-
-  @Field({ nullable: true })
-  @Prop({ type: String, required: false })
   phone!: string;
 
   @Field({ nullable: true })

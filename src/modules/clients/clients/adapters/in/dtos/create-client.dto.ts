@@ -44,7 +44,12 @@ export class AdditionalInfoDto {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()
-  countryCode!: string;
+  countryCode!: string; //TODO: review if country is saved in database"
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  country!: string;
 
   @Field({ nullable: true })
   @IsString()
@@ -142,9 +147,6 @@ export class CreateClientResponse {
 
   @Field({ nullable: true })
   profilePicture: string;
-
-  @Field({ nullable: true })
-  countryCode: string;
 
   @Field({ nullable: true })
   phone: string;

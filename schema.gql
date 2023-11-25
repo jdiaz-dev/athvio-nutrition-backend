@@ -32,6 +32,7 @@ input AddProgramPlanDto {
 
 input AdditionalInfoDto {
   birthday: DateTime
+  country: String
   countryCode: String
   gender: String
   height: Float
@@ -63,7 +64,6 @@ type Calory {
 type Client {
   _id: ID!
   birthday: DateTime
-  countryCode: String
   gender: String
   groups: [ClientGroup!]!
   height: Float
@@ -145,7 +145,6 @@ input CreateClientPlanDto {
 type CreateClientResponse {
   _id: ID!
   birthday: DateTime
-  countryCode: String
   gender: String
   groups: [ClientGroup!]!
   height: Float
