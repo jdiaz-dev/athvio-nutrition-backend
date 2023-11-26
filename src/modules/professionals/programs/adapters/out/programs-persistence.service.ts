@@ -16,6 +16,7 @@ import { Program, ProgramDocument } from 'src/modules/professionals/programs/ada
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { ManageProgramTags } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
+import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
 @Injectable()
 export class ProgramsPersistenceService {
@@ -58,12 +59,18 @@ export class ProgramsPersistenceService {
   }
   async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Record<string, number>): Promise<GetProgramsResponse> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+    const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
     const programs = await this.programModel.aggregate([
       {
         $match: {
           professional: new Types.ObjectId(professional),
           isDeleted: false,
+        },
+      },
+      {
+        $match: {
+          $or: fieldsToSearch,
         },
       },
       {
@@ -144,7 +151,7 @@ export class ProgramsPersistenceService {
         },
       },
     ]);
-    console.log('---------programs', programs[0].data);
+
     const res: GetProgramsResponse = {
       data: programs[0].data,
       meta: {
