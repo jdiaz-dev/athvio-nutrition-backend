@@ -562,9 +562,9 @@ type Mutation {
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
   updatePassword(input: UpdatePasswordDto!): User!
+  updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
   updatePlanMeal(input: UpdatePlanMealDto!): ClientPlan!
   updateProgram(input: UpdateProgramDto!): Program!
-  updateProgramPlan(input: UpdateProgramPlanDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
 }
@@ -691,6 +691,14 @@ input UpdatePasswordDto {
   user: String!
 }
 
+input UpdatePlanAssignedWeekDayDto {
+  day: Float!
+  plan: String!
+  professional: String!
+  program: String!
+  week: Float!
+}
+
 input UpdatePlanMealDto {
   client: String!
   clientPlan: String!
@@ -704,14 +712,6 @@ input UpdateProgramDto {
   name: String!
   professional: String!
   program: String!
-}
-
-input UpdateProgramPlanDto {
-  day: Float!
-  plan: String!
-  professional: String!
-  program: String!
-  week: Float!
 }
 
 input UpdateProgramTagDto {

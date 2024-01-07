@@ -1,8 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsNumber } from 'class-validator';
+import { IsMongoId } from 'class-validator';
 
 @InputType()
-export class UpdateProgramPlanDto {
+export class DuplicateProgramPlanDto {
   @Field()
   @IsMongoId()
   professional: string;
@@ -13,13 +13,6 @@ export class UpdateProgramPlanDto {
 
   @Field()
   @IsMongoId()
-  plan: string;
+  plan: number;
 
-  @Field()
-  @IsNumber()
-  week: number;
-
-  @Field()
-  @IsNumber()
-  day: number;
 }

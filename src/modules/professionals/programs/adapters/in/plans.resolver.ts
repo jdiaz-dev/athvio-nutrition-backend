@@ -2,13 +2,13 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Resolver } from '@nestjs/graphql';
 import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/add-program-plan.dto';
 import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/delete-program-plan.dto';
-import { UpdateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-program-plan.dto';
+import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-plan-assigned-week-day.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
+import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -21,11 +21,11 @@ export class PlansResolver {
   }
 
   @Mutation(() => Program)
-  async updateProgramPlan(
-    @Args('input') dto: UpdateProgramPlanDto,
-    @Info(...selectorExtractor()) selectors: string[],
+  async updatePlanAssignedWeekDay(
+    @Args('input') dto: UpdatePlanAssignedWeekDayDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
-    return this.pps.updateProgramPlan(dto, selectors);
+    return this.pps.updatePlanAssignedWeekDay(dto, selectors);
   }
   @Mutation(() => Program)
   async deleteProgramPlan(

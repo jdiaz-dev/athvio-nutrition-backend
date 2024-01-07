@@ -5,7 +5,7 @@ import { Model, Types } from 'mongoose';
 
 import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/add-program-plan.dto';
 import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/delete-program-plan.dto';
-import { UpdateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-program-plan.dto';
+import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-plan-assigned-week-day.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPatial, ProgramPlanFilteredByDay } from 'src/modules/professionals/programs/adapters/out/program.types';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
@@ -25,14 +25,31 @@ export class PlansPersistenceService {
     return programRes;
   }
 
-  async updateProgramPlan({ professional, ...rest }: UpdateProgramPlanDto, selectors: string[]): Promise<Program> {
+  async updatePlanAssignedWeekDay({ professional, ...rest }: UpdatePlanAssignedWeekDayDto, selectors: Record<string, number>): Promise<Program> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: rest.program, professional, isDeleted: false },
-      { $set: { 'plans.$[el].week': rest.week, 'plans.$[el].day': rest.day } },
+      { $set: { 'plans.$[plan].week': rest.week, 'plans.$[plan].day': rest.day } },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(rest.plan), 'el.isDeleted': false }],
+        arrayFilters: [
+          { 'plan._id': new Types.ObjectId(rest.plan), 'plan.isDeleted': false },
+        ],
         new: true,
-        projection: selectors,
+        projection: {
+          ...restFields,
+          plans: {
+            $filter: {
+              input: '$plans',
+              as: 'plan',
+              cond: {
+                $and: [
+                  { $eq: ['$$plan.isDeleted', false] }
+                ]
+              }
+            }
+          }
+        },
       },
     );
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
