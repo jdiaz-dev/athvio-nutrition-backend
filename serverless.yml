@@ -1,0 +1,389 @@
+service: athvio-nutrition
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage}
+  deploymentBucket:
+    blockPublicAccess: true
+  stackTags:
+    domain-name: sonqo
+    system-name: nx-link-manager
+    vertical-name: merchants-development
+    owner: ${file(catalog-info.yaml):spec.owner}
+    squad-name: sonqo
+    shared-resource: false
+    gitlab-id: 39152068
+    environment: ${self:custom.environments.${opt:stage}}
+    provider: aws
+  environment:
+    SERVICE_ENVIRONMENT: ${self:custom.environments.${opt:stage,'develop'}}
+    DEFAULT_CONSUMER_ID: ${file(catalog-info.yaml):metadata.name}
+
+resources:
+  Parameters:
+    ClusterArn:
+      Type: String
+      Description: Existent cluster for add new services
+      Default: arn:aws:ecs:${aws:region}:${aws:accountId}:cluster/${self:custom.clusterName}
+    SecurityGroup:
+      Type: String
+      Description: Security group used for ${self:service}
+      Default: ${self:custom.securityGroup.${opt:stage}.${aws:region}}
+    VPCId:
+      Type: AWS::EC2::VPC::Id
+      Default: ${self:custom.VPCId.${aws:region}.${opt:stage}}
+    Subnet1:
+      Type: AWS::EC2::Subnet::Id
+      Description: Application subnet 1
+      Default: ${self:custom.Subnet.${opt:stage}.${aws:region}.subnet1}
+    Subnet2:
+      Type: AWS::EC2::Subnet::Id
+      Description: Application subnet 2
+      Default: ${self:custom.Subnet.${opt:stage}.${aws:region}.subnet2}
+    ComponentName:
+      Type: String
+      Default: nx-link-manager
+    RepositoryNameNx:
+      Type: String
+      Default: aws-payment-gateway/nx-link-manager
+    ExecutionRoleNxName:
+      Type: String
+      Default: fargate-role-nx-link-manager
+    TargetGroupNxName2:
+      Type: String
+      Default: nx-link-manager-tgr
+    ServiceFamilyNameNx:
+      Type: String
+      Default: service-nx-link-manager
+    ServiceNameNx:
+      Type: String
+      Default: nx-link-manager-service
+    LinkManagerNxName:
+      Type: String
+      Default: nx-link-manager
+    AcquirerNxTableName:
+      Type: String
+      Default: nx-transactions
+    ContainerName:
+      Type: String
+      Default: application
+    LoadBalancerPort2:
+      Type: Number
+      Description: Container port of app requiring LoadBalancer exposure
+      Default: 57343
+    AppContainerPort2:
+      Type: Number
+      Description: Container port of app requiring LoadBalancer exposure
+      Default: 57343
+    AppHostPort2:
+      Type: Number
+      Description: Host port of app requiring LoadBalancer exposure
+      Default: 57343
+    ClientPort:
+      Type: Number
+      Description: Client port
+      Default: 8015
+  Conditions:
+    IsNorthVirg:
+      Fn::Equals:
+        - ${aws:region}
+        - us-east-1
+
+  Resources:
+    ExecutionTaskRoleNx:
+      Type: AWS::IAM::Role
+      Condition: IsNorthVirg
+      Properties:
+        RoleName: !Ref ExecutionRoleNxName
+        AssumeRolePolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - ecs-tasks.amazonaws.com
+                  - ecs.amazonaws.com
+              Action: "sts:AssumeRole"
+
+    TargetGroupNx2:
+      Type: AWS::ElasticLoadBalancingV2::TargetGroup
+      Properties:
+        Name: !Ref TargetGroupNxName2
+        Port: !Ref AppContainerPort2
+        HealthCheckPath: /ping
+        HealthCheckPort: "57343"
+        HealthCheckProtocol: HTTP
+        Protocol: TCP
+        TargetType: ip
+        VpcId: !Ref VPCId
+
+    TargetGroupNxForSocket:
+      Type: AWS::ElasticLoadBalancingV2::TargetGroup
+      Properties:
+        Name: !Join ["", [!Ref TargetGroupNxName2, "-socket"]]
+        Port: !Ref ClientPort
+        HealthCheckPort: "57343"
+        HealthCheckPath: /ping
+        HealthCheckProtocol: HTTP
+        Protocol: TCP
+        TargetType: ip
+        VpcId: !Ref VPCId
+
+    ListenerNxHTTP2:
+      Type: AWS::ElasticLoadBalancingV2::Listener
+      Properties:
+        DefaultActions:
+          - TargetGroupArn: !Ref TargetGroupNx2
+            Type: forward
+        LoadBalancerArn: !Ref LoadBalancerNx
+        Port: !Ref LoadBalancerPort2
+        Protocol: TCP
+
+    ListenerNxSocket:
+      DependsOn:
+        - TargetGroupNxForSocket
+        - LoadBalancerNx
+      Type: AWS::ElasticLoadBalancingV2::Listener
+      Properties:
+        DefaultActions:
+          - TargetGroupArn: !Ref TargetGroupNxForSocket
+            Type: forward
+        LoadBalancerArn: !Ref LoadBalancerNx
+        Port: !Ref ClientPort
+        Protocol: TCP
+
+    LoadBalancerNx:
+      Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+      Properties:
+        Type: network
+        LoadBalancerAttributes:
+          - Key: access_logs.s3.enabled
+            Value: "true"
+          - Key: access_logs.s3.bucket
+            Value: !Ref LoadBalancerAccessLogsBucket
+        Name: !Join ["", [!Ref ComponentName, "-lb"]]
+        Scheme: internal
+        Subnets:
+          - !Ref Subnet1
+          - !Ref Subnet2
+
+    LoadBalancerAccessLogsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: !Join ["", ["${self:service}", "-elb-al-${sls:stage}-${aws:region}"]]
+        BucketEncryption: !Ref "AWS::NoValue"
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+        LoggingConfiguration:
+          DestinationBucketName: !Join ["", ["${self:service}", "-elb-al-${sls:stage}-${aws:region}"]]
+        LifecycleConfiguration:
+          Rules:
+            - Id: DeleteOldLogs
+              Status: Enabled
+              ExpirationInDays: 30
+
+    LoadBalancerAccessLogsBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref LoadBalancerAccessLogsBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: AllowELBWriteAccess
+              Effect: Allow
+              Principal:
+                Service: "delivery.logs.amazonaws.com"
+              Action: "s3:PutObject"
+              Resource: !Join ["", ["arn:aws:s3:::", !Ref LoadBalancerAccessLogsBucket, "/*"]]
+              Condition:
+                StringEquals:
+                  "s3:x-amz-acl": "bucket-owner-full-control"
+            - Sid: AWSLogDeliveryAclCheck
+              Effect: Allow
+              Principal:
+                Service: delivery.logs.amazonaws.com
+              Action: s3:GetBucketAcl
+              Resource: !GetAtt LoadBalancerAccessLogsBucket.Arn
+
+    TaskDefinitionNx:
+      Type: AWS::ECS::TaskDefinition
+      Properties:
+        Family: !Ref ServiceFamilyNameNx
+        NetworkMode: awsvpc
+        ExecutionRoleArn:
+          !Join ["", ["arn:aws:iam::${aws:accountId}:role/", !Ref ExecutionRoleNxName]]
+        TaskRoleArn: !Join ["", ["arn:aws:iam::${aws:accountId}:role/", !Ref ExecutionRoleNxName]]
+        Cpu: "256"
+        Memory: "0.5GB"
+        RequiresCompatibilities:
+          - FARGATE
+        ContainerDefinitions:
+          - Name: !Ref ContainerName
+            Image:
+              !Join [
+                "",
+                [
+                  "${aws:accountId}",
+                  ".dkr.ecr.",
+                  "${aws:region}",
+                  ".amazonaws.com/",
+                  !Ref RepositoryNameNx,
+                  ":xxxxxxxx-",
+                  "${self:custom.image.${opt:stage}}",
+                ],
+              ]
+            Environment:
+              - Name: NODE_ENV
+                Value: ${opt:stage}
+              - Name: PORT
+                Value: "57343"
+            PortMappings:
+              - ContainerPort: !Ref AppContainerPort2
+                HostPort: !Ref AppHostPort2
+              - ContainerPort: !Ref ClientPort
+                HostPort: !Ref ClientPort
+            LogConfiguration:
+              LogDriver: awslogs
+              Options:
+                awslogs-region: ${aws:region}
+                awslogs-group: !Join ["", ["/ecs/logs-", !Ref ComponentName, "-${aws:region}"]]
+                awslogs-create-group: "true"
+                awslogs-stream-prefix: !Join ["", ["ecs-", !Ref ComponentName]]
+
+    LogGroupNx:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: !Join ["", ["/ecs/logs-", !Ref ComponentName, "-${aws:region}"]]
+        RetentionInDays: 60
+
+    SubscriptionFilter:
+      Type: AWS::Logs::SubscriptionFilter
+      Properties:
+        RoleArn: arn:aws:iam::${aws:accountId}:role/${opt:stage}-kinesis-firehose-datadog-CloudWatchLogsRole-${self:custom.${aws:region}}
+        LogGroupName: !Ref LogGroupNx
+        FilterPattern: ""
+        DestinationArn: arn:aws:firehose:${aws:region}:${aws:accountId}:deliverystream/${opt:stage}-kinesis-firehose-datadog-DatadogDeliveryStream
+
+    ServiceNx:
+      Type: AWS::ECS::Service
+      DependsOn:
+        - ListenerNxHTTP2
+        - ListenerNxSocket
+        - TargetGroupNx2
+        - TargetGroupNxForSocket
+      Properties:
+        LaunchType: FARGATE
+        DesiredCount: 1
+        ServiceName: !Ref ServiceNameNx
+        Cluster: !Ref ClusterArn
+        TaskDefinition: !Ref TaskDefinitionNx
+        NetworkConfiguration:
+          AwsvpcConfiguration:
+            AssignPublicIp: ENABLED
+            Subnets:
+              - !Ref Subnet2
+              - !Ref Subnet1
+            SecurityGroups:
+              - !Ref SecurityGroup
+        LoadBalancers:
+          - ContainerName: !Ref ContainerName
+            ContainerPort: !Ref AppContainerPort2
+            TargetGroupArn: !Ref TargetGroupNx2
+          - ContainerName: !Ref ContainerName
+            ContainerPort: !Ref ClientPort
+            TargetGroupArn: !Ref TargetGroupNxForSocket
+
+    FargatePolicyNx:
+      Type: AWS::IAM::Policy
+      Condition: IsNorthVirg
+      Properties:
+        PolicyName: !Join ["", ["fargate-policy-", !Ref ComponentName]]
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - "ecr:CompleteLayerUpload"
+                - "ecr:DescribeRepositories"
+                - "ecr:ListImages"
+                - "ecr:DescribeImages"
+                - "ecr:GetAuthorizationToken"
+                - "ecr:GetDownloadUrlForLayer"
+                - "ecr:GetLifecyclePolicy"
+                - "logs:CreateLogStream"
+                - "logs:DescribeLogStreams"
+                - "logs:PutRetentionPolicy"
+                - "logs:CreateLogGroup"
+                - "logs:PutLogEvents"
+                - "cloudwatch:*"
+              Resource: "*"
+        Roles:
+          - !Ref ExecutionTaskRoleNx
+
+custom:
+  environments:
+    develop: dev
+    staging: stg
+    testing: stg
+    prodblue: prd
+  us-east-1: novi
+  us-east-2: ohio
+  serviceName: nx-link-manager
+  clusterName: sonqo-cluster
+  authorizer:
+    develop: dev
+    staging: stg
+    testing: stg
+    prodblue: prd
+  image:
+    develop: integration
+    staging: staging
+    prodblue: prodblue
+  securityGroup:
+    develop:
+      us-east-1: sg-024a78937c084982a
+      us-east-2: sg-03299823a9eb49421
+    staging:
+      us-east-1: sg-0a5d8f2a40b378521
+      us-east-2: sg-08b1fdb4f125a016b
+    prodblue:
+      us-east-1: sg-03fb01f7e55c7c1b1
+      us-east-2: sg-084dd75b3403edfc1
+  VPCId:
+    us-east-1:
+      develop: vpc-036adcc6e31414ce0
+      staging: vpc-0f70f87416b5802aa
+      prodblue: vpc-03c6d31f3a2512402
+    us-east-2:
+      develop: vpc-00339ce5f4d4614b3
+      staging: vpc-0aff95265cbae47e7
+      prodblue: vpc-06191280e3d7a4fba
+  Subnet:
+    develop:
+      us-east-1:
+        subnet1: subnet-07c5f74464b09777d
+        subnet2: subnet-0aba6ff500b2a5161
+      us-east-2:
+        subnet1: subnet-0a8f729b279c4bb88
+        subnet2: subnet-0eaa1b28135c5f104
+    staging:
+      us-east-1:
+        subnet1: subnet-05d629bf6bc7531b1
+        subnet2: subnet-0b5579f4f2c4e7aa4
+      us-east-2:
+        subnet1: subnet-0bce0be7369293651
+        subnet2: subnet-0a33abacab213764e
+    prodblue:
+      us-east-1:
+        subnet1: subnet-0d7803929a36d2365
+        subnet2: subnet-0d02f7b7702ec89d1
+      us-east-2:
+        subnet1: subnet-0dea34658657b7532
+        subnet2: subnet-0b01f93016ddd2464
+
+plugins:
+  - '@nx-sse/resource-tagging-plugin'

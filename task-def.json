@@ -1,0 +1,85 @@
+{
+  "executionRoleArn": "arn:aws:iam::$ACCOUNT:role/fargate-role-nx-link-manager",
+  "taskRoleArn": "arn:aws:iam::$ACCOUNT:role/fargate-role-nx-link-manager",
+  "tags": [
+    {
+      "key": "domain-name",
+      "value": "sonqo"
+    },
+    {
+      "key": "system-name",
+      "value": "nx-link-manager"
+    },
+    {
+      "key": "vertical-name",
+      "value": "merchants-development"
+    },
+    {
+      "key": "squad-name",
+      "value": "sonqo"
+    },
+    {
+      "key": "shared-resource",
+      "value": "false"
+    },
+    {
+      "key": "gitlab-id",
+      "value": "39179244"
+    },
+    {
+      "key": "environment",
+      "value": "$CI_ENV"
+    },
+    {
+      "key": "provider",
+      "value": "aws"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "57343"
+        },
+        {
+          "name": "NODE_ENV",
+          "value": "$CI_ENV"
+        },
+        {
+          "name": "REGION",
+          "value": "$REGION"
+        }
+      ],
+      "name": "application",
+      "mountPoints": [],
+      "image": "$IMAGE",
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/logs-nx-link-manager-$REGION",
+          "awslogs-region": "$REGION",
+          "awslogs-stream-prefix": "ecs-nx-payment-gateway"
+        }
+      },
+      "portMappings": [
+        {
+          "hostPort": 8015,
+          "protocol": "tcp",
+          "containerPort": 8015
+        },
+        {
+          "containerPort": 57343,
+          "hostPort": 57343,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "512",
+  "memory": "1024",
+  "family": "aws-ecs"
+}

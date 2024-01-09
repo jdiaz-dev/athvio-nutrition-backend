@@ -1,0 +1,24 @@
+include:
+  - project: "Naranja-Digital/Wiru/templates"
+    ref: wiru4.0
+    file: "evoluciondigital/pipeline_templates/.gitlab-ci-golden-api-ha.yml"
+
+variables:
+  API_BFF: 'false'
+  API_GW_REGION_1: 'false'
+  EKS_REGION_1: 'false'
+  SERVERLESS_REGION_1: 'true'
+  STUBS_REGION_1: 'false'
+  SERVERLESS_REGION_2: 'true'
+
+Swagger transformation:
+  script:
+    - echo
+  variables:
+    DISABLED: 'false'
+
+Deploy ApiGw:
+  script:
+    - echo
+  variables:
+    DISABLED: 'false'
