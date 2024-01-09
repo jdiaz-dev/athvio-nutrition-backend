@@ -15,14 +15,51 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 export class PlansPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addProgramPlan({ professional, program, ...rest }: AddProgramPlanDto, selectors: string[]): Promise<Program> {
+  async addProgramPlan({ professional, program, ...rest }: AddProgramPlanDto, selectors: Record<string, number>): Promise<Program> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const programRes = await this.programModel
-      .findOneAndUpdate({ _id: program, professional, isDeleted: false }, { $push: { plans: { ...rest } } }, { new: true })
-      .populate('programTags plans');
-    selectors;
+      .findOneAndUpdate(
+        { _id: program, professional, isDeleted: false },
+        { $push: { plans: rest } }, {
+        new: true, projection: {
+          ...restFields,
+          plans: {
+            $filter: {
+              input: '$plans',
+              as: 'plan',
+              cond: {
+                $and: [
+                  { $eq: ['$$plan.isDeleted', false] }
+                ]
+              }
+            }
+          }
+        }
+      });
+    // .populate('programTags plans');
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
     return programRes;
+  }
+
+  async addProgramPlan2({ professional, program, ...rest }: AddProgramPlanDto, selectors: Record<string, number>): Promise<Program> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+    restFields;
+    const programRes = await this.programModel
+      .aggregate([
+        {
+          $match: {
+            _id: program, professional, isDeleted: false
+          },
+
+        },
+        {
+          $group: { '_id': 1 }
+        }
+      ]);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+
+    return programRes[0];
   }
 
   async updatePlanAssignedWeekDay({ professional, ...rest }: UpdatePlanAssignedWeekDayDto, selectors: Record<string, number>): Promise<Program> {

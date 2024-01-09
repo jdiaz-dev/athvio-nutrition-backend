@@ -30,7 +30,7 @@ export class ProgramsPersistenceService {
     return programRes;
   }
 
-  async getProgram({ professional, program }: GetProgramDto, selectors: Record<string, number>): Promise<Program> {
+  async getProgram({ professional, program, plan }: GetProgramDto, selectors: Record<string, number>): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const programRes = await this.programModel.aggregate([
       {
@@ -43,7 +43,16 @@ export class ProgramsPersistenceService {
       {
         $project: {
           ...restFields,
-          plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
+          plans: {
+            $filter: {
+              input: '$plans', as: 'plan', cond: {
+                $and: [
+                  { $eq: ['$$plan.isDeleted', false] },
+                  plan ? { $eq: ['$$plan._id', new Types.ObjectId(plan)] } : {}
+                ]
+              }
+            }
+          },
         },
       },
       {
@@ -53,7 +62,7 @@ export class ProgramsPersistenceService {
         },
       },
     ]);
-
+    console.log('---------------program', programRes[0]);
     if (programRes[0] == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     return programRes[0] as Program;
   }

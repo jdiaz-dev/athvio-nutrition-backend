@@ -10,4 +10,7 @@ export class GetProgramDto {
   @Field()
   @IsMongoId()
   program: string;
+
+  plan?: string;
 }
+

@@ -107,7 +107,7 @@ db.Programs.aggregate([
           as: 'plan',
           cond: {
             $and: [
-              {$eq: ['$$plan.isDeleted', false]}, {$gt: ['$$plan.day', 7]}
+              {$eq: ['$$plan.isDeleted', false]}, {$eq: ['$$plan._id', ObjectId("659405195550939679c10652")]}
             ]
           }
         }
@@ -121,3 +121,42 @@ db.Programs.aggregate([
     },
   },
 ]);
+
+
+db.Programs.findOneAndUpdate(
+  {
+    _id: ObjectId("6473d0f163aef9ff8297a864"),
+    professional: ObjectId("6473cf8763aef9ff8297a80a"),
+    isDeleted: false,
+  },
+  [
+
+    {
+      $addFields: {
+        plans: {
+          "title": "yuju",
+          "week": 1,
+          "day": 5,
+          "isDeleted": false,
+        }
+      },
+    },
+  ]
+);
+
+/* {
+      $project: {
+        _id: 1,
+        plans: {
+          $filter: {
+            input: '$plans',
+            as: 'plan',
+            cond: {
+              $and: [
+                {$eq: ['$$plan.isDeleted', false]}
+              ]
+            }
+          }
+        },
+      },
+    }, */

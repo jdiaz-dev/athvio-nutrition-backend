@@ -275,6 +275,14 @@ input DeleteProgramTagDto {
   programTag: String!
 }
 
+input DuplicateProgramPlanDto {
+  day: Float!
+  plan: String!
+  professional: String!
+  program: String!
+  week: Float!
+}
+
 type Equivalent {
   customIngredient: CustomIngredient
   ingredient: Ingredient
@@ -549,6 +557,7 @@ type Mutation {
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
+  duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   logIn(input: LoginDto!): JwtDto!
   manageClientGroup(input: ManageClientGroupDto!): Client!
   manageClientState(input: ManageClientStateDto!): Client!

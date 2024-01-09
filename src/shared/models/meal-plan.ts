@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IngredientType } from 'src/shared/enums/project';
 import { Ingredient, IngredientSchema } from 'src/shared/models/ingredient';
 import { Macros, MacroSchema } from 'src/shared/models/macros';
+import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
 @Schema({ _id: false })
@@ -69,7 +70,7 @@ export const IngredientDetailSchema = SchemaFactory.createForClass(IngredientDet
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
-export class Meal {
+export class Meal extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
