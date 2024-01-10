@@ -14,17 +14,13 @@ export class DuplicateProgramPlanService {
 
   async duplicateProgramPlan(dto: DuplicateProgramPlanDto, selectors: Record<string, number>): Promise<Program> {
     const _program = await this.prps.getProgram(dto, planSelectors);
-    console.log('--------program obtained', _program);
 
-    const mealPlans = _program.plans[0].meals;
-    for (let x = 0; x < mealPlans.length; x++) {
+    for (let x = 0; x < _program.plans[0].meals.length; x++) {
       delete _program.plans[0].meals[x]._id;
       delete _program.plans[0].meals[x].updatedAt;
     }
-    console.log('--------meals', _program.plans[0].meals);
 
-    const programUpdated = await this.pps.addProgramPlan({ ...dto, plans: _program.plans }, selectors);
-    console.log('--------programUpdated', programUpdated);
+    const programUpdated = await this.pps.addProgramPlanWithMeals({ ...dto, planToDuplicate: _program.plans[0] }, selectors);
     return programUpdated;
   }
 }

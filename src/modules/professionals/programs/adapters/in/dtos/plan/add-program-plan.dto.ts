@@ -1,6 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNumber, IsMongoId, IsInt, Min } from 'class-validator';
-import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
 
 @InputType()
 export class AddProgramPlanDto {
@@ -23,7 +22,4 @@ export class AddProgramPlanDto {
   @IsInt()
   @Min(1)
   day: number;
-
-  plans?: Plan[];
-
 }

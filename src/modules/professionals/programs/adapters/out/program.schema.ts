@@ -33,6 +33,10 @@ export class Plan {
   @Field()
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted: boolean;
+
+  @Field()
+  @Prop({ type: Boolean, required: true, default: false })
+  isDuplicate: boolean;
 }
 const PlanSchema = SchemaFactory.createForClass(Plan);
 

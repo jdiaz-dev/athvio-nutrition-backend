@@ -129,19 +129,31 @@ db.Programs.findOneAndUpdate(
     professional: ObjectId("6473cf8763aef9ff8297a80a"),
     isDeleted: false,
   },
-  [
-
-    {
-      $addFields: {
-        plans: {
-          "title": "yuju",
-          "week": 1,
-          "day": 5,
-          "isDeleted": false,
-        }
-      },
-    },
-  ]
+  {
+    $push: {
+      plans: {
+        title: 'title pro',
+        week: 234,
+        meals: [
+          {
+            _id: ObjectId(),
+            position: 25,
+            mealTag: "the first meal"
+          },
+          {
+            _id: ObjectId(),
+            position: 26,
+            mealTag: "the second meal"
+          },
+          {
+            _id: ObjectId(),
+            position: 27,
+            mealTag: "the third meal"
+          }
+        ]
+      }
+    }
+  }
 );
 
 /* {
