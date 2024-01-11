@@ -590,7 +590,6 @@ type Plan {
   _id: ID!
   day: Float!
   isDeleted: Boolean!
-  isDuplicate: Boolean!
   meals: [Meal!]!
   title: String!
   week: Float!

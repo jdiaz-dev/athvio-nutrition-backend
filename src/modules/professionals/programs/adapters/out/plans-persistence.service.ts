@@ -45,7 +45,7 @@ export class PlansPersistenceService {
     return programRes;
   }
 
-  async addProgramPlanWithMeals({ professional, program, day, week, ...rest }: DuplicateProgramPlanDto, selectors: Record<string, number>): Promise<Program> {
+  async addProgramPlanWithMeals({ professional, program, plan, day, week, ...rest }: DuplicateProgramPlanDto, selectors: Record<string, number>): Promise<Program> {
     rest;
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     restFields;
@@ -58,7 +58,10 @@ export class PlansPersistenceService {
               day, week,
               title: rest.planToDuplicate.title,
               meals: rest.planToDuplicate.meals,
-              isDuplicate: true
+              planDetail: {
+                isDuplicate: true,
+                source: plan
+              }
             }
           }
         },

@@ -6,6 +6,16 @@ import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/
 import { Meal, MealSchema } from 'src/shared/models/meal-plan';
 import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
 
+@Schema({ _id: false, timestamps: false })
+export class PlanDetail {
+  @Prop({ type: Boolean, required: true, default: false })
+  isDuplicate: boolean;
+
+  @Prop({ type: String, required: true, default: '' })
+  source: string;
+}
+const PlanDetailSchema = SchemaFactory.createForClass(PlanDetail);
+
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class Plan {
@@ -34,9 +44,8 @@ export class Plan {
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted: boolean;
 
-  @Field()
-  @Prop({ type: Boolean, required: true, default: false })
-  isDuplicate: boolean;
+  @Prop({ type: PlanDetailSchema, required: true, default: {} })
+  planDetail: PlanDetail;
 }
 const PlanSchema = SchemaFactory.createForClass(Plan);
 
