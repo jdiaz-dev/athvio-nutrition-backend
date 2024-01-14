@@ -1,4 +1,4 @@
-export const planSelectors = {
+export const programPlanSelector = {
   _id: 1,
   isSyncActive: 1,
   clients: 1,

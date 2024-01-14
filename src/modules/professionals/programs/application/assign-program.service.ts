@@ -6,10 +6,10 @@ import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import dayjs from 'dayjs';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
-import { planSelectors } from 'src/shared/enums/selectors';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPatial } from 'src/modules/professionals/programs/adapters/out/program.types';
+import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
 
 @Injectable()
 export class AssignProgramService {
@@ -53,7 +53,7 @@ export class AssignProgramService {
   }
   async assignProgramToClient(dto: AssignProgramDto): Promise<ClientPlan[]> {
     await this.cps.getManyClientsById(dto.clients);
-    const program = await this.pps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, planSelectors);
+    const program = await this.pps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, programPlanSelector);
     const newClientPlans: ClientPlanPartial[] = this.prepareClientPlanBodies(program.plans, dto);
 
     await this.manageProgramSyncronization(newClientPlans, program);

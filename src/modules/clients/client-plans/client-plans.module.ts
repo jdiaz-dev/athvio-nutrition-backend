@@ -12,6 +12,7 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { UsersModule } from 'src/modules/security/users/users.module';
 import { ClientPlanMealsPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plan-meals-persistence.service';
 import { MealsResolver } from 'src/modules/clients/client-plans/adapters/in/meals.resolver';
+import { DuplicateClientPlanService } from 'src/modules/clients/client-plans/application/duplicate-client-plan.service';
 
 const resolvers = [ClientPlansResolver, ClientPlanCommentsResolver, MealsResolver];
 const services = [
@@ -20,6 +21,7 @@ const services = [
   ClientPlanCommentPersistenceService,
   AddClientPlanCommentService,
   ClientPlanMealsPersistenceService,
+  DuplicateClientPlanService
 ];
 
 @Module({
