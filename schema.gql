@@ -575,7 +575,6 @@ type Mutation {
   updateClientGroup(input: UpdateClientGroupDto!): ClientGroup!
   updateClientPlan(input: UpdateClientPlanDto!): ClientPlan!
   updateClientPlanComment(input: UpdateClientPlanCommentDto!): ClientPlan!
-  updateClientPlanDate(input: UpdateClientPlanDateDto!): ClientPlan!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
   updatePassword(input: UpdatePasswordDto!): User!
@@ -669,13 +668,6 @@ input UpdateClientPlanCommentDto {
   clientPlanId: String!
   commentId: String!
   message: String!
-}
-
-input UpdateClientPlanDateDto {
-  assignedDate: DateTime!
-  client: String!
-  clientPlan: String!
-  professional: String!
 }
 
 input UpdateClientPlanDto {

@@ -4,7 +4,6 @@ import { CreateClientPlanDto } from 'src/modules/clients/client-plans/adapters/i
 import { DeleteClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/delete-client-plan.dto';
 import { DuplicateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/duplicate-client-plan.dto';
 import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/get-client-plans.dto';
-import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan-date.dto';
 import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan.dto';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { ClientPlansPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plans-persistence.service';
@@ -44,14 +43,6 @@ export class ClientPlansResolver {
   @Mutation(() => ClientPlan)
   async updateClientPlan(
     @Args('input') dto: UpdateClientPlanDto,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<ClientPlan> {
-    return this.cpps.updateClientPlan(dto, selectors);
-  }
-
-  @Mutation(() => ClientPlan)
-  async updateClientPlanDate(
-    @Args('input') dto: UpdateClientPlanDateDto,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<ClientPlan> {
     return this.cpps.updateClientPlan(dto, selectors);

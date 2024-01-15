@@ -5,7 +5,6 @@ import { CreateClientPlanDto } from 'src/modules/clients/client-plans/adapters/i
 import { DeleteClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/delete-client-plan.dto';
 import { GetClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/get-client-plan.dto';
 import { GetClientPlansDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/get-client-plans.dto';
-import { UpdateClientPlanDateDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan-date.dto';
 import { UpdateClientPlanDto } from 'src/modules/clients/client-plans/adapters/in/dtos/plan/update-client-plan.dto';
 import { ClientPlan, ClientPlanDocument } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { ClientPlanPartial, ClientWithAssignedDate } from 'src/modules/clients/client-plans/adapters/out/client-plan.type';
@@ -52,12 +51,6 @@ export class ClientPlansPersistenceService {
           },
         },
       },
-      /*  {
-         $project: {
-           ...restFields,
-           meals: { $sortArray: { input: '$meals', sortBy: { day: 1 } } },
-         },
-       }, */
     ]);
     if (clientPlanRes[0] == null) throw new BadRequestException(ErrorClientPlanEnum.CLIENT_PLAN_NOT_FOUND);
     return clientPlanRes[0] as ClientPlan;
@@ -87,7 +80,7 @@ export class ClientPlansPersistenceService {
     return clientPlans;
   }
   async updateClientPlan(
-    { clientPlan, client, ...rest }: UpdateClientPlanDto | UpdateClientPlanDateDto,
+    { clientPlan, client, ...rest }: UpdateClientPlanDto,
     selectors: string[],
   ): Promise<ClientPlan> {
     const clientPlanRes = await this.clienPlanModel.findOneAndUpdate(

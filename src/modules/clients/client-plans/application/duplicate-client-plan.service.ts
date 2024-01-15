@@ -9,14 +9,17 @@ export class DuplicateClientPlanService {
     private cpps: ClientPlansPersistenceService,
   ) {}
 
-  async duplicateClientPlan({ professional, client, clientPlan }: DuplicateClientPlanDto, selectors: Record<string, number>): Promise<ClientPlan> {
+  async duplicateClientPlan({ professional, client, clientPlan, ...rest }: DuplicateClientPlanDto, selectors: Record<string, number>): Promise<ClientPlan> {
     const _clientPlan = await this.cpps.getClientPlan({ professional, client, clientPlan }, selectors);
-    /* for (let x = 0; x < _clientPlan.meals.length; x++) {
+
+    delete _clientPlan._id;
+    delete _clientPlan.assignedDate;
+    for (let x = 0; x < _clientPlan.meals.length; x++) {
       delete _clientPlan.meals[x]._id;
       delete _clientPlan.meals[x].updatedAt;
-    } */
+    }
     console.log('-------_clientPlan', _clientPlan);
-    // const programUpdated = await this.pps.addProgramPlanWithMeals({ ...dto, /* planToDuplicate: */ }, selectors);
-    return _clientPlan;
+    const programUpdated = await this.cpps.createClientPlan({ ..._clientPlan, professional, client, assignedDate: rest.assignedDate });
+    return programUpdated;
   }
 }
