@@ -6,7 +6,7 @@ import { UpdateClientPlanCommentDto } from 'src/modules/clients/client-plans/ada
 import { ClientPlanCommentPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plan-comment-persistence.service';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { AddClientPlanCommentService } from 'src/modules/clients/client-plans/application/add-client-plan-comment.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()

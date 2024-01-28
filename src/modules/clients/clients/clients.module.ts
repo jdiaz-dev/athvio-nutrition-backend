@@ -7,7 +7,7 @@ import { ClientManagementService } from 'src/modules/clients/clients/application
 import { ManageClientGroupService } from 'src/modules/clients/clients/application/manage-client-group.service';
 import { ClientGroupsModule } from 'src/modules/professionals/client-groups/client-groups.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
-import { UsersModule } from 'src/modules/security/users/users.module';
+import { UsersModule } from 'src/modules/authentication/users/users.module';
 
 @Module({
   imports: [

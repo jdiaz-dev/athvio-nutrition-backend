@@ -1,31 +1,19 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateClientDto, CreateClientResponse } from 'src/modules/clients/clients/adapters/in/dtos/create-client.dto';
 import { GetClientsDto, GetClientsResponse } from 'src/modules/clients/clients/adapters/in/dtos/get-clients.dto';
 import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
 import { ClientsPersistenceService } from 'src/modules/clients/clients/adapters/out/clients-persistence.service';
 import { ManageClientStateDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-state.dto';
 import { ManageClientGroupDto } from 'src/modules/clients/clients/adapters/in/dtos/manage-client-group.dto';
 import { ManageClientGroupService } from 'src/modules/clients/clients/application/manage-client-group.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { ClientManagementService } from 'src/modules/clients/clients/application/client-management.service';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver(() => Client)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class ClientsResolver {
-  constructor(
-    private readonly cps: ClientsPersistenceService,
-    private mcgs: ManageClientGroupService,
-    private cms: ClientManagementService,
-  ) {}
-
-  @Mutation(() => CreateClientResponse)
-  //AuthorizationProfessionalGuard
-  createClient(@Args('input') dto: CreateClientDto): Promise<CreateClientResponse> {
-    return this.cms.createClient(dto);
-  }
+  constructor(private readonly cps: ClientsPersistenceService, private mcgs: ManageClientGroupService) {}
 
   @Query(() => GetClientsResponse)
   async getClients(

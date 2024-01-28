@@ -3,7 +3,7 @@ import { UseGuards } from '@nestjs/common';
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 
 import { CustomRecipe } from 'src/modules/professionals/custom-recipes/adapters/out/custom-recipe.schema';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { IngredientDetail } from 'src/shared/models/meal-plan';
 

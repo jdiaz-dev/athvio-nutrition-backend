@@ -15,7 +15,7 @@ import { Program } from 'src/modules/professionals/programs/adapters/out/program
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 

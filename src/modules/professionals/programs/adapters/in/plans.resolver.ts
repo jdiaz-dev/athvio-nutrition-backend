@@ -8,7 +8,7 @@ import { PlansPersistenceService } from 'src/modules/professionals/programs/adap
 
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { DuplicateProgramPlanService } from 'src/modules/professionals/programs/application/duplicate-program-plan.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 

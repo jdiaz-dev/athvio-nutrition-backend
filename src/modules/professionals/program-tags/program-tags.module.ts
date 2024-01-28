@@ -5,7 +5,7 @@ import { ProgramTagsResolver } from 'src/modules/professionals/program-tags/adap
 import { ProgramTag, ProgramTagSchema } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { ProgramTagsPersistenceService } from 'src/modules/professionals/program-tags/adapters/out/program-tags-persistence.service';
 import { ProgramTagsManagementService } from 'src/modules/professionals/program-tags/application/program-tags-persistence.service';
-import { UsersModule } from 'src/modules/security/users/users.module';
+import { UsersModule } from 'src/modules/authentication/users/users.module';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: ProgramTag.name, schema: ProgramTagSchema }]), UsersModule, ProfessionalsModule],

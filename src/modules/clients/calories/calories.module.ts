@@ -5,7 +5,7 @@ import { CaloriesPersistenceService } from 'src/modules/clients/calories/adapter
 import { Calory, CalorySchema } from 'src/modules/clients/calories/adapters/out/calory.schema';
 import { CreateCaloryService } from 'src/modules/clients/calories/application/create-calory-persistence.service';
 import { ClientsModule } from 'src/modules/clients/clients/clients.module';
-import { UsersModule } from 'src/modules/security/users/users.module';
+import { UsersModule } from 'src/modules/authentication/users/users.module';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Calory.name, schema: CalorySchema }]), UsersModule, ClientsModule],

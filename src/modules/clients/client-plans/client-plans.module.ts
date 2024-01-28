@@ -9,7 +9,7 @@ import { AddClientPlanCommentService } from 'src/modules/clients/client-plans/ap
 import { CreateClientPlanService } from 'src/modules/clients/client-plans/application/create-client-plan.service';
 import { ClientsModule } from 'src/modules/clients/clients/clients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
-import { UsersModule } from 'src/modules/security/users/users.module';
+import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { ClientPlanMealsPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plan-meals-persistence.service';
 import { MealsResolver } from 'src/modules/clients/client-plans/adapters/in/meals.resolver';
 import { DuplicateClientPlanService } from 'src/modules/clients/client-plans/application/duplicate-client-plan.service';

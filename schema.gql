@@ -124,12 +124,6 @@ input CreateCaloryDto {
   protein: Float!
 }
 
-input CreateClientDto {
-  additionalInfo: AdditionalInfoDto
-  professional: String!
-  userInfo: CreateUserInfoDto!
-}
-
 input CreateClientGroupDto {
   groupName: String!
   professional: String!
@@ -140,21 +134,6 @@ input CreateClientPlanDto {
   client: String!
   professional: String!
   title: String
-}
-
-type CreateClientResponse {
-  _id: ID!
-  birthday: DateTime
-  gender: String
-  groups: [ClientGroup!]!
-  height: Float
-  location: String
-  phone: String
-  professional: ID!
-  profilePicture: String
-  timezone: String
-  userInfo: CreateUserInfoResponse!
-  weight: Float
 }
 
 input CreateCustomRecipeDto {
@@ -470,11 +449,6 @@ type JwtDto {
   userType: String!
 }
 
-input LoginDto {
-  email: String!
-  password: String!
-}
-
 type Macros {
   calories: Float!
   carbs: Float!
@@ -548,7 +522,6 @@ type Mutation {
   addProgramPlan(input: AddProgramPlanDto!): Program!
   assignProgram(input: AssignProgramDto!): [ClientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
-  createClient(input: CreateClientDto!): CreateClientResponse!
   createClientGroup(input: CreateClientGroupDto!): ClientGroup!
   createClientPlan(input: CreateClientPlanDto!): ClientPlan!
   createCustomRecipe(input: CreateCustomRecipeDto!): CustomRecipe!
@@ -566,11 +539,12 @@ type Mutation {
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
   duplicateClientPlan(input: DuplicateClientPlanDto!): ClientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
-  logIn(input: LoginDto!): JwtDto!
   manageClientGroup(input: ManageClientGroupDto!): Client!
   manageClientState(input: ManageClientStateDto!): Client!
   manageProgramTag(input: ManageProgramTagDto!): Program!
-  signUp(input: SignUpUserDto!): User!
+  signIn(input: SignInDto!): JwtDto!
+  signUpClient(input: SignUpClientDto!): SignUpClientResponse!
+  signUpProfessional(input: SignUpProfessionalDto!): User!
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateClientGroup(input: UpdateClientGroupDto!): ClientGroup!
   updateClientPlan(input: UpdateClientPlanDto!): ClientPlan!
@@ -636,7 +610,33 @@ type Query {
   sayHello: String!
 }
 
-input SignUpUserDto {
+input SignInDto {
+  email: String!
+  password: String!
+}
+
+input SignUpClientDto {
+  additionalInfo: AdditionalInfoDto
+  professional: String!
+  userInfo: CreateUserInfoDto!
+}
+
+type SignUpClientResponse {
+  _id: ID!
+  birthday: DateTime
+  gender: String
+  groups: [ClientGroup!]!
+  height: Float
+  location: String
+  phone: String
+  professional: ID!
+  profilePicture: String
+  timezone: String
+  userInfo: CreateUserInfoResponse!
+  weight: Float
+}
+
+input SignUpProfessionalDto {
   acceptedTerms: Boolean!
   country: String
   countryCode: String!

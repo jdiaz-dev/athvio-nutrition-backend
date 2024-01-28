@@ -7,7 +7,7 @@ import { UpdateClientGroupDto } from 'src/modules/professionals/client-groups/ad
 import { ClientGroup } from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
 import { ClientGroupsPersistenceService } from 'src/modules/professionals/client-groups/adapters/out/client-groups-persistence.service';
 import { ClientGroupsManagementService } from 'src/modules/professionals/client-groups/application/client-groups-management.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 
 @Resolver()

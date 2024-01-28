@@ -9,7 +9,7 @@ import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client
 import { ClientPlansPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plans-persistence.service';
 import { CreateClientPlanService } from 'src/modules/clients/client-plans/application/create-client-plan.service';
 import { DuplicateClientPlanService } from 'src/modules/clients/client-plans/application/duplicate-client-plan.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 

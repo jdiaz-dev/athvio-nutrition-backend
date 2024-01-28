@@ -4,7 +4,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { AlloweGender, ClientState } from 'src/shared/enums/project';
 import { ClientGroup } from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
-import { User } from 'src/modules/security/users/adapters/out/user.schema';
+import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Clients' })

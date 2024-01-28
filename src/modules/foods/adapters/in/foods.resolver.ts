@@ -7,7 +7,7 @@ import {
 import { GetFoodsDto, GetFoodsResponse } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
 import { FoodTextSearcherService } from 'src/modules/foods/application/food-text-searcher.service';
 import { GetFoodsService } from 'src/modules/foods/application/get-foods.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { FoodDatabases } from 'src/shared/enums/project';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';

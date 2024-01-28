@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { UsersPersistenceService } from 'src/modules/security/users/adapters/out/users-persistence.service';
+import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
 import { AuthorizationMessages } from 'src/shared/enums/messages-response';
 
 @Injectable()

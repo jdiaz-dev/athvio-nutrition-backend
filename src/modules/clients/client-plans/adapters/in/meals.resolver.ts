@@ -5,7 +5,7 @@ import { DeletePlanMealDto } from 'src/modules/clients/client-plans/adapters/in/
 import { UpdatePlanMealDto } from 'src/modules/clients/client-plans/adapters/in/dtos/meals/update-meal.dto';
 import { ClientPlan } from 'src/modules/clients/client-plans/adapters/out/client-plan.schema';
 import { ClientPlanMealsPersistenceService } from 'src/modules/clients/client-plans/adapters/out/client-plan-meals-persistence.service';
-import { AuthorizationGuard } from 'src/modules/security/security/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 

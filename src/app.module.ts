@@ -17,10 +17,10 @@ import { ClientsModule } from './modules/clients/clients/clients.module';
 import { CaloriesModule } from './modules/clients/calories/calories.module';
 import { ClientPlansModule } from './modules/clients/client-plans/client-plans.module';
 import { ChatsModule } from './modules/clients/chats/chats.module';
-import { SecurityModule } from './modules/security/security/security.module';
+import { AuthenticationModule } from './modules/authentication/authentication/authentication.module';
 // import { EnumEnvironments } from './shared/enums/project';
 import configuration from './configuration';
-import { UsersModule } from 'src/modules/security/users/users.module';
+import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { FoodsModule } from 'src/modules/foods/foods.module';
 import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/custom-recipes.module';
 
@@ -89,7 +89,7 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
     CaloriesModule,
     ClientPlansModule,
     ChatsModule,
-    SecurityModule,
+    AuthenticationModule,
     FoodsModule,
   ],
   controllers: [AppController],
