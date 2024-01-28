@@ -1,7 +1,7 @@
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { JwtDto } from './dtos/jwt.dto';
-import { SignInDto } from './dtos/login.dto';
+import { SignInDto } from './dtos/sign-in.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthService } from 'src/modules/authentication/authentication/application/services/auth.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
@@ -13,7 +13,7 @@ import { AuthorizationGuard } from 'src/modules/authentication/authentication/ad
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 
 @Resolver()
-export class SecurityResolver {
+export class AuthenticationResolver {
   constructor(private authService: AuthService, private sps: SignUpService) {}
 
   @Mutation(() => User)

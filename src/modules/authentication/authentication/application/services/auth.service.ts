@@ -3,11 +3,11 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcryptjs from 'bcryptjs';
 import { IValidateUserUseCase } from '../ports/in/validate-user.use-case';
 import { JwtService } from '@nestjs/jwt';
-import { SignInDto } from 'src/modules/authentication/authentication/adapters/in/dtos/login.dto';
 import { UserType } from 'src/shared/enums/project';
 import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
+import { SignInDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-in.dto';
 
 @Injectable()
 export class AuthService implements IValidateUserUseCase {

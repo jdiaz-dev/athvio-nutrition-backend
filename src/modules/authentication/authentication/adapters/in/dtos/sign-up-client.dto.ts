@@ -2,7 +2,7 @@ import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { IsString, IsEmail, IsNumber, IsDate, IsEnum, IsOptional, ValidateNested, IsMongoId } from 'class-validator';
 import { ClientGroup } from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
-import { AlloweGender } from 'src/shared/enums/project';
+import { AllowedGender } from 'src/shared/enums/project';
 
 @InputType()
 export class AdditionalInfoDto {
@@ -32,7 +32,7 @@ export class AdditionalInfoDto {
   birthday!: Date;
 
   @Field({ nullable: true })
-  @IsEnum(AlloweGender)
+  @IsEnum(AllowedGender)
   @IsOptional()
   gender!: string;
 

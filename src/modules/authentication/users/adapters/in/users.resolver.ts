@@ -23,4 +23,10 @@ export class UsersResolver {
   updatePassword(@Args('input') dto: UpdatePasswordDto): Promise<User> {
     return this.cs.updatePassword(dto);
   }
+
+  // TODO: activate user
+  @Mutation(() => User)
+  activateUser(){
+
+  }
 }

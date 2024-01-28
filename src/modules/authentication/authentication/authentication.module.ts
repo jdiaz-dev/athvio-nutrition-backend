@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { SecurityResolver } from 'src/modules/authentication/authentication/adapters/in/security.resolver';
+import { AuthenticationResolver } from 'src/modules/authentication/authentication/adapters/in/authentication.resolver';
 import { JwtStrategy } from 'src/modules/authentication/authentication/adapters/in/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/modules/authentication/authentication/adapters/in/strategies/local.strategy';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
@@ -14,7 +14,7 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { ClientsModule } from 'src/modules/clients/clients/clients.module';
 
 const services = [AuthService, LocalStrategy, JwtStrategy, SignUpService];
-const resolvers = [SecurityResolver];
+const resolvers = [AuthenticationResolver];
 ProfessionalsPersistenceService
 @Module({
   imports: [

@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { IsString, IsNumber, IsDate, IsEnum, IsMongoId, IsBoolean, ValidateNested, IsOptional } from 'class-validator';
-import { AlloweGender } from 'src/shared/enums/project';
+import { AllowedGender } from 'src/shared/enums/project';
 
 @InputType()
 class UpdateUserInfoDto {
@@ -57,9 +57,9 @@ export class UpdateClientMobileDto {
   birthday!: Date;
 
   @Field({ nullable: true })
-  @IsEnum(AlloweGender)
+  @IsEnum(AllowedGender)
   @IsOptional()
-  gender!: AlloweGender;
+  gender!: AllowedGender;
 
   @Field({ nullable: true })
   @IsString()

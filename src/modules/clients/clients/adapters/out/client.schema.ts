@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { AlloweGender, ClientState } from 'src/shared/enums/project';
+import { AllowedGender, ClientState } from 'src/shared/enums/project';
 import { ClientGroup } from 'src/modules/professionals/client-groups/adapters/out/client-group.schema';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 
@@ -45,7 +45,7 @@ export class Client extends BaseSchema {
   birthday!: Date;
 
   @Field({ nullable: true })
-  @Prop({ type: String, enum: AlloweGender, required: false })
+  @Prop({ type: String, enum: AllowedGender, required: false })
   gender!: string;
 
   @Field({ nullable: true })

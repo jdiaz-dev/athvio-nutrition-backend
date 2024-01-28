@@ -17,7 +17,7 @@ export enum ManageClientGroup {
   REMOVE = 'remove',
 }
 
-export enum AlloweGender {
+export enum AllowedGender {
   MALE = 'male',
   FEMALE = 'female',
   PREFER_NOT_TO_SAY = 'prefer not to say',

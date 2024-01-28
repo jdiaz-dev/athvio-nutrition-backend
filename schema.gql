@@ -517,6 +517,7 @@ type Meta {
 }
 
 type Mutation {
+  activateUser: User!
   addClientPlanComment(input: AddClientPlanCommentDto!): ClientPlan!
   addPlanMeal(input: AddPlanMealDto!): ClientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
