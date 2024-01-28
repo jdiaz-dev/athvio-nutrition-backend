@@ -23,7 +23,7 @@ export class AuthService implements IValidateUserUseCase {
     if (!validPassword) throw new UnauthorizedException();
 
     const res: UserLoged = {
-      _id: user.professional ? user.professional : user.client,
+      _id: user.professional ? user.professional : user.patient,
       userType: user.professional ? UserType.PROFESSIONAL : UserType.CLIENT,
       token: this.jwtService.sign({ user: _id.toString() }),
     };

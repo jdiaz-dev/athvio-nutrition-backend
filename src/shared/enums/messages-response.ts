@@ -8,9 +8,9 @@ export enum ProfessionalMessages {
   PROFESSIONAL_NOT_FOUND = 'This professional does not exist.',
 }
 
-export enum ErrorClientsEnum {
-  CLIENT_NOT_FOUND = 'This client does not exist.',
-  CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching clients'
+export enum ErrorPatientsEnum {
+  CLIENT_NOT_FOUND = 'This patient does not exist.',
+  CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching patients'
 }
 
 export enum ErrorProgramTagEnum {
@@ -21,12 +21,12 @@ export enum ErrorProgramEnum {
   PROGRAM_NOT_FOUND = 'This program does not exist.',
 }
 
-export enum ErrorClientGroupEnum {
-  CLIENT_GROUP_NOT_FOUND = 'This client group does not exist.',
+export enum ErrorPatientGroupEnum {
+  CLIENT_GROUP_NOT_FOUND = 'This patient group does not exist.',
 }
 
-export enum ErrorClientPlanEnum {
-  CLIENT_PLAN_NOT_FOUND = 'This client plan does not exist.',
+export enum ErrorPatientPlanEnum {
+  CLIENT_PLAN_NOT_FOUND = 'This patient plan does not exist.',
 }
 
 export enum ErrorCustomRecipeEnum {

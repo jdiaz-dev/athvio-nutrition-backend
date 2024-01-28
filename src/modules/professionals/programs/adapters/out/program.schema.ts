@@ -4,7 +4,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { Meal, MealSchema } from 'src/shared/models/meal-plan';
-import { Client } from 'src/modules/clients/clients/adapters/out/client.schema';
+import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 
 @Schema({ _id: false, timestamps: false })
 export class PlanDetail {
@@ -75,9 +75,9 @@ export class Program extends BaseSchema {
   @Prop({ type: [PlanSchema], required: false })
   plans!: Plan[];
 
-  @Field(() => [Client])
-  @Prop({ type: [String], required: true, default: [], ref: Client.name })
-  clients: Client[];
+  @Field(() => [Patient])
+  @Prop({ type: [String], required: true, default: [], ref: Patient.name })
+  patients: Patient[];
 
   @Field()
   @Prop({ type: Boolean, required: true, default: false })

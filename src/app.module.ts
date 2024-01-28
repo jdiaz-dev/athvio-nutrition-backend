@@ -12,11 +12,11 @@ import { AppService } from './app.service';
 import { ProfessionalsModule } from './modules/professionals/professionals/professionals.module';
 import { ProgramsModule } from './modules/professionals/programs/programs.module';
 import { ProgramTagsModule } from './modules/professionals/program-tags/program-tags.module';
-import { ClientGroupsModule } from './modules/professionals/client-groups/client-groups.module';
-import { ClientsModule } from './modules/clients/clients/clients.module';
-import { CaloriesModule } from './modules/clients/calories/calories.module';
-import { ClientPlansModule } from './modules/clients/client-plans/client-plans.module';
-import { ChatsModule } from './modules/clients/chats/chats.module';
+import { PatientGroupsModule } from './modules/professionals/patient-groups/patient-groups.module';
+import { PatientsModule } from './modules/patients/patients/patients.module';
+import { CaloriesModule } from './modules/patients/calories/calories.module';
+import { PatientPlansModule } from './modules/patients/patient-plans/patient-plans.module';
+import { ChatsModule } from './modules/patients/chats/chats.module';
 import { AuthenticationModule } from './modules/authentication/authentication/authentication.module';
 // import { EnumEnvironments } from './shared/enums/project';
 import configuration from './configuration';
@@ -83,11 +83,11 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
     ProfessionalsModule,
     ProgramsModule,
     ProgramTagsModule,
-    ClientGroupsModule,
+    PatientGroupsModule,
     CustomRecipesModule,
-    ClientsModule,
+    PatientsModule,
     CaloriesModule,
-    ClientPlansModule,
+    PatientPlansModule,
     ChatsModule,
     AuthenticationModule,
     FoodsModule,
@@ -103,8 +103,8 @@ export class AppModule {}
     - create roles and permissions
 
     - endpoint to update isTrialPeriod
-    - update basic information of client (professional and client views)
-    - update some information of client (from professional view)
+    - update basic information of patient (professional and patient views)
+    - update some information of patient (from professional view)
 
     - fix creaateAt and updatedAt, it is not creating in sub documents of programs
     - implement equivalent ingredients
@@ -113,8 +113,8 @@ export class AppModule {}
 
     - check application layer if foods module, check right implementation for hexagonal architecture
 
-    - endpoint to relationate clients with programs (plans) 
-    - creating endpoint to add meals to client plan <----------------- working
+    - endpoint to relationate patients with programs (plans) 
+    - creating endpoint to add meals to patient plan <----------------- working
 */
 
 /*
@@ -137,6 +137,6 @@ export class AppModule {}
 /* 
   now
     - implement query for get programs from day selected
-    - query to create many clientPlans
+    - query to create many patientPlans
 
 */

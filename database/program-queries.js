@@ -68,7 +68,7 @@ db.Programs.aggregate([
       name: 1,
       description: 1,
       programTags: 1,
-      clients: 1,
+      patients: 1,
       result: {$sortArray: {input: '$plans', sortBy: {day: 1}}},
     },
   },

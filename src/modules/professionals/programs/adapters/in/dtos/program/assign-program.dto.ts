@@ -15,7 +15,7 @@ export class AssignProgramDto {
   @IsMongoId({
     each: true
   })
-  clients: string[];
+  patients: string[];
 
   @Field()
   @IsDate()

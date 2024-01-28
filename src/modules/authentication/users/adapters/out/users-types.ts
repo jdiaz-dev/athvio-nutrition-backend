@@ -7,7 +7,7 @@ export interface CreateUser {
   countryCode?: string;
   country?: string;
   professional?: string | null;
-  client?: string | null;
+  patient?: string | null;
   isProfessional?: boolean;
   acceptedTerms?: boolean;
   isActive?: boolean;

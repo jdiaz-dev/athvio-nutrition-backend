@@ -7,7 +7,7 @@ import { AuthService } from 'src/modules/authentication/authentication/applicati
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-professional.dto';
-import { SignUpClientDto, SignUpClientResponse } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-client.dto';
+import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
 import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -22,9 +22,9 @@ export class AuthenticationResolver {
     return this.sps.signUpProfessional(dto);
   }
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
-  @Mutation(() => SignUpClientResponse)
-  signUpClient(@Args('input') dto: SignUpClientDto): Promise<SignUpClientResponse> {
-    return this.sps.signUpClient(dto);
+  @Mutation(() => SignUpPatientResponse)
+  signUpPatient(@Args('input') dto: SignUpPatientDto): Promise<SignUpPatientResponse> {
+    return this.sps.signUpPatient(dto);
   }
 
   @Mutation(() => JwtDto)

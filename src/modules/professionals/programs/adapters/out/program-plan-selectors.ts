@@ -1,7 +1,7 @@
 export const programPlanSelector = {
   _id: 1,
   isSyncActive: 1,
-  clients: 1,
+  patients: 1,
   'plans._id': 1,
   'plans.title': 1,
   'plans.week': 1,

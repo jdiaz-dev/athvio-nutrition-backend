@@ -11,7 +11,7 @@ import { AuthService } from './application/services/auth.service';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
-import { ClientsModule } from 'src/modules/clients/clients/clients.module';
+import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 
 const services = [AuthService, LocalStrategy, JwtStrategy, SignUpService];
 const resolvers = [AuthenticationResolver];
@@ -27,7 +27,7 @@ ProfessionalsPersistenceService
       }),
     }),
     UsersModule,
-    ClientsModule,
+    PatientsModule,
     ProfessionalsModule
   ],
   providers: [ ...services, ...resolvers],

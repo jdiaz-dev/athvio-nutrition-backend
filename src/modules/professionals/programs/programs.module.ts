@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ClientPlansModule } from 'src/modules/clients/client-plans/client-plans.module';
-import { ClientsModule } from 'src/modules/clients/clients/clients.module';
+import { PatientPlansModule } from 'src/modules/patients/patient-plans/patient-plans.module';
+import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { ProgramTagsModule } from 'src/modules/professionals/program-tags/program-tags.module';
 import { MealsResolver } from 'src/modules/professionals/programs/adapters/in/meals.resolver';
@@ -32,8 +32,8 @@ const services = [
     ProfessionalsModule,
     UsersModule,
     ProgramTagsModule,
-    ClientsModule,
-    ClientPlansModule
+    PatientsModule,
+    PatientPlansModule
   ],
   providers: [...resolvers, ...services],
 })

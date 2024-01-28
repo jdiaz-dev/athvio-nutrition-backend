@@ -12,7 +12,7 @@ export enum ManageProgramTags {
   REMOVE = 'remove',
 }
 
-export enum ManageClientGroup {
+export enum ManagePatientGroup {
   ADD = 'add',
   REMOVE = 'remove',
 }
@@ -23,7 +23,7 @@ export enum AllowedGender {
   PREFER_NOT_TO_SAY = 'prefer not to say',
 }
 
-export enum ClientState {
+export enum PatientState {
   ACTIVE = 'active',
   // INACTIVE = 'inactive',
   ARCHIVED = 'archived',
@@ -38,7 +38,7 @@ export enum PlanState {
 
 export enum CommenterType {
   PROFESSIONAL = 'professional',
-  CLIENT = 'client',
+  CLIENT = 'patient',
 }
 
 export enum UnitPreference {
@@ -48,7 +48,7 @@ export enum UnitPreference {
 
 export enum UserType {
   PROFESSIONAL = 'professional',
-  CLIENT = 'client',
+  CLIENT = 'patient',
 }
 
 export enum Pagination {

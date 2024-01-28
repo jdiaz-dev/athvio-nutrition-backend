@@ -2,13 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input AddClientPlanCommentDto {
-  clientId: String!
-  clientPlanId: String!
-  commenter: CommenterInput!
-  message: String!
-}
-
 input AddMealDto {
   mealBody: MealBodyInput!
   plan: String!
@@ -16,10 +9,17 @@ input AddMealDto {
   program: String!
 }
 
+input AddPatientPlanCommentDto {
+  commenter: CommenterInput!
+  message: String!
+  patientId: String!
+  patientPlanId: String!
+}
+
 input AddPlanMealDto {
-  client: String!
-  clientPlan: String!
   mealBody: MealBodyInput!
+  patient: String!
+  patientPlan: String!
   professional: String!
 }
 
@@ -45,7 +45,7 @@ input AdditionalInfoDto {
 
 input AssignProgramDto {
   assignmentStartDate: DateTime!
-  clients: [String!]!
+  patients: [String!]!
   professional: String!
   program: String!
   startingDay: Float!
@@ -55,48 +55,10 @@ type Calory {
   _id: ID!
   calories: Float!
   carbs: Float!
-  clientId: ID!
   fat: Float!
   isDeleted: String!
+  patientId: ID!
   protein: Float!
-}
-
-type Client {
-  _id: ID!
-  birthday: DateTime
-  gender: String
-  groups: [ClientGroup!]!
-  height: Float
-  limitation: String
-  location: String
-  notes: String
-  phone: String
-  professional: ID!
-  profilePicture: String
-  state: String
-  target: String
-  timezone: String
-  user: User!
-  weight: Float
-}
-
-type ClientGroup {
-  _id: ID!
-  groupName: String!
-  isDeleted: String!
-  professional: ID!
-}
-
-type ClientPlan {
-  _id: ID!
-  assignedDate: DateTime!
-  client: String!
-  commentResult: String!
-  comments: [Comment!]!
-  isDeleted: Boolean!
-  meals: [Meal!]
-  state: String!
-  title: String
 }
 
 type Comment {
@@ -119,21 +81,9 @@ input CommenterInput {
 input CreateCaloryDto {
   calories: Float!
   carbs: Float!
-  clientId: String!
   fat: Float!
+  patientId: String!
   protein: Float!
-}
-
-input CreateClientGroupDto {
-  groupName: String!
-  professional: String!
-}
-
-input CreateClientPlanDto {
-  assignedDate: DateTime!
-  client: String!
-  professional: String!
-  title: String
 }
 
 input CreateCustomRecipeDto {
@@ -142,6 +92,18 @@ input CreateCustomRecipeDto {
   macros: MacrosInput!
   name: String!
   professional: String!
+}
+
+input CreatePatientGroupDto {
+  groupName: String!
+  professional: String!
+}
+
+input CreatePatientPlanDto {
+  assignedDate: DateTime!
+  patient: String!
+  professional: String!
+  title: String
 }
 
 input CreateProfesionalInfoDto {
@@ -202,23 +164,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-input DeleteClientGroupDto {
-  clientGroup: String!
-  professional: String!
-}
-
-input DeleteClientPlanCommentDto {
-  clientId: String!
-  clientPlanId: String!
-  commentId: String!
-}
-
-input DeleteClientPlanDto {
-  client: String!
-  clientPlan: String!
-  professional: String!
-}
-
 input DeleteCustomRecipeDto {
   customRecipe: String!
   professional: String!
@@ -231,10 +176,27 @@ input DeleteMealDto {
   program: String!
 }
 
+input DeletePatientGroupDto {
+  patientGroup: String!
+  professional: String!
+}
+
+input DeletePatientPlanCommentDto {
+  commentId: String!
+  patientId: String!
+  patientPlanId: String!
+}
+
+input DeletePatientPlanDto {
+  patient: String!
+  patientPlan: String!
+  professional: String!
+}
+
 input DeletePlanMealDto {
-  client: String!
-  clientPlan: String!
   meal: String!
+  patient: String!
+  patientPlan: String!
   professional: String!
 }
 
@@ -254,10 +216,10 @@ input DeleteProgramTagDto {
   programTag: String!
 }
 
-input DuplicateClientPlanDto {
+input DuplicatePatientPlanDto {
   assignedDate: DateTime!
-  client: String!
-  clientPlan: String!
+  patient: String!
+  patientPlan: String!
   professional: String!
 }
 
@@ -314,34 +276,7 @@ type GetAutocompleteFoodNamesResponse {
 
 input GetCaloryDto {
   caloryId: String!
-  clientId: String!
-}
-
-input GetClientGroupsDto {
-  professional: String!
-}
-
-input GetClientPlansDto {
-  client: String!
-  limit: Float = 30
-  offset: Float = 0
-  orderBy: String
-  professional: String!
-  search: [String!] = [""]
-}
-
-input GetClientsDto {
-  limit: Float = 30
-  offset: Float = 0
-  orderBy: String
-  professional: String!
-  search: [String!] = [""]
-  state: String!
-}
-
-type GetClientsResponse {
-  data: [Client!]!
-  meta: Meta!
+  patientId: String!
 }
 
 input GetCustomRecipeDto {
@@ -375,6 +310,33 @@ input GetFoodsDto {
 type GetFoodsResponse {
   data: [Food!]!
   meta: FoodsMeta!
+}
+
+input GetPatientGroupsDto {
+  professional: String!
+}
+
+input GetPatientPlansDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  patient: String!
+  professional: String!
+  search: [String!] = [""]
+}
+
+input GetPatientsDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  professional: String!
+  search: [String!] = [""]
+  state: String!
+}
+
+type GetPatientsResponse {
+  data: [Patient!]!
+  meta: Meta!
 }
 
 input GetProgramDto {
@@ -465,15 +427,15 @@ input MacrosInput {
   weightInGrams: Float!
 }
 
-input ManageClientGroupDto {
+input ManagePatientGroupDto {
   action: String!
-  client: String!
-  clientGroup: String!
+  patient: String!
+  patientGroup: String!
   professional: String!
 }
 
-input ManageClientStateDto {
-  client: String!
+input ManagePatientStateDto {
+  patient: String!
   professional: String!
   state: String!
 }
@@ -518,43 +480,43 @@ type Meta {
 
 type Mutation {
   activateUser: User!
-  addClientPlanComment(input: AddClientPlanCommentDto!): ClientPlan!
-  addPlanMeal(input: AddPlanMealDto!): ClientPlan!
+  addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
+  addPlanMeal(input: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
-  assignProgram(input: AssignProgramDto!): [ClientPlan!]!
+  assignProgram(input: AssignProgramDto!): [PatientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
-  createClientGroup(input: CreateClientGroupDto!): ClientGroup!
-  createClientPlan(input: CreateClientPlanDto!): ClientPlan!
   createCustomRecipe(input: CreateCustomRecipeDto!): CustomRecipe!
   createMeal(input: AddMealDto!): Program!
+  createPatientGroup(input: CreatePatientGroupDto!): PatientGroup!
+  createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
-  deleteClientGroup(input: DeleteClientGroupDto!): ClientGroup!
-  deleteClientPlan(input: DeleteClientPlanDto!): ClientPlan!
-  deleteClientPlanComment(input: DeleteClientPlanCommentDto!): ClientPlan!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deleteMeal(input: DeleteMealDto!): Program!
-  deletePlanMeal(input: DeletePlanMealDto!): ClientPlan!
+  deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
+  deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
+  deletePatientPlanComment(input: DeletePatientPlanCommentDto!): PatientPlan!
+  deletePlanMeal(input: DeletePlanMealDto!): PatientPlan!
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
-  duplicateClientPlan(input: DuplicateClientPlanDto!): ClientPlan!
+  duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
-  manageClientGroup(input: ManageClientGroupDto!): Client!
-  manageClientState(input: ManageClientStateDto!): Client!
+  managePatientGroup(input: ManagePatientGroupDto!): Patient!
+  managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
   signIn(input: SignInDto!): JwtDto!
-  signUpClient(input: SignUpClientDto!): SignUpClientResponse!
+  signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpProfessional(input: SignUpProfessionalDto!): User!
   updateCalory(input: UpdateCaloryDto!): Calory!
-  updateClientGroup(input: UpdateClientGroupDto!): ClientGroup!
-  updateClientPlan(input: UpdateClientPlanDto!): ClientPlan!
-  updateClientPlanComment(input: UpdateClientPlanCommentDto!): ClientPlan!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
   updatePassword(input: UpdatePasswordDto!): User!
+  updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
+  updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
+  updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
   updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
-  updatePlanMeal(input: UpdatePlanMealDto!): ClientPlan!
+  updatePlanMeal(input: UpdatePlanMealDto!): PatientPlan!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
@@ -568,6 +530,44 @@ type Organization {
   province: String!
 }
 
+type Patient {
+  _id: ID!
+  birthday: DateTime
+  gender: String
+  groups: [PatientGroup!]!
+  height: Float
+  limitation: String
+  location: String
+  notes: String
+  phone: String
+  professional: ID!
+  profilePicture: String
+  state: String
+  target: String
+  timezone: String
+  user: User!
+  weight: Float
+}
+
+type PatientGroup {
+  _id: ID!
+  groupName: String!
+  isDeleted: String!
+  professional: ID!
+}
+
+type PatientPlan {
+  _id: ID!
+  assignedDate: DateTime!
+  commentResult: String!
+  comments: [Comment!]!
+  isDeleted: Boolean!
+  meals: [Meal!]
+  patient: String!
+  state: String!
+  title: String
+}
+
 type Plan {
   _id: ID!
   day: Float!
@@ -579,10 +579,10 @@ type Plan {
 
 type Program {
   _id: ID!
-  clients: [Client!]!
   description: String!
   isSyncActive: Boolean!
   name: String!
+  patients: [Patient!]!
   plans: [Plan!]!
   professional: ID!
   programTags: [ProgramTag!]!
@@ -598,13 +598,13 @@ type ProgramTag {
 type Query {
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
-  getClientGroups(input: GetClientGroupsDto!): [ClientGroup!]!
-  getClientPlans(input: GetClientPlansDto!): [ClientPlan!]!
-  getClients(input: GetClientsDto!): GetClientsResponse!
   getCustomRecipe(input: GetCustomRecipeDto!): CustomRecipe!
   getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
+  getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
+  getPatientPlans(input: GetPatientPlansDto!): [PatientPlan!]!
+  getPatients(input: GetPatientsDto!): GetPatientsResponse!
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
@@ -616,17 +616,17 @@ input SignInDto {
   password: String!
 }
 
-input SignUpClientDto {
+input SignUpPatientDto {
   additionalInfo: AdditionalInfoDto
   professional: String!
   userInfo: CreateUserInfoDto!
 }
 
-type SignUpClientResponse {
+type SignUpPatientResponse {
   _id: ID!
   birthday: DateTime
   gender: String
-  groups: [ClientGroup!]!
+  groups: [PatientGroup!]!
   height: Float
   location: String
   phone: String
@@ -653,30 +653,9 @@ input UpdateCaloryDto {
   calories: Float!
   caloryId: String!
   carbs: Float!
-  clientId: String!
   fat: Float!
+  patientId: String!
   protein: Float!
-}
-
-input UpdateClientGroupDto {
-  clientGroup: String!
-  groupName: String!
-  professional: String!
-}
-
-input UpdateClientPlanCommentDto {
-  clientId: String!
-  clientPlanId: String!
-  commentId: String!
-  message: String!
-}
-
-input UpdateClientPlanDto {
-  assignedDate: DateTime!
-  client: String!
-  clientPlan: String!
-  professional: String!
-  title: String
 }
 
 input UpdateCustomRecipeDto {
@@ -701,6 +680,27 @@ input UpdatePasswordDto {
   user: String!
 }
 
+input UpdatePatientGroupDto {
+  groupName: String!
+  patientGroup: String!
+  professional: String!
+}
+
+input UpdatePatientPlanCommentDto {
+  commentId: String!
+  message: String!
+  patientId: String!
+  patientPlanId: String!
+}
+
+input UpdatePatientPlanDto {
+  assignedDate: DateTime!
+  patient: String!
+  patientPlan: String!
+  professional: String!
+  title: String
+}
+
 input UpdatePlanAssignedWeekDayDto {
   day: Float!
   plan: String!
@@ -710,10 +710,10 @@ input UpdatePlanAssignedWeekDayDto {
 }
 
 input UpdatePlanMealDto {
-  client: String!
-  clientPlan: String!
   meal: String!
   mealBody: MealBodyInput!
+  patient: String!
+  patientPlan: String!
   professional: String!
 }
 
@@ -739,13 +739,13 @@ input UpdateUserDto {
 
 type User {
   _id: ID!
-  client: String!
   country: String!
   countryCode: String!
   email: String!
   firstName: String!
   isDarkMode: Boolean!
   lastName: String!
+  patient: String!
   phone: String!
   professional: String!
 }

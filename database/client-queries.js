@@ -1,13 +1,13 @@
-// db.Clients.find({ })
+// db.Patients.find({ })
 
-db.Clients.createIndex({ user: 'text' });
-db.Clients.dropIndex('user_text');
+db.Patients.createIndex({ user: 'text' });
+db.Patients.dropIndex('user_text');
 
 db.Users.createIndex({ firstName: 'text' });
 db.Users.dropIndex('firstName_text');
 
-//get clients
-db.Clients.aggregate([
+//get patients
+db.Patients.aggregate([
   {
       $match: {
       professional: ObjectId('6419a238517095f39a0a571c'),
@@ -23,7 +23,7 @@ db.Clients.aggregate([
   },
   {
     $lookup: {
-      from: 'ClientGroups',
+      from: 'PatientGroups',
       let: {
         letGroups: '$groups',
       },

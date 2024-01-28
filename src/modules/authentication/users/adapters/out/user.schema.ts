@@ -41,8 +41,8 @@ export class User extends BaseSchema {
   professional!: string;
 
   @Field()
-  @Prop({ type: String, required: false, ref: 'Clients' })
-  client!: string;
+  @Prop({ type: String, required: false, ref: 'Patients' })
+  patient!: string;
 
   //TODO: use enum [professional, patient]
   @Prop({ type: Boolean, required: true })

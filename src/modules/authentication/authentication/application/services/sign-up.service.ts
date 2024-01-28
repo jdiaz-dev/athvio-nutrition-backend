@@ -6,15 +6,15 @@ import { User } from 'src/modules/authentication/users/adapters/out/user.schema'
 import { CreateUser } from 'src/modules/authentication/users/adapters/out/users-types';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-professional.dto';
-import { SignUpClientDto, SignUpClientResponse } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-client.dto';
-import { ClientsPersistenceService } from 'src/modules/clients/clients/adapters/out/clients-persistence.service';
+import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
+import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
 
 @Injectable()
 export class SignUpService {
   constructor(
     private ups: UsersPersistenceService,
     private pps: ProfessionalsPersistenceService,
-    private cps: ClientsPersistenceService,
+    private cps: PatientsPersistenceService,
   ) {}
 
   async signUpProfessional({ professionalInfo, ...userDto }: SignUpProfessionalDto): Promise<User> {
@@ -32,23 +32,23 @@ export class SignUpService {
       ...userDto,
       password: bcryptjs.hashSync(userDto.password, salt),
       professional: professional._id,
-      client: null,
+      patient: null,
       isProfessional: true,
       isActive: true,
     };
     return this.ups.createUser(_user);
   }
 
-  async signUpClient({ professional, userInfo, additionalInfo }: SignUpClientDto): Promise<SignUpClientResponse> {
+  async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
 
     await this.pps.getProfessionalById(professional);
 
-    const client = await this.cps.createClient({ professional, ...additionalInfo, isActive: true });
+    const patient = await this.cps.createPatient({ professional, ...additionalInfo, isActive: true });
     let _user: CreateUser = {
       ...userInfo,
-      client: client._id,
+      patient: patient._id,
     };
 
     if (additionalInfo.countryCode) _user.countryCode = additionalInfo.countryCode;
@@ -62,16 +62,16 @@ export class SignUpService {
       isActive: false,
     };
     const user = await this.ups.createUser(_user);
-    await this.cps.updateUser(client._id, user._id);
+    await this.cps.updateUser(patient._id, user._id);
 
-    const _client = {
-      ...client,
+    const _patient = {
+      ...patient,
       userInfo: {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
       },
     };
-    return _client;
+    return _patient;
   }
 }

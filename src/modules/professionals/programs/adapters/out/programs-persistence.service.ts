@@ -197,8 +197,8 @@ export class ProgramsPersistenceService {
 
     return programRes;
   }
-  async updateProgramClients(program: string, professional: string, clients: string[]) {
-    const programRes = await this.programModel.findOneAndUpdate({ _id: program, professional, isDeleted: false }, { $push: { clients } }, {
+  async updateProgramPatients(program: string, professional: string, patients: string[]) {
+    const programRes = await this.programModel.findOneAndUpdate({ _id: program, professional, isDeleted: false }, { $push: { patients } }, {
       new: true,
       populate: 'programTags',
     });

@@ -5,12 +5,12 @@ import { UpdatePasswordDto } from 'src/modules/authentication/users/adapters/in/
 import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/dtos/update-user.dto';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
-import { ClientService } from 'src/modules/authentication/users/application/client.service';
+import { PatientService } from 'src/modules/authentication/users/application/patient.service';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 
 @Resolver()
 export class UsersResolver {
-  constructor(private cs:ClientService, private ups: UsersPersistenceService) {}
+  constructor(private cs:PatientService, private ups: UsersPersistenceService) {}
 
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)

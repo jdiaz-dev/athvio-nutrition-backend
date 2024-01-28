@@ -16,7 +16,7 @@ export class UsersPersistenceService {
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    const client = await this.userModel.aggregate([
+    const patient = await this.userModel.aggregate([
       {
         $match: {
           email,
@@ -27,11 +27,11 @@ export class UsersPersistenceService {
           _id: 1,
           password: 1,
           professional: 1,
-          client: 1,
+          patient: 1,
         },
       },
     ]);
-    return client[0] as User;
+    return patient[0] as User;
   }
   async getUserById(user: string): Promise<User> {
     const _user = await this.userModel.findOne(
@@ -46,9 +46,9 @@ export class UsersPersistenceService {
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
-    const client = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
+    const patient = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
 
-    if (client == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
-    return client;
+    if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
+    return patient;
   }
 }

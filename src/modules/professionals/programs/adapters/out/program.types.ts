@@ -6,4 +6,4 @@ export interface ProgramPlanFilteredByDay {
   day: number;
 }
 
-export interface ProgramPatial extends Pick<Program, 'plans' | 'clients' | 'isSyncActive'> {};
+export interface ProgramPatial extends Pick<Program, 'plans' | 'patients' | 'isSyncActive'> {};
