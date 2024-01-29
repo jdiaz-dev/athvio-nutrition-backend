@@ -18,13 +18,12 @@ export class AuthService implements IValidateUserUseCase {
   }
   async signIn(dto: SignInDto): Promise<UserLoged> {
     const { _id, password, ...user } = await this.ups.getUserByEmail(dto.email);
-    user;
     const validPassword = await bcryptjs.compare(dto.password, password);
     if (!validPassword) throw new UnauthorizedException();
 
     const res: UserLoged = {
       _id: user.professional ? user.professional : user.patient,
-      userType: user.professional ? UserType.PROFESSIONAL : UserType.CLIENT,
+      userType: user.professional ? UserType.PROFESSIONAL : UserType.PATIENT,
       token: this.jwtService.sign({ user: _id.toString() }),
     };
     return res;

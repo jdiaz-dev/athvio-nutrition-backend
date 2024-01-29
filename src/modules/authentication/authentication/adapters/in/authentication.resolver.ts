@@ -7,7 +7,10 @@ import { AuthService } from 'src/modules/authentication/authentication/applicati
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-professional.dto';
-import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
+import {
+  SignUpPatientDto,
+  SignUpPatientResponse,
+} from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
 import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -17,7 +20,7 @@ export class AuthenticationResolver {
   constructor(private authService: AuthService, private sps: SignUpService) {}
 
   @Mutation(() => User)
-  signUpProfessional(@Args('input') dto: SignUpProfessionalDto, @Context() context: unknown): Promise<User> {
+  signUpProfessional(@Args('input') dto: SignUpProfessionalDto, @Context() context: unknown): Promise<UserLoged> {
     context;
     return this.sps.signUpProfessional(dto);
   }

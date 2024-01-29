@@ -38,7 +38,7 @@ export enum PlanState {
 
 export enum CommenterType {
   PROFESSIONAL = 'professional',
-  CLIENT = 'patient',
+  PATIENT = 'patient',
 }
 
 export enum UnitPreference {
@@ -48,7 +48,7 @@ export enum UnitPreference {
 
 export enum UserType {
   PROFESSIONAL = 'professional',
-  CLIENT = 'patient',
+  PATIENT = 'patient',
 }
 
 export enum Pagination {
