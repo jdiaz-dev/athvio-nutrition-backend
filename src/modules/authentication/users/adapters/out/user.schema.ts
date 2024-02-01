@@ -54,7 +54,7 @@ export class User extends BaseSchema {
   //TODO: add isblocked property, it for security purposes
   // isblocked 
 
-  @Prop({ type: Boolean, required: true })
+  @Prop({ type: Boolean, required: false })
   acceptedTerms!: boolean;
 
   @Field()

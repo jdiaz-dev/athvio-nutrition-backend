@@ -18,7 +18,7 @@ export class CreateCustomRecipeDto {
   @ValidateNested()
   ingredientDetails: IngredientDetailsInput[];
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   @IsOptional()
   cookingInstructions: string;

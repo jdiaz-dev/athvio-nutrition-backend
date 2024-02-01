@@ -87,7 +87,7 @@ input CreateCaloryDto {
 }
 
 input CreateCustomRecipeDto {
-  cookingInstructions: String!
+  cookingInstructions: String
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   name: String!
@@ -111,7 +111,7 @@ input CreateProfesionalInfoDto {
 }
 
 input CreateProgramDto {
-  description: String!
+  description: String
   name: String!
   professional: String!
 }
@@ -507,7 +507,7 @@ type Mutation {
   manageProgramTag(input: ManageProgramTagDto!): Program!
   signIn(input: SignInDto!): JwtDto!
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
-  signUpProfessional(input: SignUpProfessionalDto!): User!
+  signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
@@ -638,15 +638,15 @@ type SignUpPatientResponse {
 }
 
 input SignUpProfessionalDto {
-  acceptedTerms: Boolean!
+  acceptedTerms: Boolean
   country: String
-  countryCode: String!
+  countryCode: String
   email: String!
   firstName: String!
   lastName: String!
   password: String!
   phone: String!
-  professionalInfo: CreateProfesionalInfoDto!
+  professionalInfo: CreateProfesionalInfoDto
 }
 
 input UpdateCaloryDto {

@@ -11,7 +11,7 @@ export class CreateProgramDto {
   @IsString()
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   description: string;
