@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsAlphanumeric } from '@nestjs/class-validator';
+import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsAlphanumeric } from 'class-validator';
 import { CreateProfesionalInfoDto } from 'src/shared/dtos/create-professional-info.dto';
 
 @InputType()
