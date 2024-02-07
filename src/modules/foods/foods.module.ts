@@ -6,9 +6,9 @@ import { FoodsProviderService } from 'src/modules/foods/adapters/out/providers/f
 import { GetFoodsService } from 'src/modules/foods/application/get-foods.service';
 import { HttpWrapperService } from 'src/shared/services/http-wrapper.service';
 import { FoodTextSearcherService } from 'src/modules/foods/application/food-text-searcher.service';
-import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { ProviderFoodTransformerService } from 'src/modules/foods/application/provider-foods-transformer.service';
 import { CustomRecipesTransformerService } from 'src/modules/foods/application/custom-recipes-transformer.service';
+import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 
 const resolvers = [FoodsResolver];
 const externalServices = [HttpWrapperService];
@@ -21,7 +21,7 @@ const internalServices = [
 ];
 
 @Module({
-  imports: [HttpModule, CustomRecipesModule, UsersModule],
+  imports: [HttpModule, CustomRecipesModule, AuthenticationModule],
   providers: [...resolvers, ...externalServices, ...internalServices],
 })
 export class FoodsModule {}

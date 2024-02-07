@@ -19,13 +19,12 @@ export class AuthenticationService implements IValidateUserUseCase {
 
     return { _id, isProfessional, professional, patient };
   }
-  async createToken(userValidated: UserValidated): Promise<UserLoged> {
+  async generateToken(userValidated: UserValidated): Promise<UserLoged> {
     const res: UserLoged = {
       _id: userValidated.isProfessional ? userValidated.professional : userValidated.patient,
       userType: userValidated.isProfessional ? UserType.PROFESSIONAL : UserType.PATIENT,
       token: this.jwtService.sign({ user: userValidated._id.toString() }),
     };
-
     return res;
   }
 }

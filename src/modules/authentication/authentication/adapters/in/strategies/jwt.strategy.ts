@@ -13,8 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: configService.get<string>('tokenKey'),
     });
   }
-  validate({ user, ...rest }: ValidateUser): Record<string, string> {
-    console.log('-----------rest', rest)
+  validate({ user }: ValidateUser): Record<string, string> {
     return { user };
   }
 }

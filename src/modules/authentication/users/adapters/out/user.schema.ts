@@ -4,7 +4,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
-@Schema({ timestamps: true, collection: 'Users' })
+@Schema({ _id: true, timestamps: true, collection: 'Users' })
 export class User extends BaseSchema {
   @Field(() => ID)
   _id!: string;

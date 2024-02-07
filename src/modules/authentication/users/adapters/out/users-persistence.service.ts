@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateUser, UpdatePassword, UpdateUser } from 'src/modules/authentication/users/adapters/out/users-types';
 import { User, UserDocument } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
@@ -38,7 +38,7 @@ export class UsersPersistenceService {
   async getUserById(user: string): Promise<User> {
     const _user = await this.userModel.findOne(
       {
-        _id: user,
+        _id: new Types.ObjectId(user),
       },
       ['_id', 'isProfessional', 'professional', 'email'],
     );
@@ -53,4 +53,5 @@ export class UsersPersistenceService {
     if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
     return patient;
   }
+
 }

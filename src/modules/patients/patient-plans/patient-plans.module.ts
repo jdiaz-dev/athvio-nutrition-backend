@@ -9,10 +9,10 @@ import { AddPatientPlanCommentService } from 'src/modules/patients/patient-plans
 import { CreatePatientPlanService } from 'src/modules/patients/patient-plans/application/create-patient-plan.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
-import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { PatientPlanMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
 import { MealsResolver } from 'src/modules/patients/patient-plans/adapters/in/patient.resolver';
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
+import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 
 const resolvers = [PatientPlansResolver, PatientPlanCommentsResolver, MealsResolver];
 const services = [
@@ -27,9 +27,10 @@ const services = [
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: PatientPlan.name, schema: PatientPlanSchema }]),
-    UsersModule,
+    AuthenticationModule,
     ProfessionalsModule,
     PatientsModule,
+    
   ],
   providers: [...resolvers, ...services],
   exports: [PatientPlansPersistenceService]

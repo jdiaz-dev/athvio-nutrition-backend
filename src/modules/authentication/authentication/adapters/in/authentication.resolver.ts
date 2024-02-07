@@ -34,9 +34,7 @@ export class AuthenticationResolver {
   @UseGuards(AuthenticationGuard)
   async signIn(@Args('input') body: SignInDto, @Context() context: any): Promise<UserLoged> {
     body
-    // console.log('--------------context', context)
-    const userLoged = await this.authService.createToken(context.user);
+    const userLoged = await this.authService.generateToken(context.user);
     return userLoged;
   }
-  // signIngoogle
 }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -12,10 +12,11 @@ import { ProfessionalsPersistenceService } from 'src/modules/professionals/profe
 import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
+import { AuthorizationService } from 'src/modules/authentication/authentication/application/services/authorization.service';
 
-const services = [AuthenticationService, LocalStrategy, JwtStrategy, SignUpService];
+const services = [AuthenticationService, AuthorizationService, LocalStrategy, JwtStrategy, SignUpService];
 const resolvers = [AuthenticationResolver];
-ProfessionalsPersistenceService
+ProfessionalsPersistenceService;
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'local' }),
@@ -26,10 +27,11 @@ ProfessionalsPersistenceService
         signOptions: { expiresIn: '7d' },
       }),
     }),
-    UsersModule,
-    PatientsModule,
-    ProfessionalsModule
+    forwardRef(() => UsersModule),
+    forwardRef(() => PatientsModule),
+    ProfessionalsModule,
   ],
-  providers: [ ...services, ...resolvers],
+  providers: [...services, ...resolvers],
+  exports: [AuthorizationService],
 })
 export class AuthenticationModule {}

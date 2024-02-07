@@ -511,7 +511,6 @@ type Mutation {
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
-  updatePassword(input: UpdatePasswordDto!): User!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
@@ -673,11 +672,6 @@ input UpdateMealDto {
   plan: String!
   professional: String!
   program: String!
-}
-
-input UpdatePasswordDto {
-  password: String!
-  user: String!
 }
 
 input UpdatePatientGroupDto {

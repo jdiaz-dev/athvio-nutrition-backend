@@ -17,8 +17,8 @@ import { UserLoged } from 'src/modules/authentication/authentication/application
 export class SignUpService {
   constructor(
     private ups: UsersPersistenceService,
-    private pps: ProfessionalsPersistenceService,
-    private cps: PatientsPersistenceService,
+    private prps: ProfessionalsPersistenceService,
+    private pps: PatientsPersistenceService,
     private as: AuthenticationService,
   ) {}
 
@@ -27,7 +27,7 @@ export class SignUpService {
 
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
 
-    const _professional = await this.pps.createProfessional({
+    const _professional = await this.prps.createProfessional({
       ...professionalInfo,
       isTrialPeriod: true,
     });
@@ -42,16 +42,16 @@ export class SignUpService {
       isActive: true,
     };
     const { _id, professional, patient, isProfessional } = await this.ups.createUser(_user);
-    return this.as.createToken({ _id, professional, patient, isProfessional });
+    return this.as.generateToken({ _id, professional, patient, isProfessional });
   }
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
 
-    await this.pps.getProfessionalById(professional);
+    await this.prps.getProfessionalById(professional);
 
-    const patient = await this.cps.createPatient({ professional, ...additionalInfo, isActive: true });
+    const patient = await this.pps.createPatient({ professional, ...additionalInfo, isActive: true });
     let _user: CreateUser = {
       ...userInfo,
       patient: patient._id,
@@ -68,7 +68,7 @@ export class SignUpService {
       isActive: false,
     };
     const user = await this.ups.createUser(_user);
-    await this.cps.updateUser(patient._id, user._id);
+    await this.pps.updateUser(patient._id, user._id);
 
     const _patient = {
       ...patient,

@@ -5,10 +5,14 @@ import { CaloriesPersistenceService } from 'src/modules/patients/calories/adapte
 import { Calory, CalorySchema } from 'src/modules/patients/calories/adapters/out/calory.schema';
 import { CreateCaloryService } from 'src/modules/patients/calories/application/create-calory-persistence.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
-import { UsersModule } from 'src/modules/authentication/users/users.module';
+import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Calory.name, schema: CalorySchema }]), UsersModule, PatientsModule],
+  imports: [
+    MongooseModule.forFeature([{ name: Calory.name, schema: CalorySchema }]),
+    AuthenticationModule,
+    PatientsModule,
+  ],
   providers: [CaloryResolver, CaloriesPersistenceService, CreateCaloryService],
 })
 export class CaloriesModule {}

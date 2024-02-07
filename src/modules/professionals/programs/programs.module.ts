@@ -14,7 +14,7 @@ import { ProgramsPersistenceService } from 'src/modules/professionals/programs/a
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 import { DuplicateProgramPlanService } from 'src/modules/professionals/programs/application/duplicate-program-plan.service';
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
-import { UsersModule } from 'src/modules/authentication/users/users.module';
+import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 
 const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
 const services = [
@@ -29,8 +29,8 @@ const services = [
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Program.name, schema: ProgramSchema }]),
+    AuthenticationModule,
     ProfessionalsModule,
-    UsersModule,
     ProgramTagsModule,
     PatientsModule,
     PatientPlansModule
