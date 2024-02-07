@@ -12,19 +12,21 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 export class UsersResolver {
   constructor(private cs:PatientService, private ups: UsersPersistenceService) {}
 
+  //TODO: remove AuthorizationProfessionalGuard
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)
   updateUser(@Args('input') dto: UpdateUserDto): Promise<User> {
     return this.ups.updateUser(dto);
   }
 
+  //TODO: remove AuthorizationProfessionalGuard
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)
   updatePassword(@Args('input') dto: UpdatePasswordDto): Promise<User> {
     return this.cs.updatePassword(dto);
   }
 
-  // TODO: activate user
+  // TODO: activate user, add guard
   @Mutation(() => User)
   activateUser(){
 

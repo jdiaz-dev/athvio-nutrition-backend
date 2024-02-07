@@ -1,6 +1,7 @@
 import { Query, Resolver } from '@nestjs/graphql';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 
+//TODO : delete it, think how to udpate professional
 @Resolver()
 export class ProfessionalsResolver {
   constructor(private pps: ProfessionalsPersistenceService) {}

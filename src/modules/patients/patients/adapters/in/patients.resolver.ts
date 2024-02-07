@@ -24,6 +24,7 @@ export class PatientsResolver {
     return patientGroup;
   }
 
+  // ToDO: udpate patient
   /* @Mutation(() => Patient)
   @UseGuards(AuthorizationGuard)
   async updatePatient(

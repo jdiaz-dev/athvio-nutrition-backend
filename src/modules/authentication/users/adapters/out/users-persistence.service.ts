@@ -10,6 +10,7 @@ import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/dtos
 export class UsersPersistenceService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
+  //TODO: add exceptions to database queries
   async createUser(dto: CreateUser): Promise<User> {
     const user = (await this.userModel.create(dto)).toJSON() as User;
     return user;
@@ -25,9 +26,10 @@ export class UsersPersistenceService {
       {
         $project: {
           _id: 1,
-          password: 1,
+          isProfessional: 1,
           professional: 1,
           patient: 1,
+          password: 1,
         },
       },
     ]);

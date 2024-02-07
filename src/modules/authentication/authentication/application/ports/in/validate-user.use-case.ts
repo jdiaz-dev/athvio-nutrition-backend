@@ -1,5 +1,6 @@
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 
+export type UserValidated = Pick<User, '_id' | 'isProfessional' | 'professional' | 'patient'>;
 export interface IValidateUserUseCase {
-  validateUser(email: string): Promise<User>;
+  validateCredentials(email: string, password: string): Promise<UserValidated>;
 }

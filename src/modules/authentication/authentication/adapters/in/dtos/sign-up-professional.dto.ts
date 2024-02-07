@@ -31,7 +31,8 @@ export class SignUpProfessionalDto {
   @IsString()
   country: string;
 
-  @Field()
+  @Field({ nullable: true })
+  @IsOptional()
   @IsString()
   phone!: string;
 
@@ -44,5 +45,5 @@ export class SignUpProfessionalDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => CreateProfesionalInfoDto)
-  professionalInfo: CreateProfesionalInfoDto;
+  professionalInfo!: CreateProfesionalInfoDto;
 }

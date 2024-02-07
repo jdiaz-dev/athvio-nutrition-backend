@@ -1,7 +1,7 @@
 export enum ErrorUsersEnum {
   USER_NOT_FOUND = 'This user does not exist.',
   EMAIL_EXISTS = 'This email already exists.',
-  // INVALID_PASSWORD = 'La contraseña es incorrecta',
+  BAD_CREDENTIALS = 'Verify Your Email & Password',
 }
 
 export enum ProfessionalMessages {
@@ -10,7 +10,7 @@ export enum ProfessionalMessages {
 
 export enum ErrorPatientsEnum {
   CLIENT_NOT_FOUND = 'This patient does not exist.',
-  CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching patients'
+  CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching patients',
 }
 
 export enum ErrorProgramTagEnum {

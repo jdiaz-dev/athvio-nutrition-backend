@@ -10,7 +10,7 @@ import {
   SignUpPatientDto,
   SignUpPatientResponse,
 } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
-import { AuthService } from 'src/modules/authentication/authentication/application/services/auth.service';
+import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class SignUpService {
     private ups: UsersPersistenceService,
     private pps: ProfessionalsPersistenceService,
     private cps: PatientsPersistenceService,
-    private as: AuthService,
+    private as: AuthenticationService,
   ) {}
 
   async signUpProfessional({ professionalInfo, ...userDto }: SignUpProfessionalDto): Promise<UserLoged> {
@@ -27,7 +27,7 @@ export class SignUpService {
 
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
 
-    const professional = await this.pps.createProfessional({
+    const _professional = await this.pps.createProfessional({
       ...professionalInfo,
       isTrialPeriod: true,
     });
@@ -36,13 +36,13 @@ export class SignUpService {
     const _user: CreateUser = {
       ...userDto,
       password: bcryptjs.hashSync(userDto.password, salt),
-      professional: professional._id,
+      professional: _professional._id,
       patient: null,
       isProfessional: true,
       isActive: true,
     };
-    await this.ups.createUser(_user);
-    return this.as.signIn({ email: userDto.email, password: userDto.password });
+    const { _id, professional, patient, isProfessional } = await this.ups.createUser(_user);
+    return this.as.createToken({ _id, professional, patient, isProfessional });
   }
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {

@@ -7,13 +7,13 @@ import { JwtStrategy } from 'src/modules/authentication/authentication/adapters/
 import { LocalStrategy } from 'src/modules/authentication/authentication/adapters/in/strategies/local.strategy';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
 
-import { AuthService } from './application/services/auth.service';
+import { AuthenticationService } from './application/services/authentication.service';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 
-const services = [AuthService, LocalStrategy, JwtStrategy, SignUpService];
+const services = [AuthenticationService, LocalStrategy, JwtStrategy, SignUpService];
 const resolvers = [AuthenticationResolver];
 ProfessionalsPersistenceService
 @Module({

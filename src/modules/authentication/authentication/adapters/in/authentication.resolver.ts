@@ -3,7 +3,7 @@ import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { JwtDto } from './dtos/jwt.dto';
 import { SignInDto } from './dtos/sign-in.dto';
 import { UseGuards } from '@nestjs/common';
-import { AuthService } from 'src/modules/authentication/authentication/application/services/auth.service';
+import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-professional.dto';
 import {
@@ -16,8 +16,9 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 
 @Resolver()
 export class AuthenticationResolver {
-  constructor(private authService: AuthService, private sps: SignUpService) {}
+  constructor(private authService: AuthenticationService, private sps: SignUpService) {}
 
+  //TODO: think in one guard for this endpoint
   @Mutation(() => JwtDto)
   signUpProfessional(@Args('input') dto: SignUpProfessionalDto, @Context() context: unknown): Promise<JwtDto> {
     context;
@@ -31,9 +32,11 @@ export class AuthenticationResolver {
 
   @Mutation(() => JwtDto)
   @UseGuards(AuthenticationGuard)
-  async signIn(@Args('input') body: SignInDto, @Context() context: unknown): Promise<UserLoged> {
-    context;
-    const userLoged = await this.authService.signIn(body);
+  async signIn(@Args('input') body: SignInDto, @Context() context: any): Promise<UserLoged> {
+    body
+    // console.log('--------------context', context)
+    const userLoged = await this.authService.createToken(context.user);
     return userLoged;
   }
+  // signIngoogle
 }

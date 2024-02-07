@@ -645,7 +645,7 @@ input SignUpProfessionalDto {
   firstName: String!
   lastName: String!
   password: String!
-  phone: String!
+  phone: String
   professionalInfo: CreateProfesionalInfoDto
 }
 

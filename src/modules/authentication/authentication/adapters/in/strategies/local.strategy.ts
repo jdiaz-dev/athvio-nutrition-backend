@@ -1,28 +1,21 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { IValidateUserUseCase } from 'src/modules/authentication/authentication/application/ports/in/validate-user.use-case';
-import { AuthService } from 'src/modules/authentication/authentication/application/services/auth.service';
-import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
+import { IValidateUserUseCase, UserValidated } from 'src/modules/authentication/authentication/application/ports/in/validate-user.use-case';
+import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   private validateUserUseCase: IValidateUserUseCase;
-  constructor(authService: AuthService) {
+  
+  constructor(authService: AuthenticationService) {
     super({
       usernameField: 'email',
     });
     this.validateUserUseCase = authService;
   }
-
-  async validate(email: string, password: string): Promise<User> {
-    password;
-    const user = await this.validateUserUseCase.validateUser(email);
-
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
-    return user; //passing user to context
+  async validate(email: string, password: string): Promise<UserValidated> {
+    const isValidated = await this.validateUserUseCase.validateCredentials(email, password);
+    return isValidated; //passing isValidated to context
   }
 }

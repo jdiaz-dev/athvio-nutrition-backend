@@ -115,28 +115,9 @@ export class AppModule {}
 
     - endpoint to relationate patients with programs (plans) 
     - creating endpoint to add meals to patient plan <----------------- working
-*/
-
-/*
-  ---------measure labels [
-  'Tablespoon', 'Cup',
-  'Stick',      'Gram',
-  'Ounce',      'Pound',
-  'Pat',        'Serving',
-  undefined,    undefined,
-  undefined,    'Slice',
-  'Wedge',      'Piece',
-  'Round',      'Cubic inch',
-  'Package',    'Block',
-  'Chip',       'Slab',
-  'Cube'
-]
 
 */
 
 /* 
-  now
-    - implement query for get programs from day selected
-    - query to create many patientPlans
-
+  TODO: urgent - consider if I need account domain 
 */
