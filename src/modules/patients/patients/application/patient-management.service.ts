@@ -30,8 +30,8 @@ export class PatientManagementService {
     const _patient = {
       ...patient,
       userInfo: {
-        firstName: user.firstName,
-        lastName: user.lastName,
+        firstname: user.firstname,
+        lastname: user.lastname,
         email: user.email,
       },
     };

@@ -14,7 +14,7 @@ export class ProfessionalsPersistenceService {
     return await this.professionalModel.create(dto);
   }
   async getProfessionalById(professionalId: string): Promise<Professional> {
-    const professional = await this.professionalModel.findOne({ _id: professionalId, isActive: true }).select('_id firstName');
+    const professional = await this.professionalModel.findOne({ _id: professionalId, isActive: true }).select('_id firstname');
 
     if (!professional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
     return professional;

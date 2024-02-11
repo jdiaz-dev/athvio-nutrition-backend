@@ -24,9 +24,8 @@ export class PatientsPersistenceService {
   }
   async getPatient(professional: string, patient: string): Promise<Patient> {
     const patientRes = await this.patientModel.findOne({
-      _id: patient,
-      professional: professional,
-      state: PatientState.ACTIVE,
+      _id: new Types.ObjectId(patient),
+      professional: new Types.ObjectId(professional),
     });
     if (!patientRes) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
     return patientRes;
@@ -41,25 +40,23 @@ export class PatientsPersistenceService {
   }
   async getManyPatientsById(patients: string[]): Promise<Patient[]> {
     const patientsRes = await this.patientModel.find({ _id: { $in: patients } }, { _id: 1 });
-    if (patients.length !== patientsRes.length)
-      throw new BadRequestException(ErrorPatientsEnum.CLIENTS_TO_SEARCH_ERROR);
+    if (patients.length !== patientsRes.length) throw new BadRequestException(ErrorPatientsEnum.CLIENTS_TO_SEARCH_ERROR);
 
     return patientsRes;
   }
-  async getPatients({ professional, ...dto }: GetPatientsDto, selectors: Record<string, number>):
-    Promise<GetPatientsResponse> {
-    const fieldsToSearch = searchByFieldsGenerator(['user.firstName', 'user.lastName'], dto.search);
+  async getPatients({ professional, ...dto }: GetPatientsDto, selectors: Record<string, number>): Promise<GetPatientsResponse> {
+    const fieldsToSearch = searchByFieldsGenerator(['user.firstname', 'user.lastname'], dto.search);
     const restFields = removeAttributesWithFieldNames(selectors, ['user']);
-    const states = dto.state === PatientState.ACTIVE ? [
-      { state: dto.state },
-      { state: PatientState.INVITATION_PENDING },
-    ] : [{ state: PatientState.ARCHIVED }];
+    const states =
+      dto.state === PatientState.ACTIVE
+        ? [{ state: dto.state }, { state: PatientState.INVITATION_PENDING }]
+        : [{ state: PatientState.ARCHIVED }];
 
     const patients = await this.patientModel.aggregate([
       {
         $match: {
           professional: new Types.ObjectId(professional),
-          $or: states
+          $or: states,
         },
       },
       {

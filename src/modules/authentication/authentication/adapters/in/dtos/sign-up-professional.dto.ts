@@ -1,24 +1,31 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsAlphanumeric } from 'class-validator';
+import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsStrongPassword } from 'class-validator';
 import { CreateProfesionalInfoDto } from 'src/shared/dtos/create-professional-info.dto';
 
 @InputType()
 export class SignUpProfessionalDto {
   @Field()
   @IsString()
-  firstName: string;
+  firstname: string;
 
   @Field()
   @IsString()
-  lastName: string;
+  lastname: string;
 
   @Field()
   @IsEmail()
   email: string;
 
+  //TODO: enhance strong password
   @Field()
-  @IsAlphanumeric()
+  @IsStrongPassword({
+    minLength: 3,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 0,
+    minSymbols: 0,
+  })
   password: string;
 
   @Field({ nullable: true }) //if it is optional attribute, it is mandatory add {nullable: true} or it will happend a infinite loop

@@ -1,4 +1,4 @@
 export interface CreateProfessional {
-  businessName: string;
+  company: string;
   isTrialPeriod: boolean;
 }

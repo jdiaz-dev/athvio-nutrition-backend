@@ -73,11 +73,11 @@ export class AdditionalInfoDto {
 @InputType()
 export class CreateUserInfoDto {
   @Field()
-  firstName!: string;
+  firstname!: string;
 
   @Field()
   @IsString()
-  lastName!: string;
+  lastname!: string;
 
   @Field()
   @IsEmail()
@@ -105,11 +105,11 @@ export class SignUpPatientDto {
 @ObjectType()
 export class CreateUserInfoResponse {
   @Field()
-  firstName!: string;
+  firstname!: string;
 
   @Field()
   @IsString()
-  lastName!: string;
+  lastname!: string;
 
   @Field()
   @IsEmail()

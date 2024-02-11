@@ -11,11 +11,11 @@ export class User extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: true })
-  firstName: string;
+  firstname: string;
 
   @Field()
   @Prop({ type: String, required: true })
-  lastName: string;
+  lastname: string;
 
   @Field()
   @Prop({ type: String, unique: true, required: true })

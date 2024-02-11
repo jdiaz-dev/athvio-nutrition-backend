@@ -6,5 +6,5 @@ export class CreateProfesionalInfoDto {
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  businessName!: string;
+  company!: string;
 }

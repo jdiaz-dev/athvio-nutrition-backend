@@ -3,10 +3,10 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class CreateProfessionalDto {
   @Field()
-  firstName: string;
+  firstname: string;
 
   @Field()
-  lastName: string;
+  lastname: string;
 
   @Field()
   email: string;

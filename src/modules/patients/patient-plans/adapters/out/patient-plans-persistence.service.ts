@@ -41,13 +41,15 @@ export class PatientPlansPersistenceService {
           ...restFields,
           meals: {
             $filter: {
-              input: '$meals', as: 'meal', cond: {
+              input: '$meals',
+              as: 'meal',
+              cond: {
                 $and: [
                   { $eq: ['$$meal.isDeleted', false] },
                   // plan ? { $eq: ['$$plan._id', new Types.ObjectId(plan)] } : {}
-                ]
-              }
-            }
+                ],
+              },
+            },
           },
         },
       },
@@ -68,21 +70,22 @@ export class PatientPlansPersistenceService {
         sort: rest.orderBy,
       },
     );
+
     return patientPlans;
   }
-  async getManyPatientPlans(patientWithAssignedDate: PatientWithAssignedDate[], selectors: Record<string, number>): Promise<PatientPlan[]> {
+  async getManyPatientPlans(
+    patientWithAssignedDate: PatientWithAssignedDate[],
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan[]> {
     const patientPlans = await this.clienPlanModel.find(
       {
-        $or: patientWithAssignedDate
+        $or: patientWithAssignedDate,
       },
       selectors,
     );
     return patientPlans;
   }
-  async updatePatientPlan(
-    { patientPlan, patient, ...rest }: UpdatePatientPlanDto,
-    selectors: string[],
-  ): Promise<PatientPlan> {
+  async updatePatientPlan({ patientPlan, patient, ...rest }: UpdatePatientPlanDto, selectors: string[]): Promise<PatientPlan> {
     const patientPlanRes = await this.clienPlanModel.findOneAndUpdate(
       { _id: patientPlan, patient, isDeleted: false },
       { ...rest },

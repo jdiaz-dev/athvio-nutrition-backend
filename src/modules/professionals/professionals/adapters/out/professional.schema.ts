@@ -9,7 +9,7 @@ import { UnitPreference } from 'src/shared/enums/project';
 export class Organization {
   @Field()
   @Prop({ type: String, required: false })
-  businessName!: string;
+  company!: string;
 
   @Prop({ type: String, required: false })
   homePage!: string;
@@ -40,7 +40,7 @@ export class Professional extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: false })
-  businessName!: string;
+  company!: string;
 
   @Field()
   @Prop({ type: String, required: true, enum: UnitPreference, default: UnitPreference.METRIC })

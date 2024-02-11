@@ -107,7 +107,7 @@ input CreatePatientPlanDto {
 }
 
 input CreateProfesionalInfoDto {
-  businessName: String
+  company: String
 }
 
 input CreateProgramDto {
@@ -123,14 +123,14 @@ input CreateProgramTagDto {
 
 input CreateUserInfoDto {
   email: String!
-  firstName: String!
-  lastName: String!
+  firstname: String!
+  lastname: String!
 }
 
 type CreateUserInfoResponse {
   email: String!
-  firstName: String!
-  lastName: String!
+  firstname: String!
+  lastname: String!
 }
 
 type CustomIngredient {
@@ -523,8 +523,8 @@ type Mutation {
 
 type Organization {
   address: String!
-  businessName: String!
   city: String!
+  company: String!
   postalCode: String!
   province: String!
 }
@@ -641,8 +641,8 @@ input SignUpProfessionalDto {
   country: String
   countryCode: String
   email: String!
-  firstName: String!
-  lastName: String!
+  firstname: String!
+  lastname: String!
   password: String!
   phone: String
   professionalInfo: CreateProfesionalInfoDto
@@ -726,8 +726,8 @@ input UpdateProgramTagDto {
 
 input UpdateUserDto {
   email: String!
-  firstName: String!
-  lastName: String!
+  firstname: String!
+  lastname: String!
   user: String!
 }
 
@@ -736,9 +736,9 @@ type User {
   country: String!
   countryCode: String!
   email: String!
-  firstName: String!
+  firstname: String!
   isDarkMode: Boolean!
-  lastName: String!
+  lastname: String!
   patient: String!
   phone: String!
   professional: String!

@@ -13,9 +13,9 @@ export class UpdateUserDto {
 
   @Field()
   @IsString()
-  firstName: string;
+  firstname: string;
 
   @Field()
   @IsString()
-  lastName: string;
+  lastname: string;
 }

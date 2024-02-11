@@ -3,8 +3,8 @@
 db.Patients.createIndex({ user: 'text' });
 db.Patients.dropIndex('user_text');
 
-db.Users.createIndex({ firstName: 'text' });
-db.Users.dropIndex('firstName_text');
+db.Users.createIndex({ firstname: 'text' });
+db.Users.dropIndex('firstname_text');
 
 //get patients
 db.Patients.aggregate([
@@ -61,13 +61,13 @@ db.Patients.aggregate([
         {
           $match: {
             $or: [
-              { 'user.firstName': /z/gi },
-              { 'user.lastName': /z/gi },
+              { 'user.firstname': /z/gi },
+              { 'user.lastname': /z/gi },
               {
                 $expr: {
                   $regexMatch: {
                     input: {
-                      $concat: ['$user.firstName', ' ', '$user.lastName'],
+                      $concat: ['$user.firstname', ' ', '$user.lastname'],
                     },
                     regex: /maria maria/,
                     // options: 'i',
@@ -87,8 +87,8 @@ db.Patients.aggregate([
           $project: {
             '_id': 1,
             'user._id': 1,
-            'user.firstName': 1,
-            'user.lastName': 1,
+            'user.firstname': 1,
+            'user.lastname': 1,
             'groups': 1,
           },
         },
@@ -117,13 +117,13 @@ db.Patients.aggregate([
         {
           $match: {
             $or: [
-              { 'user.firstName': /z/gi },
-              { 'user.lastName': /z/gi },
+              { 'user.firstname': /z/gi },
+              { 'user.lastname': /z/gi },
               {
                 $expr: {
                   $regexMatch: {
                     input: {
-                      $concat: ['$user.firstName', ' ', '$user.lastName'],
+                      $concat: ['$user.firstname', ' ', '$user.lastname'],
                     },
                     regex: /maria maria/,
                     // options: 'i',
