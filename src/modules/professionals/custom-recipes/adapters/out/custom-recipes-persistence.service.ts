@@ -23,6 +23,7 @@ export class CustomRecipesPersistenceService {
       professional,
       ...rest,
     });
+
     return customRecipe;
   }
 
@@ -94,11 +95,10 @@ export class CustomRecipesPersistenceService {
   }
   async updateCustomRecipe({ professional, customRecipe, ...rest }: UpdateCustomRecipeDto): Promise<CustomRecipe> {
     const customRecipeRes = await this.customRecipeModel.findOneAndUpdate(
-      { _id: customRecipe, professional, isDeleted: false },
+      { _id: new Types.ObjectId(customRecipe), professional: new Types.ObjectId(professional), isDeleted: false },
       { ...rest },
       { new: true },
     );
-
     if (customRecipeRes === null) throw new BadRequestException(ErrorCustomRecipeEnum.CUSTOM_RECIPE_NOT_FOUND);
     return customRecipeRes;
   }
