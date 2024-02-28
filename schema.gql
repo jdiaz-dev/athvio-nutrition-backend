@@ -61,6 +61,24 @@ type Calory {
   protein: Float!
 }
 
+type Chat {
+  _id: ID!
+  comments: [ChatComment!]!
+  patient: String!
+  professional: Professional!
+}
+
+type ChatComment {
+  _id: ID!
+  commenter: String!
+  content: String!
+}
+
+input ChatCommentInput {
+  commenter: String!
+  content: String!
+}
+
 type Comment {
   _id: ID!
   commenter: Commenter!
@@ -505,6 +523,7 @@ type Mutation {
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
+  saveChatComment(input: SaveChatCommentDto!): Chat!
   signIn(input: SignInDto!): JwtDto!
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
@@ -576,6 +595,15 @@ type Plan {
   week: Float!
 }
 
+type Professional {
+  _id: ID!
+  company: String!
+  image: String!
+  organization: Organization!
+  timezone: String!
+  unitPreference: String!
+}
+
 type Program {
   _id: ID!
   description: String!
@@ -608,6 +636,12 @@ type Query {
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
   sayHello: String!
+}
+
+input SaveChatCommentDto {
+  comment: ChatCommentInput!
+  patient: String!
+  professional: String!
 }
 
 input SignInDto {
@@ -646,6 +680,10 @@ input SignUpProfessionalDto {
   password: String!
   phone: String
   professionalInfo: CreateProfesionalInfoDto
+}
+
+type Subscription {
+  commentAdded: Chat!
 }
 
 input UpdateCaloryDto {
