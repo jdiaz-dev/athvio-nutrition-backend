@@ -50,6 +50,9 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
           autoSchemaFile: 'schema.gql',
           fieldResolverEnhancers: ['interceptors'],
           includeStacktraceInErrorResponses: false,
+          subscriptions:{
+            'graphql-ws':true
+          },
           plugins: [ApolloServerPluginLandingPageLocalDefault()],
           sortSchema: true,
           context: ({ req, res }) => {
@@ -120,4 +123,12 @@ export class AppModule {}
 
 /* 
   TODO: urgent - consider if I need account domain 
+*/
+
+/* 
+  Deployment over fargate process
+    create and understand vpc
+    check sonqo cluster
+    check code of LM
+
 */

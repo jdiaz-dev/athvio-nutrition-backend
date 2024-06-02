@@ -683,7 +683,7 @@ input SignUpProfessionalDto {
 }
 
 type Subscription {
-  commentAdded: Chat!
+  commentAdded: Chat
 }
 
 input UpdateCaloryDto {

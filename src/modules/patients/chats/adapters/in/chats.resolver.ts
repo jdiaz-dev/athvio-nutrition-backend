@@ -20,14 +20,13 @@ export class ChatsResolver {
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Chat> {
     const chat = await this.cps.saveChatComment(dto, selectors);
-    const res = await pubSub.publish('newComment', { chat });
-    console.log('---------res1', res);
+    pubSub.publish('commentAdded', { commentAdded: chat });
     return chat;
   }
 
-  @Subscription(() => Chat)
+  @Subscription(() => Chat, { name: 'commentAdded', defaultValue: null, nullable: true })
   commentAdded() {
-    const res = pubSub.asyncIterator('newComment');
+    const res = pubSub.asyncIterator('commentAdded');
     console.log('---------res2', res);
     return res;
   }
