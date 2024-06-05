@@ -25,9 +25,8 @@ export class ChatsResolver {
   }
 
   @Subscription(() => Chat, { name: 'commentAdded', defaultValue: null, nullable: true })
-  commentAdded() {
+  commentAddedSubscription() {
     const res = pubSub.asyncIterator('commentAdded');
-    console.log('---------res2', res);
     return res;
   }
 }
