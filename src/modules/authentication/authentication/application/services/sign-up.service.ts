@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
+import { ErrorPatientsEnum, ErrorUsersEnum } from 'src/shared/enums/messages-response';
 import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
 import * as bcryptjs from 'bcryptjs';
 import { CreateUser } from 'src/modules/authentication/users/adapters/out/users-types';
@@ -12,6 +12,10 @@ import {
 } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
 import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
+import { randomBytes } from 'crypto';
+import { PatientState } from 'src/shared/enums/project';
+import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
+import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
 
 @Injectable()
 export class SignUpService {
@@ -32,10 +36,9 @@ export class SignUpService {
       isTrialPeriod: true,
     });
 
-    const salt = bcryptjs.genSaltSync();
     const _user: CreateUser = {
       ...userDto,
-      password: bcryptjs.hashSync(userDto.password, salt),
+      password: this.encryptPassword(user.password),
       professional: _professional._id,
       patient: null,
       isProfessional: true,
@@ -79,5 +82,21 @@ export class SignUpService {
       },
     };
     return _patient;
+  }
+  async activatePatient({ user }: ActivatePatientDto): Promise<Patient> {
+    const { _id, isProfessional, isActive, patient } = await this.ups.getUserById(user);
+
+    if (isProfessional) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT);
+    if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
+
+    const randomPassword = randomBytes(8 / 2).toString('hex');
+    await this.ups.updateUser({ user: _id, isActive: true, password: this.encryptPassword(randomPassword) });
+    const activatedPatient = await this.pps.updatePatient({ patient, state: PatientState.ACTIVE });
+    return activatedPatient;
+  }
+
+  private encryptPassword(password: string): string {
+    const salt = bcryptjs.genSaltSync();
+    return bcryptjs.hashSync(password, salt);
   }
 }

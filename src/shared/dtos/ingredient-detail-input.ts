@@ -36,7 +36,9 @@ export class EquivalentsInput {
   ingredientType: IngredientType;
 
   @Field(() => CustomIngredientInput, { nullable: true })
-  @ValidateIf((o) => o.ingredientType === IngredientType.CUSTOM_INGREDIENT, { always: true }) // ValidateIf is not working
+  @ValidateIf((o) => o.ingredientType === IngredientType.CUSTOM_INGREDIENT, { always: true }) 
+  //ValidateIf is not working
+  //todo: don't need validateIf, we need customValidation
   @ValidateNested()
   // @IsNotEmptyObject()
   @Type(() => CustomIngredientInput)

@@ -35,12 +35,14 @@ export class UsersPersistenceService {
     ]);
     return patient[0] as User;
   }
-  async getUserById(user: string): Promise<User> {
+  async getUserById(
+    user: string,
+  ): Promise<Pick<User, '_id' | 'isProfessional' | 'professional' | 'patient' | 'email' | 'isActive'>> {
     const _user = await this.userModel.findOne(
       {
         _id: new Types.ObjectId(user),
       },
-      ['_id', 'isProfessional', 'professional', 'email'],
+      ['_id', 'isProfessional', 'professional', 'patient', 'email', 'isActive'],
     );
 
     if (_user == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
@@ -53,5 +55,4 @@ export class UsersPersistenceService {
     if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
     return patient;
   }
-
 }

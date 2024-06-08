@@ -24,17 +24,6 @@ export class PatientsResolver {
     return patientGroup;
   }
 
-  // ToDO: udpate patient
-  /* @Mutation(() => Patient)
-  @UseGuards(AuthorizationGuard)
-  async updatePatient(
-    @Args('input') dto: UpdatePatientDto,
-    @CurrentUser() context: IUserContext,
-    @Info(...selectorExtractor()) selectors: string[],
-  ): Promise<Patient> {
-    return this.cps.updatePatient(dto, context.professionalId, selectors);
-  } */
-
   @Mutation(() => Patient)
   managePatientGroup(@Args('input') dto: ManagePatientGroupDto): Promise<Patient> {
     return this.mcgs.managePatientGroup(dto);

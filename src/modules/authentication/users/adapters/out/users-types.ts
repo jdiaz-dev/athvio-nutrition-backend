@@ -1,25 +1,21 @@
-export interface CreateUser {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password?: string;
+import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
+
+export type CreateUser = Partial<User>;
+//todo: remove it if work the previous
+/* export type CreateUser = Omit<User, '_id' | 'isDarkMode' | 'createdAt' | 'updatedAt'> & {
   timezone?: string;
   countryCode?: string;
   country?: string;
+  password?: string;
   professional?: string | null;
   patient?: string | null;
   isProfessional?: boolean;
-  acceptedTerms?: boolean;
   isActive?: boolean;
-}
+}; */
 
-export interface UpdateUser {
-  user: string;
-  password: string;
-  acceptedTerms?: boolean;
-}
 
-export interface UpdatePassword {
-  user: string;
-  password: string;
-}
+
+export type UpdateUser = Partial<Pick<User, 'password' | 'isActive'>> & { user: string };
+//acceptedTerms
+
+export type UpdatePassword = Pick<User, 'password'> & { user: string };

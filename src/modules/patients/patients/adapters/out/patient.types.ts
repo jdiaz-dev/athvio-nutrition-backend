@@ -1,6 +1,11 @@
+import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { PatientState } from 'src/shared/enums/project';
 
-export interface CreatePatient {
+export type CreatePatient = Partial<Patient> & {
+  isActive: boolean;
+};
+//todo: remove it if work the previous
+/* export interface CreatePatient {
   professional: string;
   isActive: boolean;
   location?: string;
@@ -12,12 +17,14 @@ export interface CreatePatient {
   profilePicture?: string;
   codeCountry?: string;
   phone?: string;
-}
+} */
 
-export interface UpdatePatient extends CreatePatient {
+
+export type UpdatePatient = {
+  // professional: string;
   patient: string;
   state: PatientState;
-}
+};
 
 export interface DeleteManyPatientGroup {
   professional: string;

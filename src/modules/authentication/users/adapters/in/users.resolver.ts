@@ -26,7 +26,4 @@ export class UsersResolver {
     return this.cs.updatePassword(dto);
   } */
 
-  // TODO: activate user, add guard
-  @Mutation(() => User)
-  activateUser() {}
 }

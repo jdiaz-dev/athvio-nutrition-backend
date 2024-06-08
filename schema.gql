@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input ActivatePatientDto {
+  user: String!
+}
+
 input AddMealDto {
   mealBody: MealBodyInput!
   plan: String!
@@ -497,7 +501,7 @@ type Meta {
 }
 
 type Mutation {
-  activateUser: User!
+  activatePatient(input: ActivatePatientDto!): User!
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
   addPlanMeal(input: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
@@ -641,7 +645,7 @@ type Query {
 input SaveChatCommentDto {
   comment: ChatCommentInput!
   patient: String!
-  professional: String!
+  professional: String
 }
 
 input SignInDto {

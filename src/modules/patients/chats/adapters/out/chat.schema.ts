@@ -8,7 +8,7 @@ import { CommenterType } from 'src/shared/enums/project';
 
 @ObjectType()
 @Schema({ _id: true })
-class ChatComment extends BaseSchema {
+export class ChatComment extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 

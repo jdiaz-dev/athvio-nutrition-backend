@@ -13,6 +13,8 @@ import {
 import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
+import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
 
 @Resolver()
 export class AuthenticationResolver {
@@ -33,8 +35,13 @@ export class AuthenticationResolver {
   @Mutation(() => JwtDto)
   @UseGuards(AuthenticationGuard)
   async signIn(@Args('input') body: SignInDto, @Context() context: any): Promise<UserLoged> {
-    body
+    body;
     const userLoged = await this.authService.generateToken(context.user);
     return userLoged;
+  }
+  @Mutation(() => User)
+  async activatePatient(@Args('input') body: ActivatePatientDto) {
+    const activatedPatient = await this.sps.activatePatient(body);
+    return activatedPatient;
   }
 }

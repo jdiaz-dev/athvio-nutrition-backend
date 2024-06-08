@@ -1,7 +1,37 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsEnum, IsMongoId, IsString, ValidateNested } from 'class-validator';
+import {
+  IsEnum,
+  IsMongoId,
+  IsOptional,
+  IsString,
+  ValidateNested,
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
 import { CommenterType } from 'src/shared/enums/project';
+
+function IsValidCommenter(property: string, validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'ValidateRightCommenter',
+      target: object.constructor,
+      propertyName: propertyName,
+      constraints: [property],
+      options: validationOptions,
+      validator: {
+        validate(comment: ChatCommentInput, args: ValidationArguments) {
+          const professional = (args.object as SaveChatCommentDto).professional;
+          const validCommenterRelationship = () =>
+            (professional && comment.commenter === CommenterType.PATIENT) ||
+            (!professional && comment.commenter === CommenterType.PROFESSIONAL);
+          return !validCommenterRelationship();
+        },
+      },
+    });
+  };
+}
 
 @InputType()
 class ChatCommentInput {
@@ -16,9 +46,10 @@ class ChatCommentInput {
 
 @InputType()
 export class SaveChatCommentDto {
-  @Field()
+  @Field({ nullable: true })
   @IsMongoId()
-  professional: string;
+  @IsOptional()
+  professional?: string;
 
   @Field()
   @IsMongoId()
@@ -26,6 +57,9 @@ export class SaveChatCommentDto {
 
   @Field(() => ChatCommentInput)
   @ValidateNested()
+  @IsValidCommenter('comment', {
+    message: 'This relationship comment is not allowed',
+  })
   @Type(() => ChatCommentInput)
   comment: ChatCommentInput;
 }

@@ -139,11 +139,11 @@ export class PatientsPersistenceService {
     };
     return res;
   }
-  async updatePatient({ patient, professional, ...rest }: UpdatePatient, selectors: string[]): Promise<Patient> {
+  async updatePatient({ patient, ...rest }: UpdatePatient, selectors?: string[]): Promise<Patient> {
     const patientRes = await this.patientModel.findOneAndUpdate(
-      { _id: patient, professional },
+      { _id: new Types.ObjectId(patient) },
       { ...rest },
-      { projection: selectors, new: true },
+      { projection: selectors || [], new: true },
     );
 
     if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
