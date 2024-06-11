@@ -29,7 +29,7 @@ export class Chat extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
-  @Field(() => Professional || String)
+  @Field(() => String || Professional)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true, ref: Professional.name })
   professional!: Professional | string;
 

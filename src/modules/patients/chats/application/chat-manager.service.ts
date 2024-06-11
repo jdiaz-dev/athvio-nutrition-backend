@@ -7,7 +7,7 @@ import { ChatsPersistenceService } from 'src/modules/patients/chats/adapters/out
 export class ChatManagerService {
   constructor(private cps: ChatsPersistenceService) {}
 
-  async addChatComment({ professional, patient, comment }: SaveChatCommentDto, selectors: string[]): Promise<Chat> {
+  async addChatComment({ professional, patient, comment }: SaveChatCommentDto, selectors: Record<string, number>): Promise<Chat> {
     const requestingProfessional = { professional: professional, patient: patient };
     const requestingPatient = { patient: patient };
 

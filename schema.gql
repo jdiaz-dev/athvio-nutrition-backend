@@ -69,7 +69,7 @@ type Chat {
   _id: ID!
   comments: [ChatComment!]!
   patient: String!
-  professional: Professional!
+  professional: String!
 }
 
 type ChatComment {
@@ -599,15 +599,6 @@ type Plan {
   week: Float!
 }
 
-type Professional {
-  _id: ID!
-  company: String!
-  image: String!
-  organization: Organization!
-  timezone: String!
-  unitPreference: String!
-}
-
 type Program {
   _id: ID!
   description: String!
@@ -686,8 +677,13 @@ input SignUpProfessionalDto {
   professionalInfo: CreateProfesionalInfoDto
 }
 
+input SubscribeCommentAddedDto {
+  patients: [String!]!
+  professional: String
+}
+
 type Subscription {
-  commentAdded: Chat
+  commentAddedByPatient(input: SubscribeCommentAddedDto!): Chat
 }
 
 input UpdateCaloryDto {
