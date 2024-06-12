@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsOptional, ValidateNested } from 'class-validator';
-ValidateNested;
+// import { Type } from 'class-transformer';
+import { IsMongoId, IsOptional, IsArray } from 'class-validator';
+
 @InputType()
 export class SubscribeCommentAddedDto {
   @Field({ nullable: true })
@@ -9,7 +10,7 @@ export class SubscribeCommentAddedDto {
   professional?: string;
 
   @Field(() => [String])
+  @IsArray()
   @IsMongoId({ each: true })
-  // @ValidateNested({ each: true })
   patients: string[];
 }

@@ -27,7 +27,7 @@ export class PatientPlansResolver {
   }
   @Query(() => [PatientPlan])
   async getPatientPlans(
-    @Args('input') dto: GetPatientPlansDto,
+    @Args('patientPlans') dto: GetPatientPlansDto,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<PatientPlan[]> {
     const patientGroup = await this.cpps.getPatientPlans(dto, selectors);

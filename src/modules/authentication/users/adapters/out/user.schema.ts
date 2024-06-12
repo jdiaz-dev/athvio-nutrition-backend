@@ -37,6 +37,10 @@ export class User extends BaseSchema {
   phone!: string;
 
   @Field()
+  @Prop({ type: String, required: false })
+  avatar!: string;
+
+  @Field()
   @Prop({ type: String, required: false, ref: 'Professionals' })
   professional!: string;
 

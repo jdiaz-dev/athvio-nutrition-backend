@@ -23,6 +23,7 @@ export class PatientsPersistenceService {
     return patient.toJSON();
   }
   async getPatient(professional: string, patient: string): Promise<Patient> {
+    //here: use aggretion for patient screen
     const patientRes = await this.patientModel.findOne({
       _id: new Types.ObjectId(patient),
       professional: new Types.ObjectId(professional),
@@ -47,6 +48,8 @@ export class PatientsPersistenceService {
   async getPatients({ professional, ...dto }: GetPatientsDto, selectors: Record<string, number>): Promise<GetPatientsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['user.firstname', 'user.lastname'], dto.search);
     const restFields = removeAttributesWithFieldNames(selectors, ['user']);
+
+    //todo: move this conditional to application layer 
     const states =
       dto.state === PatientState.ACTIVE
         ? [{ state: dto.state }, { state: PatientState.INVITATION_PENDING }]

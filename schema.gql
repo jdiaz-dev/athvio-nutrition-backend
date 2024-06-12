@@ -301,6 +301,11 @@ input GetCaloryDto {
   patientId: String!
 }
 
+input GetChatDto {
+  patient: String!
+  professional: String
+}
+
 input GetCustomRecipeDto {
   customRecipe: String!
   professional: String!
@@ -620,12 +625,13 @@ type ProgramTag {
 type Query {
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
+  getChat(chat: GetChatDto!): Chat!
   getCustomRecipe(input: GetCustomRecipeDto!): CustomRecipe!
   getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
-  getPatientPlans(input: GetPatientPlansDto!): [PatientPlan!]!
+  getPatientPlans(patientPlans: GetPatientPlansDto!): [PatientPlan!]!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
@@ -771,6 +777,7 @@ input UpdateUserDto {
 
 type User {
   _id: ID!
+  avatar: String!
   country: String!
   countryCode: String!
   email: String!

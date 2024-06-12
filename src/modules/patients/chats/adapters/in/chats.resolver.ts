@@ -1,20 +1,28 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Info, Mutation, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Info, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { Chat } from 'src/modules/patients/chats/adapters/out/chat.schema';
 import { ChatManagerService } from 'src/modules/patients/chats/application/chat-manager.service';
 import { SaveChatCommentDto } from 'src/modules/patients/chats/adapters/in/dtos/save-chat-comment.dto';
-import { SubscribeCommentAddedDto } from 'src/modules/patients/chats/adapters/in/dtos/save-chat-comment.dto copy';
+import { SubscribeCommentAddedDto } from 'src/modules/patients/chats/adapters/in/dtos/subscribe-comment-addded.dto';
 import { CommenterType } from 'src/shared/enums/project';
 import { PartialChat } from 'src/modules/patients/chats/adapters/out/chema.types';
+import { GetChatDto } from 'src/modules/patients/chats/adapters/in/dtos/get-chat-dto';
 
 const pubSub = new PubSub();
+
 @Resolver(() => Chat)
 export class ChatsResolver {
   constructor(private cms: ChatManagerService) {}
 
+  @UseGuards(AuthorizationGuard)
+  @Query(() => Chat)
+  async getChat(@Args('chat') dto: GetChatDto): Promise<Chat> {
+    const chat = await this.cms.getChat(dto);
+    return chat;
+  }
   @Mutation(() => Chat)
   @UseGuards(AuthorizationGuard)
   async saveChatComment(
