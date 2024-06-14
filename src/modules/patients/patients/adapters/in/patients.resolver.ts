@@ -9,12 +9,22 @@ import { AuthorizationGuard } from 'src/modules/authentication/authentication/ad
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/dtos/manage-patient-state.dto';
+import { GetPatientDto } from 'src/modules/patients/patients/adapters/in/dtos/get-patient.dto';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PatientsResolver {
   constructor(private readonly cps: PatientsPersistenceService, private mcgs: ManagePatientGroupService) {}
 
+  @Query(() => Patient)
+  async getPatient(
+    @Args('patient') dto: GetPatientDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<Patient> {
+    const patient = await this.cps.getPatient(dto.professional, dto.patient, selectors);
+    return patient;
+  }
+  
   @Query(() => GetPatientsResponse)
   async getPatients(
     @Args('input') dto: GetPatientsDto,

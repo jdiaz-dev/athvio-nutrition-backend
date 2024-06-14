@@ -22,14 +22,39 @@ export class PatientsPersistenceService {
     });
     return patient.toJSON();
   }
-  async getPatient(professional: string, patient: string): Promise<Patient> {
-    //here: use aggretion for patient screen
-    const patientRes = await this.patientModel.findOne({
-      _id: new Types.ObjectId(patient),
-      professional: new Types.ObjectId(professional),
-    });
-    if (!patientRes) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
-    return patientRes;
+  async getPatient(professional: string, patient: string, selectors: Record<string, number>): Promise<Patient> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['user']);
+
+    const patientRes = await this.patientModel.aggregate([
+      {
+        $match: {
+          _id: new Types.ObjectId(patient),
+          professional: new Types.ObjectId(professional),
+        },
+      },
+      {
+        $lookup: {
+          from: 'Users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        $project: {
+          // to get user as object instead of array
+          user: {
+            $arrayElemAt: ['$user', 0],
+          },
+          ...restFields,
+        },
+      },
+      {
+        $project: selectors,
+      },
+    ]);
+    if (!patientRes[0]) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+    return patientRes[0];
   }
   async getPatientById(patientId: string): Promise<Patient> {
     const patientRes = await this.patientModel.findOne({
@@ -46,10 +71,10 @@ export class PatientsPersistenceService {
     return patientsRes;
   }
   async getPatients({ professional, ...dto }: GetPatientsDto, selectors: Record<string, number>): Promise<GetPatientsResponse> {
-    const fieldsToSearch = searchByFieldsGenerator(['user.firstname', 'user.lastname'], dto.search);
+    const combinedFields = searchByFieldsGenerator(['user.firstname', 'user.lastname'], dto.search);
     const restFields = removeAttributesWithFieldNames(selectors, ['user']);
 
-    //todo: move this conditional to application layer 
+    //todo: move this conditional to application layer
     const states =
       dto.state === PatientState.ACTIVE
         ? [{ state: dto.state }, { state: PatientState.INVITATION_PENDING }]
@@ -105,7 +130,7 @@ export class PatientsPersistenceService {
       },
       {
         $match: {
-          $or: fieldsToSearch,
+          $or: combinedFields,
         },
       },
       {

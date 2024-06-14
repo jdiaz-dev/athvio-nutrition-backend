@@ -9,7 +9,7 @@ export class CreatePatientPlanService {
   constructor(private cps: PatientsPersistenceService, private cpps: PatientPlansPersistenceService) {}
 
   async createPatientPlan(dto: CreatePatientPlanDto): Promise<PatientPlan> {
-    await this.cps.getPatient(dto.professional, dto.patient);
+    await this.cps.getPatient(dto.professional, dto.patient, {});
     const patientPlan = await this.cpps.createPatientPlan(dto);
     return patientPlan;
   }

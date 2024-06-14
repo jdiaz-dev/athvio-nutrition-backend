@@ -339,6 +339,11 @@ type GetFoodsResponse {
   meta: FoodsMeta!
 }
 
+input GetPatientDto {
+  patient: String!
+  professional: String!
+}
+
 input GetPatientGroupsDto {
   professional: String!
 }
@@ -630,6 +635,7 @@ type Query {
   getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
+  getPatient(patient: GetPatientDto!): Patient!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
   getPatientPlans(patientPlans: GetPatientPlansDto!): [PatientPlan!]!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!

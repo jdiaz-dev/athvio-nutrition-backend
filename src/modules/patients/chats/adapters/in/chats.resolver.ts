@@ -24,7 +24,7 @@ export class ChatsResolver {
     return chat;
   }
   @Mutation(() => Chat)
-  @UseGuards(AuthorizationGuard)
+  @UseGuards(AuthorizationGuard)//todo: check if work guards
   async saveChatComment(
     @Args('input') dto: SaveChatCommentDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
