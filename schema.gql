@@ -42,6 +42,7 @@ input AdditionalInfoDto {
   height: Float
   location: String
   phone: String
+  photo: String
   profilePicture: String
   timezone: String
   weight: Float
@@ -573,7 +574,6 @@ type Patient {
   notes: String
   phone: String
   professional: ID!
-  profilePicture: String
   state: String
   target: String
   timezone: String
@@ -671,7 +671,6 @@ type SignUpPatientResponse {
   location: String
   phone: String
   professional: ID!
-  profilePicture: String
   timezone: String
   userInfo: CreateUserInfoResponse!
   weight: Float
@@ -783,7 +782,6 @@ input UpdateUserDto {
 
 type User {
   _id: ID!
-  avatar: String!
   country: String!
   countryCode: String!
   email: String!
@@ -792,5 +790,6 @@ type User {
   lastname: String!
   patient: String!
   phone: String!
+  photo: String
   professional: String!
 }

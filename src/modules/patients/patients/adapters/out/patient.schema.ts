@@ -48,11 +48,6 @@ export class Patient extends BaseSchema {
   @Prop({ type: String, enum: AllowedGender, required: false })
   gender!: string;
 
-  //todo: delete profile picture, it is in users schema
-  @Field({ nullable: true })
-  @Prop({ type: String, required: false })
-  profilePicture!: string;
-
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   phone!: string;

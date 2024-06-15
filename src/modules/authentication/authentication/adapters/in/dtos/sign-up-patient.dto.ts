@@ -56,6 +56,10 @@ export class AdditionalInfoDto {
   @IsOptional()
   phone!: string;
 
+  @Field({ nullable: true })
+  @IsString()
+  photo!: string;
+
   /* @Field({ nullable: true })
   @IsString()
   @IsOptional()
@@ -144,9 +148,6 @@ export class SignUpPatientResponse {
 
   @Field({ nullable: true })
   gender: string;
-
-  @Field({ nullable: true })
-  profilePicture: string;
 
   @Field({ nullable: true })
   phone: string;
