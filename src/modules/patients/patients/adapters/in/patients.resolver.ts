@@ -16,6 +16,7 @@ import { GetPatientDto } from 'src/modules/patients/patients/adapters/in/dtos/ge
 export class PatientsResolver {
   constructor(private readonly cps: PatientsPersistenceService, private mcgs: ManagePatientGroupService) {}
 
+  //todo: deprecate it?
   @Query(() => Patient)
   async getPatient(
     @Args('patient') dto: GetPatientDto,

@@ -40,6 +40,7 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false })
   photo!: string;
 
+  //todo: use role instead of professional and patient
   @Field()
   @Prop({ type: String, required: false, ref: 'Professionals' })
   professional!: string;
@@ -48,7 +49,7 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false, ref: 'Patients' })
   patient!: string;
 
-  //TODO: use enum [professional, patient]
+  //TODO: remove it, use role instead
   @Prop({ type: Boolean, required: true })
   isProfessional!: boolean;
 

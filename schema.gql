@@ -60,6 +60,7 @@ type Calory {
   _id: ID!
   calories: Float!
   carbs: Float!
+  createdAt: DateTime!
   fat: Float!
   isDeleted: String!
   patientId: ID!
@@ -69,6 +70,7 @@ type Calory {
 type Chat {
   _id: ID!
   comments: [ChatComment!]!
+  createdAt: DateTime!
   patient: String!
   professional: String!
 }
@@ -77,6 +79,7 @@ type ChatComment {
   _id: ID!
   commenter: String!
   content: String!
+  createdAt: DateTime!
 }
 
 input ChatCommentInput {
@@ -87,12 +90,14 @@ input ChatCommentInput {
 type Comment {
   _id: ID!
   commenter: Commenter!
+  createdAt: DateTime!
   isDeleted: String!
   message: String!
 }
 
 type Commenter {
   commenterId: String!
+  createdAt: DateTime!
   type: String!
 }
 
@@ -175,6 +180,7 @@ input CustomIngredientInput {
 type CustomRecipe {
   _id: ID!
   cookingInstructions: String!
+  createdAt: DateTime!
   ingredientDetails: [IngredientDetail!]!
   ingredients: [IngredientDetail!]!
   macros: Macros!
@@ -483,6 +489,7 @@ input ManageProgramTagDto {
 type Meal {
   _id: ID!
   cookingInstructions: String!
+  createdAt: DateTime!
   ingredientDetails: [IngredientDetail!]!
   macros: Macros!
   mealTag: String!
@@ -566,6 +573,7 @@ type Organization {
 type Patient {
   _id: ID!
   birthday: DateTime
+  createdAt: DateTime!
   gender: String
   groups: [PatientGroup!]!
   height: Float
@@ -583,6 +591,7 @@ type Patient {
 
 type PatientGroup {
   _id: ID!
+  createdAt: DateTime!
   groupName: String!
   isDeleted: String!
   professional: ID!
@@ -593,6 +602,7 @@ type PatientPlan {
   assignedDate: DateTime!
   commentResult: String!
   comments: [Comment!]!
+  createdAt: DateTime!
   isDeleted: Boolean!
   meals: [Meal!]
   patient: String!
@@ -611,6 +621,7 @@ type Plan {
 
 type Program {
   _id: ID!
+  createdAt: DateTime!
   description: String!
   isSyncActive: Boolean!
   name: String!
@@ -622,6 +633,7 @@ type Program {
 
 type ProgramTag {
   _id: ID!
+  createdAt: DateTime!
   isDeleted: String!
   professional: ID!
   title: String!
@@ -784,6 +796,7 @@ type User {
   _id: ID!
   country: String!
   countryCode: String!
+  createdAt: DateTime!
   email: String!
   firstname: String!
   isDarkMode: Boolean!
