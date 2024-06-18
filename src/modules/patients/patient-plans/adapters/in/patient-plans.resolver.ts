@@ -19,7 +19,8 @@ export class PatientPlansResolver {
   constructor(
     private readonly cpps: PatientPlansPersistenceService,
     private ccps: CreatePatientPlanService,
-    private dcps: DuplicatePatientPlanService) {}
+    private dcps: DuplicatePatientPlanService,
+  ) {}
 
   @Mutation(() => PatientPlan)
   createPatientPlan(@Args('input') dto: CreatePatientPlanDto): Promise<PatientPlan> {
@@ -36,7 +37,7 @@ export class PatientPlansResolver {
   @Mutation(() => PatientPlan)
   async duplicatePatientPlan(
     @Args('input') dto: DuplicatePatientPlanDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PatientPlan> {
     return await this.dcps.duplicatePatientPlan(dto, selectors);
   }

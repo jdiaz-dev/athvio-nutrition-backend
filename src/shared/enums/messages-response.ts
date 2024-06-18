@@ -1,3 +1,7 @@
+export enum InternalErrors {
+  DATABASE = 'An error has happened with database',
+}
+
 export enum ErrorUsersEnum {
   USER_NOT_FOUND = 'This user does not exist.',
   EMAIL_EXISTS = 'This email already exists.',
