@@ -378,6 +378,10 @@ type GetPatientsResponse {
   meta: Meta!
 }
 
+input GetProfessionalDto {
+  professional: String!
+}
+
 input GetProgramDto {
   professional: String!
   program: String!
@@ -619,6 +623,16 @@ type Plan {
   week: Float!
 }
 
+type Professional {
+  _id: ID!
+  company: String!
+  createdAt: DateTime!
+  organization: Organization!
+  timezone: String!
+  unitPreference: String!
+  user: User!
+}
+
 type Program {
   _id: ID!
   createdAt: DateTime!
@@ -651,10 +665,10 @@ type Query {
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
   getPatientPlans(patientPlans: GetPatientPlansDto!): [PatientPlan!]!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
+  getProfessional(professional: GetProfessionalDto!): Professional!
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
-  sayHello: String!
 }
 
 input SaveChatCommentDto {

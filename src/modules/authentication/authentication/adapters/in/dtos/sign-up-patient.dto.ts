@@ -58,6 +58,7 @@ export class AdditionalInfoDto {
 
   @Field({ nullable: true })
   @IsString()
+  @IsOptional()
   photo!: string;
 
   /* @Field({ nullable: true })

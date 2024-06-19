@@ -31,7 +31,9 @@ export class SignUpService {
 
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
 
+    //todo: create user first and then professional
     const _professional = await this.prps.createProfessional({
+      user: 'todo: add real user',
       ...professionalInfo,
       isTrialPeriod: true,
     });

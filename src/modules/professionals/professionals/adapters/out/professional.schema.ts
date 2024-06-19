@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { UnitPreference } from 'src/shared/enums/project';
+import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 
 @ObjectType()
 @Schema({ _id: false })
@@ -38,6 +39,10 @@ export class Professional extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
+  @Field(() => User)
+  @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
+  user!: string;
+
   @Field()
   @Prop({ type: String, required: false })
   company!: string;
@@ -51,14 +56,10 @@ export class Professional extends BaseSchema {
   timezone!: string;
 
   @Field()
-  @Prop({ type: String, required: false })
-  image!: string;
-
-  @Field()
   @Prop({ type: OrganizationSchema, required: false })
   organization: Organization;
 
-  //TODO: remove isActive property, now it is being used to make queries, it shouuld a enum instead 
+  //TODO: remove isActive property, now it is being used to make queries, it shouuld a enum instead
   @Prop({ type: Boolean, required: true, default: true })
   isActive!: boolean;
 
