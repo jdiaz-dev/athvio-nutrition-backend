@@ -13,7 +13,7 @@ export enum ProfessionalMessages {
 }
 
 export enum ErrorPatientsEnum {
-  CLIENT_NOT_FOUND = 'This patient does not exist.',
+  PATIENT_NOT_FOUND = 'This patient does not exist.',
   CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching patients',
   USER_IS_NOT_PATIENT = 'This user is not patient',
   USER_ALREADY_ACTIVE = 'This user is already active',

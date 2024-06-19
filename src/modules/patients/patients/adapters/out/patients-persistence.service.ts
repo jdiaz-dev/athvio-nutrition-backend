@@ -73,7 +73,18 @@ export class PatientsPersistenceService {
         _id: patientId,
         state: PatientState.ACTIVE,
       });
-      if (!patientRes) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+      if (!patientRes) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
+      return patientRes;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
+  }
+  async getPatientByUser(user: string): Promise<Patient> {
+    try {
+      const patientRes = await this.patientModel.findOne({
+        user,
+        state: PatientState.ACTIVE,
+      });
       return patientRes;
     } catch (error) {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
@@ -190,25 +201,26 @@ export class PatientsPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async updatePatient({ patient, ...rest }: UpdatePatient, selectors?: string[]): Promise<Patient> {
+  async updatePatient({ user, ...rest }: UpdatePatient, selectors?: string[]): Promise<Patient> {
     try {
       const patientRes = await this.patientModel.findOneAndUpdate(
-        { _id: new Types.ObjectId(patient) },
+        { user: new Types.ObjectId(user) },
         { ...rest },
         { projection: selectors || [], new: true },
       );
 
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
       return patientRes;
     } catch (error) {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
+  //todo: check where is used this method
   async updateUser(patientId: string, userId: string): Promise<Patient> {
     try {
       const patientRes = await this.patientModel.findOneAndUpdate({ _id: patientId }, { user: userId }, { new: true });
 
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
       return patientRes;
     } catch (error) {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
@@ -223,7 +235,7 @@ export class PatientsPersistenceService {
         new: true,
         populate: 'groups',
       });
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 
       return patientRes;
     } catch (error) {
@@ -252,7 +264,7 @@ export class PatientsPersistenceService {
         { projection: selectors },
       );
 
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 
       return patientRes;
     } catch (error) {

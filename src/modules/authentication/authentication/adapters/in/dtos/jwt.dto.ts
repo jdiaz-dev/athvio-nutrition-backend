@@ -1,4 +1,4 @@
-import { UserType } from '../../../../../../shared/enums/project';
+import { EnumRoles } from '../../../../../../shared/enums/project';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
@@ -7,7 +7,7 @@ export class JwtDto {
   _id: string;
 
   @Field()
-  userType: UserType;
+  role: EnumRoles;
 
   @Field()
   token: string;

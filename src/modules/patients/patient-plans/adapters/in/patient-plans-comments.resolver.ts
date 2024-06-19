@@ -9,6 +9,7 @@ import { AddPatientPlanCommentService } from 'src/modules/patients/patient-plans
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 
+//todo: add right guard in every resolver
 @Resolver()
 export class PatientPlanCommentsResolver {
   constructor(private cpcps: PatientPlanCommentPersistenceService, private acpcs: AddPatientPlanCommentService) {}

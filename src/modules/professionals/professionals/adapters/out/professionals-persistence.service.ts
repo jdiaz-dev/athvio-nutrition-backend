@@ -22,5 +22,14 @@ export class ProfessionalsPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
+  async getProfessionalByUser(user: string): Promise<Professional> {
+    try {
+      const professionalRes = await this.professionalModel.findOne({ user, isActive: true });
+
+      return professionalRes;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
+  }
   updateTemplateMode() {}
 }

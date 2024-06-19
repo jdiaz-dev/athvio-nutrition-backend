@@ -7,6 +7,12 @@ export enum EnumEnvironments {
   LOCAL = 'local',
 }
 
+export enum EnumRoles {
+  //ADMIN = 'admin',//todo: implement admin role?
+  PROFESSIONAL = 'professional',
+  PATIENT = 'patient',
+}
+
 export enum ManageProgramTags {
   ADD = 'add',
   REMOVE = 'remove',
@@ -27,7 +33,7 @@ export enum PatientState {
   ACTIVE = 'active',
   // INACTIVE = 'inactive',
   ARCHIVED = 'archived',
-  INVITATION_PENDING = 'invitation_pending'
+  INVITATION_PENDING = 'invitation_pending',
 }
 
 export enum PlanState {
@@ -44,11 +50,6 @@ export enum CommenterType {
 export enum UnitPreference {
   IMPERIAL = 'imperial',
   METRIC = 'metric',
-}
-
-export enum UserType {
-  PROFESSIONAL = 'professional',
-  PATIENT = 'patient',
 }
 
 export enum Pagination {
@@ -68,7 +69,7 @@ export enum IngredientType {
   UNIQUE_INGREDIENT = 'UNIQUE_INGREDIENT',
 }
 
-export enum Commenter  {
+export enum Commenter {
   PROFESSIONAL = 'professional',
-  PATIENT = 'patient'
+  PATIENT = 'patient',
 }

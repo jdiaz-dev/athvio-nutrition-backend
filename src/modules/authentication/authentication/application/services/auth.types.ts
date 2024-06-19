@@ -1,7 +1,7 @@
-import { UserType } from 'src/shared/enums/project';
+import { EnumRoles } from 'src/shared/enums/project';
 
 export interface UserLoged {
   _id: string;
-  userType: UserType;
+  role: EnumRoles;
   token: string;
 }

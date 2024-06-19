@@ -26,7 +26,7 @@ export class CaloriesPersistenceService {
       },
       selectors,
     );
-    if (!calory) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+    if (!calory) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
     return calory;
   }
   async updateCalory({ caloryId, patientId, ...rest }: UpdateCaloryDto, selectors: string[]): Promise<Calory> {

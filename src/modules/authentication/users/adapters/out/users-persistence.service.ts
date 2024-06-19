@@ -1,19 +1,22 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreateUser, UpdatePassword, UpdateUser } from 'src/modules/authentication/users/adapters/out/users-types';
 import { User, UserDocument } from 'src/modules/authentication/users/adapters/out/user.schema';
-import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
+import { ErrorUsersEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/dtos/update-user.dto';
 
 @Injectable()
 export class UsersPersistenceService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
-  //TODO: add exceptions to database queries
   async createUser(dto: CreateUser): Promise<User> {
-    const user = (await this.userModel.create(dto)).toJSON() as User;
-    return user;
+    try {
+      const user = (await this.userModel.create(dto)).toJSON() as User;
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
   }
 
   async getUserByEmail(email: string): Promise<User> {
@@ -26,27 +29,27 @@ export class UsersPersistenceService {
       {
         $project: {
           _id: 1,
-          isProfessional: 1,
-          professional: 1,
-          patient: 1,
+          role: 1,
           password: 1,
         },
       },
     ]);
     return patient[0] as User;
   }
-  async getUserById(
-    user: string,
-  ): Promise<Pick<User, '_id' | 'isProfessional' | 'professional' | 'patient' | 'email' | 'isActive'>> {
-    const _user = await this.userModel.findOne(
-      {
-        _id: new Types.ObjectId(user),
-      },
-      ['_id', 'isProfessional', 'professional', 'patient', 'email', 'isActive'],
-    );
+  async getUserById(user: string): Promise<Pick<User, '_id' | 'role' | 'email' | 'isActive'>> {
+    try {
+      const _user = await this.userModel.findOne(
+        {
+          _id: new Types.ObjectId(user),
+        },
+        ['_id', 'role', 'email', 'isActive'],
+      );
 
-    if (_user == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
-    return _user;
+      if (_user == null) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
+      return _user;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {

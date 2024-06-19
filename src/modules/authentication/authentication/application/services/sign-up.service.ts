@@ -13,7 +13,7 @@ import {
 import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { randomBytes } from 'crypto';
-import { PatientState } from 'src/shared/enums/project';
+import { EnumRoles, PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
 
@@ -28,26 +28,22 @@ export class SignUpService {
 
   async signUpProfessional({ professionalInfo, ...userDto }: SignUpProfessionalDto): Promise<UserLoged> {
     const user = await this.ups.getUserByEmail(userDto.email);
-
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
+    
+    const _user: CreateUser = {
+      ...userDto,
+      password: this.encryptPassword(userDto.password),
+      role: EnumRoles.PROFESSIONAL,
+      isActive: true,
+    };
+    const { _id, role } = await this.ups.createUser(_user);
 
-    //todo: create user first and then professional
-    const _professional = await this.prps.createProfessional({
-      user: 'todo: add real user',
+    await this.prps.createProfessional({
+      user: _id,
       ...professionalInfo,
       isTrialPeriod: true,
     });
-
-    const _user: CreateUser = {
-      ...userDto,
-      password: this.encryptPassword(user.password),
-      professional: _professional._id,
-      patient: null,
-      isProfessional: true,
-      isActive: true,
-    };
-    const { _id, professional, patient, isProfessional } = await this.ups.createUser(_user);
-    return this.as.generateToken({ _id, professional, patient, isProfessional });
+    return this.as.generateToken({ _id, role });
   }
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
@@ -56,10 +52,8 @@ export class SignUpService {
 
     await this.prps.getProfessionalById(professional);
 
-    const patient = await this.pps.createPatient({ professional, ...additionalInfo, isActive: true });
     let _user: CreateUser = {
       ...userInfo,
-      patient: patient._id,
     };
 
     if (additionalInfo.countryCode) _user.countryCode = additionalInfo.countryCode;
@@ -67,33 +61,35 @@ export class SignUpService {
 
     _user = {
       ..._user,
-      professional: null,
-      isProfessional: false,
+      role: EnumRoles.PATIENT,
       acceptedTerms: false,
       isActive: false,
     };
-    const user = await this.ups.createUser(_user);
-    await this.pps.updateUser(patient._id, user._id);
+    const { _id, firstname, lastname, email } = await this.ups.createUser(_user);
+
+    //todo: remove it
+    // await this.pps.updateUser(patient._id, user._id);
+    const patient = await this.pps.createPatient({ professional, user: _id, ...additionalInfo, isActive: true });
 
     const _patient = {
       ...patient,
       userInfo: {
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
       },
     };
     return _patient;
   }
   async activatePatient({ user }: ActivatePatientDto): Promise<Patient> {
-    const { _id, isProfessional, isActive, patient } = await this.ups.getUserById(user);
+    const { _id, role, isActive } = await this.ups.getUserById(user);
 
-    if (isProfessional) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT);
+    if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT);
     if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
 
     const randomPassword = randomBytes(8 / 2).toString('hex');
     await this.ups.updateUser({ user: _id, isActive: true, password: this.encryptPassword(randomPassword) });
-    const activatedPatient = await this.pps.updatePatient({ patient, state: PatientState.ACTIVE });
+    const activatedPatient = await this.pps.updatePatient({ user: _id, state: PatientState.ACTIVE });
     return activatedPatient;
   }
 

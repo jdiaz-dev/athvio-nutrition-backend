@@ -450,8 +450,8 @@ enum IngredientType {
 
 type JwtDto {
   _id: String!
+  role: String!
   token: String!
-  userType: String!
 }
 
 type Macros {
@@ -815,8 +815,7 @@ type User {
   firstname: String!
   isDarkMode: Boolean!
   lastname: String!
-  patient: String!
   phone: String!
   photo: String
-  professional: String!
+  role: String!
 }

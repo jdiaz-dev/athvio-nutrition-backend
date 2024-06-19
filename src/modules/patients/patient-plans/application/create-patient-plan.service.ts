@@ -11,7 +11,7 @@ export class CreatePatientPlanService {
 
   async createPatientPlan(dto: CreatePatientPlanDto): Promise<PatientPlan> {
     const patient = await this.cps.getPatient(dto.professional, dto.patient, { _id : 1});
-    if (!patient) throw new BadRequestException(ErrorPatientsEnum.CLIENT_NOT_FOUND);
+    if (!patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 
     const patientPlan = await this.cpps.createPatientPlan(dto);
     return patientPlan;

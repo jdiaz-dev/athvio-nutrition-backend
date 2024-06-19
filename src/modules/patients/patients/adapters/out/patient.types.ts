@@ -21,8 +21,8 @@ export type CreatePatient = Partial<Patient> & {
 
 
 export type UpdatePatient = {
-  // professional: string;
-  patient: string;
+  //professional: string;
+  user: string;
   state: PatientState;
 };
 

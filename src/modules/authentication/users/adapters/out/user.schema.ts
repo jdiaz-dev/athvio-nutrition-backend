@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
+import { EnumRoles } from 'src/shared/enums/project';
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true, collection: 'Users' })
@@ -41,23 +42,23 @@ export class User extends BaseSchema {
   photo!: string;
 
   //todo: use role instead of professional and patient
-  @Field()
+  /* @Field()
   @Prop({ type: String, required: false, ref: 'Professionals' })
   professional!: string;
 
   @Field()
   @Prop({ type: String, required: false, ref: 'Patients' })
-  patient!: string;
+  patient!: string; */
 
-  //TODO: remove it, use role instead
-  @Prop({ type: Boolean, required: true })
-  isProfessional!: boolean;
+  @Field()
+  @Prop({ type: String, required: true, enum: EnumRoles })
+  role: EnumRoles;
 
   @Prop({ type: Boolean, required: true })
   isActive!: boolean;
 
   //TODO: add isblocked property, it for security purposes
-  // isblocked 
+  // isblocked
 
   @Prop({ type: Boolean, required: false })
   acceptedTerms!: boolean;
