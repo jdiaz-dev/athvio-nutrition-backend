@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ErrorPatientsEnum, ErrorUsersEnum } from 'src/shared/enums/messages-response';
+import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
 import * as bcryptjs from 'bcryptjs';
 import { CreateUser } from 'src/modules/authentication/users/adapters/out/users-types';
@@ -13,12 +13,13 @@ import {
 import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { randomBytes } from 'crypto';
-import { EnumRoles, PatientState } from 'src/shared/enums/project';
+import { EnumRoles, LayersApplication, PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
 
 @Injectable()
 export class SignUpService {
+  private errorDetail = LayersApplication.APPLICATION;
   constructor(
     private ups: UsersPersistenceService,
     private prps: ProfessionalsPersistenceService,
@@ -28,8 +29,8 @@ export class SignUpService {
 
   async signUpProfessional({ professionalInfo, ...userDto }: SignUpProfessionalDto): Promise<UserLoged> {
     const user = await this.ups.getUserByEmail(userDto.email);
-    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
-    
+    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.errorDetail);
+
     const _user: CreateUser = {
       ...userDto,
       password: this.encryptPassword(userDto.password),
@@ -48,9 +49,10 @@ export class SignUpService {
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
-    if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
+    if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.errorDetail);
 
-    await this.prps.getProfessionalById(professional);
+    const prof = await this.prps.getProfessionalById(professional, { _id: 1 });
+    if (!prof) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.errorDetail);
 
     let _user: CreateUser = {
       ...userInfo,
@@ -84,7 +86,7 @@ export class SignUpService {
   async activatePatient({ user }: ActivatePatientDto): Promise<Patient> {
     const { _id, role, isActive } = await this.ups.getUserById(user);
 
-    if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT);
+    if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT, this.errorDetail);
     if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
 
     const randomPassword = randomBytes(8 / 2).toString('hex');

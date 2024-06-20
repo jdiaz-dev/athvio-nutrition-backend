@@ -5,9 +5,12 @@ import { CreateUser, UpdatePassword, UpdateUser } from 'src/modules/authenticati
 import { User, UserDocument } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { ErrorUsersEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/dtos/update-user.dto';
+import { LayersApplication } from 'src/shared/enums/project';
 
 @Injectable()
 export class UsersPersistenceService {
+  private errorDetail = LayersApplication.INFRAESTRUCTURE;
+
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
   async createUser(dto: CreateUser): Promise<User> {
@@ -15,26 +18,30 @@ export class UsersPersistenceService {
       const user = (await this.userModel.create(dto)).toJSON() as User;
       return user;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
     }
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    const patient = await this.userModel.aggregate([
-      {
-        $match: {
-          email,
+    try {
+      const patient = await this.userModel.aggregate([
+        {
+          $match: {
+            email,
+          },
         },
-      },
-      {
-        $project: {
-          _id: 1,
-          role: 1,
-          password: 1,
+        {
+          $project: {
+            _id: 1,
+            role: 1,
+            password: 1,
+          },
         },
-      },
-    ]);
-    return patient[0] as User;
+      ]);
+      return patient[0] as User;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
+    }
   }
   async getUserById(user: string): Promise<Pick<User, '_id' | 'role' | 'email' | 'isActive'>> {
     try {
@@ -48,14 +55,14 @@ export class UsersPersistenceService {
       if (_user == null) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
       return _user;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
     }
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
     const patient = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
 
-    if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
+    if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND, this.errorDetail);
     return patient;
   }
 }

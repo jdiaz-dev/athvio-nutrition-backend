@@ -15,7 +15,7 @@ export class PatientGroupsManagementService {
   ) {}
 
   async createPatientGroup(dto: CreatePatientGroupDto): Promise<PatientGroup> {
-    await this.pps.getProfessionalById(dto.professional);
+    await this.pps.getProfessionalById(dto.professional, { _id: 1 });
     const patientGroup = await this.cgps.createPatientGroup(dto);
 
     return patientGroup;

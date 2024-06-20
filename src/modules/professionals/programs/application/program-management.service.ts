@@ -16,7 +16,7 @@ export class ProgramManagementService {
   ) {}
 
   async createProgram(dto: CreateProgramDto) {
-    await this.prps.getProfessionalById(dto.professional);
+    await this.prps.getProfessionalById(dto.professional, { _id: 1 });
     const program = await this.pps.createProgram(dto);
     return program;
   }

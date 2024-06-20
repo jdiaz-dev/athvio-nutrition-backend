@@ -10,7 +10,7 @@ export class CustomRecipesManagementService {
   constructor(private pps: ProfessionalsPersistenceService, private crps: CustomRecipesPersistenceService) {}
 
   async createCustomRecipe(dto: CreateCustomRecipeDto): Promise<CustomRecipe> {
-    await this.pps.getProfessionalById(dto.professional);
+    await this.pps.getProfessionalById(dto.professional, { _id: 1 });
     const customRecipe = await this.crps.createCustomRecipe(dto);
     return customRecipe;
   }

@@ -14,7 +14,7 @@ import { AuthenticationModule } from 'src/modules/authentication/authentication/
     MongooseModule.forFeature([{ name: Patient.name, schema: PatientSchema }]),
     forwardRef(() => AuthenticationModule),
     forwardRef(() => PatientGroupsModule),
-    ProfessionalsModule,
+    forwardRef(() => ProfessionalsModule),
   ],
   providers: [PatientsResolver, ...[PatientsPersistenceService, ManagePatientGroupService, PatientManagementService]],
   exports: [PatientsPersistenceService],

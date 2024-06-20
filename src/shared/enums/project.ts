@@ -73,3 +73,8 @@ export enum Commenter {
   PROFESSIONAL = 'professional',
   PATIENT = 'patient',
 }
+
+export enum LayersApplication {
+  INFRAESTRUCTURE = 'infrastructure',
+  APPLICATION = 'application',
+}

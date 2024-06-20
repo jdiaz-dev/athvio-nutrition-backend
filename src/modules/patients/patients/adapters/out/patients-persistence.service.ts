@@ -29,10 +29,9 @@ export class PatientsPersistenceService {
     }
   }
   async getPatient(professional: string, patient: string, selectors: Record<string, number>): Promise<Patient> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['user']);
 
     try {
-      const restFields = removeAttributesWithFieldNames(selectors, ['user']);
-
       const patientRes = await this.patientModel.aggregate([
         {
           $match: {

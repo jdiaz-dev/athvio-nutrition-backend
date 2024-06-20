@@ -29,7 +29,7 @@ ProfessionalsPersistenceService;
     }),
     forwardRef(() => UsersModule),
     forwardRef(() => PatientsModule),
-    ProfessionalsModule,
+    forwardRef(() => ProfessionalsModule),
   ],
   providers: [...services, ...resolvers],
   exports: [AuthorizationService],

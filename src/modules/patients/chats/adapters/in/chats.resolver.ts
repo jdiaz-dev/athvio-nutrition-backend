@@ -18,13 +18,13 @@ export class ChatsResolver {
   constructor(private cms: ChatManagerService) {}
 
   @UseGuards(AuthorizationGuard)
-  @Query(() => Chat)
+  @Query(() => Chat, { nullable: true })
   async getChat(@Args('chat') dto: GetChatDto): Promise<Chat> {
     const chat = await this.cms.getChat(dto);
     return chat;
   }
   @Mutation(() => Chat)
-  @UseGuards(AuthorizationGuard)//todo: check if work guards
+  @UseGuards(AuthorizationGuard) //todo: check if work guards
   async saveChatComment(
     @Args('input') dto: SaveChatCommentDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,

@@ -656,7 +656,7 @@ type ProgramTag {
 type Query {
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
-  getChat(chat: GetChatDto!): Chat!
+  getChat(chat: GetChatDto!): Chat
   getCustomRecipe(input: GetCustomRecipeDto!): CustomRecipe!
   getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
   getFoodDatabases: [String!]!

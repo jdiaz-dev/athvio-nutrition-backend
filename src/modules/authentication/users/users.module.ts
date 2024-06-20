@@ -12,7 +12,7 @@ const resolvers = [UsersResolver];
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     forwardRef(() => AuthenticationModule),
-    ProfessionalsModule,
+    forwardRef(() => ProfessionalsModule),
   ],
   providers: [...resolvers, ...services],
   exports: [UsersPersistenceService],

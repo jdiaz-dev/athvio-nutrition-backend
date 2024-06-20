@@ -14,7 +14,7 @@ export class ManagePatientGroupService {
   ) {}
 
   async managePatientGroup(dto: ManagePatientGroupDto): Promise<Patient> {
-    await this.pps.getProfessionalById(dto.professional);
+    await this.pps.getProfessionalById(dto.professional, { _id: 1 });
     await this.cgps.getPatientGroup(dto.professional, dto.patientGroup);
     const patient = await this.cps.updatePatientGroup(dto);
     return patient;

@@ -17,7 +17,7 @@ export class AddPatientPlanCommentService {
 
   async addPatientPlanComment(dto: AddPatientPlanCommentDto, selectors: string[]): Promise<PatientPlan> {
     if (dto.commenter.type === CommenterType.PROFESSIONAL) {
-      await this.pps.getProfessionalById(dto.commenter.commenterId);
+      await this.pps.getProfessionalById(dto.commenter.commenterId, { _id: 1 });
     } else {
       await this.cps.getPatientById(dto.commenter.commenterId);
     }
