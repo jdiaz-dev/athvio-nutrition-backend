@@ -25,6 +25,8 @@ export class ChatManagerService {
 
   async getChat({ professional, patient }: GetChatDto): Promise<Chat> {
     const chat = await this.cps.getChat(this.generateParamRequester(professional, patient));
+    if (!chat) return await this.cps.createChat({ professional, patient });
+
     return chat;
   }
 }

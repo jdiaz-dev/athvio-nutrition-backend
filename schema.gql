@@ -715,7 +715,7 @@ input SignUpProfessionalDto {
 }
 
 input SubscribeCommentAddedDto {
-  patients: [String!]!
+  patient: String!
   professional: String
 }
 

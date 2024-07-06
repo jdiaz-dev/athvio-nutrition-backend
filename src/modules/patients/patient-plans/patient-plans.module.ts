@@ -10,18 +10,22 @@ import { CreatePatientPlanService } from 'src/modules/patients/patient-plans/app
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientPlanMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
-import { MealsResolver } from 'src/modules/patients/patient-plans/adapters/in/patient.resolver';
+import { PatientPlanMealsResolver } from 'src/modules/patients/patient-plans/adapters/in/patient-plan-meals.resolver';
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
 
-const resolvers = [PatientPlansResolver, PatientPlanCommentsResolver, MealsResolver];
-const services = [
+const resolvers = [PatientPlansResolver, PatientPlanCommentsResolver, PatientPlanMealsResolver];
+const persistenceServices = [
   PatientPlansPersistenceService,
-  CreatePatientPlanService,
   PatientPlanCommentPersistenceService,
-  AddPatientPlanCommentService,
   PatientPlanMealsPersistenceService,
-  DuplicatePatientPlanService
+];
+const applicationServices = [
+  CreatePatientPlanService,
+  AddPatientPlanCommentService,
+  DuplicatePatientPlanService,
+  AddPlanMealService,
 ];
 
 @Module({
@@ -30,9 +34,8 @@ const services = [
     AuthenticationModule,
     ProfessionalsModule,
     PatientsModule,
-    
   ],
-  providers: [...resolvers, ...services],
-  exports: [PatientPlansPersistenceService]
+  providers: [...resolvers, ...persistenceServices, ...applicationServices],
+  exports: [PatientPlansPersistenceService],
 })
 export class PatientPlansModule {}

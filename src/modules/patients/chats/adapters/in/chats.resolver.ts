@@ -50,8 +50,7 @@ export class ChatsResolver {
     nullable: true,
     filter: (payload: { commentAddedByPatient: PartialChat }, variables: { input: SubscribeCommentAddedDto }): boolean => {
       const subscribe =
-        variables.input.professional &&
-        variables.input.patients.some((patient) => patient === payload.commentAddedByPatient.patient.toString());
+        variables.input.professional && variables.input.patient === payload.commentAddedByPatient.patient.toString();
       return subscribe;
     },
   })

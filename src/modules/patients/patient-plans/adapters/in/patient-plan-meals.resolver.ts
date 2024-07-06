@@ -8,28 +8,24 @@ import { PatientPlanMealsPersistenceService } from 'src/modules/patients/patient
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
+import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
-export class MealsResolver {
-  constructor(private readonly cpmps: PatientPlanMealsPersistenceService) {}
+export class PatientPlanMealsResolver {
+  constructor(private readonly apms: AddPlanMealService, private readonly cpmps: PatientPlanMealsPersistenceService) {}
 
+  //todo: thinking in redux
   @Mutation(() => PatientPlan)
-  addPlanMeal(
-    @Args('input') dto: AddPlanMealDto,
-    @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
-    return this.cpmps.addMealToPlan(dto, selectors);
+  addPlanMeal(@Args('input') dto: AddPlanMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
+    return this.apms.addPlanMeal(dto, selectors);
   }
   @Mutation(() => PatientPlan)
-  updatePlanMeal(
-    @Args('input') dto: UpdatePlanMealDto,
-    @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
+  updatePlanMeal(@Args('input') dto: UpdatePlanMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
     return this.cpmps.updatePlanMeal(dto, selectors);
   }
   @Mutation(() => PatientPlan)
-  deletePlanMeal(
-    @Args('input') dto: DeletePlanMealDto,
-    @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
+  deletePlanMeal(@Args('input') dto: DeletePlanMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
     return this.cpmps.deletePlanMeal(dto, selectors);
   }
 }

@@ -12,11 +12,14 @@ export class PatientPlanMealsPersistenceService {
   constructor(@InjectModel(PatientPlan.name) private readonly clienPlanModel: Model<PatientPlanDocument>) {}
 
   async addMealToPlan({ patient, patientPlan, mealBody }: AddPlanMealDto, selectors: string[]): Promise<PatientPlan> {
-    const patientPlanRes = await this.clienPlanModel
-      .findOneAndUpdate({ _id: patientPlan, patient, isDeleted: false }, { $push: { meals: { ...mealBody } } }, { projection: selectors, new: true },
-      )
+    const patientPlanRes = await this.clienPlanModel.findOneAndUpdate(
+      { _id: patientPlan, patient, isDeleted: false },
+      { $push: { meals: { ...mealBody } } },
+      { projection: selectors, new: true },
+    );
     if (patientPlanRes == null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);
 
+    console.log(JSON.stringify(patientPlanRes, null, 4));
     return patientPlanRes;
   }
   async updatePlanMeal({ patient, patientPlan, meal, mealBody }: UpdatePlanMealDto, selectors: string[]): Promise<PatientPlan> {
@@ -53,7 +56,7 @@ export class PatientPlanMealsPersistenceService {
       { _id: patientPlan, patient },
       {
         $pull: {
-          'meals': { _id: new Types.ObjectId(meal) },
+          meals: { _id: new Types.ObjectId(meal) },
         },
       },
       {
