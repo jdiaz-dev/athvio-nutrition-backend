@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 
 import * as bcryptjs from 'bcryptjs';
 import { IValidateUserUseCase, UserValidated } from '../ports/in/validate-user.use-case';
@@ -19,7 +19,10 @@ export class AuthenticationService implements IValidateUserUseCase {
     private paps: PatientsPersistenceService,
   ) {}
   async validateCredentials(email: string, _password: string): Promise<UserValidated> {
-    const { _id, role, password } = await this.ups.getUserByEmail(email);
+    const user = await this.ups.getUserByEmail(email);
+    if (!user) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
+
+    const { _id, role, password } = user;
     const validPassword = await bcryptjs.compare(_password, password);
 
     if (!validPassword) throw new UnauthorizedException(ErrorUsersEnum.BAD_CREDENTIALS);

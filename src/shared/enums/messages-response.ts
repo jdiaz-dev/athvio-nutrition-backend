@@ -5,7 +5,7 @@ export enum InternalErrors {
 export enum ErrorUsersEnum {
   USER_NOT_FOUND = 'This user does not exist.',
   EMAIL_EXISTS = 'This email already exists.',
-  BAD_CREDENTIALS = 'Verify Your Email & Password',
+  BAD_CREDENTIALS = 'Invalid email or password, please try again.',
 }
 
 export enum ProfessionalMessages {
