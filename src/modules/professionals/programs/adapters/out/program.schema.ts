@@ -91,6 +91,5 @@ export type ProgramDocument = Program & Document;
 export const ProgramSchema = SchemaFactory.createForClass(Program);
 ProgramSchema.methods.toJSON = function (): Partial<Program> {
   const { __v, createdAt, updatedAt, ...program } = this.toObject();
-  //   console.log('----------program json', program);
   return program as Partial<Program>;
 };

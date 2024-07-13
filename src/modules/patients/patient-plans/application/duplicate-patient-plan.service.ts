@@ -18,7 +18,6 @@ export class DuplicatePatientPlanService {
       delete _patientPlan.meals[x]._id;
       delete _patientPlan.meals[x].updatedAt;
     }
-    console.log('-------_patientPlan', _patientPlan);
     const programUpdated = await this.cpps.createPatientPlan({ ..._patientPlan, professional, patient, assignedDate: rest.assignedDate });
     return programUpdated;
   }

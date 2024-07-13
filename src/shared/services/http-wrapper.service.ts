@@ -9,9 +9,7 @@ export class HttpWrapperService {
   async get<T>(url: string, messageError: string): Promise<T> {
     const res = await firstValueFrom(
       this.http.get<T>(url).pipe(
-        catchError((error) => {
-          //   console.log('---------error', error);
-          error;
+        catchError((_error) => {
           throw new InternalServerErrorException(messageError);
         }),
       ),

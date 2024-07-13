@@ -35,7 +35,7 @@ export class AuthenticationResolver {
   @Mutation(() => JwtDto)
   @UseGuards(AuthenticationGuard)
   async signIn(@Args('input') _body: SignInDto, @Context() context: any): Promise<UserLoged> {
-    const userLoged = await this.authService.generateToken(context.user);
+    const userLoged = await this. authService.generateToken(context.user);
     return userLoged;
   }
   @Mutation(() => User)

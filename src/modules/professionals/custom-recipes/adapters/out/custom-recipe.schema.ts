@@ -39,6 +39,5 @@ export type CustomRecipeDocument = CustomRecipe & Document;
 export const CustomRecipeSchema = SchemaFactory.createForClass(CustomRecipe);
 CustomRecipeSchema.methods.toJSON = function (): Partial<CustomRecipe> {
   const { __v, createdAt, updatedAt, ...customMeal } = this.toObject();
-  //   console.log('----------customMeal json', customMeal);
   return customMeal as Partial<CustomRecipe>;
 };

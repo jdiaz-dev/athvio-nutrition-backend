@@ -24,7 +24,6 @@ function extractor(value: GraphQLResolveInfo): string[] {
       .flat();
   }
   const res = extractorHelper(rawSelections);
-  // console.log('------res pro', res);
   return res;
 }
 
@@ -33,7 +32,6 @@ function extractorForAggregation(value: GraphQLResolveInfo): Record<string, numb
     acc[item] = 1;
     return acc;
   }, {});
-  // console.log('------res', res);
   return res;
 }
 

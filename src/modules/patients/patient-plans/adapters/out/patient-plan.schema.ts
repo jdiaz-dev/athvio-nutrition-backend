@@ -93,6 +93,5 @@ export type PatientPlanDocument = PatientPlan & Document;
 export const PatientPlanSchema = SchemaFactory.createForClass(PatientPlan);
 PatientPlanSchema.methods.toJSON = function (): Partial<PatientPlan> {
   const { __v, createdAt, updatedAt, ...patientPlan } = this.toObject();
-  //   console.log('----------patientPlan json', patientPlan);
   return patientPlan as Partial<PatientPlan>;
 };

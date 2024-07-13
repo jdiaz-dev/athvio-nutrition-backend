@@ -26,6 +26,5 @@ export type PatientGroupDocument = PatientGroup & Document;
 export const PatientGroupSchema = SchemaFactory.createForClass(PatientGroup);
 PatientGroupSchema.methods.toJSON = function (): Partial<PatientGroup> {
   const { __v, createdAt, updatedAt, ...patientGroup } = this.toObject();
-  //   console.log('----------patientGroup json', patientGroup);
   return patientGroup as Partial<PatientGroup>;
 };
