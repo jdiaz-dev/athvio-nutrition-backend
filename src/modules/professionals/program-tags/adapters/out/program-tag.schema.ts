@@ -26,6 +26,5 @@ export type ProgramTagDocument = ProgramTag & Document;
 export const ProgramTagSchema = SchemaFactory.createForClass(ProgramTag);
 ProgramTagSchema.methods.toJSON = function (): Partial<ProgramTag> {
   const { __v, createdAt, updatedAt, ...programTag } = this.toObject();
-  //   console.log('----------programTag json', programTag);
   return programTag as Partial<ProgramTag>;
 };

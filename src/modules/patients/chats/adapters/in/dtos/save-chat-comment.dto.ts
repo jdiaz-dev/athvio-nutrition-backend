@@ -9,6 +9,7 @@ import {
   registerDecorator,
   ValidationOptions,
   ValidationArguments,
+  MaxLength,
 } from 'class-validator';
 import { CommenterType } from 'src/shared/enums/project';
 
@@ -41,6 +42,7 @@ class ChatCommentInput {
 
   @Field()
   @IsString()
+  @MaxLength(300)
   content: string;
 }
 
