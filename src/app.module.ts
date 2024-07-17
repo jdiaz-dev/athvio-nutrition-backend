@@ -40,6 +40,7 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
       // imports: [WorkStreamAuditModule],
       driver: ApolloDriver,
       inject: [ConfigService /* TrackingActivityService */],
+      // @ts-ignore //todo: remove ts-ignore
       useFactory: (
         configService: ConfigService,
         // trackingActivityService: TrackingActivityService,
@@ -50,11 +51,12 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
           autoSchemaFile: 'schema.gql',
           fieldResolverEnhancers: ['interceptors'],
           includeStacktraceInErrorResponses: false,
-          subscriptions:{
-            'graphql-ws':true
+          subscriptions: {
+            'graphql-ws': true,
           },
           plugins: [ApolloServerPluginLandingPageLocalDefault()],
           sortSchema: true,
+          // @ts-ignore
           context: ({ req, res }) => {
             return { req, res };
           },
