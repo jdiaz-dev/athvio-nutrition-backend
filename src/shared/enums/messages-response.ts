@@ -12,6 +12,10 @@ export enum ProfessionalMessages {
   PROFESSIONAL_NOT_FOUND = 'This professional does not exist.',
 }
 
+export enum ErrorQuestionaryConfig {
+  QUESTIONARY_NOT_FOUND = 'This questionary config does not exist.F'
+}
+
 export enum ErrorPatientsEnum {
   PATIENT_NOT_FOUND = 'This patient does not exist.',
   CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching patients',

@@ -5,11 +5,11 @@ import { CreateUser, UpdatePassword, UpdateUser } from 'src/modules/authenticati
 import { User, UserDocument } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { ErrorUsersEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/dtos/update-user.dto';
-import { LayersApplication } from 'src/shared/enums/project';
+import { LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
 export class UsersPersistenceService {
-  private errorDetail = LayersApplication.INFRAESTRUCTURE;
+  private layer = LayersServer.INFRAESTRUCTURE;
 
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
@@ -18,7 +18,7 @@ export class UsersPersistenceService {
       const user = (await this.userModel.create(dto)).toJSON() as User;
       return user;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
 
@@ -40,7 +40,7 @@ export class UsersPersistenceService {
       ]);
       return patient[0] as User;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
   async getUserById(user: string): Promise<Pick<User, '_id' | 'role' | 'email' | 'isActive'>> {
@@ -55,14 +55,14 @@ export class UsersPersistenceService {
       if (_user == null) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
       return _user;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
     const patient = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
 
-    if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND, this.errorDetail);
+    if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND, this.layer);
     return patient;
   }
 }

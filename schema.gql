@@ -34,6 +34,13 @@ input AddProgramPlanDto {
   week: Float!
 }
 
+input AddQuestionaryDetailDto {
+  professional: String!
+  questionary: String!
+  questionaryDetailInput: CreateQuestionaryDetailInput!
+  questionaryGroup: String!
+}
+
 input AdditionalInfoDto {
   birthday: DateTime
   country: String
@@ -149,6 +156,11 @@ input CreateProgramTagDto {
   title: String!
 }
 
+input CreateQuestionaryDetailInput {
+  associatedQuestion: String!
+  fieldName: String!
+}
+
 input CreateUserInfoDto {
   email: String!
   firstname: String!
@@ -243,6 +255,13 @@ input DeleteProgramPlanDto {
 input DeleteProgramTagDto {
   professional: String!
   programTag: String!
+}
+
+input DeleteQuestionaryDetailDto {
+  professional: String!
+  questionary: String!
+  questionaryDetail: String!
+  questionaryGroup: String!
 }
 
 input DuplicatePatientPlanDto {
@@ -531,6 +550,7 @@ type Mutation {
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
   addPlanMeal(input: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
+  addQuestionaryDetail(input: AddQuestionaryDetailDto!): QuestionaryConfig!
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
   createCustomRecipe(input: CreateCustomRecipeDto!): CustomRecipe!
@@ -548,6 +568,7 @@ type Mutation {
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
+  deleteQuestionaryDetail(input: DeleteQuestionaryDetailDto!): QuestionaryConfig!
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
@@ -567,6 +588,7 @@ type Mutation {
   updatePlanMeal(input: UpdatePlanMealDto!): PatientPlan!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
+  updateQuestionaryDetail(input: UpdateQuestionaryDetailDto!): QuestionaryConfig!
   updateUser(input: UpdateUserDto!): User!
 }
 
@@ -690,11 +712,12 @@ type QuestionaryDetail {
   fieldName: String!
   fieldOptions: String
   fieldType: String!
+  isDeleted: Boolean!
 }
 
 type QuestionaryGroup {
   _id: ID!
-  description: String!
+  description: String
   questionaryDetails: [QuestionaryDetail!]!
   title: String!
 }
@@ -825,6 +848,20 @@ input UpdateProgramTagDto {
   professional: String!
   programTag: String!
   title: String!
+}
+
+input UpdateQuestionaryDetailDto {
+  professional: String!
+  questionary: String!
+  questionaryDetail: String!
+  questionaryDetailInput: UpdateQuestionaryDetailInput!
+  questionaryGroup: String!
+}
+
+input UpdateQuestionaryDetailInput {
+  associatedQuestion: String!
+  enabled: Boolean!
+  fieldName: String!
 }
 
 input UpdateUserDto {

@@ -186,7 +186,7 @@ export class AppModule {}
       - enableQuestion  
       - createQuestionaryGroup: questionaryGroup, (questions, enabled, associatedInformation)[]
       - updateQuestionaryGroup: questionaryGroup, (questions, enabled, associatedInformation)[]
-      - createExtraFields
+      - add questionaryDetails (others questions)
 
     internal
       - at moment to create a professional, create a questionary configuration

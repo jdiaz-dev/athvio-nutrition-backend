@@ -6,11 +6,11 @@ import { InternalErrors } from 'src/shared/enums/messages-response';
 import { Professional, ProfessionalDocument } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { CreateProfessional } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { LayersApplication } from 'src/shared/enums/project';
+import { LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
 export class ProfessionalsPersistenceService {
-  private errorDetail = LayersApplication.INFRAESTRUCTURE;
+  private layer = LayersServer.INFRAESTRUCTURE;
 
   constructor(@InjectModel(Professional.name) private professionalModel: Model<ProfessionalDocument>) {}
 
@@ -18,7 +18,7 @@ export class ProfessionalsPersistenceService {
     try {
       return await this.professionalModel.create(dto);
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
   async getProfessionalById(professional: string, selectors: Record<string, number>): Promise<Professional> {
@@ -54,7 +54,7 @@ export class ProfessionalsPersistenceService {
 
       return professionalRes[0] as Professional;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
   async getProfessionalByUser(user: string): Promise<Professional> {
@@ -63,7 +63,7 @@ export class ProfessionalsPersistenceService {
 
       return professionalRes;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.errorDetail);
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
   updateTemplateMode() {}

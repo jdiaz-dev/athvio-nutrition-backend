@@ -17,10 +17,6 @@ export class QuestionaryDetail {
   @Prop({ type: String, required: true })
   associatedQuestion: string;
 
-  @Field(() => Boolean)
-  @Prop({ type: Boolean, required: true, default: true })
-  enabled: boolean;
-
   @Field(() => String)
   @Prop({ type: String, required: true })
   fieldType: string;
@@ -28,6 +24,14 @@ export class QuestionaryDetail {
   @Field(() => String || [String], { nullable: true })
   @Prop({ type: String || [String], required: false })
   fieldOptions?: string | string[];
+
+  @Field(() => Boolean)
+  @Prop({ type: Boolean, required: true, default: true })
+  enabled: boolean;
+
+  @Field(() => Boolean)
+  @Prop({ type: Boolean, required: true, default: false })
+  isDeleted: boolean;
 }
 const QuestionaryDetailSchema = SchemaFactory.createForClass(QuestionaryDetail);
 
@@ -41,9 +45,9 @@ export class QuestionaryGroup {
   @Prop({ type: String, required: true })
   title!: string;
 
-  @Field(() => String)
-  @Prop({ type: String, required: true })
-  description!: string;
+  @Field(() => String, { nullable: true })
+  @Prop({ type: String, required: false })
+  description?: string;
 
   @Field(() => [QuestionaryDetail])
   @Prop({ type: [QuestionaryDetailSchema], required: true })

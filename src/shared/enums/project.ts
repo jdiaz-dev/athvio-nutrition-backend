@@ -74,7 +74,7 @@ export enum Commenter {
   PATIENT = 'patient',
 }
 
-export enum LayersApplication {
+export enum LayersServer {
   INFRAESTRUCTURE = 'infrastructure',
   APPLICATION = 'application',
 }

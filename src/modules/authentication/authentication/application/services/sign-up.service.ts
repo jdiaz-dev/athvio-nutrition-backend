@@ -12,14 +12,14 @@ import {
 import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { randomBytes } from 'crypto';
-import { EnumRoles, LayersApplication, PatientState } from 'src/shared/enums/project';
+import { EnumRoles, LayersServer, PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 
 @Injectable()
 export class SignUpService {
-  private errorDetail = LayersApplication.APPLICATION;
+  private layer = LayersServer.APPLICATION;
   constructor(
     private ups: UsersPersistenceService,
     private pms: ProfessionalsManagementService,
@@ -29,7 +29,7 @@ export class SignUpService {
 
   async signUpProfessional({ professionalInfo, ...userDto }: SignUpProfessionalDto): Promise<UserLoged> {
     const user = await this.ups.getUserByEmail(userDto.email);
-    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.errorDetail);
+    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
     const _user: CreateUser = {
       ...userDto,
@@ -48,10 +48,10 @@ export class SignUpService {
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
-    if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.errorDetail);
+    if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
     const prof = await this.pms.getProfessionalById(professional);
-    if (!prof) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.errorDetail);
+    if (!prof) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
     let _user: CreateUser = {
       ...userInfo,
@@ -85,7 +85,7 @@ export class SignUpService {
   async activatePatient({ user }: ActivatePatientDto): Promise<Patient> {
     const { _id, role, isActive } = await this.ups.getUserById(user);
 
-    if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT, this.errorDetail);
+    if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT, this.layer);
     if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
 
     const randomPassword = randomBytes(8 / 2).toString('hex');
