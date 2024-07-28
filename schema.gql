@@ -404,6 +404,10 @@ type GetProgramsResponse {
   meta: Meta!
 }
 
+input GetQuestionaryConfigDto {
+  professional: String!
+}
+
 type Ingredient {
   amount: Float!
   calories: Float!
@@ -669,6 +673,30 @@ type Query {
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
+  getQuestionary(input: GetQuestionaryConfigDto!): QuestionaryConfig!
+}
+
+type QuestionaryConfig {
+  _id: ID!
+  createdAt: DateTime!
+  professional: ID!
+  questionaryGroups: [QuestionaryGroup!]!
+}
+
+type QuestionaryDetail {
+  _id: ID!
+  associatedQuestion: String!
+  enabled: Boolean!
+  fieldName: String!
+  fieldOptions: String
+  fieldType: String!
+}
+
+type QuestionaryGroup {
+  _id: ID!
+  description: String!
+  questionaryDetails: [QuestionaryDetail!]!
+  title: String!
 }
 
 input SaveChatCommentDto {

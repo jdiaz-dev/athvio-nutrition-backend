@@ -3,7 +3,6 @@ import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/sha
 import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
 import * as bcryptjs from 'bcryptjs';
 import { CreateUser } from 'src/modules/authentication/users/adapters/out/users-types';
-import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-professional.dto';
 import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
 import {
@@ -16,13 +15,14 @@ import { randomBytes } from 'crypto';
 import { EnumRoles, LayersApplication, PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
+import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 
 @Injectable()
 export class SignUpService {
   private errorDetail = LayersApplication.APPLICATION;
   constructor(
     private ups: UsersPersistenceService,
-    private prps: ProfessionalsPersistenceService,
+    private pms: ProfessionalsManagementService,
     private pps: PatientsPersistenceService,
     private as: AuthenticationService,
   ) {}
@@ -39,10 +39,9 @@ export class SignUpService {
     };
     const { _id, role } = await this.ups.createUser(_user);
 
-    await this.prps.createProfessional({
+    await this.pms.createProfessional({
       user: _id,
       ...professionalInfo,
-      isTrialPeriod: true,
     });
     return this.as.generateToken({ _id, role });
   }
@@ -51,7 +50,7 @@ export class SignUpService {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.errorDetail);
 
-    const prof = await this.prps.getProfessionalById(professional, { _id: 1 });
+    const prof = await this.pms.getProfessionalById(professional);
     if (!prof) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.errorDetail);
 
     let _user: CreateUser = {

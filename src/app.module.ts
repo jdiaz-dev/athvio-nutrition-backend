@@ -23,6 +23,7 @@ import configuration from './configuration';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { FoodsModule } from 'src/modules/foods/foods.module';
 import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/custom-recipes.module';
+import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
 
 @Module({
   imports: [
@@ -96,6 +97,7 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
     ChatsModule,
     AuthenticationModule,
     FoodsModule,
+    QuestionaryConfigurationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -121,10 +123,74 @@ export class AppModule {}
     - endpoint to relationate patients with programs (plans) 
     - creating endpoint to add meals to patient plan <----------------- working
 
+    - photos and files of patients
+
 */
 
 /* 
-  TODO: urgent - consider if I need account domain 
+  TODO: 
+  - consider if I need account domain
+  - questionary
+    - questionary configuracion: enabled disabled
+    - allow to create own fields
+    - send questionary to patient
+
+    - Information -> Patient
+      - questionaryGroups: [
+        {
+          - title
+          - description
+          - questionaryDetails: [
+              { (fieldNames)
+                - id
+                - associatedInformation
+                - associatedQuestion
+                - answwer:string || string[]
+                - fieldType: string
+                - fieldOptions?: string[]
+                - professionalNotes
+              }
+          ]
+        }
+      ]
+
+    apis: 
+      - getInformtationPatient
+      - updateInformationDetail
+
+    internal
+      - at moment to create a customer, createa a patient information (quesetionary)
+
+    - questionaryConfiguration
+      - id
+      - questionaryGroups: [
+        {
+          - id
+          - title 
+          - description
+          - questionaryDetails: [
+              { (fieldNames)
+                - id
+                - fieldName
+                - associatedQuestion
+                - enabled: boolean
+                - fieldType: string
+                - fieldOptions?: string[]
+              }
+          ]
+        }
+      ]
+
+    apis:
+      - getQuestionaryGroup: questionaryGroup,
+      - enableQuestion  
+      - createQuestionaryGroup: questionaryGroup, (questions, enabled, associatedInformation)[]
+      - updateQuestionaryGroup: questionaryGroup, (questions, enabled, associatedInformation)[]
+      - createExtraFields
+
+    internal
+      - at moment to create a professional, create a questionary configuration
+      - common table for questionary configuration
 */
 
 /* 

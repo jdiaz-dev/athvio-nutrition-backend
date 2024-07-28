@@ -22,8 +22,7 @@ export class AuthenticationResolver {
 
   //TODO: think in one guard for this endpoint
   @Mutation(() => JwtDto)
-  signUpProfessional(@Args('input') dto: SignUpProfessionalDto, @Context() context: unknown): Promise<JwtDto> {
-    context;
+  signUpProfessional(@Args('input') dto: SignUpProfessionalDto, @Context() _context: unknown): Promise<JwtDto> {
     return this.sps.signUpProfessional(dto);
   }
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -35,7 +34,7 @@ export class AuthenticationResolver {
   @Mutation(() => JwtDto)
   @UseGuards(AuthenticationGuard)
   async signIn(@Args('input') _body: SignInDto, @Context() context: any): Promise<UserLoged> {
-    const userLoged = await this. authService.generateToken(context.user);
+    const userLoged = await this.authService.generateToken(context.user);
     return userLoged;
   }
   @Mutation(() => User)
