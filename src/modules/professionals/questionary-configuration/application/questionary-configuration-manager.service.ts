@@ -7,7 +7,7 @@ import { QuestionaryConfig } from 'src/modules/professionals/questionary-configu
 import { ErrorQuestionaryConfig } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 import { DeleteQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/delete-questionary-details.dto';
-import { UpdateQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-questionary-details.dto copy';
+import { UpdateQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-questionary-details.dto';
 
 @Injectable()
 export class QuestionaryConfigManager {

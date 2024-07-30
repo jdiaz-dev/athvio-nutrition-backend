@@ -8,7 +8,7 @@ import { GetQuestionaryConfigDto } from 'src/modules/professionals/questionary-c
 import { QuestionaryConfigManager } from 'src/modules/professionals/questionary-configuration/application/questionary-configuration-manager.service';
 import { QuestionaryConfig } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config.schema';
 import { AddQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/add-questionary-details.dto';
-import { UpdateQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-questionary-details.dto copy';
+import { UpdateQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-questionary-details.dto';
 import { DeleteQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/delete-questionary-details.dto';
 
 @Resolver()
