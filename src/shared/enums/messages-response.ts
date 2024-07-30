@@ -13,7 +13,7 @@ export enum ProfessionalMessages {
 }
 
 export enum ErrorQuestionaryConfig {
-  QUESTIONARY_NOT_FOUND = 'This questionary config does not exist.F'
+  QUESTIONARY_NOT_FOUND = 'This questionary config does not exist.',
 }
 
 export enum ErrorPatientsEnum {

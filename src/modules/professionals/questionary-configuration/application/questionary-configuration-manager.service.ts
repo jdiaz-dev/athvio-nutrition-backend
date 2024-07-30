@@ -42,7 +42,7 @@ export class QuestionaryConfigManager {
       },
       selector,
     );
-    if (_questionary == null) throw new BadRequestException(ErrorQuestionaryConfig.QUESTIONARY_NOT_FOUND, this.layer);
+    if (!_questionary) throw new BadRequestException(ErrorQuestionaryConfig.QUESTIONARY_NOT_FOUND, this.layer);
 
     return _questionary;
   }
@@ -60,13 +60,13 @@ export class QuestionaryConfigManager {
       },
       selector,
     );
-    if (_questionary == null) throw new BadRequestException(ErrorQuestionaryConfig.QUESTIONARY_NOT_FOUND, this.layer);
+    if (!_questionary) throw new BadRequestException(ErrorQuestionaryConfig.QUESTIONARY_NOT_FOUND, this.layer);
 
     return _questionary;
   }
   async deleteQuestionaryDetail(dto: DeleteQuestionaryDetailDto, selector: Record<string, number>) {
     const _questionary = await this.qcps.deleteQuestionaryDetail({ ...dto }, selector);
-    if (_questionary == null) throw new BadRequestException(ErrorQuestionaryConfig.QUESTIONARY_NOT_FOUND, this.layer);
+    if (!_questionary) throw new BadRequestException(ErrorQuestionaryConfig.QUESTIONARY_NOT_FOUND, this.layer);
 
     return _questionary;
   }

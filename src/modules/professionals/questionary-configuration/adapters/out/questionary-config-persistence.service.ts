@@ -10,9 +10,9 @@ import {
   UpdateQuestionaryDetail,
 } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
 import { LayersServer } from 'src/shared/enums/project';
+import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
-//to allow the professional create his own custom questions
-const OtherFieldsGroupName = 'Otros';
+const OtherFieldsGroupName = 'Otros'; //to allow the professional create his own custom questions
 @Injectable()
 export class QuestionaryConfigPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
@@ -87,6 +87,8 @@ export class QuestionaryConfigPersistenceService {
     { questionary, questionaryGroup, professional, questionaryDetail }: DeleteQuestionaryDetail,
     selectors: Record<string, number>,
   ): Promise<QuestionaryConfig> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
+
     try {
       const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
         { _id: questionary, professional },
@@ -101,7 +103,26 @@ export class QuestionaryConfigPersistenceService {
             { 'detail._id': new Types.ObjectId(questionaryDetail), 'detail.isDeleted': false },
           ],
           new: true,
-          projection: selectors,
+          projection: {
+            ...restFields,
+            questionaryGroups: {
+              $map: {
+                input: '$questionaryGroups',
+                as: 'group',
+                in: {
+                  _id: '$$group._id',
+                  title: '$$group.title',
+                  questionaryDetails: {
+                    $filter: {
+                      input: '$$group.questionaryDetails',
+                      as: 'detail',
+                      cond: { $eq: ['$$detail.isDeleted', false] },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       );
 
@@ -110,10 +131,42 @@ export class QuestionaryConfigPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getQuestionaryConfig(professional: string, selector: Record<string, number>): Promise<QuestionaryConfig> {
+  async getQuestionaryConfig(professional: string, selectors: Record<string, number>): Promise<QuestionaryConfig> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
     try {
-      const questionaryRes = await this.questionaryConfig.findOne({ professional: new Types.ObjectId(professional) }, selector);
-      return questionaryRes;
+      const questionaryRes = await this.questionaryConfig.aggregate([
+        {
+          $match: { professional: new Types.ObjectId(professional) },
+        },
+        {
+          $project: {
+            ...restFields,
+            questionaryGroups: {
+              $map: {
+                input: '$questionaryGroups',
+                as: 'group',
+                in: {
+                  _id: '$$group._id',
+                  title: '$$group.title',
+                  questionaryDetails: {
+                    $filter: {
+                      input: '$$group.questionaryDetails',
+                      as: 'detail',
+                      cond: { $eq: ['$$detail.isDeleted', false] },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            ...selectors,
+          },
+        },
+      ]);
+      return questionaryRes[0];
     } catch (e) {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
