@@ -9,8 +9,9 @@ import {
 import { QuestionaryConfigPersistenceService } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config-persistence.service';
 import { QuestionaryConfigManager } from 'src/modules/professionals/questionary-configuration/application/questionary-configuration-manager.service';
 import { QuestionaryConfigResolver } from 'src/modules/professionals/questionary-configuration/adapters/in/questionary-config.resolver';
+import { OtherQuestionaryDetailResolver } from 'src/modules/professionals/questionary-configuration/adapters/in/other-questionary-detail.resolver';
 
-const resolvers = [QuestionaryConfigResolver];
+const resolvers = [QuestionaryConfigResolver, OtherQuestionaryDetailResolver];
 const services = [QuestionaryConfigManager, QuestionaryConfigPersistenceService];
 
 @Module({
