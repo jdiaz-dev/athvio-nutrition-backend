@@ -32,7 +32,7 @@ export class QuestionaryConfigPersistenceService {
     }
   }
   async enableQuestionaryDetail(
-    { questionary, questionaryGroup, professional, questionaryDetail, enabled }: EnableQuestionaryDetailDto,
+    { questionary, questionaryGroup, professional, questionaryDetails, enabled }: EnableQuestionaryDetailDto,
     selectors: Record<string, number>,
   ): Promise<QuestionaryConfig> {
     try {
@@ -46,7 +46,7 @@ export class QuestionaryConfigPersistenceService {
         {
           arrayFilters: [
             { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': { $ne: OtherFieldsGroupName } },
-            { 'detail._id': new Types.ObjectId(questionaryDetail), 'detail.isDeleted': false },
+            { 'detail._id': { $in: questionaryDetails.map((id) => new Types.ObjectId(id)) }, 'detail.isDeleted': false },
           ],
           new: true,
           projection: selectors,

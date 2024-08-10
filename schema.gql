@@ -283,7 +283,7 @@ input EnableQuestionaryDetailDto {
   enabled: Boolean!
   professional: String!
   questionary: String!
-  questionaryDetail: String!
+  questionaryDetails: [String!]!
   questionaryGroup: String!
 }
 
