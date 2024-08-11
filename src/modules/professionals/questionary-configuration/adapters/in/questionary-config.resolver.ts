@@ -6,7 +6,7 @@ import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-help
 import { GetQuestionaryConfigDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/get-questionary-config.dto';
 import { QuestionaryConfigManager } from 'src/modules/professionals/questionary-configuration/application/questionary-configuration-manager.service';
 import { QuestionaryConfig } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config.schema';
-import { EnableQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-detail.dto';
+import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -21,10 +21,10 @@ export class QuestionaryConfigResolver {
     return this.qcm.getQuestionaryConfig(dto.professional, selectors);
   }
   @Mutation(() => QuestionaryConfig)
-  enableQuestionaryDetail(
-    @Args('input') dto: EnableQuestionaryDetailDto,
+  enableQuestionaryDetails(
+    @Args('input') dto: EnableQuestionaryDetailsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<QuestionaryConfig> {
-    return this.qcm.enableQuestionaryDetail(dto, selectors);
+    return this.qcm.enableQuestionaryDetails(dto, selectors);
   }
 }

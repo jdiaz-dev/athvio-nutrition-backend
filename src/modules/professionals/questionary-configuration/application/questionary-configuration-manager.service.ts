@@ -8,7 +8,7 @@ import { ErrorQuestionaryConfig } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 import { DeleteOtherQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/delete-other-questionary-details.dto';
 import { UpdateOtherQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-other-questionary-details.dto';
-import { EnableQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-detail.dto';
+import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
 
 @Injectable()
 export class QuestionaryConfigManager {
@@ -30,8 +30,8 @@ export class QuestionaryConfigManager {
     const questionary = await this.qcps.getQuestionaryConfig(professional, selector);
     return questionary;
   }
-  async enableQuestionaryDetail(dto: EnableQuestionaryDetailDto, selectors: Record<string, number>): Promise<QuestionaryConfig> {
-    const questionary = await this.qcps.enableQuestionaryDetail(dto, selectors);
+  async enableQuestionaryDetails(dto: EnableQuestionaryDetailsDto, selectors: Record<string, number>): Promise<QuestionaryConfig> {
+    const questionary = await this.qcps.enableMultipleQuestionaryDetail(dto, selectors);
     return questionary;
   }
   async addQuestionaryDetail(

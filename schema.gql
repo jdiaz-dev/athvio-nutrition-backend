@@ -279,11 +279,15 @@ input DuplicateProgramPlanDto {
   week: Float!
 }
 
-input EnableQuestionaryDetailDto {
+input EnableQuestionaryDetail {
   enabled: Boolean!
+  questionaryDetail: String!
+}
+
+input EnableQuestionaryDetailsDto {
   professional: String!
   questionary: String!
-  questionaryDetails: [String!]!
+  questionaryDetails: [EnableQuestionaryDetail!]!
   questionaryGroup: String!
 }
 
@@ -579,7 +583,7 @@ type Mutation {
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
-  enableQuestionaryDetail(input: EnableQuestionaryDetailDto!): QuestionaryConfig!
+  enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): QuestionaryConfig!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!

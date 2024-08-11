@@ -11,7 +11,7 @@ import {
 } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
 import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { EnableQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-detail.dto';
+import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
 
 const OtherFieldsGroupName = 'Otros'; //to allow the professional create his own custom questions
 @Injectable()
@@ -31,22 +31,31 @@ export class QuestionaryConfigPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
-  async enableQuestionaryDetail(
-    { questionary, questionaryGroup, professional, questionaryDetails, enabled }: EnableQuestionaryDetailDto,
+
+  async enableMultipleQuestionaryDetail(
+    { questionary, questionaryGroup, professional, questionaryDetails }: EnableQuestionaryDetailsDto,
     selectors: Record<string, number>,
   ): Promise<QuestionaryConfig> {
     try {
+      const arrayFilters = questionaryDetails.map((detail, index) => ({
+        [`detail${index}._id`]: new Types.ObjectId(detail.questionaryDetail),
+        [`detail${index}.isDeleted`]: false,
+      }));
+
+      const updateOperations = questionaryDetails.reduce((acc, detail, index) => {
+        acc[`questionaryGroups.$[group].questionaryDetails.$[detail${index}].enabled`] = detail.enabled;
+        return acc;
+      }, {} as Record<string, boolean>);
+
       const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
         { _id: questionary, professional },
         {
-          $set: {
-            'questionaryGroups.$[group].questionaryDetails.$[detail].enabled': enabled,
-          },
+          $set: updateOperations,
         },
         {
           arrayFilters: [
             { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': { $ne: OtherFieldsGroupName } },
-            { 'detail._id': { $in: questionaryDetails.map((id) => new Types.ObjectId(id)) }, 'detail.isDeleted': false },
+            ...arrayFilters,
           ],
           new: true,
           projection: selectors,
@@ -58,6 +67,7 @@ export class QuestionaryConfigPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
+
   async addQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetailBody }: AddQuestionaryDetail,
     selectors: Record<string, number>,
