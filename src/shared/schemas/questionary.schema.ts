@@ -27,7 +27,7 @@ export class QuestionaryDetail {
 
   @Field(() => Boolean)
   @Prop({ type: Boolean, required: true, default: true })
-  enabled: boolean;
+  isEnabled: boolean;
 
   @Field(() => Boolean)
   @Prop({ type: Boolean, required: true, default: false })

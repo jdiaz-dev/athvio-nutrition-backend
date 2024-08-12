@@ -43,7 +43,7 @@ export class QuestionaryConfigPersistenceService {
       }));
 
       const updateOperations = questionaryDetails.reduce((acc, detail, index) => {
-        acc[`questionaryGroups.$[group].questionaryDetails.$[detail${index}].enabled`] = detail.enabled;
+        acc[`questionaryGroups.$[group].questionaryDetails.$[detail${index}].isEnabled`] = detail.isEnabled;
         return acc;
       }, {} as Record<string, boolean>);
 
@@ -123,7 +123,7 @@ export class QuestionaryConfigPersistenceService {
             'questionaryGroups.$[group].questionaryDetails.$[detail].fieldName': questionaryDetailBody.fieldName,
             'questionaryGroups.$[group].questionaryDetails.$[detail].associatedQuestion':
               questionaryDetailBody.associatedQuestion,
-            'questionaryGroups.$[group].questionaryDetails.$[detail].enabled': questionaryDetailBody.enabled,
+            'questionaryGroups.$[group].questionaryDetails.$[detail].isEnabled': questionaryDetailBody.isEnabled,
             'questionaryGroups.$[group].questionaryDetails.$[detail].fieldType': questionaryDetailBody.fieldType,
           },
         },

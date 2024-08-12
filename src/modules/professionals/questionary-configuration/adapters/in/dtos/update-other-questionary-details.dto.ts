@@ -14,7 +14,7 @@ export class UpdateOtherQuestionaryDetailInput {
 
   @Field()
   @IsBoolean()
-  enabled: boolean;
+  isEnabled: boolean;
 }
 
 @InputType()

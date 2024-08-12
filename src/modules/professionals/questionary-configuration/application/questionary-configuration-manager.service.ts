@@ -43,7 +43,7 @@ export class QuestionaryConfigManager {
         questionary,
         professional,
         questionaryGroup,
-        questionaryDetailBody: { ...questionaryDetailInput, enabled: true, fieldType: 'text' },
+        questionaryDetailBody: { ...questionaryDetailInput, isEnabled: true, fieldType: 'text' },
       },
       selector,
     );

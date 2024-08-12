@@ -280,7 +280,7 @@ input DuplicateProgramPlanDto {
 }
 
 input EnableQuestionaryDetail {
-  enabled: Boolean!
+  isEnabled: Boolean!
   questionaryDetail: String!
 }
 
@@ -721,11 +721,11 @@ type QuestionaryConfig {
 type QuestionaryDetail {
   _id: ID!
   associatedQuestion: String!
-  enabled: Boolean!
   fieldName: String!
   fieldOptions: String
   fieldType: String!
   isDeleted: Boolean!
+  isEnabled: Boolean!
 }
 
 type QuestionaryGroup {
@@ -823,8 +823,8 @@ input UpdateOtherQuestionaryDetailDto {
 
 input UpdateOtherQuestionaryDetailInput {
   associatedQuestion: String!
-  enabled: Boolean!
   fieldName: String!
+  isEnabled: Boolean!
 }
 
 input UpdatePatientGroupDto {

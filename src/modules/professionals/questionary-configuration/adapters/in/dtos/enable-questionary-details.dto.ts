@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsArray, IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator';
 
 @InputType()
 class EnableQuestionaryDetail {
@@ -9,7 +9,7 @@ class EnableQuestionaryDetail {
 
   @Field()
   @IsBoolean()
-  enabled: boolean;
+  isEnabled: boolean;
 }
 
 @InputType()
@@ -29,5 +29,6 @@ export class EnableQuestionaryDetailsDto {
   @Field(() => [EnableQuestionaryDetail])
   @IsArray()
   @ValidateNested()
+  @ArrayNotEmpty()
   questionaryDetails: EnableQuestionaryDetail[];
 }
