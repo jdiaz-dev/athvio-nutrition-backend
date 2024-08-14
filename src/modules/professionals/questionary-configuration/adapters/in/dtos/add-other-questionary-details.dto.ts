@@ -27,8 +27,8 @@ export class AddOtherQuestionaryDetailDto {
   @IsString()
   questionaryGroup: string;
 
-  @Field()
+  @Field(() => [CreateOtherQuestionaryDetailInput])
   @ValidateNested()
   @Type(() => CreateOtherQuestionaryDetailInput)
-  questionaryDetailInput: CreateOtherQuestionaryDetailInput;
+  questionaryDetailsInput: CreateOtherQuestionaryDetailInput[];
 }

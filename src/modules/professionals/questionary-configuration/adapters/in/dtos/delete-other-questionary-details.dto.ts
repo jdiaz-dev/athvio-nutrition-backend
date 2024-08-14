@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsString } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsMongoId, IsString } from 'class-validator';
 
 @InputType()
 export class DeleteOtherQuestionaryDetailDto {
@@ -15,7 +15,8 @@ export class DeleteOtherQuestionaryDetailDto {
   @IsString()
   questionaryGroup: string;
 
-  @Field()
-  @IsString()
-  questionaryDetail: string;
+  @Field(() => [String])
+  @IsArray()
+  @ArrayNotEmpty()
+  questionaryDetails: string[];
 }

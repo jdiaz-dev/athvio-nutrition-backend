@@ -6,6 +6,10 @@ import { IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator'
 export class UpdateOtherQuestionaryDetailInput {
   @Field()
   @IsString()
+  questionaryDetail: string;
+
+  @Field()
+  @IsString()
   fieldName: string;
 
   @Field()
@@ -31,12 +35,8 @@ export class UpdateOtherQuestionaryDetailDto {
   @IsString()
   questionaryGroup: string;
 
-  @Field()
-  @IsString()
-  questionaryDetail: string;
-
-  @Field()
+  @Field(() => [UpdateOtherQuestionaryDetailInput])
   @ValidateNested()
   @Type(() => UpdateOtherQuestionaryDetailInput)
-  questionaryDetailInput: UpdateOtherQuestionaryDetailInput;
+  questionaryDetailsInput: UpdateOtherQuestionaryDetailInput[];
 }

@@ -9,11 +9,13 @@ export type AddQuestionaryDetail = {
   questionary: string;
   questionaryGroup: string;
   professional: string;
-  questionaryDetailBody: Omit<QuestionaryDetail, 'isDeleted'>;
+  questionaryDetailBodies: Omit<QuestionaryDetail, 'isDeleted'>[];
 };
 
-export type UpdateQuestionaryDetail = AddQuestionaryDetail & {
-  questionaryDetail: string;
+type QuestionaryDetailBody = Omit<QuestionaryDetail, '_id' | 'isDeleted'> & { questionaryDetail: string };
+
+export type UpdateQuestionaryDetail = Omit<AddQuestionaryDetail, 'questionaryDetailBodies'> & {
+  questionaryDetailBodies: QuestionaryDetailBody[];
 };
 
-export type DeleteQuestionaryDetail = Omit<UpdateQuestionaryDetail, 'questionaryDetailBody'>;
+export type DeleteQuestionaryDetail = Omit<AddQuestionaryDetail, 'questionaryDetailBodies'> & { questionaryDetails: string[] };

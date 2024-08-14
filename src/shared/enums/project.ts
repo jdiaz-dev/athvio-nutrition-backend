@@ -1,5 +1,6 @@
 export const weightIngrams = 100;
 export const defaultSizePageFoodProvider = 20;
+export const OtherFieldsGroupName = 'Otros'; //to allow the professional create his own custom questions
 
 export enum EnumEnvironments {
   PRODUCTION = 'production',

@@ -10,9 +10,10 @@ import { QuestionaryConfigPersistenceService } from 'src/modules/professionals/q
 import { QuestionaryConfigManager } from 'src/modules/professionals/questionary-configuration/application/questionary-configuration-manager.service';
 import { QuestionaryConfigResolver } from 'src/modules/professionals/questionary-configuration/adapters/in/questionary-config.resolver';
 import { OtherQuestionaryDetailResolver } from 'src/modules/professionals/questionary-configuration/adapters/in/other-questionary-detail.resolver';
+import { OtherQuestionaryDetailsPersistenceService } from 'src/modules/professionals/questionary-configuration/adapters/out/other-questionary-details-persistence.service';
 
 const resolvers = [QuestionaryConfigResolver, OtherQuestionaryDetailResolver];
-const services = [QuestionaryConfigManager, QuestionaryConfigPersistenceService];
+const services = [QuestionaryConfigManager, OtherQuestionaryDetailsPersistenceService, QuestionaryConfigPersistenceService];
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: QuestionaryConfig.name, schema: QuestionaryConfigSchema }]), AuthenticationModule],

@@ -16,7 +16,7 @@ input AddMealDto {
 input AddOtherQuestionaryDetailDto {
   professional: String!
   questionary: String!
-  questionaryDetailInput: CreateOtherQuestionaryDetailInput!
+  questionaryDetailsInput: [CreateOtherQuestionaryDetailInput!]!
   questionaryGroup: String!
 }
 
@@ -220,7 +220,7 @@ input DeleteMealDto {
 input DeleteOtherQuestionaryDetailDto {
   professional: String!
   questionary: String!
-  questionaryDetail: String!
+  questionaryDetails: [String!]!
   questionaryGroup: String!
 }
 
@@ -816,8 +816,7 @@ input UpdateMealDto {
 input UpdateOtherQuestionaryDetailDto {
   professional: String!
   questionary: String!
-  questionaryDetail: String!
-  questionaryDetailInput: UpdateOtherQuestionaryDetailInput!
+  questionaryDetailsInput: [UpdateOtherQuestionaryDetailInput!]!
   questionaryGroup: String!
 }
 
@@ -825,6 +824,7 @@ input UpdateOtherQuestionaryDetailInput {
   associatedQuestion: String!
   fieldName: String!
   isEnabled: Boolean!
+  questionaryDetail: String!
 }
 
 input UpdatePatientGroupDto {
