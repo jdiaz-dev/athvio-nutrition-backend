@@ -17,11 +17,11 @@ export class QuestionaryDetail {
   @Prop({ type: String, required: true })
   associatedQuestion: string;
 
-  @Field(() => String)
+  // @Field(() => String)
   @Prop({ type: String, required: true })
   fieldType: string;
 
-  @Field(() => String || [String], { nullable: true })
+  // @Field(() => String || [String], { nullable: true })
   @Prop({ type: String || [String], required: false })
   fieldOptions?: string | string[];
 

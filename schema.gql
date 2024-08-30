@@ -722,8 +722,6 @@ type QuestionaryDetail {
   _id: ID!
   associatedQuestion: String!
   fieldName: String!
-  fieldOptions: String
-  fieldType: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
 }
