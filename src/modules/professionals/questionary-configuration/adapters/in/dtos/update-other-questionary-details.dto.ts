@@ -22,7 +22,7 @@ export class UpdateOtherQuestionaryDetailInput {
 }
 
 @InputType()
-export class UpdateOtherQuestionaryDetailDto {
+export class UpdateOtherQuestionaryDetailsDto {
   @Field()
   @IsMongoId()
   questionary: string;

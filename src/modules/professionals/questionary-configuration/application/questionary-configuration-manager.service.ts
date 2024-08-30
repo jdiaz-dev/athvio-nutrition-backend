@@ -1,4 +1,4 @@
-import { AddOtherQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/add-other-questionary-details.dto';
+import { AddOtherQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/add-other-questionary-details.dto';
 import { globalQuestionary } from './questionary';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateQuestionary } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
@@ -6,8 +6,8 @@ import { QuestionaryConfigPersistenceService } from 'src/modules/professionals/q
 import { QuestionaryConfig } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config.schema';
 import { ErrorQuestionaryConfig } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
-import { DeleteOtherQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/delete-other-questionary-details.dto';
-import { UpdateOtherQuestionaryDetailDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-other-questionary-details.dto';
+import { DeleteOtherQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/delete-other-questionary-details.dto';
+import { UpdateOtherQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-other-questionary-details.dto';
 import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
 import { OtherQuestionaryDetailsPersistenceService } from 'src/modules/professionals/questionary-configuration/adapters/out/other-questionary-details-persistence.service';
 
@@ -39,7 +39,7 @@ export class QuestionaryConfigManager {
     return questionary;
   }
   async addQuestionaryDetail(
-    { questionary, professional, questionaryGroup, questionaryDetailsInput }: AddOtherQuestionaryDetailDto,
+    { questionary, professional, questionaryGroup, questionaryDetailsInput }: AddOtherQuestionaryDetailsDto,
     selector: Record<string, number>,
   ) {
     const _questionary = await this.oqdp.addQuestionaryDetail(
@@ -56,7 +56,7 @@ export class QuestionaryConfigManager {
     return _questionary;
   }
   async updateQuestionaryDetail(
-    { questionary, professional, questionaryGroup, questionaryDetailsInput }: UpdateOtherQuestionaryDetailDto,
+    { questionary, professional, questionaryGroup, questionaryDetailsInput }: UpdateOtherQuestionaryDetailsDto,
     selector: Record<string, number>,
   ) {
     const _questionary = await this.oqdp.updateQuestionaryDetail(
@@ -72,7 +72,7 @@ export class QuestionaryConfigManager {
 
     return _questionary;
   }
-  async deleteQuestionaryDetail(dto: DeleteOtherQuestionaryDetailDto, selector: Record<string, number>) {
+  async deleteQuestionaryDetail(dto: DeleteOtherQuestionaryDetailsDto, selector: Record<string, number>) {
     const _questionary = await this.oqdp.deleteQuestionaryDetail({ ...dto }, selector);
     if (!_questionary) throw new BadRequestException(ErrorQuestionaryConfig.QUESTIONARY_NOT_FOUND, this.layer);
 

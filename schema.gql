@@ -13,7 +13,7 @@ input AddMealDto {
   program: String!
 }
 
-input AddOtherQuestionaryDetailDto {
+input AddOtherQuestionaryDetailsDto {
   professional: String!
   questionary: String!
   questionaryDetailsInput: [CreateOtherQuestionaryDetailInput!]!
@@ -217,7 +217,7 @@ input DeleteMealDto {
   program: String!
 }
 
-input DeleteOtherQuestionaryDetailDto {
+input DeleteOtherQuestionaryDetailsDto {
   professional: String!
   questionary: String!
   questionaryDetails: [String!]!
@@ -559,7 +559,7 @@ type Meta {
 
 type Mutation {
   activatePatient(input: ActivatePatientDto!): User!
-  addOtherQuestionaryDetail(input: AddOtherQuestionaryDetailDto!): QuestionaryConfig!
+  addOtherQuestionaryDetails(toAdd: AddOtherQuestionaryDetailsDto!): QuestionaryConfig!
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
   addPlanMeal(input: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
@@ -573,7 +573,7 @@ type Mutation {
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deleteMeal(input: DeleteMealDto!): Program!
-  deleteOtherQuestionaryDetail(input: DeleteOtherQuestionaryDetailDto!): QuestionaryConfig!
+  deleteOtherQuestionaryDetails(toDelete: DeleteOtherQuestionaryDetailsDto!): QuestionaryConfig!
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
   deletePatientPlanComment(input: DeletePatientPlanCommentDto!): PatientPlan!
@@ -594,7 +594,7 @@ type Mutation {
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
-  updateOtherQuestionaryDetail(input: UpdateOtherQuestionaryDetailDto!): QuestionaryConfig!
+  updateOtherQuestionaryDetails(toUpdate: UpdateOtherQuestionaryDetailsDto!): QuestionaryConfig!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
@@ -813,18 +813,18 @@ input UpdateMealDto {
   program: String!
 }
 
-input UpdateOtherQuestionaryDetailDto {
-  professional: String!
-  questionary: String!
-  questionaryDetailsInput: [UpdateOtherQuestionaryDetailInput!]!
-  questionaryGroup: String!
-}
-
 input UpdateOtherQuestionaryDetailInput {
   associatedQuestion: String!
   fieldName: String!
   isEnabled: Boolean!
   questionaryDetail: String!
+}
+
+input UpdateOtherQuestionaryDetailsDto {
+  professional: String!
+  questionary: String!
+  questionaryDetailsInput: [UpdateOtherQuestionaryDetailInput!]!
+  questionaryGroup: String!
 }
 
 input UpdatePatientGroupDto {

@@ -14,7 +14,7 @@ class CreateOtherQuestionaryDetailInput {
 }
 
 @InputType()
-export class AddOtherQuestionaryDetailDto {
+export class AddOtherQuestionaryDetailsDto {
   @Field()
   @IsMongoId()
   questionary: string;
