@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator';
 
 @InputType()
 class CreateOtherQuestionaryDetailInput {
@@ -11,6 +11,10 @@ class CreateOtherQuestionaryDetailInput {
   @Field()
   @IsString()
   associatedQuestion: string;
+
+  @Field()
+  @IsBoolean()
+  isEnabled: boolean;
 }
 
 @InputType()

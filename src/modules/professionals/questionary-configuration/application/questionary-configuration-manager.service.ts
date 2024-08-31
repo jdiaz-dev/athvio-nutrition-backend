@@ -47,7 +47,7 @@ export class QuestionaryConfigManager {
         questionary,
         professional,
         questionaryGroup,
-        questionaryDetailBodies: questionaryDetailsInput.map((item) => ({ ...item, isEnabled: true, fieldType: 'text' })),
+        questionaryDetailBodies: questionaryDetailsInput.map((item) => ({ ...item, fieldType: 'text' })),
       },
       selector,
     );

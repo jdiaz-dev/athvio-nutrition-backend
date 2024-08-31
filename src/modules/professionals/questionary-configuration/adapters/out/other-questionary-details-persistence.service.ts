@@ -63,6 +63,8 @@ export class OtherQuestionaryDetailsPersistenceService {
 
       return questionaryRes;
     } catch (e) {
+      console.log('-------e', e)
+
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }

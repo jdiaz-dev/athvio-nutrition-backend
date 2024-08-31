@@ -132,6 +132,7 @@ input CreateCustomRecipeDto {
 input CreateOtherQuestionaryDetailInput {
   associatedQuestion: String!
   fieldName: String!
+  isEnabled: Boolean!
 }
 
 input CreatePatientGroupDto {

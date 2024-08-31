@@ -5,7 +5,7 @@ import { IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator'
 @InputType()
 export class UpdateOtherQuestionaryDetailInput {
   @Field()
-  @IsString()
+  @IsMongoId()
   questionaryDetail: string;
 
   @Field()
