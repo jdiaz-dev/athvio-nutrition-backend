@@ -23,6 +23,7 @@ export class OtherQuestionaryDetailsPersistenceService {
     selectors: Record<string, number>,
   ): Promise<QuestionaryConfig> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
+    
     try {
       const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
         { _id: questionary, professional },
@@ -63,8 +64,6 @@ export class OtherQuestionaryDetailsPersistenceService {
 
       return questionaryRes;
     } catch (e) {
-      console.log('-------e', e)
-
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
