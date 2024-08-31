@@ -3,11 +3,7 @@ import { Type } from 'class-transformer';
 import { IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator';
 
 @InputType()
-export class UpdateOtherQuestionaryDetailInput {
-  @Field()
-  @IsMongoId()
-  questionaryDetail: string;
-
+class CreateCustomQuestionaryDetailInput {
   @Field()
   @IsString()
   fieldName: string;
@@ -22,7 +18,7 @@ export class UpdateOtherQuestionaryDetailInput {
 }
 
 @InputType()
-export class UpdateOtherQuestionaryDetailsDto {
+export class AddCustomQuestionaryDetailsDto {
   @Field()
   @IsMongoId()
   questionary: string;
@@ -35,8 +31,8 @@ export class UpdateOtherQuestionaryDetailsDto {
   @IsString()
   questionaryGroup: string;
 
-  @Field(() => [UpdateOtherQuestionaryDetailInput])
+  @Field(() => [CreateCustomQuestionaryDetailInput])
   @ValidateNested()
-  @Type(() => UpdateOtherQuestionaryDetailInput)
-  questionaryDetailsInput: UpdateOtherQuestionaryDetailInput[];
+  @Type(() => CreateCustomQuestionaryDetailInput)
+  questionaryDetailsInput: CreateCustomQuestionaryDetailInput[];
 }

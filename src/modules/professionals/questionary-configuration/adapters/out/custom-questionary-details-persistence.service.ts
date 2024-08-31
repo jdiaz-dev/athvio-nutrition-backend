@@ -8,11 +8,11 @@ import {
   DeleteQuestionaryDetail,
   UpdateQuestionaryDetail,
 } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
-import { LayersServer, OtherFieldsGroupName } from 'src/shared/enums/project';
+import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
 @Injectable()
-export class OtherQuestionaryDetailsPersistenceService {
+export class CustomQuestionaryDetailsPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
   constructor(@InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>) {
@@ -23,7 +23,7 @@ export class OtherQuestionaryDetailsPersistenceService {
     selectors: Record<string, number>,
   ): Promise<QuestionaryConfig> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
-    
+
     try {
       const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
         { _id: questionary, professional },
@@ -36,7 +36,7 @@ export class OtherQuestionaryDetailsPersistenceService {
         },
         {
           arrayFilters: [
-            { 'questionaryGroup._id': new Types.ObjectId(questionaryGroup), 'questionaryGroup.title': OtherFieldsGroupName },
+            { 'questionaryGroup._id': new Types.ObjectId(questionaryGroup), 'questionaryGroup.title': CustomFieldsGroupName },
           ],
           new: true,
           projection: {
@@ -72,7 +72,6 @@ export class OtherQuestionaryDetailsPersistenceService {
     selectors: Record<string, number>,
   ): Promise<QuestionaryConfig> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
-
     try {
       const updateSubDocuments = questionaryDetailBodies.map((body, index) => ({
         [`questionaryGroups.$[group].questionaryDetails.$[detail${index}].fieldName`]: body.fieldName,
@@ -91,7 +90,7 @@ export class OtherQuestionaryDetailsPersistenceService {
         { $set: Object.assign({}, ...updateSubDocuments) },
         {
           arrayFilters: [
-            { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': OtherFieldsGroupName },
+            { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': CustomFieldsGroupName },
             ...arrayFilters,
           ],
           new: true,
@@ -144,7 +143,7 @@ export class OtherQuestionaryDetailsPersistenceService {
         },
         {
           arrayFilters: [
-            { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': OtherFieldsGroupName },
+            { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': CustomFieldsGroupName },
             ...arrayFilters,
           ],
           new: true,

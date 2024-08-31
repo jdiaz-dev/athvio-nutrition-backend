@@ -5,31 +5,31 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { QuestionaryConfigManager } from 'src/modules/professionals/questionary-configuration/application/questionary-configuration-manager.service';
 import { QuestionaryConfig } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config.schema';
-import { AddOtherQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/add-other-questionary-details.dto';
-import { UpdateOtherQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-other-questionary-details.dto';
-import { DeleteOtherQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/delete-other-questionary-details.dto';
+import { AddCustomQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/add-custom-questionary-details.dto';
+import { UpdateCustomQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-custom-questionary-details.dto';
+import { DeleteCustomQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/delete-custom-questionary-details.dto';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
-export class OtherQuestionaryDetailResolver {
+export class CustomQuestionaryDetailResolver {
   constructor(private qcm: QuestionaryConfigManager) {}
   @Mutation(() => QuestionaryConfig)
-  addOtherQuestionaryDetails(
-    @Args('toAdd') dto: AddOtherQuestionaryDetailsDto,
+  addCustomQuestionaryDetails(
+    @Args('toAdd') dto: AddCustomQuestionaryDetailsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ) {
     return this.qcm.addQuestionaryDetail(dto, selectors);
   }
   @Mutation(() => QuestionaryConfig)
-  updateOtherQuestionaryDetails(
-    @Args('toUpdate') dto: UpdateOtherQuestionaryDetailsDto,
+  updateCustomQuestionaryDetails(
+    @Args('toUpdate') dto: UpdateCustomQuestionaryDetailsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ) {
     return this.qcm.updateQuestionaryDetail(dto, selectors);
   }
   @Mutation(() => QuestionaryConfig)
-  deleteOtherQuestionaryDetails(
-    @Args('toDelete') dto: DeleteOtherQuestionaryDetailsDto,
+  deleteCustomQuestionaryDetails(
+    @Args('toDelete') dto: DeleteCustomQuestionaryDetailsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ) {
     return this.qcm.deleteQuestionaryDetail(dto, selectors);

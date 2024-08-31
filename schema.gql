@@ -6,18 +6,18 @@ input ActivatePatientDto {
   user: String!
 }
 
+input AddCustomQuestionaryDetailsDto {
+  professional: String!
+  questionary: String!
+  questionaryDetailsInput: [CreateCustomQuestionaryDetailInput!]!
+  questionaryGroup: String!
+}
+
 input AddMealDto {
   mealBody: MealBodyInput!
   plan: String!
   professional: String!
   program: String!
-}
-
-input AddOtherQuestionaryDetailsDto {
-  professional: String!
-  questionary: String!
-  questionaryDetailsInput: [CreateOtherQuestionaryDetailInput!]!
-  questionaryGroup: String!
 }
 
 input AddPatientPlanCommentDto {
@@ -121,18 +121,18 @@ input CreateCaloryDto {
   protein: Float!
 }
 
+input CreateCustomQuestionaryDetailInput {
+  associatedQuestion: String!
+  fieldName: String!
+  isEnabled: Boolean!
+}
+
 input CreateCustomRecipeDto {
   cookingInstructions: String
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   name: String!
   professional: String!
-}
-
-input CreateOtherQuestionaryDetailInput {
-  associatedQuestion: String!
-  fieldName: String!
-  isEnabled: Boolean!
 }
 
 input CreatePatientGroupDto {
@@ -206,6 +206,13 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DeleteCustomQuestionaryDetailsDto {
+  professional: String!
+  questionary: String!
+  questionaryDetails: [String!]!
+  questionaryGroup: String!
+}
+
 input DeleteCustomRecipeDto {
   customRecipe: String!
   professional: String!
@@ -216,13 +223,6 @@ input DeleteMealDto {
   plan: String!
   professional: String!
   program: String!
-}
-
-input DeleteOtherQuestionaryDetailsDto {
-  professional: String!
-  questionary: String!
-  questionaryDetails: [String!]!
-  questionaryGroup: String!
 }
 
 input DeletePatientGroupDto {
@@ -560,7 +560,7 @@ type Meta {
 
 type Mutation {
   activatePatient(input: ActivatePatientDto!): User!
-  addOtherQuestionaryDetails(toAdd: AddOtherQuestionaryDetailsDto!): QuestionaryConfig!
+  addCustomQuestionaryDetails(toAdd: AddCustomQuestionaryDetailsDto!): QuestionaryConfig!
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
   addPlanMeal(input: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
@@ -572,9 +572,9 @@ type Mutation {
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
+  deleteCustomQuestionaryDetails(toDelete: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deleteMeal(input: DeleteMealDto!): Program!
-  deleteOtherQuestionaryDetails(toDelete: DeleteOtherQuestionaryDetailsDto!): QuestionaryConfig!
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
   deletePatientPlanComment(input: DeletePatientPlanCommentDto!): PatientPlan!
@@ -593,9 +593,9 @@ type Mutation {
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
   updateCalory(input: UpdateCaloryDto!): Calory!
+  updateCustomQuestionaryDetails(toUpdate: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
-  updateOtherQuestionaryDetails(toUpdate: UpdateOtherQuestionaryDetailsDto!): QuestionaryConfig!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
@@ -795,6 +795,20 @@ input UpdateCaloryDto {
   protein: Float!
 }
 
+input UpdateCustomQuestionaryDetailInput {
+  associatedQuestion: String!
+  fieldName: String!
+  isEnabled: Boolean!
+  questionaryDetail: String!
+}
+
+input UpdateCustomQuestionaryDetailsDto {
+  professional: String!
+  questionary: String!
+  questionaryDetailsInput: [UpdateCustomQuestionaryDetailInput!]!
+  questionaryGroup: String!
+}
+
 input UpdateCustomRecipeDto {
   cookingInstructions: String!
   customRecipe: String!
@@ -810,20 +824,6 @@ input UpdateMealDto {
   plan: String!
   professional: String!
   program: String!
-}
-
-input UpdateOtherQuestionaryDetailInput {
-  associatedQuestion: String!
-  fieldName: String!
-  isEnabled: Boolean!
-  questionaryDetail: String!
-}
-
-input UpdateOtherQuestionaryDetailsDto {
-  professional: String!
-  questionary: String!
-  questionaryDetailsInput: [UpdateOtherQuestionaryDetailInput!]!
-  questionaryGroup: String!
 }
 
 input UpdatePatientGroupDto {

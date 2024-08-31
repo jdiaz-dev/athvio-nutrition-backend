@@ -1,3 +1,4 @@
+import { CustomFieldsGroupName } from 'src/shared/enums/project';
 import { QuestionaryDetail } from 'src/shared/schemas/questionary.schema';
 import { Questionary, QuestionaryGroup } from 'src/shared/schemas/questionary.schema';
 
@@ -140,7 +141,7 @@ export const globalQuestionary: GlobalQuestionary = {
       ],
     },
     {
-      title: 'Otros',
+      title: CustomFieldsGroupName,
       description: '',
       questionaryDetails: [],
     },

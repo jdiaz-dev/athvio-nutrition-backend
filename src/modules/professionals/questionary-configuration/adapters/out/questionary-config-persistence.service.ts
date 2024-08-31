@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { CreateQuestionary } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
-import { LayersServer, OtherFieldsGroupName } from 'src/shared/enums/project';
+import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
 
@@ -48,7 +48,7 @@ export class QuestionaryConfigPersistenceService {
         },
         {
           arrayFilters: [
-            { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': { $ne: OtherFieldsGroupName } },
+            { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': { $ne: CustomFieldsGroupName } },
             ...arrayFilters,
           ],
           new: true,
