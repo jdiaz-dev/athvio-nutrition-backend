@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
+import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 import { CreatePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/create-patient-group.dto';
 import { DeletePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/delete-patient-group.dto';
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
@@ -9,7 +9,7 @@ import { ProfessionalsPersistenceService } from 'src/modules/professionals/profe
 @Injectable()
 export class PatientGroupsManagementService {
   constructor(
-    private cps: PatientsPersistenceService,
+    private pms: PatientManagementService,
     private cgps: PatientGroupsPersistenceService,
     private pps: ProfessionalsPersistenceService,
   ) {}
@@ -21,10 +21,7 @@ export class PatientGroupsManagementService {
     return patientGroup;
   }
   async deletePatientGroup(dto: DeletePatientGroupDto): Promise<PatientGroup> {
-    await this.cps.deleteManyPatientGroup({
-      professional: dto.professional,
-      patientGroup: dto.patientGroup,
-    });
+    await this.pms.deleteManyPatientGroup(dto.professional, dto.patientGroup);
     return this.cgps.deletePatientGroup(dto);
   }
 }

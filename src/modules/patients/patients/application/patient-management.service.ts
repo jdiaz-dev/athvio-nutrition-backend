@@ -1,51 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
+import { CreatePatient, UpdatePatient } from 'src/modules/patients/patients/adapters/out/patient.types';
+import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
 
 @Injectable()
 export class PatientManagementService {
-  constructor(
-    /* private cps: PatientsPersistenceService,
-    private ums: UserManagementService,
-    private ups: UsersPersistenceService,
-    private pps: ProfessionalsPersistenceService, */
-  ) {}
+  constructor(private pps: PatientsPersistenceService) {}
 
-  /* async createPatient({ professional, userInfo, additionalInfo }: CreatePatientDto): Promise<CreatePatientResponse> {
-    const userEmail = await this.ups.getUserByEmail(userInfo.email);
-    if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS);
+  async createPatient(createPatient: CreatePatient): Promise<Patient> {
+    const patient = await this.pps.createPatient({ ...createPatient, isActive: true });
 
-    await this.pps.getProfessionalById(professional);
-
-    const patient = await this.cps.createPatient({ professional, ...additionalInfo, isActive: true });
-    const _user: CreateUser = {
-      ...userInfo,
-      patient: patient._id,
-    };
-    
-    if (additionalInfo.countryCode) _user.countryCode = additionalInfo.countryCode;
-    if (additionalInfo.country) _user.country = additionalInfo.country;
-
-    const user = await this.ums.createUserAndPatient(_user);
-    await this.cps.updateUser(patient._id, user._id);
-
-    const _patient = {
-      ...patient,
-      userInfo: {
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-      },
-    };
-    return _patient;
-  } */
-  /* //TODO: without use still, create and enpoint for it
-  async activatePatient({ updateUserInfo, ...rest }: UpdatePatientMobileDto, selectors: string[]): Promise<Patient> {
-    await this.ums.activateUserAndPatient(updateUserInfo);
-    const _patient = {
-      ...rest,
-      state: PatientState.ACTIVE,
-      isActive: true,
-    };
-    const patient = await this.cps.updatePatient(_patient, selectors);
     return patient;
-  } */
+  }
+  async updatePatient(updatePatient: UpdatePatient, selectors?: string[]): Promise<Patient> {
+    const patient = await this.pps.updatePatient(updatePatient, selectors);
+    return patient;
+  }
+  async getPatient(professional: string, patient: string) {
+    const _patient = await this.pps.getPatient(professional, patient, { _id: 1 });
+    return _patient;
+  }
+  async getPatientById(patient: string): Promise<Patient> {
+    const _patient = await this.pps.getPatientById(patient);
+    return _patient;
+  }
+  async getPatientByUser(user: string) {
+    const patient = await this.pps.getPatientByUser(user);
+    return patient;
+  }
+  async deleteManyPatientGroup(professional: string, patientGroup: string) {
+    const patient = await this.pps.deleteManyPatientGroup({
+      professional,
+      patientGroup,
+    });
+    return patient;
+  }
+  async getManyPatientsByIds(ṕatients: string[]): Promise<Patient[]> {
+    const _patients = await this.pps.getManyPatientsByIds(ṕatients);
+    return _patients;
+  }
 }

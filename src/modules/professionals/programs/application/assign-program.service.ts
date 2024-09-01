@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PatientPlanPartial, PatientWithAssignedDate } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
-import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
 import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/assign-program.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import dayjs from 'dayjs';
@@ -10,11 +9,12 @@ import { ProgramsPersistenceService } from 'src/modules/professionals/programs/a
 import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPatial } from 'src/modules/professionals/programs/adapters/out/program.types';
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
+import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 
 @Injectable()
 export class AssignProgramService {
   constructor(
-    private cps: PatientsPersistenceService,
+    private pms: PatientManagementService,
     private cpps: PatientPlansPersistenceService,
     private pps: PlansPersistenceService,
     private prps: ProgramsPersistenceService
@@ -52,7 +52,7 @@ export class AssignProgramService {
     }
   }
   async assignProgramToPatient(dto: AssignProgramDto): Promise<PatientPlan[]> {
-    await this.cps.getManyPatientsById(dto.patients);
+    await this.pms.getManyPatientsByIds(dto.patients);
     const program = await this.pps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, programPlanSelector);
     const newPatientPlans: PatientPlanPartial[] = this.preparePatientPlanBodies(program.plans, dto);
 

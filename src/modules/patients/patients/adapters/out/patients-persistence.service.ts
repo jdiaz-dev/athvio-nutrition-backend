@@ -89,7 +89,7 @@ export class PatientsPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getManyPatientsById(patients: string[]): Promise<Patient[]> {
+  async getManyPatientsByIds(patients: string[]): Promise<Patient[]> {
     try {
       const patientsRes = await this.patientModel.find({ _id: { $in: patients } }, { _id: 1 });
       if (patients.length !== patientsRes.length) throw new BadRequestException(ErrorPatientsEnum.CLIENTS_TO_SEARCH_ERROR);

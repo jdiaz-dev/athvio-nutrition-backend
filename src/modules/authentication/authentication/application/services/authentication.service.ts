@@ -8,7 +8,7 @@ import { UsersPersistenceService } from 'src/modules/authentication/users/adapte
 import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
-import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
+import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 
 @Injectable()
 export class AuthenticationService implements IValidateUserUseCase {
@@ -16,7 +16,7 @@ export class AuthenticationService implements IValidateUserUseCase {
     private readonly jwtService: JwtService,
     private ups: UsersPersistenceService,
     private pps: ProfessionalsPersistenceService,
-    private paps: PatientsPersistenceService,
+    private pms: PatientManagementService,
   ) {}
   async validateCredentials(email: string, _password: string): Promise<UserValidated> {
     const user = await this.ups.getUserByEmail(email);
@@ -31,7 +31,7 @@ export class AuthenticationService implements IValidateUserUseCase {
       const professional = await this.pps.getProfessionalByUser(_id);
       if (!professional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
     } else if (role === EnumRoles.PATIENT) {
-      const patient = await this.paps.getPatientByUser(_id);
+      const patient = await this.pms.getPatientByUser(_id);
       if (!patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
     }
 
@@ -49,7 +49,7 @@ export class AuthenticationService implements IValidateUserUseCase {
     if (role === EnumRoles.PROFESSIONAL) {
       return (await this.pps.getProfessionalByUser(user))._id;
     } else {
-      return (await this.paps.getPatientByUser(user))._id;
+      return (await this.pms.getPatientByUser(user))._id;
     }
   }
 }

@@ -9,6 +9,9 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { PatientGroupsModule } from 'src/modules/professionals/patient-groups/patient-groups.module';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 
+const resolvers = [PatientsResolver];
+const services = [PatientsPersistenceService, ManagePatientGroupService, PatientManagementService];
+
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Patient.name, schema: PatientSchema }]),
@@ -16,7 +19,7 @@ import { AuthenticationModule } from 'src/modules/authentication/authentication/
     forwardRef(() => PatientGroupsModule),
     forwardRef(() => ProfessionalsModule),
   ],
-  providers: [PatientsResolver, ...[PatientsPersistenceService, ManagePatientGroupService, PatientManagementService]],
-  exports: [PatientsPersistenceService],
+  providers: [...resolvers, ...services],
+  exports: [PatientManagementService],
 })
 export class PatientsModule {}

@@ -1,17 +1,17 @@
-import { PatientsPersistenceService } from './../../patients/adapters/out/patients-persistence.service';
 import { Injectable } from '@nestjs/common';
 import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/patient-plan-comment/add-patient-plan-comment.dto';
 import { PatientPlanCommentPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-comment-persistence.service';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { CommenterType } from 'src/shared/enums/project';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
+import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 
 @Injectable()
 export class AddPatientPlanCommentService {
   constructor(
     private pps: ProfessionalsPersistenceService,
 
-    private cps: PatientsPersistenceService,
+    private pms: PatientManagementService,
     private cpcps: PatientPlanCommentPersistenceService,
   ) {}
 
@@ -19,7 +19,7 @@ export class AddPatientPlanCommentService {
     if (dto.commenter.type === CommenterType.PROFESSIONAL) {
       await this.pps.getProfessionalById(dto.commenter.commenterId, { _id: 1 });
     } else {
-      await this.cps.getPatientById(dto.commenter.commenterId);
+      await this.pms.getPatientById(dto.commenter.commenterId);
     }
 
     const patientPlan = await this.cpcps.addPatientPlanComment(dto, selectors);

@@ -4,7 +4,6 @@ import { UsersPersistenceService } from 'src/modules/authentication/users/adapte
 import * as bcryptjs from 'bcryptjs';
 import { CreateUser } from 'src/modules/authentication/users/adapters/out/users-types';
 import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-professional.dto';
-import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
 import {
   SignUpPatientDto,
   SignUpPatientResponse,
@@ -16,14 +15,15 @@ import { EnumRoles, LayersServer, PatientState } from 'src/shared/enums/project'
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
+import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 
 @Injectable()
 export class SignUpService {
   private layer = LayersServer.APPLICATION;
   constructor(
     private ups: UsersPersistenceService,
-    private pms: ProfessionalsManagementService,
-    private pps: PatientsPersistenceService,
+    private prms: ProfessionalsManagementService,
+    private pms: PatientManagementService,
     private as: AuthenticationService,
   ) {}
 
@@ -39,7 +39,7 @@ export class SignUpService {
     };
     const { _id, role } = await this.ups.createUser(_user);
 
-    await this.pms.createProfessional({
+    await this.prms.createProfessional({
       user: _id,
       ...professionalInfo,
     });
@@ -50,7 +50,7 @@ export class SignUpService {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
-    const prof = await this.pms.getProfessionalById(professional);
+    const prof = await this.prms.getProfessionalById(professional);
     if (!prof) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
     let _user: CreateUser = {
@@ -68,9 +68,7 @@ export class SignUpService {
     };
     const { _id, firstname, lastname, email } = await this.ups.createUser(_user);
 
-    //todo: remove it
-    // await this.pps.updateUser(patient._id, user._id);
-    const patient = await this.pps.createPatient({ professional, user: _id, ...additionalInfo, isActive: true });
+    const patient = await this.pms.createPatient({ professional, user: _id, ...additionalInfo, isActive: true });
 
     const _patient = {
       ...patient,
@@ -90,7 +88,7 @@ export class SignUpService {
 
     const randomPassword = randomBytes(8 / 2).toString('hex');
     await this.ups.updateUser({ user: _id, isActive: true, password: this.encryptPassword(randomPassword) });
-    const activatedPatient = await this.pps.updatePatient({ user: _id, state: PatientState.ACTIVE });
+    const activatedPatient = await this.pms.updatePatient({ user: _id, state: PatientState.ACTIVE });
     return activatedPatient;
   }
 
