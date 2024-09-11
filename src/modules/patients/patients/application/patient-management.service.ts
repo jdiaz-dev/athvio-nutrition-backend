@@ -24,7 +24,7 @@ export class PatientManagementService {
     const _patient = await this.pps.getPatientById(patient);
     return _patient;
   }
-  async getPatientByUser(user: string) {
+  async getPatientByUser(user: string): Promise<Patient> {
     const patient = await this.pps.getPatientByUser(user);
     return patient;
   }
