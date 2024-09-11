@@ -59,7 +59,7 @@ registerEnumType(IngredientType, {
 const EquivalentSchema = SchemaFactory.createForClass(Equivalent);
 
 @ObjectType()
-@Schema({ _id: false })
+@Schema({ _id: true, timestamps: true })
 export class IngredientDetail extends Equivalent {
   @Field(() => [Equivalent])
   @Prop({ type: [EquivalentSchema], required: true, default: [] })
