@@ -8,6 +8,7 @@ import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dt
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
+import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
 @Injectable()
 export class MealsPersistenceService {
@@ -34,7 +35,12 @@ export class MealsPersistenceService {
     }
   }
 
-  async updateMeal({ professional, program, plan, meal, mealBody }: UpdateMealDto, selectors: string[]): Promise<Program> {
+  async updateMeal(
+    { professional, program, plan, meal, mealBody }: UpdateMealDto,
+    selectors: Record<string, number>,
+  ): Promise<Program> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+
     try {
       const programRes = await this.programModel.findOneAndUpdate(
         { _id: program, professional },
@@ -59,13 +65,26 @@ export class MealsPersistenceService {
             },
           ],
           new: true,
-          projection: selectors,
+          projection: {
+            ...restFields,
+            plans: {
+              $filter: {
+                input: '$plans',
+                as: 'plan',
+                cond: {
+                  $and: [{ $eq: ['$$plan.isDeleted', false] }],
+                },
+              },
+            },
+          },
         },
       );
       if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND, this.layer);
 
       return programRes;
     } catch (error) {
+      console.log(error);
+      //todo: urgent add logger
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
