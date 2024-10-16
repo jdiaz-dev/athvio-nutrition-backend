@@ -53,7 +53,16 @@ import { QuestionaryConfigurationModule } from 'src/modules/professionals/questi
           fieldResolverEnhancers: ['interceptors'],
           includeStacktraceInErrorResponses: false,
           subscriptions: {
-            'graphql-ws': true,
+            'graphql-ws': {
+              onConnect: (context: any) => {
+                const { connectionParams, extra } = context;
+                console.log('---------context', context)
+                console.log('---------connectionParams', connectionParams)
+                // user validation will remain the same as in the example above
+                // when using with graphql-ws, additional context value should be stored in the extra field
+                extra.user = { user: {} };
+              },
+            },
           },
           plugins: [ApolloServerPluginLandingPageLocalDefault()],
           sortSchema: true,

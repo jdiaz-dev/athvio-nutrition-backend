@@ -6,18 +6,23 @@ import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-help
 import { Chat } from 'src/modules/patients/chats/adapters/out/chat.schema';
 import { ChatManagerService } from 'src/modules/patients/chats/application/chat-manager.service';
 import { SaveChatCommentDto } from 'src/modules/patients/chats/adapters/in/dtos/save-chat-comment.dto';
-import { SubscribeCommentAddedDto } from 'src/modules/patients/chats/adapters/in/dtos/subscribe-comment-addded.dto';
+import { SubscribePublishedMessageDto } from 'src/modules/patients/chats/adapters/in/dtos/subscribe-comment-addded.dto';
 import { CommenterType } from 'src/shared/enums/project';
 import { PartialChat } from 'src/modules/patients/chats/adapters/out/chema.types';
 import { GetChatDto } from 'src/modules/patients/chats/adapters/in/dtos/get-chat-dto';
 
 const pubSub = new PubSub();
 
+enum SubscriptionNames {
+  PATIENT_MESSAGED = 'patientMessaged',
+  PROFESSIONAL_MESSAGED = 'professionalMessaged',
+}
+
 @Resolver(() => Chat)
+// @UseGuards(AuthorizationGuard)
 export class ChatsResolver {
   constructor(private cms: ChatManagerService) {}
 
-  @UseGuards(AuthorizationGuard)
   @Query(() => Chat, { nullable: true })
   async getChat(@Args('chat') dto: GetChatDto): Promise<Chat> {
     const chat = await this.cms.getChat(dto);
@@ -35,27 +40,41 @@ export class ChatsResolver {
 
     if (!dto.professional && dto.comment.commenter === CommenterType.PATIENT) {
       const chat = { _id, professional, patient, comments };
-      pubSub.publish('commentAddedByPatient', { commentAddedByPatient: chat });
+      pubSub.publish(SubscriptionNames.PATIENT_MESSAGED, { patientMessaged: chat });
       return chat;
     } else {
       const chat = { _id, patient, comments };
-      pubSub.publish('commentAddedByProfessional', { commentAddedByProfessional: chat });
+      pubSub.publish(SubscriptionNames.PROFESSIONAL_MESSAGED, { professionalMessaged: chat });
       return chat;
     }
   }
 
   @Subscription(() => Chat, {
-    name: 'commentAddedByPatient',
+    name: SubscriptionNames.PATIENT_MESSAGED,
     defaultValue: null,
     nullable: true,
-    filter: (payload: { commentAddedByPatient: PartialChat }, variables: { input: SubscribeCommentAddedDto }): boolean => {
-      const subscribe =
-        variables.input.professional && variables.input.patient === payload.commentAddedByPatient.patient.toString();
+    filter: (payload: { patientMessaged: PartialChat }, variables: { input: SubscribePublishedMessageDto }): boolean => {
+      const subscribe = variables.input.professional && variables.input.patient === payload.patientMessaged.patient.toString();
       return subscribe;
     },
   })
-  commentAddedSubscription(@Args('input') _dto: SubscribeCommentAddedDto) {
-    const res = pubSub.asyncIterator('commentAddedByPatient');
+  patientMessagedSubscription(@Args('input') _dto: SubscribePublishedMessageDto) {
+    const res = pubSub.asyncIterator(SubscriptionNames.PATIENT_MESSAGED);
+    return res;
+  }
+  @Subscription(() => Chat, {
+    name: SubscriptionNames.PROFESSIONAL_MESSAGED,
+    defaultValue: null,
+    nullable: true,
+    filter: (payload: { professionalMessaged: PartialChat }, variables: { input: SubscribePublishedMessageDto }): boolean => {
+      const subscribe =
+        variables.input.professional && variables.input.patient === payload.professionalMessaged.patient.toString();
+      return subscribe;
+    },
+  })
+  professionalMessagedSubscription(@Args('input') _dto: SubscribePublishedMessageDto) {
+    const res = pubSub.asyncIterator(SubscriptionNames.PROFESSIONAL_MESSAGED);
+
     return res;
   }
 }
