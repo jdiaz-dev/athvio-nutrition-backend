@@ -9,12 +9,12 @@ import { ProgramsPersistenceService } from 'src/modules/professionals/programs/a
 import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPatial } from 'src/modules/professionals/programs/adapters/out/program.types';
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
-import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
+import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 
 @Injectable()
 export class AssignProgramService {
   constructor(
-    private pms: PatientManagementService,
+    private gps: GetPatientsService,
     private cpps: PatientPlansPersistenceService,
     private pps: PlansPersistenceService,
     private prps: ProgramsPersistenceService
@@ -52,7 +52,7 @@ export class AssignProgramService {
     }
   }
   async assignProgramToPatient(dto: AssignProgramDto): Promise<PatientPlan[]> {
-    await this.pms.getManyPatientsByIds(dto.patients);
+    await this.gps.getManyPatientsByIds(dto.patients);
     const program = await this.pps.getProgramPlanFilteredByDay({ professional: dto.professional, program: dto.program, day: dto.startingDay }, programPlanSelector);
     const newPatientPlans: PatientPlanPartial[] = this.preparePatientPlanBodies(program.plans, dto);
 
