@@ -1,19 +1,19 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { GetPatientsDto, GetPatientsResponse } from 'src/modules/patients/patients/adapters/in/dtos/get-patients.dto';
+import { GetPatientsDto, GetPatientsResponse } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patients.dto';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
-import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/dtos/manage-patient-group.dto';
+import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { ManagePatientGroupService } from 'src/modules/patients/patients/application/manage-patient-group.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
-import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/dtos/manage-patient-state.dto';
-import { GetPatientDto } from 'src/modules/patients/patients/adapters/in/dtos/get-patient.dto';
+import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
+import { GetPatientDto } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patient.dto';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
-export class PatientsResolver {
+export class PatientQuestionariesResolver {
   constructor(private readonly cps: PatientsPersistenceService, private mcgs: ManagePatientGroupService) {}
 
   //todo: deprecate it?

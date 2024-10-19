@@ -363,6 +363,10 @@ type GetCustomRecipesResponse {
   meta: Meta!
 }
 
+input GetDataPatientDto {
+  patient: String!
+}
+
 input GetFoodsDto {
   foodDatabase: String!
   limit: Float = 30
@@ -376,11 +380,6 @@ input GetFoodsDto {
 type GetFoodsResponse {
   data: [Food!]!
   meta: FoodsMeta!
-}
-
-input GetPatientDto {
-  patient: String!
-  professional: String!
 }
 
 input GetPatientGroupsDto {
@@ -701,7 +700,7 @@ type Query {
   getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
-  getPatient(patient: GetPatientDto!): Patient!
+  getPatient(patient: GetDataPatientDto!): Patient!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
   getPatientPlans(patientPlans: GetPatientPlansDto!): [PatientPlan!]!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!

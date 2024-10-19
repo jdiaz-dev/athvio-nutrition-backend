@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FlattenMaps, Model, UpdateWriteOpResult, Types } from 'mongoose';
-import { GetPatientsDto, GetPatientsResponse } from 'src/modules/patients/patients/adapters/in/dtos/get-patients.dto';
+import { GetPatientsDto, GetPatientsResponse } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patients.dto';
 import { Patient, PatientDocument } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ErrorPatientsEnum, InternalErrors } from 'src/shared/enums/messages-response';
-import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/dtos/manage-patient-state.dto';
-import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/dtos/manage-patient-group.dto';
+import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
+import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { PatientState, ManagePatientGroup } from 'src/shared/enums/project';
 import { CreatePatient, DeleteManyPatientGroup, UpdatePatient } from 'src/modules/patients/patients/adapters/out/patient.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
@@ -68,10 +68,12 @@ export class PatientsPersistenceService {
   }
   async getPatientById(patientId: string): Promise<Patient> {
     try {
-      const patientRes = await this.patientModel.findOne({
-        _id: patientId,
-        state: PatientState.ACTIVE,
-      });
+      const patientRes = await this.patientModel.findOne(
+        {
+          _id: patientId,
+          state: PatientState.ACTIVE,
+        },
+      );
       if (!patientRes) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
       return patientRes;
     } catch (error) {

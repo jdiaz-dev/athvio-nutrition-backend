@@ -56,8 +56,9 @@ import { QuestionaryConfigurationModule } from 'src/modules/professionals/questi
             'graphql-ws': {
               onConnect: (context: any) => {
                 const { connectionParams, extra } = context;
-                console.log('---------context', context)
-                console.log('---------connectionParams', connectionParams)
+                connectionParams
+                // console.log('---------context', context)
+                // console.log('---------connectionParams', connectionParams)
                 // user validation will remain the same as in the example above
                 // when using with graphql-ws, additional context value should be stored in the extra field
                 extra.user = { user: {} };
