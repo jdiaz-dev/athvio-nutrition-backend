@@ -10,27 +10,32 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { GetPatientDto } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patient.dto';
+import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PatientsWebResolver {
-  constructor(private readonly cps: PatientsPersistenceService, private mcgs: ManagePatientGroupService) {}
+  constructor(
+    private readonly gps: GetPatientsService,
+    private readonly pps: PatientsPersistenceService,
+    private mcgs: ManagePatientGroupService,
+  ) {}
 
   @Query(() => Patient)
   async getPatient(
     @Args('patient') dto: GetPatientDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Patient> {
-    const patient = await this.cps.getPatient(dto.professional, dto.patient, selectors);
+    const patient = await this.gps.getPatient(dto.patient, dto.professional, selectors);
     return patient;
   }
-  
+
   @Query(() => GetPatientsResponse)
   async getPatients(
     @Args('input') dto: GetPatientsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetPatientsResponse> {
-    const patientGroup = await this.cps.getPatients(dto, selectors);
+    const patientGroup = await this.gps.getPatients(dto, selectors);
     return patientGroup;
   }
 
@@ -44,6 +49,6 @@ export class PatientsWebResolver {
     @Args('input') dto: ManagePatientStateDto,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Patient> {
-    return this.cps.managePatientState(dto, selectors);
+    return this.pps.managePatientState(dto, selectors);
   }
 }

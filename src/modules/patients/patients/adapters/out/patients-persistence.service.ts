@@ -28,16 +28,18 @@ export class PatientsPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getPatient(professional: string, patient: string, selectors: Record<string, number>): Promise<Patient> {
+  async getPatient(filters: Record<string, string>, selectors: Record<string, number>): Promise<Patient> {
     const restFields = removeAttributesWithFieldNames(selectors, ['user']);
+
+    let mappedFilters: any = {};
+    for (let filter in filters) {
+      mappedFilters[filter] = new Types.ObjectId(filters[filter]);
+    }
 
     try {
       const patientRes = await this.patientModel.aggregate([
         {
-          $match: {
-            _id: new Types.ObjectId(patient),
-            professional: new Types.ObjectId(professional),
-          },
+          $match: { ...mappedFilters },
         },
         {
           $lookup: {
@@ -68,12 +70,10 @@ export class PatientsPersistenceService {
   }
   async getPatientById(patientId: string): Promise<Patient> {
     try {
-      const patientRes = await this.patientModel.findOne(
-        {
-          _id: patientId,
-          state: PatientState.ACTIVE,
-        },
-      );
+      const patientRes = await this.patientModel.findOne({
+        _id: patientId,
+        state: PatientState.ACTIVE,
+      });
       if (!patientRes) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
       return patientRes;
     } catch (error) {

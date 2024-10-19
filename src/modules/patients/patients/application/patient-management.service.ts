@@ -16,18 +16,6 @@ export class PatientManagementService {
     const patient = await this.pps.updatePatient(updatePatient, selectors);
     return patient;
   }
-  async getPatient(professional: string, patient: string) {
-    const _patient = await this.pps.getPatient(professional, patient, { _id: 1 });
-    return _patient;
-  }
-  async getPatientById(patient: string): Promise<Patient> {
-    const _patient = await this.pps.getPatientById(patient);
-    return _patient;
-  }
-  async getPatientByUser(user: string): Promise<Patient> {
-    const patient = await this.pps.getPatientByUser(user);
-    return patient;
-  }
   async deleteManyPatientGroup(professional: string, patientGroup: string) {
     const patient = await this.pps.deleteManyPatientGroup({
       professional,

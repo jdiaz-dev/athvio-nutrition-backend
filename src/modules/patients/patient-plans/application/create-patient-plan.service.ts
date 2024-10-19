@@ -10,7 +10,7 @@ export class CreatePatientPlanService {
   constructor(private gps: GetPatientsService, private cpps: PatientPlansPersistenceService) {}
 
   async createPatientPlan(dto: CreatePatientPlanDto): Promise<PatientPlan> {
-    const patient = await this.gps.getPatient(dto.professional, dto.patient);
+    const patient = await this.gps.getPatient(dto.patient, dto.professional);
     if (!patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 
     const patientPlan = await this.cpps.createPatientPlan(dto);
