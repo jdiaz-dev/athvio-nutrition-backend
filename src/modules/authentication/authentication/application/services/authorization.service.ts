@@ -11,4 +11,9 @@ export class AuthorizationService {
     if (_user.role !== EnumRoles.PROFESSIONAL) throw new UnauthorizedException(AuthorizationMessages.NOT_AUTHORIZED);
     return true;
   }
+  async verifyIfIsPatient(user: string): Promise<boolean> {
+    const _user = await this.ups.getUserById(user);
+    if (_user.role !== EnumRoles.PATIENT) throw new UnauthorizedException(AuthorizationMessages.NOT_AUTHORIZED);
+    return true;
+  }
 }

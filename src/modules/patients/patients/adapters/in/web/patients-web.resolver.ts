@@ -9,7 +9,7 @@ import { AuthorizationGuard } from 'src/modules/authentication/authentication/ad
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
-import { GetPatientDto } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patient.dto';
+import { GetPatientForWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patient.dto';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 
 @Resolver(() => Patient)
@@ -22,8 +22,8 @@ export class PatientsWebResolver {
   ) {}
 
   @Query(() => Patient)
-  async getPatient(
-    @Args('patient') dto: GetPatientDto,
+  async getPatientForWeb(
+    @Args('patient') dto: GetPatientForWebDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Patient> {
     const patient = await this.gps.getPatient(dto.patient, dto.professional, selectors);

@@ -38,7 +38,7 @@ export class ChatsResolver {
   ): Promise<PartialChat> {
     const { _id, professional, patient, comments } = await this.cms.addChatComment(dto, selectors);
 
-    if (!dto.professional && dto.comment.commenter === CommenterType.PATIENT) {
+    if (dto.comment.commenter === CommenterType.PATIENT) {
       const chat = { _id, professional, patient, comments };
       pubSub.publish(SubscriptionNames.PATIENT_MESSAGED, { patientMessaged: chat });
       return chat;
