@@ -24,7 +24,7 @@ db.Programs.aggregate([
           $push: {
             title: '$plans.title',
             day: '$plans.day',
-            meals: '$plans.mealPlans',
+            meals: '$plans.meals',
           },
         },
       },

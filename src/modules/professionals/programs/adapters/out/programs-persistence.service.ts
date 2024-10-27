@@ -45,13 +45,12 @@ export class ProgramsPersistenceService {
           ...restFields,
           plans: {
             $filter: {
-              input: '$plans', as: 'plan', cond: {
-                $and: [
-                  { $eq: ['$$plan.isDeleted', false] },
-                  plan ? { $eq: ['$$plan._id', new Types.ObjectId(plan)] } : {}
-                ]
-              }
-            }
+              input: '$plans',
+              as: 'plan',
+              cond: {
+                $and: [{ $eq: ['$$plan.isDeleted', false] }, plan ? { $eq: ['$$plan._id', new Types.ObjectId(plan)] } : {}],
+              },
+            },
           },
         },
       },
@@ -88,7 +87,8 @@ export class ProgramsPersistenceService {
           plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
         },
       },
-      {
+      //todo: remove unwind for plans
+      /* {
         $unwind: {
           path: '$plans',
           preserveNullAndEmptyArrays: true
@@ -97,7 +97,6 @@ export class ProgramsPersistenceService {
       {
         $sort: { _id: 1, "plans.day": 1, }
       },
-
       {
         $group: {
           _id: "$_id",
@@ -108,7 +107,7 @@ export class ProgramsPersistenceService {
           programTags: { $push: "$programTags" },
           createdAt: { $push: "$createdAt" },
         }
-      },
+      }, */
       {
         //looking group for every _id contained in groups array
         $lookup: {
@@ -134,7 +133,7 @@ export class ProgramsPersistenceService {
         },
       },
       {
-        $sort: { createdAt: 1 }
+        $sort: { createdAt: 1 },
       },
       {
         $facet: {
@@ -198,10 +197,14 @@ export class ProgramsPersistenceService {
     return programRes;
   }
   async updateProgramPatients(program: string, professional: string, patients: string[]) {
-    const programRes = await this.programModel.findOneAndUpdate({ _id: program, professional, isDeleted: false }, { $push: { patients } }, {
-      new: true,
-      populate: 'programTags',
-    });
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: program, professional, isDeleted: false },
+      { $push: { patients } },
+      {
+        new: true,
+        populate: 'programTags',
+      },
+    );
     if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     return programRes;
   }
