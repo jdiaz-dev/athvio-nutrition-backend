@@ -87,7 +87,7 @@ export class ProgramsPersistenceService {
           plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
         },
       },
-      //todo: remove unwind for plans
+      //todo: not remove until to be sure that plans is always sorted by day
       /* {
         $unwind: {
           path: '$plans',
