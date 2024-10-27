@@ -16,87 +16,15 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 export class PlansPersistenceService {
   constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
 
-  async addProgramPlan({ professional, program, ...rest }: AddProgramPlanDto, selectors: Record<string, number>): Promise<Program> {
+  async addProgramPlan(
+    { professional, program, ...rest }: AddProgramPlanDto,
+    selectors: Record<string, number>,
+  ): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-    const programRes = await this.programModel
-      .findOneAndUpdate(
-        { _id: program, professional, isDeleted: false },
-        { $push: { plans: rest } },
-        {
-          new: true,
-          projection: {
-            ...restFields,
-            plans: {
-              $filter: {
-                input: '$plans',
-                as: 'plan',
-                cond: {
-                  $and: [
-                    { $eq: ['$$plan.isDeleted', false] }
-                  ]
-                }
-              }
-            }
-          }
-        });
-    // .populate('programTags plans');
-    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-
-    return programRes;
-  }
-
-  async addProgramPlanWithMeals({ professional, program, plan, day, week, ...rest }: DuplicateProgramPlanDto, selectors: Record<string, number>): Promise<Program> {
-    rest;
-    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-    restFields;
-    const programRes = await this.programModel
-      .findOneAndUpdate(
-        { _id: program, professional, isDeleted: false },
-        {
-          $push: {
-            plans: {
-              day, week,
-              title: rest.planToDuplicate.title,
-              meals: rest.planToDuplicate.meals,
-              planDetail: {
-                isDuplicate: true,
-                source: plan
-              }
-            }
-          }
-        },
-        {
-          new: true,
-          projection: {
-            ...restFields,
-            plans: {
-              $filter: {
-                input: '$plans',
-                as: 'plan',
-                cond: {
-                  $and: [
-                    { $eq: ['$$plan.isDeleted', false] }
-                  ]
-                }
-              }
-            }
-          }
-        });
-    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-
-    return programRes;
-  }
-
-  async updatePlanAssignedWeekDay({ professional, ...rest }: UpdatePlanAssignedWeekDayDto, selectors: Record<string, number>): Promise<Program> {
-    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-
     const programRes = await this.programModel.findOneAndUpdate(
-      { _id: rest.program, professional, isDeleted: false },
-      { $set: { 'plans.$[plan].week': rest.week, 'plans.$[plan].day': rest.day } },
+      { _id: program, professional, isDeleted: false },
+      { $push: { plans: rest } },
       {
-        arrayFilters: [
-          { 'plan._id': new Types.ObjectId(rest.plan), 'plan.isDeleted': false },
-        ],
         new: true,
         projection: {
           ...restFields,
@@ -105,12 +33,55 @@ export class PlansPersistenceService {
               input: '$plans',
               as: 'plan',
               cond: {
-                $and: [
-                  { $eq: ['$$plan.isDeleted', false] }
-                ]
-              }
-            }
-          }
+                $and: [{ $eq: ['$$plan.isDeleted', false] }],
+              },
+            },
+          },
+        },
+      },
+    );
+    // .populate('programTags plans');
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+
+    return programRes;
+  }
+
+  async addProgramPlanWithMeals(
+    { professional, program, plan, day, week, ...rest }: DuplicateProgramPlanDto,
+    selectors: Record<string, number>,
+  ): Promise<Program> {
+    rest;
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+    restFields;
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: program, professional, isDeleted: false },
+      {
+        $push: {
+          plans: {
+            day,
+            week,
+            title: rest.planToDuplicate.title,
+            meals: rest.planToDuplicate.meals,
+            planDetail: {
+              isDuplicate: true,
+              source: plan,
+            },
+          },
+        },
+      },
+      {
+        new: true,
+        projection: {
+          ...restFields,
+          plans: {
+            $filter: {
+              input: '$plans',
+              as: 'plan',
+              cond: {
+                $and: [{ $eq: ['$$plan.isDeleted', false] }],
+              },
+            },
+          },
         },
       },
     );
@@ -118,7 +89,41 @@ export class PlansPersistenceService {
 
     return programRes;
   }
-  async getProgramPlanFilteredByDay({ professional, program, day }: ProgramPlanFilteredByDay, selectors: Record<string, number>): Promise<ProgramPatial> {
+
+  async updatePlanAssignedWeekDay(
+    { professional, ...rest }: UpdatePlanAssignedWeekDayDto,
+    selectors: Record<string, number>,
+  ): Promise<Program> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+
+    const programRes = await this.programModel.findOneAndUpdate(
+      { _id: rest.program, professional, isDeleted: false },
+      { $set: { 'plans.$[plan].week': rest.week, 'plans.$[plan].day': rest.day } },
+      {
+        arrayFilters: [{ 'plan._id': new Types.ObjectId(rest.plan), 'plan.isDeleted': false }],
+        new: true,
+        projection: {
+          ...restFields,
+          plans: {
+            $filter: {
+              input: '$plans',
+              as: 'plan',
+              cond: {
+                $and: [{ $eq: ['$$plan.isDeleted', false] }],
+              },
+            },
+          },
+        },
+      },
+    );
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+
+    return programRes;
+  }
+  async getProgramPlanFilteredByDay(
+    { professional, program, day }: ProgramPlanFilteredByDay,
+    selectors: Record<string, number>,
+  ): Promise<ProgramPatial> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const programRes = await this.programModel.aggregate([
       {
@@ -136,11 +141,9 @@ export class PlansPersistenceService {
               input: '$plans',
               as: 'plan',
               cond: {
-                $and: [
-                  { $eq: ['$$plan.isDeleted', false] }, { $gte: ['$$plan.day', day] }
-                ]
-              }
-            }
+                $and: [{ $eq: ['$$plan.isDeleted', false] }, { $gte: ['$$plan.day', day] }],
+              },
+            },
           },
         },
       },
@@ -160,9 +163,12 @@ export class PlansPersistenceService {
     selectors;
     const programRes = await this.programModel.findOneAndUpdate(
       { _id: rest.program, professional, isDeleted: false },
-      { $set: { 'plans.$[el].isDeleted': true } },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(rest.plan), 'el.isDeleted': false }],
+        $pull: {
+          plans: { _id: new Types.ObjectId(rest.plan), isDeleted: false },
+        },
+      },
+      {
         new: true,
         projection: selectors,
       },
