@@ -9,12 +9,10 @@ provider:
     blockPublicAccess: true
   stackTags:
     domain-name: sonqo
-    system-name: nx-link-manager
+    system-name: athvio-nutrition
     vertical-name: merchants-development
     owner: ${file(catalog-info.yaml):spec.owner}
-    squad-name: sonqo
     shared-resource: false
-    gitlab-id: 39152068
     environment: ${self:custom.environments.${opt:stage}}
     provider: aws
   environment:
@@ -44,28 +42,25 @@ resources:
       Default: ${self:custom.Subnet.${opt:stage}.${aws:region}.subnet2}
     ComponentName:
       Type: String
-      Default: nx-link-manager
-    RepositoryNameNx:
+      Default: athvio-nutrition-backend/monolith
+    RepositoryNameAthNut:
       Type: String
-      Default: aws-payment-gateway/nx-link-manager
+      Default: athvio-nutrition-backend
     ExecutionRoleNxName:
       Type: String
-      Default: fargate-role-nx-link-manager
-    TargetGroupNxName2:
+      Default: fargate-role-athvio-nutrition
+    TargetGroupAthNutName2:
       Type: String
-      Default: nx-link-manager-tgr
+      Default: athvio-nutrition-tgr
     ServiceFamilyNameNx:
       Type: String
-      Default: service-nx-link-manager
+      Default: athvio-nutrition-manager
     ServiceNameNx:
       Type: String
-      Default: nx-link-manager-service
-    LinkManagerNxName:
+      Default: athvio-nutrition-service
+    LinkManagerAthNutName:
       Type: String
-      Default: nx-link-manager
-    AcquirerNxTableName:
-      Type: String
-      Default: nx-transactions
+      Default: athvio-nutrition
     ContainerName:
       Type: String
       Default: application
@@ -92,7 +87,7 @@ resources:
         - us-east-1
 
   Resources:
-    ExecutionTaskRoleNx:
+    ExecutionTaskRoleAthNut:
       Type: AWS::IAM::Role
       Condition: IsNorthVirg
       Properties:
@@ -106,10 +101,10 @@ resources:
                   - ecs.amazonaws.com
               Action: "sts:AssumeRole"
 
-    TargetGroupNx2:
+    TargetGroupAthNut2:
       Type: AWS::ElasticLoadBalancingV2::TargetGroup
       Properties:
-        Name: !Ref TargetGroupNxName2
+        Name: !Ref TargetGroupAthNutName2
         Port: !Ref AppContainerPort2
         HealthCheckPath: /ping
         HealthCheckPort: "57343"
@@ -118,10 +113,10 @@ resources:
         TargetType: ip
         VpcId: !Ref VPCId
 
-    TargetGroupNxForSocket:
+    TargetGroupAthNutForSocket:
       Type: AWS::ElasticLoadBalancingV2::TargetGroup
       Properties:
-        Name: !Join ["", [!Ref TargetGroupNxName2, "-socket"]]
+        Name: !Join ["", [!Ref TargetGroupAthNutName2, "-socket"]]
         Port: !Ref ClientPort
         HealthCheckPort: "57343"
         HealthCheckPath: /ping
@@ -130,30 +125,30 @@ resources:
         TargetType: ip
         VpcId: !Ref VPCId
 
-    ListenerNxHTTP2:
+    ListenerAthNutHTTP2:
       Type: AWS::ElasticLoadBalancingV2::Listener
       Properties:
         DefaultActions:
-          - TargetGroupArn: !Ref TargetGroupNx2
+          - TargetGroupArn: !Ref TargetGroupAthNut2
             Type: forward
-        LoadBalancerArn: !Ref LoadBalancerNx
+        LoadBalancerArn: !Ref LoadBalancerAthNut
         Port: !Ref LoadBalancerPort2
         Protocol: TCP
 
-    ListenerNxSocket:
+    ListenerAthNutSocket:
       DependsOn:
-        - TargetGroupNxForSocket
-        - LoadBalancerNx
+        - TargetGroupAthNutForSocket
+        - LoadBalancerAthNut
       Type: AWS::ElasticLoadBalancingV2::Listener
       Properties:
         DefaultActions:
-          - TargetGroupArn: !Ref TargetGroupNxForSocket
+          - TargetGroupArn: !Ref TargetGroupAthNutForSocket
             Type: forward
-        LoadBalancerArn: !Ref LoadBalancerNx
+        LoadBalancerArn: !Ref LoadBalancerAthNut
         Port: !Ref ClientPort
         Protocol: TCP
 
-    LoadBalancerNx:
+    LoadBalancerAthNut:
       Type: AWS::ElasticLoadBalancingV2::LoadBalancer
       Properties:
         Type: network
@@ -209,7 +204,7 @@ resources:
               Action: s3:GetBucketAcl
               Resource: !GetAtt LoadBalancerAccessLogsBucket.Arn
 
-    TaskDefinitionNx:
+    TaskDefinitionAthNut:
       Type: AWS::ECS::TaskDefinition
       Properties:
         Family: !Ref ServiceFamilyNameNx
@@ -231,7 +226,7 @@ resources:
                   ".dkr.ecr.",
                   "${aws:region}",
                   ".amazonaws.com/",
-                  !Ref RepositoryNameNx,
+                  !Ref RepositoryNameAthNut,
                   ":xxxxxxxx-",
                   "${self:custom.image.${opt:stage}}",
                 ],
@@ -254,7 +249,7 @@ resources:
                 awslogs-create-group: "true"
                 awslogs-stream-prefix: !Join ["", ["ecs-", !Ref ComponentName]]
 
-    LogGroupNx:
+    LogGroupAthNut:
       Type: AWS::Logs::LogGroup
       Properties:
         LogGroupName: !Join ["", ["/ecs/logs-", !Ref ComponentName, "-${aws:region}"]]
@@ -264,23 +259,23 @@ resources:
       Type: AWS::Logs::SubscriptionFilter
       Properties:
         RoleArn: arn:aws:iam::${aws:accountId}:role/${opt:stage}-kinesis-firehose-datadog-CloudWatchLogsRole-${self:custom.${aws:region}}
-        LogGroupName: !Ref LogGroupNx
+        LogGroupName: !Ref LogGroupAthNut
         FilterPattern: ""
         DestinationArn: arn:aws:firehose:${aws:region}:${aws:accountId}:deliverystream/${opt:stage}-kinesis-firehose-datadog-DatadogDeliveryStream
 
     ServiceNx:
       Type: AWS::ECS::Service
       DependsOn:
-        - ListenerNxHTTP2
-        - ListenerNxSocket
-        - TargetGroupNx2
-        - TargetGroupNxForSocket
+        - ListenerAthNutHTTP2
+        - ListenerAthNutSocket
+        - TargetGroupAthNut2
+        - TargetGroupAthNutForSocket
       Properties:
         LaunchType: FARGATE
         DesiredCount: 1
         ServiceName: !Ref ServiceNameNx
         Cluster: !Ref ClusterArn
-        TaskDefinition: !Ref TaskDefinitionNx
+        TaskDefinition: !Ref TaskDefinitionAthNut
         NetworkConfiguration:
           AwsvpcConfiguration:
             AssignPublicIp: ENABLED
@@ -292,10 +287,10 @@ resources:
         LoadBalancers:
           - ContainerName: !Ref ContainerName
             ContainerPort: !Ref AppContainerPort2
-            TargetGroupArn: !Ref TargetGroupNx2
+            TargetGroupArn: !Ref TargetGroupAthNut2
           - ContainerName: !Ref ContainerName
             ContainerPort: !Ref ClientPort
-            TargetGroupArn: !Ref TargetGroupNxForSocket
+            TargetGroupArn: !Ref TargetGroupAthNutForSocket
 
     FargatePolicyNx:
       Type: AWS::IAM::Policy
@@ -322,46 +317,28 @@ resources:
                 - "cloudwatch:*"
               Resource: "*"
         Roles:
-          - !Ref ExecutionTaskRoleNx
+          - !Ref ExecutionTaskRoleAthNut
 
 custom:
   environments:
     develop: dev
-    staging: stg
-    testing: stg
-    prodblue: prd
   us-east-1: novi
   us-east-2: ohio
-  serviceName: nx-link-manager
-  clusterName: sonqo-cluster
+  serviceName: athvio-nutrition
+  clusterName: athvio-nutrition-cluster
   authorizer:
     develop: dev
-    staging: stg
-    testing: stg
-    prodblue: prd
   image:
     develop: integration
-    staging: staging
-    prodblue: prodblue
   securityGroup:
     develop:
       us-east-1: sg-024a78937c084982a
       us-east-2: sg-03299823a9eb49421
-    staging:
-      us-east-1: sg-0a5d8f2a40b378521
-      us-east-2: sg-08b1fdb4f125a016b
-    prodblue:
-      us-east-1: sg-03fb01f7e55c7c1b1
-      us-east-2: sg-084dd75b3403edfc1
   VPCId:
     us-east-1:
       develop: vpc-036adcc6e31414ce0
-      staging: vpc-0f70f87416b5802aa
-      prodblue: vpc-03c6d31f3a2512402
     us-east-2:
       develop: vpc-00339ce5f4d4614b3
-      staging: vpc-0aff95265cbae47e7
-      prodblue: vpc-06191280e3d7a4fba
   Subnet:
     develop:
       us-east-1:
@@ -370,20 +347,5 @@ custom:
       us-east-2:
         subnet1: subnet-0a8f729b279c4bb88
         subnet2: subnet-0eaa1b28135c5f104
-    staging:
-      us-east-1:
-        subnet1: subnet-05d629bf6bc7531b1
-        subnet2: subnet-0b5579f4f2c4e7aa4
-      us-east-2:
-        subnet1: subnet-0bce0be7369293651
-        subnet2: subnet-0a33abacab213764e
-    prodblue:
-      us-east-1:
-        subnet1: subnet-0d7803929a36d2365
-        subnet2: subnet-0d02f7b7702ec89d1
-      us-east-2:
-        subnet1: subnet-0dea34658657b7532
-        subnet2: subnet-0b01f93016ddd2464
 
-plugins:
-  - '@nx-sse/resource-tagging-plugin'
+
