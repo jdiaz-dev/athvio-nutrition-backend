@@ -8,5 +8,3 @@ services:
       - 27017:27017
     volumes:
       - $PWD/mongo-data:/data/db'
-
-# to run docker ===> docker compose up

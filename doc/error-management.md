@@ -1,4 +1,4 @@
-This app use the errors provided by default for Nest.js 
+For error management this app use the errors provided by default for Nest.js 
 
 ## Database
 - InternalServerErrorException : when problem with database has 
