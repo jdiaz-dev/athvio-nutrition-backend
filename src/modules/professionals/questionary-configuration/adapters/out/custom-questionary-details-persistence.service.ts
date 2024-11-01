@@ -16,7 +16,6 @@ export class CustomQuestionaryDetailsPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
   constructor(@InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>) {
-    this.questionaryConfig;
   }
   async addQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetailBodies }: AddQuestionaryDetail,
