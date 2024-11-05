@@ -1,6 +1,6 @@
 {
-  "executionRoleArn": "arn:aws:iam::$ACCOUNT:role/fargate-role-nx-link-manager",
-  "taskRoleArn": "arn:aws:iam::$ACCOUNT:role/fargate-role-nx-link-manager",
+  "executionRoleArn": "arn:aws:iam::$ACCOUNT:role/fargate-role-athvio-nutrition",
+  "taskRoleArn": "arn:aws:iam::$ACCOUNT:role/fargate-role-athvio-nutrition",
   "tags": [
     {
       "key": "domain-name",
@@ -8,23 +8,7 @@
     },
     {
       "key": "system-name",
-      "value": "nx-link-manager"
-    },
-    {
-      "key": "vertical-name",
-      "value": "merchants-development"
-    },
-    {
-      "key": "squad-name",
-      "value": "sonqo"
-    },
-    {
-      "key": "shared-resource",
-      "value": "false"
-    },
-    {
-      "key": "gitlab-id",
-      "value": "39179244"
+      "value": "athvio-nutrition"
     },
     {
       "key": "environment",
@@ -49,6 +33,10 @@
         {
           "name": "REGION",
           "value": "$REGION"
+        },
+        {
+          "name": "MONGO_DB_CONNECTION",
+          "value": "mongodb+srv://jonathandiaz:8h3mEnSRmjUXlrFp@cluster0.gpauz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
         }
       ],
       "name": "application",
@@ -58,17 +46,12 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/logs-nx-link-manager-$REGION",
+          "awslogs-group": "/ecs/logs-athvio-nurition-$REGION",
           "awslogs-region": "$REGION",
-          "awslogs-stream-prefix": "ecs-nx-payment-gateway"
+          "awslogs-stream-prefix": "ecs-athvio-nutrition"
         }
       },
       "portMappings": [
-        {
-          "hostPort": 8015,
-          "protocol": "tcp",
-          "containerPort": 8015
-        },
         {
           "containerPort": 57343,
           "hostPort": 57343,

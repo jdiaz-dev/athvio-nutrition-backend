@@ -20,7 +20,7 @@ async function bootstrap(): Promise<void> {
     }),
   );
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(57343);
+  await app.listen(process.env.PORT);
 }
 void bootstrap();
 /* 
