@@ -8,7 +8,6 @@ import { GraphQLResponse } from 'apollo-server-types';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ProfessionalsModule } from './modules/professionals/professionals/professionals.module';
 import { ProgramsModule } from './modules/professionals/programs/programs.module';
 import { ProgramTagsModule } from './modules/professionals/program-tags/program-tags.module';
@@ -56,7 +55,7 @@ import { QuestionaryConfigurationModule } from 'src/modules/professionals/questi
             'graphql-ws': {
               onConnect: (context: any) => {
                 const { connectionParams, extra } = context;
-                connectionParams
+                connectionParams;
                 // console.log('---------context', context)
                 // console.log('---------connectionParams', connectionParams)
                 // user validation will remain the same as in the example above
@@ -110,7 +109,7 @@ import { QuestionaryConfigurationModule } from 'src/modules/professionals/questi
     QuestionaryConfigurationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}
 
