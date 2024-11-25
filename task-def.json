@@ -3,10 +3,6 @@
   "taskRoleArn": "arn:aws:iam::$ACCOUNT:role/fargate-role-athvio-nutrition",
   "tags": [
     {
-      "key": "domain-name",
-      "value": "sonqo"
-    },
-    {
       "key": "system-name",
       "value": "athvio-nutrition"
     },
@@ -66,3 +62,4 @@
   "memory": "1024",
   "family": "aws-ecs"
 }
+//  add envrionment variables to the task definition
