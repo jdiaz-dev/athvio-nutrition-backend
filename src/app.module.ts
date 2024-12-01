@@ -202,11 +202,3 @@ export class AppModule {}
       - at moment to create a professional, create a questionary configuration
       - common table for questionary configuration
 */
-
-/* 
-  Deployment over fargate process
-    create and understand vpc
-    check sonqo cluster
-    check code of LM
-
-*/
