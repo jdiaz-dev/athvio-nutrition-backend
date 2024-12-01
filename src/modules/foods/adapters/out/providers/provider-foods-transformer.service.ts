@@ -1,19 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { Food, GetFoodsDto, GetFoodsResponse, Measure } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
-import { FoodHint, FoodMeasure, NextLink } from 'src/modules/foods/adapters/out/providers/food.types';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Food, FoodsMeta, GetFoodsDto, GetFoodsResponse, Measure } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
+import { FoodHint, FoodMeasure, FoodParsedResponse, NextLink } from 'src/modules/foods/adapters/out/providers/food.types';
 import { FoodsProviderService } from 'src/modules/foods/adapters/out/providers/foods-provider.service';
+import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
 import { defaultSizePageFoodProvider, FoodDatabases } from 'src/shared/enums/project';
 
 @Injectable()
 export class ProviderFoodTransformerService {
   constructor(private readonly foodProvider: FoodsProviderService) {}
 
-  private getNextSession(nextLink: NextLink): number {
+  private getNextSession(nextLink: NextLink): string {
     const nextLinkParams = nextLink.href.split('?')[1];
     const sessionParam = nextLinkParams.split('&')[0];
     const nextSessionValue = sessionParam.split('=')[1];
-
-    return parseInt(nextSessionValue);
+    return nextSessionValue;
   }
   private transformMeasure(measures: FoodMeasure[]): Measure[] {
     return measures
@@ -42,6 +42,39 @@ export class ProviderFoodTransformerService {
     }));
     return res;
   }
+  private parseDataFromProvider(totalParsedFoods: number, foodsFromProvider: FoodParsedResponse, meta: FoodsMeta) {
+    try {
+      let res: GetFoodsResponse;
+      if (totalParsedFoods === 0) {
+        res = {
+          data: this.transformFood(foodsFromProvider.hints),
+          meta,
+        };
+      } else {
+        res = {
+          //the first hints correspond to the parsed foods
+          data: this.transformFood(foodsFromProvider.hints.slice(0, totalParsedFoods)),
+          meta,
+        };
+      }
+
+      if (foodsFromProvider._links.next) {
+        res = {
+          data: [...res.data],
+          meta: {
+            ...res.meta,
+            foodProviderSessions: {
+              title: foodsFromProvider._links.next.title,
+              nextSession: this.getNextSession(foodsFromProvider._links.next),
+            },
+          },
+        };
+      }
+      return res;
+    } catch (error) {
+      throw new InternalServerErrorException(ErrorFoodsProvider.FOOD_INTERNAL_PARSER);
+    }
+  }
   async getFoodFromProvider(dto: GetFoodsDto): Promise<GetFoodsResponse> {
     const foodsFromProvider = await this.foodProvider.getFoods(dto.search.join(' '), dto.session);
     const totalParsedFoods = foodsFromProvider.parsed.length;
@@ -54,32 +87,7 @@ export class ProviderFoodTransformerService {
       offset: dto.offset,
     };
 
-    // eslint-disable-next-line immutable/no-let
-    let res: GetFoodsResponse;
-    if (totalParsedFoods === 0) {
-      res = {
-        data: this.transformFood(foodsFromProvider.hints),
-        meta,
-      };
-    } else {
-      res = {
-        //the first hints correspond to the parsed foods
-        data: this.transformFood(foodsFromProvider.hints.slice(0, totalParsedFoods)),
-        meta,
-      };
-    }
-    if (foodsFromProvider._links.next) {
-      res = {
-        data: [...res.data],
-        meta: {
-          ...res.meta,
-          foodProviderSessions: {
-            title: foodsFromProvider._links.next.title,
-            nextSession: this.getNextSession(foodsFromProvider._links.next),
-          },
-        },
-      };
-    }
-    return res;
+    const dataParsed = this.parseDataFromProvider(totalParsedFoods, foodsFromProvider, meta);
+    return dataParsed;
   }
 }

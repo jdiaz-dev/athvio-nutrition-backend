@@ -314,7 +314,7 @@ type Food {
 }
 
 type FoodProviderSession {
-  nextSession: Float!
+  nextSession: String!
   title: String!
 }
 
@@ -370,7 +370,7 @@ input GetFoodsDto {
   orderBy: String
   professional: String!
   search: [String!] = [""]
-  session: Float
+  session: String
 }
 
 type GetFoodsResponse {

@@ -1,8 +1,6 @@
 import { IEnvironment } from './environment.interface';
-// import { WINSTON_LOGGER } from "./logger/logger";
 
 export const production: IEnvironment = {
-  //logger: WINSTON_LOGGER,
   database: {
     mongodb: process.env.MONGO_DB_CONNECTION,
   },

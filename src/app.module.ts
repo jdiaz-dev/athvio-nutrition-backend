@@ -23,6 +23,7 @@ import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { FoodsModule } from 'src/modules/foods/foods.module';
 import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/custom-recipes.module';
 import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
+import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
   imports: [
@@ -94,6 +95,7 @@ import { QuestionaryConfigurationModule } from 'src/modules/professionals/questi
         };
       },
     }),
+    SharedModule,
     UsersModule,
     ProfessionalsModule,
     ProgramsModule,
@@ -109,7 +111,6 @@ import { QuestionaryConfigurationModule } from 'src/modules/professionals/questi
     QuestionaryConfigurationModule,
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule {}
 

@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsEnum, IsMongoId, IsNumber, IsOptional } from 'class-validator';
+import { IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { Meta } from 'src/shared/dtos/get-records-response';
 import { FoodDatabases } from 'src/shared/enums/project';
@@ -12,7 +12,7 @@ class FoodProviderSession {
   title: string;
 
   @Field()
-  nextSession: number;
+  nextSession: string;
 }
 
 @ObjectType()
@@ -59,13 +59,13 @@ export class GetFoodsDto extends GetRecordsBaseDto {
   foodDatabase: FoodDatabases;
 
   @Field({ nullable: true })
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  session?: number;
+  session?: string;
 }
 
 @ObjectType()
-class FoodsMeta extends Meta {
+export class FoodsMeta extends Meta {
   @Field(() => FoodProviderSession, { nullable: true })
   foodProviderSessions?: FoodProviderSession;
 }

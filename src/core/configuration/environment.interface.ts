@@ -24,5 +24,4 @@ export interface IEnvironment {
   tokenKey: string;
   whiteListOrigins: string[];
   foodProvider: FoodProvider;
-  //logger: IWinstonLogger;
 }

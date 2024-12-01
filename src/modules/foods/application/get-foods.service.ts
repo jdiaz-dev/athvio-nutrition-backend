@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GetFoodsDto, GetFoodsResponse } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
+import { ProviderFoodTransformerService } from 'src/modules/foods/adapters/out/providers/provider-foods-transformer.service';
 import { CustomRecipesTransformerService } from 'src/modules/foods/application/custom-recipes-transformer.service';
-import { ProviderFoodTransformerService } from 'src/modules/foods/application/provider-foods-transformer.service';
 import { FoodDatabases } from 'src/shared/enums/project';
 
 @Injectable()

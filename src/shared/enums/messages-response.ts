@@ -52,6 +52,7 @@ export enum AuthorizationMessages {
 }
 
 export enum ErrorFoodsProvider {
-  FOOD_PARSER = 'An error has happened at moment to get food parser',
+  GET_FOOD = 'An error has happened at moment to get food parser',
+  FOOD_INTERNAL_PARSER = 'An error has happened trying to parse foods from provider',
   FOOD_AUTOCOMPLETE = 'An error has happened at moment to get food autocomplete',
 }

@@ -1,5 +1,4 @@
 import { IEnvironment } from './environment.interface';
-// import { WINSTON_LOGGER } from "./logger/logger";
 
 export const development: IEnvironment = {
   database: {
