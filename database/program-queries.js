@@ -69,7 +69,7 @@ db.Programs.aggregate([
       description: 1,
       programTags: 1,
       patients: 1,
-      result: {$sortArray: {input: '$plans', sortBy: {day: 1}}},
+      result: { $sortArray: { input: '$plans', sortBy: { day: 1 } } },
     },
   },
 ]);
@@ -93,8 +93,8 @@ db.Programs.aggregate([
 db.Programs.aggregate([
   {
     $match: {
-      _id: ObjectId("6473d0f163aef9ff8297a864"),
-      professional: ObjectId("6473cf8763aef9ff8297a80a"),
+      _id: ObjectId('6473d0f163aef9ff8297a864'),
+      professional: ObjectId('6473cf8763aef9ff8297a80a'),
       isDeleted: false,
     },
   },
@@ -106,27 +106,24 @@ db.Programs.aggregate([
           input: '$plans',
           as: 'plan',
           cond: {
-            $and: [
-              {$eq: ['$$plan.isDeleted', false]}, {$eq: ['$$plan._id', ObjectId("659405195550939679c10652")]}
-            ]
-          }
-        }
+            $and: [{ $eq: ['$$plan.isDeleted', false] }, { $eq: ['$$plan._id', ObjectId('659405195550939679c10652')] }],
+          },
+        },
       },
     },
   },
   {
     $project: {
       // ...restFields,
-      plans: {$sortArray: {input: '$plans', sortBy: {day: 1}}},
+      plans: { $sortArray: { input: '$plans', sortBy: { day: 1 } } },
     },
   },
 ]);
 
-
 db.Programs.findOneAndUpdate(
   {
-    _id: ObjectId("6473d0f163aef9ff8297a864"),
-    professional: ObjectId("6473cf8763aef9ff8297a80a"),
+    _id: ObjectId('6473d0f163aef9ff8297a864'),
+    professional: ObjectId('6473cf8763aef9ff8297a80a'),
     isDeleted: false,
   },
   {
@@ -138,37 +135,40 @@ db.Programs.findOneAndUpdate(
           {
             _id: ObjectId(),
             position: 25,
-            mealTag: "the first meal"
+            mealTag: 'the first meal',
           },
           {
             _id: ObjectId(),
             position: 26,
-            mealTag: "the second meal"
+            mealTag: 'the second meal',
           },
           {
             _id: ObjectId(),
             position: 27,
-            mealTag: "the third meal"
-          }
-        ]
-      }
-    }
-  }
+            mealTag: 'the third meal',
+          },
+        ],
+      },
+    },
+  },
 );
 
-/* {
-      $project: {
-        _id: 1,
-        plans: {
-          $filter: {
-            input: '$plans',
-            as: 'plan',
-            cond: {
-              $and: [
-                {$eq: ['$$plan.isDeleted', false]}
-              ]
-            }
-          }
+db.Programs.findOneAndUpdate(
+  { _id: program, professional, isDeleted: false },
+  { $push: { plans: rest } },
+  {
+    new: true,
+    projection: {
+      ...restFields,
+      plans: {
+        $filter: {
+          input: '$plans',
+          as: 'plan',
+          cond: {
+            $and: [{ $eq: ['$$plan.isDeleted', false] }],
+          },
         },
       },
-    }, */
+    },
+  },
+);

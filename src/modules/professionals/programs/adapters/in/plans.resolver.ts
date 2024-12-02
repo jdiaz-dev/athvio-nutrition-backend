@@ -7,7 +7,7 @@ import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { DuplicateProgramPlanService } from 'src/modules/professionals/programs/application/duplicate-program-plan.service';
+import { ProgramPlanManagementService } from 'src/modules/professionals/programs/application/program-plan-management.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
@@ -15,7 +15,7 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PlansResolver {
-  constructor(private readonly pps: PlansPersistenceService, private readonly dpps: DuplicateProgramPlanService) {}
+  constructor(private readonly pps: PlansPersistenceService, private readonly dpps: ProgramPlanManagementService) {}
 
   @Mutation(() => Program)
   addProgramPlan(

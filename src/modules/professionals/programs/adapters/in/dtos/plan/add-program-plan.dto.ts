@@ -1,5 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNumber, IsMongoId, IsInt, Min } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNumber, IsMongoId, IsInt, Min, ValidateNested } from 'class-validator';
+import { PlanBodyInput } from 'src/modules/professionals/programs/adapters/in/dtos/plan/plan-body.input';
 
 @InputType()
 export class AddProgramPlanDto {
@@ -22,4 +24,9 @@ export class AddProgramPlanDto {
   @IsInt()
   @Min(1)
   day: number;
+
+  @Field()
+  @ValidateNested()
+  @Type(() => PlanBodyInput)
+  planBody: PlanBodyInput;
 }

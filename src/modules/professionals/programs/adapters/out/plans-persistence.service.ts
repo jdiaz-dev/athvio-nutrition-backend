@@ -5,10 +5,13 @@ import { Model, Types } from 'mongoose';
 
 import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/add-program-plan.dto';
 import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/delete-program-plan.dto';
-import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/duplicate-program-plan.dto';
 import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-plan-assigned-week-day.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { ProgramPatial, ProgramPlanFilteredByDay } from 'src/modules/professionals/programs/adapters/out/program.types';
+import {
+  AddProgramPlanWithMeals,
+  ProgramPatial,
+  ProgramPlanFilteredByDay,
+} from 'src/modules/professionals/programs/adapters/out/program.d';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
@@ -47,10 +50,9 @@ export class PlansPersistenceService {
   }
 
   async addProgramPlanWithMeals(
-    { professional, program, plan, day, week, ...rest }: DuplicateProgramPlanDto,
+    { professional, program, planBody }: AddProgramPlanWithMeals,
     selectors: Record<string, number>,
   ): Promise<Program> {
-    rest;
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     restFields;
     const programRes = await this.programModel.findOneAndUpdate(
@@ -58,14 +60,7 @@ export class PlansPersistenceService {
       {
         $push: {
           plans: {
-            day,
-            week,
-            title: rest.planToDuplicate.title,
-            meals: rest.planToDuplicate.meals,
-            planDetail: {
-              isDuplicate: true,
-              source: plan,
-            },
+            ...planBody,
           },
         },
       },

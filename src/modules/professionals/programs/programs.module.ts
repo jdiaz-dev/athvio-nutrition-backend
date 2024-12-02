@@ -12,7 +12,7 @@ import { PlansPersistenceService } from 'src/modules/professionals/programs/adap
 import { Program, ProgramSchema } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
-import { DuplicateProgramPlanService } from 'src/modules/professionals/programs/application/duplicate-program-plan.service';
+import { ProgramPlanManagementService } from 'src/modules/professionals/programs/application/program-plan-management.service';
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 
@@ -23,7 +23,7 @@ const services = [
   PlansPersistenceService,
   MealsPersistenceService,
   AssignProgramService,
-  DuplicateProgramPlanService
+  ProgramPlanManagementService
 ];
 
 @Module({

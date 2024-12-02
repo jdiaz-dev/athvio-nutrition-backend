@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { ProgramPatial } from 'src/modules/professionals/programs/adapters/out/program.types';
+import { ProgramPatial } from 'src/modules/professionals/programs/adapters/out/program.d';
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 

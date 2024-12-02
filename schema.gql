@@ -36,6 +36,7 @@ input AddPlanMealDto {
 
 input AddProgramPlanDto {
   day: Float!
+  planBody: PlanBodyInput!
   professional: String!
   program: String!
   week: Float!
@@ -663,6 +664,13 @@ type Plan {
   day: Float!
   isDeleted: Boolean!
   meals: [Meal!]!
+  title: String!
+  week: Float!
+}
+
+input PlanBodyInput {
+  day: Float!
+  meals: [MealBodyInput!]!
   title: String!
   week: Float!
 }
