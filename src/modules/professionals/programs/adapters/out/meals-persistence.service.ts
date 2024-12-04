@@ -9,12 +9,16 @@ import { Program, ProgramDocument } from 'src/modules/professionals/programs/ada
 import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
+import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 
 @Injectable()
 export class MealsPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
-  constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
+  constructor(
+    @InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>,
+    private readonly logger: AthvioLoggerService
+  ) {}
 
   async addMeal({ professional, program, plan, mealBody }: AddMealDto, selectors: string[]): Promise<Program> {
     try {
@@ -31,6 +35,7 @@ export class MealsPersistenceService {
 
       return programRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -83,8 +88,7 @@ export class MealsPersistenceService {
 
       return programRes;
     } catch (error) {
-      console.log(error);
-      //todo: urgent add logger
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
@@ -114,6 +118,7 @@ export class MealsPersistenceService {
 
       return programRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }

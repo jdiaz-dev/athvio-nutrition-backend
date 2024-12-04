@@ -15,21 +15,23 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PlansResolver {
-  constructor(private readonly pps: PlansPersistenceService, private readonly dpps: ProgramPlanManagementService) {}
+  constructor(private readonly pps: PlansPersistenceService, private readonly ppms: ProgramPlanManagementService) {}
 
   @Mutation(() => Program)
   addProgramPlan(
     @Args('input') dto: AddProgramPlanDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
-    return this.pps.addProgramPlan(dto, selectors);
+    return this.ppms.addProgramPlan(dto, selectors);
+
+    // return this.pps.addProgramPlan(dto, selectors);
   }
   @Mutation(() => Program)
   async duplicateProgramPlan(
     @Args('input') dto: DuplicateProgramPlanDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
-    return await this.dpps.duplicateProgramPlan(dto, selectors);
+    return await this.ppms.duplicateProgramPlan(dto, selectors);
   }
   @Mutation(() => Program)
   async updatePlanAssignedWeekDay(

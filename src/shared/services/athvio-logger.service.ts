@@ -5,7 +5,7 @@ import { Logger } from 'nestjs-pino';
 export class AthvioLoggerService {
   constructor(private readonly logger: Logger) {}
 
-  error({ layer, error }: { layer: string; error: string }): void {
+  error({ layer, error }: { layer: string; error: unknown }): void {
     this.logger.error({ layer, error });
   }
 }

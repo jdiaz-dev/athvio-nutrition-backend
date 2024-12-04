@@ -15,6 +15,7 @@ import { AssignProgramService } from 'src/modules/professionals/programs/applica
 import { ProgramPlanManagementService } from 'src/modules/professionals/programs/application/program-plan-management.service';
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { SharedModule } from 'src/shared/shared.module';
 
 const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
 const services = [
@@ -29,6 +30,7 @@ const services = [
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Program.name, schema: ProgramSchema }]),
+    SharedModule,
     AuthenticationModule,
     ProfessionalsModule,
     ProgramTagsModule,
