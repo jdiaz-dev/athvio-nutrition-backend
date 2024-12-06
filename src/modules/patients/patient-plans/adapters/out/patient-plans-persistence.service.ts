@@ -1,13 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/create-patient-plan.dto';
 import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/delete-patient-plan.dto';
 import { GetPatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/get-patient-plan.dto';
 import { GetPatientPlansDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/get-patient-plans.dto';
 import { UpdatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/update-patient-plan.dto';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
-import { PatientPlanPartial, PatientWithAssignedDate } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
+import {
+  CreatePatientPlanBody,
+  PatientPlanPartial,
+  PatientWithAssignedDate,
+} from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
@@ -15,7 +18,7 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 export class PatientPlansPersistenceService {
   constructor(@InjectModel(PatientPlan.name) private readonly clienPlanModel: Model<PatientPlanDocument>) {}
 
-  async createPatientPlan(dto: CreatePatientPlanDto): Promise<PatientPlan> {
+  async createPatientPlan(dto: CreatePatientPlanBody): Promise<PatientPlan> {
     const patientPlan = await this.clienPlanModel.create({
       ...dto,
     });

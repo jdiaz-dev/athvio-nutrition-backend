@@ -4,16 +4,17 @@ import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/pat
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
+import { Meal } from 'src/shared/models/meal-plan';
 
 @Injectable()
 export class CreatePatientPlanService {
   constructor(private gps: GetPatientsService, private cpps: PatientPlansPersistenceService) {}
 
-  async createPatientPlan(dto: CreatePatientPlanDto): Promise<PatientPlan> {
-    const patient = await this.gps.getPatient(dto.patient, dto.professional);
-    if (!patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
+  async createPatientPlan({ patient, professional, meals, ...rest }: CreatePatientPlanDto): Promise<PatientPlan> {
+    const _patient = await this.gps.getPatient(patient, professional);
+    if (!_patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 
-    const patientPlan = await this.cpps.createPatientPlan(dto);
+    const patientPlan = await this.cpps.createPatientPlan({ patient, ...rest, meals: meals as Meal[] });
     return patientPlan;
   }
 }

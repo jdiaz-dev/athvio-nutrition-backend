@@ -14,6 +14,7 @@ import { PatientPlanMealsResolver } from 'src/modules/patients/patient-plans/ada
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
+import { SharedModule } from 'src/shared/shared.module';
 
 const resolvers = [PatientPlansResolver, PatientPlanCommentsResolver, PatientPlanMealsResolver];
 const persistenceServices = [
@@ -31,6 +32,7 @@ const applicationServices = [
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: PatientPlan.name, schema: PatientPlanSchema }]),
+    SharedModule,
     AuthenticationModule,
     ProfessionalsModule,
     PatientsModule,

@@ -23,7 +23,7 @@ export class PlansPersistenceService {
     @InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>,
     private readonly logger: AthvioLoggerService,
   ) {}
-
+  //todo: deprecate method
   async addProgramPlan(
     { professional, program, ...rest }: AddProgramPlanDto,
     selectors: Record<string, number>,

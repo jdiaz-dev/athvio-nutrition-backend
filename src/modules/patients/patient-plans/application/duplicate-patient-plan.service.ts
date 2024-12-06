@@ -5,11 +5,12 @@ import { PatientPlansPersistenceService } from 'src/modules/patients/patient-pla
 
 @Injectable()
 export class DuplicatePatientPlanService {
-  constructor(
-    private cpps: PatientPlansPersistenceService,
-  ) {}
+  constructor(private cpps: PatientPlansPersistenceService) {}
 
-  async duplicatePatientPlan({ professional, patient, patientPlan, ...rest }: DuplicatePatientPlanDto, selectors: Record<string, number>): Promise<PatientPlan> {
+  async duplicatePatientPlan(
+    { professional, patient, patientPlan, ...rest }: DuplicatePatientPlanDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan> {
     const _patientPlan = await this.cpps.getPatientPlan({ professional, patient, patientPlan }, selectors);
 
     delete _patientPlan._id;
@@ -18,7 +19,12 @@ export class DuplicatePatientPlanService {
       delete _patientPlan.meals[x]._id;
       delete _patientPlan.meals[x].updatedAt;
     }
-    const programUpdated = await this.cpps.createPatientPlan({ ..._patientPlan, professional, patient, assignedDate: rest.assignedDate });
+    _patientPlan;
+    const programUpdated = await this.cpps.createPatientPlan({
+      ..._patientPlan,
+      patient,
+      assignedDate: rest.assignedDate,
+    });
     return programUpdated;
   }
 }
