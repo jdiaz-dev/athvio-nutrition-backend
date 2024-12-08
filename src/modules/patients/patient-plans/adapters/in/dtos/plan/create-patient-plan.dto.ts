@@ -22,7 +22,7 @@ export class CreatePatientPlanDto {
   @IsString()
   title: string;
 
-  @Field(() => [MealBodyInput], { nullable: true })
+  @Field(() => [MealBodyInput])
   @IsOptional()
   meals: [Meal] | [MealBodyInput];
 }

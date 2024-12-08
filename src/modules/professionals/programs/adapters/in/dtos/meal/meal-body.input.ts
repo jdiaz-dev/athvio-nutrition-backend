@@ -1,11 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNumber, IsString, ValidateNested, IsOptional } from 'class-validator';
 import { IngredientDetailsInput } from 'src/shared/dtos/ingredient-detail-input';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
 @InputType()
 export class MealBodyInput {
+  @Field({ nullable: true })
+  @IsOptional()
+  meal?: string;
+
   @Field()
   @IsNumber()
   position: number;

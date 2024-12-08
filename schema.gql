@@ -14,7 +14,7 @@ input AddCustomQuestionaryDetailsDto {
 }
 
 input AddMealDto {
-  mealBody: MealBodyInput!
+  meals: [MealBodyInput!]!
   plan: String!
   professional: String!
   program: String!
@@ -143,7 +143,7 @@ input CreatePatientGroupDto {
 
 input CreatePatientPlanDto {
   assignedDate: DateTime!
-  meals: [MealBodyInput!]
+  meals: [MealBodyInput!]!
   patient: String!
   professional: String!
   title: String
@@ -221,7 +221,7 @@ input DeleteCustomRecipeDto {
 }
 
 input DeleteMealDto {
-  meal: String!
+  meals: [String!]!
   plan: String!
   professional: String!
   program: String!
@@ -547,6 +547,7 @@ input MealBodyInput {
   cookingInstructions: String!
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
+  meal: String
   mealTag: String!
   name: String!
   position: Float!
@@ -573,14 +574,14 @@ type Mutation {
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
   createCustomRecipe(input: CreateCustomRecipeDto!): CustomRecipe!
-  createMeal(input: AddMealDto!): Program!
+  createMeal(toAddInput: AddMealDto!): Program!
   createPatientGroup(input: CreatePatientGroupDto!): PatientGroup!
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
-  deleteMeal(input: DeleteMealDto!): Program!
+  deleteMeal(toDeleteInput: DeleteMealDto!): Program!
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
   deletePatientPlanComment(input: DeletePatientPlanCommentDto!): PatientPlan!
@@ -601,7 +602,7 @@ type Mutation {
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
-  updateMeal(input: UpdateMealDto!): Program!
+  updateMeal(toUpdateInput: UpdateMealDto!): Program!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
@@ -834,8 +835,7 @@ input UpdateCustomRecipeDto {
 }
 
 input UpdateMealDto {
-  meal: String!
-  mealBody: MealBodyInput!
+  meals: [MealBodyInput!]!
   plan: String!
   professional: String!
   program: String!

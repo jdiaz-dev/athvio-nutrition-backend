@@ -172,3 +172,53 @@ db.Programs.findOneAndUpdate(
     },
   },
 );
+
+//add meal - program plan
+this.programModel.findOneAndUpdate(
+  { _id: program, professional },
+  { $push: { 'plans.$[plan].meals': { ...mealBody } } },
+  {
+    arrayFilters: [{ 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false }],
+    new: true,
+    projection: selectors,
+  },
+);
+
+//update meal - program plan
+this.programModel.findOneAndUpdate(
+  { _id: program, professional },
+  {
+    $set: {
+      'plans.$[plan].meals.$[meal].position': mealBody.position,
+      'plans.$[plan].meals.$[meal].mealTag': mealBody.mealTag,
+      'plans.$[plan].meals.$[meal].name': mealBody.name,
+      'plans.$[plan].meals.$[meal].ingredientDetails': mealBody.ingredientDetails,
+      'plans.$[plan].meals.$[meal].cookingInstructions': mealBody.cookingInstructions,
+      'plans.$[plan].meals.$[meal].macros': mealBody.macros,
+    },
+  },
+  {
+    arrayFilters: [
+      {
+        'plan._id': new Types.ObjectId(plan),
+        'plan.isDeleted': false,
+      },
+      {
+        'meal._id': new Types.ObjectId(meal),
+      },
+    ],
+    new: true,
+    projection: {
+      ...restFields,
+      plans: {
+        $filter: {
+          input: '$plans',
+          as: 'plan',
+          cond: {
+            $and: [{ $eq: ['$$plan.isDeleted', false] }],
+          },
+        },
+      },
+    },
+  },
+);

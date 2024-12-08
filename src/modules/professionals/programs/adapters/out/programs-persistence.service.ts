@@ -57,6 +57,30 @@ export class ProgramsPersistenceService {
       {
         $project: {
           ...restFields,
+          plans: {
+            $map: {
+              input: '$plans',
+              as: 'plan',
+              in: {
+                _id: '$$plan._id',
+                title: '$$plan.title',
+                week: '$$plan.week',
+                day: '$$plan.day',
+                meals: {
+                  $filter: {
+                    input: '$$plan.meals',
+                    as: 'meal',
+                    cond: { $eq: ['$$meal.isDeleted', false] },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          ...restFields,
           plans: { $sortArray: { input: '$plans', sortBy: { day: 1 } } },
         },
       },

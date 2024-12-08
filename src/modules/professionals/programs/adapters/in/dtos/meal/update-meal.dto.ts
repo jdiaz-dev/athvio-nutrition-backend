@@ -17,12 +17,8 @@ export class UpdateMealDto {
   @IsMongoId()
   plan: string;
 
-  @Field()
-  @IsMongoId()
-  meal: string;
-
-  @Field()
+  @Field(() => [MealBodyInput])
   @ValidateNested()
   @Type(() => MealBodyInput)
-  mealBody: MealBodyInput;
+  meals: MealBodyInput[];
 }

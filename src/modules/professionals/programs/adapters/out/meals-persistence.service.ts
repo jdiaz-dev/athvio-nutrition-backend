@@ -17,14 +17,14 @@ export class MealsPersistenceService {
 
   constructor(
     @InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>,
-    private readonly logger: AthvioLoggerService
+    private readonly logger: AthvioLoggerService,
   ) {}
 
-  async addMeal({ professional, program, plan, mealBody }: AddMealDto, selectors: string[]): Promise<Program> {
+  async addMeal({ professional, program, plan, meals }: AddMealDto, selectors: string[]): Promise<Program> {
     try {
       const programRes = await this.programModel.findOneAndUpdate(
         { _id: program, professional },
-        { $push: { 'plans.$[plan].meals': { ...mealBody } } },
+        { $push: { 'plans.$[plan].meals': { $each: meals } } },
         {
           arrayFilters: [{ 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false }],
           new: true,
@@ -40,34 +40,34 @@ export class MealsPersistenceService {
     }
   }
 
-  async updateMeal(
-    { professional, program, plan, meal, mealBody }: UpdateMealDto,
-    selectors: Record<string, number>,
-  ): Promise<Program> {
+  async updateMeal({ professional, program, plan, meals }: UpdateMealDto, selectors: Record<string, number>): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+
+    const updateSubDocuments = meals.map((body, index) => ({
+      [`plans.$[plan].meals.$[meal${index}].position`]: body.position,
+      [`plans.$[plan].meals.$[meal${index}].mealTag`]: body.mealTag,
+      [`plans.$[plan].meals.$[meal${index}].name`]: body.name,
+      [`plans.$[plan].meals.$[meal${index}].ingredientDetails`]: body.ingredientDetails,
+      [`plans.$[plan].meals.$[meal${index}].cookingInstructions`]: body.cookingInstructions,
+      [`plans.$[plan].meals.$[meal${index}].macros`]: body.macros,
+    }));
+
+    const arrayFilters = meals.map((body, index) => ({
+      [`meal${index}._id`]: new Types.ObjectId(body.meal),
+      [`meal${index}.isDeleted`]: false,
+    }));
 
     try {
       const programRes = await this.programModel.findOneAndUpdate(
         { _id: program, professional },
-        {
-          $set: {
-            'plans.$[plan].meals.$[meal].position': mealBody.position,
-            'plans.$[plan].meals.$[meal].mealTag': mealBody.mealTag,
-            'plans.$[plan].meals.$[meal].name': mealBody.name,
-            'plans.$[plan].meals.$[meal].ingredientDetails': mealBody.ingredientDetails,
-            'plans.$[plan].meals.$[meal].cookingInstructions': mealBody.cookingInstructions,
-            'plans.$[plan].meals.$[meal].macros': mealBody.macros,
-          },
-        },
+        { $set: Object.assign({}, ...updateSubDocuments) },
         {
           arrayFilters: [
             {
               'plan._id': new Types.ObjectId(plan),
               'plan.isDeleted': false,
             },
-            {
-              'meal._id': new Types.ObjectId(meal),
-            },
+            ...arrayFilters,
           ],
           new: true,
           projection: {
@@ -93,24 +93,50 @@ export class MealsPersistenceService {
     }
   }
 
-  async deleteMeal({ professional, program, plan, meal }: DeleteMealDto, selectors: string[]): Promise<Program> {
+  async deleteMeal({ professional, program, plan, meals }: DeleteMealDto, selectors: Record<string, number>): Promise<Program> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+    const deleteSubDocuments = meals.map((_item, index) => ({
+      [`plans.$[plan].meals.$[meal${index}].isDeleted`]: true,
+    }));
+    const arrayFilters = meals.map((item, index) => ({
+      [`meal${index}._id`]: new Types.ObjectId(item),
+      [`meal${index}.isDeleted`]: false,
+    }));
     try {
       const programRes = await this.programModel.findOneAndUpdate(
         { _id: program, professional },
-        {
-          $pull: {
-            'plans.$[plan].meals': { _id: new Types.ObjectId(meal) },
-          },
-        },
+        { $set: Object.assign({}, ...deleteSubDocuments) },
         {
           arrayFilters: [
             {
               'plan._id': new Types.ObjectId(plan),
               'plan.isDeleted': false,
             },
+            ...arrayFilters,
           ],
           new: true,
-          projection: selectors,
+          projection: {
+            ...restFields,
+            plans: {
+              $map: {
+                input: '$plans',
+                as: 'plan',
+                in: {
+                  _id: '$$plan._id',
+                  title: '$$plan.title',
+                  week: '$$plan.week',
+                  day: '$$plan.day',
+                  meals: {
+                    $filter: {
+                      input: '$$plan.meals',
+                      as: 'meal',
+                      cond: { $eq: ['$$meal.isDeleted', false] },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       );
 

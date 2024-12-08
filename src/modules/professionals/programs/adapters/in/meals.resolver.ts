@@ -15,20 +15,23 @@ export class MealsResolver {
   constructor(private readonly mps: MealsPersistenceService) {}
 
   @Mutation(() => Program)
-  createMeal(@Args('input') dto: AddMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
+  createMeal(@Args('toAddInput') dto: AddMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
     return this.mps.addMeal(dto, selectors);
   }
 
   @Mutation(() => Program)
   async updateMeal(
-    @Args('input') dto: UpdateMealDto,
+    @Args('toUpdateInput') dto: UpdateMealDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
     return this.mps.updateMeal(dto, selectors);
   }
 
   @Mutation(() => Program)
-  async deleteMeal(@Args('input') dto: DeleteMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
+  async deleteMeal(
+    @Args('toDeleteInput') dto: DeleteMealDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<Program> {
     return this.mps.deleteMeal(dto, selectors);
   }
 }
