@@ -566,7 +566,7 @@ type Meta {
 
 type Mutation {
   activatePatient(input: ActivatePatientDto!): User!
-  addCustomQuestionaryDetails(toAdd: AddCustomQuestionaryDetailsDto!): QuestionaryConfig!
+  addCustomQuestionaryDetails(toAddInput: AddCustomQuestionaryDetailsDto!): QuestionaryConfig!
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
   addPlanMeal(input: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
@@ -578,7 +578,7 @@ type Mutation {
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
-  deleteCustomQuestionaryDetails(toDelete: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
+  deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
   deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deleteMeal(input: DeleteMealDto!): Program!
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
@@ -599,7 +599,7 @@ type Mutation {
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
   updateCalory(input: UpdateCaloryDto!): Calory!
-  updateCustomQuestionaryDetails(toUpdate: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
+  updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
   updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(input: UpdateMealDto!): Program!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!

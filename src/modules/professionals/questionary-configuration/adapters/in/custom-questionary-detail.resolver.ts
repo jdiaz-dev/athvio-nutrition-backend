@@ -15,21 +15,21 @@ export class CustomQuestionaryDetailResolver {
   constructor(private qcm: QuestionaryConfigManager) {}
   @Mutation(() => QuestionaryConfig)
   addCustomQuestionaryDetails(
-    @Args('toAdd') dto: AddCustomQuestionaryDetailsDto,
+    @Args('toAddInput') dto: AddCustomQuestionaryDetailsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ) {
     return this.qcm.addQuestionaryDetail(dto, selectors);
   }
   @Mutation(() => QuestionaryConfig)
   updateCustomQuestionaryDetails(
-    @Args('toUpdate') dto: UpdateCustomQuestionaryDetailsDto,
+    @Args('toUpdateInput') dto: UpdateCustomQuestionaryDetailsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ) {
     return this.qcm.updateQuestionaryDetail(dto, selectors);
   }
   @Mutation(() => QuestionaryConfig)
   deleteCustomQuestionaryDetails(
-    @Args('toDelete') dto: DeleteCustomQuestionaryDetailsDto,
+    @Args('toDeleteInput') dto: DeleteCustomQuestionaryDetailsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ) {
     return this.qcm.deleteQuestionaryDetail(dto, selectors);
