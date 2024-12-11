@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsMongoId } from 'class-validator';
 
 @InputType()
 export class DeletePlanMealDto {
@@ -15,7 +15,8 @@ export class DeletePlanMealDto {
   @IsMongoId()
   patientPlan: string;
 
-  @Field()
-  @IsMongoId()
-  meal: string;
+  @Field(() => [String])
+  @IsArray()
+  @ArrayNotEmpty()
+  meals: string[];
 }

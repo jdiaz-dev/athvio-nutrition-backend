@@ -16,11 +16,11 @@ export class PatientPlanMealsPersistenceService {
     private readonly logger: AthvioLoggerService,
   ) {}
 
-  async addMealToPlan({ patient, patientPlan, mealBody }: AddPlanMealDto, selectors: string[]): Promise<PatientPlan> {
+  async addMealToPlan({ patient, patientPlan, meals }: AddPlanMealDto, selectors: string[]): Promise<PatientPlan> {
     try {
       const patientPlanRes = await this.clienPlanModel.findOneAndUpdate(
         { _id: patientPlan, patient, isDeleted: false },
-        { $push: { meals: { ...mealBody } } },
+        { $push: { meals: { $each: meals } } },
         { projection: selectors, new: true },
       );
 
@@ -30,27 +30,30 @@ export class PatientPlanMealsPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async updatePlanMeal({ patient, patientPlan, meal, mealBody }: UpdatePlanMealDto, selectors: string[]): Promise<PatientPlan> {
+  async updatePlanMeal(
+    { patient, patientPlan, meals }: UpdatePlanMealDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan> {
+    const updateSubDocuments = meals.map((body, index) => ({
+      [`meals.$[meal${index}].position`]: body.position,
+      [`meals.$[meal${index}].mealTag`]: body.mealTag,
+      [`meals.$[meal${index}].name`]: body.name,
+      [`meals.$[meal${index}].ingredientDetails`]: body.ingredientDetails,
+      [`meals.$[meal${index}].cookingInstructions`]: body.cookingInstructions,
+      [`meals.$[meal${index}].macros`]: body.macros,
+    }));
+
+    const arrayFilters = meals.map((body, index) => ({
+      [`meal${index}._id`]: new Types.ObjectId(body.meal),
+      [`meal${index}.isDeleted`]: false,
+    }));
+
     try {
       const programRes = await this.clienPlanModel.findOneAndUpdate(
         { _id: patientPlan, patient },
+        { $set: Object.assign({}, ...updateSubDocuments) },
         {
-          $set: {
-            'meals.$[meal].position': mealBody.position,
-            'meals.$[meal].mealTag': mealBody.mealTag,
-            'meals.$[meal].name': mealBody.name,
-            'meals.$[meal].ingredientDetails': mealBody.ingredientDetails,
-            'meals.$[meal].cookingInstructions': mealBody.cookingInstructions,
-            'meals.$[meal].macros': mealBody.macros,
-          },
-        },
-        {
-          arrayFilters: [
-            {
-              'meal._id': new Types.ObjectId(meal),
-              'meal.isDeleted': false,
-            },
-          ],
+          arrayFilters: [...arrayFilters],
           new: true,
           projection: selectors,
         },
@@ -64,16 +67,20 @@ export class PatientPlanMealsPersistenceService {
     }
   }
 
-  async deletePlanMeal({ patientPlan, patient, meal }: DeletePlanMealDto, selectors: string[]): Promise<PatientPlan> {
+  async deletePlanMeal({ patientPlan, patient, meals }: DeletePlanMealDto, selectors: string[]): Promise<PatientPlan> {
+    const deleteSubDocuments = meals.map((_item, index) => ({
+      [`meals.$[meal${index}].isDeleted`]: true,
+    }));
+    const arrayFilters = meals.map((item, index) => ({
+      [`meal${index}._id`]: new Types.ObjectId(item),
+      [`meal${index}.isDeleted`]: false,
+    }));
     try {
       const programRes = await this.clienPlanModel.findOneAndUpdate(
         { _id: patientPlan, patient },
+        { $set: Object.assign({}, ...deleteSubDocuments) },
         {
-          $pull: {
-            meals: { _id: new Types.ObjectId(meal) },
-          },
-        },
-        {
+          arrayFilters: [...arrayFilters],
           new: true,
           projection: selectors,
         },

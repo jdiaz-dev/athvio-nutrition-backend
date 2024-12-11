@@ -28,7 +28,7 @@ input AddPatientPlanCommentDto {
 }
 
 input AddPlanMealDto {
-  mealBody: MealBodyInput!
+  meals: [MealBodyInput!]!
   patient: String!
   patientPlan: String!
   professional: String!
@@ -245,7 +245,7 @@ input DeletePatientPlanDto {
 }
 
 input DeletePlanMealDto {
-  meal: String!
+  meals: [String!]!
   patient: String!
   patientPlan: String!
   professional: String!
@@ -569,7 +569,7 @@ type Mutation {
   activatePatient(input: ActivatePatientDto!): User!
   addCustomQuestionaryDetails(toAddInput: AddCustomQuestionaryDetailsDto!): QuestionaryConfig!
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
-  addPlanMeal(input: AddPlanMealDto!): PatientPlan!
+  addPlanMeal(toAddInput: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
@@ -585,7 +585,7 @@ type Mutation {
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
   deletePatientPlanComment(input: DeletePatientPlanCommentDto!): PatientPlan!
-  deletePlanMeal(input: DeletePlanMealDto!): PatientPlan!
+  deletePlanMeal(toDeleteInput: DeletePlanMealDto!): PatientPlan!
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
@@ -607,7 +607,7 @@ type Mutation {
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
   updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
-  updatePlanMeal(input: UpdatePlanMealDto!): PatientPlan!
+  updatePlanMeal(toUpdateInput: UpdatePlanMealDto!): PatientPlan!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
@@ -871,8 +871,7 @@ input UpdatePlanAssignedWeekDayDto {
 }
 
 input UpdatePlanMealDto {
-  meal: String!
-  mealBody: MealBodyInput!
+  meals: [MealBodyInput!]!
   patient: String!
   patientPlan: String!
   professional: String!
