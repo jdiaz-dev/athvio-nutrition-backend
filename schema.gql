@@ -35,11 +35,9 @@ input AddPlanMealDto {
 }
 
 input AddProgramPlanDto {
-  day: Float!
   planBody: PlanBodyInput!
   professional: String!
   program: String!
-  week: Float!
 }
 
 input AdditionalInfoDto {
