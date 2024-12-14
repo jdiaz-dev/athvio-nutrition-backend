@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/add-program-plan.dto';
 import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/delete-program-plan.dto';
 import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-plan-assigned-week-day.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
@@ -16,6 +15,7 @@ import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-resp
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
+import { ProgramQueryHelpersService } from 'src/modules/professionals/programs/adapters/out/program-query-helpers.service';
 
 @Injectable()
 export class PlansPersistenceService {
@@ -23,36 +23,6 @@ export class PlansPersistenceService {
     @InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>,
     private readonly logger: AthvioLoggerService,
   ) {}
-  //todo: deprecate method
-  async addProgramPlan(
-    { professional, program, ...rest }: AddProgramPlanDto,
-    selectors: Record<string, number>,
-  ): Promise<Program> {
-    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-    const programRes = await this.programModel.findOneAndUpdate(
-      { _id: program, professional, isDeleted: false },
-      { $push: { plans: rest } },
-      {
-        new: true,
-        projection: {
-          ...restFields,
-          plans: {
-            $filter: {
-              input: '$plans',
-              as: 'plan',
-              cond: {
-                $and: [{ $eq: ['$$plan.isDeleted', false] }],
-              },
-            },
-          },
-        },
-      },
-    );
-    // .populate('programTags plans');
-    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-
-    return programRes;
-  }
 
   async addProgramPlanWithMeals(
     { professional, program, planBody }: AddProgramPlanWithMeals,
@@ -73,15 +43,7 @@ export class PlansPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: {
-              $filter: {
-                input: '$plans',
-                as: 'plan',
-                cond: {
-                  $and: [{ $eq: ['$$plan.isDeleted', false] }],
-                },
-              },
-            },
+            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
           },
         },
       );
@@ -109,15 +71,7 @@ export class PlansPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: {
-              $filter: {
-                input: '$plans',
-                as: 'plan',
-                cond: {
-                  $and: [{ $eq: ['$$plan.isDeleted', false] }],
-                },
-              },
-            },
+            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
           },
         },
       );

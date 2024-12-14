@@ -5,6 +5,7 @@ import { Model, Types } from 'mongoose';
 import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
+import { ProgramQueryHelpersService } from 'src/modules/professionals/programs/adapters/out/program-query-helpers.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
@@ -20,7 +21,9 @@ export class MealsPersistenceService {
     private readonly logger: AthvioLoggerService,
   ) {}
 
-  async addMeal({ professional, program, plan, meals }: AddMealDto, selectors: string[]): Promise<Program> {
+  async addMeal({ professional, program, plan, meals }: AddMealDto, selectors: Record<string, number>): Promise<Program> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+
     try {
       const programRes = await this.programModel.findOneAndUpdate(
         { _id: program, professional },
@@ -28,7 +31,10 @@ export class MealsPersistenceService {
         {
           arrayFilters: [{ 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false }],
           new: true,
-          projection: selectors,
+          projection: {
+            ...restFields,
+            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
+          },
         },
       );
       if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND, this.layer);
@@ -72,15 +78,7 @@ export class MealsPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: {
-              $filter: {
-                input: '$plans',
-                as: 'plan',
-                cond: {
-                  $and: [{ $eq: ['$$plan.isDeleted', false] }],
-                },
-              },
-            },
+            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
           },
         },
       );
@@ -117,25 +115,7 @@ export class MealsPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: {
-              $map: {
-                input: '$plans',
-                as: 'plan',
-                in: {
-                  _id: '$$plan._id',
-                  title: '$$plan.title',
-                  week: '$$plan.week',
-                  day: '$$plan.day',
-                  meals: {
-                    $filter: {
-                      input: '$$plan.meals',
-                      as: 'meal',
-                      cond: { $eq: ['$$meal.isDeleted', false] },
-                    },
-                  },
-                },
-              },
-            },
+            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
           },
         },
       );

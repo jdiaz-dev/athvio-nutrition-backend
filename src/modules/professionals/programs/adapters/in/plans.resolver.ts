@@ -23,8 +23,6 @@ export class PlansResolver {
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
     return this.ppms.addProgramPlan(dto, selectors);
-
-    // return this.pps.addProgramPlan(dto, selectors);
   }
   @Mutation(() => Program)
   async duplicateProgramPlan(

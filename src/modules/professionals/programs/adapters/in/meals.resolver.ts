@@ -7,7 +7,7 @@ import { MealsPersistenceService } from 'src/modules/professionals/programs/adap
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
+import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -15,7 +15,10 @@ export class MealsResolver {
   constructor(private readonly mps: MealsPersistenceService) {}
 
   @Mutation(() => Program)
-  createMeal(@Args('toAddInput') dto: AddMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
+  createMeal(
+    @Args('toAddInput') dto: AddMealDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<Program> {
     return this.mps.addMeal(dto, selectors);
   }
 

@@ -111,27 +111,6 @@ export class ProgramsPersistenceService {
           plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
         },
       },
-      //todo: not remove until to be sure that plans is always sorted by day
-      /* {
-        $unwind: {
-          path: '$plans',
-          preserveNullAndEmptyArrays: true
-        }
-      },
-      {
-        $sort: { _id: 1, "plans.day": 1, }
-      },
-      {
-        $group: {
-          _id: "$_id",
-          professional: { $first: "$professional" },
-          name: { $first: "$name" },
-          description: { $first: "$description" },
-          plans: { $push: "$plans" },
-          programTags: { $push: "$programTags" },
-          createdAt: { $push: "$createdAt" },
-        }
-      }, */
       {
         //looking group for every _id contained in groups array
         $lookup: {
