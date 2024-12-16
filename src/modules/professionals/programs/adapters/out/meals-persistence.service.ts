@@ -5,7 +5,7 @@ import { Model, Types } from 'mongoose';
 import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
-import { ProgramQueryHelpersService } from 'src/modules/professionals/programs/adapters/out/program-query-helpers.service';
+import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
@@ -33,7 +33,7 @@ export class MealsPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
+            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
           },
         },
       );
@@ -78,7 +78,7 @@ export class MealsPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
+            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
           },
         },
       );
@@ -115,7 +115,7 @@ export class MealsPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
+            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
           },
         },
       );

@@ -7,7 +7,7 @@ import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/pat
 import { PatientPlanMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
+import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
 
 @Resolver()
@@ -17,15 +17,24 @@ export class PatientPlanMealsResolver {
 
   //todo: thinking in redux
   @Mutation(() => PatientPlan)
-  addPlanMeal(@Args('toAddInput') dto: AddPlanMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
+  addPlanMeal(
+    @Args('toAddInput') dto: AddPlanMealDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<PatientPlan> {
     return this.apms.addPlanMeal(dto, selectors);
   }
   @Mutation(() => PatientPlan)
-  updatePlanMeal(@Args('toUpdateInput') dto: UpdatePlanMealDto, @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>): Promise<PatientPlan> {
+  updatePlanMeal(
+    @Args('toUpdateInput') dto: UpdatePlanMealDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<PatientPlan> {
     return this.cpmps.updatePlanMeal(dto, selectors);
   }
   @Mutation(() => PatientPlan)
-  deletePlanMeal(@Args('toDeleteInput') dto: DeletePlanMealDto, @Info(...selectorExtractor()) selectors: string[]): Promise<PatientPlan> {
+  deletePlanMeal(
+    @Args('toDeleteInput') dto: DeletePlanMealDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<PatientPlan> {
     return this.cpmps.deletePlanMeal(dto, selectors);
   }
 }

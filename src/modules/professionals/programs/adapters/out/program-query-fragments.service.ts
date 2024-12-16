@@ -1,4 +1,4 @@
-export class ProgramQueryHelpersService {
+export class ProgramQueryFragmentsService {
   static filterPlansAndNestedMeals(): Record<string, any> {
     return {
       $map: {

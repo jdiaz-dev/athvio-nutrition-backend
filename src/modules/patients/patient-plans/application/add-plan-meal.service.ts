@@ -8,7 +8,7 @@ import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 export class AddPlanMealService {
   constructor(private ppmps: PatientPlanMealsPersistenceService) {}
 
-  async addPlanMeal(dto: AddPlanMealDto, selectors: string[]): Promise<PatientPlan> {
+  async addPlanMeal(dto: AddPlanMealDto, selectors: Record<string, number>): Promise<PatientPlan> {
     const patientPlanRes = await this.ppmps.addMealToPlan(dto, selectors);
     if (patientPlanRes === null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);
 

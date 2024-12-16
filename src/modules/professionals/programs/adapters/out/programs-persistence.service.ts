@@ -12,6 +12,7 @@ import {
 } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-programs.dto';
 import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
+import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { ManageProgramTags } from 'src/shared/enums/project';
@@ -57,25 +58,7 @@ export class ProgramsPersistenceService {
       {
         $project: {
           ...restFields,
-          plans: {
-            $map: {
-              input: '$plans',
-              as: 'plan',
-              in: {
-                _id: '$$plan._id',
-                title: '$$plan.title',
-                week: '$$plan.week',
-                day: '$$plan.day',
-                meals: {
-                  $filter: {
-                    input: '$$plan.meals',
-                    as: 'meal',
-                    cond: { $eq: ['$$meal.isDeleted', false] },
-                  },
-                },
-              },
-            },
-          },
+          plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
         },
       },
       {

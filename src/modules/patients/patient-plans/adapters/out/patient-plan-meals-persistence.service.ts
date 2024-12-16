@@ -8,6 +8,8 @@ import { UpdatePlanMealDto } from 'src/modules/patients/patient-plans/adapters/i
 import { DeletePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/meals/delete-meal-plan.dto';
 import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
+import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
+import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
 
 @Injectable()
 export class PatientPlanMealsPersistenceService {
@@ -16,12 +18,20 @@ export class PatientPlanMealsPersistenceService {
     private readonly logger: AthvioLoggerService,
   ) {}
 
-  async addMealToPlan({ patient, patientPlan, meals }: AddPlanMealDto, selectors: string[]): Promise<PatientPlan> {
+  async addMealToPlan({ patient, patientPlan, meals }: AddPlanMealDto, selectors: Record<string, number>): Promise<PatientPlan> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
+
     try {
       const patientPlanRes = await this.clienPlanModel.findOneAndUpdate(
         { _id: patientPlan, patient, isDeleted: false },
         { $push: { meals: { $each: meals } } },
-        { projection: selectors, new: true },
+        {
+          projection: {
+            ...restFields,
+            meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
+          },
+          new: true,
+        },
       );
 
       return patientPlanRes;
@@ -34,6 +44,7 @@ export class PatientPlanMealsPersistenceService {
     { patient, patientPlan, meals }: UpdatePlanMealDto,
     selectors: Record<string, number>,
   ): Promise<PatientPlan> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
     const updateSubDocuments = meals.map((body, index) => ({
       [`meals.$[meal${index}].position`]: body.position,
       [`meals.$[meal${index}].mealTag`]: body.mealTag,
@@ -55,7 +66,10 @@ export class PatientPlanMealsPersistenceService {
         {
           arrayFilters: [...arrayFilters],
           new: true,
-          projection: selectors,
+          projection: {
+            ...restFields,
+            meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
+          },
         },
       );
       if (programRes == null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);
@@ -67,7 +81,12 @@ export class PatientPlanMealsPersistenceService {
     }
   }
 
-  async deletePlanMeal({ patientPlan, patient, meals }: DeletePlanMealDto, selectors: string[]): Promise<PatientPlan> {
+  async deletePlanMeal(
+    { patientPlan, patient, meals }: DeletePlanMealDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
+
     const deleteSubDocuments = meals.map((_item, index) => ({
       [`meals.$[meal${index}].isDeleted`]: true,
     }));
@@ -82,7 +101,10 @@ export class PatientPlanMealsPersistenceService {
         {
           arrayFilters: [...arrayFilters],
           new: true,
-          projection: selectors,
+          projection: {
+            ...restFields,
+            meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
+          },
         },
       );
 

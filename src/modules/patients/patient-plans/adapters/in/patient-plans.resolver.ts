@@ -29,7 +29,7 @@ export class PatientPlansResolver {
   @Query(() => [PatientPlan])
   async getPatientPlans(
     @Args('patientPlans') dto: GetPatientPlansDto,
-    @Info(...selectorExtractor()) selectors: string[],
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PatientPlan[]> {
     const patientGroup = await this.cpps.getPatientPlans(dto, selectors);
     return patientGroup;

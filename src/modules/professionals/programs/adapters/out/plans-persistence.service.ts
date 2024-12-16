@@ -15,7 +15,7 @@ import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-resp
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
-import { ProgramQueryHelpersService } from 'src/modules/professionals/programs/adapters/out/program-query-helpers.service';
+import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 
 @Injectable()
 export class PlansPersistenceService {
@@ -43,7 +43,7 @@ export class PlansPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
+            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
           },
         },
       );
@@ -71,7 +71,7 @@ export class PlansPersistenceService {
           new: true,
           projection: {
             ...restFields,
-            plans: ProgramQueryHelpersService.filterPlansAndNestedMeals(),
+            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
           },
         },
       );
