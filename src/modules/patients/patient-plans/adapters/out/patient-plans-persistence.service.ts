@@ -128,12 +128,22 @@ export class PatientPlansPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async updatePatientPlan({ patientPlan, patient, ...rest }: UpdatePatientPlanDto, selectors: string[]): Promise<PatientPlan> {
+  async updatePatientPlan(
+    { patientPlan, patient, ...rest }: UpdatePatientPlanDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
     try {
       const patientPlanRes = await this.clienPlanModel.findOneAndUpdate(
         { _id: patientPlan, patient, isDeleted: false },
         { ...rest },
-        { new: true, projection: selectors },
+        {
+          new: true,
+          projection: {
+            ...restFields,
+            meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
+          },
+        },
       );
 
       if (patientPlanRes == null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);

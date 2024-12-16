@@ -44,7 +44,7 @@ export class PatientPlansResolver {
   @Mutation(() => PatientPlan)
   async updatePatientPlan(
     @Args('input') dto: UpdatePatientPlanDto,
-    @Info(...selectorExtractor()) selectors: string[],
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PatientPlan> {
     return this.cpps.updatePatientPlan(dto, selectors);
   }
