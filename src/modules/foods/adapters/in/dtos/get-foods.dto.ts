@@ -6,6 +6,22 @@ import { FoodDatabases } from 'src/shared/enums/project';
 import { Macros } from 'src/shared/models/macros';
 import { IngredientDetail } from 'src/shared/models/meal-plan';
 
+@InputType()
+export class GetFoodsDto extends GetRecordsBaseDto {
+  @Field()
+  @IsMongoId()
+  professional: string;
+
+  @Field()
+  @IsEnum(FoodDatabases)
+  foodDatabase: FoodDatabases;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  session?: string;
+}
+
 @ObjectType()
 class FoodProviderSession {
   @Field()
@@ -46,22 +62,6 @@ export class Food {
 
   @Field(() => [Measure])
   availableMeasures: Measure[];
-}
-
-@InputType()
-export class GetFoodsDto extends GetRecordsBaseDto {
-  @Field()
-  @IsMongoId()
-  professional: string;
-
-  @Field()
-  @IsEnum(FoodDatabases)
-  foodDatabase: FoodDatabases;
-
-  @Field({ nullable: true })
-  @IsString()
-  @IsOptional()
-  session?: string;
 }
 
 @ObjectType()
