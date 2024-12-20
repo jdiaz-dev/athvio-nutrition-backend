@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/patient-plan-comment/add-patient-plan-comment.dto';
-import { DeletePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/patient-plan-comment/delete-patient-plan-comment.dto';
-import { UpdatePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/patient-plan-comment/update-patient-plan-comment.dto';
+import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/add-patient-plan-comment.dto';
+import { DeletePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/delete-patient-plan-comment.dto';
+import { UpdatePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/update-patient-plan-comment.dto';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 

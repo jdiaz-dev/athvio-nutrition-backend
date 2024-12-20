@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DuplicatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/duplicate-patient-plan.dto';
+import { DuplicatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/duplicate-patient-plan.dto';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 

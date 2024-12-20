@@ -3,11 +3,7 @@ import { IsMongoId } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 
 @InputType()
-export class GetPatientPlansDto extends GetRecordsBaseDto {
-  @Field()
-  @IsMongoId()
-  professional: string;
-
+export class GetPatientPlansForMobileDto extends GetRecordsBaseDto {
   @Field()
   @IsMongoId()
   patient: string;

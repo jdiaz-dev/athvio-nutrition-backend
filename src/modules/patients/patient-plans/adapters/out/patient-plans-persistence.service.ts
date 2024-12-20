@@ -1,10 +1,11 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/delete-patient-plan.dto';
-import { GetPatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/get-patient-plan.dto';
-import { GetPatientPlansDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/get-patient-plans.dto';
-import { UpdatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/update-patient-plan.dto';
+import { GetPatientPlansForMobileDto } from 'src/modules/patients/patient-plans/adapters/in/mobile/dtos/get-patient-plans-for-mobile.dto';
+import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/delete-patient-plan.dto';
+import { GetPatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/get-patient-plan.dto';
+import { GetPatientPlansForWebDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/get-patient-plans-for-web.dto';
+import { UpdatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/update-patient-plan.dto';
 import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import {
@@ -61,7 +62,10 @@ export class PatientPlansPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getPatientPlans({ patient, ...rest }: GetPatientPlansDto, selectors: Record<string, number>): Promise<PatientPlan[]> {
+  async getPatientPlans(
+    { patient, ...rest }: GetPatientPlansForWebDto | GetPatientPlansForMobileDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan[]> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
     try {

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { PatientPlanMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
-import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/meals/add-meal.dto';
+import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/add-meal.dto';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()

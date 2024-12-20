@@ -391,7 +391,15 @@ input GetPatientGroupsDto {
   professional: String!
 }
 
-input GetPatientPlansDto {
+input GetPatientPlansForMobileDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  patient: String!
+  search: [String!] = [""]
+}
+
+input GetPatientPlansForWebDto {
   limit: Float = 30
   offset: Float = 0
   orderBy: String
@@ -716,7 +724,8 @@ type Query {
   getPatientForMobile(input: GetPatientForMobileDto!): Patient!
   getPatientForWeb(patient: GetPatientForWebDto!): Patient!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
-  getPatientPlans(patientPlans: GetPatientPlansDto!): [PatientPlan!]!
+  getPatientPlansForMobile(patientPlans: GetPatientPlansForMobileDto!): [PatientPlan!]!
+  getPatientPlansForWeb(patientPlans: GetPatientPlansForWebDto!): [PatientPlan!]!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
   getProfessional(professional: GetProfessionalDto!): Professional!
   getProgram(input: GetProgramDto!): Program!

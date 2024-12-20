@@ -1,10 +1,10 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/create-patient-plan.dto';
-import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/delete-patient-plan.dto';
-import { DuplicatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/duplicate-patient-plan.dto';
-import { GetPatientPlansDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/get-patient-plans.dto';
-import { UpdatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/dtos/plan/update-patient-plan.dto';
+import { CreatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/create-patient-plan.dto';
+import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/delete-patient-plan.dto';
+import { DuplicatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/duplicate-patient-plan.dto';
+import { GetPatientPlansForWebDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/get-patient-plans-for-web.dto';
+import { UpdatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/update-patient-plan.dto';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 import { CreatePatientPlanService } from 'src/modules/patients/patient-plans/application/create-patient-plan.service';
@@ -15,7 +15,7 @@ import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
-export class PatientPlansResolver {
+export class PatientPlansWebResolver {
   constructor(
     private readonly cpps: PatientPlansPersistenceService,
     private ccps: CreatePatientPlanService,
@@ -27,12 +27,12 @@ export class PatientPlansResolver {
     return this.ccps.createPatientPlan(dto);
   }
   @Query(() => [PatientPlan])
-  async getPatientPlans(
-    @Args('patientPlans') dto: GetPatientPlansDto,
+  async getPatientPlansForWeb(
+    @Args('patientPlans') dto: GetPatientPlansForWebDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PatientPlan[]> {
-    const patientGroup = await this.cpps.getPatientPlans(dto, selectors);
-    return patientGroup;
+    const patientPlans = await this.cpps.getPatientPlans(dto, selectors);
+    return patientPlans;
   }
   @Mutation(() => PatientPlan)
   async duplicatePatientPlan(
