@@ -1,10 +1,15 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreateUser, UpdatePassword, UpdateUser } from 'src/modules/authentication/users/adapters/out/users-types';
+import {
+  CreateUser,
+  GetUserById,
+  UpdatePassword,
+  UpdateUser,
+} from 'src/modules/authentication/users/adapters/out/users-types';
 import { User, UserDocument } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { ErrorUsersEnum, InternalErrors } from 'src/shared/enums/messages-response';
-import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/dtos/update-user.dto';
+import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/web/dtos/update-user.dto';
 import { LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
@@ -43,26 +48,31 @@ export class UsersPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
-  async getUserById(user: string): Promise<Pick<User, '_id' | 'role' | 'email' | 'isActive'>> {
+  async getUserById(user: string): Promise<GetUserById> {
     try {
       const _user = await this.userModel.findOne(
         {
           _id: new Types.ObjectId(user),
         },
-        ['_id', 'role', 'email', 'isActive'],
+        ['_id', 'firstname', 'lastname', 'role', 'email', 'isActive'],
       );
 
-      if (_user == null) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
+      if (_user === null) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
       return _user;
     } catch (error) {
+      console.log('-----error', error);
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
-    const patient = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
+    try {
+      const patient = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
 
-    if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND, this.layer);
-    return patient;
+      if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND, this.layer);
+      return patient;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    }
   }
 }
