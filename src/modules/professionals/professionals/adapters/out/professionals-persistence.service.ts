@@ -52,7 +52,6 @@ export class ProfessionalsPersistenceService {
           $project: selectors,
         },
       ]);
-      console.log('------professionalRes', JSON.stringify(professionalRes, null, 4));
       return professionalRes[0] as ProfessionalUser;
     } catch (error) {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);

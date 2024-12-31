@@ -29,7 +29,6 @@ export class SignUpPatientManagamentService {
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
     const _proffesional = await this.prms.getProfessionalById(professional);
-    console.log('-------_proffesional.user', _proffesional.user);
     if (!_proffesional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
     let _user: CreateUser = {
