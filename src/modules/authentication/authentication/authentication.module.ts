@@ -9,12 +9,21 @@ import { UsersModule } from 'src/modules/authentication/users/users.module';
 
 import { AuthenticationService } from './application/services/authentication.service';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
-import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
+import { SignUpProfessionalService } from 'src/modules/authentication/authentication/application/services/sign-up-professional.service';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { AuthorizationService } from 'src/modules/authentication/authentication/application/services/authorization.service';
+import { SignUpPatientManagamentService } from 'src/modules/authentication/authentication/application/services/sign-up-patient-management.service';
+import { MailModule } from 'src/modules/mail/mail.module';
 
-const services = [AuthenticationService, AuthorizationService, LocalStrategy, JwtStrategy, SignUpService];
+const services = [
+  AuthenticationService,
+  AuthorizationService,
+  LocalStrategy,
+  JwtStrategy,
+  SignUpProfessionalService,
+  SignUpPatientManagamentService,
+];
 const resolvers = [AuthenticationResolver];
 ProfessionalsPersistenceService;
 @Module({
@@ -30,6 +39,7 @@ ProfessionalsPersistenceService;
     forwardRef(() => UsersModule),
     forwardRef(() => PatientsModule),
     forwardRef(() => ProfessionalsModule),
+    MailModule,
   ],
   providers: [...services, ...resolvers],
   exports: [AuthorizationService],

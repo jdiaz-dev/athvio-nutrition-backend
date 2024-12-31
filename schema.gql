@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 input ActivatePatientDto {
+  password: String!
   user: String!
 }
 

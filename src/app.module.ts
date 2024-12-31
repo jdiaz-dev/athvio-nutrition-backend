@@ -24,6 +24,7 @@ import { FoodsModule } from 'src/modules/foods/foods.module';
 import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/custom-recipes.module';
 import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
 import { SharedModule } from 'src/shared/shared.module';
+import { MailModule } from 'src/modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -109,6 +110,7 @@ import { SharedModule } from 'src/shared/shared.module';
     AuthenticationModule,
     FoodsModule,
     QuestionaryConfigurationModule,
+    MailModule,
   ],
   controllers: [AppController],
 })

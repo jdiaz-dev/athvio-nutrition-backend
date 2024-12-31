@@ -56,3 +56,7 @@ export enum ErrorFoodsProvider {
   FOOD_INTERNAL_PARSER = 'An error has happened trying to parse foods from provider',
   FOOD_AUTOCOMPLETE = 'An error has happened at moment to get food autocomplete',
 }
+
+export enum ErrorMailService {
+  SEND_MAIL = 'An error has happened trying to send the email.',
+}

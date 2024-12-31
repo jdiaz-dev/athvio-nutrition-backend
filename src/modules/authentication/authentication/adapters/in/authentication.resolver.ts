@@ -10,25 +10,30 @@ import {
   SignUpPatientDto,
   SignUpPatientResponse,
 } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
-import { SignUpService } from 'src/modules/authentication/authentication/application/services/sign-up.service';
+import { SignUpProfessionalService } from 'src/modules/authentication/authentication/application/services/sign-up-professional.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
+import { SignUpPatientManagamentService } from 'src/modules/authentication/authentication/application/services/sign-up-patient-management.service';
 
 @Resolver()
 export class AuthenticationResolver {
-  constructor(private authService: AuthenticationService, private sps: SignUpService) {}
+  constructor(
+    private authService: AuthenticationService,
+    private sups: SignUpProfessionalService,
+    private sppms: SignUpPatientManagamentService,
+  ) {}
 
   //TODO: think in one guard for this endpoint
   @Mutation(() => JwtDto)
   signUpProfessional(@Args('input') dto: SignUpProfessionalDto, @Context() _context: unknown): Promise<JwtDto> {
-    return this.sps.signUpProfessional(dto);
+    return this.sups.signUpProfessional(dto);
   }
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => SignUpPatientResponse)
   signUpPatient(@Args('input') dto: SignUpPatientDto): Promise<SignUpPatientResponse> {
-    return this.sps.signUpPatient(dto);
+    return this.sppms.signUpPatient(dto);
   }
 
   @Mutation(() => JwtDto)
@@ -39,7 +44,7 @@ export class AuthenticationResolver {
   }
   @Mutation(() => User)
   async activatePatient(@Args('input') body: ActivatePatientDto) {
-    const activatedPatient = await this.sps.activatePatient(body);
+    const activatedPatient = await this.sppms.activatePatient(body);
     return activatedPatient;
   }
 }

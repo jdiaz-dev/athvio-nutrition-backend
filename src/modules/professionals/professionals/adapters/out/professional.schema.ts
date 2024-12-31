@@ -39,9 +39,9 @@ export class Professional extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
-  @Field(() => User)
+  @Field(() => User || String)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
-  user!: string;
+  user!: User | string;
 
   @Field()
   @Prop({ type: String, required: false })

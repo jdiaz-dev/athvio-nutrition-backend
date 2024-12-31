@@ -3,6 +3,7 @@ import { Args, Info, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { GetProfessionalDto } from 'src/modules/professionals/professionals/adapters/in/dtos/get-professional.dt';
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
+import { ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
@@ -14,9 +15,10 @@ export class ProfessionalsResolver {
   constructor(private pms: ProfessionalsManagementService) {}
 
   @Query(() => Professional)
-  getProfessional(@Args('professional') dto: GetProfessionalDto,
-  @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
-): Promise<Professional> {
+  getProfessional(
+    @Args('professional') dto: GetProfessionalDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<ProfessionalUser> {
     return this.pms.getProfessional(dto, selectors);
   }
 }
