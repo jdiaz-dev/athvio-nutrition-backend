@@ -457,6 +457,10 @@ input GetQuestionaryConfigDto {
   professional: String!
 }
 
+input GetUserDto {
+  user: String!
+}
+
 type Ingredient {
   amount: Float!
   calories: Float!
@@ -738,6 +742,7 @@ type Query {
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
   getQuestionary(input: GetQuestionaryConfigDto!): QuestionaryConfig!
+  getUser(input: GetUserDto!): User!
 }
 
 type QuestionaryConfig {

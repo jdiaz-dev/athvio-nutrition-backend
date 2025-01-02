@@ -1,12 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import {
-  CreateUser,
-  GetUserById,
-  UpdatePassword,
-  UpdateUser,
-} from 'src/modules/authentication/users/adapters/out/users-types';
+import { CreateUser, GetUserById, UpdatePassword, UpdateUser } from 'src/modules/authentication/users/adapters/out/users-types';
 import { User, UserDocument } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { ErrorUsersEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/web/dtos/update-user.dto';
@@ -60,7 +55,6 @@ export class UsersPersistenceService {
       if (_user === null) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
       return _user;
     } catch (error) {
-      console.log('-----error', error);
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
