@@ -79,7 +79,7 @@ export class SignUpPatientManagamentService {
       firstname: professionalFirstname,
       lastname: professionalLastname,
     } = await this.ups.getUserById(proffesionalUser);
-    const url = `http://localhost:4200/invitation/${patientUserId}`;
+    const url = `http://localhost:4200/activate/${patientUserId}`;
     const mailTitle = `Invitation from ${professionalFirstname} ${professionalLastname}`;
     const message = `
       Hello ${patientFirstname},

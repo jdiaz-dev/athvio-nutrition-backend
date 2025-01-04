@@ -3,10 +3,15 @@ export class ProgramQueryFragmentsService {
     return {
       $map: {
         input: {
-          $filter: {
-            input: '$plans',
-            as: 'plan',
-            cond: { $eq: ['$$plan.isDeleted', false] },
+          $sortArray: {
+            input: {
+              $filter: {
+                input: '$plans',
+                as: 'plan',
+                cond: { $eq: ['$$plan.isDeleted', false] },
+              },
+            },
+            sortBy: { day: 1 },
           },
         },
         as: 'plan',
