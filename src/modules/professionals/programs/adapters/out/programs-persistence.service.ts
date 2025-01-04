@@ -64,7 +64,7 @@ export class ProgramsPersistenceService {
       {
         $project: {
           ...restFields,
-          plans: { $sortArray: { input: '$plans', sortBy: { day: 1 } } },
+          plans: ProgramQueryFragmentsService.sortPlansByDay(),
         },
       },
     ]);
@@ -92,6 +92,12 @@ export class ProgramsPersistenceService {
           ...restFields,
           createdAt: 1,
           plans: { $filter: { input: '$plans', as: 'plan', cond: { $eq: ['$$plan.isDeleted', false] } } },
+        },
+      },
+      {
+        $project: {
+          ...restFields,
+          plans: ProgramQueryFragmentsService.sortPlansByDay(),
         },
       },
       {

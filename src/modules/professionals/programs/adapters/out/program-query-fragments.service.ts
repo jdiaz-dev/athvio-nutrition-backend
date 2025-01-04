@@ -31,4 +31,7 @@ export class ProgramQueryFragmentsService {
       },
     };
   }
+  static sortPlansByDay(): Record<string, any> {
+    return { $sortArray: { input: '$plans', sortBy: { day: 1 } } };
+  }
 }
