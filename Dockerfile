@@ -18,7 +18,11 @@ COPY package-lock.json .
 
 RUN npm install --legacy-peer-deps --omit=dev
 
+
 # Bundle app source
 COPY . .
+
+# Build the application
+RUN npm run build
 
 CMD [ "node", "dist/src/main.js" ]
