@@ -13,6 +13,7 @@ import { ProfessionalsManagementService } from 'src/modules/professionals/profes
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { EncryptionService } from 'src/modules/authentication/authentication/application/services/encryption.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SignUpPatientManagamentService {
@@ -22,6 +23,7 @@ export class SignUpPatientManagamentService {
     private prms: ProfessionalsManagementService,
     private pms: PatientManagementService,
     private ms: MailService,
+    private configService: ConfigService,
   ) {}
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
@@ -79,7 +81,8 @@ export class SignUpPatientManagamentService {
       firstname: professionalFirstname,
       lastname: professionalLastname,
     } = await this.ups.getUserById(proffesionalUser);
-    const url = `http://localhost:4200/activate/${patientUserId}`;
+    const origin = this.configService.get<string[]>('whiteListOrigins')[0];
+    const url = `${origin}/activate/${patientUserId}`;
     const mailTitle = `Invitation from ${professionalFirstname} ${professionalLastname}`;
     const message = `
       Hello ${patientFirstname},
