@@ -16,8 +16,8 @@ EXPOSE 57343
 COPY package.json .
 COPY package-lock.json .
 
-RUN npm install --legacy-peer-deps --omit=dev
-
+RUN npm install --legacy-peer-deps 
+#--omit=dev
 
 # Bundle app source
 COPY . .
