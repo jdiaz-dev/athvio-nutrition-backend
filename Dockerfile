@@ -17,7 +17,6 @@ COPY package.json .
 COPY package-lock.json .
 
 RUN npm install --legacy-peer-deps 
-#--omit=dev
 
 # Bundle app source
 COPY . .
