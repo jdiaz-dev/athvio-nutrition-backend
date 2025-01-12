@@ -1,11 +1,19 @@
-require('dotenv').config();
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
+  const port = configService.get<string>('port') || process.env.PORT;
+  app.enableCors({
+    origin: whiteListOrigins,
+    credentials: true,
+  });
   app.use(
     helmet({
       crossOriginEmbedderPolicy: false,
@@ -20,7 +28,6 @@ async function bootstrap(): Promise<void> {
     }),
   );
   app.useGlobalPipes(new ValidationPipe());
-  const port = process.env.PORT
   await app.listen(port);
   console.log(`Server running on port ${port}`);
 }

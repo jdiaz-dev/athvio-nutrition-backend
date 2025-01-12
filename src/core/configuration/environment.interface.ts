@@ -24,4 +24,5 @@ export interface IEnvironment {
   tokenKey: string;
   whiteListOrigins: string[];
   foodProvider: FoodProvider;
+  port: string;
 }

@@ -41,13 +41,9 @@ import { MailModule } from 'src/modules/mail/mail.module';
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       // imports: [WorkStreamAuditModule],
       driver: ApolloDriver,
-      inject: [ConfigService /* TrackingActivityService */],
+      inject: [ConfigService],
       // @ts-ignore //todo: remove ts-ignore
-      useFactory: (
-        configService: ConfigService,
-        // trackingActivityService: TrackingActivityService,
-      ) => {
-        configService;
+      useFactory: (configService: ConfigService) => {
         return {
           playground: false,
           autoSchemaFile: 'schema.gql',
@@ -72,7 +68,6 @@ import { MailModule } from 'src/modules/mail/mail.module';
           context: ({ req, res }) => {
             return { req, res };
           },
-
           autoTransformHttpErrors: true,
           formatResponse: (response: GraphQLResponse): GraphQLResponse => {
             if (response.errors && response.errors.length > 1) {
@@ -89,10 +84,6 @@ import { MailModule } from 'src/modules/mail/mail.module';
 
             return error;
           },
-          /* cors: {
-            origin: configService.get<string[]>('whiteListOrigins'),
-            credentials: true,
-          }, */
         };
       },
     }),

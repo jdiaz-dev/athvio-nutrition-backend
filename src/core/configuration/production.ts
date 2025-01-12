@@ -1,6 +1,7 @@
 import { IEnvironment } from './environment.interface';
 
 export const production: IEnvironment = {
+  port: process.env.PORT,
   database: {
     mongodb: process.env.MONGO_DB_CONNECTION,
   },
