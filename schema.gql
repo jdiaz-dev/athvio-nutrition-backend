@@ -393,10 +393,12 @@ input GetPatientGroupsDto {
 }
 
 input GetPatientPlansForMobileDto {
+  currentDate: DateTime!
   limit: Float = 30
   offset: Float = 0
   orderBy: String
   patient: String!
+  patientPlanTypeDate: String!
   search: [String!] = [""]
 }
 

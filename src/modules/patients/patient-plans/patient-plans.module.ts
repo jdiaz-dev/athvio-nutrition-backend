@@ -16,6 +16,7 @@ import { AuthenticationModule } from 'src/modules/authentication/authentication/
 import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
 import { SharedModule } from 'src/shared/shared.module';
 import { PatientPlansMobileResolver } from 'src/modules/patients/patient-plans/adapters/in/mobile/patient-plans-mobile.resolver';
+import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plans/application/get-patient-plans-manager.service';
 
 const resolvers = [PatientPlansWebResolver, PatientPlansMobileResolver, PatientPlanCommentsResolver, PatientPlanMealsResolver];
 const persistenceServices = [
@@ -28,6 +29,7 @@ const applicationServices = [
   AddPatientPlanCommentService,
   DuplicatePatientPlanService,
   AddPlanMealService,
+  GetPatientPlansManagerService,
 ];
 
 @Module({

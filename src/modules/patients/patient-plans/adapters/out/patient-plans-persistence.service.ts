@@ -63,8 +63,9 @@ export class PatientPlansPersistenceService {
     }
   }
   async getPatientPlans(
-    { patient, ...rest }: GetPatientPlansForWebDto | GetPatientPlansForMobileDto,
+    { patient, offset, limit }: GetPatientPlansForWebDto | GetPatientPlansForMobileDto,
     selectors: Record<string, number>,
+    extraFilters: Record<string, unknown> | {} = {},
   ): Promise<PatientPlan[]> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
@@ -74,6 +75,7 @@ export class PatientPlansPersistenceService {
           $match: {
             patient: patient,
             isDeleted: false,
+            ...extraFilters,
           },
         },
         {
@@ -89,10 +91,10 @@ export class PatientPlansPersistenceService {
           $facet: {
             data: [
               {
-                $skip: rest.offset,
+                $skip: offset,
               },
               {
-                $limit: rest.limit,
+                $limit: limit,
               },
               {
                 $project: selectors,

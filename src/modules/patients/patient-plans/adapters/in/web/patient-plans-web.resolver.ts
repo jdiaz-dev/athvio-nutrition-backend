@@ -12,14 +12,16 @@ import { AuthorizationGuard } from 'src/modules/authentication/authentication/ad
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
+import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plans/application/get-patient-plans-manager.service';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PatientPlansWebResolver {
   constructor(
     private readonly cpps: PatientPlansPersistenceService,
-    private ccps: CreatePatientPlanService,
-    private dcps: DuplicatePatientPlanService,
+    private readonly ccps: CreatePatientPlanService,
+    private readonly dcps: DuplicatePatientPlanService,
+    private readonly gppms: GetPatientPlansManagerService,
   ) {}
 
   @Mutation(() => PatientPlan)
@@ -31,7 +33,7 @@ export class PatientPlansWebResolver {
     @Args('patientPlans') dto: GetPatientPlansForWebDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PatientPlan[]> {
-    const patientPlans = await this.cpps.getPatientPlans(dto, selectors);
+    const patientPlans = await this.gppms.getPatientPlansForWeb(dto, selectors);
     return patientPlans;
   }
   @Mutation(() => PatientPlan)

@@ -144,6 +144,7 @@ export class AppModule {}
     - creating endpoint to add meals to patient plan <----------------- working
 
     - photos and files of patients
+    - customize error by rate limit
 
 */
 
