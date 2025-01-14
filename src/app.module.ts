@@ -25,6 +25,9 @@ import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/cu
 import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { GqlThrottlerGuard } from 'src/shared/guards/gql-throttler.guard';
 
 @Module({
   imports: [
@@ -38,8 +41,18 @@ import { MailModule } from 'src/modules/mail/mail.module';
         uri: configService.get<string>('database.mongodb'),
       }),
     }),
+    ThrottlerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        throttlers: [
+          {
+            ttl: parseInt(configService.get<string>('security.rateLimit.ttl')),
+            limit: parseInt(configService.get<string>('security.rateLimit.limit')),
+          },
+        ],
+      }),
+    }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      // imports: [WorkStreamAuditModule],
       driver: ApolloDriver,
       inject: [ConfigService],
       // @ts-ignore //todo: remove ts-ignore
@@ -65,9 +78,7 @@ import { MailModule } from 'src/modules/mail/mail.module';
           plugins: [ApolloServerPluginLandingPageLocalDefault()],
           sortSchema: true,
           // @ts-ignore
-          context: ({ req, res }) => {
-            return { req, res };
-          },
+          context: ({ req, res }) => ({ req, res }),
           autoTransformHttpErrors: true,
           formatResponse: (response: GraphQLResponse): GraphQLResponse => {
             if (response.errors && response.errors.length > 1) {
@@ -104,6 +115,12 @@ import { MailModule } from 'src/modules/mail/mail.module';
     MailModule,
   ],
   controllers: [AppController],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: GqlThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
 
