@@ -6,9 +6,5 @@ import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 export class GetPatientPlansForWebDto extends GetRecordsBaseDto {
   @Field()
   @IsMongoId()
-  professional: string;
-
-  @Field()
-  @IsMongoId()
   patient: string;
 }

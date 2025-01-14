@@ -405,7 +405,6 @@ input GetPatientPlansForWebDto {
   offset: Float = 0
   orderBy: String
   patient: String!
-  professional: String!
   search: [String!] = [""]
 }
 
