@@ -9,7 +9,6 @@ const availableEnvironments = {
 } as any;
 
 const globalConfiguration = (environment = 'production') => {
-  console.log('----------environment', environment);
   return availableEnvironments[environment];
 };
 
