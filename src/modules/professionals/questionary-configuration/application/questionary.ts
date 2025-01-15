@@ -6,11 +6,11 @@ type QuestionaryGroupType = (Omit<QuestionaryGroup, '_id'> & { questionaryDetail
 type GlobalQuestionary = Omit<Questionary, '_id' | 'questionaryGroups' | 'createdAt' | 'updatedAt'> & {
   questionaryGroups: QuestionaryGroupType;
 };
-/* 
 
+/* 
 questionaryGroups
-  title
-  description
+title
+description
   
 
 questionaryDetails

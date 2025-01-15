@@ -127,7 +127,6 @@ export class AppModule {}
 /*
   todo:
     - add rules to create week plans, verify the amount of days in week
-    - create roles and permissions
 
     - endpoint to update isTrialPeriod
     - update basic information of patient (professional and patient views)
@@ -141,7 +140,6 @@ export class AppModule {}
     - check application layer if foods module, check right implementation for hexagonal architecture
 
     - endpoint to relationate patients with programs (plans) 
-    - creating endpoint to add meals to patient plan <----------------- working
 
     - photos and files of patients
     - customize error by rate limit

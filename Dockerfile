@@ -21,7 +21,6 @@ RUN npm install --legacy-peer-deps
 # Bundle app source
 COPY . .
 
-# Build the application
 RUN npm run build
 
-CMD [ "node", "dist/src/main.js" ]
+RUN npm run start
