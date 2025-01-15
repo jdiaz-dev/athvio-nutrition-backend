@@ -23,4 +23,4 @@ COPY . .
 
 RUN npm run build
 
-RUN npm run start
+RUN npm run start:prod
