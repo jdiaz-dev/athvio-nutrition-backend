@@ -29,6 +29,7 @@ export class MailService {
       });
       return true;
     } catch (error) {
+      console.log('------error', error);
       throw new InternalServerErrorException(ErrorMailService.SEND_MAIL);
     }
   }

@@ -1,4 +1,4 @@
-export enum PatientPlanTypeDates {
+ export enum PatientPlanTypeDates {
   UPCOMING = 'UPCOMING',
   PAST = 'PAST',
 }
