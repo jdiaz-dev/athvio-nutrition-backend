@@ -21,6 +21,7 @@ RUN npm install --legacy-peer-deps
 # Bundle app source
 COPY . .
 
+# Build the application
 RUN npm run build
 
-RUN npm run start:prod
+CMD [ "npm run start:prod" ]
