@@ -32,7 +32,3 @@ async function bootstrap(): Promise<void> {
   console.log(`Server running on port ${port}`);
 }
 void bootstrap();
-/* 
-  TODO: fix undate recipe meal after to update it
-
-*/
