@@ -1,5 +1,4 @@
 import { AddCustomQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/add-custom-questionary-details.dto';
-import { globalQuestionary } from './questionary';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateQuestionary } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
 import { QuestionaryConfigPersistenceService } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config-persistence.service';
@@ -10,17 +9,24 @@ import { DeleteCustomQuestionaryDetailsDto } from 'src/modules/professionals/que
 import { UpdateCustomQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/update-custom-questionary-details.dto';
 import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
 import { CustomQuestionaryDetailsPersistenceService } from 'src/modules/professionals/questionary-configuration/adapters/out/custom-questionary-details-persistence.service';
+import { QuestionaryPersistenceService } from 'src/modules/professionals/questionary/adapters/out/questinary-persistence.service';
 
 @Injectable()
 export class QuestionaryConfigManager {
   private layer = LayersServer.APPLICATION;
 
-  constructor(private qcps: QuestionaryConfigPersistenceService, private oqdp: CustomQuestionaryDetailsPersistenceService) {}
+  constructor(
+    private readonly qps: QuestionaryPersistenceService,
+    private qcps: QuestionaryConfigPersistenceService,
+    private oqdp: CustomQuestionaryDetailsPersistenceService,
+  ) {}
 
   async createQuestionary(professional: string): Promise<QuestionaryConfig> {
+    const globalQuestionary = await this.qps.getQuestionary();
+    console.log('---------globalQuestionary', globalQuestionary);
     const questionary: CreateQuestionary = {
       professional,
-      ...globalQuestionary,
+      questionaryGroups: globalQuestionary.questionaryGroups,
     };
 
     const questionaryCreated = await this.qcps.createQuestionary(questionary);

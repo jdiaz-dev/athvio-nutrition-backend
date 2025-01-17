@@ -12,9 +12,8 @@ import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questiona
 export class QuestionaryConfigPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
-  constructor(@InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>) {
-    this.questionaryConfig;
-  }
+  constructor(@InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>) {}
+  
   async createQuestionary(questionary: CreateQuestionary): Promise<QuestionaryConfig> {
     try {
       const questionaryRes = await this.questionaryConfig.create({

@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Questionary } from 'src/shared/schemas/questionary.schema';
+import { QuestionaryBase } from 'src/shared/schemas/questionary-base.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'QuestionaryConfigs' })
-export class QuestionaryConfig extends Questionary {
+export class QuestionaryConfig extends QuestionaryBase {
   @Field(() => ID)
   _id!: string;
 

@@ -1,7 +1,7 @@
-import { QuestionaryConfig } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config.schema';
-import { QuestionaryDetail, QuestionaryGroup } from 'src/shared/schemas/questionary.schema';
+import { Questionary } from 'src/modules/professionals/questionary/adapters/out/questionary.schema';
+import { QuestionaryDetail, QuestionaryGroup } from 'src/shared/schemas/questionary-base.schema';
 
-export type CreateQuestionary = Pick<QuestionaryConfig, 'professional'> & {
+export type CreateQuestionary = Pick<Questionary, 'professional'> & {
   questionaryGroups: Omit<QuestionaryGroup, '_id'>[];
 };
 

@@ -28,6 +28,7 @@ import { MailModule } from 'src/modules/mail/mail.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { GqlThrottlerGuard } from 'src/shared/guards/gql-throttler.guard';
+import { QuestionaryModule } from 'src/modules/professionals/questionary/adapters/questionary.module';
 
 @Module({
   imports: [
@@ -111,6 +112,7 @@ import { GqlThrottlerGuard } from 'src/shared/guards/gql-throttler.guard';
     AuthenticationModule,
     FoodsModule,
     QuestionaryConfigurationModule,
+    QuestionaryModule,
     MailModule,
   ],
   controllers: [AppController],
@@ -177,7 +179,7 @@ export class AppModule {}
       - updateInformationDetail
 
     internal
-      - at moment to create a customer, createa a patient information (quesetionary)
+      - at moment to create a patient, create a patient information (quesetionary)
 
     - questionaryConfiguration
       - id

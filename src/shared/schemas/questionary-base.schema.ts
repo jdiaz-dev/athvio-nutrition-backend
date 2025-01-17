@@ -56,7 +56,7 @@ export class QuestionaryGroup {
 const QuestionaryGroupSchema = SchemaFactory.createForClass(QuestionaryGroup);
 
 @ObjectType()
-export class Questionary extends BaseSchema {
+export class QuestionaryBase extends BaseSchema {
   @Field(() => [QuestionaryGroup])
   @Prop({ type: [QuestionaryGroupSchema], required: true })
   questionaryGroups!: QuestionaryGroup[];

@@ -1,30 +1,4 @@
-import { CustomFieldsGroupName } from 'src/shared/enums/project';
-import { QuestionaryDetail } from 'src/shared/schemas/questionary.schema';
-import { Questionary, QuestionaryGroup } from 'src/shared/schemas/questionary.schema';
-
-type QuestionaryGroupType = (Omit<QuestionaryGroup, '_id'> & { questionaryDetails: Omit<QuestionaryDetail, '_id'>[] })[];
-type GlobalQuestionary = Omit<Questionary, '_id' | 'questionaryGroups' | 'createdAt' | 'updatedAt'> & {
-  questionaryGroups: QuestionaryGroupType;
-};
-
-/* 
-questionaryGroups
-title
-description
-  
-
-questionaryDetails
-  questionaryGroupId
-  questionaryDetailId
-  ...data
-
-
-*/
-
-
-//todo: create and carry to commons database
-//todo: break  in normalized way
-export const globalQuestionary: GlobalQuestionary = {
+db.Questionaries.insertOne({
   questionaryGroups: [
     {
       title: 'Informaciones de consulta',
@@ -34,7 +8,7 @@ export const globalQuestionary: GlobalQuestionary = {
           fieldName: 'Motivo de consulta',
           associatedQuestion: '¿Cuál es el motivo de la consulta?',
           isEnabled: true,
-          isDeleted: false,//to delete
+          isDeleted: false, //to delete
           fieldType: 'text',
         },
         {
@@ -157,123 +131,9 @@ export const globalQuestionary: GlobalQuestionary = {
       ],
     },
     {
-      title: CustomFieldsGroupName,
+      title: 'Customized',
       description: '',
       questionaryDetails: [],
     },
   ],
-};
-/* 
-questionaryConfig
-  questionaryGroups
-    questionaryGroup
-    questionaryDetails
-      questionaryDetail
-      isEnabled
-*/
-
-
-export const globalQuestionaryxxx = {
-  questionaryGroups: [
-    {
-      questionaryGroup: 'mongoId',
-      questionaryDetails: [
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-      ],
-    },
-    {
-      questionaryGroup: 'mongoId',
-      questionaryDetails: [
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-      ],
-    },
-    {
-      title: 'Historia alimentaria',
-      description: 'Habitos y preferencias alimentarias del paciente',
-      questionaryDetails: [
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-        },
-        {
-          questionaryDetail:'mongoId',
-          fieldName: 'Alergias',
-          associatedQuestion: '¿Sufre de algun tipo de alergia?',
-          isEnabled: true,
-          isDeleted: false,
-          fieldType: 'text',
-        },
-        {
-          questionaryDetail:'mongoId',
-          fieldName: 'Deficiencias nutricionales',
-          associatedQuestion: '¿Sufre de algun tipo de deficiencia nutricional?',
-          isEnabled: true,
-          isDeleted: false,
-          fieldType: 'text',
-        },
-        {
-          questionaryDetail:'mongoId',
-          isEnabled: true,
-          isDeleted: false,
-          fieldType: 'text',
-        },
-      ],
-    },
-    {
-      title: CustomFieldsGroupName,
-      description: '',
-      questionaryDetails: [],
-    },
-  ],
-};
-
-/* 
-  so far the most possible option is move specific fields to other document and realize multiple $lookups
-
-*/
+});
