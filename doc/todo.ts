@@ -95,4 +95,5 @@
     - check cost of loadbalancer 
     - check cost of cloudwatch
     - learn about load balancer
+    - check parametrized queries to void NoSQL injection
 */
