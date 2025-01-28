@@ -87,13 +87,13 @@
 */
 
 /* 
-  TODO:
+  TODO (infraestructure):
     - migrate from railway to aws?,  beacuse don't have static ip
-
     
     - research how many amount of memory and cpu need the athvio-nutrition-backend app
     - check cost of loadbalancer 
     - check cost of cloudwatch
     - learn about load balancer
     - check parametrized queries to void NoSQL injection
+    - configure pre commit , using linters
 */

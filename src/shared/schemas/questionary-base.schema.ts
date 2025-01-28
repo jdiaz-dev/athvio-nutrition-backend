@@ -6,7 +6,6 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 @ObjectType()
 export class QuestionaryDetail {
   @Field(() => ID)
-  //todo: remove optional
   _id?: string;
 
   @Field(() => String)
@@ -17,11 +16,9 @@ export class QuestionaryDetail {
   @Prop({ type: String, required: true })
   associatedQuestion: string;
 
-  // @Field(() => String)
   @Prop({ type: String, required: true })
   fieldType: string;
 
-  // @Field(() => String || [String], { nullable: true })
   @Prop({ type: String || [String], required: false })
   fieldOptions?: string | string[];
 

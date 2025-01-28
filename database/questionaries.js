@@ -8,14 +8,14 @@ db.Questionaries.insertOne({
           fieldName: 'Motivo de consulta',
           associatedQuestion: '¿Cuál es el motivo de la consulta?',
           isEnabled: true,
-          isDeleted: false, //to delete
+          isDeleted: false, 
           fieldType: 'text',
         },
         {
           fieldName: 'Expectativas',
           associatedQuestion: '¿Cuáles son sus expectativas?',
           isEnabled: true,
-          isDeleted: false, //to delete
+          isDeleted: false, 
           fieldType: 'text',
         },
         {
