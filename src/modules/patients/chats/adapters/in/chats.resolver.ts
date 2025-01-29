@@ -10,6 +10,7 @@ import { SubscribePublishedMessageDto } from 'src/modules/patients/chats/adapter
 import { CommenterType } from 'src/shared/enums/project';
 import { PartialChat } from 'src/modules/patients/chats/adapters/out/chema.types';
 import { GetChatDto } from 'src/modules/patients/chats/adapters/in/dtos/get-chat-dto';
+import { SkipThrottle } from '@nestjs/throttler';
 
 const pubSub = new PubSub();
 
@@ -48,7 +49,7 @@ export class ChatsResolver {
       return chat;
     }
   }
-
+  @SkipThrottle()
   @Subscription(() => Chat, {
     name: SubscriptionNames.PATIENT_MESSAGED,
     defaultValue: null,
@@ -62,6 +63,9 @@ export class ChatsResolver {
     const res = pubSub.asyncIterator(SubscriptionNames.PATIENT_MESSAGED);
     return res;
   }
+
+  //todo: enable rate limit throttle?
+  @SkipThrottle()
   @Subscription(() => Chat, {
     name: SubscriptionNames.PROFESSIONAL_MESSAGED,
     defaultValue: null,
