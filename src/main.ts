@@ -13,6 +13,7 @@ async function bootstrap(): Promise<void> {
     origin: whiteListOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'], // Ensure POST is allowed
+    allowedHeaders:['Content-Type', 'Authorization'],
   });
   app.use(
     helmet({
