@@ -3,3 +3,4 @@
 - create one application that allow to check compatible foods
 - use opencv for all kind of image processing as compression
 - use pdfium to compress pdfs
+- use neo4j to relationate nutrients, nutritonal program, diseases 

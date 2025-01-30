@@ -57,49 +57,47 @@ import { QuestionaryModule } from 'src/modules/professionals/questionary/adapter
       driver: ApolloDriver,
       inject: [ConfigService],
       // @ts-ignore //todo: remove ts-ignore
-      useFactory: (configService: ConfigService) => {
-        return {
-          playground: false,
-          autoSchemaFile: 'schema.gql',
-          fieldResolverEnhancers: ['interceptors'],
-          includeStacktraceInErrorResponses: false,
-          subscriptions: {
-            'graphql-ws': {
-              onConnect: (context: any) => {
-                const { connectionParams, extra } = context;
-                connectionParams;
-                // user validation will remain the same as in the example above
-                // when using with graphql-ws, additional context value should be stored in the extra field
-                extra.user = { user: {} };
-              },
+      useFactory: (configService: ConfigService) => ({
+        playground: false,
+        autoSchemaFile: 'schema.gql',
+        fieldResolverEnhancers: ['interceptors'],
+        includeStacktraceInErrorResponses: false,
+        subscriptions: {
+          'graphql-ws': {
+            onConnect: (context: any) => {
+              const { connectionParams, extra } = context;
+              connectionParams;
+              // user validation will remain the same as in the example above
+              // when using with graphql-ws, additional context value should be stored in the extra field
+              extra.user = { user: {} };
             },
           },
-          plugins: [ApolloServerPluginLandingPageLocalDefault()],
-          sortSchema: true,
-          autoTransformHttpErrors: true,
-          cors: {
-            origin: true, // Allow all origins
-            credentials: true,
-          },
-          // @ts-ignore
-          context: ({ req, res }) => ({ req, res }),
-          formatResponse: (response: GraphQLResponse): GraphQLResponse => {
-            if (response.errors && response.errors.length > 1) {
-              while (response.errors.length != 1) {
-                // response.errors.pop();
-              }
+        },
+        plugins: [ApolloServerPluginLandingPageLocalDefault()],
+        sortSchema: true,
+        autoTransformHttpErrors: true,
+        cors: {
+          origin: true, // Allow all origins
+          credentials: true,
+        },
+        // @ts-ignore
+        context: ({ req, res }) => ({ req, res }),
+        formatResponse: (response: GraphQLResponse): GraphQLResponse => {
+          if (response.errors && response.errors.length > 1) {
+            while (response.errors.length != 1) {
+              // response.errors.pop();
             }
-            return response;
-          },
-          formatError: (error: GraphQLError): GraphQLFormattedError => {
-            //removing stacktrace of code
-            /* if (error.extensions) delete error.extensions.exception;
+          }
+          return response;
+        },
+        formatError: (error: GraphQLError): GraphQLFormattedError => {
+          //removing stacktrace of code
+          /* if (error.extensions) delete error.extensions.exception;
             if (process.env.NODE_ENV === EnumEnvironments.LOCAL) return error as GraphQLFormattedError; */
 
-            return error;
-          },
-        };
-      },
+          return error;
+        },
+      }),
     }),
     SharedModule,
     UsersModule,

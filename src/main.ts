@@ -12,8 +12,8 @@ async function bootstrap(): Promise<void> {
   app.enableCors({
     origin: whiteListOrigins,
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'], // Ensure POST is allowed
-    allowedHeaders:['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
   app.use(
     helmet({
