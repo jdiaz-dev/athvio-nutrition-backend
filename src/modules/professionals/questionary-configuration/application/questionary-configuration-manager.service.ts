@@ -23,14 +23,12 @@ export class QuestionaryConfigManager {
 
   async createQuestionary(professional: string): Promise<QuestionaryConfig> {
     const globalQuestionary = await this.qps.getQuestionary();
-    console.log('---------globalQuestionary', globalQuestionary);
     const questionary: CreateQuestionary = {
       professional,
       questionaryGroups: globalQuestionary.questionaryGroups,
     };
 
     const questionaryCreated = await this.qcps.createQuestionary(questionary);
-
     return questionaryCreated;
   }
   async getQuestionaryConfig(professional: string, selector: Record<string, number>): Promise<QuestionaryConfig> {
