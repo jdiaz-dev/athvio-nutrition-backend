@@ -76,9 +76,13 @@ import { QuestionaryModule } from 'src/modules/professionals/questionary/adapter
           },
           plugins: [ApolloServerPluginLandingPageLocalDefault()],
           sortSchema: true,
+          autoTransformHttpErrors: true,
+          cors: {
+            origin: true, // Allow all origins
+            credentials: true,
+          },
           // @ts-ignore
           context: ({ req, res }) => ({ req, res }),
-          autoTransformHttpErrors: true,
           formatResponse: (response: GraphQLResponse): GraphQLResponse => {
             if (response.errors && response.errors.length > 1) {
               while (response.errors.length != 1) {
