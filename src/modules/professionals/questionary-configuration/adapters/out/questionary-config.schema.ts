@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { QuestionaryBase } from 'src/shared/schemas/questionary-base.schema';
+import { QuestionaryBase, QuestionaryDetailSchema } from 'src/shared/schemas/questionary-base.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'QuestionaryConfigs' })
@@ -20,3 +20,6 @@ QuestionaryConfigSchema.methods.toJSON = function (): Partial<QuestionaryConfig>
   const { __v, createdAt, updatedAt, ...questionaryConfig } = this.toObject();
   return questionaryConfig as Partial<QuestionaryConfig>;
 };
+QuestionaryConfigSchema.path('questionaryGroups', {
+  schemaForQuestionaryGroups: QuestionaryDetailSchema,
+});

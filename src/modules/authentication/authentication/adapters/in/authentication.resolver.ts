@@ -33,6 +33,7 @@ export class AuthenticationResolver {
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => SignUpPatientResponse)
   signUpPatient(@Args('input') dto: SignUpPatientDto): Promise<SignUpPatientResponse> {
+    console.log('----dto', dto)
     return this.sppms.signUpPatient(dto);
   }
 

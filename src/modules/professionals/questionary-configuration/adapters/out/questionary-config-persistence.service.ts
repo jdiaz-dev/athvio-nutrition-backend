@@ -18,6 +18,7 @@ export class QuestionaryConfigPersistenceService {
     try {
       const questionaryRes = await this.questionaryConfig.create({
         ...questionary,
+        // questionaryGroups:[]
       });
       return questionaryRes;
     } catch (e) {
