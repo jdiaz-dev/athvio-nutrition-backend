@@ -9,7 +9,6 @@ export enum EnumEnvironments {
 }
 
 export enum EnumRoles {
-  //ADMIN = 'admin',//todo: implement admin role?
   PROFESSIONAL = 'professional',
   PATIENT = 'patient',
 }
