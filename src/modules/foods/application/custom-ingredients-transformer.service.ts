@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Food, GetFoodsDto, GetFoodsResponse } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
-import { CustomRecipesPersistenceService } from 'src/modules/professionals/custom-recipes/adapters/out/custom-recipes-persistence.service';
+import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
 import { FoodDatabases, weightIngrams } from 'src/shared/enums/project';
 import { Macros } from 'src/shared/models/macros';
 
@@ -8,7 +8,7 @@ import { Macros } from 'src/shared/models/macros';
 // this class may be necessary to transform data from custom ingredients
 @Injectable()
 export class CustomIngredientsTransformerService {
-  constructor(private readonly customRecipesPersistence: CustomRecipesPersistenceService) {}
+  constructor(private readonly nmps: NutritionalMealsPersistenceService) {}
 
   private calculateMacrosFixingDecimals(weightRef: number, macroRef: number): number {
     if (macroRef <= 0) return 0;
@@ -28,7 +28,7 @@ export class CustomIngredientsTransformerService {
     };
     return macros;
   }
-  async getFoodFromCustomRecipes(dto: GetFoodsDto, selectors: Record<string, number>): Promise<GetFoodsResponse> {
+  async getFoodFromMeals(dto: GetFoodsDto, selectors: Record<string, number>): Promise<GetFoodsResponse> {
     const choosedSelectors = { ...selectors };
     for (const key in choosedSelectors) {
       if (
@@ -44,7 +44,7 @@ export class CustomIngredientsTransformerService {
       }
     }
 
-    const { data, meta } = await this.customRecipesPersistence.getCustomRecipes(dto, choosedSelectors);
+    const { data, meta } = await this.nmps.getNutritionalMeals(dto, choosedSelectors);
     const customRecipesForFood: Food[] = data.map((recipe) => {
       const res: Food = {
         name: recipe.name,

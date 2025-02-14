@@ -6,8 +6,8 @@ import { IngredientDetail, IngredientDetailSchema } from 'src/shared/models/meal
 import { Macros, MacroSchema } from 'src/shared/models/macros';
 
 @ObjectType()
-@Schema({ timestamps: true, collection: 'CustomRecipes' })
-export class CustomRecipe extends BaseSchema {
+@Schema({ timestamps: true, collection: 'Meals' })
+export class NutritionalMeal extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
@@ -35,9 +35,9 @@ export class CustomRecipe extends BaseSchema {
   isDeleted!: string;
 }
 
-export type CustomRecipeDocument = CustomRecipe & Document;
-export const CustomRecipeSchema = SchemaFactory.createForClass(CustomRecipe);
-CustomRecipeSchema.methods.toJSON = function (): Partial<CustomRecipe> {
-  const { __v, createdAt, updatedAt, ...customMeal } = this.toObject();
-  return customMeal as Partial<CustomRecipe>;
+export type NutritionalDocument = NutritionalMeal & Document;
+export const NutritionalMealSchema = SchemaFactory.createForClass(NutritionalMeal);
+NutritionalMealSchema.methods.toJSON = function (): Partial<NutritionalMeal> {
+  const { __v, createdAt, updatedAt, ...nutritionalMeal } = this.toObject();
+  return nutritionalMeal as Partial<NutritionalMeal>;
 };

@@ -1,5 +1,5 @@
 const val = '';
-db.CustomRecipes.aggregate([
+db.Meals.aggregate([
   {
     $match: {
       professional: ObjectId('6422c35d6231936802545552'),

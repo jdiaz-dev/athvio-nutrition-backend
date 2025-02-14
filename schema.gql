@@ -127,7 +127,7 @@ input CreateCustomQuestionaryDetailInput {
   isEnabled: Boolean!
 }
 
-input CreateCustomRecipeDto {
+input CreateNutritionalMealDto {
   cookingInstructions: String
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
@@ -191,17 +191,6 @@ input CustomIngredientInput {
   name: String!
 }
 
-type CustomRecipe {
-  _id: ID!
-  cookingInstructions: String!
-  createdAt: DateTime!
-  ingredientDetails: [IngredientDetail!]!
-  ingredients: [IngredientDetail!]!
-  macros: Macros!
-  name: String!
-  professional: String!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -214,16 +203,16 @@ input DeleteCustomQuestionaryDetailsDto {
   questionaryGroup: String!
 }
 
-input DeleteCustomRecipeDto {
-  customRecipe: String!
-  professional: String!
-}
-
 input DeleteMealDto {
   meals: [String!]!
   plan: String!
   professional: String!
   program: String!
+}
+
+input DeleteNutritionalMealDto {
+  nutritionalMeal: String!
+  professional: String!
 }
 
 input DeletePatientGroupDto {
@@ -346,24 +335,6 @@ input GetChatDto {
   professional: String
 }
 
-input GetCustomRecipeDto {
-  customRecipe: String!
-  professional: String!
-}
-
-input GetCustomRecipesDto {
-  limit: Float = 30
-  offset: Float = 0
-  orderBy: String
-  professional: String!
-  search: [String!] = [""]
-}
-
-type GetCustomRecipesResponse {
-  data: [CustomRecipe!]!
-  meta: Meta!
-}
-
 input GetFoodsDto {
   foodDatabase: String!
   limit: Float = 30
@@ -377,6 +348,24 @@ input GetFoodsDto {
 type GetFoodsResponse {
   data: [Food!]!
   meta: FoodsMeta!
+}
+
+input GetNutritionalMealDto {
+  nutritionalMeal: String!
+  professional: String!
+}
+
+input GetNutritionalMealsDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  professional: String!
+  search: [String!] = [""]
+}
+
+type GetNutritionalMealsResponse {
+  data: [NutritionalMeal!]!
+  meta: Meta!
 }
 
 input GetPatientForMobileDto {
@@ -589,15 +578,15 @@ type Mutation {
   addProgramPlan(input: AddProgramPlanDto!): Program!
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
-  createCustomRecipe(input: CreateCustomRecipeDto!): CustomRecipe!
   createMeal(toAddInput: AddMealDto!): Program!
+  createNutritionalMeal(input: CreateNutritionalMealDto!): NutritionalMeal!
   createPatientGroup(input: CreatePatientGroupDto!): PatientGroup!
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
-  deleteCustomRecipe(input: DeleteCustomRecipeDto!): CustomRecipe!
   deleteMeal(toDeleteInput: DeleteMealDto!): Program!
+  deleteNutritionalMeal(input: DeleteNutritionalMealDto!): NutritionalMeal!
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
   deletePatientPlanComment(input: DeletePatientPlanCommentDto!): PatientPlan!
@@ -617,8 +606,8 @@ type Mutation {
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
-  updateCustomRecipe(input: UpdateCustomRecipeDto!): CustomRecipe!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
+  updateNutritionalMeal(input: UpdateNutritionalMealDto!): NutritionalMeal!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
@@ -627,6 +616,17 @@ type Mutation {
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
+}
+
+type NutritionalMeal {
+  _id: ID!
+  cookingInstructions: String!
+  createdAt: DateTime!
+  ingredientDetails: [IngredientDetail!]!
+  ingredients: [IngredientDetail!]!
+  macros: Macros!
+  name: String!
+  professional: String!
 }
 
 type Organization {
@@ -727,10 +727,10 @@ type Query {
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
-  getCustomRecipe(input: GetCustomRecipeDto!): CustomRecipe!
-  getCustomRecipes(input: GetCustomRecipesDto!): GetCustomRecipesResponse!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
+  getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
+  getNutritionalMeals(input: GetNutritionalMealsDto!): GetNutritionalMealsResponse!
   getPatientForMobile(input: GetPatientForMobileDto!): Patient!
   getPatientForWeb(patient: GetPatientForWebDto!): Patient!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
@@ -844,20 +844,20 @@ input UpdateCustomQuestionaryDetailsDto {
   questionaryGroup: String!
 }
 
-input UpdateCustomRecipeDto {
-  cookingInstructions: String!
-  customRecipe: String!
-  ingredientDetails: [IngredientDetailsInput!]!
-  macros: MacrosInput!
-  name: String!
-  professional: String!
-}
-
 input UpdateMealDto {
   meals: [MealBodyInput!]!
   plan: String!
   professional: String!
   program: String!
+}
+
+input UpdateNutritionalMealDto {
+  cookingInstructions: String!
+  ingredientDetails: [IngredientDetailsInput!]!
+  macros: MacrosInput!
+  name: String!
+  nutritionalMeal: String!
+  professional: String!
 }
 
 input UpdatePatientGroupDto {

@@ -1,17 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsArray, IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { IngredientDetailsInput } from 'src/shared/dtos/ingredient-detail-input';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
 @InputType()
-export class UpdateCustomRecipeDto {
+export class CreateNutritionalMealDto {
   @Field()
   @IsMongoId()
   professional: string;
-
-  @Field()
-  @IsMongoId()
-  customRecipe: string;
 
   @Field()
   @IsString()
@@ -22,8 +18,9 @@ export class UpdateCustomRecipeDto {
   @ValidateNested()
   ingredientDetails: IngredientDetailsInput[];
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
+  @IsOptional()
   cookingInstructions: string;
 
   @Field(() => MacrosInput)

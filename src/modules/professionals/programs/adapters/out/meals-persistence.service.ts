@@ -13,7 +13,7 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 
 @Injectable()
-export class MealsPersistenceService {
+export class NutritionalMealsPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
   constructor(

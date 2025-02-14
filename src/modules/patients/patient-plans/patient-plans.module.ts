@@ -9,7 +9,7 @@ import { AddPatientPlanCommentService } from 'src/modules/patients/patient-plans
 import { CreatePatientPlanService } from 'src/modules/patients/patient-plans/application/create-patient-plan.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
-import { PatientPlanMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
+import { PatientPlanNutritionalMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
 import { PatientPlanMealsResolver } from 'src/modules/patients/patient-plans/adapters/in/web/patient-plan-meals.resolver';
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
@@ -22,7 +22,7 @@ const resolvers = [PatientPlansWebResolver, PatientPlansMobileResolver, PatientP
 const persistenceServices = [
   PatientPlansPersistenceService,
   PatientPlanCommentPersistenceService,
-  PatientPlanMealsPersistenceService,
+  PatientPlanNutritionalMealsPersistenceService,
 ];
 const applicationServices = [
   CreatePatientPlanService,

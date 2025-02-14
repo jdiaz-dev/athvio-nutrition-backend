@@ -3,7 +3,7 @@ import { Args, Info, Mutation, Resolver } from '@nestjs/graphql';
 import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
-import { MealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
+import { NutritionalMealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -12,7 +12,7 @@ import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-help
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class MealsResolver {
-  constructor(private readonly mps: MealsPersistenceService) {}
+  constructor(private readonly mps: NutritionalMealsPersistenceService) {}
 
   @Mutation(() => Program)
   createMeal(

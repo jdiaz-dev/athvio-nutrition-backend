@@ -7,7 +7,7 @@ import { ProgramTagsModule } from 'src/modules/professionals/program-tags/progra
 import { MealsResolver } from 'src/modules/professionals/programs/adapters/in/meals.resolver';
 import { PlansResolver } from 'src/modules/professionals/programs/adapters/in/plans.resolver';
 import { ProgramsResolver } from 'src/modules/professionals/programs/adapters/in/programs.resolver';
-import { MealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
+import { NutritionalMealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { Program, ProgramSchema } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
@@ -22,7 +22,7 @@ const services = [
   ProgramsPersistenceService,
   ProgramManagementService,
   PlansPersistenceService,
-  MealsPersistenceService,
+  NutritionalMealsPersistenceService,
   AssignProgramService,
   ProgramPlanManagementService
 ];

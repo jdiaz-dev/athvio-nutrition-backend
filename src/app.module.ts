@@ -21,7 +21,7 @@ import { AuthenticationModule } from './modules/authentication/authentication/au
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { FoodsModule } from 'src/modules/foods/foods.module';
-import { CustomRecipesModule } from 'src/modules/professionals/custom-recipes/custom-recipes.module';
+import { NutritionalMealsModule } from 'src/modules/professionals/nutritional-meals/nutritional-meals.module';
 import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
@@ -105,7 +105,7 @@ import { QuestionaryModule } from 'src/modules/professionals/questionary/adapter
     ProgramsModule,
     ProgramTagsModule,
     PatientGroupsModule,
-    CustomRecipesModule,
+    NutritionalMealsModule,
     PatientsModule,
     CaloriesModule,
     PatientPlansModule,

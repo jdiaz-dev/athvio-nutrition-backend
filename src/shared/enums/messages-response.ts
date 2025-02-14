@@ -39,8 +39,8 @@ export enum ErrorPatientPlanEnum {
   CLIENT_PLAN_NOT_FOUND = 'This patient plan does not exist.',
 }
 
-export enum ErrorCustomRecipeEnum {
-  CUSTOM_RECIPE_NOT_FOUND = 'This custom recipe does not exist.',
+export enum ErrorNutritionalMealEnum {
+  NUTRITIONAL_PLAN_NOT_FOUND = 'This nutritional plan does not exist.',
 }
 
 export enum ErrorCaloryEnum {

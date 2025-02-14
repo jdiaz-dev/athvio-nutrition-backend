@@ -12,7 +12,7 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
 
 @Injectable()
-export class PatientPlanMealsPersistenceService {
+export class PatientPlanNutritionalMealsPersistenceService {
   constructor(
     @InjectModel(PatientPlan.name) private readonly clienPlanModel: Model<PatientPlanDocument>,
     private readonly logger: AthvioLoggerService,

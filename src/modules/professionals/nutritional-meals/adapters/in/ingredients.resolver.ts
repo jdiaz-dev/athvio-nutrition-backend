@@ -2,17 +2,17 @@
 import { UseGuards } from '@nestjs/common';
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 
-import { CustomRecipe } from 'src/modules/professionals/custom-recipes/adapters/out/custom-recipe.schema';
+import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { IngredientDetail } from 'src/shared/models/meal-plan';
 
-@Resolver(() => CustomRecipe)
+@Resolver(() => NutritionalMeal)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class IngredientsResolver {
   //resolving object array
   @ResolveField('ingredients', () => [IngredientDetail])
-  getProductProviders(@Parent() customMeal: CustomRecipe): IngredientDetail[] {
+  getProductProviders(@Parent() customMeal: NutritionalMeal): IngredientDetail[] {
     return customMeal.ingredientDetails;
   }
 }
