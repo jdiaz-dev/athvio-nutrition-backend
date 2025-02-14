@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Info, Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import {
   GetAutocompleteFoodNamesDto,
   GetAutocompleteFoodNamesResponse,
@@ -10,7 +10,6 @@ import { GetFoodsService } from 'src/modules/foods/application/get-foods.service
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { FoodDatabases } from 'src/shared/enums/project';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -24,11 +23,8 @@ export class FoodsResolver {
   }
 
   @Query(() => GetFoodsResponse)
-  async getFoods(
-    @Args('input') dto: GetFoodsDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
-  ): Promise<GetFoodsResponse> {
-    const res = await this.gfs.getFoods(dto, selectors);
+  async getFoods(@Args('input') dto: GetFoodsDto): Promise<GetFoodsResponse> {
+    const res = await this.gfs.getFoods(dto);
     return res;
   }
 

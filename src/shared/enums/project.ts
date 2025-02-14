@@ -61,7 +61,6 @@ export enum Pagination {
 export enum FoodDatabases {
   ALL = 'ALL',
   SYSTEM = 'SYSTEM',
-  CUSTOM_RECIPES = 'CUSTOM_RECIPES',
 }
 
 export enum IngredientType {

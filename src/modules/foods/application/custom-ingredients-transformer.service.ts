@@ -4,8 +4,10 @@ import { CustomRecipesPersistenceService } from 'src/modules/professionals/custo
 import { FoodDatabases, weightIngrams } from 'src/shared/enums/project';
 import { Macros } from 'src/shared/models/macros';
 
+// todo: remove this class ?
+// this class may be necessary to transform data from custom ingredients
 @Injectable()
-export class CustomRecipesTransformerService {
+export class CustomIngredientsTransformerService {
   constructor(private readonly customRecipesPersistence: CustomRecipesPersistenceService) {}
 
   private calculateMacrosFixingDecimals(weightRef: number, macroRef: number): number {
@@ -47,7 +49,7 @@ export class CustomRecipesTransformerService {
       const res: Food = {
         name: recipe.name,
         macros: this.macrosFor100Grams(recipe.macros),
-        foodDatabase: FoodDatabases.CUSTOM_RECIPES,
+        foodDatabase: FoodDatabases.ALL, //replace for custom ingredients
         ingredientDetails: recipe.ingredientDetails,
         availableMeasures: [{ label: 'Gram', weightInGrams: 1 }],
       };
