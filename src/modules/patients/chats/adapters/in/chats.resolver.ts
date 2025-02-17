@@ -30,12 +30,10 @@ export class ChatsResolver {
     return chat;
   }
   @Mutation(() => Chat)
-  @UseGuards(AuthorizationGuard) //todo: check if work guards
+  @UseGuards(AuthorizationGuard)
   async saveChatComment(
     @Args('input') dto: SaveChatCommentDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
-    //TODO: use context with pubSub for subscriptions
-    // @Context('pubsub') pubSub: PubSub,
   ): Promise<PartialChat> {
     const { _id, professional, patient, comments } = await this.cms.addChatComment(dto, selectors);
 
@@ -64,7 +62,6 @@ export class ChatsResolver {
     return res;
   }
 
-  //todo: enable rate limit throttle?
   @SkipThrottle()
   @Subscription(() => Chat, {
     name: SubscriptionNames.PROFESSIONAL_MESSAGED,

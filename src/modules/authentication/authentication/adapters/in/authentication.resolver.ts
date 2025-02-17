@@ -25,7 +25,6 @@ export class AuthenticationResolver {
     private sppms: SignUpPatientManagamentService,
   ) {}
 
-  //TODO: think in one guard for this endpoint
   @Mutation(() => JwtDto)
   signUpProfessional(@Args('input') dto: SignUpProfessionalDto, @Context() _context: unknown): Promise<JwtDto> {
     return this.sups.signUpProfessional(dto);

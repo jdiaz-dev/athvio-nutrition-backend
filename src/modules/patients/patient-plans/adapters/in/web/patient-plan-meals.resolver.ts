@@ -15,7 +15,6 @@ import { AddPlanMealService } from 'src/modules/patients/patient-plans/applicati
 export class PatientPlanMealsResolver {
   constructor(private readonly apms: AddPlanMealService, private readonly cpmps: PatientPlanNutritionalMealsPersistenceService) {}
 
-  //todo: thinking in redux
   @Mutation(() => PatientPlan)
   addPlanMeal(
     @Args('toAddInput') dto: AddPlanMealDto,

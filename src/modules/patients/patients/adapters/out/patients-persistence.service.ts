@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FlattenMaps, Model, UpdateWriteOpResult, Types } from 'mongoose';
 import { GetPatientsDto, GetPatientsResponse } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patients.dto';
 import { Patient, PatientDocument } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { ErrorPatientsEnum, InternalErrors } from 'src/shared/enums/messages-response';
+import { InternalErrors } from 'src/shared/enums/messages-response';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { PatientState, ManagePatientGroup } from 'src/shared/enums/project';
@@ -11,7 +11,6 @@ import { CreatePatient, DeleteManyPatientGroup, UpdatePatient } from 'src/module
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
-//todo: move all badRequestExceptions to application layer
 //todo: add loggers to log internal errors
 @Injectable()
 export class PatientsPersistenceService {
@@ -74,7 +73,7 @@ export class PatientsPersistenceService {
         _id: patientId,
         state: PatientState.ACTIVE,
       });
-      if (!patientRes) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
+
       return patientRes;
     } catch (error) {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
@@ -94,7 +93,6 @@ export class PatientsPersistenceService {
   async getManyPatientsByIds(patients: string[]): Promise<Patient[]> {
     try {
       const patientsRes = await this.patientModel.find({ _id: { $in: patients } }, { _id: 1 });
-      if (patients.length !== patientsRes.length) throw new BadRequestException(ErrorPatientsEnum.CLIENTS_TO_SEARCH_ERROR);
 
       return patientsRes;
     } catch (error) {
@@ -210,18 +208,6 @@ export class PatientsPersistenceService {
         { projection: selectors || [], new: true },
       );
 
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
-      return patientRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
-  }
-  //todo: check where is used this method
-  async updateUser(patientId: string, userId: string): Promise<Patient> {
-    try {
-      const patientRes = await this.patientModel.findOneAndUpdate({ _id: patientId }, { user: userId }, { new: true });
-
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
       return patientRes;
     } catch (error) {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
@@ -236,7 +222,6 @@ export class PatientsPersistenceService {
         new: true,
         populate: 'groups',
       });
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 
       return patientRes;
     } catch (error) {
@@ -264,8 +249,6 @@ export class PatientsPersistenceService {
         { state: dto.state },
         { projection: selectors },
       );
-
-      if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 
       return patientRes;
     } catch (error) {

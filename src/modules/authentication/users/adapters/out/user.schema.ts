@@ -41,24 +41,12 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false })
   photo!: string;
 
-  //todo: use role instead of professional and patient
-  /* @Field()
-  @Prop({ type: String, required: false, ref: 'Professionals' })
-  professional!: string;
-
-  @Field()
-  @Prop({ type: String, required: false, ref: 'Patients' })
-  patient!: string; */
-
   @Field()
   @Prop({ type: String, required: true, enum: EnumRoles })
   role: EnumRoles;
 
   @Prop({ type: Boolean, required: true })
   isActive!: boolean;
-
-  //TODO: add isblocked property, it for security purposes
-  // isblocked
 
   @Prop({ type: Boolean, required: false })
   acceptedTerms!: boolean;

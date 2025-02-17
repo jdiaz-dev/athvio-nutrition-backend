@@ -11,7 +11,6 @@ import { ProfessionalMessages } from 'src/shared/enums/messages-response';
 export class ProfessionalsManagementService {
   constructor(private pps: ProfessionalsPersistenceService, private qcm: QuestionaryConfigManager) {}
 
-  //todo: receive professional throught a queue
   async createProfessional(createProfessional: Omit<CreateProfessional, 'isTrialPeriod'>): Promise<Professional> {
     const professional = await this.pps.createProfessional({ ...createProfessional, isTrialPeriod: true });
     await this.qcm.createQuestionary(professional._id);

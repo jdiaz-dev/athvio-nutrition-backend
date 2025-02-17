@@ -9,13 +9,12 @@ import { AddPatientPlanCommentService } from 'src/modules/patients/patient-plans
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 
-//todo: add right guard in every resolver
+@UseGuards(AuthorizationGuard)
 @Resolver()
 export class PatientPlanCommentsResolver {
   constructor(private cpcps: PatientPlanCommentPersistenceService, private acpcs: AddPatientPlanCommentService) {}
 
   @Mutation(() => PatientPlan)
-  @UseGuards(AuthorizationGuard)
   addPatientPlanComment(
     @Args('input') dto: AddPatientPlanCommentDto,
     @Info(...selectorExtractor()) selectors: string[],
@@ -24,7 +23,6 @@ export class PatientPlanCommentsResolver {
   }
 
   @Mutation(() => PatientPlan)
-  @UseGuards(AuthorizationGuard)
   async updatePatientPlanComment(
     @Args('input') dto: UpdatePatientPlanCommentDto,
     @Info(...selectorExtractor()) selectors: string[],
@@ -33,7 +31,6 @@ export class PatientPlanCommentsResolver {
   }
 
   @Mutation(() => PatientPlan)
-  @UseGuards(AuthorizationGuard)
   async deletePatientPlanComment(
     @Args('input') dto: DeletePatientPlanCommentDto,
     @Info(...selectorExtractor()) selectors: string[],

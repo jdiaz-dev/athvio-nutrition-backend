@@ -17,7 +17,6 @@ export class SignUpProfessionalDto {
   @IsEmail()
   email: string;
 
-  //TODO: enhance strong password
   @Field()
   @IsStrongPassword({
     minLength: 3,

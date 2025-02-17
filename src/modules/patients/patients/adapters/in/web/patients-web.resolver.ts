@@ -2,7 +2,6 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GetPatientsDto, GetPatientsResponse } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patients.dto';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { ManagePatientGroupService } from 'src/modules/patients/patients/application/manage-patient-group.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
@@ -11,14 +10,15 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { GetPatientForWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patient.dto';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PatientsWebResolver {
   constructor(
     private readonly gps: GetPatientsService,
-    private readonly pps: PatientsPersistenceService,
-    private mcgs: ManagePatientGroupService,
+    private readonly mcgs: ManagePatientGroupService,
+    private readonly pms: PatientManagementService,
   ) {}
 
   @Query(() => Patient)
@@ -49,6 +49,6 @@ export class PatientsWebResolver {
     @Args('input') dto: ManagePatientStateDto,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Patient> {
-    return this.pps.managePatientState(dto, selectors);
+    return this.pms.managePatientState(dto, selectors);
   }
 }

@@ -9,9 +9,6 @@ export class CreateCaloryService {
   constructor(private gps: GetPatientsService, private caps: CaloriesPersistenceService) {}
 
   async createCalory(dto: CreateCaloryDto): Promise<Calory> {
-
-    //todo: add professional in dto
-    //todo: leave only patient insetead of patientId
     await this.gps.getPatientById(dto.patientId);
     const calory = await this.caps.createCalory(dto);
     return calory;

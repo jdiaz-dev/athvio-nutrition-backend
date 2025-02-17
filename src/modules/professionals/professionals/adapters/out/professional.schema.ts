@@ -59,7 +59,6 @@ export class Professional extends BaseSchema {
   @Prop({ type: OrganizationSchema, required: false })
   organization: Organization;
 
-  //TODO: remove isActive property, now it is being used to make queries, it shouuld a enum instead
   @Prop({ type: Boolean, required: true, default: true })
   isActive!: boolean;
 
