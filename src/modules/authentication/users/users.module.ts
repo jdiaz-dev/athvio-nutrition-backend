@@ -19,6 +19,6 @@ const resolvers = [UsersMobileResolver, UsersWebResolver];
     PatientsModule,
   ],
   providers: [...resolvers, ...services],
-  exports: [UsersPersistenceService],
+  exports: [UsersPersistenceService, UserManagamentService],
 })
 export class UsersModule {}

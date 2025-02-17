@@ -6,16 +6,17 @@ import { UpdateUserDto } from 'src/modules/authentication/users/adapters/in/web/
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
 import { GetUserById } from 'src/modules/authentication/users/adapters/out/users-types';
+import { UserManagamentService } from 'src/modules/authentication/users/application/user-management.service';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 
 @Resolver()
 export class UsersWebResolver {
-  constructor(private readonly ups: UsersPersistenceService) {}
+  constructor(private readonly ups: UsersPersistenceService, private readonly ums: UserManagamentService) {}
 
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)
   updateUser(@Args('input') dto: UpdateUserDto): Promise<User> {
-    return this.ups.updateUser(dto);
+    return this.ums.updateUser(dto);
   }
   @Query(() => User)
   getUser(@Args('input') dto: GetUserDto): Promise<GetUserById> {

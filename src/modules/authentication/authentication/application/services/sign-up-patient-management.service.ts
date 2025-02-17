@@ -14,16 +14,18 @@ import { PatientManagementService } from 'src/modules/patients/patients/applicat
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { EncryptionService } from 'src/modules/authentication/authentication/application/services/encryption.service';
 import { ConfigService } from '@nestjs/config';
+import { UserManagamentService } from 'src/modules/authentication/users/application/user-management.service';
 
 @Injectable()
 export class SignUpPatientManagamentService {
   private layer = LayersServer.APPLICATION;
   constructor(
-    private ups: UsersPersistenceService,
-    private prms: ProfessionalsManagementService,
-    private pms: PatientManagementService,
-    private ms: MailService,
-    private configService: ConfigService,
+    private readonly ups: UsersPersistenceService,
+    private readonly ums: UserManagamentService,
+    private readonly prms: ProfessionalsManagementService,
+    private readonly pms: PatientManagementService,
+    private readonly ms: MailService,
+    private readonly configService: ConfigService,
   ) {}
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
@@ -66,7 +68,7 @@ export class SignUpPatientManagamentService {
     if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT, this.layer);
     if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
 
-    await this.ups.updateUser({ user: _id, isActive: true, password: EncryptionService.encrypt(password) });
+    await this.ums.updateUser({ user: _id, isActive: true, password: EncryptionService.encrypt(password) });
     const activatedPatient = await this.pms.updatePatient({ user: _id, state: PatientState.ACTIVE });
     return activatedPatient;
   }

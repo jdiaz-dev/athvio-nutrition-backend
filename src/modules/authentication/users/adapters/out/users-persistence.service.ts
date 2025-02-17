@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreateUser, GetUserById, UpdatePassword, UpdateUser } from 'src/modules/authentication/users/adapters/out/users-types';
@@ -62,8 +62,6 @@ export class UsersPersistenceService {
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
     try {
       const patient = await this.userModel.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
-
-      if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND, this.layer);
       return patient;
     } catch (error) {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
