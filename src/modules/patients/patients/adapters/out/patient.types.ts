@@ -4,21 +4,6 @@ import { PatientState } from 'src/shared/enums/project';
 export type CreatePatient = Partial<Patient> & {
   isActive: boolean;
 };
-//todo: remove it if work the previous
-/* export interface CreatePatient {
-  professional: string;
-  isActive: boolean;
-  location?: string;
-  timezone?: string;
-  height?: number;
-  weight?: number;
-  birthday?: Date;
-  gender?: string;
-  profilePicture?: string;
-  codeCountry?: string;
-  phone?: string;
-} */
-
 
 export type UpdatePatient = {
   //professional: string;

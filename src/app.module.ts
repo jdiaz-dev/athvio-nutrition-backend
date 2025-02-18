@@ -17,7 +17,6 @@ import { CaloriesModule } from './modules/patients/calories/calories.module';
 import { PatientPlansModule } from './modules/patients/patient-plans/patient-plans.module';
 import { ChatsModule } from './modules/patients/chats/chats.module';
 import { AuthenticationModule } from './modules/authentication/authentication/authentication.module';
-// import { EnumEnvironments } from './shared/enums/project';
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { FoodsModule } from 'src/modules/foods/foods.module';
@@ -65,10 +64,7 @@ import { QuestionaryModule } from 'src/modules/professionals/questionary/adapter
         subscriptions: {
           'graphql-ws': {
             onConnect: (context: any) => {
-              const { connectionParams, extra } = context;
-              connectionParams;
-              // user validation will remain the same as in the example above
-              // when using with graphql-ws, additional context value should be stored in the extra field
+              const { extra } = context;
               extra.user = { user: {} };
             },
           },
@@ -76,25 +72,12 @@ import { QuestionaryModule } from 'src/modules/professionals/questionary/adapter
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         sortSchema: true,
         autoTransformHttpErrors: true,
-        cors: {
-          origin: true, // Allow all origins
-          credentials: true,
-        },
         // @ts-ignore
         context: ({ req, res }) => ({ req, res }),
         formatResponse: (response: GraphQLResponse): GraphQLResponse => {
-          if (response.errors && response.errors.length > 1) {
-            while (response.errors.length != 1) {
-              // response.errors.pop();
-            }
-          }
           return response;
         },
         formatError: (error: GraphQLError): GraphQLFormattedError => {
-          //removing stacktrace of code
-          /* if (error.extensions) delete error.extensions.exception;
-            if (process.env.NODE_ENV === EnumEnvironments.LOCAL) return error as GraphQLFormattedError; */
-
           return error;
         },
       }),
