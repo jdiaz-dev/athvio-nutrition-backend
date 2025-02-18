@@ -4,12 +4,12 @@ import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adap
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
+import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { Meal } from 'src/shared/models/meal-plan';
 
 @Injectable()
 export class ProgramPlanManagementService {
-  constructor(private prps: ProgramsPersistenceService, private pps: PlansPersistenceService) {}
+  constructor(private readonly pms: ProgramManagementService, private readonly pps: PlansPersistenceService) {}
 
   async addProgramPlan(
     { professional, program, planBody }: AddProgramPlanDto,
@@ -33,7 +33,7 @@ export class ProgramPlanManagementService {
     { professional, program, plan, day, week }: DuplicateProgramPlanDto,
     selectors: Record<string, number>,
   ): Promise<Program> {
-    const _program = await this.prps.getProgram({ professional, program, plan }, programPlanSelector);
+    const _program = await this.pms.getProgram({ professional, program, plan }, programPlanSelector);
 
     for (let x = 0; x < _program.plans[0].meals.length; x++) {
       delete _program.plans[0].meals[x]._id;

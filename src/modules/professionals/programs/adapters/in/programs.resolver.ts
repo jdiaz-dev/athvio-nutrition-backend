@@ -22,7 +22,11 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class ProgramsResolver {
-  constructor(private readonly pps: ProgramsPersistenceService, private mpts: ProgramManagementService, private aps: AssignProgramService) {}
+  constructor(
+    private readonly pps: ProgramsPersistenceService,
+    private readonly pms: ProgramManagementService,
+    private readonly aps: AssignProgramService,
+  ) {}
 
   @Mutation(() => Program)
   createProgram(@Args('input') dto: CreateProgramDto): Promise<Program> {
@@ -34,7 +38,7 @@ export class ProgramsResolver {
     @Args('input') dto: GetProgramDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
-    const program = await this.pps.getProgram(dto, selectors);
+    const program = await this.pms.getProgram(dto, selectors);
     return program;
   }
 
@@ -49,12 +53,12 @@ export class ProgramsResolver {
 
   @Mutation(() => Program)
   async updateProgram(@Args('input') dto: UpdateProgramDto): Promise<Program> {
-    return this.pps.updateProgram(dto);
+    return this.pms.updateProgram(dto);
   }
 
   @Mutation(() => Program)
   async manageProgramTag(@Args('input') dto: ManageProgramTagDto): Promise<Program> {
-    return this.mpts.manageProgramTag(dto);
+    return this.pms.manageProgramTag(dto);
   }
   @Mutation(() => [PatientPlan])
   async assignProgram(@Args('input') dto: AssignProgramDto): Promise<PatientPlan[]> {
@@ -62,6 +66,6 @@ export class ProgramsResolver {
   }
   @Mutation(() => Program)
   deleteProgram(@Args('input') dto: DeleteProgramDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Program> {
-    return this.pps.deleteProgram(dto, selectors);
+    return this.pms.deleteProgram(dto, selectors);
   }
 }
