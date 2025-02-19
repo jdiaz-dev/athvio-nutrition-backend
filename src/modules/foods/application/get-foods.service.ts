@@ -9,9 +9,9 @@ export class GetFoodsService {
 
   async getFoods(dto: GetFoodsDto): Promise<GetFoodsResponse> {
     //default search
-    if (dto.foodDatabase === FoodDatabases.ALL && dto.search[0] === '') {
+    /* if (dto.foodDatabase === FoodDatabases.ALL && dto.search[0] === '') {
       return this.foodsTransformer.getFoodFromProvider(dto);
-    }
+    } */
     if (dto.foodDatabase === FoodDatabases.SYSTEM) {
       return this.foodsTransformer.getFoodFromProvider(dto);
     }
