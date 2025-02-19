@@ -28,6 +28,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { GqlThrottlerGuard } from 'src/shared/guards/gql-throttler.guard';
 import { QuestionaryModule } from 'src/modules/professionals/questionary/adapters/questionary.module';
+import { DiseasesModule } from 'src/modules/diseases/diseases.module';
 
 @Module({
   imports: [
@@ -98,6 +99,7 @@ import { QuestionaryModule } from 'src/modules/professionals/questionary/adapter
     QuestionaryConfigurationModule,
     QuestionaryModule,
     MailModule,
+    DiseasesModule,
   ],
   controllers: [AppController],
   providers: [

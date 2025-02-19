@@ -255,6 +255,12 @@ input DeleteProgramTagDto {
   programTag: String!
 }
 
+type Disease {
+  _id: ID!
+  createdAt: DateTime!
+  name: String!
+}
+
 input DuplicatePatientPlanDto {
   assignedDate: DateTime!
   patient: String!
@@ -727,6 +733,7 @@ type Query {
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
+  getDiseases: [Disease!]!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
