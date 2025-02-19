@@ -59,7 +59,7 @@ export enum Pagination {
 }
 
 export enum FoodDatabases {
-  ALL = 'ALL',
+  // ALL = 'ALL',
   SYSTEM = 'SYSTEM',
 }
 
