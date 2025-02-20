@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { GetAutocompleteFoodNamesDto } from 'src/modules/foods/adapters/in/dtos/get-autocomplete-food-names.dto';
-import { FoodsProviderService } from 'src/modules/foods/adapters/out/providers/foods-provider.service';
+import { GetAutocompleteFoodNamesDto } from 'src/modules/nutrition-generator/foods/adapters/in/dtos/get-autocomplete-food-names.dto';
+import { FoodsProviderService } from 'src/modules/nutrition-generator/foods/adapters/out/providers/foods-provider.service';
 import { FoodDatabases } from 'src/shared/enums/project';
 
 @Injectable()

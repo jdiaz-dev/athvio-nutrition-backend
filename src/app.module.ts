@@ -9,7 +9,6 @@ import { PatientGroupsModule } from './modules/professionals/patient-groups/pati
 import { AuthenticationModule } from './modules/authentication/authentication/authentication.module';
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
-import { FoodsModule } from 'src/modules/foods/foods.module';
 import { NutritionalMealsModule } from 'src/modules/professionals/nutritional-meals/nutritional-meals.module';
 import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
 import { SharedModule } from 'src/shared/shared.module';
@@ -17,11 +16,11 @@ import { MailModule } from 'src/modules/mail/mail.module';
 import { APP_GUARD } from '@nestjs/core';
 import { GqlThrottlerGuard } from 'src/shared/guards/gql-throttler.guard';
 import { QuestionaryModule } from 'src/modules/professionals/questionary/adapters/questionary.module';
-import { DiseasesModule } from 'src/modules/diseases/diseases.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { DatabaseModule } from 'src/infraestructure/database.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
 import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.module';
+import { NutritionGeneratorDomainsModule } from 'src/modules/nutrition-generator/nutrition-generator-domains.module';
 
 @Module({
   imports: [
@@ -33,24 +32,21 @@ import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.modu
     SecurityModule,
     GraphqlModule,
     SharedModule,
-
     UsersModule,
 
     ProfessionalsModule,
-    // ProfessionalDomainModules,
     ProgramsModule,
     ProgramTagsModule,
     PatientGroupsModule,
     NutritionalMealsModule,
 
-    PatientsDomainsModule,
-
     AuthenticationModule,
-    FoodsModule,
     QuestionaryConfigurationModule,
     QuestionaryModule,
     MailModule,
-    DiseasesModule,
+
+    PatientsDomainsModule,
+    NutritionGeneratorDomainsModule,
   ],
   controllers: [AppController],
   providers: [

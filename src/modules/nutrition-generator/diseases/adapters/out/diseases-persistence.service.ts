@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Disease, DiseaseDocument } from 'src/modules/diseases/adapters/out/disease.schema';
+import { Disease, DiseaseDocument } from 'src/modules/nutrition-generator/diseases/adapters/out/disease.schema';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 

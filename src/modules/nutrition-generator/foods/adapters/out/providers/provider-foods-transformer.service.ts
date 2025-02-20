@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { Food, FoodsMeta, GetFoodsDto, GetFoodsResponse, Measure } from 'src/modules/foods/adapters/in/dtos/get-foods.dto';
-import { FoodHint, FoodMeasure, FoodParsedResponse, NextLink } from 'src/modules/foods/adapters/out/providers/food.types';
-import { FoodsProviderService } from 'src/modules/foods/adapters/out/providers/foods-provider.service';
+import { Food, FoodsMeta, GetFoodsDto, GetFoodsResponse, Measure } from 'src/modules/nutrition-generator/foods/adapters/in/dtos/get-foods.dto';
+import { FoodHint, FoodMeasure, FoodParsedResponse, NextLink } from 'src/modules/nutrition-generator/foods/adapters/out/providers/food.types';
+import { FoodsProviderService } from 'src/modules/nutrition-generator/foods/adapters/out/providers/foods-provider.service';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
 import { defaultSizePageFoodProvider, FoodDatabases } from 'src/shared/enums/project';
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { FoodParsedResponse } from 'src/modules/foods/adapters/out/providers/food.types';
+import { FoodParsedResponse } from 'src/modules/nutrition-generator/foods/adapters/out/providers/food.types';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
 import { HttpWrapperService } from 'src/shared/services/http-wrapper.service';
 

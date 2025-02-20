@@ -261,6 +261,12 @@ type Disease {
   name: String!
 }
 
+type DiseaseCause {
+  _id: ID!
+  createdAt: DateTime!
+  name: String!
+}
+
 input DuplicatePatientPlanDto {
   assignedDate: DateTime!
   patient: String!
@@ -733,6 +739,7 @@ type Query {
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
+  getDiseaseCauses: [DiseaseCause!]!
   getDiseases: [Disease!]!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
