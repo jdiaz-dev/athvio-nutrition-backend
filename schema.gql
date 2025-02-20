@@ -641,6 +641,12 @@ type NutritionalMeal {
   professional: String!
 }
 
+type NutritionalPreference {
+  _id: ID!
+  createdAt: DateTime!
+  name: String!
+}
+
 type Organization {
   address: String!
   city: String!
@@ -745,6 +751,7 @@ type Query {
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMeals(input: GetNutritionalMealsDto!): GetNutritionalMealsResponse!
+  getNutritionalPreferences: [NutritionalPreference!]!
   getPatientForMobile(input: GetPatientForMobileDto!): Patient!
   getPatientForWeb(patient: GetPatientForWebDto!): Patient!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!

@@ -20,7 +20,7 @@ import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { DatabaseModule } from 'src/infraestructure/database.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
 import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.module';
-import { NutritionGeneratorDomainsModule } from 'src/modules/nutrition-generator/nutrition-generator-domains.module';
+import { NutritionBuilderDomainsModule } from 'src/modules/nutrition-builder/nutrition-builder-domains.module';
 
 @Module({
   imports: [
@@ -46,7 +46,7 @@ import { NutritionGeneratorDomainsModule } from 'src/modules/nutrition-generator
     MailModule,
 
     PatientsDomainsModule,
-    NutritionGeneratorDomainsModule,
+    NutritionBuilderDomainsModule,
   ],
   controllers: [AppController],
   providers: [

@@ -17,27 +17,3 @@ db.Diseases.insertMany([
   { name: 'parkinson', createdAt: new Date(), updatedAt: new Date() },
   { name: 'psoriasis', createdAt: new Date(), updatedAt: new Date() },
 ]);
-//  diseases | preferences and restrictions
-
-/* 
-  - to have data:
-    - goals 
-    - diseases, or historial of diseases
-    - lab test, blood test (results , documents)
-    - nutritic approach (vegetarian, carnivore, keto, etc)
-    - caloric intake
-*/
-
-/* 
-* heal diseases
-  parasites
-    - coconut oil, castor oil, 
-    - keto
-
-  candida
-    - keto 
-
-  constipation
-    - keto 
-
-*/
