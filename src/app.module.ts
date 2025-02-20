@@ -6,10 +6,6 @@ import { ProfessionalsModule } from './modules/professionals/professionals/profe
 import { ProgramsModule } from './modules/professionals/programs/programs.module';
 import { ProgramTagsModule } from './modules/professionals/program-tags/program-tags.module';
 import { PatientGroupsModule } from './modules/professionals/patient-groups/patient-groups.module';
-import { PatientsModule } from './modules/patients/patients/patients.module';
-import { CaloriesModule } from './modules/patients/calories/calories.module';
-import { PatientPlansModule } from './modules/patients/patient-plans/patient-plans.module';
-import { ChatsModule } from './modules/patients/chats/chats.module';
 import { AuthenticationModule } from './modules/authentication/authentication/authentication.module';
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
@@ -25,7 +21,7 @@ import { DiseasesModule } from 'src/modules/diseases/diseases.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { DatabaseModule } from 'src/infraestructure/database.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
-// import { ProfessionalDomainModules } from 'src/modules/professionals/professional-domain.module';
+import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.module';
 
 @Module({
   imports: [
@@ -47,10 +43,7 @@ import { SecurityModule } from 'src/infraestructure/security.module';
     PatientGroupsModule,
     NutritionalMealsModule,
 
-    PatientsModule,
-    CaloriesModule,
-    PatientPlansModule,
-    ChatsModule,
+    PatientsDomainsModule,
 
     AuthenticationModule,
     FoodsModule,
