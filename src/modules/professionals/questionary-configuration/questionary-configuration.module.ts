@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
@@ -19,7 +19,7 @@ const services = [QuestionaryConfigManager, CustomQuestionaryDetailsPersistenceS
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: QuestionaryConfig.name, schema: QuestionaryConfigSchema }]),
-    AuthenticationModule,
+    forwardRef(() => AuthenticationModule),
     QuestionaryModule,
   ],
   providers: [...resolvers, ...services],
