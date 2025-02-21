@@ -7,8 +7,6 @@ import configuration from './configuration';
 import { UsersModule } from 'src/modules/authentication/users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
-import { APP_GUARD } from '@nestjs/core';
-import { GqlThrottlerGuard } from 'src/shared/guards/gql-throttler.guard';
 import { QuestionaryModule } from 'src/modules/professionals/questionary/adapters/questionary.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { DatabaseModule } from 'src/infraestructure/database.module';
@@ -29,20 +27,12 @@ import { ProfessionalDomainsModule } from 'src/modules/professionals/professiona
     SharedModule,
     UsersModule,
     AuthenticationModule,
-
+    QuestionaryModule,
+    MailModule,
     ProfessionalDomainsModule,
     PatientsDomainsModule,
     NutritionBuilderDomainsModule,
-
-    QuestionaryModule,
-    MailModule,
   ],
   controllers: [AppController],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: GqlThrottlerGuard,
-    },
-  ],
 })
 export class AppModule {}
