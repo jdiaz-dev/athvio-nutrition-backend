@@ -1,7 +1,6 @@
 db.NutritionalPreferences.deleteMany({});
 
 db.NutritionalPreferences.insertMany([
-  { name: 'without restrictions', createdAt: new Date(), updatedAt: new Date() },
   { name: 'vegan', createdAt: new Date(), updatedAt: new Date() },
   { name: 'lacto-ovovegetarian', createdAt: new Date(), updatedAt: new Date() },
   { name: 'ketogenic', createdAt: new Date(), updatedAt: new Date() },
