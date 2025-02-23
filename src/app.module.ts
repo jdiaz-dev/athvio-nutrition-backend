@@ -12,7 +12,7 @@ import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { DatabaseModule } from 'src/infraestructure/database.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
 import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.module';
-import { ProgramBuilderDomainsModule } from 'src/modules/program-builder/program-builder-domains.module';
+import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-domains.module';
 
 @Module({
@@ -31,7 +31,7 @@ import { ProfessionalDomainsModule } from 'src/modules/professionals/professiona
     MailModule,
     ProfessionalDomainsModule,
     PatientsDomainsModule,
-    ProgramBuilderDomainsModule,
+    ProgramGeneratorDomainsModule,
   ],
   controllers: [AppController],
 })
