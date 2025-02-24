@@ -26,14 +26,22 @@ export class PatientPlansPersistenceService {
   ) {}
 
   async createPatientPlan(dto: CreatePatientPlanBody): Promise<PatientPlan> {
-    const patientPlan = await this.clienPlanModel.create({
-      ...dto,
-    });
-    return patientPlan;
+    try {
+      const patientPlan = await this.clienPlanModel.create({
+        ...dto,
+      });
+      return patientPlan;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
   }
   async createManyPatientPlan(dto: PatientPlanPartial[]): Promise<PatientPlan[]> {
-    const patientPlans = await this.clienPlanModel.insertMany(dto);
-    return patientPlans;
+    try {
+      const patientPlans = await this.clienPlanModel.insertMany(dto);
+      return patientPlans;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
   }
   async getPatientPlan({ patient, patientPlan }: GetPatientPlanDto, selectors: Record<string, number>): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);

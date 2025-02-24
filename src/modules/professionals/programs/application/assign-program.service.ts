@@ -3,7 +3,6 @@ import { PatientPlanPartial, PatientWithAssignedDate } from 'src/modules/patient
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/assign-program.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
-import dayjs from 'dayjs';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
@@ -11,6 +10,7 @@ import { ProgramPatial } from 'src/modules/professionals/programs/adapters/out/p
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
+import { PatientPlansPreparatorService } from 'src/shared/services/patient-plans-preparator.service';
 
 @Injectable()
 export class AssignProgramService {
@@ -19,26 +19,18 @@ export class AssignProgramService {
     private cpps: PatientPlansPersistenceService,
     private pps: PlansPersistenceService,
     private prps: ProgramsPersistenceService,
+    private ppps: PatientPlansPreparatorService,
   ) {}
 
-  private preparePatientPlanBodies(plans: Plan[], dto: AssignProgramDto): PatientPlanPartial[] {
+  private prepareAssignedPatientPlans(plans: Plan[], dto: AssignProgramDto): PatientPlanPartial[] {
     const patientPlans: PatientPlanPartial[] = [];
 
-    let patientPlan: PatientPlanPartial;
     for (const patient of dto.patients) {
-      for (const plan of plans) {
-        const precitionDay = plan.day - dto.startingDay;
-        patientPlan = {
-          assignedDate: new Date(
-            dayjs(dto.assignmentStartDate)
-              .set('date', dayjs(dto.assignmentStartDate).get('date') + precitionDay)
-              .toString(),
-          ),
-          patient: patient,
-          meals: plan.meals,
-        };
-        patientPlans.push(patientPlan);
-      }
+      this.ppps.preparePatientPlans<Plan, PatientPlanPartial>(
+        plans,
+        { patient, assignmentStartDate: dto.assignmentStartDate, startingDay: dto.startingDay },
+        patientPlans,
+      );
     }
     return patientPlans;
   }
@@ -67,7 +59,7 @@ export class AssignProgramService {
       { professional: dto.professional, program: dto.program, day: dto.startingDay },
       programPlanSelector,
     );
-    const newPatientPlans: PatientPlanPartial[] = this.preparePatientPlanBodies(program.plans, dto);
+    const newPatientPlans: PatientPlanPartial[] = this.prepareAssignedPatientPlans(program.plans, dto);
 
     await this.manageProgramSyncronization(newPatientPlans, program);
     const res = await this.cpps.createManyPatientPlan(newPatientPlans);
