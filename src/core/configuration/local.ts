@@ -15,4 +15,7 @@ export const local: IEnvironment = {
       edamamFoodKey: process.env.EDAMAM_FOOD_KEY,
     },
   },
+  gptProvider: {
+    gptSecretKey: process.env.GPT_SECRET_KEY,
+  },
 };

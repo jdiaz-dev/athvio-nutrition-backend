@@ -24,7 +24,18 @@ export class NutritionalPreferencesPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
-  async getNutritionalPreferences(selectors: string[]): Promise<NutritionalPreference[]> {
+  async getNutritionalPreferences(
+    nutritionalPreferences: string[],
+    selectors: Record<string, number>,
+  ): Promise<NutritionalPreference[]> {
+    try {
+      const res = await this.nutritionalPreferenceModel.find({ _id: { $in: nutritionalPreferences } }, selectors);
+      return res;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    }
+  }
+  async getAllNutritionalPreferences(selectors: string[]): Promise<NutritionalPreference[]> {
     try {
       const res = await this.nutritionalPreferenceModel.find({}, selectors);
       return res;

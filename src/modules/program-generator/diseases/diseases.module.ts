@@ -8,5 +8,6 @@ import { Disease, DiseaseSchema } from 'src/modules/program-generator/diseases/a
 @Module({
   imports: [MongooseModule.forFeature([{ name: Disease.name, schema: DiseaseSchema }]), AuthenticationModule],
   providers: [DiseasesResolver, DiseasesPersistenceService],
+  exports: [DiseasesPersistenceService],
 })
 export class DiseasesModule {}

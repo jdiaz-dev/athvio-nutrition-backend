@@ -5,3 +5,4 @@
 - enhance message error in get questionary config (standarizate errors)
 - stop to use profesional persistence service directly in various modules
 - add plastics to diseaseCauses 
+- stayed: refactor done in NutritionalPlanGeneratorService class 

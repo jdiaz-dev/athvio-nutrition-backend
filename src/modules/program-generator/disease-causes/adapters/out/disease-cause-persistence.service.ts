@@ -22,7 +22,15 @@ export class DiseaseCausesPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
-  async getDiseaseCauses(selectors: string[]): Promise<DiseaseCause[]> {
+  async getDiseaseCauses(diseaseCauses: string[], selectors: Record<string, number>): Promise<DiseaseCause[]> {
+    try {
+      const res = await this.diseaseCauseModel.find({ _id: { $in: diseaseCauses } }, selectors);
+      return res;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    }
+  }
+  async getAllDiseaseCauses(selectors: string[]): Promise<DiseaseCause[]> {
     try {
       const res = await this.diseaseCauseModel.find({}, selectors);
       return res;

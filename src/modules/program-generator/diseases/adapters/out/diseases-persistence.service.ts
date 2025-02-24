@@ -19,7 +19,15 @@ export class DiseasesPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
-  async getDiseases(selectors: string[]): Promise<Disease[]> {
+  async getDiseases(diseases: string[], selectors: Record<string, number>): Promise<Disease[]> {
+    try {
+      const res = await this.diseaseModel.find({ _id: { $in: diseases } }, selectors);
+      return res;
+    } catch (error) {
+      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    }
+  }
+  async getAllDiseases(selectors: string[]): Promise<Disease[]> {
     try {
       const res = await this.diseaseModel.find({}, selectors);
       return res;

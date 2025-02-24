@@ -13,8 +13,8 @@ export class DiseasesResolver {
   constructor(private readonly dps: DiseasesPersistenceService) {}
 
   @Query(() => [Disease])
-  async getDiseases(@Info(...selectorExtractor()) selectors: string[]): Promise<Disease[]> {
-    const patientGroup = await this.dps.getDiseases(selectors);
+  async getAllDiseases(@Info(...selectorExtractor()) selectors: string[]): Promise<Disease[]> {
+    const patientGroup = await this.dps.getAllDiseases(selectors);
     return patientGroup;
   }
 }

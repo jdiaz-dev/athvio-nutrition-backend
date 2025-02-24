@@ -327,6 +327,13 @@ type FoodsMeta {
   total: Float!
 }
 
+input GenerateNutritionalPlanDto {
+  diseaseCauses: [String!]!
+  diseases: [String!]!
+  nutritionalPreferences: [String!]!
+  patient: String!
+}
+
 input GetAutocompleteFoodNamesDto {
   foodDatabase: String!
   professional: String!
@@ -609,6 +616,7 @@ type Mutation {
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): QuestionaryConfig!
+  generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
@@ -742,16 +750,16 @@ type ProgramTag {
 }
 
 type Query {
+  getAllDiseaseCauses: [DiseaseCause!]!
+  getAllDiseases: [Disease!]!
+  getAllNutritionalPreferences: [NutritionalPreference!]!
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
-  getDiseaseCauses: [DiseaseCause!]!
-  getDiseases: [Disease!]!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMeals(input: GetNutritionalMealsDto!): GetNutritionalMealsResponse!
-  getNutritionalPreferences: [NutritionalPreference!]!
   getPatientForMobile(input: GetPatientForMobileDto!): Patient!
   getPatientForWeb(patient: GetPatientForWebDto!): Patient!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!

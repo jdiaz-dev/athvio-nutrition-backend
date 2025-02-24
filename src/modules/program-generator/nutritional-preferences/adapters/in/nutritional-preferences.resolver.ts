@@ -13,8 +13,8 @@ export class NutritionalPreferencesResolver {
   constructor(private readonly nps: NutritionalPreferencesPersistenceService) {}
 
   @Query(() => [NutritionalPreference])
-  async getNutritionalPreferences(@Info(...selectorExtractor()) selectors: string[]): Promise<NutritionalPreference[]> {
-    const nutritionalPreference = await this.nps.getNutritionalPreferences(selectors);
+  async getAllNutritionalPreferences(@Info(...selectorExtractor()) selectors: string[]): Promise<NutritionalPreference[]> {
+    const nutritionalPreference = await this.nps.getAllNutritionalPreferences(selectors);
     return nutritionalPreference;
   }
 }

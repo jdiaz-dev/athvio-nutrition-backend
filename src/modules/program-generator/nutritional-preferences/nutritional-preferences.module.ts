@@ -14,5 +14,6 @@ import { NutritionalPreferencesPersistenceService } from 'src/modules/program-ge
     AuthenticationModule,
   ],
   providers: [NutritionalPreferencesResolver, NutritionalPreferencesPersistenceService],
+  exports: [NutritionalPreferencesPersistenceService],
 })
 export class NutritionalPreferencesModule {}

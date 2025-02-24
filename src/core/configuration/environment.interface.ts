@@ -19,6 +19,10 @@ interface FoodProvider {
   foodApi: FoodApi;
 }
 
+interface GptProvider {
+  gptSecretKey: string;
+}
+
 interface Security {
   rateLimit: { ttl: string; limit: string };
 }
@@ -28,5 +32,6 @@ export interface IEnvironment {
   tokenKey: string;
   whiteListOrigins: string[];
   foodProvider: FoodProvider;
+  gptProvider: GptProvider;
   port: string;
 }

@@ -29,6 +29,7 @@ import { ProfessionalDomainsModule } from 'src/modules/professionals/professiona
     AuthenticationModule,
     QuestionaryModule,
     MailModule,
+
     ProfessionalDomainsModule,
     PatientsDomainsModule,
     ProgramGeneratorDomainsModule,
