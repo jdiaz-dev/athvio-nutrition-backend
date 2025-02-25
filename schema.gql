@@ -330,8 +330,10 @@ type FoodsMeta {
 input GenerateNutritionalPlanDto {
   diseaseCauses: [String!]!
   diseases: [String!]!
+  endDate: DateTime!
   nutritionalPreferences: [String!]!
   patient: String!
+  startDate: DateTime!
 }
 
 input GetAutocompleteFoodNamesDto {
@@ -616,7 +618,7 @@ type Mutation {
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): QuestionaryConfig!
-  generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [String!]!
+  generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!

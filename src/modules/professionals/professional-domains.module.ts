@@ -15,6 +15,5 @@ import { QuestionaryConfigurationModule } from 'src/modules/professionals/questi
     PatientGroupsModule,
     NutritionalMealsModule,
   ],
-  exports: [],
 })
 export class ProfessionalDomainsModule {}

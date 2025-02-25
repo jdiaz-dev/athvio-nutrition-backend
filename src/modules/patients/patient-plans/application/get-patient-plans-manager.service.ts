@@ -5,11 +5,19 @@ import { GetPatientPlansForMobileDto } from 'src/modules/patients/patient-plans/
 import { PatientPlanTypeDates } from 'src/modules/patients/patient-plans/helpers/enums';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { GetPatientPlansForWebDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/get-patient-plans-for-web.dto';
+import { PatientWithAssignedDate } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
 
 @Injectable()
 export class GetPatientPlansManagerService {
   constructor(private ppps: PatientPlansPersistenceService) {}
 
+  async getManyPatientPlans(
+    patientWithAssignedDate: PatientWithAssignedDate[],
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan[]> {
+    const patientPlans = await this.ppps.getManyPatientPlans(patientWithAssignedDate, selectors);
+    return patientPlans;
+  }
   async getPatientPlansForWeb(dto: GetPatientPlansForWebDto, selectors: Record<string, number>): Promise<PatientPlan[]> {
     return this.ppps.getPatientPlans(dto, selectors);
   }

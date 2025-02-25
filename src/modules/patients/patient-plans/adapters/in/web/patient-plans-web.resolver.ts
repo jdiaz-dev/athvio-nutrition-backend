@@ -7,7 +7,7 @@ import { GetPatientPlansForWebDto } from 'src/modules/patients/patient-plans/ada
 import { UpdatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/update-patient-plan.dto';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
-import { CreatePatientPlanService } from 'src/modules/patients/patient-plans/application/create-patient-plan.service';
+import { CreatePatientPlanManagerService } from 'src/modules/patients/patient-plans/application/create-patient-plan-manager.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
@@ -19,7 +19,7 @@ import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plan
 export class PatientPlansWebResolver {
   constructor(
     private readonly cpps: PatientPlansPersistenceService,
-    private readonly ccps: CreatePatientPlanService,
+    private readonly ccps: CreatePatientPlanManagerService,
     private readonly dcps: DuplicatePatientPlanService,
     private readonly gppms: GetPatientPlansManagerService,
   ) {}

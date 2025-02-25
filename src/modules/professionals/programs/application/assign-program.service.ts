@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PatientPlanPartial, PatientWithAssignedDate } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
-import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/assign-program.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
@@ -11,15 +10,18 @@ import { programPlanSelector } from 'src/modules/professionals/programs/adapters
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { PatientPlansPreparatorService } from 'src/shared/services/patient-plans-preparator.service';
+import { CreatePatientPlanManagerService } from 'src/modules/patients/patient-plans/application/create-patient-plan-manager.service';
+import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plans/application/get-patient-plans-manager.service';
 
 @Injectable()
 export class AssignProgramService {
   constructor(
-    private gps: GetPatientsService,
-    private cpps: PatientPlansPersistenceService,
-    private pps: PlansPersistenceService,
-    private prps: ProgramsPersistenceService,
-    private ppps: PatientPlansPreparatorService,
+    private readonly gps: GetPatientsService,
+    private readonly cppms: CreatePatientPlanManagerService,
+    private readonly gppms: GetPatientPlansManagerService,
+    private readonly pps: PlansPersistenceService,
+    private readonly prps: ProgramsPersistenceService,
+    private readonly ppps: PatientPlansPreparatorService,
   ) {}
 
   private prepareAssignedPatientPlans(plans: Plan[], dto: AssignProgramDto): PatientPlanPartial[] {
@@ -44,7 +46,7 @@ export class AssignProgramService {
     if (program.isSyncActive && program.patients.length === 0) {
       //TODO: remove patientPlans and full again patientPlans
     } else {
-      const patientPlans = await this.cpps.getManyPatientPlans(patientPlansToSearch, { _id: 1, assignedDate: 1 });
+      const patientPlans = await this.gppms.getManyPatientPlans(patientPlansToSearch, { _id: 1, assignedDate: 1 });
       newPatientPlans = newPatientPlans.filter((newPatientPlan) => {
         let patientPlanFound = patientPlans.filter(
           (patientPlan) => newPatientPlan.assignedDate.toString() === patientPlan.assignedDate.toString(),
@@ -62,7 +64,7 @@ export class AssignProgramService {
     const newPatientPlans: PatientPlanPartial[] = this.prepareAssignedPatientPlans(program.plans, dto);
 
     await this.manageProgramSyncronization(newPatientPlans, program);
-    const res = await this.cpps.createManyPatientPlan(newPatientPlans);
+    const res = await this.cppms.createManyPatientPlan(newPatientPlans);
     const programUpdated = await this.prps.updateProgramPatients(dto.program, dto.professional, dto.patients);
     if (programUpdated == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 

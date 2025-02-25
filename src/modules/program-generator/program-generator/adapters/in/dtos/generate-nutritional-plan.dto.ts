@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { ArrayNotEmpty, IsArray, IsMongoId } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsDate, IsMongoId } from 'class-validator';
 
 @InputType()
 export class GenerateNutritionalPlanDto {
@@ -25,11 +25,11 @@ export class GenerateNutritionalPlanDto {
   @IsMongoId()
   patient: string;
 
-  /* @Field()
-  @IsMongoId()
-  startDate: string;
+  @Field()
+  @IsDate()
+  startDate: Date;
 
   @Field()
-  @IsMongoId()
-  endDate: string; */
+  @IsDate()
+  endDate: Date;
 }

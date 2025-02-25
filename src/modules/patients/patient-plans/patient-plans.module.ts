@@ -6,7 +6,7 @@ import { PatientPlanCommentPersistenceService } from 'src/modules/patients/patie
 import { PatientPlan, PatientPlanSchema } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 import { AddPatientPlanCommentService } from 'src/modules/patients/patient-plans/application/add-patient-plan-comment.service';
-import { CreatePatientPlanService } from 'src/modules/patients/patient-plans/application/create-patient-plan.service';
+import { CreatePatientPlanManagerService } from 'src/modules/patients/patient-plans/application/create-patient-plan-manager.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientPlanNutritionalMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
@@ -25,7 +25,7 @@ const persistenceServices = [
   PatientPlanNutritionalMealsPersistenceService,
 ];
 const applicationServices = [
-  CreatePatientPlanService,
+  CreatePatientPlanManagerService,
   AddPatientPlanCommentService,
   DuplicatePatientPlanService,
   AddPlanMealService,
@@ -41,6 +41,6 @@ const applicationServices = [
     PatientsModule,
   ],
   providers: [...resolvers, ...persistenceServices, ...applicationServices],
-  exports: [PatientPlansPersistenceService],
+  exports: [CreatePatientPlanManagerService, GetPatientPlansManagerService],
 })
 export class PatientPlansModule {}
