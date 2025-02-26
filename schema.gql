@@ -330,7 +330,6 @@ type FoodsMeta {
 input GenerateNutritionalPlanDto {
   diseaseCauses: [String!]!
   diseases: [String!]!
-  endDate: DateTime!
   nutritionalPreferences: [String!]!
   patient: String!
   startDate: DateTime!
@@ -473,11 +472,11 @@ input GetUserDto {
 }
 
 type Ingredient {
-  amount: Float!
+  amount: Float
   calories: Float!
   carbs: Float!
   fat: Float!
-  label: String!
+  label: String
   name: String!
   protein: Float!
   weightInGrams: Float!
@@ -565,8 +564,8 @@ type Meal {
   ingredientDetails: [IngredientDetail!]!
   macros: Macros!
   mealTag: String!
-  name: String!
-  position: Float!
+  name: String
+  position: Float
 }
 
 input MealBodyInput {

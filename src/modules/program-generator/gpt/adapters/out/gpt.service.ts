@@ -1,6 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
+import { ZodType } from 'zod';
+import { zodResponseFormat } from 'openai/helpers/zod';
+import { InternalErrors } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class GptService {
@@ -10,18 +13,25 @@ export class GptService {
       apiKey: this.configService.get<string>('gptProvider.gptSecretKey'),
     });
   }
-  async chatCompletion(prompt: string): Promise<any> {
+  async chatCompletion<T>(prompt: string, schemaPrompt: ZodType<T>): Promise<T> {
     try {
       const res = await this.openai.chat.completions.create({
-        messages: [{ role: 'user', content: prompt }],
+        messages: [
+          { role: 'system', content: 'You are a nutritionist.' },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
         model: 'gpt-4o',
-        response_format: { type: 'json_object' },
+        response_format: zodResponseFormat(schemaPrompt, 'nutri_response'),
       });
 
       const resParsed = JSON.parse(res.choices[0].message.content);
-      return resParsed;
+      return resParsed as T;
     } catch (error) {
       console.log('-------error', error);
+      throw new InternalServerErrorException(InternalErrors.IA_PROVIDER);
     }
   }
 }

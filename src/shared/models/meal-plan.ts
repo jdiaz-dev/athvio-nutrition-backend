@@ -74,17 +74,17 @@ export class Meal extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: Number, required: false })
   position: number;
 
   @Field()
-  @Prop({ type: String, required: false })
+  @Prop({ type: String, required: true })
   mealTag: string; //Example breakfast, luch or dinner, emal1
 
   //todo: remove name? only use mealTag?
-  @Field()
-  @Prop({ type: String, required: true })
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
   name: string;
 
   @Field(() => [IngredientDetail])

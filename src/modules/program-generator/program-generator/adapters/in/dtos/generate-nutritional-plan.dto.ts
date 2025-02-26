@@ -28,8 +28,4 @@ export class GenerateNutritionalPlanDto {
   @Field()
   @IsDate()
   startDate: Date;
-
-  @Field()
-  @IsDate()
-  endDate: Date;
 }

@@ -1,5 +1,6 @@
 export enum InternalErrors {
   DATABASE = 'An error has happened with database',
+  IA_PROVIDER = 'An error has happened with IA provider',
 }
 
 export enum ErrorUsersEnum {

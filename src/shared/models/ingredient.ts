@@ -9,12 +9,12 @@ export class Ingredient extends Macros {
   @Prop({ type: String, required: true })
   name: string;
 
-  @Field()
-  @Prop({ type: Number, required: true })
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
   amount: number;
 
-  @Field()
-  @Prop({ type: String, required: true })
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
   label: string;
 }
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);
