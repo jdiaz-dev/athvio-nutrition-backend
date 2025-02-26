@@ -14,7 +14,7 @@ export class DiseasesResolver {
 
   @Query(() => [Disease])
   async getAllDiseases(@Info(...selectorExtractor()) selectors: string[]): Promise<Disease[]> {
-    const patientGroup = await this.dps.getAllDiseases(selectors);
-    return patientGroup;
+    const diseases = await this.dps.getAllDiseases(selectors);
+    return diseases;
   }
 }

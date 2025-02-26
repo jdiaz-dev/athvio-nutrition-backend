@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import {
   NutritionalPreference,
   NutritionalPreferenceDocument,
@@ -14,6 +15,7 @@ export class NutritionalPreferencesPersistenceService {
 
   constructor(
     @InjectModel(NutritionalPreference.name) private readonly nutritionalPreferenceModel: Model<NutritionalPreferenceDocument>,
+    private readonly logger: AthvioLoggerService,
   ) {}
 
   async getNutritionalPreference(diseaseCause: string): Promise<NutritionalPreference> {
@@ -21,6 +23,7 @@ export class NutritionalPreferencesPersistenceService {
       const res = await this.nutritionalPreferenceModel.findOne({ _id: diseaseCause });
       return res;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
@@ -32,6 +35,7 @@ export class NutritionalPreferencesPersistenceService {
       const res = await this.nutritionalPreferenceModel.find({ _id: { $in: nutritionalPreferences } }, selectors);
       return res;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
@@ -40,6 +44,7 @@ export class NutritionalPreferencesPersistenceService {
       const res = await this.nutritionalPreferenceModel.find({}, selectors);
       return res;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }

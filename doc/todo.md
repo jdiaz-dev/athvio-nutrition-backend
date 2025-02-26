@@ -8,3 +8,4 @@
 - add each to every IsArray decorator
 - stayed: refactor done in NutritionalPlanGeneratorService class 
 - analyze startingDay in generateNutritionalPlanForPatient method
+- add loggers to all persistence layers

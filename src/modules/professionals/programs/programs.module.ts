@@ -24,7 +24,7 @@ const services = [
   PlansPersistenceService,
   NutritionalMealsPersistenceService,
   AssignProgramService,
-  ProgramPlanManagementService
+  ProgramPlanManagementService,
 ];
 
 @Module({
@@ -35,7 +35,7 @@ const services = [
     ProfessionalsModule,
     ProgramTagsModule,
     PatientsModule,
-    PatientPlansModule
+    PatientPlansModule,
   ],
   providers: [...resolvers, ...services],
 })

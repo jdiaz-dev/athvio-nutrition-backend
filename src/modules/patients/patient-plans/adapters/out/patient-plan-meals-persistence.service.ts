@@ -6,10 +6,10 @@ import { ErrorPatientPlanEnum, InternalErrors } from 'src/shared/enums/messages-
 import { AddPlanMealDto } from '../in/web/dtos/meals/add-meal.dto';
 import { UpdatePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/update-meal.dto';
 import { DeletePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/delete-meal-plan.dto';
-import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
 export class PatientPlanNutritionalMealsPersistenceService {
@@ -33,7 +33,6 @@ export class PatientPlanNutritionalMealsPersistenceService {
           new: true,
         },
       );
-
       return patientPlanRes;
     } catch (error) {
       this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });

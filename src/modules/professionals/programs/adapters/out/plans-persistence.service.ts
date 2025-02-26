@@ -13,9 +13,9 @@ import {
 } from 'src/modules/professionals/programs/adapters/out/program.d';
 import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
 import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
 export class PlansPersistenceService {

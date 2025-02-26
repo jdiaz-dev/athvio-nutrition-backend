@@ -14,7 +14,6 @@ import { PatientPlanMealsResolver } from 'src/modules/patients/patient-plans/ada
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
-import { SharedModule } from 'src/shared/shared.module';
 import { PatientPlansMobileResolver } from 'src/modules/patients/patient-plans/adapters/in/mobile/patient-plans-mobile.resolver';
 import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plans/application/get-patient-plans-manager.service';
 
@@ -35,7 +34,6 @@ const applicationServices = [
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: PatientPlan.name, schema: PatientPlanSchema }]),
-    SharedModule,
     AuthenticationModule,
     ProfessionalsModule,
     PatientsModule,

@@ -4,11 +4,13 @@ import OpenAI from 'openai';
 import { ZodType } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import { InternalErrors } from 'src/shared/enums/messages-response';
+import { LayersServer } from 'src/shared/enums/project';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
 export class GptService {
   private openai: OpenAI;
-  constructor(private readonly configService: ConfigService) {
+  constructor(private readonly configService: ConfigService, private readonly logger: AthvioLoggerService) {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('gptProvider.gptSecretKey'),
     });
@@ -30,7 +32,7 @@ export class GptService {
       const resParsed = JSON.parse(res.choices[0].message.content);
       return resParsed as T;
     } catch (error) {
-      console.log('-------error', error);
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.IA_PROVIDER);
     }
   }

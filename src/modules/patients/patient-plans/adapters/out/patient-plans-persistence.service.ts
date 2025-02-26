@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { GetPatientPlansForMobileDto } from 'src/modules/patients/patient-plans/adapters/in/mobile/dtos/get-patient-plans-for-mobile.dto';
 import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/delete-patient-plan.dto';
 import { GetPatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/get-patient-plan.dto';
@@ -16,7 +17,6 @@ import {
 import { ErrorPatientPlanEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 
 @Injectable()
 export class PatientPlansPersistenceService {
@@ -32,6 +32,7 @@ export class PatientPlansPersistenceService {
       });
       return patientPlan;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -40,6 +41,7 @@ export class PatientPlansPersistenceService {
       const patientPlans = await this.clienPlanModel.insertMany(dto);
       return patientPlans;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }

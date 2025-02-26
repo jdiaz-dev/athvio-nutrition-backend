@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
@@ -10,7 +11,6 @@ import { Program, ProgramDocument } from 'src/modules/professionals/programs/ada
 import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { AthvioLoggerService } from 'src/shared/services/athvio-logger.service';
 
 @Injectable()
 export class NutritionalMealsPersistenceService {
