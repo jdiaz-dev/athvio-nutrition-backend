@@ -6,15 +6,19 @@ import { Patient, PatientDocument } from 'src/modules/patients/patients/adapters
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
-import { PatientState, ManagePatientGroup } from 'src/shared/enums/project';
+import { PatientState, ManagePatientGroup, LayersServer } from 'src/shared/enums/project';
 import { CreatePatient, DeleteManyPatientGroup, UpdatePatient } from 'src/modules/patients/patients/adapters/out/patient.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 //todo: add loggers to log internal errors
 @Injectable()
 export class PatientsPersistenceService {
-  constructor(@InjectModel(Patient.name) private readonly patientModel: Model<PatientDocument>) {}
+  constructor(
+    @InjectModel(Patient.name) private readonly patientModel: Model<PatientDocument>,
+    private readonly logger: AthvioLoggerService,
+  ) {}
 
   async createPatient({ professional, ...body }: CreatePatient): Promise<FlattenMaps<Patient>> {
     try {
@@ -24,6 +28,7 @@ export class PatientsPersistenceService {
       });
       return patient.toJSON();
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -64,6 +69,7 @@ export class PatientsPersistenceService {
 
       return patientRes[0];
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -76,6 +82,7 @@ export class PatientsPersistenceService {
 
       return patientRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -87,6 +94,7 @@ export class PatientsPersistenceService {
       });
       return patientRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -96,6 +104,7 @@ export class PatientsPersistenceService {
 
       return patientsRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -197,6 +206,7 @@ export class PatientsPersistenceService {
       };
       return res;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -210,6 +220,7 @@ export class PatientsPersistenceService {
 
       return patientRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -225,6 +236,7 @@ export class PatientsPersistenceService {
 
       return patientRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -236,6 +248,7 @@ export class PatientsPersistenceService {
       );
       return recordsUpdated;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
@@ -252,6 +265,7 @@ export class PatientsPersistenceService {
 
       return patientRes;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }

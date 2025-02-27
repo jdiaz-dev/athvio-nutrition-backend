@@ -7,18 +7,21 @@ import { Professional, ProfessionalDocument } from 'src/modules/professionals/pr
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { LayersServer } from 'src/shared/enums/project';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
 export class ProfessionalsPersistenceService {
-  private layer = LayersServer.INFRAESTRUCTURE;
-
-  constructor(@InjectModel(Professional.name) private professionalModel: Model<ProfessionalDocument>) {}
+  constructor(
+    @InjectModel(Professional.name) private professionalModel: Model<ProfessionalDocument>,
+    private readonly logger: AthvioLoggerService,
+  ) {}
 
   async createProfessional(dto: CreateProfessional): Promise<Professional> {
     try {
       return await this.professionalModel.create(dto);
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
   async getProfessionalById(professional: string, selectors: Record<string, number>): Promise<ProfessionalUser> {
@@ -54,7 +57,8 @@ export class ProfessionalsPersistenceService {
       ]);
       return professionalRes[0] as ProfessionalUser;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
   async getProfessionalByUser(user: string): Promise<Professional> {
@@ -63,7 +67,8 @@ export class ProfessionalsPersistenceService {
 
       return professionalRes;
     } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
   updateTemplateMode() {}

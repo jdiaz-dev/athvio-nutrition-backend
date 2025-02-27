@@ -9,3 +9,4 @@
 - stayed: refactor done in NutritionalPlanGeneratorService class 
 - analyze startingDay in generateNutritionalPlanForPatient method
 - add loggers to all persistence layers
+- add detail error property to logger.error
