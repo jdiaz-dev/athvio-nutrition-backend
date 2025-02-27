@@ -20,12 +20,12 @@ import { UserManagamentService } from 'src/modules/authentication/users/applicat
 export class SignUpPatientManagamentService {
   private layer = LayersServer.APPLICATION;
   constructor(
+    private readonly configService: ConfigService,
     private readonly ups: UsersPersistenceService,
     private readonly ums: UserManagamentService,
     private readonly prms: ProfessionalsManagementService,
     private readonly pms: PatientManagementService,
     private readonly ms: MailService,
-    private readonly configService: ConfigService,
   ) {}
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
@@ -63,7 +63,7 @@ export class SignUpPatientManagamentService {
     return _patient;
   }
   async activatePatient({ user, password }: ActivatePatientDto): Promise<Patient> {
-    const { _id, role, isActive } = await this.ups.getUserById(user);
+    const { _id, role, isActive } = await this.ums.getUserById(user);
 
     if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT, this.layer);
     if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
@@ -82,7 +82,7 @@ export class SignUpPatientManagamentService {
       email: professionalEmail,
       firstname: professionalFirstname,
       lastname: professionalLastname,
-    } = await this.ups.getUserById(proffesionalUser);
+    } = await this.ums.getUserById(proffesionalUser);
     const origin = this.configService.get<string[]>('whiteListOrigins')[0];
     const url = `${origin}/activate/${patientUserId}`;
     const mailTitle = `Invitation from ${professionalFirstname} ${professionalLastname}`;
