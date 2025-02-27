@@ -18,5 +18,6 @@ export class DeleteCustomQuestionaryDetailsDto {
   @Field(() => [String])
   @IsArray()
   @ArrayNotEmpty()
+  @IsMongoId({ each: true })
   questionaryDetails: string[];
 }

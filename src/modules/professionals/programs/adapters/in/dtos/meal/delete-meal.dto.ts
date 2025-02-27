@@ -18,5 +18,6 @@ export class DeleteMealDto {
   @Field(() => [String])
   @IsArray()
   @ArrayNotEmpty()
+  @IsMongoId({ each: true })
   meals: string[];
 }
