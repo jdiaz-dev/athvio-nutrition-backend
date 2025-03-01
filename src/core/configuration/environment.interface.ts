@@ -6,8 +6,17 @@ export interface IWinstonLogger {
   exceptionBlob: string;
 }
 
+interface INeo4j {
+  database: string;
+  scheme: string;
+  host: string;
+  port: string;
+  username: string;
+  password: string;
+}
 interface IDatabase {
   mongodb: string;
+  neo4j: INeo4j;
 }
 
 interface FoodApi {
