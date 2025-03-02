@@ -255,16 +255,6 @@ input DeleteProgramTagDto {
   programTag: String!
 }
 
-type Disease {
-  id: ID!
-  name: String!
-}
-
-type DiseaseCause {
-  id: ID!
-  name: String!
-}
-
 input DuplicatePatientPlanDto {
   assignedDate: DateTime!
   patient: String!
@@ -325,24 +315,6 @@ type FoodsMeta {
   total: Float!
 }
 
-input GenerateNutritionalPlanDto {
-  diseaseCauses: [String!]!
-  diseases: [String!]!
-  nutritionalPreferences: [String!]!
-  patient: String!
-  startDate: DateTime!
-}
-
-input GetAutocompleteFoodNamesDto {
-  foodDatabase: String!
-  professional: String!
-  search: String!
-}
-
-type GetAutocompleteFoodNamesResponse {
-  foodNames: [String!]!
-}
-
 input GetCaloryDto {
   caloryId: String!
   patientId: String!
@@ -351,21 +323,6 @@ input GetCaloryDto {
 input GetChatDto {
   patient: String!
   professional: String
-}
-
-input GetFoodsDto {
-  foodDatabase: String!
-  limit: Float = 30
-  offset: Float = 0
-  orderBy: String
-  professional: String!
-  search: [String!] = [""]
-  session: String
-}
-
-type GetFoodsResponse {
-  data: [Food!]!
-  meta: FoodsMeta!
 }
 
 input GetNutritionalMealDto {
@@ -615,7 +572,6 @@ type Mutation {
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): QuestionaryConfig!
-  generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
@@ -646,12 +602,6 @@ type NutritionalMeal {
   macros: Macros!
   name: String!
   professional: String!
-}
-
-type NutritionalPreference {
-  createdAt: DateTime!
-  id: ID!
-  name: String!
 }
 
 type Organization {
@@ -749,14 +699,8 @@ type ProgramTag {
 }
 
 type Query {
-  getAllDiseaseCauses: [DiseaseCause!]!
-  getAllDiseases: [Disease!]!
-  getAllNutritionalPreferences: [NutritionalPreference!]!
-  getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
-  getFoodDatabases: [String!]!
-  getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMeals(input: GetNutritionalMealsDto!): GetNutritionalMealsResponse!
   getPatientForMobile(input: GetPatientForMobileDto!): Patient!

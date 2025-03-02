@@ -35,8 +35,7 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
 
     ProfessionalDomainsModule,
     PatientsDomainsModule,
-    ProgramGeneratorDomainsModule,
-  ],
+  ].concat(process.env.PROGRAM_GENERATOR ? ProgramGeneratorDomainsModule : []),
   controllers: [AppController],
 })
 export class AppModule {}
