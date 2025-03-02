@@ -1,13 +1,17 @@
 import neo4j, { Result, Driver, int, Transaction } from 'neo4j-driver';
-import { Injectable, Inject, OnApplicationShutdown } from '@nestjs/common';
+import { Injectable, Inject, OnApplicationShutdown, InternalServerErrorException } from '@nestjs/common';
 import { NEO4J_CONFIG, NEO4J_DRIVER } from 'src/modules/program-generator/shared/constants';
 import { Neo4jConfig } from 'src/modules/program-generator/shared/types';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { LayersServer } from 'src/shared/enums/project';
+import { InternalErrors } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class Neo4jService implements OnApplicationShutdown {
   constructor(
     @Inject(NEO4J_CONFIG) private readonly config: Neo4jConfig,
     @Inject(NEO4J_DRIVER) private readonly driver: Driver,
+    private readonly logger: AthvioLoggerService,
   ) {}
 
   getDriver(): Driver {
@@ -42,22 +46,32 @@ export class Neo4jService implements OnApplicationShutdown {
     });
   }
 
-  read(cypher: string, params?: Record<string, any>, databaseOrTransaction?: string | Transaction): Result {
-    if (databaseOrTransaction instanceof Transaction) {
-      return (<Transaction>databaseOrTransaction).run(cypher, params);
-    }
+  async read(cypher: string, params?: Record<string, any>, databaseOrTransaction?: string | Transaction): Promise<Result> {
+    try {
+      if (databaseOrTransaction instanceof Transaction) {
+        return (<Transaction>databaseOrTransaction).run(cypher, params);
+      }
 
-    const session = this.getReadSession(<string>databaseOrTransaction);
-    return session.run(cypher, params);
+      const session = this.getReadSession(<string>databaseOrTransaction);
+      return await session.run(cypher, params);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
   }
 
-  write(cypher: string, params?: Record<string, any>, databaseOrTransaction?: string | Transaction): Result {
-    if (databaseOrTransaction instanceof Transaction) {
-      return (<Transaction>databaseOrTransaction).run(cypher, params);
-    }
+  async write(cypher: string, params?: Record<string, any>, databaseOrTransaction?: string | Transaction): Promise<Result> {
+    try {
+      if (databaseOrTransaction instanceof Transaction) {
+        return (<Transaction>databaseOrTransaction).run(cypher, params);
+      }
 
-    const session = this.getWriteSession(<string>databaseOrTransaction);
-    return session.run(cypher, params);
+      const session = this.getWriteSession(<string>databaseOrTransaction);
+      return await session.run(cypher, params);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
   }
 
   onApplicationShutdown() {

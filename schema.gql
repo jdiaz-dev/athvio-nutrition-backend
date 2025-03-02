@@ -256,14 +256,12 @@ input DeleteProgramTagDto {
 }
 
 type Disease {
-  _id: ID!
-  createdAt: DateTime!
+  id: ID!
   name: String!
 }
 
 type DiseaseCause {
-  _id: ID!
-  createdAt: DateTime!
+  id: ID!
   name: String!
 }
 
@@ -651,8 +649,8 @@ type NutritionalMeal {
 }
 
 type NutritionalPreference {
-  _id: ID!
   createdAt: DateTime!
+  id: ID!
   name: String!
 }
 

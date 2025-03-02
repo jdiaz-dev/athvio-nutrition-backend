@@ -1,6 +1,4 @@
-import { Info, Query, Resolver } from '@nestjs/graphql';
-
-import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
+import { Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -13,8 +11,8 @@ export class NutritionalPreferencesResolver {
   constructor(private readonly nps: NutritionalPreferencesPersistenceService) {}
 
   @Query(() => [NutritionalPreference])
-  async getAllNutritionalPreferences(@Info(...selectorExtractor()) selectors: string[]): Promise<NutritionalPreference[]> {
-    const nutritionalPreference = await this.nps.getAllNutritionalPreferences(selectors);
+  async getAllNutritionalPreferences(): Promise<NutritionalPreference[]> {
+    const nutritionalPreference = await this.nps.getAllNutritionalPreferences();
     return nutritionalPreference;
   }
 }

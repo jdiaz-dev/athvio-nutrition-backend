@@ -18,11 +18,10 @@ export class GeneratorManagerService {
     private readonly ppps: PatientPlansPreparatorService,
   ) {}
   async generateNutritionalPlanForPatient(dto: GenerateNutritionalPlanDto, selectors: Record<string, number>) {
-    const _selectors = { _id: 1, name: 1 };
     selectors;
-    const diseaseCauses = await this.dcps.getDiseaseCauses(dto.diseaseCauses, _selectors);
-    const disease = await this.dps.getDiseases(dto.diseases, _selectors);
-    const nutritionalPreferences = await this.npps.getNutritionalPreferences(dto.nutritionalPreferences, _selectors);
+    const diseaseCauses = await this.dcps.getDiseaseCauses(dto.diseaseCauses);
+    const disease = await this.dps.getDiseases(dto.diseases);
+    const nutritionalPreferences = await this.npps.getNutritionalPreferences(dto.nutritionalPreferences);
 
     const nutritionalPlan: any = await this.npgs.generateNutritionalPlan({
       stringDiseases: disease.map((item) => item.name).join(','),

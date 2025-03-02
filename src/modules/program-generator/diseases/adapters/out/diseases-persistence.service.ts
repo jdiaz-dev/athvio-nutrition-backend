@@ -1,45 +1,53 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { Disease, DiseaseDocument } from 'src/modules/program-generator/diseases/adapters/out/disease.schema';
-import { InternalErrors } from 'src/shared/enums/messages-response';
-import { LayersServer } from 'src/shared/enums/project';
+import { Injectable } from '@nestjs/common';
+import { Disease } from 'src/modules/program-generator/diseases/adapters/out/disease.schema';
+import { Neo4jService } from 'src/modules/program-generator/neo4j/neo4j.service';
+import { NEO4J_NODES } from 'src/modules/program-generator/shared/constants';
 
 @Injectable()
 export class DiseasesPersistenceService {
-  constructor(
-    @InjectModel(Disease.name) private readonly diseaseModel: Model<DiseaseDocument>,
-    private readonly logger: AthvioLoggerService,
-  ) {}
+  constructor(private readonly neo4jService: Neo4jService) {}
 
   async getDisease(disease: string): Promise<Disease> {
-    try {
-      const res = await this.diseaseModel.findOne({ _id: disease });
-      return res;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    const res = await this.neo4jService.read(
+      `
+        MATCH (d:Disease)
+        WHERE d.id = $disease AND d.isActive = $isActive
+        RETURN COLLECT(DISTINCT {
+           id: d.id,
+           name: d.name
+        }) AS ${NEO4J_NODES.DISEASES}
+      `,
+      { disease, isActive: true },
+    );
+    return res.records[0].get(NEO4J_NODES.DISEASES)[0] as Disease;
   }
-  async getDiseases(diseases: string[], selectors: Record<string, number>): Promise<Disease[]> {
-    try {
-      const res = await this.diseaseModel.find({ _id: { $in: diseases } }, selectors);
+  async getDiseases(diseases: string[]): Promise<Disease[]> {
+    const res = await this.neo4jService.read(
+      `
+        MATCH (d:Disease)
+        WHERE d.id IN $diseaseIds AND d.isActive = $isActive
+        RETURN COLLECT(DISTINCT {
+           id: d.id,
+           name: d.name
+        }) AS ${NEO4J_NODES.DISEASES}
+      `,
+      { diseaseIds: diseases, isActive: true },
+    );
 
-      return res;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return res.records[0].get(NEO4J_NODES.DISEASES) as Disease[];
   }
-  async getAllDiseases(selectors: string[]): Promise<Disease[]> {
-    try {
-      const res = await this.diseaseModel.find({}, selectors);
+  async getAllDiseases(): Promise<Disease[]> {
+    const res = await this.neo4jService.read(
+      `
+        MATCH (d:Disease {isActive: $isActive}) 
+        RETURN COLLECT(DISTINCT {
+           id: d.id,
+           name: d.name
+        }) AS ${NEO4J_NODES.DISEASES}
+      `,
+      { isActive: true },
+    );
 
-      return res;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return res.records[0].get(NEO4J_NODES.DISEASES) as Disease[];
   }
 }

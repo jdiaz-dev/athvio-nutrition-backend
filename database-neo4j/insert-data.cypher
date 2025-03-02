@@ -5,26 +5,26 @@ MERGE (diabetes:Disease {id: randomUUID(), name: "Diabetes", isActive: true, cre
 MERGE (depression:Disease {id: randomUUID(), name: "Depression", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
 MERGE (fibromyalgia:Disease {id: randomUUID(), name: "Fibromyalgia", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
 MERGE (hypothyroidism:Disease {id: randomUUID(), name: "Hypothyroidism", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
-MERGE (leakyGut:Disease {id: randomUUID(), name: "Leaky , isActive: true, createdAt: datetime(), updatedAt: datetime()Gut"}) 
+MERGE (leakyGut:Disease {id: randomUUID(), name: "Leaky Gut", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
 
 
-// Create Cause Nodes
-MERGE (parasites:Cause {id: randomUUID(), name: "Parasites", isActive: true, createdAt: datetime(), updatedAt: datetime()})
-MERGE (fungi:Cause {id: randomUUID(), name: "Fungi", isActive: true, createdAt: datetime(), updatedAt: datetime()})
-MERGE (bacteria:Cause {id: randomUUID(), name: "Bacteria", isActive: true, createdAt: datetime(), updatedAt: datetime()})
-MERGE (heavyMetals:Cause {id: randomUUID(), name: "Heavy Metals", isActive: true, createdAt: datetime(), updatedAt: datetime()})
-MERGE (chemicals:Cause {id: randomUUID(), name: "Chemical Toxicity", isActive: true, createdAt: datetime(), updatedAt: datetime()})
-MERGE (plastics:Cause {id: randomUUID(), name: "Plastics", isActive: true, createdAt: datetime(), updatedAt: datetime()})
-MERGE (virures:Cause {id: randomUUID(), name: "Virues", isActive: true, createdAt: datetime(), updatedAt: datetime()})
-MERGE (antiNutrients:Cause {id: randomUUID(), name: "Antinutrients", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+// Create Disease Cause Nodes
+MERGE (parasites:DiseaseCause {id: randomUUID(), name: "Parasites", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (fungi:DiseaseCause {id: randomUUID(), name: "Fungi", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (bacteria:DiseaseCause {id: randomUUID(), name: "Bacteria", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (heavyMetals:DiseaseCause {id: randomUUID(), name: "Heavy Metals", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (chemicals:DiseaseCause {id: randomUUID(), name: "Chemical Toxicity", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (plastics:DiseaseCause {id: randomUUID(), name: "Plastics", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (virures:DiseaseCause {id: randomUUID(), name: "Virues", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (antiNutrients:DiseaseCause {id: randomUUID(), name: "Antinutrients", isActive: true, createdAt: datetime(), updatedAt: datetime()})
 
 
 // Ensure all previous results are carried forward
 WITH * 
 
-// Connect Diseases to Causes
-MATCH (d:Disease), (c:Cause)
-MERGE (d)-[:HAS_CAUSE]->(c)
+// Connect Diseases to DiseaseCauses
+MATCH (d:Disease), (c:DiseaseCause)
+MERGE (d)-[:HAS_DiseaseCause]->(c)
 
 // Create Recommendation Nodes
 MERGE (castorOilRec:Recommendation {name: "Castor Oil", details: "Consume castor oil."})
@@ -38,7 +38,7 @@ MERGE (activatedCharcoalRec:Recommendation {name: "Heavy Metal Detox", details: 
 
 WITH * 
 
-// Connect Causes to Recommendations
+// Connect DiseaseCauses to Recommendations
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(castorOilRec)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(carrotRecomendation)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(propolisRec)
@@ -59,3 +59,22 @@ WITH *
 // Connect Recommendations to Restrictions
 MERGE (carrotRecomendation)-[:HAS_RESTRICTION]->(restrictCarrot1)
 MERGE (carrotRecomendation)-[:HAS_RESTRICTION]->(restrictCarrot2)
+
+
+WITH * 
+// Nutritional Preferences
+MERGE (vegan:NutritionalPreference {id: randomUUID(), name: "vegan", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (lactoOvo:NutritionalPreference {id: randomUUID(), name: "lacto-ovovegetarian", isActive: true, createdAt: datetime(), updatedAt: datetime()})
+MERGE (ketogenic:NutritionalPreference {id: randomUUID(), name: "ketogenic", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (lowFODMAPs:NutritionalPreference {id: randomUUID(), name: "low in FODMAPs", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (glutenFree:NutritionalPreference {id: randomUUID(), name: "gluten free", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (dairyFree:NutritionalPreference {id: randomUUID(), name: "dairy free", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (hipocaloric:NutritionalPreference {id: randomUUID(), name: "hipocaloric", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (hipoglycemic:NutritionalPreference {id: randomUUID(), name: "hipoglycemic", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (hypolipidic:NutritionalPreference {id: randomUUID(), name: "hypolipidic", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (lowInFiber:NutritionalPreference {id: randomUUID(), name: "low in fiber", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (hypoproteic:NutritionalPreference {id: randomUUID(), name: "hypoproteic", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (hyposodic:NutritionalPreference {id: randomUUID(), name: "hyposodic", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (richInFibers:NutritionalPreference {id: randomUUID(), name: "rich in fibers", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+MERGE (hyperproteic:NutritionalPreference {id: randomUUID(), name: "hyperproteic", isActive: true, createdAt: datetime(), updatedAt: datetime()}) 
+

@@ -1,6 +1,5 @@
-import { Info, Query, Resolver } from '@nestjs/graphql';
+import { Query, Resolver } from '@nestjs/graphql';
 
-import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 import { Disease } from '../out/disease.schema';
 import { DiseasesPersistenceService } from 'src/modules/program-generator/diseases/adapters/out/diseases-persistence.service';
 import { UseGuards } from '@nestjs/common';
@@ -13,8 +12,8 @@ export class DiseasesResolver {
   constructor(private readonly dps: DiseasesPersistenceService) {}
 
   @Query(() => [Disease])
-  async getAllDiseases(@Info(...selectorExtractor()) selectors: string[]): Promise<Disease[]> {
-    const diseases = await this.dps.getAllDiseases(selectors);
+  async getAllDiseases(): Promise<Disease[]> {
+    const diseases = await this.dps.getAllDiseases();
     return diseases;
   }
 }
