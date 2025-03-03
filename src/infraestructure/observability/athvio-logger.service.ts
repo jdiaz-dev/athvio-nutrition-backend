@@ -11,6 +11,9 @@ export class AthvioLoggerService {
   error(error: unknown): void {
     this.logger.error(error);
   }
+  warn(error: unknown): void {
+    this.logger.error(error);
+  }
   info(info: unknown) {
     this.logger.info(info);
   }

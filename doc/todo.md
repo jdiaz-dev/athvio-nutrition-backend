@@ -1,5 +1,6 @@
 ## Learning
 - review implementation decorator pattern to class and property level
+- learng about session and close methods in neoj4 driver
 
 ## Fixes
 - enhance message error in get questionary config (standarizate errors)
