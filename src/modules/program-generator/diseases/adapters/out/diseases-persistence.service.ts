@@ -31,20 +31,23 @@ export class DiseasesPersistenceService {
         OPTIONAL MATCH (d)-[:HAS_RECOMMENDATION]->(r:Recommendation)
         OPTIONAL MATCH (r)-[:HAS_RESTRICTION]->(res:Restriction)
 
-        WITH d, r, COLLECT(DISTINCT {
-          id: r.id,
-          name:r.name,
-          details: r.details
-        }) AS recommendation, 
-        
-        COLLECT(res) AS restrictions
+        WITH d, res,
+          COLLECT(DISTINCT 
+            CASE WHEN r IS NOT NULL THEN {
+              id: r.id,
+              name: r.name,
+              details: r.details
+            } ELSE NULL END
+          ) AS recommendations,
+          COLLECT(res) AS restrictions
 
         RETURN d.name AS disease, 
         COLLECT(DISTINCT {
+            id:d.id,
             name:d.name,
-            recommendations: recommendation 
-            //restrictions: restrictions  
-        }) AS ${resultName};
+            recommendations: recommendations 
+          }
+        ) AS ${resultName};
       `,
       { diseaseIds: diseases, isActive: true },
     );

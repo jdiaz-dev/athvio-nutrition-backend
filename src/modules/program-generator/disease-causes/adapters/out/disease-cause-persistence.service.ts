@@ -30,9 +30,11 @@ export class DiseaseCausesPersistenceService {
         WHERE dc.id IN $diseaseCauseIds AND dc.isActive = $isActive
 
         OPTIONAL MATCH (r)-[:HAS_RESTRICTION]->(di:Disease)
-        WITH dc, r, COLLECT(DISTINCT {
-          name: di.name
-        }) AS restrictions, COLLECT(DISTINCT di.id) AS restrictionIds
+        WITH dc, r, COLLECT(DISTINCT
+          CASE WHEN di IS NOT NULL THEN {
+            name: di.name
+          } ELSE NULL END
+        ) AS restrictions, COLLECT(DISTINCT di.id) AS restrictionIds
 
         WHERE NONE(id IN restrictionIds WHERE id IN $excludedDiseasesIds)
 

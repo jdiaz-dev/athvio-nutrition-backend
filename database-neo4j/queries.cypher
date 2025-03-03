@@ -14,6 +14,11 @@ MATCH (dc:DiseaseCause {name: "Parasites"})-[hrec:HAS_RECOMMENDATION]->(rec:Reco
 OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
 RETURN dc,hrec,rec,hres,di
 
+//get diabetes and relations if exists
+MATCH (d:Disease {name: "Diabetes"})
+OPTIONAL MATCH (d)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
+RETURN d,hrec,rec
+
 // get data filtered by parasites
 MATCH (dc:DiseaseCause {name: "Parasites"})-[:HAS_RECOMMENDATION]->(r:Recommendation)
 OPTIONAL MATCH (r)-[:HAS_RESTRICTION]->(res:Restriction)
