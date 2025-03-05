@@ -45,19 +45,21 @@ MERGE (d)-[:HAS_DISEASE_CAUSE]->(c)
 
 // Create Recommendation Nodes (for causes)
 MERGE (castorOilRec:Recommendation {name: "Castor Oil"})
-ON CREATE SET castorOilRec.id = randomUUID(), castorOilRec.details = "Consume castor oil.", castorOilRec.isActive = true, castorOilRec.createdAt = datetime(), castorOilRec.updatedAt = datetime()
+ON CREATE SET castorOilRec.id = randomUUID(), castorOilRec.details = '"""Include the first day 20 ml of castor oil and repeat 3 days after (as suplement)"""', castorOilRec.isActive = true, castorOilRec.createdAt = datetime(), castorOilRec.updatedAt = datetime()
 MERGE (carrotRec:Recommendation {name: "Carrot juice"})
-ON CREATE SET carrotRec.id = randomUUID(), carrotRec.details = "Drink 40 ounces of carrot juice.", carrotRec.isActive = true, carrotRec.createdAt = datetime(), carrotRec.updatedAt = datetime()
+ON CREATE SET carrotRec.id = randomUUID(), carrotRec.details = '"""Include 1 1/2L of carrot juice every day"""', carrotRec.isActive = true, carrotRec.createdAt = datetime(), carrotRec.updatedAt = datetime()
+MERGE (cabbageRec:Recommendation {name: "Cabbage juice"})
+ON CREATE SET cabbageRec.id = randomUUID(), cabbageRec.details = '"""Include 0.25L of cabbagge juice every day"""', cabbageRec.isActive = true, cabbageRec.createdAt = datetime(), cabbageRec.updatedAt = datetime()
 MERGE (propolisRec:Recommendation {name: "Propolis"})
-ON CREATE SET propolisRec.id = randomUUID(), propolisRec.details = "Consume propolis.",  propolisRec.isActive = true, propolisRec.createdAt = datetime(), propolisRec.updatedAt = datetime() 
+ON CREATE SET propolisRec.id = randomUUID(), propolisRec.details = '"""Include raw propolis twice by week starting the second day (as suplement)"""',  propolisRec.isActive = true, propolisRec.createdAt = datetime(), propolisRec.updatedAt = datetime() 
 MERGE (chukrutRec:Recommendation {name: "Chukrut"})
-ON CREATE SET chukrutRec.id = randomUUID(), chukrutRec.details = "Consume Chukrut.", chukrutRec.isActive = true, chukrutRec.createdAt = datetime(), chukrutRec.updatedAt = datetime() 
+ON CREATE SET chukrutRec.id = randomUUID(), chukrutRec.details = '"""Include Chukrut/sauerkraut twice by week"""', chukrutRec.isActive = true, chukrutRec.createdAt = datetime(), chukrutRec.updatedAt = datetime() 
 MERGE (ketoRec:Recommendation {name: "Keto Diet"})
-ON CREATE SET ketoRec.id = randomUUID(), ketoRec.details = "Follow a ketogenic diet.", ketoRec.isActive = true, ketoRec.createdAt = datetime(), ketoRec.updatedAt = datetime() 
+ON CREATE SET ketoRec.id = randomUUID(), ketoRec.details = "Follow a ketogenic diet", ketoRec.isActive = true, ketoRec.createdAt = datetime(), ketoRec.updatedAt = datetime() 
 MERGE (oreganOilRec:Recommendation {name: "Oregano Oil"})
-ON CREATE SET oreganOilRec.id = randomUUID(), oreganOilRec.details = "Consume oregano oil.", oreganOilRec.isActive = true, oreganOilRec.createdAt = datetime(), oreganOilRec.updatedAt = datetime() 
+ON CREATE SET oreganOilRec.id = randomUUID(), oreganOilRec.details = "Consume oregano oil", oreganOilRec.isActive = true, oreganOilRec.createdAt = datetime(), oreganOilRec.updatedAt = datetime() 
 MERGE (charcoalRec:Recommendation {name: "Heavy Metal Detox"})
-ON CREATE SET charcoalRec.id = randomUUID(), charcoalRec.details = "Take activated charcoal.", charcoalRec.isActive = true, charcoalRec.createdAt = datetime(), charcoalRec.updatedAt = datetime() 
+ON CREATE SET charcoalRec.id = randomUUID(), charcoalRec.details = "Take activated charcoal", charcoalRec.isActive = true, charcoalRec.createdAt = datetime(), charcoalRec.updatedAt = datetime() 
 
 WITH *
 
@@ -66,20 +68,24 @@ MERGE (parasites)-[:HAS_RECOMMENDATION]->(castorOilRec)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(carrotRec)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(propolisRec)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(chukrutRec)
+MERGE (parasites)-[:HAS_RECOMMENDATION]->(cabbageRec)
 MERGE (fungi)-[:HAS_RECOMMENDATION]->(ketoRec)
 MERGE (fungi)-[:HAS_RECOMMENDATION]->(carrotRec)
+MERGE (fungi)-[:HAS_RECOMMENDATION]->(cabbageRec)
 MERGE (bacteria)-[:HAS_RECOMMENDATION]->(oreganOilRec)
+MERGE (bacteria)-[:HAS_RECOMMENDATION]->(cabbageRec)
 MERGE (heavyMetals)-[:HAS_RECOMMENDATION]->(charcoalRec)
+MERGE (heavyMetals)-[:HAS_RECOMMENDATION]->(cabbageRec)
 
 
 WITH * 
 // Create Recommendation Nodes (for specific disease)
-MERGE (gbombs:Recommendation {name: "gbombs"})
-ON CREATE SET gbombs.id = randomUUID(), gbombs.details = "Include greens, beans, onions, mushrooms, berries and seeds", gbombs.isActive = true, gbombs.createdAt = datetime(), gbombs.updatedAt = datetime() 
+MERGE (gcbombs:Recommendation {name: "gcbombs"})
+ON CREATE SET gcbombs.id = randomUUID(), gcbombs.details = '"""Include greens, cruciferous, beans, onions, mushrooms, berries and seeds"""', gcbombs.isActive = true, gcbombs.createdAt = datetime(), gcbombs.updatedAt = datetime() 
 
 WITH * 
 // Connect DiseaseCauses to Recommendations (disease to recommendation)
-MERGE (cancer)-[:HAS_RECOMMENDATION]->(gbombs)
+MERGE (cancer)-[:HAS_RECOMMENDATION]->(gcbombs)
 
 // Ensure previous results are carried forward
 WITH *

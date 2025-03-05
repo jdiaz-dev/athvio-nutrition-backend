@@ -10,17 +10,26 @@ import {
 } from 'src/modules/program-generator/program-generator/application/prompts';
 
 type Parameters = {
-  stringDiseases: string;
-  stringCauseDiseases: string;
-  stringNutritionalPreferences: string;
+  diseases: string;
+  diseaseCauses: string;
+  recommendationsForCauses: string;
+  recommendationForDiseases: string;
+  nutritionalPreferences: string;
 };
 @Injectable()
 export class NutritionalPlanGeneratorService {
   constructor(private gpt: GptService) {}
-  async generateNutritionalPlan(params: Parameters): Promise<NutritionalDayPlanSchema[]> {
+  async generateNutritionalPlan({
+    diseaseCauses,
+    recommendationsForCauses,
+    diseases,
+    recommendationForDiseases,
+    nutritionalPreferences,
+  }: Parameters): Promise<NutritionalDayPlanSchema[]> {
     const nutritionalPrompt =
-      basicNutritionPrompt(params.stringDiseases) +
-      nutritionalPlanPrompt(params.stringCauseDiseases, params.stringNutritionalPreferences);
+      basicNutritionPrompt(diseases) +
+      nutritionalPlanPrompt(diseaseCauses, recommendationsForCauses, recommendationForDiseases, nutritionalPreferences);
+    console.info(nutritionalPrompt);
 
     const res = await this.gpt.chatCompletion<PlansSchemaPromptType>(nutritionalPrompt, PlansSchemaPrompt);
     return res.plans;

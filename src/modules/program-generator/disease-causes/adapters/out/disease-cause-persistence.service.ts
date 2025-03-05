@@ -39,7 +39,9 @@ export class DiseaseCausesPersistenceService {
         WHERE NONE(id IN restrictionIds WHERE id IN $excludedDiseasesIds)
 
         WITH dc, COLLECT(DISTINCT {
-          recommendation: r.name, 
+          id: r.id,
+          name: r.name, 
+          details: r.details,
           restrictions: restrictions 
         }) AS recommendations
 

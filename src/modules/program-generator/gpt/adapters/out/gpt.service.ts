@@ -25,14 +25,14 @@ export class GptService {
             content: prompt,
           },
         ],
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini',
         response_format: zodResponseFormat(schemaPrompt, 'nutri_response'),
       });
 
       const resParsed = JSON.parse(res.choices[0].message.content);
       return resParsed as T;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
       throw new InternalServerErrorException(InternalErrors.IA_PROVIDER);
     }
   }

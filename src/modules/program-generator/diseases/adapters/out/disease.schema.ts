@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Recommendation } from 'src/modules/program-generator/shared/schemas/recommendation.schema';
 
 @ObjectType()
 export class Disease {
@@ -7,7 +8,7 @@ export class Disease {
 
   @Field(() => String)
   name: string;
-
+  recommendations: Recommendation[];
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;

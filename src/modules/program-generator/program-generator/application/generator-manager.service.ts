@@ -23,10 +23,18 @@ export class GeneratorManagerService {
     const diseases = await this.dms.getDiseases(dto.diseases);
     const nutritionalPreferences = await this.npms.getNutritionalPreferences(dto.nutritionalPreferences);
 
+    let _diseaseCauses = diseaseCauses.map((dc) => dc.name).join('. ');
+    let recommendationsForCauses = diseaseCauses.flatMap((dc) => dc.recommendations.map((r) => r.details)).join('. ');
+
+    let _diseases = diseases.map((d) => d.name).join('. ');
+    let recommendationForDiseases = diseases.flatMap((d) => d.recommendations.map((r) => r.details)).join('. ');
+
     const nutritionalPlan: any = await this.npgs.generateNutritionalPlan({
-      stringCauseDiseases: diseaseCauses.map((item) => item.name).join(','),
-      stringDiseases: diseases.map((item) => item.name).join(','),
-      stringNutritionalPreferences: nutritionalPreferences.map((item) => item.name).join(','),
+      diseaseCauses: _diseaseCauses,
+      diseases: _diseases,
+      recommendationsForCauses,
+      recommendationForDiseases,
+      nutritionalPreferences: nutritionalPreferences.map((item) => item.name).join('.'),
     });
 
     const preparedPatientPlans: [] = [];

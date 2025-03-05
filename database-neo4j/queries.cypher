@@ -11,6 +11,7 @@ RETURN n, r, m;
 
 //get parasites graph
 MATCH (dc:DiseaseCause {name: "Parasites"})-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
+OPTIONAL MATCH (dc)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
 OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
 RETURN dc,hrec,rec,hres,di
 

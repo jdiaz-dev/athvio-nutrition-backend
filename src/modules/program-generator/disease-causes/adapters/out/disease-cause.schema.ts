@@ -1,18 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-
-export class Restriction {
-  id: string;
-  name: string;
-}
-export class Recomendation {
-  id: string;
-  name: string;
-  details: string;
-  restrictions: Restriction[];
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { Recommendation } from 'src/modules/program-generator/shared/schemas/recommendation.schema';
 
 @ObjectType()
 export class DiseaseCause {
@@ -22,7 +9,7 @@ export class DiseaseCause {
   @Field(() => String)
   name: string;
 
-  recommendations: Recomendation[];
+  recommendations: Recommendation[];
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
