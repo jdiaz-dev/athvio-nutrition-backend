@@ -573,7 +573,7 @@ input MealBodyInput {
   meal: String
   mealTag: String!
   name: String!
-  position: Float!
+  position: Float
 }
 
 type Measure {

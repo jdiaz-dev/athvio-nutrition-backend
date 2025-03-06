@@ -24,7 +24,10 @@ export class GeneratorManagerService {
     const nutritionalPreferences = await this.npms.getNutritionalPreferences(dto.nutritionalPreferences);
 
     let _diseaseCauses = diseaseCauses.map((dc) => dc.name).join('. ');
-    let recommendationsForCauses = diseaseCauses.flatMap((dc) => dc.recommendations.map((r) => r.details)).join('. ');
+    
+    let recommendationsForCauses = diseaseCauses.flatMap((dc) => dc.recommendations.map((r) => r.details));
+    recommendationsForCauses = [...new Set(recommendationsForCauses)];
+    const recommendationForCuasesJoined = recommendationsForCauses.join('. ');
 
     let _diseases = diseases.map((d) => d.name).join('. ');
     let recommendationForDiseases = diseases.flatMap((d) => d.recommendations.map((r) => r.details)).join('. ');
@@ -32,7 +35,7 @@ export class GeneratorManagerService {
     const nutritionalPlan: any = await this.npgs.generateNutritionalPlan({
       diseaseCauses: _diseaseCauses,
       diseases: _diseases,
-      recommendationsForCauses,
+      recommendationsForCauses: recommendationForCuasesJoined,
       recommendationForDiseases,
       nutritionalPreferences: nutritionalPreferences.map((item) => item.name).join('.'),
     });

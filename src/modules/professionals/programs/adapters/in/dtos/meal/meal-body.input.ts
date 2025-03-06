@@ -10,8 +10,9 @@ export class MealBodyInput {
   @IsOptional()
   meal?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNumber()
+  @IsOptional()
   position: number;
 
   @Field()

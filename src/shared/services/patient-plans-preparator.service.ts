@@ -3,6 +3,9 @@ import dayjs from 'dayjs';
 
 type Ingredient = {
   name: string;
+  label: string;
+  amount: number;
+  weightInGrams: number;
 };
 
 type Meal = {
