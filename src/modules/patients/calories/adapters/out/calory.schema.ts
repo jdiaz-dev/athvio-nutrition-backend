@@ -11,7 +11,7 @@ export class Calory extends BaseSchema {
 
   @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
-  patientId!: string;
+  patient!: string;
 
   @Field()
   @Prop({ type: Number, required: true })
