@@ -328,9 +328,12 @@ type FoodsMeta {
 input GenerateNutritionalPlanDto {
   diseaseCauses: [String!]!
   diseases: [String!]!
+  macros: PatientMacrosInput!
+  mealsByDay: Float!
   nutritionalPreferences: [String!]!
   patient: String!
   startDate: DateTime!
+  totalDays: Float!
 }
 
 input GetAutocompleteFoodNamesDto {
@@ -687,6 +690,13 @@ type PatientGroup {
   groupName: String!
   isDeleted: String!
   professional: ID!
+}
+
+input PatientMacrosInput {
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  protein: Float!
 }
 
 type PatientPlan {

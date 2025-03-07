@@ -1,5 +1,25 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { ArrayNotEmpty, IsArray, IsDate, IsMongoId, IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ArrayNotEmpty, IsArray, IsDate, IsMongoId, IsNumber, IsUUID, Max, ValidateNested } from 'class-validator';
+
+@InputType()
+export class PatientMacrosInput {
+  @Field()
+  @IsNumber()
+  carbs: number;
+
+  @Field()
+  @IsNumber()
+  protein: number;
+
+  @Field()
+  @IsNumber()
+  fat: number;
+
+  @Field()
+  @IsNumber()
+  calories: number;
+}
 
 const uuidV4 = 4;
 @InputType()
@@ -29,4 +49,19 @@ export class GenerateNutritionalPlanDto {
   @Field()
   @IsDate()
   startDate: Date;
+
+  @Field()
+  @Max(7)
+  @IsNumber()
+  totalDays: number;
+
+  @Field()
+  @Max(4)
+  @IsNumber()
+  mealsByDay: number;
+
+  @Field(() => PatientMacrosInput)
+  @ValidateNested()
+  @Type(() => PatientMacrosInput)
+  macros: PatientMacrosInput;
 }

@@ -15,6 +15,14 @@ type Parameters = {
   recommendationsForCauses: string;
   recommendationForDiseases: string;
   nutritionalPreferences: string;
+  totalDays: number;
+  mealsByDay: number;
+  macros: {
+    carbs: number;
+    protein: number;
+    fat: number;
+    calories: number;
+  };
 };
 @Injectable()
 export class NutritionalPlanGeneratorService {
@@ -25,9 +33,12 @@ export class NutritionalPlanGeneratorService {
     diseases,
     recommendationForDiseases,
     nutritionalPreferences,
+    totalDays,
+    mealsByDay,
+    macros,
   }: Parameters): Promise<NutritionalDayPlanSchema[]> {
     const nutritionalPrompt =
-      basicNutritionPrompt(diseases) +
+      basicNutritionPrompt(diseases, totalDays, mealsByDay, macros) +
       nutritionalPlanPrompt(diseaseCauses, recommendationsForCauses, recommendationForDiseases, nutritionalPreferences);
     console.info(nutritionalPrompt);
 
