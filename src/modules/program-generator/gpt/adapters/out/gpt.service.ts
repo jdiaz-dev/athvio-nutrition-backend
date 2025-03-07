@@ -15,14 +15,39 @@ export class GptService {
       apiKey: this.configService.get<string>('gptProvider.gptSecretKey'),
     });
   }
+
+  /* 
+  
+
+  You are a assistant expert nutritionist. You must help to another nutritionist to threat their patients
+  The patient have this diseases : cancer, diabetes,
+  the root cause of the previous diseases are caused by : parasites, fungi
+  when the nutritionist request a nutritional you must to accomplish with every instruction closed in triple quotes 
+
+  - """the patient need  one nutritiona plan for 7 days"""
+  - """the nutritional plan is for 1800 calories every day"""
+  - """every day must contain 3 meals""" 
+  - """the nutritional plan must contain this indications: must contain carrot juice all days, must contain cabbage juice all days, must include 20 ml of castor oil all days, all the nutritional plan must be a vegan diet """
+  */
   async chatCompletion<T>(prompt: string, schemaPrompt: ZodType<T>): Promise<T> {
+    prompt;
     try {
       const res = await this.openai.chat.completions.create({
         messages: [
-          { role: 'system', content: 'You are a nutritionist.' },
+          {
+            role: 'system',
+            content: `
+            - You are a assistant expert nutritionist. You must help to another nutritionist to threat their patients
+            - The patient have this diseases : cancer, diabetes
+            - The root cause of the previous diseases are caused by : parasites, fungi
+            - When the nutritionist request a nutritional you must to accomplish with every instruction closed in triple quotes 
+            `,
+          },
           {
             role: 'user',
-            content: prompt,
+            content: `
+            """generate nutritional plan for 7 days"""."""the nutritional plan is for 1800 calories every day"""."""every day must contain 3 meals"""."""the nutritional plan must contain this indications: must contain carrot juice all days, must contain cabbage juice all days, must include 20 ml of castor oil all days, all the nutritional plan must be a vegan diet """
+            `,
           },
         ],
         model: 'gpt-4o-mini',
