@@ -377,6 +377,7 @@ input GetNutritionalMealDto {
 }
 
 input GetNutritionalMealsDto {
+  database: String!
   limit: Float = 30
   offset: Float = 0
   orderBy: String
@@ -768,6 +769,7 @@ type Query {
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
+  getNutritionalMealDatabases: [String!]!
   getNutritionalMeals(input: GetNutritionalMealsDto!): GetNutritionalMealsResponse!
   getPatientForMobile(input: GetPatientForMobileDto!): Patient!
   getPatientForWeb(patient: GetPatientForWebDto!): Patient!

@@ -14,6 +14,16 @@ OPTIONAL MATCH (dc)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
 OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
 RETURN dc,hrec,rec,hres,di
 
+//get diseases and causes
+MATCH (d:Disease)-[hdica:HAS_DISEASE_CAUSE]->(dc:DiseaseCause)
+WHERE d.name in ["Cancer"] and dc.name = "Parasites"
+OPTIONAL MATCH (dc:DiseaseCause)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
+WHERE dc.name in ["Parasites"] 
+OPTIONAL MATCH (dc)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
+OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
+RETURN d,hdica,dc,hrec,rec,hres,di
+
+
 //get diabetes and relations if exists
 MATCH (d:DiseaseCause {name: "Viruses"})
 OPTIONAL MATCH (d)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)

@@ -2,7 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import { NutritionalMeal, NutritionalDocument } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
+import {
+  NutritionalMeal,
+  NutritionalDocument,
+} from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import {
   GetNutritionalMealsDto,
   GetNutritionalMealsResponse,
@@ -41,7 +44,7 @@ export class NutritionalMealsPersistenceService {
     return nutritionalMealRes;
   }
   async getNutritionalMeals(
-    { professional, ...rest }: GetNutritionalMealsDto,
+    { professional, sourceQuery, ...rest }: Omit<GetNutritionalMealsDto, 'database'> & { sourceQuery: { [k: string]: unknown } },
     selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
@@ -51,6 +54,7 @@ export class NutritionalMealsPersistenceService {
         $match: {
           professional: new Types.ObjectId(professional),
           isDeleted: false,
+          ...sourceQuery,
         },
       },
       {

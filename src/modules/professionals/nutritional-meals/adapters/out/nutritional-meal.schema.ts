@@ -4,9 +4,10 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { IngredientDetail, IngredientDetailSchema } from 'src/shared/models/meal-plan';
 import { Macros, MacroSchema } from 'src/shared/models/macros';
+import { EnumDataSources } from 'src/shared/enums/project';
 
 @ObjectType()
-@Schema({ timestamps: true, collection: 'Meals' })
+@Schema({ timestamps: true, collection: 'NutritionalMeals' })
 export class NutritionalMeal extends BaseSchema {
   @Field(() => ID)
   _id!: string;
@@ -30,6 +31,9 @@ export class NutritionalMeal extends BaseSchema {
   @Field()
   @Prop({ type: MacroSchema, required: true })
   macros: Macros;
+
+  @Prop({ type: String, required: true, enum: EnumDataSources, default: EnumDataSources.PROFESSIONAL })
+  source: EnumDataSources;
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: string;

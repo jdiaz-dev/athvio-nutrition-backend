@@ -77,3 +77,8 @@ export enum LayersServer {
   INFRAESTRUCTURE = 'infrastructure',
   APPLICATION = 'application',
 }
+
+export enum EnumDataSources {
+  SYSTEM = 'SYSTEM',
+  PROFESSIONAL = 'PROFESSIONAL',
+}

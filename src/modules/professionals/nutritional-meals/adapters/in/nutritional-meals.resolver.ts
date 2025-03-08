@@ -1,4 +1,3 @@
-// import { FieldMap } from '@jenyus-org/nestjs-graphql-utils';
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/create-nutritional-meal.dto';
@@ -11,19 +10,25 @@ import {
 import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/update-nutritional-meal.dto';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
-import { NutritionalMealsManagementService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-management.service';
+import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
+import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
 
 @Resolver(() => NutritionalMeal)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class NutritionalMealsResolver {
-  constructor(private readonly crps: NutritionalMealsPersistenceService, private crms: NutritionalMealsManagementService) {}
+  constructor(private readonly crps: NutritionalMealsPersistenceService, private nmms: NutritionalMealsManagerService) {}
 
+  @Query(() => [String])
+  getNutritionalMealDatabases(): string[] {
+    const res = Object.values(NutritionalMealDatabases);
+    return res;
+  }
   @Mutation(() => NutritionalMeal)
   createNutritionalMeal(@Args('input') dto: CreateNutritionalMealDto): Promise<NutritionalMeal> {
-    return this.crms.createNutritionalMeal(dto);
+    return this.nmms.createNutritionalMeal(dto);
   }
 
   @Query(() => NutritionalMeal)
@@ -40,7 +45,7 @@ export class NutritionalMealsResolver {
     @Args('input') dto: GetNutritionalMealsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
-    const nutritionalMeal = await this.crps.getNutritionalMeals(dto, selectors);
+    const nutritionalMeal = await this.nmms.getNutritionalMeals(dto, selectors);
     return nutritionalMeal;
   }
 
