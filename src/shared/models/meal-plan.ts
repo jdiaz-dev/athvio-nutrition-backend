@@ -80,9 +80,9 @@ export class Meal extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: true })
-  mealTag: string; //Example breakfast, luch or dinner, emal1
+  mealTag: string;
 
-  //todo: remove name? only use mealTag?
+  //todo: set as required true
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   name: string;

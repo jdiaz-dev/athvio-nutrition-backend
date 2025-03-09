@@ -17,7 +17,7 @@ export class MealBodyInput {
 
   @Field()
   @IsString()
-  mealTag: string; //Example breakfast, luch or dinner, emal1
+  mealTag: string;
 
   @Field()
   @IsString()
