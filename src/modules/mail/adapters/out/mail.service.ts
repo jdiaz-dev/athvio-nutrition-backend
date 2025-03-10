@@ -30,8 +30,8 @@ export class MailService {
         text: options.message,
       });
       return true;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
       throw new InternalServerErrorException(ErrorMailService.SEND_MAIL);
     }
   }
