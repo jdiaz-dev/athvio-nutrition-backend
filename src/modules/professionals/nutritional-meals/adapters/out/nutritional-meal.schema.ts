@@ -4,7 +4,11 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { IngredientDetail, IngredientDetailSchema } from 'src/shared/models/meal-plan';
 import { Macros, MacroSchema } from 'src/shared/models/macros';
-import { EnumDataSources } from 'src/shared/enums/project';
+import { EnumMealOwner } from 'src/shared/enums/project';
+
+enum SystemMealSourcesEnum {
+  BEAT_CANCER_KITCHEN = 'Beat cancer kitchen',
+}
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'NutritionalMeals' })
@@ -28,12 +32,31 @@ export class NutritionalMeal extends BaseSchema {
   @Prop({ type: String, required: false })
   cookingInstructions!: string;
 
+  @Prop({ type: String, required: false })
+  notes!: string;
+
+  @Prop({ type: String, required: false })
+  image!: string;
+
   @Field()
   @Prop({ type: MacroSchema, required: true })
   macros: Macros;
 
-  @Prop({ type: String, required: true, enum: EnumDataSources, default: EnumDataSources.PROFESSIONAL })
-  source: EnumDataSources;
+  @Field()
+  @Prop({ type: String, required: false })
+  description: string;
+
+  @Prop({ type: String, required: false })
+  healthBenefits: string;
+
+  @Prop({ type: String, required: true, enum: EnumMealOwner, default: EnumMealOwner.SYSTEM })
+  owner: EnumMealOwner;
+
+  @Prop({ type: String, required: false, default: SystemMealSourcesEnum.BEAT_CANCER_KITCHEN })
+  source: string;
+
+  @Prop({ type: [String], required: false })
+  relatedStudies: string[];
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: string;

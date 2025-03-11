@@ -36,7 +36,7 @@ async function fetchMongoRecords(): Promise<void> {
     const collection = db.collection(collectionName);
     const records = await collection.find({}).toArray();
 
-    console.log('Fetched records:', records);
+    console.log(JSON.stringify(records, null, 2));
     await saveRecords(records);
 
     await client.close();

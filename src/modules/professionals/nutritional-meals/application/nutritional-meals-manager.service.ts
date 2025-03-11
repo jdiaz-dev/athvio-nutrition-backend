@@ -9,7 +9,7 @@ import {
   GetNutritionalMealsResponse,
 } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/get-nutritional-meals.dto';
 import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
-import { EnumDataSources } from 'src/shared/enums/project';
+import { EnumMealOwner } from 'src/shared/enums/project';
 
 @Injectable()
 export class NutritionalMealsManagerService {
@@ -21,10 +21,10 @@ export class NutritionalMealsManagerService {
   ): Promise<GetNutritionalMealsResponse> {
     const sourceQuery =
       database === NutritionalMealDatabases.ALL
-        ? { $or: [{ source: { $eq: EnumDataSources.PROFESSIONAL } }, { source: { $eq: EnumDataSources.SYSTEM } }] }
+        ? { $or: [{ source: { $eq: EnumMealOwner.PROFESSIONAL } }, { source: { $eq: EnumMealOwner.SYSTEM } }] }
         : database === NutritionalMealDatabases.CUSTOM_RECIPES
-        ? { source: EnumDataSources.PROFESSIONAL }
-        : { source: EnumDataSources.SYSTEM };
+        ? { source: EnumMealOwner.PROFESSIONAL }
+        : { source: EnumMealOwner.SYSTEM };
     const nutritionalMeals = await this.crps.getNutritionalMeals({ ...rest, sourceQuery }, selectors);
     return nutritionalMeals;
   }
