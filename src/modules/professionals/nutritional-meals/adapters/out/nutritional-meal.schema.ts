@@ -10,6 +10,16 @@ enum SystemMealSourcesEnum {
   BEAT_CANCER_KITCHEN = 'Beat cancer kitchen',
 }
 
+@Schema()
+export class RelatedStudy {
+  @Prop({ type: String, required: false })
+  summary!: string;
+
+  @Prop({ type: String, required: false })
+  link!: string;
+}
+export const RelatedStudySchema = SchemaFactory.createForClass(RelatedStudy);
+
 @ObjectType()
 @Schema({ timestamps: true, collection: 'NutritionalMeals' })
 export class NutritionalMeal extends BaseSchema {
@@ -44,6 +54,14 @@ export class NutritionalMeal extends BaseSchema {
 
   @Field()
   @Prop({ type: String, required: false })
+  yield: string;
+
+  @Field()
+  @Prop({ type: String, required: false })
+  servings: string;
+
+  @Field()
+  @Prop({ type: String, required: false })
   description: string;
 
   @Prop({ type: String, required: false })
@@ -53,10 +71,10 @@ export class NutritionalMeal extends BaseSchema {
   owner: EnumMealOwner;
 
   @Prop({ type: String, required: false, default: SystemMealSourcesEnum.BEAT_CANCER_KITCHEN })
-  source: string;
+  source: SystemMealSourcesEnum;
 
-  @Prop({ type: [String], required: false })
-  relatedStudies: string[];
+  @Prop({ type: [RelatedStudySchema], required: false })
+  relatedStudies: RelatedStudy[];
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: string;

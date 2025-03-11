@@ -651,6 +651,8 @@ type NutritionalMeal {
   macros: Macros!
   name: String!
   professional: String!
+  servings: String!
+  yield: String!
 }
 
 type NutritionalPreference {

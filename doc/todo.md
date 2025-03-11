@@ -1,5 +1,4 @@
 ## Learning
-- review implementation decorator pattern to class and property level
 - learng about session and close methods in neoj4 driver
 - learn profiler in node.js 
 - learn  clinic.js
@@ -14,3 +13,4 @@
 - add loggers to all persistence layers
 - add detail error property to logger.error
 - add input to receive amount of calories
+- review Anticancer Vinaigrette	amounts

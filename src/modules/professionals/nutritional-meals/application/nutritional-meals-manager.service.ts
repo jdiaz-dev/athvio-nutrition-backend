@@ -21,10 +21,10 @@ export class NutritionalMealsManagerService {
   ): Promise<GetNutritionalMealsResponse> {
     const sourceQuery =
       database === NutritionalMealDatabases.ALL
-        ? { $or: [{ source: { $eq: EnumMealOwner.PROFESSIONAL } }, { source: { $eq: EnumMealOwner.SYSTEM } }] }
+        ? { $or: [{ owner: { $eq: EnumMealOwner.PROFESSIONAL } }, { owner: { $eq: EnumMealOwner.SYSTEM } }] }
         : database === NutritionalMealDatabases.CUSTOM_RECIPES
-        ? { source: EnumMealOwner.PROFESSIONAL }
-        : { source: EnumMealOwner.SYSTEM };
+        ? { owner: EnumMealOwner.PROFESSIONAL }
+        : { owner: EnumMealOwner.SYSTEM };
     const nutritionalMeals = await this.crps.getNutritionalMeals({ ...rest, sourceQuery }, selectors);
     return nutritionalMeals;
   }

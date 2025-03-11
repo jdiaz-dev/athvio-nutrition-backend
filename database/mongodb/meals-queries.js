@@ -1,3 +1,5 @@
+db.NutritionalMeals.insertOne()
+
 const val = '';
 db.Meals.aggregate([
   {
