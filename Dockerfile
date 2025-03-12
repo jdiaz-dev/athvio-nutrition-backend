@@ -9,8 +9,8 @@ WORKDIR /
 #USER node
 
 # Config port
-ENV PORT 57343
-EXPOSE 57343
+ENV PORT 56343
+EXPOSE 56343
 
 # Install app dependencies
 COPY package.json .
