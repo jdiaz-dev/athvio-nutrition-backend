@@ -15,6 +15,7 @@ import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.modu
 import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-domains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
+import { FoodsModule } from 'src/modules/program-generator/foods/foods.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
 
     ProfessionalDomainsModule,
     PatientsDomainsModule,
+    FoodsModule,
   ].concat(process.env.DEPLOY_PROGRAM_GENERATOR ? ProgramGeneratorDomainsModule : []),
   controllers: [AppController],
 })
