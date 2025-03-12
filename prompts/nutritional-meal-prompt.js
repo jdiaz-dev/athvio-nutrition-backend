@@ -39,7 +39,7 @@
     "healthBenefits":"", 
     "owner":"SYSTEM",
     "source": "Beat cancer kitchen",
-    "relatedStudies": [{ summary:'', link:'' }], //array of strings
+    "relatedStudies": [{ summary:'', link:'' }],
     "author": "Chris Wark",
     "isDeleted": false,
 }

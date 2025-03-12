@@ -14,3 +14,4 @@
 - add detail error property to logger.error
 - add input to receive amount of calories
 - review Anticancer Vinaigrette	amounts
+- remove mongo database and ENAMAM credentials

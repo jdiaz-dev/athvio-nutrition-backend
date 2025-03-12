@@ -1,5 +1,7 @@
 db.NutritionalMeals.insertOne()
 
+db.NutritionalMeals.insertMany()
+
 const val = '';
 db.Meals.aggregate([
   {
@@ -14,3 +16,11 @@ db.Meals.aggregate([
     },
   },
 ]);
+
+
+/* 
+  (modifications in recipes - chris wark)
+    - naccho cheese deps (cooking instructrions) 
+
+
+*/
