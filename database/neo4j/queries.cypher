@@ -29,6 +29,10 @@ MATCH (d:DiseaseCause {name: "Viruses"})
 OPTIONAL MATCH (d)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
 RETURN d,hrec,rec
 
+//caused by abscence of magnesium
+MATCH (d:Disease)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation {name: "Magnesium"})
+RETURN d, hrec, rec;
+
 // get data filtered by parasites
 MATCH (dc:DiseaseCause {name: "Parasites"})-[:HAS_RECOMMENDATION]->(r:Recommendation)
 OPTIONAL MATCH (r)-[:HAS_RESTRICTION]->(res:Restriction)

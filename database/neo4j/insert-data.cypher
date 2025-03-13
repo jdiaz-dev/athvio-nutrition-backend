@@ -34,6 +34,13 @@ ON CREATE SET hypothyroidism.id = randomUUID(), hypothyroidism.isActive = true, 
 MERGE (leakyGut:Disease {name: "Leaky Gut"})
 ON CREATE SET leakyGut.id = randomUUID(), leakyGut.isActive = true, leakyGut.createdAt = datetime(), leakyGut.updatedAt = datetime()
 
+//caused by abscence of magnesium
+MERGE (infarction:Disease {name: "Infarction"})
+ON CREATE SET infarction.id = randomUUID(), infarction.isActive = true, infarction.createdAt = datetime(), infarction.updatedAt = datetime()
+MERGE (cerebroVascularAccident:Disease {name: "Cerebrovascular Accident"})
+ON CREATE SET cerebroVascularAccident.id = randomUUID(), cerebroVascularAccident.isActive = true, cerebroVascularAccident.createdAt = datetime(), cerebroVascularAccident.updatedAt = datetime()
+MERGE (osteoarthritis:Disease {name: "Osteoarthritis"})
+ON CREATE SET osteoarthritis.id = randomUUID(), osteoarthritis.isActive = true, osteoarthritis.createdAt = datetime(), osteoarthritis.updatedAt = datetime()
 // Ensure all previous results are carried forward
 WITH *
 
@@ -58,6 +65,9 @@ MERGE (oreganOilRec:Recommendation {name: "Oregano Oil"})
 ON CREATE SET oreganOilRec.id = randomUUID(), oreganOilRec.details = "Consume oregano oil", oreganOilRec.isActive = true, oreganOilRec.createdAt = datetime(), oreganOilRec.updatedAt = datetime() 
 MERGE (charcoalRec:Recommendation {name: "Heavy Metal Detox"})
 ON CREATE SET charcoalRec.id = randomUUID(), charcoalRec.details = "Take activated charcoal", charcoalRec.isActive = true, charcoalRec.createdAt = datetime(), charcoalRec.updatedAt = datetime() 
+MERGE (magnesium:Recommendation {name: "Magnesium"})
+ON CREATE SET magnesium.id = randomUUID(), magnesium.details = "Consume 500 mg of magnesium", magnesium.isActive = true, magnesium.createdAt = datetime(), magnesium.updatedAt = datetime() 
+
 
 WITH *
 
@@ -74,6 +84,9 @@ MERGE (bacteria)-[:HAS_RECOMMENDATION]->(oreganOilRec)
 MERGE (bacteria)-[:HAS_RECOMMENDATION]->(cabbageRec)
 MERGE (heavyMetals)-[:HAS_RECOMMENDATION]->(charcoalRec)
 MERGE (heavyMetals)-[:HAS_RECOMMENDATION]->(cabbageRec)
+MERGE (infarction)-[:HAS_RECOMMENDATION]->(magnesium)
+MERGE (cerebroVascularAccident)-[:HAS_RECOMMENDATION]->(magnesium)
+MERGE (osteoarthritis)-[:HAS_RECOMMENDATION]->(magnesium)
 
 
 WITH * 
