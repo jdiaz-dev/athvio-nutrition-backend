@@ -117,7 +117,7 @@ input CreateCaloryDto {
   calories: Float!
   carbs: Float!
   fat: Float!
-  patientId: String!
+  patient: String!
   protein: Float!
 }
 
@@ -347,8 +347,7 @@ type GetAutocompleteFoodNamesResponse {
 }
 
 input GetCaloryDto {
-  caloryId: String!
-  patientId: String!
+  patient: String!
 }
 
 input GetChatDto {
@@ -866,10 +865,10 @@ type Subscription {
 
 input UpdateCaloryDto {
   calories: Float!
-  caloryId: String!
+  calory: String!
   carbs: Float!
   fat: Float!
-  patientId: String!
+  patient: String!
   protein: Float!
 }
 

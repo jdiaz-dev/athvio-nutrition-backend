@@ -5,7 +5,7 @@ import { IsNumber, IsMongoId } from 'class-validator';
 export class CreateCaloryDto {
   @Field()
   @IsMongoId()
-  patientId!: string;
+  patient!: string;
 
   @Field()
   @IsNumber()

@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CaloryResolver } from 'src/modules/patients/calories/adapters/in/calories.resolver';
 import { CaloriesPersistenceService } from 'src/modules/patients/calories/adapters/out/calories-persistence.service';
 import { Calory, CalorySchema } from 'src/modules/patients/calories/adapters/out/calory.schema';
-import { CreateCaloryService } from 'src/modules/patients/calories/application/create-calory.service';
+import { CaloryManagerService } from 'src/modules/patients/calories/application/calory-manager.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 
@@ -13,6 +13,6 @@ import { AuthenticationModule } from 'src/modules/authentication/authentication/
     AuthenticationModule,
     PatientsModule,
   ],
-  providers: [CaloryResolver, CaloriesPersistenceService, CreateCaloryService],
+  providers: [CaloryResolver, CaloriesPersistenceService, CaloryManagerService],
 })
 export class CaloriesModule {}
