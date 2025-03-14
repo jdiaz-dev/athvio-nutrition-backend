@@ -6,16 +6,14 @@ import {
   NutritionalMeal,
   NutritionalDocument,
 } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
-import {
-  GetNutritionalMealsDto,
-  GetNutritionalMealsResponse,
-} from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/get-nutritional-meals.dto';
-import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/delete-nutritional-meal.dto';
+import { GetNutritionalMealsResponse } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
+import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/delete-nutritional-meal.dto';
 import { ErrorNutritionalMealEnum } from 'src/shared/enums/messages-response';
-import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/create-nutritional-meal.dto';
-import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/get-nutritional-meal.dto';
-import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/update-nutritional-meal.dto';
+import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/create-nutritional-meal.dto';
+import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meal.dto';
+import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
+import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 
 @Injectable()
 export class NutritionalMealsPersistenceService {
@@ -44,17 +42,17 @@ export class NutritionalMealsPersistenceService {
     return nutritionalMealRes;
   }
   async getNutritionalMeals(
-    { professional, sourceQuery, ...rest }: Omit<GetNutritionalMealsDto, 'database'> & { sourceQuery: { [k: string]: unknown } },
+    { match, ...rest }: GetRecordsBaseDto & { match?: { professional?: string | Types.ObjectId; [k: string]: unknown } },
     selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
+    if (match?.professional) match.professional = new Types.ObjectId(match.professional);
     const nutritionalMeals = await this.nutritionalMealModel.aggregate([
       {
         $match: {
-          professional: new Types.ObjectId(professional),
+          ...match,
           isDeleted: false,
-          ...sourceQuery,
         },
       },
       {

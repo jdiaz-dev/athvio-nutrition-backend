@@ -375,7 +375,15 @@ input GetNutritionalMealDto {
   professional: String!
 }
 
-input GetNutritionalMealsDto {
+input GetNutritionalMealsForPatientDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  patient: String!
+  search: [String!] = [""]
+}
+
+input GetNutritionalMealsForProfessionalDto {
   database: String!
   limit: Float = 30
   offset: Float = 0
@@ -772,7 +780,8 @@ type Query {
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!
-  getNutritionalMeals(input: GetNutritionalMealsDto!): GetNutritionalMealsResponse!
+  getNutritionalMealsForPatient(input: GetNutritionalMealsForPatientDto!): GetNutritionalMealsResponse!
+  getNutritionalMealsForProfessional(input: GetNutritionalMealsForProfessionalDto!): GetNutritionalMealsResponse!
   getPatientForMobile(input: GetPatientForMobileDto!): Patient!
   getPatientForWeb(patient: GetPatientForWebDto!): Patient!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!

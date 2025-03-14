@@ -1,13 +1,13 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/create-nutritional-meal.dto';
-import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/delete-nutritional-meal.dto';
-import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/get-nutritional-meal.dto';
+import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/create-nutritional-meal.dto';
+import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/delete-nutritional-meal.dto';
+import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meal.dto';
 import {
-  GetNutritionalMealsDto,
+  GetNutritionalMealsForProfessionalDto,
   GetNutritionalMealsResponse,
-} from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/get-nutritional-meals.dto';
-import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/dtos/update-nutritional-meal.dto';
+} from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
+import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
@@ -18,7 +18,7 @@ import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-
 
 @Resolver(() => NutritionalMeal)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
-export class NutritionalMealsResolver {
+export class NutritionalMealsWebResolver {
   constructor(private readonly crps: NutritionalMealsPersistenceService, private nmms: NutritionalMealsManagerService) {}
 
   @Query(() => [String])
@@ -41,11 +41,11 @@ export class NutritionalMealsResolver {
   }
 
   @Query(() => GetNutritionalMealsResponse)
-  async getNutritionalMeals(
-    @Args('input') dto: GetNutritionalMealsDto,
+  async getNutritionalMealsForProfessional(
+    @Args('input') dto: GetNutritionalMealsForProfessionalDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
-    const nutritionalMeal = await this.nmms.getNutritionalMeals(dto, selectors);
+    const nutritionalMeal = await this.nmms.getNutritionalMealsForProfessional(dto, selectors);
     return nutritionalMeal;
   }
 
