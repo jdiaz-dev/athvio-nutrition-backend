@@ -42,6 +42,7 @@ export class NutritionalMeal extends BaseSchema {
   @Prop({ type: String, required: false })
   cookingInstructions!: string;
 
+  //todo: remove notes ?
   @Prop({ type: String, required: false })
   notes!: string;
 
@@ -72,6 +73,9 @@ export class NutritionalMeal extends BaseSchema {
 
   @Prop({ type: String, required: false, default: SystemMealSourcesEnum.BEAT_CANCER_KITCHEN })
   source: SystemMealSourcesEnum;
+
+  @Prop({ type: String, required: false })
+  category: string;
 
   @Prop({ type: [RelatedStudySchema], required: false })
   relatedStudies: RelatedStudy[];

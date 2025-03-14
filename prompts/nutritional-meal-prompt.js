@@ -24,7 +24,6 @@
       }
     ],
     "cookingInstructions": "",
-    "notes": "",
     "image":"", 
     "macros": {
       "weightInGrams": 100,
@@ -36,10 +35,10 @@
     "yield":"",
     "servings":"",
     "description":"",
-    "healthBenefits":"", 
+    "healthBenefits":"",  //optional, normally full field when you don't see underlined numbers, if you not found it must have the next  result  "healthBenefits":""
     "owner":"SYSTEM",
     "source": "Beat cancer kitchen",
-    "relatedStudies": [{ summary:'', link:'' }],
+    "relatedStudies": [{ summary:'', link:'' }], //mandatory when you see small underlined numbers (reference quotes) in the text of blue color, optional otherwise; if you not found it must have the next  result  "relatedStudies":[]
     "author": "Chris Wark",
     "isDeleted": false,
 }
