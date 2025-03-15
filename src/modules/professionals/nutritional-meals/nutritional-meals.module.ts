@@ -11,17 +11,21 @@ import {
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
 import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
 import { NutritionalMealsMobileResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/nutritional-meals-mobile.resolver';
+import { UploadScalar } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.scalar';
+import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
+import { SharedModule } from 'src/shared/shared.module';
 
 const resolvers = [NutritionalMealsWebResolver, NutritionalMealsMobileResolver, IngredientsResolver];
-const services = [NutritionalMealsPersistenceService, NutritionalMealsManagerService];
+const services = [NutritionalMealsPersistenceService, NutritionalMealsManagerService, UploadMealImageService];
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: NutritionalMeal.name, schema: NutritionalMealSchema }]),
     AuthenticationModule,
     ProfessionalsModule,
+    SharedModule,
   ],
-  providers: [...resolvers, ...services],
+  providers: [...resolvers, ...services, UploadScalar],
   exports: [NutritionalMealsPersistenceService],
 })
 export class NutritionalMealsModule {}

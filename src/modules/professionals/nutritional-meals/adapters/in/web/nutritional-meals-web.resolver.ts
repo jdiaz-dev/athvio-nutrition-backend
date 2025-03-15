@@ -15,11 +15,18 @@ import { AuthorizationGuard } from 'src/modules/authentication/authentication/ad
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
+import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
+import { UploadDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.dto';
+// import { FileUpload, UploadScalar } from 'src/modules/professionals/nutritional-meals/application/upload.scalar';
 
 @Resolver(() => NutritionalMeal)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class NutritionalMealsWebResolver {
-  constructor(private readonly crps: NutritionalMealsPersistenceService, private nmms: NutritionalMealsManagerService) {}
+  constructor(
+    private readonly crps: NutritionalMealsPersistenceService,
+    private nmms: NutritionalMealsManagerService,
+    private readonly uploadMealImageService: UploadMealImageService,
+  ) {}
 
   @Query(() => [String])
   getNutritionalMealDatabases(): string[] {
@@ -57,5 +64,9 @@ export class NutritionalMealsWebResolver {
   @Mutation(() => NutritionalMeal)
   deleteNutritionalMeal(@Args('input') dto: DeleteNutritionalMealDto): Promise<NutritionalMeal> {
     return this.crps.deleteNutritionalMeal(dto);
+  }
+  @Mutation(() => String)
+  async uploadImage(@Args('input') file: UploadDto): Promise<string> {
+    return await this.uploadMealImageService.uploadFile(file);
   }
 }

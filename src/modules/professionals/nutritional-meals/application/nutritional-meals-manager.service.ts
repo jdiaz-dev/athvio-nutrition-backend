@@ -14,7 +14,7 @@ import { GetNutritionalMealsForPatientDto } from 'src/modules/professionals/nutr
 
 @Injectable()
 export class NutritionalMealsManagerService {
-  constructor(private pps: ProfessionalsPersistenceService, private crps: NutritionalMealsPersistenceService) {}
+  constructor(private readonly pps: ProfessionalsPersistenceService, private readonly crps: NutritionalMealsPersistenceService) {}
 
   async getNutritionalMealsForProfessional(
     { database, professional, ...rest }: GetNutritionalMealsForProfessionalDto,

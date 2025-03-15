@@ -61,3 +61,7 @@ export enum ErrorFoodsProvider {
 export enum ErrorMailService {
   SEND_MAIL = 'An error has happened trying to send the email.',
 }
+
+export enum ErrorStorageEnum {
+  SAVE_FILE = 'An error has happened trying to save file',
+}
