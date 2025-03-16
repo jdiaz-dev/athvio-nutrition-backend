@@ -8,7 +8,15 @@ MATCH (n)-[r]->(m)
 RETURN n, r, m;
 
 
-//get parasites graph
+//get diseases caused by parasites 
+MATCH (dc:DiseaseCause {name: "Parasites"})
+OPTIONAL MATCH (di:Disease)-[hdc:HAS_DISEASE_CAUSE]->(dc)
+OPTIONAL MATCH (dc)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
+OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
+RETURN dc,hrec,rec,hres,di
+
+
+//get parasites with recomendations
 MATCH (dc:DiseaseCause {name: "Parasites"})-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
 OPTIONAL MATCH (dc)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
 OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)

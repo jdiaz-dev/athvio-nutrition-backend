@@ -1,10 +1,10 @@
 
-// Create Disease Cause Nodes
+// -------------------------- Disease Cause Nodes
 MERGE (parasites:DiseaseCause {name: "Parasites"})
 ON CREATE SET parasites.id = randomUUID(), parasites.isActive = true, parasites.createdAt = datetime(), parasites.updatedAt = datetime()
 MERGE (fungi:DiseaseCause {name: "Fungi"})
 ON CREATE SET fungi.id = randomUUID(), fungi.isActive = true, fungi.createdAt = datetime(), fungi.updatedAt = datetime()
-MERGE (bacteria:DiseaseCause {name: "Bacterias"})
+MERGE (bacteria:DiseaseCause {name: "Bacteria"})
 ON CREATE SET bacteria.id = randomUUID(), bacteria.isActive = true, bacteria.createdAt = datetime(), bacteria.updatedAt = datetime()
 MERGE (heavyMetals:DiseaseCause {name: "Heavy Metals"})
 ON CREATE SET heavyMetals.id = randomUUID(), heavyMetals.isActive = true, heavyMetals.createdAt = datetime(), heavyMetals.updatedAt = datetime()
@@ -15,8 +15,9 @@ ON CREATE SET viruses.id = randomUUID(), viruses.isActive = true, viruses.create
 MERGE (antiNutrients:DiseaseCause {name: "Antinutrients"})
 ON CREATE SET antiNutrients.id = randomUUID(), antiNutrients.isActive = true, antiNutrients.createdAt = datetime(), antiNutrients.updatedAt = datetime()
 
+WITH *
 
-// Create Disease Nodes
+// -------------------------- Disease Nodes
 MERGE (cancer:Disease {name: "Cancer"})
 ON CREATE SET cancer.id = randomUUID(), cancer.isActive = true, cancer.createdAt = datetime(), cancer.updatedAt = datetime()
 MERGE (constipation:Disease {name: "Constipation"})
@@ -41,14 +42,9 @@ MERGE (cerebroVascularAccident:Disease {name: "Cerebrovascular Accident"})
 ON CREATE SET cerebroVascularAccident.id = randomUUID(), cerebroVascularAccident.isActive = true, cerebroVascularAccident.createdAt = datetime(), cerebroVascularAccident.updatedAt = datetime()
 MERGE (osteoarthritis:Disease {name: "Osteoarthritis"})
 ON CREATE SET osteoarthritis.id = randomUUID(), osteoarthritis.isActive = true, osteoarthritis.createdAt = datetime(), osteoarthritis.updatedAt = datetime()
-// Ensure all previous results are carried forward
-WITH *
 
-// Connect Diseases to DiseaseCauses
-MATCH (d:Disease), (c:DiseaseCause)
-MERGE (d)-[:HAS_DISEASE_CAUSE]->(c)
 
-// Create Recommendation Nodes (for causes)
+// -------------------------- Recommendation Nodes (for causes)
 MERGE (castorOilRec:Recommendation {name: "Castor Oil"})
 ON CREATE SET castorOilRec.id = randomUUID(), castorOilRec.details = '"""Include the first day 20 ml of castor oil and repeat 3 days after (as suplement)"""', castorOilRec.isActive = true, castorOilRec.createdAt = datetime(), castorOilRec.updatedAt = datetime()
 MERGE (carrotRec:Recommendation {name: "Carrot juice"})
@@ -68,6 +64,64 @@ ON CREATE SET charcoalRec.id = randomUUID(), charcoalRec.details = "Take activat
 MERGE (magnesium:Recommendation {name: "Magnesium"})
 ON CREATE SET magnesium.id = randomUUID(), magnesium.details = "Consume 500 mg of magnesium", magnesium.isActive = true, magnesium.createdAt = datetime(), magnesium.updatedAt = datetime() 
 
+
+WITH * 
+// Connect Diseases to DiseaseCauses
+MATCH (d:Disease), (dc:DiseaseCause)
+//cancer
+MERGE (cancer)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (cancer)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (cancer)-[:HAS_DISEASE_CAUSE]->(bacteria)
+MERGE (cancer)-[:HAS_DISEASE_CAUSE]->(viruses)
+MERGE (cancer)-[:HAS_DISEASE_CAUSE]->(heavyMetals)
+MERGE (cancer)-[:HAS_DISEASE_CAUSE]->(plastics)
+
+//constipation
+MERGE (constipation)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (constipation)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (constipation)-[:HAS_DISEASE_CAUSE]->(bacteria)
+
+//diabetes
+MERGE (diabetes)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (diabetes)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (diabetes)-[:HAS_DISEASE_CAUSE]->(bacteria)
+
+//CKD
+
+//depression
+MERGE (depression)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (depression)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (depression)-[:HAS_DISEASE_CAUSE]->(bacteria)
+
+//fibromialgia
+MERGE (fibromyalgia)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (fibromyalgia)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (fibromyalgia)-[:HAS_DISEASE_CAUSE]->(bacteria)
+MERGE (fibromyalgia)-[:HAS_DISEASE_CAUSE]->(viruses)
+
+//hypothyroidism
+MERGE (hypothyroidism)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (hypothyroidism)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (hypothyroidism)-[:HAS_DISEASE_CAUSE]->(bacteria)
+MERGE (hypothyroidism)-[:HAS_DISEASE_CAUSE]->(viruses)
+MERGE (hypothyroidism)-[:HAS_DISEASE_CAUSE]->(heavyMetals)
+
+//leakyGut
+MERGE (leakyGut)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (leakyGut)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (leakyGut)-[:HAS_DISEASE_CAUSE]->(bacteria)
+MERGE (leakyGut)-[:HAS_DISEASE_CAUSE]->(viruses)
+MERGE (leakyGut)-[:HAS_DISEASE_CAUSE]->(heavyMetals)
+
+//infarction
+MERGE (infarction)-[:HAS_DISEASE_CAUSE]->(bacteria)
+MERGE (infarction)-[:HAS_DISEASE_CAUSE]->(magnesium)
+
+//cerebroVascularAccident
+MERGE (cerebroVascularAccident)-[:HAS_DISEASE_CAUSE]->(magnesium)
+
+//osteoarthritis
+MERGE (osteoarthritis)-[:HAS_DISEASE_CAUSE]->(magnesium)
 
 WITH *
 
