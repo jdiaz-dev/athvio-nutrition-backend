@@ -9,7 +9,6 @@ import {
 } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
 import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
-import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -17,14 +16,12 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 import { UploadDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.dto';
-// import { FileUpload, UploadScalar } from 'src/modules/professionals/nutritional-meals/application/upload.scalar';
 
 @Resolver(() => NutritionalMeal)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class NutritionalMealsWebResolver {
   constructor(
-    private readonly crps: NutritionalMealsPersistenceService,
-    private nmms: NutritionalMealsManagerService,
+    private readonly nmms: NutritionalMealsManagerService,
     private readonly uploadMealImageService: UploadMealImageService,
   ) {}
 
@@ -43,7 +40,7 @@ export class NutritionalMealsWebResolver {
     @Args('input') dto: GetNutritionalMealDto,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<NutritionalMeal> {
-    const nutritionalMeal = await this.crps.getNutritionalMeal(dto, selectors);
+    const nutritionalMeal = await this.nmms.getNutritionalMeal(dto, selectors);
     return nutritionalMeal;
   }
 
@@ -58,15 +55,15 @@ export class NutritionalMealsWebResolver {
 
   @Mutation(() => NutritionalMeal)
   async updateNutritionalMeal(@Args('input') dto: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
-    return this.crps.updateNutritionalMeal(dto);
+    return this.nmms.updateNutritionalMeal(dto);
   }
 
   @Mutation(() => NutritionalMeal)
   deleteNutritionalMeal(@Args('input') dto: DeleteNutritionalMealDto): Promise<NutritionalMeal> {
-    return this.crps.deleteNutritionalMeal(dto);
+    return this.nmms.deleteNutritionalMeal(dto);
   }
-  @Mutation(() => String)
-  async uploadImage(@Args('input') file: UploadDto): Promise<string> {
+  @Mutation(() => NutritionalMeal)
+  async uploadImage(@Args('input') file: UploadDto): Promise<NutritionalMeal> {
     return await this.uploadMealImageService.uploadFile(file);
   }
 }

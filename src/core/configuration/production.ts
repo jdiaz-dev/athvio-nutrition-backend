@@ -13,6 +13,7 @@ export const production: IEnvironment = {
       password: process.env.NEO4J_PASSWORD,
     },
   },
+  storage: { storageUrl: process.env.STORAGE_URL },
   security: { rateLimit: { ttl: process.env.RATE_LIMIT_TLL, limit: process.env.RATE_LIMIT_VALUE } },
   tokenKey: process.env.SIGN_TOKEN,
   whiteListOrigins: [process.env.ORIGIN_PRODUCTION, process.env.ORIGIN_BUCKET_S3],

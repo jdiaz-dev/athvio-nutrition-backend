@@ -19,6 +19,10 @@ interface IDatabase {
   neo4j: INeo4j;
 }
 
+interface Storage {
+  storageUrl: string;
+}
+
 interface FoodApi {
   edamamFoodParserUrl: string;
   edamamFoodAppId: string;
@@ -37,6 +41,7 @@ interface Security {
 }
 export interface IEnvironment {
   database: IDatabase;
+  storage: Storage;
   security: Security;
   tokenKey: string;
   whiteListOrigins: string[];
