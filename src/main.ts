@@ -11,7 +11,7 @@ async function bootstrap(): Promise<void> {
   const configService = app.get(ConfigService);
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;
-  app.use(graphqlUploadExpress({ maxFileSize: 100000, maxFiles: 10 }));
+  app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
   app.enableCors({
     origin: whiteListOrigins,
     credentials: true,

@@ -13,7 +13,7 @@ export class StorageService {
     });
   }
 
-  async saveFile(bucketName: string, fileName: string, fileContent: string) {
+  async saveFile(bucketName: string, fileName: string, fileContent: Buffer) {
     try {
       const command = new PutObjectCommand({
         Bucket: bucketName,
