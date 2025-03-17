@@ -690,7 +690,7 @@ type Patient {
   location: String
   notes: String
   phone: String
-  professional: ID!
+  professional: ID
   state: String
   target: String
   timezone: String
@@ -841,8 +841,6 @@ input SignUpPatientDto {
 
 input SignUpPatientFromMobileDto {
   email: String!
-  firstname: String!
-  lastname: String!
   password: String!
 }
 
@@ -991,9 +989,9 @@ type User {
   countryCode: String!
   createdAt: DateTime!
   email: String!
-  firstname: String!
+  firstname: String
   isDarkMode: Boolean!
-  lastname: String!
+  lastname: String
   phone: String!
   photo: String
   role: String!

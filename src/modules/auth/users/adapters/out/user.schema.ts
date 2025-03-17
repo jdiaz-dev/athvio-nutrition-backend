@@ -10,12 +10,12 @@ export class User extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
-  @Field()
-  @Prop({ type: String, required: true })
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
   firstname: string;
 
-  @Field()
-  @Prop({ type: String, required: true })
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
   lastname: string;
 
   @Field()
