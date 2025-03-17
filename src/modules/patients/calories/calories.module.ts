@@ -5,7 +5,7 @@ import { CaloriesPersistenceService } from 'src/modules/patients/calories/adapte
 import { Calory, CalorySchema } from 'src/modules/patients/calories/adapters/out/calory.schema';
 import { CaloryManagerService } from 'src/modules/patients/calories/application/calory-manager.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 
 @Module({
   imports: [

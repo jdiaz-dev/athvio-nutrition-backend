@@ -5,7 +5,7 @@ import { ProgramTagsResolver } from 'src/modules/professionals/program-tags/adap
 import { ProgramTag, ProgramTagSchema } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { ProgramTagsPersistenceService } from 'src/modules/professionals/program-tags/adapters/out/program-tags-persistence.service';
 import { ProgramTagsManagementService } from 'src/modules/professionals/program-tags/application/program-tags-persistence.service';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 
 @Module({
   imports: [

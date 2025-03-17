@@ -9,7 +9,7 @@ import {
   NutritionalMealSchema,
 } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 import { NutritionalMealsMobileResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/nutritional-meals-mobile.resolver';
 import { UploadScalar } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.scalar';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';

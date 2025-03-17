@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 import { PatientPlansModule } from 'src/modules/patients/patient-plans/patient-plans.module';
 import { DiseaseCausesModule } from 'src/modules/program-generator/disease-causes/disease-causes.module';
 import { DiseasesModule } from 'src/modules/program-generator/diseases/diseases.module';

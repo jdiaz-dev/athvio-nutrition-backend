@@ -1,6 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 import { ProfessionalsResolver } from 'src/modules/professionals/professionals/adapters/in/professionals.resolver';
 import { Professional, ProfessionalSchema } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';

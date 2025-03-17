@@ -1,4 +1,4 @@
-import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
+import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 
 export interface CreateProfessional {

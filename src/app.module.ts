@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
-import { AuthenticationModule } from './modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from './modules/auth/auth/authentication.module';
 import configuration from './configuration';
-import { UsersModule } from 'src/modules/authentication/users/users.module';
+import { UsersModule } from 'src/modules/auth/users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
 import { QuestionaryModule } from 'src/modules/professionals/questionary/adapters/questionary.module';

@@ -3,7 +3,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { UnitPreference } from 'src/shared/enums/project';
-import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
+import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 
 @ObjectType()
 @Schema({ _id: false })

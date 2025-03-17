@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/web/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { Chat } from 'src/modules/patients/chats/adapters/out/chat.schema';
 import { ChatManagerService } from 'src/modules/patients/chats/application/chat-manager.service';

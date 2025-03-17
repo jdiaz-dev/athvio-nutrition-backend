@@ -12,7 +12,7 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { PatientPlanNutritionalMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
 import { PatientPlanMealsResolver } from 'src/modules/patients/patient-plans/adapters/in/web/patient-plan-meals.resolver';
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
 import { PatientPlansMobileResolver } from 'src/modules/patients/patient-plans/adapters/in/mobile/patient-plans-mobile.resolver';
 import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plans/application/get-patient-plans-manager.service';

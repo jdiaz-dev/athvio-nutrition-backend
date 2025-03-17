@@ -6,7 +6,7 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { PatientGroupsResolver } from './adapters/in/patient-groups.resolver';
 import { PatientGroup, PatientGroupSchema } from './adapters/out/patient-group.schema';
 import { PatientGroupsPersistenceService } from './adapters/out/patient-groups-persistence.service';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 
 @Module({
   imports: [

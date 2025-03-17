@@ -7,7 +7,7 @@ import { PatientManagementService } from 'src/modules/patients/patients/applicat
 import { ManagePatientGroupService } from 'src/modules/patients/patients/application/manage-patient-group.service';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientGroupsModule } from 'src/modules/professionals/patient-groups/patient-groups.module';
-import { AuthenticationModule } from 'src/modules/authentication/authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
 import { PatientsMobileResolver } from 'src/modules/patients/patients/adapters/in/mobile/patients-mobile.resolver';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 

@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { AuthorizationService } from 'src/modules/authentication/authentication/application/services/authorization.service';
+import { AuthorizationService } from 'src/modules/auth/auth/application/services/authorization.service';
 
 @Injectable()
 export class AuthorizationPatientGuard implements CanActivate {

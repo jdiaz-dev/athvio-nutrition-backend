@@ -5,7 +5,7 @@ import { Calory } from 'src/modules/patients/calories/adapters/out/calory.schema
 import { GetCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/get-calory.dto';
 import { UpdateCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/update-calory.dto';
 import { CaloryManagerService } from 'src/modules/patients/calories/application/calory-manager.service';
-import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/web/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
 
