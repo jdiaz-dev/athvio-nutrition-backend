@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { AllowedGender, PatientState } from 'src/shared/enums/project';
+import { AllowedGender, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
 
@@ -17,7 +17,7 @@ export class Patient extends BaseSchema {
   user!: string;
 
   @Field(() => ID)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, required: false })
   professional!: string;
 
   @Field(() => [PatientGroup])
@@ -67,6 +67,9 @@ export class Patient extends BaseSchema {
   @Field({ nullable: true })
   @Prop({ type: String, enum: PatientState, required: true, default: PatientState.INVITATION_PENDING })
   state!: PatientState;
+
+  @Prop({ type: String, enum: OriginPatientEnum, required: true })
+  source: OriginPatientEnum;
 }
 
 export type PatientDocument = Patient & Document;

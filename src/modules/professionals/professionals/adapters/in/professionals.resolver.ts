@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Query, Resolver } from '@nestjs/graphql';
-import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/web/guards/authorization.guard';
 import { GetProfessionalDto } from 'src/modules/professionals/professionals/adapters/in/dtos/get-professional.dt';
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';

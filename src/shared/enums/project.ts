@@ -82,3 +82,8 @@ export enum EnumMealOwner {
   SYSTEM = 'SYSTEM',
   PROFESSIONAL = 'PROFESSIONAL',
 }
+
+export enum OriginPatientEnum {
+  MOBILE = 'MOBILE',
+  WEB = 'WEB',
+}

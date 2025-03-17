@@ -6,7 +6,7 @@ import { GetProgramTagsDto } from 'src/modules/professionals/program-tags/adapte
 import { UpdateProgramTagDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/update-program-tag.dto';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { ProgramTagsManagementService } from 'src/modules/professionals/program-tags/application/program-tags-persistence.service';
-import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/web/guards/authorization.guard';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { IUserContext } from 'src/shared/interfaces/user-context';

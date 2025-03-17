@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { GetQuestionaryConfigDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/get-questionary-config.dto';

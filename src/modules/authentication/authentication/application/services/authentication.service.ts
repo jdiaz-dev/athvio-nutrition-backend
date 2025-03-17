@@ -5,7 +5,7 @@ import { IValidateUserUseCase, UserValidated } from '../ports/in/validate-user.u
 import { JwtService } from '@nestjs/jwt';
 import { EnumRoles } from 'src/shared/enums/project';
 import { UsersPersistenceService } from 'src/modules/authentication/users/adapters/out/users-persistence.service';
-import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
+import { UserLoged } from 'src/modules/authentication/authentication/helpers/auth.types';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';

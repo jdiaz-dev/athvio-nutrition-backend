@@ -7,7 +7,7 @@ import { UpdatePatientGroupDto } from 'src/modules/professionals/patient-groups/
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
 import { PatientGroupsPersistenceService } from 'src/modules/professionals/patient-groups/adapters/out/patient-groups-persistence.service';
 import { PatientGroupsManagementService } from 'src/modules/professionals/patient-groups/application/patient-groups-management.service';
-import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 
 @Resolver()

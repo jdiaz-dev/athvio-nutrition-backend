@@ -5,16 +5,19 @@ import { CreateUser } from 'src/modules/authentication/users/adapters/out/users-
 import {
   SignUpPatientDto,
   SignUpPatientResponse,
-} from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
-import { EnumRoles, LayersServer, PatientState } from 'src/shared/enums/project';
+} from 'src/modules/authentication/authentication/adapters/in/web/dtos/sign-up-patient.dto';
+import { EnumRoles, LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
+import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/web/dtos/activate-user.dto';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { EncryptionService } from 'src/modules/authentication/authentication/application/services/encryption.service';
 import { ConfigService } from '@nestjs/config';
 import { UserManagamentService } from 'src/modules/authentication/users/application/user-management.service';
+import { SignUpPatientFromMobileDto } from 'src/modules/authentication/authentication/adapters/in/mobile/dtos/sign-up-patient-from-mobile.dto';
+import { UserLoged } from 'src/modules/authentication/authentication/helpers/auth.types';
+import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
 
 @Injectable()
 export class SignUpPatientManagamentService {
@@ -26,6 +29,7 @@ export class SignUpPatientManagamentService {
     private readonly prms: ProfessionalsManagementService,
     private readonly pms: PatientManagementService,
     private readonly ms: MailService,
+    private as: AuthenticationService,
   ) {}
 
   async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
@@ -61,6 +65,26 @@ export class SignUpPatientManagamentService {
       },
     };
     return _patient;
+  }
+  async signUpPatientFromMobile({ ...userDto }: SignUpPatientFromMobileDto): Promise<UserLoged> {
+    const user = await this.ups.getUserByEmail(userDto.email);
+    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
+
+    const _user: CreateUser = {
+      ...userDto,
+      password: EncryptionService.encrypt(userDto.password),
+      role: EnumRoles.PATIENT,
+      isActive: true,
+    };
+    const { _id, role } = await this.ups.createUser(_user);
+
+    await this.pms.createPatient({
+      user: _id,
+      isActive: true,
+      source: OriginPatientEnum.MOBILE,
+      state: PatientState.ACTIVE,
+    });
+    return this.as.generateToken({ _id, role });
   }
   async activatePatient({ user, password }: ActivatePatientDto): Promise<Patient> {
     const { _id, role, isActive } = await this.ums.getUserById(user);

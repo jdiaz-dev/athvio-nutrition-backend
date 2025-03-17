@@ -1,20 +1,20 @@
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { JwtDto } from './dtos/jwt.dto';
+import { JwtDto } from '../../../helpers/dtos/jwt.dto';
 import { SignInDto } from './dtos/sign-in.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthenticationService } from 'src/modules/authentication/authentication/application/services/authentication.service';
-import { UserLoged } from 'src/modules/authentication/authentication/application/services/auth.types';
-import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-professional.dto';
+import { UserLoged } from 'src/modules/authentication/authentication/helpers/auth.types';
+import { SignUpProfessionalDto } from 'src/modules/authentication/authentication/adapters/in/web/dtos/sign-up-professional.dto';
 import {
   SignUpPatientDto,
   SignUpPatientResponse,
-} from 'src/modules/authentication/authentication/adapters/in/dtos/sign-up-patient.dto';
+} from 'src/modules/authentication/authentication/adapters/in/web/dtos/sign-up-patient.dto';
 import { SignUpProfessionalService } from 'src/modules/authentication/authentication/application/services/sign-up-professional.service';
-import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/guards/authorization.guard';
+import { AuthorizationGuard } from 'src/modules/authentication/authentication/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { User } from 'src/modules/authentication/users/adapters/out/user.schema';
-import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/dtos/activate-user.dto';
+import { ActivatePatientDto } from 'src/modules/authentication/authentication/adapters/in/web/dtos/activate-user.dto';
 import { SignUpPatientManagamentService } from 'src/modules/authentication/authentication/application/services/sign-up-patient-management.service';
 
 @Resolver()
