@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
-import { AuthenticationModule } from './modules/auth/auth/authentication.module';
+import { AuthModule } from './modules/auth/auth/auth.module';
 import configuration from './configuration';
 import { UsersModule } from 'src/modules/auth/users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
@@ -30,7 +30,7 @@ import { FoodsModule } from 'src/modules/program-generator/foods/foods.module';
 
     SharedModule,
     UsersModule,
-    AuthenticationModule,
+    AuthModule,
     QuestionaryModule,
     MailModule,
 

@@ -3,7 +3,7 @@ import { FoodsResolver } from 'src/modules/program-generator/foods/adapters/in/f
 import { FoodsProviderService } from 'src/modules/program-generator/foods/adapters/out/providers/foods-provider.service';
 import { GetFoodsService } from 'src/modules/program-generator/foods/application/get-foods.service';
 import { FoodTextSearcherService } from 'src/modules/program-generator/foods/application/food-text-searcher.service';
-import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
+import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { ProviderFoodTransformerService } from 'src/modules/program-generator/foods/adapters/out/providers/provider-foods-transformer.service';
 
@@ -11,7 +11,7 @@ const resolvers = [FoodsResolver];
 const internalServices = [GetFoodsService, FoodsProviderService, ProviderFoodTransformerService, FoodTextSearcherService];
 
 @Module({
-  imports: [SharedModule, AuthenticationModule],
+  imports: [SharedModule, AuthModule],
   providers: [...resolvers, ...internalServices],
 })
 export class FoodsModule {}

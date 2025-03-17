@@ -51,4 +51,4 @@ const resolvers = [
   providers: [...services, ...resolvers],
   exports: [AuthorizationService],
 })
-export class AuthenticationModule {}
+export class AuthModule {}

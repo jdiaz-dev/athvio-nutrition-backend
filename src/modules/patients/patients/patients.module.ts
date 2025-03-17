@@ -7,7 +7,7 @@ import { PatientManagementService } from 'src/modules/patients/patients/applicat
 import { ManagePatientGroupService } from 'src/modules/patients/patients/application/manage-patient-group.service';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientGroupsModule } from 'src/modules/professionals/patient-groups/patient-groups.module';
-import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
+import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { PatientsMobileResolver } from 'src/modules/patients/patients/adapters/in/mobile/patients-mobile.resolver';
 import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
 
@@ -17,7 +17,7 @@ const services = [PatientsPersistenceService, ManagePatientGroupService, GetPati
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Patient.name, schema: PatientSchema }]),
-    forwardRef(() => AuthenticationModule),
+    forwardRef(() => AuthModule),
     forwardRef(() => PatientGroupsModule),
     forwardRef(() => ProfessionalsModule),
   ],

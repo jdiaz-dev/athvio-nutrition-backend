@@ -5,12 +5,12 @@ import { CaloriesPersistenceService } from 'src/modules/patients/calories/adapte
 import { Calory, CalorySchema } from 'src/modules/patients/calories/adapters/out/calory.schema';
 import { CaloryManagerService } from 'src/modules/patients/calories/application/calory-manager.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
-import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
+import { AuthModule } from 'src/modules/auth/auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Calory.name, schema: CalorySchema }]),
-    AuthenticationModule,
+    AuthModule,
     PatientsModule,
   ],
   providers: [CaloryResolver, CaloriesPersistenceService, CaloryManagerService],

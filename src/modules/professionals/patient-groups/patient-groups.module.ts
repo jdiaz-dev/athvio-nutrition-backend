@@ -6,12 +6,12 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { PatientGroupsResolver } from './adapters/in/patient-groups.resolver';
 import { PatientGroup, PatientGroupSchema } from './adapters/out/patient-group.schema';
 import { PatientGroupsPersistenceService } from './adapters/out/patient-groups-persistence.service';
-import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
+import { AuthModule } from 'src/modules/auth/auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: PatientGroup.name, schema: PatientGroupSchema }]),
-    forwardRef(() => AuthenticationModule),
+    forwardRef(() => AuthModule),
     forwardRef(() => PatientsModule),
     forwardRef(() => ProfessionalsModule),
   ],

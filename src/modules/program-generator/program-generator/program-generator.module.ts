@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
+import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { PatientPlansModule } from 'src/modules/patients/patient-plans/patient-plans.module';
 import { DiseaseCausesModule } from 'src/modules/program-generator/disease-causes/disease-causes.module';
 import { DiseasesModule } from 'src/modules/program-generator/diseases/diseases.module';
@@ -12,7 +12,7 @@ import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
   imports: [
-    AuthenticationModule,
+    AuthModule,
     SharedModule,
     DiseaseCausesModule,
     DiseasesModule,

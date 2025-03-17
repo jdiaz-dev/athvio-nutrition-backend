@@ -14,7 +14,7 @@ import { ProgramsPersistenceService } from 'src/modules/professionals/programs/a
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 import { ProgramPlanManagementService } from 'src/modules/professionals/programs/application/program-plan-management.service';
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
-import { AuthenticationModule } from 'src/modules/auth/auth/authentication.module';
+import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 
 const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
@@ -31,7 +31,7 @@ const services = [
   imports: [
     MongooseModule.forFeature([{ name: Program.name, schema: ProgramSchema }]),
     SharedModule,
-    AuthenticationModule,
+    AuthModule,
     ProfessionalsModule,
     ProgramTagsModule,
     PatientsModule,
