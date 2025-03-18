@@ -18,7 +18,6 @@ export class NutritionalMealsMobileResolver {
     @Args('input') dto: GetNutritionalMealsForPatientDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
-    console.log('--------------dto', JSON.stringify(dto, null, 4));
     const nutritionalMeal = await this.nmms.getNutritionalMealsForPatient(dto, selectors);
     return nutritionalMeal;
   }
