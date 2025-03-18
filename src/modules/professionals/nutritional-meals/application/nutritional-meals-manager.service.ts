@@ -50,6 +50,8 @@ export class NutritionalMealsManagerService {
     selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
     const nutritionalMeals = await this.nmps.getNutritionalMeals({ ...rest }, selectors);
+    console.log('--------------nutritionalMeals', JSON.stringify(nutritionalMeals, null, 4));
+
     return nutritionalMeals;
   }
   async getNutritionalMeal(dto: GetNutritionalMealDto, selectors: string[]) {
