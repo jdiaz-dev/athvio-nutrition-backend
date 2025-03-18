@@ -2,10 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
 import { CreateUser } from 'src/modules/auth/users/adapters/out/users-types';
-import {
-  SignUpPatientDto,
-  SignUpPatientResponse,
-} from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
+import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
 import { EnumRoles, LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/web/dtos/activate-user.dto';
@@ -54,7 +51,13 @@ export class SignUpPatientManagamentService {
     };
     const { _id, firstname, lastname, email } = await this.ups.createUser(_user);
 
-    const patient = await this.pms.createPatient({ professional, user: _id, ...additionalInfo, isActive: true });
+    const patient = await this.pms.createPatient({
+      professional,
+      user: _id,
+      ...additionalInfo,
+      origin: OriginPatientEnum.WEB,
+      isActive: true,
+    });
     await this.sendMail(_proffesional.user._id.toString(), _id, email, firstname);
     const _patient = {
       ...patient,
@@ -63,7 +66,6 @@ export class SignUpPatientManagamentService {
         lastname: lastname,
         email: email,
       },
-      source: OriginPatientEnum.WEB,
     };
     return _patient;
   }
@@ -82,7 +84,7 @@ export class SignUpPatientManagamentService {
     await this.pms.createPatient({
       user: _id,
       isActive: true,
-      source: OriginPatientEnum.MOBILE,
+      origin: OriginPatientEnum.MOBILE,
       state: PatientState.ACTIVE,
     });
     return this.as.generateToken({ _id, role });

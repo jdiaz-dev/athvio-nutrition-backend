@@ -1,8 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Query, Resolver } from '@nestjs/graphql';
-import {
-  GetNutritionalMealsResponse,
-} from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
+import { GetNutritionalMealsResponse } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
@@ -20,6 +18,7 @@ export class NutritionalMealsMobileResolver {
     @Args('input') dto: GetNutritionalMealsForPatientDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
+    console.log('--------------dto', JSON.stringify(dto, null, 4));
     const nutritionalMeal = await this.nmms.getNutritionalMealsForPatient(dto, selectors);
     return nutritionalMeal;
   }

@@ -62,10 +62,11 @@ export class NutritionalMeal extends BaseSchema {
   @Prop({ type: String, required: false })
   servings: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   description: string;
 
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   healthBenefits: string;
 

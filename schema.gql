@@ -654,7 +654,8 @@ type NutritionalMeal {
   _id: ID!
   cookingInstructions: String!
   createdAt: DateTime!
-  description: String!
+  description: String
+  healthBenefits: String
   image: String
   ingredientDetails: [IngredientDetail!]!
   ingredients: [IngredientDetail!]!

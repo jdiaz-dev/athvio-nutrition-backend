@@ -69,7 +69,7 @@ export class Patient extends BaseSchema {
   state!: PatientState;
 
   @Prop({ type: String, enum: OriginPatientEnum, required: true })
-  source: OriginPatientEnum;
+  origin: OriginPatientEnum;
 }
 
 export type PatientDocument = Patient & Document;
