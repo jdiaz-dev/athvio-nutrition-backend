@@ -5,19 +5,23 @@ const bucketName = 'nutritional-meals-bucket';
 const fileName = 'mongo_data.json';
 
 async function saveRecords() {
-  const filePath = '/home/polsito/Mongodb/athvio.NutritionalMeals.json';
-  const fileContent = fs.readFileSync(filePath);
+  try {
+    const filePath = '/home/polsito/Mongodb/athvio.NutritionalMeals.json';
+    const fileContent = fs.readFileSync(filePath);
 
-  const command = new PutObjectCommand({
-    Bucket: bucketName,
-    Key: fileName,
-    Body: fileContent,
-  });
+    const command = new PutObjectCommand({
+      Bucket: bucketName,
+      Key: fileName,
+      Body: fileContent,
+    });
 
-  const s3client = new S3Client({
-    region: process.env.REGION,
-  });
-  await s3client.send(command);
+    const s3client = new S3Client({
+      region: process.env.REGION,
+    });
+    await s3client.send(command);
+  } catch (error) {
+    console.error('Error saving records to S3', error);
+  }
 }
 
 saveRecords();
