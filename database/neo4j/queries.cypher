@@ -32,6 +32,14 @@ OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
 RETURN d,hdica,dc,hrec,rec,hres,di
 
 
+//get cancer
+MATCH (d:Disease)
+WHERE d.name in ["Cancer"]
+OPTIONAL MATCH (d:Disease)-[hdica:HAS_DISEASE_CAUSE]->(dc:DiseaseCause)
+OPTIONAL MATCH (dc:DiseaseCause)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
+OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
+RETURN d,hdica,dc,hrec,rec,hres,di
+
 //get diabetes and relations if exists
 MATCH (d:DiseaseCause {name: "Viruses"})
 OPTIONAL MATCH (d)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)

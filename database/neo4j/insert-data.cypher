@@ -35,6 +35,7 @@ ON CREATE SET hypothyroidism.id = randomUUID(), hypothyroidism.isActive = true, 
 MERGE (leakyGut:Disease {name: "Leaky Gut"})
 ON CREATE SET leakyGut.id = randomUUID(), leakyGut.isActive = true, leakyGut.createdAt = datetime(), leakyGut.updatedAt = datetime()
 
+
 //caused by abscence of magnesium
 MERGE (infarction:Disease {name: "Infarction"})
 ON CREATE SET infarction.id = randomUUID(), infarction.isActive = true, infarction.createdAt = datetime(), infarction.updatedAt = datetime()
@@ -63,7 +64,8 @@ MERGE (charcoalRec:Recommendation {name: "Heavy Metal Detox"})
 ON CREATE SET charcoalRec.id = randomUUID(), charcoalRec.details = "Take activated charcoal", charcoalRec.isActive = true, charcoalRec.createdAt = datetime(), charcoalRec.updatedAt = datetime() 
 MERGE (magnesium:Recommendation {name: "Magnesium"})
 ON CREATE SET magnesium.id = randomUUID(), magnesium.details = "Consume 500 mg of magnesium", magnesium.isActive = true, magnesium.createdAt = datetime(), magnesium.updatedAt = datetime() 
-
+//black seeds
+//garlic
 
 WITH * 
 // Connect Diseases to DiseaseCauses
@@ -131,9 +133,11 @@ MERGE (parasites)-[:HAS_RECOMMENDATION]->(carrotRec)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(propolisRec)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(chukrutRec)
 MERGE (parasites)-[:HAS_RECOMMENDATION]->(cabbageRec)
+MERGE (parasites)-[:HAS_RECOMMENDATION]->(oreganOilRec)
 MERGE (fungi)-[:HAS_RECOMMENDATION]->(ketoRec)
 MERGE (fungi)-[:HAS_RECOMMENDATION]->(carrotRec)
 MERGE (fungi)-[:HAS_RECOMMENDATION]->(cabbageRec)
+MERGE (fungi)-[:HAS_RECOMMENDATION]->(oreganOilRec)
 MERGE (bacteria)-[:HAS_RECOMMENDATION]->(oreganOilRec)
 MERGE (bacteria)-[:HAS_RECOMMENDATION]->(cabbageRec)
 MERGE (heavyMetals)-[:HAS_RECOMMENDATION]->(charcoalRec)
@@ -158,6 +162,7 @@ WITH *
 // Connect Recommendations to Restrictions
 MERGE (carrotRec)-[:HAS_RESTRICTION]->(diabetes)
 MERGE (carrotRec)-[:HAS_RESTRICTION]->(ckd)
+// MERGE (carrotRec)-[:HAS_RESTRICTION]->(liquidRetention)
 
 
 WITH *
