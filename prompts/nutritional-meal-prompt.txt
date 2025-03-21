@@ -1,3 +1,4 @@
+Parse the imagen to this json structure, must to acomplish with all the fields and instructions contained in the json. must to extract all data including the ingredients. must calculate the macros of the ingredients and all the meal in general
 {
     "_id": ObjectId(),
     "createdAt": Date(),
@@ -8,13 +9,13 @@
       {
         "ingredientType": "UNIQUE_INGREDIENT",
         "ingredient": {
-          "weightInGrams": 100,
-          "protein": 0.85,
-          "carbs": 0.06,
-          "fat": 81.1,
-          "calories": 717,
+          "weightInGrams": 100, //must be number
+          "protein": 0.85, //must be number
+          "carbs": 0.06, //must be number
+          "fat": 81.1, //must be number
+          "calories": 717, //must be number
           "name": "Butter, Salted",
-          "amount": 100,
+          "amount": 100, //must be number
           "label": "Gram"
         },
         "equivalents": [],
@@ -26,11 +27,11 @@
     "cookingInstructions": "",
     "image":"", 
     "macros": {
-      "weightInGrams": 100,
-      "protein": 0.85,
-      "carbs": 0.06,
+      "weightInGrams": 100, //must be number
+      "protein": 0.85, //must be number
+      "carbs": 0.06, //must be number
       "fat": 81.1,
-      "calories": 717
+      "calories": 717 //must be number
     },
     "yield":"",
     "servings":"",
