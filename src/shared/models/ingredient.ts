@@ -9,9 +9,10 @@ export class Ingredient extends Macros {
   @Prop({ type: String, required: true })
   name: string;
 
+  //string because it must support numbers as 3, 0.45, 1/4, 1/2
   @Field({ nullable: true })
-  @Prop({ type: Number, required: false })
-  amount: number;
+  @Prop({ type: String, required: false })
+  amount: string;
 
   @Field({ nullable: true })
   @Prop({ type: String, required: false })

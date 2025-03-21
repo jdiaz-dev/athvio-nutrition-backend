@@ -481,7 +481,7 @@ input GetUserDto {
 }
 
 type Ingredient {
-  amount: Float
+  amount: String
   calories: Float!
   carbs: Float!
   fat: Float!
@@ -506,7 +506,7 @@ input IngredientDetailsInput {
 }
 
 input IngredientInput {
-  amount: Float!
+  amount: String!
   calories: Float!
   carbs: Float!
   fat: Float!

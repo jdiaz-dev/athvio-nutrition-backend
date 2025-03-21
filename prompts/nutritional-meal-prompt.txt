@@ -15,7 +15,7 @@ Parse the imagen to this json structure, must to acomplish with all the fields a
           "fat": 81.1, //must be number
           "calories": 717, //must be number
           "name": "Butter, Salted",
-          "amount": 100, //must be number
+          "amount": 100, //must be string but the content must be only number: Example: 1, 1/4, 0.5
           "label": "Gram"
         },
         "equivalents": [],
