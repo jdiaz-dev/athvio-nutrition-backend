@@ -64,6 +64,8 @@ MERGE (charcoalRec:Recommendation {name: "Heavy Metal Detox"})
 ON CREATE SET charcoalRec.id = randomUUID(), charcoalRec.details = "Take activated charcoal", charcoalRec.isActive = true, charcoalRec.createdAt = datetime(), charcoalRec.updatedAt = datetime() 
 MERGE (magnesium:Recommendation {name: "Magnesium"})
 ON CREATE SET magnesium.id = randomUUID(), magnesium.details = "Consume 500 mg of magnesium", magnesium.isActive = true, magnesium.createdAt = datetime(), magnesium.updatedAt = datetime() 
+MERGE (lysine:Recommendation {name: "Lysine"})
+ON CREATE SET lysine.id = randomUUID(), lysine.details = "Consume foods with lysine", lysine.isActive = true, lysine.createdAt = datetime(), lysine.updatedAt = datetime() 
 //black seeds
 //garlic
 
@@ -118,6 +120,7 @@ MERGE (leakyGut)-[:HAS_DISEASE_CAUSE]->(heavyMetals)
 //infarction
 MERGE (infarction)-[:HAS_DISEASE_CAUSE]->(bacteria)
 MERGE (infarction)-[:HAS_DISEASE_CAUSE]->(magnesium)
+MERGE (infarction)-[:HAS_DISEASE_CAUSE]->(lysine)
 
 //cerebroVascularAccident
 MERGE (cerebroVascularAccident)-[:HAS_DISEASE_CAUSE]->(magnesium)
@@ -188,3 +191,5 @@ MERGE (lowFiber:NutritionalPreference {name: "Low in Fiber"})
 ON CREATE SET lowFiber.id = randomUUID(), lowFiber.isActive = true, lowFiber.createdAt = datetime(), lowFiber.updatedAt = datetime()
 MERGE (richInFibers:NutritionalPreference {name: "Rich in Fibers"})
 ON CREATE SET richInFibers.id = randomUUID(), richInFibers.isActive = true, richInFibers.createdAt = datetime(), richInFibers.updatedAt = datetime()
+
+//homocistein - test to discard stroke

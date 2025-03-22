@@ -16,7 +16,11 @@ export const production: IEnvironment = {
   storage: { storageUrl: process.env.STORAGE_URL },
   security: { rateLimit: { ttl: process.env.RATE_LIMIT_TLL, limit: process.env.RATE_LIMIT_VALUE } },
   tokenKey: process.env.SIGN_TOKEN,
-  whiteListOrigins: [process.env.ORIGIN_PRODUCTION, process.env.ORIGIN_BUCKET_S3],
+  whiteListOrigins: [
+    process.env.ORIGIN_PRODUCTION_S3_WEB,
+    process.env.ORIGIN_PRODUCTION_WEB_DOMAIN,
+    process.env.ORIGIN_PRODUCTION_S3_MOBILE,
+  ],
   foodProvider: {
     foodApi: {
       edamamFoodParserUrl: process.env.EDAMAM_FOOD_PARSER_URL,
