@@ -255,16 +255,6 @@ input DeleteProgramTagDto {
   programTag: String!
 }
 
-type Disease {
-  id: ID!
-  name: String!
-}
-
-type DiseaseCause {
-  id: ID!
-  name: String!
-}
-
 input DuplicatePatientPlanDto {
   assignedDate: DateTime!
   patient: String!
@@ -323,17 +313,6 @@ type FoodsMeta {
   limit: Float!
   offset: Float!
   total: Float!
-}
-
-input GenerateNutritionalPlanDto {
-  diseaseCauses: [String!]!
-  diseases: [String!]!
-  macros: PatientMacrosInput!
-  mealsByDay: Float!
-  nutritionalPreferences: [String!]!
-  patient: String!
-  startDate: DateTime!
-  totalDays: Float!
 }
 
 input GetAutocompleteFoodNamesDto {
@@ -626,7 +605,6 @@ type Mutation {
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): QuestionaryConfig!
-  generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
@@ -666,12 +644,6 @@ type NutritionalMeal {
   yield: String!
 }
 
-type NutritionalPreference {
-  createdAt: DateTime!
-  id: ID!
-  name: String!
-}
-
 type Organization {
   address: String!
   city: String!
@@ -705,13 +677,6 @@ type PatientGroup {
   groupName: String!
   isDeleted: String!
   professional: ID!
-}
-
-input PatientMacrosInput {
-  calories: Float!
-  carbs: Float!
-  fat: Float!
-  protein: Float!
 }
 
 type PatientPlan {
@@ -774,9 +739,6 @@ type ProgramTag {
 }
 
 type Query {
-  getAllDiseaseCauses: [DiseaseCause!]!
-  getAllDiseases: [Disease!]!
-  getAllNutritionalPreferences: [NutritionalPreference!]!
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
