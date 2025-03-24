@@ -20,6 +20,7 @@ export const production: IEnvironment = {
     process.env.ORIGIN_PRODUCTION_S3_WEB,
     process.env.ORIGIN_PRODUCTION_WEB_DOMAIN,
     process.env.ORIGIN_PRODUCTION_S3_MOBILE,
+    process.env.ORIGIN_PRODUCTION_MOBILE_DOMAIN,
   ],
   foodProvider: {
     foodApi: {
