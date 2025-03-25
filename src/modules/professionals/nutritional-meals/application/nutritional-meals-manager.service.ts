@@ -46,10 +46,10 @@ export class NutritionalMealsManagerService {
     return nutritionalMeals;
   }
   async getNutritionalMealsForPatient(
-    { patient, ...rest }: GetNutritionalMealsForPatientDto,
+    { patient, category, ...rest }: GetNutritionalMealsForPatientDto,
     selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
-    const nutritionalMeals = await this.nmps.getNutritionalMeals({ ...rest }, selectors);
+    const nutritionalMeals = await this.nmps.getNutritionalMeals({ ...rest, match: { category } }, selectors);
     return nutritionalMeals;
   }
   async getNutritionalMeal(dto: GetNutritionalMealDto, selectors: string[]) {

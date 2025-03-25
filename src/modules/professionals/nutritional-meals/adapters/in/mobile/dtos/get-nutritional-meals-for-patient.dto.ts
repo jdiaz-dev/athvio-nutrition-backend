@@ -1,6 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsMongoId } from 'class-validator';
+import { IsEnum, IsMongoId } from 'class-validator';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
+import { NutritionalMealCategories } from 'src/modules/professionals/nutritional-meals/helpers/constants';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
 
@@ -9,6 +10,10 @@ export class GetNutritionalMealsForPatientDto extends GetRecordsBaseDto {
   @Field()
   @IsMongoId()
   patient: string;
+
+  @Field()
+  @IsEnum(NutritionalMealCategories)
+  category: NutritionalMealCategories;
 }
 
 @ObjectType()
