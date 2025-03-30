@@ -1,7 +1,7 @@
 export enum NutritionalMealDatabases {
   ALL = 'ALL',
   SYSTEM = 'SYSTEM',
-  CUSTOM_RECIPES = 'CUSTOM RECIPES',
+  CUSTOM_MEALS = 'CUSTOM MEALS',
 }
 
 export enum NutritionalMealCategories {

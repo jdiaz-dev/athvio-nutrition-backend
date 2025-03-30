@@ -662,6 +662,7 @@ type NutritionalMeal {
   ingredients: [IngredientDetail!]!
   macros: Macros!
   name: String!
+  owner: String!
   professional: String!
   servings: String!
   yield: String!

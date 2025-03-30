@@ -70,11 +70,12 @@ export class NutritionalMeal extends BaseSchema {
   @Prop({ type: String, required: false })
   healthBenefits: string;
 
-  @Prop({ type: String, required: true, enum: EnumMealOwner, default: EnumMealOwner.SYSTEM })
+  @Field()
+  @Prop({ type: String, required: true, enum: EnumMealOwner, default: EnumMealOwner.PROFESSIONAL })
   owner: EnumMealOwner;
 
-  @Prop({ type: String, required: false, default: SystemMealSourcesEnum.BEAT_CANCER_KITCHEN })
-  source: SystemMealSourcesEnum;
+  @Prop({ type: String, required: false })
+  source: string | SystemMealSourcesEnum;
 
   @Prop({ type: String, required: false })
   category: string;
