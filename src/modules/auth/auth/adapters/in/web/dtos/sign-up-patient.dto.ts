@@ -104,7 +104,7 @@ export class SignUpPatientDto {
   @ValidateNested()
   @IsOptional()
   @Type(() => AdditionalInfoDto)
-  additionalInfo: AdditionalInfoDto;
+  additionalInfo?: AdditionalInfoDto;
 }
 
 @ObjectType()

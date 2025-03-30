@@ -8,6 +8,7 @@ import { EnumRoles, LayersServer } from 'src/shared/enums/project';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
+import { SignUpPatientManagamentService } from 'src/modules/auth/auth/application/services/sign-up-patient-management.service';
 
 @Injectable()
 export class SignUpProfessionalService {
@@ -16,6 +17,7 @@ export class SignUpProfessionalService {
     private ups: UsersPersistenceService,
     private prms: ProfessionalsManagementService,
     private as: AuthenticationService,
+    private supms: SignUpPatientManagamentService,
   ) {}
 
   async signUpProfessional({ professionalInfo, ...userDto }: SignUpProfessionalDto): Promise<UserLoged> {
@@ -30,10 +32,24 @@ export class SignUpProfessionalService {
     };
     const { _id, role } = await this.ups.createUser(_user);
 
-    await this.prms.createProfessional({
+    const { _id: professional } = await this.prms.createProfessional({
       user: _id,
       ...professionalInfo,
     });
+
+    await this.supms.signUpPatientFromWeb(
+      {
+        professional,
+        userInfo: {
+          firstname: 'demo',
+          lastname: 'demo',
+          email: 'demo@gmail.com',
+        },
+      },
+      true,
+    );
+    //create program
     return this.as.generateToken({ _id, role });
   }
+  async assignRecordsForDemo() {}
 }

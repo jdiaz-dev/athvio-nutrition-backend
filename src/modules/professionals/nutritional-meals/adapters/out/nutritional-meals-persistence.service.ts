@@ -15,7 +15,7 @@ import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { LayersServer } from 'src/shared/enums/project';
+import { EnumMealOwner, LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
 export class NutritionalMealsPersistenceService {
@@ -120,13 +120,19 @@ export class NutritionalMealsPersistenceService {
   async updateNutritionalMeal({
     professional,
     nutritionalMeal,
+    owner,
     ...rest
-  }: Partial<UpdateNutritionalMealDto> & { professional?: string; image?: string }): Promise<NutritionalMeal> {
+  }: Partial<UpdateNutritionalMealDto> & {
+    professional?: string;
+    owner?: EnumMealOwner;
+    image?: string;
+  }): Promise<NutritionalMeal> {
     try {
       const nutritionalMealRes = await this.nutritionalMealModel.findOneAndUpdate(
         {
           _id: new Types.ObjectId(nutritionalMeal),
           ...(professional && { professional: new Types.ObjectId(professional) }),
+          ...(owner && { owner }),
           isDeleted: false,
         },
         { ...rest },

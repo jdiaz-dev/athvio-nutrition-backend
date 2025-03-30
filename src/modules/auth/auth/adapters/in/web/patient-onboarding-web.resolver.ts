@@ -18,7 +18,7 @@ export class PatientOnboardingWebResolver {
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => SignUpPatientResponse)
   signUpPatient(@Args('input') dto: SignUpPatientDto): Promise<SignUpPatientResponse> {
-    return this.sppms.signUpPatient(dto);
+    return this.sppms.signUpPatientFromWeb(dto);
   }
   @Mutation(() => User)
   async activatePatient(@Args('input') body: ActivatePatientDto) {

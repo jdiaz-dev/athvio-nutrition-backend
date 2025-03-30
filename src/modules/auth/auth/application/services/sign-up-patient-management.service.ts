@@ -29,7 +29,10 @@ export class SignUpPatientManagamentService {
     private as: AuthenticationService,
   ) {}
 
-  async signUpPatient({ professional, userInfo, additionalInfo }: SignUpPatientDto): Promise<SignUpPatientResponse> {
+  async signUpPatientFromWeb(
+    { professional, userInfo, additionalInfo }: SignUpPatientDto,
+    isPatientDemo: boolean = false,
+  ): Promise<SignUpPatientResponse> {
     const userEmail = await this.ups.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
@@ -58,7 +61,7 @@ export class SignUpPatientManagamentService {
       origin: OriginPatientEnum.WEB,
       isActive: true,
     });
-    await this.sendMail(_proffesional.user._id.toString(), _id, email, firstname);
+    if (!isPatientDemo) await this.sendMail(_proffesional.user._id.toString(), _id, email, firstname);
     const _patient = {
       ...patient,
       userInfo: {

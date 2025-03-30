@@ -59,7 +59,7 @@ export class NutritionalMealsManagerService {
     return nutritionalMealRes;
   }
   async updateNutritionalMeal(dto: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.nmps.updateNutritionalMeal(dto);
+    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...dto, owner: EnumMealOwner.PROFESSIONAL });
     if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_PLAN_NOT_FOUND);
     return nutritionalMealRes;
   }
