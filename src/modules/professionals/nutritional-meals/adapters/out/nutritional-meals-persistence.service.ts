@@ -65,7 +65,6 @@ export class NutritionalMealsPersistenceService {
     try {
       const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
-      if (match?.professional) match.professional = new Types.ObjectId(match.professional);
       const nutritionalMeals = await this.nutritionalMealModel.aggregate([
         {
           $match: {

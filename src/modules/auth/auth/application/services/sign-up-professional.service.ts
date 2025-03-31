@@ -41,9 +41,9 @@ export class SignUpProfessionalService {
       {
         professional,
         userInfo: {
-          firstname: 'demo',
+          firstname: 'patient',
           lastname: 'demo',
-          email: 'demo@gmail.com',
+          email: `demo_${userDto.email}`,
         },
       },
       true,

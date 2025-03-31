@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/create-nutritional-meal.dto';
@@ -31,13 +32,23 @@ export class NutritionalMealsManagerService {
   ): Promise<GetNutritionalMealsResponse> {
     const sourceMealsQuery =
       database === NutritionalMealDatabases.ALL
-        ? { $or: [{ owner: { $eq: EnumMealOwner.PROFESSIONAL } }, { owner: { $eq: EnumMealOwner.SYSTEM } }] }
+        ? {
+            $or: [
+              {
+                $and: [
+                  { professional: { $eq: new Types.ObjectId(professional) } },
+                  { owner: { $eq: EnumMealOwner.PROFESSIONAL } },
+                ],
+              },
+              { owner: { $eq: EnumMealOwner.SYSTEM } },
+            ],
+          }
         : database === NutritionalMealDatabases.CUSTOM_MEALS
         ? { owner: EnumMealOwner.PROFESSIONAL }
         : { owner: EnumMealOwner.SYSTEM };
+
     const filters = {
       match: {
-        professional,
         ...sourceMealsQuery,
       },
       ...rest,

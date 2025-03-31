@@ -43,8 +43,8 @@ export class SignUpPatientManagamentService {
       ...userInfo,
     };
 
-    if (additionalInfo.countryCode) _user.countryCode = additionalInfo.countryCode;
-    if (additionalInfo.country) _user.country = additionalInfo.country;
+    if (additionalInfo?.countryCode) _user.countryCode = additionalInfo.countryCode;
+    if (additionalInfo?.country) _user.country = additionalInfo.country;
 
     _user = {
       ..._user,
