@@ -78,7 +78,7 @@ export enum LayersServer {
   APPLICATION = 'application',
 }
 
-export enum EnumMealOwner {
+export enum EnumMealSources {
   SYSTEM = 'SYSTEM',
   PROFESSIONAL = 'PROFESSIONAL',
 }

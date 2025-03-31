@@ -10,7 +10,7 @@ import {
   GetNutritionalMealsResponse,
 } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
 import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
-import { EnumMealOwner } from 'src/shared/enums/project';
+import { EnumMealSources } from 'src/shared/enums/project';
 import { GetNutritionalMealsForPatientDto } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/dtos/get-nutritional-meals-for-patient.dto';
 import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meal.dto';
 import { ErrorNutritionalMealEnum } from 'src/shared/enums/messages-response';
@@ -37,15 +37,15 @@ export class NutritionalMealsManagerService {
               {
                 $and: [
                   { professional: { $eq: new Types.ObjectId(professional) } },
-                  { owner: { $eq: EnumMealOwner.PROFESSIONAL } },
+                  { source: { $eq: EnumMealSources.PROFESSIONAL } },
                 ],
               },
-              { owner: { $eq: EnumMealOwner.SYSTEM } },
+              { source: { $eq: EnumMealSources.SYSTEM } },
             ],
           }
         : database === NutritionalMealDatabases.CUSTOM_MEALS
-        ? { owner: EnumMealOwner.PROFESSIONAL }
-        : { owner: EnumMealOwner.SYSTEM };
+        ? { source: EnumMealSources.PROFESSIONAL }
+        : { source: EnumMealSources.SYSTEM };
 
     const filters = {
       match: {
@@ -70,7 +70,7 @@ export class NutritionalMealsManagerService {
     return nutritionalMealRes;
   }
   async updateNutritionalMeal(dto: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...dto, owner: EnumMealOwner.PROFESSIONAL });
+    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...dto, source: EnumMealSources.PROFESSIONAL });
     if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_PLAN_NOT_FOUND);
     return nutritionalMealRes;
   }

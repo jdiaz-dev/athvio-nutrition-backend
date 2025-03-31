@@ -8,31 +8,30 @@ db.NutritionalMeals.updateMany(
   { $set: { category: 'Dressings, dips and sauces' } },
 );
 
+db.NutritionalMeals.updateMany({}, { $rename: { owner: 'source' } });
+
 db.NutritionalMeals.updateMany(
-  { 
-    "_id": ObjectId("67dc55fb4c0d70b0aaabab53"),
-    "ingredientDetails.ingredient.amount": { $type: "string" } // Find records where amount is a string
+  {
+    '_id': ObjectId('67dc55fb4c0d70b0aaabab53'),
+    'ingredientDetails.ingredient.amount': { $type: 'string' }, // Find records where amount is a string
   },
   [
-    { 
-      $set: { 
-        "ingredientDetails.$[elem].ingredient.amount": { 
-          $toDouble: "$ingredientDetails.$[elem].ingredient.amount" 
-        } 
-      } 
-    }
+    {
+      $set: {
+        'ingredientDetails.$[elem].ingredient.amount': {
+          $toDouble: '$ingredientDetails.$[elem].ingredient.amount',
+        },
+      },
+    },
   ],
   {
-    arrayFilters: [{ "elem.ingredient.amount": { $type: "string" } }] // Apply update only to array elements where amount is a string
-  }
-)
-
-
+    arrayFilters: [{ 'elem.ingredient.amount': { $type: 'string' } }], // Apply update only to array elements where amount is a string
+  },
+);
 
 //get
 db.NutritionalMeals.find({ category: 'Dressings, dips and sauces' });
 db.NutritionalMeals.find({ category: 'Dressings, dips and sauces' }).count();
-
 
 //aggregate
 db.Meals.aggregate([

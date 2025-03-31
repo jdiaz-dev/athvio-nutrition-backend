@@ -4,9 +4,9 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { IngredientDetail, IngredientDetailSchema } from 'src/shared/models/meal-plan';
 import { Macros, MacroSchema } from 'src/shared/models/macros';
-import { EnumMealOwner } from 'src/shared/enums/project';
+import { EnumMealSources } from 'src/shared/enums/project';
 
-enum SystemMealSourcesEnum {
+enum SystemMealBookSourcesEnum {
   BEAT_CANCER_KITCHEN = 'Beat cancer kitchen',
 }
 
@@ -71,11 +71,11 @@ export class NutritionalMeal extends BaseSchema {
   healthBenefits: string;
 
   @Field()
-  @Prop({ type: String, required: true, enum: EnumMealOwner, default: EnumMealOwner.PROFESSIONAL })
-  owner: EnumMealOwner;
+  @Prop({ type: String, required: true, enum: EnumMealSources, default: EnumMealSources.PROFESSIONAL })
+  source: EnumMealSources;
 
   @Prop({ type: String, required: false })
-  source: string | SystemMealSourcesEnum;
+  bookSource: string | SystemMealBookSourcesEnum;
 
   @Prop({ type: String, required: false })
   category: string;
