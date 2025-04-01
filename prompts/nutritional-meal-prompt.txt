@@ -1,8 +1,8 @@
-Parse the imagen to this json structure, must to acomplish with all the fields and instructions contained in the json. must to extract all data including the ingredients. must calculate the macros of the ingredients and all the meal in general
+Parse the imagen to this json structure, must to acomplish with all the fields and instructions contained in the json. must to extract all data including all the ingredients. must calculate the macros of the ingredients and all the meal in general
 {
     "_id": ObjectId(),
-    "createdAt": Date(),
-    "updatedAt": Date(),
+    "createdAt": Date(), //leave as Date() function
+    "updatedAt": Date(), //leave as Date() function
     "professional": ObjectId("67cb5064a52f7c0e3d6543cf"),
     "name": "Meal 1",
     "ingredientDetails": [
@@ -37,8 +37,8 @@ Parse the imagen to this json structure, must to acomplish with all the fields a
     "servings":"",
     "description":"",
     "healthBenefits":"",  //optional, normally full field when you don't see underlined numbers, if you not found it must have the next  result  "healthBenefits":""
-    "owner":"SYSTEM",
-    "source": "Beat cancer kitchen",
+    "source":"SYSTEM",
+    "bookSource": "Beat cancer kitchen",
     "relatedStudies": [{ summary:'', link:'' }], //mandatory when you see small underlined numbers (reference quotes) in the text of blue color, optional otherwise; if you not found it must have the next  result  "relatedStudies":[]
     "author": "Chris Wark",
     "isDeleted": false,

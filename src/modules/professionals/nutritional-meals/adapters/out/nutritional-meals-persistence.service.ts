@@ -59,7 +59,7 @@ export class NutritionalMealsPersistenceService {
     }
   }
   async getNutritionalMeals(
-    { match, ...rest }: GetRecordsBaseDto & { match?: { professional?: string | Types.ObjectId; [k: string]: unknown } },
+    { match, ...rest }: GetRecordsBaseDto & { match?: { [k: string]: unknown } },
     selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
     try {
