@@ -11,7 +11,6 @@ import {
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { NutritionalMealsMobileResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/nutritional-meals-mobile.resolver';
-import { UploadScalar } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.scalar';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 import { SharedModule } from 'src/shared/shared.module';
 
@@ -25,7 +24,7 @@ const services = [NutritionalMealsPersistenceService, NutritionalMealsManagerSer
     ProfessionalsModule,
     SharedModule,
   ],
-  providers: [...resolvers, ...services, UploadScalar],
+  providers: [...resolvers, ...services],
   exports: [NutritionalMealsPersistenceService],
 })
 export class NutritionalMealsModule {}

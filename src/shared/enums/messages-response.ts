@@ -41,7 +41,7 @@ export enum ErrorPatientPlanEnum {
 }
 
 export enum ErrorNutritionalMealEnum {
-  NUTRITIONAL_PLAN_NOT_FOUND = 'This nutritional plan does not exist.',
+  NUTRITIONAL_MEAL_NOT_FOUND = 'This nutritional meal does not exist.',
 }
 
 export enum ErrorCaloryEnum {

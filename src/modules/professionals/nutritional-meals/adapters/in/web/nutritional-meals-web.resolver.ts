@@ -64,6 +64,6 @@ export class NutritionalMealsWebResolver {
   }
   @Mutation(() => NutritionalMeal)
   async uploadImage(@Args('input') file: UploadDto): Promise<NutritionalMeal> {
-    return await this.uploadMealImageService.uploadFile(file);
+    return await this.uploadMealImageService.uploadImage(file);
   }
 }

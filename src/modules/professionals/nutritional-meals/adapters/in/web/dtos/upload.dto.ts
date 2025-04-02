@@ -1,6 +1,6 @@
 import { IsMongoId } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
-import { UploadScalar } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.scalar';
+import { UploadScalar } from 'src/shared/graphql/upload.scalar';
 
 @InputType()
 export class UploadDto {

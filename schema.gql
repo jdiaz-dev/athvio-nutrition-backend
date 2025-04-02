@@ -129,6 +129,7 @@ input CreateCustomQuestionaryDetailInput {
 
 input CreateNutritionalMealDto {
   cookingInstructions: String
+  image: Upload
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   name: String!

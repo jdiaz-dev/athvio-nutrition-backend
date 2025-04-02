@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
 
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
@@ -16,14 +16,22 @@ import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-mea
 import { ErrorNutritionalMealEnum } from 'src/shared/enums/messages-response';
 import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/delete-nutritional-meal.dto';
+import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 
 @Injectable()
 export class NutritionalMealsManagerService {
-  constructor(private readonly pps: ProfessionalsPersistenceService, private readonly nmps: NutritionalMealsPersistenceService) {}
+  constructor(
+    @Inject(forwardRef(() => UploadMealImageService)) private readonly umis: UploadMealImageService,
+    private readonly pps: ProfessionalsPersistenceService,
+    private readonly nmps: NutritionalMealsPersistenceService,
+  ) {}
 
-  async createNutritionalMeal(dto: CreateNutritionalMealDto): Promise<NutritionalMeal> {
+  async createNutritionalMeal({ image, ...dto }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
     await this.pps.getProfessionalById(dto.professional, { _id: 1 });
     const nutritionalMeal = await this.nmps.createNutritionalMeal(dto);
+
+    if (image) return await this.umis.uploadImage({ nutritionalMeal: nutritionalMeal._id, image });
+
     return nutritionalMeal;
   }
   async getNutritionalMealsForProfessional(
@@ -63,20 +71,20 @@ export class NutritionalMealsManagerService {
     const nutritionalMeals = await this.nmps.getNutritionalMeals({ ...rest, match: { category } }, selectors);
     return nutritionalMeals;
   }
-  async getNutritionalMeal(dto: GetNutritionalMealDto, selectors: string[]) {
+  async getNutritionalMeal(dto: Omit<GetNutritionalMealDto, 'professional'> & { professional?: string }, selectors: string[]) {
     const nutritionalMealRes = await this.nmps.getNutritionalMeal(dto, selectors);
-    if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_PLAN_NOT_FOUND);
+    if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_MEAL_NOT_FOUND);
 
     return nutritionalMealRes;
   }
   async updateNutritionalMeal(dto: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
     const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...dto, source: EnumMealSources.PROFESSIONAL });
-    if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_PLAN_NOT_FOUND);
+    if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_MEAL_NOT_FOUND);
     return nutritionalMealRes;
   }
   async deleteNutritionalMeal(dto: DeleteNutritionalMealDto): Promise<NutritionalMeal> {
     const nutritionalMealRes = await this.nmps.deleteNutritionalMeal(dto);
-    if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_PLAN_NOT_FOUND);
+    if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_MEAL_NOT_FOUND);
     return nutritionalMealRes;
   }
 }
