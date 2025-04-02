@@ -15,3 +15,4 @@
 - add input to receive amount of calories
 - review Anticancer Vinaigrette	amounts
 - remove mongo database and ENAMAM credentials
+- fix : separate image that belongs to system and professional 
