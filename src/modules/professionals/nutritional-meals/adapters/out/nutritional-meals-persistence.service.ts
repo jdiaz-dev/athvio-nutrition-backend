@@ -121,7 +121,7 @@ export class NutritionalMealsPersistenceService {
     nutritionalMeal,
     source,
     ...rest
-  }: Partial<UpdateNutritionalMealDto> & {
+  }: Omit<Partial<UpdateNutritionalMealDto>, 'professional' | 'source' | 'image'> & {
     professional?: string;
     source?: EnumMealSources;
     image?: string;

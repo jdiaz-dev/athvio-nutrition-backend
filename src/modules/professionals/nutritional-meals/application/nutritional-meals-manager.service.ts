@@ -29,8 +29,7 @@ export class NutritionalMealsManagerService {
   async createNutritionalMeal({ image, ...dto }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
     await this.pps.getProfessionalById(dto.professional, { _id: 1 });
     const nutritionalMeal = await this.nmps.createNutritionalMeal(dto);
-
-    if (image) return await this.umis.uploadImage({ nutritionalMeal: nutritionalMeal._id, image });
+    if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: nutritionalMeal._id, image });
 
     return nutritionalMeal;
   }
@@ -77,9 +76,11 @@ export class NutritionalMealsManagerService {
 
     return nutritionalMealRes;
   }
-  async updateNutritionalMeal(dto: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...dto, source: EnumMealSources.PROFESSIONAL });
+  async updateNutritionalMeal({ image, ...rest }: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
+    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...rest, source: EnumMealSources.PROFESSIONAL });
     if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_MEAL_NOT_FOUND);
+    if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: rest.nutritionalMeal, image });
+
     return nutritionalMealRes;
   }
   async deleteNutritionalMeal(dto: DeleteNutritionalMealDto): Promise<NutritionalMeal> {

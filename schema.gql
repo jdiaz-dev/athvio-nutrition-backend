@@ -916,6 +916,7 @@ input UpdateMealDto {
 
 input UpdateNutritionalMealDto {
   cookingInstructions: String!
+  image: Upload
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   name: String!
