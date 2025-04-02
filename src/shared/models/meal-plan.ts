@@ -87,6 +87,10 @@ export class Meal extends BaseSchema {
   @Prop({ type: String, required: false })
   name: string;
 
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
+  image: string;
+
   @Field(() => [IngredientDetail])
   @Prop({ type: [IngredientDetailSchema], required: true })
   ingredientDetails: IngredientDetail[];

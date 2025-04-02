@@ -572,6 +572,7 @@ type Meal {
   _id: ID!
   cookingInstructions: String!
   createdAt: DateTime!
+  image: String
   ingredientDetails: [IngredientDetail!]!
   macros: Macros!
   mealTag: String!
@@ -581,6 +582,7 @@ type Meal {
 
 input MealBodyInput {
   cookingInstructions: String!
+  image: String
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   meal: String
