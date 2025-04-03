@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import dayjs from 'dayjs';
 import { SignUpPatientManagamentService } from 'src/modules/auth/auth/application/services/sign-up-patient-management.service';
+import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { EnumSources } from 'src/shared/enums/project';
@@ -7,15 +9,27 @@ import { EnumSources } from 'src/shared/enums/project';
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
 }
+function getFirstDayOfThirdWeek(year: number, month: number, weekStartsOn = 1) {
+  const firstDayOfMonth = new Date(year, month, 1);
+  const firstDayWeekday = firstDayOfMonth.getDay();
+  const adjustedDay = firstDayWeekday === 0 && weekStartsOn === 1 ? 7 : firstDayWeekday;
+  const offsetToWeekStart = (7 + adjustedDay - weekStartsOn) % 7;
+  const dayOfThirdWeek = 1 + offsetToWeekStart + 7 * 2;
+  return new Date(year, month, dayOfThirdWeek);
+}
 
 @Injectable()
 export class OnboardingManagerService {
-  constructor(private readonly supms: SignUpPatientManagamentService, private readonly pms: ProgramManagementService) {}
+  constructor(
+    private readonly supms: SignUpPatientManagamentService,
+    private readonly pms: ProgramManagementService,
+    private readonly aps: AssignProgramService,
+  ) {}
 
-  async onboardProfessional(_professional: string, email: string): Promise<void> {
-    await this.supms.signUpPatientFromWeb(
+  async onboardProfessional(professional: string, email: string): Promise<void> {
+    const { _id: patient } = await this.supms.signUpPatientFromWeb(
       {
-        professional: _professional,
+        professional,
         userInfo: {
           firstname: 'patient',
           lastname: 'demo',
@@ -29,12 +43,20 @@ export class OnboardingManagerService {
       name: SystemProgramNames.PROGRAM_TO_HEAL_CANCER,
       source: EnumSources.SYSTEM,
     });
-    await this.pms.createProgram({
-      professional: _professional,
+    const { _id } = await this.pms.createProgram({
+      professional: professional,
       name,
       description,
       plans: plans.map(({ _id, createdAt, updatedAt, ...rest }) => ({ ...rest })),
       source: EnumSources.PROFESSIONAL,
+    });
+
+    await this.aps.assignProgramToPatient({
+      professional,
+      program: _id,
+      assignmentStartDate: getFirstDayOfThirdWeek(dayjs().year(), dayjs().month()),
+      patients: [patient],
+      startingDay: 1,
     });
   }
 }

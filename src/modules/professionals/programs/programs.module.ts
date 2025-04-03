@@ -38,6 +38,6 @@ const services = [
     PatientPlansModule,
   ],
   providers: [...resolvers, ...services],
-  exports: [ProgramManagementService],
+  exports: [ProgramManagementService, AssignProgramService],
 })
 export class ProgramsModule {}
