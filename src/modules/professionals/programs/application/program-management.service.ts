@@ -1,14 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { ProgramTagsPersistenceService } from 'src/modules/professionals/program-tags/adapters/out/program-tags-persistence.service';
-import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
-import { GetProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-program.dto';
 import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
 
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
+import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/helpers/program';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
@@ -19,12 +18,12 @@ export class ProgramManagementService {
     private prps: ProfessionalsPersistenceService,
   ) {}
 
-  async createProgram(dto: CreateProgramDto) {
+  async createProgram(dto: CreateProgram) {
     await this.prps.getProfessionalById(dto.professional, { _id: 1 });
     const program = await this.pps.createProgram(dto);
     return program;
   }
-  async getProgram(dto: GetProgramDto, selectors: Record<string, number>): Promise<Program> {
+  async getProgram(dto: GetProgram, selectors?: Record<string, number>): Promise<Program> {
     const program = await this.pps.getProgram(dto, selectors);
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 

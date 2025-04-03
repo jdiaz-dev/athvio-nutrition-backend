@@ -2,10 +2,8 @@ import { InternalServerErrorException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-
-import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
-import { GetProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-program.dto';
 import {
   GetProgramsDto,
   GetProgramsResponse,
@@ -14,6 +12,7 @@ import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
 import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
+import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/helpers/program';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer, ManageProgramTags } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
@@ -21,11 +20,12 @@ import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
 @Injectable()
 export class ProgramsPersistenceService {
-  private layer = LayersServer.INFRAESTRUCTURE;
+  constructor(
+    @InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>,
+    private readonly logger: AthvioLoggerService,
+  ) {}
 
-  constructor(@InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>) {}
-
-  async createProgram({ professional, ...rest }: CreateProgramDto): Promise<Program> {
+  async createProgram({ professional, ...rest }: CreateProgram): Promise<Program> {
     try {
       const programRes = await this.programModel.create({
         professional,
@@ -33,54 +33,66 @@ export class ProgramsPersistenceService {
       });
 
       return programRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
 
-  async getProgram({ professional, program, plan }: GetProgramDto, selectors: Record<string, number>): Promise<Program | null> {
+  async getProgram(
+    { professional, program, name, source, plan }: GetProgram,
+    selectors?: Record<string, number>,
+  ): Promise<Program | null> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
     try {
       const programRes = await this.programModel.aggregate([
         {
           $match: {
-            _id: new Types.ObjectId(program),
-            professional: new Types.ObjectId(professional),
+            ...(program && professional && { _id: new Types.ObjectId(program), professional: new Types.ObjectId(professional) }),
+            ...(name && source && { name, source }),
             isDeleted: false,
           },
         },
-        {
-          $project: {
-            ...restFields,
-            plans: {
-              $filter: {
-                input: '$plans',
-                as: 'plan',
-                cond: {
-                  $and: [{ $eq: ['$$plan.isDeleted', false] }, plan ? { $eq: ['$$plan._id', new Types.ObjectId(plan)] } : {}],
+        ...(selectors
+          ? [
+              {
+                $project: {
+                  ...restFields,
+                  plans: {
+                    $filter: {
+                      input: '$plans',
+                      as: 'plan',
+                      cond: {
+                        $and: [
+                          { $eq: ['$$plan.isDeleted', false] },
+                          plan ? { $eq: ['$$plan._id', new Types.ObjectId(plan)] } : {},
+                        ],
+                      },
+                    },
+                  },
                 },
               },
-            },
-          },
-        },
-        {
-          $project: {
-            ...restFields,
-            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
-          },
-        },
-        {
-          $project: {
-            ...restFields,
-            plans: ProgramQueryFragmentsService.sortPlansByDay(),
-          },
-        },
+              {
+                $project: {
+                  ...restFields,
+                  plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
+                },
+              },
+              {
+                $project: {
+                  ...restFields,
+                  plans: ProgramQueryFragmentsService.sortPlansByDay(),
+                },
+              },
+            ]
+          : []),
       ]);
 
       return programRes[0] as Program;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
   async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Record<string, number>): Promise<GetProgramsResponse> {
@@ -174,8 +186,9 @@ export class ProgramsPersistenceService {
       };
 
       return res;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
   async updateProgram({ professional, program, ...rest }: UpdateProgramDto): Promise<Program | null> {
@@ -187,8 +200,9 @@ export class ProgramsPersistenceService {
       );
 
       return programRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
 
@@ -205,8 +219,9 @@ export class ProgramsPersistenceService {
       });
 
       return programRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
   async updateProgramPatients(program: string, professional: string, patients: string[]): Promise<Program | null> {
@@ -221,8 +236,9 @@ export class ProgramsPersistenceService {
       );
 
       return programRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
 
@@ -242,8 +258,9 @@ export class ProgramsPersistenceService {
       );
 
       return programRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
 }

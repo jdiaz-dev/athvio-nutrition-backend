@@ -17,6 +17,7 @@ import { MailModule } from 'src/modules/mail/mail.module';
 import { PatientOnboardingMobileResolver } from 'src/modules/auth/auth/adapters/in/mobile/patient-onboarding-mobile.resolver';
 import { PatientOnboardingWebResolver } from 'src/modules/auth/auth/adapters/in/web/patient-onboarding-web.resolver';
 import { MobileWebAuthenticationResolver } from 'src/modules/auth/auth/adapters/in/mobile-web-authentication.resolver';
+import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
 
 const services = [
   AuthenticationService,
@@ -46,9 +47,10 @@ const resolvers = [
     forwardRef(() => UsersModule),
     forwardRef(() => PatientsModule),
     forwardRef(() => ProfessionalsModule),
+    forwardRef(() => OnboardingModule),
     MailModule,
   ],
   providers: [...services, ...resolvers],
-  exports: [AuthorizationService],
+  exports: [AuthorizationService, SignUpPatientManagamentService],
 })
 export class AuthModule {}

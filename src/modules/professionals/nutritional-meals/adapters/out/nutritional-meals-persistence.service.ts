@@ -15,7 +15,7 @@ import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { EnumMealSources, LayersServer } from 'src/shared/enums/project';
+import { EnumSources, LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
 export class NutritionalMealsPersistenceService {
@@ -123,7 +123,7 @@ export class NutritionalMealsPersistenceService {
     ...rest
   }: Omit<Partial<UpdateNutritionalMealDto>, 'professional' | 'source' | 'image'> & {
     professional?: string;
-    source?: EnumMealSources;
+    source?: EnumSources;
     image?: string;
   }): Promise<NutritionalMeal> {
     try {
@@ -150,7 +150,7 @@ export class NutritionalMealsPersistenceService {
         {
           _id: rest.nutritionalMeal,
           professional: professional,
-          source: EnumMealSources.PROFESSIONAL,
+          source: EnumSources.PROFESSIONAL,
           isDeleted: false,
         },
         {

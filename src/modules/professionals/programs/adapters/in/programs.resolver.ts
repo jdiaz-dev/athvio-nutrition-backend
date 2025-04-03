@@ -30,7 +30,7 @@ export class ProgramsResolver {
 
   @Mutation(() => Program)
   createProgram(@Args('input') dto: CreateProgramDto): Promise<Program> {
-    return this.pps.createProgram(dto);
+    return this.pms.createProgram(dto);
   }
 
   @Query(() => Program)

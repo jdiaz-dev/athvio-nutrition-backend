@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { ProgramTagsResolver } from 'src/modules/professionals/program-tags/adapters/in/program-tags.resolver';
@@ -10,7 +10,7 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: ProgramTag.name, schema: ProgramTagSchema }]),
-    AuthModule,
+    forwardRef(() => AuthModule),
     ProfessionalsModule,
   ],
   providers: [ProgramTagsResolver, ...[ProgramTagsPersistenceService, ProgramTagsManagementService]],

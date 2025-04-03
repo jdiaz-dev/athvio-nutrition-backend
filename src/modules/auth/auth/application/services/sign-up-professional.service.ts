@@ -8,21 +8,20 @@ import { EnumRoles, LayersServer } from 'src/shared/enums/project';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
-import { SignUpPatientManagamentService } from 'src/modules/auth/auth/application/services/sign-up-patient-management.service';
+import { OnboardingManagerService } from 'src/modules/auth/onboarding/application/onboarding-manager.service';
 
 @Injectable()
 export class SignUpProfessionalService {
-  private layer = LayersServer.APPLICATION;
   constructor(
     private ups: UsersPersistenceService,
     private prms: ProfessionalsManagementService,
     private as: AuthenticationService,
-    private supms: SignUpPatientManagamentService,
+    private oms: OnboardingManagerService,
   ) {}
 
   async signUpProfessional({ professionalInfo, ...userDto }: SignUpProfessionalDto): Promise<UserLoged> {
     const user = await this.ups.getUserByEmail(userDto.email);
-    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
+    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
     const _user: CreateUser = {
       ...userDto,
@@ -36,20 +35,7 @@ export class SignUpProfessionalService {
       user: _id,
       ...professionalInfo,
     });
-
-    await this.supms.signUpPatientFromWeb(
-      {
-        professional,
-        userInfo: {
-          firstname: 'patient',
-          lastname: 'demo',
-          email: `demo_${userDto.email}`,
-        },
-      },
-      true,
-    );
-    //create program
+    this.oms.onboardProfessional(professional, userDto.email).catch((error) => error);
     return this.as.generateToken({ _id, role });
   }
-  async assignRecordsForDemo() {}
 }

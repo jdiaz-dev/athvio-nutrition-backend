@@ -16,6 +16,7 @@ import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/pro
 import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-domains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
 import { FoodsModule } from 'src/modules/program-generator/foods/foods.module';
+import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
 
 @Module({
   imports: [
@@ -31,6 +32,8 @@ import { FoodsModule } from 'src/modules/program-generator/foods/foods.module';
     SharedModule,
     UsersModule,
     AuthModule,
+    OnboardingModule,
+
     QuestionaryModule,
     MailModule,
 

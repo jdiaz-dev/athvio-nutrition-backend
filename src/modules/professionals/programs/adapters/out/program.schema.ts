@@ -5,25 +5,26 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { Meal, MealSchema } from 'src/shared/models/meal-plan';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
+import { EnumSources } from 'src/shared/enums/project';
 
 @Schema({ _id: false, timestamps: false })
 export class PlanDetail {
   @Prop({ type: Boolean, required: true, default: false })
   isDuplicate: boolean;
 
-  @Prop({ type: String, required: true, default: '' })
+  @Prop({ type: String, required: false })
   source: string;
 }
 const PlanDetailSchema = SchemaFactory.createForClass(PlanDetail);
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
-export class Plan {
+export class Plan extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
   @Field()
-  @Prop({ type: String, required: true, default: '' })
+  @Prop({ type: String, required: false, default: '' })
   title!: string;
 
   @Field()
@@ -82,6 +83,9 @@ export class Program extends BaseSchema {
   @Field()
   @Prop({ type: Boolean, required: true, default: false })
   isSyncActive: boolean;
+
+  @Prop({ type: String, required: true, enum: EnumSources, default: EnumSources.PROFESSIONAL })
+  source: EnumSources;
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: boolean;

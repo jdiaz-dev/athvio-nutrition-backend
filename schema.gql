@@ -734,6 +734,7 @@ type PatientPlan {
 
 type Plan {
   _id: ID!
+  createdAt: DateTime!
   day: Float!
   isDeleted: Boolean!
   meals: [Meal!]!

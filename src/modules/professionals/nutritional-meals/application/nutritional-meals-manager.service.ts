@@ -10,7 +10,7 @@ import {
   GetNutritionalMealsResponse,
 } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
 import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
-import { EnumMealSources } from 'src/shared/enums/project';
+import { EnumSources } from 'src/shared/enums/project';
 import { GetNutritionalMealsForPatientDto } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/dtos/get-nutritional-meals-for-patient.dto';
 import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meal.dto';
 import { ErrorNutritionalMealEnum } from 'src/shared/enums/messages-response';
@@ -44,15 +44,15 @@ export class NutritionalMealsManagerService {
               {
                 $and: [
                   { professional: { $eq: new Types.ObjectId(professional) } },
-                  { source: { $eq: EnumMealSources.PROFESSIONAL } },
+                  { source: { $eq: EnumSources.PROFESSIONAL } },
                 ],
               },
-              { source: { $eq: EnumMealSources.SYSTEM } },
+              { source: { $eq: EnumSources.SYSTEM } },
             ],
           }
         : database === NutritionalMealDatabases.CUSTOM_MEALS
-        ? { source: EnumMealSources.PROFESSIONAL }
-        : { source: EnumMealSources.SYSTEM };
+        ? { source: EnumSources.PROFESSIONAL }
+        : { source: EnumSources.SYSTEM };
 
     const filters = {
       match: {
@@ -77,7 +77,7 @@ export class NutritionalMealsManagerService {
     return nutritionalMealRes;
   }
   async updateNutritionalMeal({ image, ...rest }: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...rest, source: EnumMealSources.PROFESSIONAL });
+    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...rest, source: EnumSources.PROFESSIONAL });
     if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_MEAL_NOT_FOUND);
     if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: rest.nutritionalMeal, image });
 

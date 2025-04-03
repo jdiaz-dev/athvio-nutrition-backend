@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PatientPlanCommentsResolver } from 'src/modules/patients/patient-plans/adapters/in/web/patient-plans-comments.resolver';
 import { PatientPlansWebResolver } from 'src/modules/patients/patient-plans/adapters/in/web/patient-plans-web.resolver';
@@ -34,7 +34,7 @@ const applicationServices = [
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: PatientPlan.name, schema: PatientPlanSchema }]),
-    AuthModule,
+    forwardRef(() => AuthModule),
     ProfessionalsModule,
     PatientsModule,
   ],
