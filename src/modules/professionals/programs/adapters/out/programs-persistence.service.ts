@@ -12,7 +12,7 @@ import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
 import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/helpers/program';
+import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer, ManageProgramTags } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';

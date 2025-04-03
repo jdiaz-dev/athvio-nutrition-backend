@@ -7,7 +7,7 @@ import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in
 
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
-import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/helpers/program';
+import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()

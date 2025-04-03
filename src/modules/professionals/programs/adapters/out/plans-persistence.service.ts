@@ -10,7 +10,7 @@ import {
   AddProgramPlanWithMeals,
   ProgramPatial,
   ProgramPlanFilteredByDay,
-} from 'src/modules/professionals/programs/helpers/program';
+} from 'src/modules/professionals/programs/types/program';
 import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { LayersServer } from 'src/shared/enums/project';
