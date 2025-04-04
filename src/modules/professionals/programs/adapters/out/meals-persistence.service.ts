@@ -56,6 +56,7 @@ export class NutritionalMealsPersistenceService {
       [`plans.$[plan].meals.$[meal${index}].ingredientDetails`]: body.ingredientDetails,
       [`plans.$[plan].meals.$[meal${index}].cookingInstructions`]: body.cookingInstructions,
       [`plans.$[plan].meals.$[meal${index}].macros`]: body.macros,
+      [`plans.$[plan].meals.$[meal${index}].image`]: body.image,
     }));
 
     const arrayFilters = meals.map((body, index) => ({

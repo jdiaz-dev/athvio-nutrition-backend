@@ -1,6 +1,6 @@
 Parse the imagen to this json structure, must to acomplish with all the fields and instructions contained in the json. must to extract all data including all the ingredients. must calculate the macros of the ingredients and all the meal in general
 {
-    "_id": ObjectId(),
+    "_id": ObjectId(), //must be object
     "createdAt": Date(), //leave as Date() function
     "updatedAt": Date(), //leave as Date() function
     "professional": ObjectId("67cb5064a52f7c0e3d6543cf"),
@@ -19,7 +19,7 @@ Parse the imagen to this json structure, must to acomplish with all the fields a
           "label": "Gram"
         },
         "equivalents": [],
-        "_id": ObjectId(),
+        "_id": ObjectId(), //must be object
         "createdAt": "2025-03-10T19:07:26.335Z",
         "updatedAt": "2025-03-10T19:07:26.335Z"
       }
