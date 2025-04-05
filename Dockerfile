@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 RUN apk update && apk add tzdata && apk add bash
 RUN apk update && apk upgrade --no-cache libcrypto3 libssl3 busybox-binsh busybox

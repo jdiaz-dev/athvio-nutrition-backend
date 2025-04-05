@@ -867,9 +867,9 @@ type SignUpPatientResponse {
 
 input SignUpProfessionalDto {
   acceptedTerms: Boolean
+  clientOffsetMinutes: Float!
   country: String
   countryCode: String
-  date: DateTime!
   email: String!
   firstname: String!
   lastname: String!

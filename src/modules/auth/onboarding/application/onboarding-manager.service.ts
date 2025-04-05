@@ -10,6 +10,12 @@ enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
 }
 
+function getClientLocalTimeFromOffset(utcISOString: string, clientOffsetMinutes: number) {
+  const utcDate = new Date(utcISOString);
+  const localTime = new Date(utcDate.getTime() - clientOffsetMinutes * 60 * 1000);
+  return dayjs(localTime);
+}
+
 function getFirstDayOfThirdWeek(year: number, month: number, weekStartsOn = 1) {
   const firstDayOfMonth = new Date(year, month, 1);
   const firstDayWeekday = firstDayOfMonth.getDay();
@@ -27,7 +33,7 @@ export class OnboardingManagerService {
     private readonly aps: AssignProgramService,
   ) {}
 
-  async onboardProfessional(professional: string, email: string, date: Date): Promise<void> {
+  async onboardProfessional(professional: string, email: string, clientOffsetMinutes: number): Promise<void> {
     const { _id: patient } = await this.supms.signUpPatientFromWeb(
       {
         professional,
@@ -51,7 +57,7 @@ export class OnboardingManagerService {
       plans: plans.map(({ _id, createdAt, updatedAt, ...rest }) => ({ ...rest })),
       source: EnumSources.PROFESSIONAL,
     });
-    const _date = dayjs(date);
+    const _date = getClientLocalTimeFromOffset(new Date().toISOString(), clientOffsetMinutes);
     await this.aps.assignProgramToPatient({
       professional,
       program: _id,
