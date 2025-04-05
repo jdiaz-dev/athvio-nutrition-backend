@@ -57,7 +57,10 @@ export class OnboardingManagerService {
       plans: plans.map(({ _id, createdAt, updatedAt, ...rest }) => ({ ...rest })),
       source: EnumSources.PROFESSIONAL,
     });
-    const _date = getClientLocalTimeFromOffset(new Date().toISOString(), clientOffsetMinutes);
+    const iso = new Date().toISOString();
+    console.log('-------iso', iso);
+    const _date = getClientLocalTimeFromOffset(iso, clientOffsetMinutes);
+    console.log('-------_date', _date);
     await this.aps.assignProgramToPatient({
       professional,
       program: _id,
