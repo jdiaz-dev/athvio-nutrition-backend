@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsStrongPassword, IsDate } from 'class-validator';
 import { CreateProfesionalInfoDto } from 'src/shared/dtos/create-professional-info.dto';
 
 @InputType()
@@ -52,4 +52,8 @@ export class SignUpProfessionalDto {
   @ValidateNested()
   @Type(() => CreateProfesionalInfoDto)
   professionalInfo!: CreateProfesionalInfoDto;
+
+  @Field()
+  @IsDate()
+  date: Date;
 }

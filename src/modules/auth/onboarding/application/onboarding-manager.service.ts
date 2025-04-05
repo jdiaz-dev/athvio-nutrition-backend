@@ -9,6 +9,7 @@ import { EnumSources } from 'src/shared/enums/project';
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
 }
+
 function getFirstDayOfThirdWeek(year: number, month: number, weekStartsOn = 1) {
   const firstDayOfMonth = new Date(year, month, 1);
   const firstDayWeekday = firstDayOfMonth.getDay();
@@ -26,7 +27,7 @@ export class OnboardingManagerService {
     private readonly aps: AssignProgramService,
   ) {}
 
-  async onboardProfessional(professional: string, email: string): Promise<void> {
+  async onboardProfessional(professional: string, email: string, date: Date): Promise<void> {
     const { _id: patient } = await this.supms.signUpPatientFromWeb(
       {
         professional,
@@ -50,11 +51,11 @@ export class OnboardingManagerService {
       plans: plans.map(({ _id, createdAt, updatedAt, ...rest }) => ({ ...rest })),
       source: EnumSources.PROFESSIONAL,
     });
-
+    const _date = dayjs(date);
     await this.aps.assignProgramToPatient({
       professional,
       program: _id,
-      assignmentStartDate: getFirstDayOfThirdWeek(dayjs().year(), dayjs().month()),
+      assignmentStartDate: getFirstDayOfThirdWeek(_date.year(), _date.month()),
       patients: [patient],
       startingDay: 1,
     });

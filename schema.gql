@@ -869,6 +869,7 @@ input SignUpProfessionalDto {
   acceptedTerms: Boolean
   country: String
   countryCode: String
+  date: DateTime!
   email: String!
   firstname: String!
   lastname: String!
