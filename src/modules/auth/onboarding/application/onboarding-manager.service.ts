@@ -16,13 +16,13 @@ function getClientLocalTimeFromOffset(utcISOString: string, clientOffsetMinutes:
   return dayjs(localTime);
 }
 
-function getFirstDayOfThirdWeek(year: number, month: number, hours: number, weekStartsOn = 1) {
+function getFirstDayOfThirdWeek(year: number, month: number, weekStartsOn = 1) {
   const firstDayOfMonth = new Date(year, month, 1);
   const firstDayWeekday = firstDayOfMonth.getDay();
   const adjustedDay = firstDayWeekday === 0 && weekStartsOn === 1 ? 7 : firstDayWeekday;
   const offsetToWeekStart = (7 + adjustedDay - weekStartsOn) % 7;
   const dayOfThirdWeek = 1 + offsetToWeekStart + 7 * 2;
-  return new Date(year, month, dayOfThirdWeek, hours);
+  return new Date(year, month, dayOfThirdWeek);
 }
 
 @Injectable()
@@ -58,13 +58,11 @@ export class OnboardingManagerService {
       source: EnumSources.PROFESSIONAL,
     });
     const iso = new Date().toISOString();
-    console.log('-------iso', iso);
     const _date = getClientLocalTimeFromOffset(iso, clientOffsetMinutes);
-    console.log('-------_date', _date);
     await this.aps.assignProgramToPatient({
       professional,
       program: _id,
-      assignmentStartDate: getFirstDayOfThirdWeek(_date.year(), _date.month(), _date.hour()),
+      assignmentStartDate: getFirstDayOfThirdWeek(_date.year(), _date.month()),
       patients: [patient],
       startingDay: 1,
     });

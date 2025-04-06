@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 type Ingredient = {
   name: string;
@@ -24,8 +26,10 @@ export class PatientPlansPreparatorService {
       const adjustedDay = params.startingDay ? plan.day - params.startingDay : plan.day;
       const patientPlan = {
         assignedDate: new Date(
-          dayjs(params.assignmentStartDate)
-            .set('date', dayjs(params.assignmentStartDate).get('date') + adjustedDay)
+          dayjs
+            .utc(params.assignmentStartDate)
+            .set('date', dayjs.utc(params.assignmentStartDate).get('date') + adjustedDay)
+            .set('hour', 0)
             .toString(),
         ),
         patient: params.patient,
