@@ -32,4 +32,7 @@ export const production: IEnvironment = {
   gptProvider: {
     gptSecretKey: process.env.GPT_SECRET_KEY,
   },
+  translationProvider: {
+    deeplAuthKey: process.env.DEEPL_AUTH_KEY,
+  },
 };

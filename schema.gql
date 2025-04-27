@@ -341,6 +341,7 @@ input GetAutocompleteFoodNamesDto {
   foodDatabase: String!
   professional: String!
   search: String!
+  targetLanguage: String!
 }
 
 type GetAutocompleteFoodNamesResponse {
@@ -364,6 +365,7 @@ input GetFoodsDto {
   professional: String!
   search: [String!] = [""]
   session: String
+  targetLanguage: String!
 }
 
 type GetFoodsResponse {

@@ -36,6 +36,9 @@ interface GptProvider {
   gptSecretKey: string;
 }
 
+interface TranslationProvider {
+  deeplAuthKey: string;
+}
 interface Security {
   rateLimit: { ttl: string; limit: string };
 }
@@ -47,5 +50,6 @@ export interface IEnvironment {
   whiteListOrigins: string[];
   foodProvider: FoodProvider;
   gptProvider: GptProvider;
+  translationProvider: TranslationProvider;
   port: string;
 }

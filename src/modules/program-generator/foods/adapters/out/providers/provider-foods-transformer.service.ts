@@ -1,6 +1,17 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { Food, FoodsMeta, GetFoodsDto, GetFoodsResponse, Measure } from 'src/modules/program-generator/foods/adapters/in/dtos/get-foods.dto';
-import { FoodHint, FoodMeasure, FoodParsedResponse, NextLink } from 'src/modules/program-generator/foods/adapters/out/providers/food.types';
+import {
+  Food,
+  FoodsMeta,
+  GetFoodsDto,
+  GetFoodsResponse,
+  Measure,
+} from 'src/modules/program-generator/foods/adapters/in/dtos/get-foods.dto';
+import {
+  FoodHint,
+  FoodMeasure,
+  FoodParsedResponse,
+  NextLink,
+} from 'src/modules/program-generator/foods/adapters/out/providers/food.types';
 import { FoodsProviderService } from 'src/modules/program-generator/foods/adapters/out/providers/foods-provider.service';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
 import { defaultSizePageFoodProvider, FoodDatabases } from 'src/shared/enums/project';
@@ -75,7 +86,7 @@ export class ProviderFoodTransformerService {
       throw new InternalServerErrorException(ErrorFoodsProvider.FOOD_INTERNAL_PARSER);
     }
   }
-  async getFoodFromProvider(dto: GetFoodsDto): Promise<GetFoodsResponse> {
+  async getFoodFromProvider(dto: Omit<GetFoodsDto, 'targetLanguage'>): Promise<GetFoodsResponse> {
     const foodsFromProvider = await this.foodProvider.getFoods(dto.search.join(' '), dto.session);
     const totalParsedFoods = foodsFromProvider.parsed.length;
 

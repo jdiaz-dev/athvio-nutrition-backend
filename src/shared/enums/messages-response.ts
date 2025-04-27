@@ -58,6 +58,10 @@ export enum ErrorFoodsProvider {
   FOOD_AUTOCOMPLETE = 'An error has happened at moment to get food autocomplete',
 }
 
+export enum ErrorTransaltorProvider {
+  TRANSLATE = 'Translator provider - an error has happened at moment to translate',
+}
+
 export enum ErrorMailService {
   SEND_MAIL = 'An error has happened trying to send the email.',
 }

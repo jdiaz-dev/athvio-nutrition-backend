@@ -6,9 +6,16 @@ import { FoodTextSearcherService } from 'src/modules/program-generator/foods/app
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { ProviderFoodTransformerService } from 'src/modules/program-generator/foods/adapters/out/providers/provider-foods-transformer.service';
+import { TranslatorService } from 'src/modules/program-generator/foods/adapters/out/providers/translator.service';
 
 const resolvers = [FoodsResolver];
-const internalServices = [GetFoodsService, FoodsProviderService, ProviderFoodTransformerService, FoodTextSearcherService];
+const internalServices = [
+  GetFoodsService,
+  TranslatorService,
+  FoodsProviderService,
+  ProviderFoodTransformerService,
+  FoodTextSearcherService,
+];
 
 @Module({
   imports: [SharedModule, AuthModule],

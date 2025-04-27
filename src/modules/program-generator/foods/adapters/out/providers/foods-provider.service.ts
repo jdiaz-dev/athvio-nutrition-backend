@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FoodParsedResponse } from 'src/modules/program-generator/foods/adapters/out/providers/food.types';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
-import { HttpWrapperService } from 'src/shared/services/http-wrapper.service';
+import { HttpHandlerService } from 'src/shared/services/http-handler.service';
 
 @Injectable()
 export class FoodsProviderService {
@@ -10,7 +10,7 @@ export class FoodsProviderService {
   private readonly appId: string;
   private readonly key: string;
 
-  constructor(private http: HttpWrapperService, private configService: ConfigService) {
+  constructor(private http: HttpHandlerService, private configService: ConfigService) {
     this.baseUrl = this.configService.get('foodProvider.foodApi.edamamFoodParserUrl');
     this.appId = this.configService.get('foodProvider.foodApi.edamamFoodAppId');
     this.key = this.configService.get('foodProvider.foodApi.edamamFoodKey');
