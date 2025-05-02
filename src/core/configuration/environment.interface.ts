@@ -52,4 +52,5 @@ export interface IEnvironment {
   gptProvider: GptProvider;
   translationProvider: TranslationProvider;
   port: string;
+  mailsSender: string;
 }

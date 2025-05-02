@@ -35,4 +35,5 @@ export class MailService {
       throw new InternalServerErrorException(ErrorMailService.SEND_MAIL);
     }
   }
+  
 }

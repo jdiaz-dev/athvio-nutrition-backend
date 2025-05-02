@@ -35,4 +35,5 @@ export const production: IEnvironment = {
   translationProvider: {
     deeplAuthKey: process.env.DEEPL_AUTH_KEY,
   },
+  mailsSender: process.env.MAILS_SENDER,
 };

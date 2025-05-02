@@ -108,11 +108,7 @@ export class SignUpPatientManagamentService {
     patientEmail: string,
     patientFirstname: string,
   ): Promise<void> {
-    const {
-      email: professionalEmail,
-      firstname: professionalFirstname,
-      lastname: professionalLastname,
-    } = await this.ums.getUserById(proffesionalUser);
+    const { firstname: professionalFirstname, lastname: professionalLastname } = await this.ums.getUserById(proffesionalUser);
     const origin = this.configService.get<string[]>('whiteListOrigins')[0];
     const url = `${origin}/activate/${patientUserId}`;
     const mailTitle = `Invitation from ${professionalFirstname} ${professionalLastname}`;
@@ -126,7 +122,7 @@ export class SignUpPatientManagamentService {
       ${url}
     `;
     await this.ms.sendEmail({
-      from: professionalEmail,
+      from: this.configService.get<string>('mailsSender'),
       to: [patientEmail],
       subject: mailTitle,
       message,
