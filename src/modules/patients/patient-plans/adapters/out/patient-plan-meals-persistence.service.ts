@@ -3,13 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { ErrorPatientPlanEnum, InternalErrors } from 'src/shared/enums/messages-response';
-import { AddPlanMealDto } from '../in/web/dtos/meals/add-meal.dto';
 import { UpdatePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/update-meal.dto';
 import { DeletePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/delete-meal-plan.dto';
 import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/add-meal.dto';
 
 @Injectable()
 export class PatientPlanNutritionalMealsPersistenceService {

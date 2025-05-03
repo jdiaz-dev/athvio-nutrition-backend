@@ -614,6 +614,7 @@ type Mutation {
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
   createMeal(toAddInput: AddMealDto!): Program!
+  createNote: Note!
   createNutritionalMeal(input: CreateNutritionalMealDto!): NutritionalMeal!
   createPatientGroup(input: CreatePatientGroupDto!): PatientGroup!
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
@@ -621,6 +622,7 @@ type Mutation {
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
   deleteMeal(toDeleteInput: DeleteMealDto!): Program!
+  deleteNote: Note!
   deleteNutritionalMeal(input: DeleteNutritionalMealDto!): NutritionalMeal!
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
@@ -644,6 +646,7 @@ type Mutation {
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
+  updateNote: Note!
   updateNutritionalMeal(input: UpdateNutritionalMealDto!): NutritionalMeal!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
@@ -654,6 +657,15 @@ type Mutation {
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
   uploadImage(input: UploadDto!): NutritionalMeal!
+}
+
+type Note {
+  _id: ID!
+  content: String
+  createdAt: DateTime!
+  isDeleted: Boolean!
+  patient: String!
+  professional: String!
 }
 
 type NutritionalMeal {
@@ -790,6 +802,7 @@ type Query {
   getChat(chat: GetChatDto!): Chat
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
+  getNotes: [Note!]!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!
   getNutritionalMealsForPatient(input: GetNutritionalMealsForPatientDto!): GetNutritionalMealsResponse!

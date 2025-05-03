@@ -17,5 +17,5 @@
 - remove mongo database and ENAMAM credentials
 - fix: separate image that belongs to system and professional 
 - fix: remove garbage images from s3
-- fix: remove _id, createdAt and updatedAt from meals and ingredients
-from program at moment to onbordeate professional
+- fix: add professional in documents that belongs to patient also
+- refactor: add service layer in patient plans

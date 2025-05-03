@@ -48,6 +48,10 @@ export enum ErrorCaloryEnum {
   CALORY_NOT_FOUND = 'This calory does not exist.',
 }
 
+export enum ErrorNotesEnum {
+  NOTE_FOUND = 'This note does not exist.',
+}
+
 export enum AuthorizationMessages {
   NOT_AUTHORIZED = 'You are not authorized',
 }
