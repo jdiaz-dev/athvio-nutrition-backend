@@ -5,7 +5,7 @@ import { GetFoodsService } from 'src/modules/program-generator/foods/application
 import { FoodTextSearcherService } from 'src/modules/program-generator/foods/application/food-text-searcher.service';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
-import { ProviderFoodTransformerService } from 'src/modules/program-generator/foods/adapters/out/providers/provider-foods-transformer.service';
+import { FoodParserService } from 'src/modules/program-generator/foods/application/foods-parser.service';
 import { TranslatorService } from 'src/modules/program-generator/foods/adapters/out/providers/translator.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { InternalFood, InternalFoodSchema } from 'src/modules/program-generator/foods/adapters/out/internal-food.schema';
@@ -17,7 +17,7 @@ const internalServices = [
   GetFoodsService,
   TranslatorService,
   FoodsProviderService,
-  ProviderFoodTransformerService,
+  FoodParserService,
   FoodTextSearcherService,
   FullDatabaseService,
   InternalFoodsPersistenceService,

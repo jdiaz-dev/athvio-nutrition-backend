@@ -48,7 +48,7 @@ interface Links {
 }
 
 export interface FoodParsedResponse {
-  text: string;
+  text?: string;
   parsed: FoodParsed[];
   hints: FoodHint[];
   _links?: Links;

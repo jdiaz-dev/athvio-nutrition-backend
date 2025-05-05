@@ -6,54 +6,57 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 @Schema({ _id: false, timestamps: false })
 export class Measure {
   @Prop({ type: String, required: false })
-  uri?: string;
+  uri: string;
 
   @Prop({ type: String, required: false })
   label?: string;
 
   @Prop({ type: Number, required: false })
-  weight?: number;
+  weight: number;
 }
 export const MeasureSchema = SchemaFactory.createForClass(Measure);
 
 @Schema({ _id: false, timestamps: false })
 export class Nutrients {
   @Prop({ type: Number, required: false })
-  ENERC_KCAL?: number;
+  ENERC_KCAL: number;
 
   @Prop({ type: Number, required: false })
-  PROCNT?: number;
+  PROCNT: number;
 
   @Prop({ type: Number, required: false })
-  FAT?: number;
+  FAT: number;
 
   @Prop({ type: Number, required: false })
-  CHOCDF?: number;
+  CHOCDF: number;
+
+  @Prop({ type: Number, required: false })
+  FIBTG: number;
 }
 export const NutrientsSchema = SchemaFactory.createForClass(Nutrients);
 
 @Schema({ _id: false, timestamps: false })
 export class FoodDetails {
   @Prop({ type: String, required: false })
-  foodId?: string;
+  foodId: string;
 
   @Prop({ type: String, required: false })
-  label?: string;
+  label: string;
 
   @Prop({ type: String, required: false })
-  knownAs?: string;
+  knownAs: string;
 
   @Prop({ type: NutrientsSchema, required: false })
-  nutrients?: Nutrients;
+  nutrients: Nutrients;
 
   @Prop({ type: String, required: false })
-  category?: string;
+  category: string;
 
   @Prop({ type: String, required: false })
-  categoryLabel?: string;
+  categoryLabel: string;
 
   @Prop({ type: String, required: false })
-  image?: string;
+  image: string;
 }
 export const FoodDetailsSchema = SchemaFactory.createForClass(FoodDetails);
 
@@ -64,10 +67,10 @@ export class InternalFood extends BaseSchema {
   _id: string;
 
   @Prop({ type: FoodDetailsSchema, required: false })
-  foodDetails?: FoodDetails;
+  foodDetails: FoodDetails;
 
   @Prop({ type: [MeasureSchema], required: false })
-  measures?: Measure[];
+  measures: Measure[];
 }
 
 export type InternalFoodDocument = InternalFood & Document;

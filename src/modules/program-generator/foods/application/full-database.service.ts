@@ -22,6 +22,6 @@ export class FullDatabaseService {
       foodDetails: { ...food, label: spanishWords[index] },
     }));
 
-    await this.ifps.saveFoods(records);
+    await this.ifps.saveInternalFoods(records);
   }
 }

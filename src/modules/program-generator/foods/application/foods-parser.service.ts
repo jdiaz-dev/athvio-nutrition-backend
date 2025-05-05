@@ -1,24 +1,19 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import {
-  Food,
-  FoodsMeta,
-  GetFoodsDto,
-  GetFoodsResponse,
-  Measure,
-} from 'src/modules/program-generator/foods/adapters/in/dtos/get-foods.dto';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { Food, FoodsMeta, GetFoodsResponse, Measure } from 'src/modules/program-generator/foods/adapters/in/dtos/get-foods.dto';
 import {
   FoodHint,
   FoodMeasure,
   FoodParsedResponse,
   NextLink,
 } from 'src/modules/program-generator/foods/adapters/out/providers/food.types';
-import { FoodsProviderService } from 'src/modules/program-generator/foods/adapters/out/providers/foods-provider.service';
+import { GetFoods } from 'src/modules/program-generator/foods/helpers/foods';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
-import { defaultSizePageFoodProvider, FoodDatabases } from 'src/shared/enums/project';
+import { defaultSizePageFoodProvider, FoodDatabases, LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
-export class ProviderFoodTransformerService {
-  constructor(private readonly foodProvider: FoodsProviderService) {}
+export class FoodParserService {
+  constructor(private readonly logger: AthvioLoggerService) {}
 
   private getNextSession(nextLink: NextLink): string {
     const nextLinkParams = nextLink.href.split('?')[1];
@@ -53,7 +48,7 @@ export class ProviderFoodTransformerService {
     }));
     return res;
   }
-  private parseDataFromProvider(totalParsedFoods: number, foodsFromProvider: FoodParsedResponse, meta: FoodsMeta) {
+  private parseData(totalParsedFoods: number, foodsFromProvider: FoodParsedResponse, meta: FoodsMeta): GetFoodsResponse {
     try {
       let res: GetFoodsResponse;
       if (totalParsedFoods === 0) {
@@ -69,7 +64,7 @@ export class ProviderFoodTransformerService {
         };
       }
 
-      if (foodsFromProvider._links.next) {
+      if (foodsFromProvider._links?.next) {
         res = {
           data: [...res.data],
           meta: {
@@ -83,22 +78,22 @@ export class ProviderFoodTransformerService {
       }
       return res;
     } catch (error) {
+      this.logger.error({ layer: LayersServer.APPLICATION, error, message: (error as Error).message });
       throw new InternalServerErrorException(ErrorFoodsProvider.FOOD_INTERNAL_PARSER);
     }
   }
-  async getFoodFromProvider(dto: Omit<GetFoodsDto, 'targetLanguage'>): Promise<GetFoodsResponse> {
-    const foodsFromProvider = await this.foodProvider.getFoods(dto.search.join(' '), dto.session);
+  async getFoodsParsed(dto: GetFoods, foodsFromProvider: FoodParsedResponse): Promise<GetFoodsResponse> {
     const totalParsedFoods = foodsFromProvider.parsed.length;
 
     const meta = {
-      total: foodsFromProvider._links.next
+      total: foodsFromProvider._links?.next
         ? foodsFromProvider.hints.length + defaultSizePageFoodProvider
         : foodsFromProvider.hints.length,
       limit: dto.limit,
       offset: dto.offset,
     };
 
-    const dataParsed = this.parseDataFromProvider(totalParsedFoods, foodsFromProvider, meta);
+    const dataParsed = this.parseData(totalParsedFoods, foodsFromProvider, meta);
     return dataParsed;
   }
 }
