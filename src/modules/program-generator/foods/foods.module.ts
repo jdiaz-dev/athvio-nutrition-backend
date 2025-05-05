@@ -7,6 +7,10 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { ProviderFoodTransformerService } from 'src/modules/program-generator/foods/adapters/out/providers/provider-foods-transformer.service';
 import { TranslatorService } from 'src/modules/program-generator/foods/adapters/out/providers/translator.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { InternalFood, InternalFoodSchema } from 'src/modules/program-generator/foods/adapters/out/internal-food.schema';
+import { FullDatabaseService } from 'src/modules/program-generator/foods/application/full-database.service';
+import { InternalFoodsPersistenceService } from 'src/modules/program-generator/foods/adapters/out/internal-foods-persistence.service';
 
 const resolvers = [FoodsResolver];
 const internalServices = [
@@ -15,10 +19,12 @@ const internalServices = [
   FoodsProviderService,
   ProviderFoodTransformerService,
   FoodTextSearcherService,
+  FullDatabaseService,
+  InternalFoodsPersistenceService,
 ];
 
 @Module({
-  imports: [SharedModule, AuthModule],
+  imports: [MongooseModule.forFeature([{ name: InternalFood.name, schema: InternalFoodSchema }]), SharedModule, AuthModule],
   providers: [...resolvers, ...internalServices],
 })
 export class FoodsModule {}

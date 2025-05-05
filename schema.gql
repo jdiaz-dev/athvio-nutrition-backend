@@ -794,6 +794,7 @@ type ProgramTag {
 }
 
 type Query {
+  fullSpanishFoods: [String!]!
   getAllDiseaseCauses: [DiseaseCause!]!
   getAllDiseases: [Disease!]!
   getAllNutritionalPreferences: [NutritionalPreference!]!

@@ -12,6 +12,7 @@ export class FoodTextSearcherService {
   async getFoodNamesFromProvider(search: string): Promise<string[]> {
     return this.fps.autoCompleteText(search);
   }
+
   private async translateToSpanish(dto: Omit<GetAutocompleteFoodNamesDto, 'targetLanguage'>): Promise<string[]> {
     const translatedWord = await this.ts.translate({ words: [dto.search], source: 'es', target: 'en-US' });
     const texts = await this.fps.autoCompleteText(translatedWord[0]);
