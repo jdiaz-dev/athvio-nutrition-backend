@@ -7,7 +7,7 @@ import { LayersServer } from 'src/shared/enums/project';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { InternalFood, InternalFoodDocument } from 'src/modules/program-generator/foods/adapters/out/internal-food.schema';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
-import { GetFoods } from 'src/modules/program-generator/foods/helpers/foods';
+import { GetFoods, GetInternalFoodsResponse } from 'src/modules/program-generator/foods/helpers/foods';
 
 @Injectable()
 export class InternalFoodsPersistenceService {
@@ -25,9 +25,8 @@ export class InternalFoodsPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getInternalFoods(dto: GetFoods): Promise<InternalFood[]> {
+  async getInternalFoods(dto: GetFoods): Promise<GetInternalFoodsResponse> {
     const combinedFields = searchByFieldsGenerator(['foodDetails.label'], dto.search);
-
     try {
       const foodsRes = await this.internalFoodModel.aggregate([
         {
@@ -35,9 +34,52 @@ export class InternalFoodsPersistenceService {
             $or: combinedFields,
           },
         },
+        {
+          $addFields: {
+            isExactMatch: { $eq: ['$foodDetails.label', dto.search[0]] },
+          },
+        },
+        {
+          $sort: {
+            'isExactMatch': -1,
+            'foodDetails.label': 1,
+          },
+        },
+        {
+          $project: {
+            isExactMatch: 0,
+          },
+        },
+        {
+          $facet: {
+            data: [
+              {
+                $skip: dto.offset,
+              },
+              {
+                $limit: dto.limit,
+              },
+            ],
+            meta: [{ $count: 'total' }],
+          },
+        },
+        {
+          $project: {
+            data: 1,
+            total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
+          },
+        },
       ]);
+      const res: GetInternalFoodsResponse = {
+        data: foodsRes[0].data,
+        meta: {
+          total: foodsRes[0].total,
+          limit: dto.limit,
+          offset: dto.offset,
+        },
+      };
 
-      return foodsRes;
+      return res;
     } catch (error: unknown) {
       this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE);

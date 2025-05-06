@@ -21,21 +21,17 @@ export class GetFoodsService {
       const foodsInEnglish = await this.foodsParser.parseFoods({ ...restDto, search: restDto.search }, foodsFromProvider);
       return foodsInEnglish;
     }
-    const foodsInSpanish = await this.ifps.getInternalFoods(restDto);
+    const { data, meta } = await this.ifps.getInternalFoods(restDto);
 
-    const [providerFoods] = await Promise.all([
+    const [parsedFoods] = await Promise.all([
       this.foodsParser.parseFoods(restDto, {
-        hints: foodsInSpanish.map(({ foodDetails, measures }) => ({ food: foodDetails, measures })),
+        hints: data.map(({ foodDetails, measures }) => ({ food: foodDetails, measures })),
       }),
     ]);
 
     return {
-      data: [...providerFoods.data],
-      meta: {
-        total: providerFoods.meta.total,
-        limit: restDto.limit,
-        offset: restDto.offset,
-      },
+      data: [...parsedFoods.data],
+      meta,
     };
   }
 }

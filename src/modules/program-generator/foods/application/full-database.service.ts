@@ -28,7 +28,8 @@ export class FullDatabaseService {
     this.ifps;
     const lastCounter = await this.icps.getLastInternalCounter();
 
-    let nextSession: string | undefined = lastCounter !== null ? lastCounter.nextUri : undefined;
+    let nextSession: string | undefined =
+      lastCounter !== null ? this.getNextSession({ title: '', href: lastCounter.nextUri }) : undefined;
     setInterval(async () => {
       const foods = await this.foodProvider.getFoodsAndUri('', nextSession);
       nextSession = this.getNextSession(foods[0]._links.next);
