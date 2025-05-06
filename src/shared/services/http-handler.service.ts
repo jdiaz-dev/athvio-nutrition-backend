@@ -11,8 +11,8 @@ export class HttpHandlerService {
   async post<T>(url: string, body: any, headers: any, customMessageError: string): Promise<T> {
     const res = await firstValueFrom(
       this.http.post<T>(url, body, headers).pipe(
-        catchError((_error) => {
-          this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error: _error });
+        catchError((error) => {
+          this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error: error });
           throw new InternalServerErrorException(customMessageError);
         }),
       ),
@@ -21,14 +21,12 @@ export class HttpHandlerService {
   }
 
   async get<T>(url: string, customMessageError: string): Promise<T> {
-    const res = await firstValueFrom(
-      this.http.get<T>(url).pipe(
-        catchError((_error) => {
-          this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error: _error });
-          throw new InternalServerErrorException(customMessageError);
-        }),
-      ),
-    );
-    return res.data;
+    try {
+      const res = await firstValueFrom(this.http.get<T>(url));
+      return res.data;
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(customMessageError);
+    }
   }
 }

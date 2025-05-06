@@ -49,7 +49,7 @@ interface Links {
 
 export interface FoodParsedResponse {
   text?: string;
-  parsed: FoodParsed[];
+  parsed?: FoodParsed[];
   hints: FoodHint[];
   _links?: Links;
 }

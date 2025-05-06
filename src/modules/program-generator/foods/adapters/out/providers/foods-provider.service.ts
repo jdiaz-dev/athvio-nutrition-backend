@@ -16,6 +16,14 @@ export class FoodsProviderService {
     this.key = this.configService.get('foodProvider.foodApi.edamamFoodKey');
   }
 
+  async getFoodsAndUri(ingredientsText = '', session?: string): Promise<[FoodParsedResponse, string]> {
+    const parserDomain = '/api/food-database/v2/parser';
+    const url = `${this.baseUrl}${parserDomain}?app_id=${this.appId}&app_key=${this.key}&ingr=${ingredientsText}`;
+    const nextUrl = `${this.baseUrl}${parserDomain}?session=${session}&app_id=${this.appId}&app_key=${this.key}&ingr=${ingredientsText}`;
+
+    const res = await this.http.get<FoodParsedResponse>(session ? nextUrl : url, ErrorFoodsProvider.GET_FOOD);
+    return [res, session ? nextUrl : url];
+  }
   async getFoods(ingredientsText = '', session?: string): Promise<FoodParsedResponse> {
     const parserDomain = '/api/food-database/v2/parser';
     const url = `${this.baseUrl}${parserDomain}?app_id=${this.appId}&app_key=${this.key}&ingr=${ingredientsText}`;

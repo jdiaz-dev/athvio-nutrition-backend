@@ -11,8 +11,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { InternalFood, InternalFoodSchema } from 'src/modules/program-generator/foods/adapters/out/internal-food.schema';
 import { FullDatabaseService } from 'src/modules/program-generator/foods/application/full-database.service';
 import { InternalFoodsPersistenceService } from 'src/modules/program-generator/foods/adapters/out/internal-foods-persistence.service';
+import { InternalCountersPersistenceService } from 'src/modules/program-generator/foods/adapters/out/internal-counters-persistence.service';
+import { InternalCounter, InternalCounterSchema } from 'src/modules/program-generator/foods/adapters/out/internal-counter.schema';
+import { PopulatorDatabaseResolver } from 'src/modules/program-generator/foods/adapters/in/populator-database.resolver';
 
-const resolvers = [FoodsResolver];
+const resolvers = process.env.POPULATE_DATABASE
+  ? [FoodsResolver, PopulatorDatabaseResolver]
+  : [FoodsResolver];
+
 const internalServices = [
   GetFoodsService,
   TranslatorService,
@@ -21,10 +27,18 @@ const internalServices = [
   FoodTextSearcherService,
   FullDatabaseService,
   InternalFoodsPersistenceService,
+  InternalCountersPersistenceService,
 ];
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: InternalFood.name, schema: InternalFoodSchema }]), SharedModule, AuthModule],
+  imports: [
+    MongooseModule.forFeature([
+      { name: InternalFood.name, schema: InternalFoodSchema },
+      { name: InternalCounter.name, schema: InternalCounterSchema },
+    ]),
+    SharedModule,
+    AuthModule,
+  ],
   providers: [...resolvers, ...internalServices],
 })
 export class FoodsModule {}

@@ -10,22 +10,11 @@ import { GetFoodsService } from 'src/modules/program-generator/foods/application
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { FoodDatabases } from 'src/shared/enums/project';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { FullDatabaseService } from 'src/modules/program-generator/foods/application/full-database.service';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class FoodsResolver {
-  constructor(
-    private readonly gfs: GetFoodsService,
-    private readonly ftss: FoodTextSearcherService,
-    private readonly fullDatabaseService: FullDatabaseService,
-  ) {}
-
-  @Query(() => [String])
-  async fullSpanishFoods(): Promise<string[]> {
-    await this.fullDatabaseService.fullFoods();
-    return ['end'];
-  }
+  constructor(private readonly gfs: GetFoodsService, private readonly ftss: FoodTextSearcherService) {}
 
   @Query(() => [String])
   getFoodDatabases(): string[] {

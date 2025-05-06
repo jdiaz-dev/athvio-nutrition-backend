@@ -9,7 +9,7 @@ import { FoodDatabases } from 'src/shared/enums/project';
 @Injectable()
 export class GetFoodsService {
   constructor(
-    private readonly foodsParsed: FoodParserService,
+    private readonly foodsParser: FoodParserService,
     private readonly foodProvider: FoodsProviderService,
     private readonly ifps: InternalFoodsPersistenceService,
   ) {}
@@ -18,15 +18,14 @@ export class GetFoodsService {
     if (targetLanguage === LanguagesEnum.EN && restDto.foodDatabase === FoodDatabases.SYSTEM) {
       const foodsFromProvider = await this.foodProvider.getFoods(restDto.search.join(' '), restDto.session);
 
-      const foods = await this.foodsParsed.getFoodsParsed({ ...restDto, search: restDto.search }, foodsFromProvider);
-      return foods;
+      const foodsInEnglish = await this.foodsParser.parseFoods({ ...restDto, search: restDto.search }, foodsFromProvider);
+      return foodsInEnglish;
     }
-    const foods = await this.ifps.getInternalFoods(restDto);
+    const foodsInSpanish = await this.ifps.getInternalFoods(restDto);
 
     const [providerFoods] = await Promise.all([
-      this.foodsParsed.getFoodsParsed(restDto, {
-        hints: foods.map(({ foodDetails, measures }) => ({ food: foodDetails, measures })),
-        parsed: [],
+      this.foodsParser.parseFoods(restDto, {
+        hints: foodsInSpanish.map(({ foodDetails, measures }) => ({ food: foodDetails, measures })),
       }),
     ]);
 

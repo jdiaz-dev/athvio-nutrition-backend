@@ -12,13 +12,13 @@ import { GetFoods } from 'src/modules/program-generator/foods/helpers/foods';
 @Injectable()
 export class InternalFoodsPersistenceService {
   constructor(
-    @InjectModel(InternalFood.name) private readonly foodModel: Model<InternalFoodDocument>,
+    @InjectModel(InternalFood.name) private readonly internalFoodModel: Model<InternalFoodDocument>,
     private readonly logger: AthvioLoggerService,
   ) {}
 
   async saveInternalFoods(data: Omit<InternalFood, '_id' | 'createdAt' | 'updatedAt'>[]): Promise<InternalFood[]> {
     try {
-      const res = await this.foodModel.insertMany(data);
+      const res = await this.internalFoodModel.insertMany(data);
       return res;
     } catch (error: unknown) {
       this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
@@ -29,7 +29,7 @@ export class InternalFoodsPersistenceService {
     const combinedFields = searchByFieldsGenerator(['foodDetails.label'], dto.search);
 
     try {
-      const foodsRes = await this.foodModel.aggregate([
+      const foodsRes = await this.internalFoodModel.aggregate([
         {
           $match: {
             $or: combinedFields,

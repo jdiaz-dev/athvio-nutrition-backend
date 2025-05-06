@@ -794,7 +794,6 @@ type ProgramTag {
 }
 
 type Query {
-  fullSpanishFoods: [String!]!
   getAllDiseaseCauses: [DiseaseCause!]!
   getAllDiseases: [Disease!]!
   getAllNutritionalPreferences: [NutritionalPreference!]!
@@ -821,6 +820,7 @@ type Query {
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
   getQuestionary(input: GetQuestionaryConfigDto!): QuestionaryConfig!
   getUser(input: GetUserDto!): User!
+  populateSpanishFoods: [String!]!
 }
 
 type QuestionaryConfig {

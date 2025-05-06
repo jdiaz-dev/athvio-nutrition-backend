@@ -82,8 +82,8 @@ export class FoodParserService {
       throw new InternalServerErrorException(ErrorFoodsProvider.FOOD_INTERNAL_PARSER);
     }
   }
-  async getFoodsParsed(dto: GetFoods, foodsFromProvider: FoodParsedResponse): Promise<GetFoodsResponse> {
-    const totalParsedFoods = foodsFromProvider.parsed.length;
+  async parseFoods(dto: GetFoods, foodsFromProvider: FoodParsedResponse): Promise<GetFoodsResponse> {
+    const totalParsedFoods = foodsFromProvider.parsed?.length || 0;
 
     const meta = {
       total: foodsFromProvider._links?.next
