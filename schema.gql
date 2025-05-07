@@ -127,6 +127,12 @@ input CreateCustomQuestionaryDetailInput {
   isEnabled: Boolean!
 }
 
+input CreateNoteDto {
+  content: String!
+  patient: String!
+  professional: String!
+}
+
 input CreateNutritionalMealDto {
   cookingInstructions: String
   image: Upload
@@ -209,6 +215,12 @@ input DeleteMealDto {
   plan: String!
   professional: String!
   program: String!
+}
+
+input DeleteNoteDto {
+  note: String!
+  patient: String!
+  professional: String!
 }
 
 input DeleteNutritionalMealDto {
@@ -371,6 +383,15 @@ input GetFoodsDto {
 type GetFoodsResponse {
   data: [Food!]!
   meta: FoodsMeta!
+}
+
+input GetNotesDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  patient: String!
+  professional: String!
+  search: [String!] = [""]
 }
 
 input GetNutritionalMealDto {
@@ -614,7 +635,7 @@ type Mutation {
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
   createCalory(input: CreateCaloryDto!): Calory!
   createMeal(toAddInput: AddMealDto!): Program!
-  createNote: Note!
+  createNote(input: CreateNoteDto!): Note!
   createNutritionalMeal(input: CreateNutritionalMealDto!): NutritionalMeal!
   createPatientGroup(input: CreatePatientGroupDto!): PatientGroup!
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
@@ -622,7 +643,7 @@ type Mutation {
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
   deleteMeal(toDeleteInput: DeleteMealDto!): Program!
-  deleteNote: Note!
+  deleteNote(input: DeleteNoteDto!): Note!
   deleteNutritionalMeal(input: DeleteNutritionalMealDto!): NutritionalMeal!
   deletePatientGroup(input: DeletePatientGroupDto!): PatientGroup!
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
@@ -646,7 +667,7 @@ type Mutation {
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
-  updateNote: Note!
+  updateNote(input: UpdateNoteDto!): Note!
   updateNutritionalMeal(input: UpdateNutritionalMealDto!): NutritionalMeal!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
@@ -802,7 +823,7 @@ type Query {
   getChat(chat: GetChatDto!): Chat
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
-  getNotes: [Note!]!
+  getNotes(input: GetNotesDto!): [Note!]!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!
   getNutritionalMealsForPatient(input: GetNutritionalMealsForPatientDto!): GetNutritionalMealsResponse!
@@ -932,6 +953,13 @@ input UpdateMealDto {
   plan: String!
   professional: String!
   program: String!
+}
+
+input UpdateNoteDto {
+  content: String!
+  note: String!
+  patient: String!
+  professional: String!
 }
 
 input UpdateNutritionalMealDto {

@@ -26,7 +26,7 @@ export class InternalCountersPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getLastInternalCounter(): Promise<InternalCounter | null> {
+  async getLastInternalCounter(): Promise<InternalCounter | undefined> {
     try {
       const lastRecord = await this.internalCounterModel.find({}, ['_id', 'total', 'uri', 'nextUri'], {
         sort: { createdAt: -1 },

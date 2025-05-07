@@ -73,8 +73,8 @@ export class NotesPersistenceService {
       ]);
 
       return notes[0].data;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }

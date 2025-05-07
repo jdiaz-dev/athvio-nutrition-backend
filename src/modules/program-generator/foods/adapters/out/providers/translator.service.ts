@@ -16,7 +16,7 @@ export class TranslatorService {
 
   async translate(body: { words: string[]; source: 'en' | 'es'; target: 'en-US' | 'es' }): Promise<string[]> {
     try {
-      const result = await this.translator.translateText(body.words, body.source, body.target);
+      const result = await this.translator.translateText(body.words, body.source, body.target, { context: 'food' });
       return result.map((item) => item.text);
     } catch (error: unknown) {
       this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });

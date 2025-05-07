@@ -29,7 +29,7 @@ export class FullDatabaseService {
     const lastCounter = await this.icps.getLastInternalCounter();
 
     let nextSession: string | undefined =
-      lastCounter !== null ? this.getNextSession({ title: '', href: lastCounter.nextUri }) : undefined;
+      lastCounter !== undefined ? this.getNextSession({ title: '', href: lastCounter.nextUri }) : undefined;
     setInterval(async () => {
       const foods = await this.foodProvider.getFoodsAndUri('', nextSession);
       nextSession = this.getNextSession(foods[0]._links.next);
@@ -43,6 +43,6 @@ export class FullDatabaseService {
 
       const foodsSaved = await this.ifps.saveInternalFoods(records);
       await this.icps.saveInternalCounter({ total: foodsSaved.length, uri: foods[1], nextUri: foods[0]._links.next.href });
-    }, 5000);
+    }, 10000);
   }
 }
