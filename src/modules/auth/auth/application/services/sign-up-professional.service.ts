@@ -19,7 +19,12 @@ export class SignUpProfessionalService {
     private oms: OnboardingManagerService,
   ) {}
 
-  async signUpProfessional({ professionalInfo, clientOffsetMinutes, ...userDto }: SignUpProfessionalDto): Promise<UserLoged> {
+  async signUpProfessional({
+    professionalInfo,
+    clientOffsetMinutes,
+    detectedLanguage,
+    ...userDto
+  }: SignUpProfessionalDto): Promise<UserLoged> {
     const user = await this.ups.getUserByEmail(userDto.email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
@@ -35,7 +40,7 @@ export class SignUpProfessionalService {
       user: _id,
       ...professionalInfo,
     });
-    this.oms.onboardProfessional(professional, userDto.email, clientOffsetMinutes).catch((error) => error);
+    this.oms.onboardProfessional(professional, userDto.email, clientOffsetMinutes, detectedLanguage).catch((error) => error);
     return this.as.generateToken({ _id, role });
   }
 }

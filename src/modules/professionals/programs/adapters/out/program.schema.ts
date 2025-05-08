@@ -5,7 +5,7 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { Meal, MealSchema } from 'src/shared/models/meal-plan';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { EnumSources } from 'src/shared/enums/project';
+import { EnumSources, SupportedLanguages } from 'src/shared/enums/project';
 
 @Schema({ _id: false, timestamps: false })
 export class PlanDetail {
@@ -89,6 +89,9 @@ export class Program extends BaseSchema {
 
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted!: boolean;
+
+  @Prop({ type: String, enum: SupportedLanguages, required: false })
+  language: SupportedLanguages;
 }
 
 export type ProgramDocument = Program & Document;

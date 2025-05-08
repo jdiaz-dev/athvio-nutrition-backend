@@ -1,7 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsStrongPassword, IsNumber } from 'class-validator';
+import { IsEmail, IsString, ValidateNested, IsBoolean, IsOptional, IsStrongPassword, IsNumber, IsEnum } from 'class-validator';
 import { CreateProfesionalInfoDto } from 'src/shared/dtos/create-professional-info.dto';
+import { SupportedLanguages } from 'src/shared/enums/project';
 
 @InputType()
 export class SignUpProfessionalDto {
@@ -56,4 +57,8 @@ export class SignUpProfessionalDto {
   @Field()
   @IsNumber()
   clientOffsetMinutes: number;
+
+  @Field()
+  @IsEnum(SupportedLanguages)
+  detectedLanguage: SupportedLanguages;
 }

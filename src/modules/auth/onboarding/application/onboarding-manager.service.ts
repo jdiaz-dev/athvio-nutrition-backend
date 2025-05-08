@@ -4,10 +4,11 @@ import { SignUpPatientManagamentService } from 'src/modules/auth/auth/applicatio
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
-import { EnumSources } from 'src/shared/enums/project';
+import { EnumSources, SupportedLanguages } from 'src/shared/enums/project';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
+  PROGRAMA_PARA_CURAR_CANCER = 'Programa para curar cancer',
 }
 
 function getClientLocalTimeFromOffset(utcISOString: string, clientOffsetMinutes: number) {
@@ -33,7 +34,12 @@ export class OnboardingManagerService {
     private readonly aps: AssignProgramService,
   ) {}
 
-  async onboardProfessional(professional: string, email: string, clientOffsetMinutes: number): Promise<void> {
+  async onboardProfessional(
+    professional: string,
+    email: string,
+    clientOffsetMinutes: number,
+    detectedLanguage: SupportedLanguages,
+  ): Promise<void> {
     const { _id: patient } = await this.supms.signUpPatientFromWeb(
       {
         professional,
@@ -47,8 +53,12 @@ export class OnboardingManagerService {
     );
 
     const { name, description, plans } = await this.pms.getProgram({
-      name: SystemProgramNames.PROGRAM_TO_HEAL_CANCER,
+      name:
+        detectedLanguage === SupportedLanguages.ENGLISH
+          ? SystemProgramNames.PROGRAM_TO_HEAL_CANCER
+          : SystemProgramNames.PROGRAMA_PARA_CURAR_CANCER,
       source: EnumSources.SYSTEM,
+      language: detectedLanguage,
     });
     const { _id } = await this.pms.createProgram({
       professional: professional,

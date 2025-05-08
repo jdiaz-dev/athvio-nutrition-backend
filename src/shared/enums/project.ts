@@ -87,3 +87,8 @@ export enum OriginPatientEnum {
   MOBILE = 'MOBILE',
   WEB = 'WEB',
 }
+
+export enum SupportedLanguages {
+  ENGLISH = 'en',
+  SPANISH = 'es',
+}

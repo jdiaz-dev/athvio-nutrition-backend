@@ -907,6 +907,7 @@ input SignUpProfessionalDto {
   clientOffsetMinutes: Float!
   country: String
   countryCode: String
+  detectedLanguage: String!
   email: String!
   firstname: String!
   lastname: String!
