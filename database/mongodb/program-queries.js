@@ -1,5 +1,6 @@
-//get program
+db.Programs.insertOne();
 
+//get program
 db.Programs.aggregate([
   {
     $match: {

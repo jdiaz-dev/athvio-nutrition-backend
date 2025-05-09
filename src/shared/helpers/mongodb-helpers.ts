@@ -7,11 +7,17 @@ type aggregationExpr = {
         $concat: string[];
       };
       regex: RegExp;
+      options: 'i';
     };
   };
 };
 
-type uniqueFieldRegExp = { [field: string]: RegExp };
+type uniqueFieldRegExp = {
+  [field: string]: {
+    $regex: RegExp;
+    $options: 'i';
+  };
+};
 type RegExpOtions = uniqueFieldRegExp[] | aggregationExpr[];
 
 export const searchByFieldsGenerator = (
@@ -20,7 +26,12 @@ export const searchByFieldsGenerator = (
 ): Array<_FilterQuery<uniqueFieldRegExp | aggregationExpr>> => {
   const uniqueFields: uniqueFieldRegExp[][] = fields.map((field) =>
     words.map((word) => {
-      return { [field]: new RegExp(word) };
+      return {
+        [field]: {
+          $regex: new RegExp(word),
+          $options: 'i',
+        },
+      };
     }),
   );
 
@@ -38,6 +49,7 @@ export const searchByFieldsGenerator = (
             $concat: fieldsConcatenated,
           },
           regex: new RegExp(word),
+          options: 'i',
         },
       },
     };
