@@ -47,7 +47,7 @@ export class NutritionalMealsManagerService {
                   { source: { $eq: EnumSources.PROFESSIONAL } },
                 ],
               },
-              { source: { $eq: EnumSources.SYSTEM } },
+              { $and: [{ source: { $eq: EnumSources.SYSTEM }, language: { $eq: rest.language } }] },
             ],
           }
         : database === NutritionalMealDatabases.CUSTOM_MEALS

@@ -410,6 +410,7 @@ input GetNutritionalMealsForPatientDto {
 
 input GetNutritionalMealsForProfessionalDto {
   database: String!
+  language: String!
   limit: Float = 30
   offset: Float = 0
   orderBy: String

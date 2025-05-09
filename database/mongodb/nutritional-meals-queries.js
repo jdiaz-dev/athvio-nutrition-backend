@@ -8,6 +8,11 @@ db.NutritionalMeals.updateMany(
   { $set: { category: 'Dressings, dips and sauces' } },
 );
 
+db.NutritionalMeals.updateMany(
+  {},
+  { $set: { language: 'en' } },
+);
+
 db.NutritionalMeals.updateMany({}, { $rename: { owner: 'source' } });
 
 db.NutritionalMeals.updateMany(

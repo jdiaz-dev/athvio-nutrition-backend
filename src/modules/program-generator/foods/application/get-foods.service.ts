@@ -3,8 +3,7 @@ import { GetFoodsDto, GetFoodsResponse } from 'src/modules/program-generator/foo
 import { InternalFoodsPersistenceService } from 'src/modules/program-generator/foods/adapters/out/internal-foods-persistence.service';
 import { FoodParserService } from 'src/modules/program-generator/foods/application/foods-parser.service';
 import { FoodsProviderService } from 'src/modules/program-generator/foods/adapters/out/providers/foods-provider.service';
-import { LanguagesEnum } from 'src/modules/program-generator/foods/helpers/constants';
-import { FoodDatabases } from 'src/shared/enums/project';
+import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
 
 @Injectable()
 export class GetFoodsService {
@@ -15,7 +14,7 @@ export class GetFoodsService {
   ) {}
 
   async getFoods({ targetLanguage, ...restDto }: GetFoodsDto): Promise<GetFoodsResponse> {
-    if (targetLanguage === LanguagesEnum.EN && restDto.foodDatabase === FoodDatabases.SYSTEM) {
+    if (targetLanguage === SupportedLanguages.ENGLISH && restDto.foodDatabase === FoodDatabases.SYSTEM) {
       const foodsFromProvider = await this.foodProvider.getFoods(restDto.search.join(' '), restDto.session);
 
       const foodsInEnglish = await this.foodsParser.parseFoods({ ...restDto, search: restDto.search }, foodsFromProvider);

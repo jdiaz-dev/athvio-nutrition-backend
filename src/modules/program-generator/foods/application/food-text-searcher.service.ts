@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { GetAutocompleteFoodNamesDto } from 'src/modules/program-generator/foods/adapters/in/dtos/get-autocomplete-food-names.dto';
 import { FoodsProviderService } from 'src/modules/program-generator/foods/adapters/out/providers/foods-provider.service';
 import { TranslatorService } from 'src/modules/program-generator/foods/adapters/out/providers/translator.service';
-import { LanguagesEnum } from 'src/modules/program-generator/foods/helpers/constants';
-import { FoodDatabases } from 'src/shared/enums/project';
+import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
 
 @Injectable()
 export class FoodTextSearcherService {
@@ -20,11 +19,11 @@ export class FoodTextSearcherService {
     return translatedWords;
   }
   async getFoodNames({ targetLanguage, ...restDto }: GetAutocompleteFoodNamesDto): Promise<string[]> {
-    if (targetLanguage === LanguagesEnum.ES && restDto.foodDatabase === FoodDatabases.SYSTEM) {
+    if (targetLanguage === SupportedLanguages.SPANISH && restDto.foodDatabase === FoodDatabases.SYSTEM) {
       return this.translateToSpanish(restDto);
     }
 
-    if (targetLanguage === LanguagesEnum.EN && restDto.foodDatabase === FoodDatabases.SYSTEM) {
+    if (targetLanguage === SupportedLanguages.ENGLISH && restDto.foodDatabase === FoodDatabases.SYSTEM) {
       return await this.fps.autoCompleteText(restDto.search);
     }
 

@@ -1,9 +1,8 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
-import { LanguagesEnum } from 'src/modules/program-generator/foods/helpers/constants';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { Meta } from 'src/shared/dtos/get-records-response';
-import { FoodDatabases } from 'src/shared/enums/project';
+import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
 import { Macros } from 'src/shared/models/macros';
 import { IngredientDetail } from 'src/shared/models/meal-plan';
 
@@ -23,8 +22,8 @@ export class GetFoodsDto extends GetRecordsBaseDto {
   session?: string;
 
   @Field()
-  @IsEnum(LanguagesEnum)
-  targetLanguage: LanguagesEnum;
+  @IsEnum(SupportedLanguages)
+  targetLanguage: SupportedLanguages;
 }
 
 @ObjectType()
