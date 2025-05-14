@@ -12,7 +12,7 @@ export class PopulatorDatabaseResolver {
 
   @Query(() => [String])
   async populateSpanishFoods(): Promise<string[]> {
-    await this.fullDatabaseService.fullFoods();
+    await this.fullDatabaseService.fullNamedFoods();
     return ['end'];
   }
 }

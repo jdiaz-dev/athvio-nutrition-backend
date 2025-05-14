@@ -20,7 +20,7 @@ export class GetRecordsBaseDto {
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  orderBy!: string;
+  orderBy?: string;
 
   @Field(() => [String], { nullable: true })
   @IsOptional()

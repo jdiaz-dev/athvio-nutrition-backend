@@ -25,7 +25,7 @@ export class InternalFoodsPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getInternalFoods(dto: GetFoods): Promise<GetInternalFoodsResponse> {
+  async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
     const combinedFields = searchByFieldsGenerator(['foodDetails.label'], dto.search);
     try {
       const foodsRes = await this.internalFoodModel.aggregate([
@@ -36,7 +36,9 @@ export class InternalFoodsPersistenceService {
         },
         {
           $addFields: {
-            isExactMatch: { $eq: ['$foodDetails.label', dto.search[0]] },
+            isExactMatch: {
+              $eq: [{ $toLower: '$foodDetails.label' }, dto.search[0].toLowerCase()],
+            },
           },
         },
         {
@@ -80,6 +82,24 @@ export class InternalFoodsPersistenceService {
       };
 
       return res;
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
+      throw new InternalServerErrorException(InternalErrors.DATABASE);
+    }
+  }
+  async getInternalFoodsByNames(foodNames: string[]): Promise<InternalFood[]> {
+    try {
+      const foodsRes = await this.internalFoodModel.find(
+        {
+          $or: foodNames.map((item) => ({ 'foodDetails.label': item })),
+        },
+        { 'foodDetails.label': 1, '_id': 1 },
+        {
+          collation: { locale: 'es', strength: 2 },
+        },
+      );
+
+      return foodsRes;
     } catch (error: unknown) {
       this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE);

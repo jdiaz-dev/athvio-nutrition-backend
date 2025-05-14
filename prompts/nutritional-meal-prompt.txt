@@ -49,189 +49,155 @@ Parse the imagen to this json structure, must to acomplish with all the fields a
 
 ### PROMPT TO TRANSLATE JSON FROM ENGLISH TO SPANISH
 
-in the next json I need that you only translate name, ingredientDetails.ingredient.name, ingredientDetails.ingredient.label and cookingInstructions values; i need also that return the json with the rest properties and values; all the structure of indredientDetails must be completed also: {
+in the next json I need that you only translate name, ingredientDetails.ingredient.name, ingredientDetails.ingredient.label and cookingInstructions values; i need also that return the json with the rest properties and values; all the structure of indredientDetails must be completed also: 
+{
   "_id": {
-    "$oid": "67f019b5215bab36160ea2ea"
+    "$oid": "67dc50534c0d70b0aaabab32"
   },
-  "createdAt": "Fri Apr 04 2025 12:41:09 GMT-0500 (Ecuador Time)",
+  "createdAt": {
+    "$date": "2025-03-20T17:28:51.000Z"
+  },
   "updatedAt": {
-    "$date": "2025-04-04T17:42:26.552Z"
+    "$date": "2025-03-25T19:11:42.169Z"
   },
   "professional": {
     "$oid": "67cb5064a52f7c0e3d6543cf"
   },
-  "name": "Advanced Anticancer Juice Formula",
+  "name": "Cacao Almond Banana Nice Cream",
   "ingredientDetails": [
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 305,
-        "protein": 2,
-        "carbs": 28,
-        "fat": 0.3,
-        "calories": 120,
-        "name": "Carrot, raw",
-        "amount": "5",
-        "label": "unit"
+        "weightInGrams": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0,
+        "calories": 0,
+        "name": "Lemon Juice",
+        "amount": 1,
+        "label": "Unit"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67f019b5215bab36160ea2eb"
+        "$oid": "67dc50534c0d70b0aaabab33"
       },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
+      "createdAt": "2025-03-20T12:15:37.000Z",
+      "updatedAt": "2025-03-20T12:15:37.000Z"
     },
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 80,
-        "protein": 1,
-        "carbs": 4,
-        "fat": 0.2,
-        "calories": 20,
-        "name": "Celery, raw",
-        "amount": "2",
-        "label": "stalk"
+        "weightInGrams": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0,
+        "calories": 0,
+        "name": "Vanilla Extract",
+        "amount": 1,
+        "label": "Teaspoon"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67f019b5215bab36160ea2ec"
+        "$oid": "67dc50534c0d70b0aaabab34"
       },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
+      "createdAt": "2025-03-20T12:15:37.000Z",
+      "updatedAt": "2025-03-20T12:15:37.000Z"
     },
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 85,
-        "protein": 2,
-        "carbs": 10,
-        "fat": 0.2,
-        "calories": 43,
-        "name": "Beetroot, raw",
-        "amount": "0.5",
-        "label": "unit"
+        "weightInGrams": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0,
+        "calories": 0,
+        "name": "Almond Milk",
+        "amount": "1/4",
+        "label": "Cup"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67f019b5215bab36160ea2ed"
+        "$oid": "67dc50534c0d70b0aaabab35"
       },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
+      "createdAt": "2025-03-20T12:15:37.000Z",
+      "updatedAt": "2025-03-20T12:15:37.000Z"
     },
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 10,
-        "protein": 0.2,
-        "carbs": 2,
-        "fat": 0.1,
-        "calories": 9,
-        "name": "Ginger root, raw",
-        "amount": "2",
-        "label": "inch piece"
+        "weightInGrams": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0,
+        "calories": 0,
+        "name": "Cacao Powder",
+        "amount": 2,
+        "label": "Teaspoon"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67f019b5215bab36160ea2ee"
+        "$oid": "67dc50534c0d70b0aaabab36"
       },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
+      "createdAt": "2025-03-20T12:15:37.000Z",
+      "updatedAt": "2025-03-20T12:15:37.000Z"
     },
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 10,
-        "protein": 0.1,
-        "carbs": 2,
-        "fat": 0.1,
-        "calories": 8,
-        "name": "Turmeric root, raw",
-        "amount": "2",
-        "label": "inch piece"
+        "weightInGrams": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0,
+        "calories": 0,
+        "name": "Frozen ripe Bananas",
+        "amount": 3,
+        "label": "Unit"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67f019b5215bab36160ea2ef"
+        "$oid": "67dc50534c0d70b0aaabab37"
       },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
+      "createdAt": "2025-03-20T12:15:37.000Z",
+      "updatedAt": "2025-03-20T12:15:37.000Z"
     },
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 40,
-        "protein": 0.3,
-        "carbs": 4,
-        "fat": 0.1,
-        "calories": 15,
-        "name": "Lemon, raw, with peel",
-        "amount": "0.5",
-        "label": "unit"
+        "weightInGrams": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0,
+        "calories": 0,
+        "name": "Almond Butter",
+        "amount": "1/4",
+        "label": "Cup"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67f019b5215bab36160ea2f0"
+        "$oid": "67dc50534c0d70b0aaabab38"
       },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
-    },
-    {
-      "ingredientType": "UNIQUE_INGREDIENT",
-      "ingredient": {
-        "weightInGrams": 182,
-        "protein": 0.5,
-        "carbs": 25,
-        "fat": 0.3,
-        "calories": 95,
-        "name": "Apple, green, raw, with peel",
-        "amount": "1",
-        "label": "unit"
-      },
-      "equivalents": [],
-      "_id": {
-        "$oid": "67f019b5215bab36160ea2f1"
-      },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
-    },
-    {
-      "ingredientType": "UNIQUE_INGREDIENT",
-      "ingredient": {
-        "weightInGrams": 5,
-        "protein": 0.2,
-        "carbs": 1,
-        "fat": 0.1,
-        "calories": 5,
-        "name": "Garlic, raw",
-        "amount": "1",
-        "label": "unit"
-      },
-      "equivalents": [],
-      "_id": {
-        "$oid": "67f019b5215bab36160ea2f2"
-      },
-      "createdAt": "2025-03-10T19:07:26.335Z",
-      "updatedAt": "2025-03-10T19:07:26.335Z"
+      "createdAt": "2025-03-20T12:15:37.000Z",
+      "updatedAt": "2025-03-20T12:15:37.000Z"
     }
   ],
-  "cookingInstructions": "Juice all the ingredients together to determine how many ounces of juice your juicer yields. Then multiply the ingredients to get the desired amount of juice you want to make each day. Optional additions for nutritional value: 1 scoop greens powder, 1/4 to 1 tsp amla powder, 1/4 to 1 tsp moringa powder, 1/2 tsp matcha powder, 2 to 6 oz aloe vera gel.",
-  "image": "https://athvio-images.s3.us-east-1.amazonaws.com/nutritional-meals/1743788544889_67f019b5215bab36160ea2ea_advanced juice formula.png",
+  "cookingInstructions": "1. Gently blend the lemon juice, vanilla extract, almond milk, and cacao powder in a food processor or high-powered blender. Then add the bananas and blend all the ingredients together until smooth.\n\n2. Add the almond butter and pulse 3 to 4 times to swirl the almond butter into the mix. Serve immediately or freeze in an airtight container for up to 30 days.",
+  "image": "https://athvio-images.s3.us-east-1.amazonaws.com/nutritional-meals/1742929900673_67dc50534c0d70b0aaabab32_Cacao Almond Banana Nice Cream.png",
   "macros": {
-    "weightInGrams": 717,
-    "protein": 6.3,
-    "carbs": 76,
-    "fat": 1.4,
-    "calories": 335
+    "weightInGrams": 100,
+    "protein": 0.85,
+    "carbs": 0.06,
+    "fat": 81.1,
+    "calories": 717
   },
-  "yield": "",
-  "servings": "1 to 2",
+  "yield": "2 cups",
+  "servings": "4",
   "description": "",
   "healthBenefits": "",
-  "source": "SYSTEM",
-  "bookSource": "Beat cancer kitchen",
   "relatedStudies": [],
   "author": "Chris Wark",
   "isDeleted": false,
-  "language": "en"
+  "category": "Desserts",
+  "bookSource": "Beat Cancer Kitchen",
+  "source": "SYSTEM",
+  "language": "es"
 }
