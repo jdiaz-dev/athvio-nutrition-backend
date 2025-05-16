@@ -73,7 +73,7 @@ export class PatientPlansPersistenceService {
     }
   }
   async getPatientPlans(
-    { patient, offset, limit }: GetPatientPlansForWebDto | GetPatientPlansForMobileDto,
+    { patient, offset, limit }: Omit<GetPatientPlansForWebDto, 'startDate' | 'endDate'> | GetPatientPlansForMobileDto,
     selectors: Record<string, number>,
     extraFilters: Record<string, unknown> | {} = {},
   ): Promise<PatientPlan[]> {

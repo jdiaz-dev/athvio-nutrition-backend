@@ -20,3 +20,4 @@
 - fix: add professional in documents that belongs to patient also
 - refactor: add service layer in patient plans
 - fix: remove food dto and use intead food from schema
+- feat: create one endpoint to add specific food

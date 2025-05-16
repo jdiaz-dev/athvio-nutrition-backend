@@ -447,11 +447,13 @@ input GetPatientPlansForMobileDto {
 }
 
 input GetPatientPlansForWebDto {
+  endDate: String!
   limit: Float = 30
   offset: Float = 0
   orderBy: String
   patient: String!
   search: [String!] = [""]
+  startDate: String!
 }
 
 input GetPatientUser {

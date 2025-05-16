@@ -23,8 +23,4 @@ export class UpdatePatientPlanDto {
   @IsOptional()
   @IsString()
   title: string;
-
-  /*  @Field(() => [MealBodyInput], { nullable: true })
-  @IsOptional()
-  planMeals: [MealBodyInput]; */
 }

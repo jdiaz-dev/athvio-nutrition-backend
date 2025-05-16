@@ -18,8 +18,11 @@ export class GetPatientPlansManagerService {
     const patientPlans = await this.ppps.getManyPatientPlans(patientWithAssignedDate, selectors);
     return patientPlans;
   }
-  async getPatientPlansForWeb(dto: GetPatientPlansForWebDto, selectors: Record<string, number>): Promise<PatientPlan[]> {
-    return this.ppps.getPatientPlans(dto, selectors);
+  async getPatientPlansForWeb(
+    { startDate, endDate, ...restDto }: GetPatientPlansForWebDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientPlan[]> {
+    return this.ppps.getPatientPlans(restDto, selectors, { assignedDate: { $gte: new Date(startDate), $lte: new Date(endDate) } });
   }
   async getPatientPlansForMobile(dto: GetPatientPlansForMobileDto, selectors: Record<string, number>): Promise<PatientPlan[]> {
     let planDatesFilter;
