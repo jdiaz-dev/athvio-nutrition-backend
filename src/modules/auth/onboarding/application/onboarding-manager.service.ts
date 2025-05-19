@@ -17,15 +17,6 @@ function getClientLocalTimeFromOffset(utcISOString: string, clientOffsetMinutes:
   return dayjs(localTime);
 }
 
-function getFirstDayOfThirdWeek(year: number, month: number, weekStartsOn = 1) {
-  const firstDayOfMonth = new Date(year, month, 1);
-  const firstDayWeekday = firstDayOfMonth.getDay();
-  const adjustedDay = firstDayWeekday === 0 && weekStartsOn === 1 ? 7 : firstDayWeekday;
-  const offsetToWeekStart = (7 + adjustedDay - weekStartsOn) % 7;
-  const dayOfThirdWeek = 1 + offsetToWeekStart + 7 * 2;
-  return new Date(year, month, dayOfThirdWeek);
-}
-
 @Injectable()
 export class OnboardingManagerService {
   constructor(
@@ -72,7 +63,7 @@ export class OnboardingManagerService {
     await this.aps.assignProgramToPatient({
       professional,
       program: _id,
-      assignmentStartDate: getFirstDayOfThirdWeek(_date.year(), _date.month()),
+      assignmentStartDate: new Date(_date.year(), _date.month(), 7),
       patients: [patient],
       startingDay: 1,
     });
