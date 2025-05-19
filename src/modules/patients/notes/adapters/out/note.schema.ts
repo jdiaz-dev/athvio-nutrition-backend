@@ -4,7 +4,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
-@Schema({ _id: true, timestamps: true, collection: 'Note' })
+@Schema({ _id: true, timestamps: true, collection: 'Notes' })
 export class Note extends BaseSchema {
   @Field(() => ID)
   _id!: string;
@@ -18,8 +18,12 @@ export class Note extends BaseSchema {
   patient!: string;
 
   @Field({ nullable: true })
-  @Prop({ type: String, required: false })
+  @Prop({ type: String, required: true })
   content!: string;
+
+  @Field()
+  @Prop({ type: Date, required: true })
+  date: Date;
 
   @Field()
   @Prop({ type: Boolean, required: true, default: false })

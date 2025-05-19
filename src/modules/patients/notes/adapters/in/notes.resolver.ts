@@ -3,7 +3,7 @@ import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { CreateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/create-note.dto';
 import { DeleteNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/delete-note.dto';
-import { GetNotesDto } from 'src/modules/patients/notes/adapters/in/dtos/get-notes.dto';
+import { GetNotesDto, GetNotesResponse } from 'src/modules/patients/notes/adapters/in/dtos/get-notes.dto';
 import { UpdateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/update-note.dto';
 import { Note } from 'src/modules/patients/notes/adapters/out/note.schema';
 import { NotesManagerService } from 'src/modules/patients/notes/application/notes-manager.service';
@@ -19,11 +19,11 @@ export class NotesResolver {
   async createNote(@Args('input') dto: CreateNoteDto): Promise<Note> {
     return this.nms.createNote(dto);
   }
-  @Query(() => [Note])
+  @Query(() => GetNotesResponse)
   async getNotes(
     @Args('input') dto: GetNotesDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
-  ): Promise<Note[]> {
+  ): Promise<GetNotesResponse> {
     return this.nms.getNotes(dto, selectors);
   }
   @Mutation(() => Note)

@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { CreateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/create-note.dto';
 import { DeleteNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/delete-note.dto';
-import { GetNotesDto } from 'src/modules/patients/notes/adapters/in/dtos/get-notes.dto';
+import { GetNotesDto, GetNotesResponse } from 'src/modules/patients/notes/adapters/in/dtos/get-notes.dto';
 import { UpdateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/update-note.dto';
 import { Note, NoteDocument } from 'src/modules/patients/notes/adapters/out/note.schema';
 
@@ -30,7 +30,10 @@ export class NotesPersistenceService {
     }
   }
 
-  async getNotes({ professional, patient, offset, limit }: GetNotesDto, selectors: Record<string, number>): Promise<Note[]> {
+  async getNotes(
+    { professional, patient, offset, limit }: GetNotesDto,
+    selectors: Record<string, number>,
+  ): Promise<GetNotesResponse> {
     try {
       const notes = await this.noteModel.aggregate([
         {
@@ -72,7 +75,15 @@ export class NotesPersistenceService {
         },
       ]);
 
-      return notes[0].data;
+      const res: GetNotesResponse = {
+        data: notes[0].data,
+        meta: {
+          total: notes[0].total ? notes[0].total : 0,
+          limit: limit,
+          offset: offset,
+        },
+      };
+      return res;
     } catch (error: unknown) {
       this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE);

@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import {  IsMongoId, IsString } from 'class-validator';
+import { IsDateString, IsMongoId, IsString } from 'class-validator';
 
 @InputType()
 export class CreateNoteDto {
@@ -14,4 +14,8 @@ export class CreateNoteDto {
   @Field()
   @IsString()
   content: string;
+  
+  @Field()
+  @IsDateString()
+  date: string;
 }

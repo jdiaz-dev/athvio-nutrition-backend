@@ -129,6 +129,7 @@ input CreateCustomQuestionaryDetailInput {
 
 input CreateNoteDto {
   content: String!
+  date: String!
   patient: String!
   professional: String!
 }
@@ -392,6 +393,11 @@ input GetNotesDto {
   patient: String!
   professional: String!
   search: [String!] = [""]
+}
+
+type GetNotesResponse {
+  data: [Note!]!
+  meta: Meta!
 }
 
 input GetNutritionalMealDto {
@@ -687,6 +693,7 @@ type Note {
   _id: ID!
   content: String
   createdAt: DateTime!
+  date: DateTime!
   isDeleted: Boolean!
   patient: String!
   professional: String!
@@ -826,7 +833,7 @@ type Query {
   getChat(chat: GetChatDto!): Chat
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
-  getNotes(input: GetNotesDto!): [Note!]!
+  getNotes(input: GetNotesDto!): GetNotesResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!
   getNutritionalMealsForPatient(input: GetNutritionalMealsForPatientDto!): GetNutritionalMealsResponse!
