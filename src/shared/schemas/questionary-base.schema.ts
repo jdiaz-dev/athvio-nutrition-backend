@@ -4,7 +4,7 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
-export class QuestionaryDetail {
+export class QuestionaryDetailBase {
   @Field(() => ID)
   _id?: string;
 
@@ -16,11 +16,9 @@ export class QuestionaryDetail {
   @Prop({ type: String, required: true })
   associatedQuestion: string;
 
-  @Prop({ type: String, required: true })
-  fieldType: string;
-
-  @Prop({ type: String || [String], required: false })
-  fieldOptions?: string | string[];
+  @Field(() => [String])
+  @Prop({ type: [String], required: false })
+  options?: string[];
 
   @Field(() => Boolean)
   @Prop({ type: Boolean, required: true, default: true })
@@ -30,11 +28,11 @@ export class QuestionaryDetail {
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted: boolean;
 }
-const QuestionaryDetailSchema = SchemaFactory.createForClass(QuestionaryDetail);
+const QuestionaryDetailBaseSchema = SchemaFactory.createForClass(QuestionaryDetailBase);
 
 @ObjectType()
 @Schema({ _id: true, timestamps: false })
-export class QuestionaryGroup {
+export class QuestionaryGroupBase {
   @Field(() => ID)
   _id!: string;
 
@@ -46,15 +44,15 @@ export class QuestionaryGroup {
   @Prop({ type: String, required: false })
   description?: string;
 
-  @Field(() => [QuestionaryDetail])
-  @Prop({ type: [QuestionaryDetailSchema], required: true })
-  questionaryDetails!: QuestionaryDetail[];
+  @Field(() => [QuestionaryDetailBase])
+  @Prop({ type: [QuestionaryDetailBaseSchema], required: true })
+  questionaryDetails!: QuestionaryDetailBase[];
 }
-const QuestionaryGroupSchema = SchemaFactory.createForClass(QuestionaryGroup);
+const QuestionaryGroupBaseSchema = SchemaFactory.createForClass(QuestionaryGroupBase);
 
 @ObjectType()
 export class QuestionaryBase extends BaseSchema {
-  @Field(() => [QuestionaryGroup])
-  @Prop({ type: [QuestionaryGroupSchema], required: true })
-  questionaryGroups!: QuestionaryGroup[];
+  @Field(() => [QuestionaryGroupBase])
+  @Prop({ type: [QuestionaryGroupBaseSchema], required: true })
+  questionaryGroups!: QuestionaryGroupBase[];
 }

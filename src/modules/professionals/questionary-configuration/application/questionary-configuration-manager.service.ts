@@ -31,7 +31,7 @@ export class QuestionaryConfigManager {
     const questionaryCreated = await this.qcps.createQuestionary(questionary);
     return questionaryCreated;
   }
-  async getQuestionaryConfig(professional: string, selector: Record<string, number>): Promise<QuestionaryConfig> {
+  async getQuestionaryConfig(professional: string, selector?: Record<string, number>): Promise<QuestionaryConfig> {
     const questionary = await this.qcps.getQuestionaryConfig(professional, selector);
     return questionary;
   }

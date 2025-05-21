@@ -462,6 +462,11 @@ input GetPatientPlansForWebDto {
   startDate: String!
 }
 
+input GetPatientQuestionaryDto {
+  patient: String!
+  professional: String!
+}
+
 input GetPatientUser {
   patient: String!
 }
@@ -777,6 +782,30 @@ type PatientPlan {
   title: String
 }
 
+type PatientQuestionary {
+  _id: ID!
+  createdAt: DateTime!
+  patient: ID!
+  questionaryGroups: [PatientQuestionaryGroup!]!
+}
+
+type PatientQuestionaryDetail {
+  _id: ID!
+  answer: String!
+  associatedQuestion: String!
+  fieldName: String!
+  isDeleted: Boolean!
+  isEnabled: Boolean!
+  options: [String!]!
+}
+
+type PatientQuestionaryGroup {
+  _id: ID!
+  description: String
+  questionaryDetails: [PatientQuestionaryDetail!]!
+  title: String!
+}
+
 type Plan {
   _id: ID!
   createdAt: DateTime!
@@ -802,6 +831,22 @@ type Professional {
   timezone: String!
   unitPreference: String!
   user: User!
+}
+
+type ProfessionalQuestionaryDetail {
+  _id: ID!
+  associatedQuestion: String!
+  fieldName: String!
+  isDeleted: Boolean!
+  isEnabled: Boolean!
+  options: [String!]!
+}
+
+type ProfessionalQuestionaryGroup {
+  _id: ID!
+  description: String
+  questionaryDetails: [ProfessionalQuestionaryDetail!]!
+  title: String!
 }
 
 type Program {
@@ -843,6 +888,7 @@ type Query {
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
   getPatientPlansForMobile(patientPlans: GetPatientPlansForMobileDto!): [PatientPlan!]!
   getPatientPlansForWeb(patientPlans: GetPatientPlansForWebDto!): [PatientPlan!]!
+  getPatientQuestionary(input: GetPatientQuestionaryDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
   getProfessional(professional: GetProfessionalDto!): Professional!
@@ -858,21 +904,22 @@ type QuestionaryConfig {
   _id: ID!
   createdAt: DateTime!
   professional: ID!
-  questionaryGroups: [QuestionaryGroup!]!
+  questionaryGroups: [ProfessionalQuestionaryGroup!]!
 }
 
-type QuestionaryDetail {
+type QuestionaryDetailBase {
   _id: ID!
   associatedQuestion: String!
   fieldName: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
+  options: [String!]!
 }
 
-type QuestionaryGroup {
+type QuestionaryGroupBase {
   _id: ID!
   description: String
-  questionaryDetails: [QuestionaryDetail!]!
+  questionaryDetails: [QuestionaryDetailBase!]!
   title: String!
 }
 

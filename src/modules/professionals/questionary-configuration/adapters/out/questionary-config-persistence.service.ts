@@ -7,20 +7,25 @@ import { CreateQuestionary } from 'src/modules/professionals/questionary-configu
 import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
 export class QuestionaryConfigPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
-  constructor(@InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>) {}
-  
+  constructor(
+    @InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>,
+    private readonly logger: AthvioLoggerService,
+  ) {}
+
   async createQuestionary(questionary: CreateQuestionary): Promise<QuestionaryConfig> {
     try {
       const questionaryRes = await this.questionaryConfig.create({
         ...questionary,
       });
       return questionaryRes;
-    } catch (e) {
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
@@ -56,12 +61,13 @@ export class QuestionaryConfigPersistenceService {
       );
 
       return questionaryRes;
-    } catch (e) {
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
-  async getQuestionaryConfig(professional: string, selectors: Record<string, number>): Promise<QuestionaryConfig> {
-    const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
+  async getQuestionaryConfig(professional: string, selectors?: Record<string, number>): Promise<QuestionaryConfig> {
+    const internalUse = selectors ? true : false;
     try {
       const questionaryRes = await this.questionaryConfig.aggregate([
         {
@@ -69,7 +75,7 @@ export class QuestionaryConfigPersistenceService {
         },
         {
           $project: {
-            ...restFields,
+            ...(internalUse && removeAttributesWithFieldNames(selectors, ['questionaryGroups'])),
             questionaryGroups: {
               $map: {
                 input: '$questionaryGroups',
@@ -81,7 +87,12 @@ export class QuestionaryConfigPersistenceService {
                     $filter: {
                       input: '$$group.questionaryDetails',
                       as: 'detail',
-                      cond: { $eq: ['$$detail.isDeleted', false] },
+                      cond: {
+                        $and: [
+                          { $eq: ['$$detail.isDeleted', false] },
+                          ...(!internalUse ? [{ $eq: ['$$detail.isEnabled', true] }] : []),
+                        ],
+                      },
                     },
                   },
                 },
@@ -89,14 +100,10 @@ export class QuestionaryConfigPersistenceService {
             },
           },
         },
-        {
-          $project: {
-            ...selectors,
-          },
-        },
       ]);
       return questionaryRes[0];
-    } catch (e) {
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }

@@ -21,3 +21,5 @@
 - refactor: add service layer in patient plans
 - fix: remove food dto and use intead food from schema
 - feat: create one endpoint to add specific food
+- refactor: orchestrator must to manage the creation of questionary 
+config nor questionary config
