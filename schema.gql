@@ -489,6 +489,10 @@ input GetProfessionalDto {
   professional: String!
 }
 
+input GetProfessionalQuestionaryDto {
+  professional: String!
+}
+
 input GetProgramDto {
   professional: String!
   program: String!
@@ -509,10 +513,6 @@ input GetProgramsDto {
 type GetProgramsResponse {
   data: [Program!]!
   meta: Meta!
-}
-
-input GetQuestionaryConfigDto {
-  professional: String!
 }
 
 input GetUserDto {
@@ -642,7 +642,7 @@ type Meta {
 
 type Mutation {
   activatePatient(input: ActivatePatientDto!): User!
-  addCustomQuestionaryDetails(toAddInput: AddCustomQuestionaryDetailsDto!): QuestionaryConfig!
+  addCustomQuestionaryDetails(toAddInput: AddCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
   addPlanMeal(toAddInput: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
@@ -655,7 +655,7 @@ type Mutation {
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
-  deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): QuestionaryConfig!
+  deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   deleteMeal(toDeleteInput: DeleteMealDto!): Program!
   deleteNote(input: DeleteNoteDto!): Note!
   deleteNutritionalMeal(input: DeleteNutritionalMealDto!): NutritionalMeal!
@@ -668,7 +668,7 @@ type Mutation {
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
-  enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): QuestionaryConfig!
+  enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
   generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
@@ -679,7 +679,7 @@ type Mutation {
   signUpPatientFromMobile(input: SignUpPatientFromMobileDto!): JwtDto!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
   updateCalory(input: UpdateCaloryDto!): Calory!
-  updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): QuestionaryConfig!
+  updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
   updateNote(input: UpdateNoteDto!): Note!
   updateNutritionalMeal(input: UpdateNutritionalMealDto!): NutritionalMeal!
@@ -833,6 +833,13 @@ type Professional {
   user: User!
 }
 
+type ProfessionalQuestionary {
+  _id: ID!
+  createdAt: DateTime!
+  professional: ID!
+  questionaryGroups: [ProfessionalQuestionaryGroup!]!
+}
+
 type ProfessionalQuestionaryDetail {
   _id: ID!
   associatedQuestion: String!
@@ -895,16 +902,9 @@ type Query {
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
-  getQuestionary(input: GetQuestionaryConfigDto!): QuestionaryConfig!
+  getQuestionary(input: GetProfessionalQuestionaryDto!): ProfessionalQuestionary!
   getUser(input: GetUserDto!): User!
   populateSpanishFoods: [String!]!
-}
-
-type QuestionaryConfig {
-  _id: ID!
-  createdAt: DateTime!
-  professional: ID!
-  questionaryGroups: [ProfessionalQuestionaryGroup!]!
 }
 
 type QuestionaryDetailBase {

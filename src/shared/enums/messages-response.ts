@@ -13,7 +13,7 @@ export enum ProfessionalMessages {
   PROFESSIONAL_NOT_FOUND = 'This professional does not exist.',
 }
 
-export enum ErrorQuestionaryConfig {
+export enum ErrorProfessionalQuestionary {
   QUESTIONARY_NOT_FOUND = 'This questionary config does not exist.',
 }
 

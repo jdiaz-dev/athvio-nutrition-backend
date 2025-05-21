@@ -6,7 +6,7 @@ import { MailModule } from 'src/modules/mail/mail.module';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { ProgramsModule } from 'src/modules/professionals/programs/programs.module';
-import { QuestionaryConfigurationModule } from 'src/modules/questionaries/questionary-configuration/questionary-configuration.module';
+import { ProfessionalQuestionariesModule } from 'src/modules/questionaries/professional-questionaries/professional-questionaries.module';
 import { PatientQuestionaryModule } from 'src/modules/questionaries/patient-questionaries/patient-questionary.module';
 
 @Module({
@@ -15,7 +15,7 @@ import { PatientQuestionaryModule } from 'src/modules/questionaries/patient-ques
     PatientsModule,
     ProfessionalsModule,
     ProgramsModule,
-    QuestionaryConfigurationModule,
+    ProfessionalQuestionariesModule,
     PatientQuestionaryModule,
     MailModule,
   ],

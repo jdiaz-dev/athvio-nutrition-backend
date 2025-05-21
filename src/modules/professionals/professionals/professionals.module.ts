@@ -5,13 +5,13 @@ import { ProfessionalsResolver } from 'src/modules/professionals/professionals/a
 import { Professional, ProfessionalSchema } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { QuestionaryConfigurationModule } from 'src/modules/questionaries/questionary-configuration/questionary-configuration.module';
+import { ProfessionalQuestionariesModule } from 'src/modules/questionaries/professional-questionaries/professional-questionaries.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Professional.name, schema: ProfessionalSchema }]),
     forwardRef(() => AuthModule),
-    QuestionaryConfigurationModule,
+    ProfessionalQuestionariesModule,
   ],
   providers: [ProfessionalsResolver, ...[ProfessionalsPersistenceService, ProfessionalsManagementService]],
   exports: [ProfessionalsManagementService, ProfessionalsPersistenceService],

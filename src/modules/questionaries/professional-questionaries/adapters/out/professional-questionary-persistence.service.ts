@@ -1,26 +1,26 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { QuestionaryConfig, QuestionaryConfigDocument } from './questionary-config.schema';
+import { ProfessionalQuestionary, ProfessionalQuestionaryDocument } from './professional-questionary.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { InternalErrors } from 'src/shared/enums/messages-response';
-import { CreateQuestionary } from 'src/modules/questionaries/questionary-configuration/adapters/out/questionary-config';
+import { CreateQuestionary } from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary';
 import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { EnableQuestionaryDetailsDto } from 'src/modules/questionaries/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
+import { EnableQuestionaryDetailsDto } from 'src/modules/questionaries/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
-export class QuestionaryConfigPersistenceService {
+export class ProfessionalQuestionaryPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
   constructor(
-    @InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>,
+    @InjectModel(ProfessionalQuestionary.name) private readonly professionalQuestionary: Model<ProfessionalQuestionaryDocument>,
     private readonly logger: AthvioLoggerService,
   ) {}
 
-  async createQuestionary(questionary: CreateQuestionary): Promise<QuestionaryConfig> {
+  async createQuestionary(questionary: CreateQuestionary): Promise<ProfessionalQuestionary> {
     try {
-      const questionaryRes = await this.questionaryConfig.create({
+      const questionaryRes = await this.professionalQuestionary.create({
         ...questionary,
       });
       return questionaryRes;
@@ -33,7 +33,7 @@ export class QuestionaryConfigPersistenceService {
   async enableMultipleQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetails }: EnableQuestionaryDetailsDto,
     selectors: Record<string, number>,
-  ): Promise<QuestionaryConfig> {
+  ): Promise<ProfessionalQuestionary> {
     try {
       const arrayFilters = questionaryDetails.map((detail, index) => ({
         [`detail${index}._id`]: new Types.ObjectId(detail.questionaryDetail),
@@ -45,7 +45,7 @@ export class QuestionaryConfigPersistenceService {
         return acc;
       }, {} as Record<string, boolean>);
 
-      const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
+      const questionaryRes = await this.professionalQuestionary.findOneAndUpdate(
         { _id: questionary, professional },
         {
           $set: updateSubDocuments,
@@ -66,10 +66,10 @@ export class QuestionaryConfigPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
-  async getQuestionaryConfig(professional: string, selectors?: Record<string, number>): Promise<QuestionaryConfig> {
+  async getProfessionalQuestionary(professional: string, selectors?: Record<string, number>): Promise<ProfessionalQuestionary> {
     const internalUse = selectors ? true : false;
     try {
-      const questionaryRes = await this.questionaryConfig.aggregate([
+      const questionaryRes = await this.professionalQuestionary.aggregate([
         {
           $match: { professional: new Types.ObjectId(professional) },
         },

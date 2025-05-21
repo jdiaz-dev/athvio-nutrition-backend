@@ -6,20 +6,20 @@ import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'sr
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
 class ProfessionalQuestionaryDetail extends QuestionaryDetailBase {}
-const ProfessionalQuestionarySchema = SchemaFactory.createForClass(ProfessionalQuestionaryDetail);
+const ProfessionalQuestionaryDetailSchema = SchemaFactory.createForClass(ProfessionalQuestionaryDetail);
 
 @ObjectType()
 @Schema({ _id: true, timestamps: false })
 class ProfessionalQuestionaryGroup extends QuestionaryGroupBase {
   @Field(() => [ProfessionalQuestionaryDetail])
-  @Prop({ type: [ProfessionalQuestionarySchema], required: true })
+  @Prop({ type: [ProfessionalQuestionaryDetailSchema], required: true })
   questionaryDetails!: ProfessionalQuestionaryDetail[];
 }
 const ProfessionalQuestionaryGroupSchema = SchemaFactory.createForClass(ProfessionalQuestionaryGroup);
 
 @ObjectType()
-@Schema({ timestamps: true, collection: 'QuestionaryConfigs' })
-export class QuestionaryConfig extends QuestionaryBase {
+@Schema({ timestamps: true, collection: 'ProfessionalQuestionaries' })
+export class ProfessionalQuestionary extends QuestionaryBase {
   @Field(() => ID)
   _id!: string;
 
@@ -32,9 +32,9 @@ export class QuestionaryConfig extends QuestionaryBase {
   questionaryGroups!: ProfessionalQuestionaryGroup[];
 }
 
-export type QuestionaryConfigDocument = QuestionaryConfig & Document;
-export const QuestionaryConfigSchema = SchemaFactory.createForClass(QuestionaryConfig);
-QuestionaryConfigSchema.methods.toJSON = function (): Partial<QuestionaryConfig> {
-  const { __v, createdAt, updatedAt, ...questionaryConfig } = this.toObject();
-  return questionaryConfig as Partial<QuestionaryConfig>;
+export type ProfessionalQuestionaryDocument = ProfessionalQuestionary & Document;
+export const ProfessionalQuestionarySchema = SchemaFactory.createForClass(ProfessionalQuestionary);
+ProfessionalQuestionarySchema.methods.toJSON = function (): Partial<ProfessionalQuestionary> {
+  const { __v, createdAt, updatedAt, ...professionalQuestionary } = this.toObject();
+  return professionalQuestionary as Partial<ProfessionalQuestionary>;
 };

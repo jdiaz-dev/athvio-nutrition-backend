@@ -9,7 +9,7 @@ import { UserManagamentService } from 'src/modules/auth/users/application/user-m
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { QuestionaryConfigManager } from 'src/modules/questionaries/questionary-configuration/application/questionary-configuration-manager.service';
+import { ProfessionalQuestionaryManager } from 'src/modules/questionaries/professional-questionaries/application/profesional-questionary-manager.service';
 import { PatientQuestionaryManager } from 'src/modules/questionaries/patient-questionaries/application/patient-questionary-manager.service';
 import { ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { EnumRoles, LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
@@ -25,7 +25,7 @@ export class PatientOnboardingManagerService {
     private readonly pms: PatientManagementService,
     private readonly ums: UserManagamentService,
     private readonly ms: MailService,
-    private readonly qcm: QuestionaryConfigManager,
+    private readonly qcm: ProfessionalQuestionaryManager,
     private readonly pqm: PatientQuestionaryManager,
   ) {}
   async onboardingForWeb(
@@ -61,7 +61,7 @@ export class PatientOnboardingManagerService {
       isActive: true,
     });
 
-    const { questionaryGroups } = await this.qcm.getQuestionaryConfig(professional);
+    const { questionaryGroups } = await this.qcm.getProfessionalQuestionary(professional);
     await this.pqm.createQuestionary({
       patient: patient._id,
       questionaryGroups: questionaryGroups.map(({ _id, questionaryDetails, ...restGroup }) => ({

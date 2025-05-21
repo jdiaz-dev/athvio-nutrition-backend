@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { QuestionaryConfig, QuestionaryConfigDocument } from './questionary-config.schema';
+import { ProfessionalQuestionary, ProfessionalQuestionaryDocument } from './professional-questionary.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { InternalErrors } from 'src/shared/enums/messages-response';
@@ -7,7 +7,7 @@ import {
   AddQuestionaryDetail,
   DeleteQuestionaryDetail,
   UpdateQuestionaryDetail,
-} from 'src/modules/questionaries/questionary-configuration/adapters/out/questionary-config';
+} from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary';
 import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
@@ -15,16 +15,16 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 export class CustomQuestionaryDetailsPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
-  constructor(@InjectModel(QuestionaryConfig.name) private readonly questionaryConfig: Model<QuestionaryConfigDocument>) {
+  constructor(@InjectModel(ProfessionalQuestionary.name) private readonly professionalQuestionary: Model<ProfessionalQuestionaryDocument>) {
   }
   async addQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetailBodies }: AddQuestionaryDetail,
     selectors: Record<string, number>,
-  ): Promise<QuestionaryConfig> {
+  ): Promise<ProfessionalQuestionary> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
 
     try {
-      const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
+      const questionaryRes = await this.professionalQuestionary.findOneAndUpdate(
         { _id: questionary, professional },
         {
           $push: {
@@ -69,7 +69,7 @@ export class CustomQuestionaryDetailsPersistenceService {
   async updateQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetailBodies }: UpdateQuestionaryDetail,
     selectors: Record<string, number>,
-  ): Promise<QuestionaryConfig> {
+  ): Promise<ProfessionalQuestionary> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
     try {
       const updateSubDocuments = questionaryDetailBodies.map((body, index) => ({
@@ -84,7 +84,7 @@ export class CustomQuestionaryDetailsPersistenceService {
         [`detail${index}.isDeleted`]: false,
       }));
 
-      const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
+      const questionaryRes = await this.professionalQuestionary.findOneAndUpdate(
         { _id: questionary, professional },
         { $set: Object.assign({}, ...updateSubDocuments) },
         {
@@ -124,7 +124,7 @@ export class CustomQuestionaryDetailsPersistenceService {
   async deleteQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetails }: DeleteQuestionaryDetail,
     selectors: Record<string, number>,
-  ): Promise<QuestionaryConfig> {
+  ): Promise<ProfessionalQuestionary> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
 
     try {
@@ -135,7 +135,7 @@ export class CustomQuestionaryDetailsPersistenceService {
         [`detail${index}._id`]: new Types.ObjectId(item),
         [`detail${index}.isDeleted`]: false,
       }));
-      const questionaryRes = await this.questionaryConfig.findOneAndUpdate(
+      const questionaryRes = await this.professionalQuestionary.findOneAndUpdate(
         { _id: questionary, professional },
         {
           $set: Object.assign({}, ...deleteSubDocuments),
