@@ -13,7 +13,6 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { AuthorizationService } from 'src/modules/auth/auth/application/services/authorization.service';
 import { SignUpPatientManagamentService } from 'src/modules/auth/auth/application/services/sign-up-patient-management.service';
-import { MailModule } from 'src/modules/mail/mail.module';
 import { PatientOnboardingMobileResolver } from 'src/modules/auth/auth/adapters/in/mobile/patient-onboarding-mobile.resolver';
 import { PatientOnboardingWebResolver } from 'src/modules/auth/auth/adapters/in/web/patient-onboarding-web.resolver';
 import { MobileWebAuthenticationResolver } from 'src/modules/auth/auth/adapters/in/mobile-web-authentication.resolver';
@@ -45,10 +44,9 @@ const resolvers = [
       }),
     }),
     forwardRef(() => UsersModule),
-    forwardRef(() => PatientsModule),
     forwardRef(() => ProfessionalsModule),
+    forwardRef(() => PatientsModule),
     forwardRef(() => OnboardingModule),
-    MailModule,
   ],
   providers: [...services, ...resolvers],
   exports: [AuthorizationService, SignUpPatientManagamentService],
