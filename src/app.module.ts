@@ -7,7 +7,6 @@ import configuration from './configuration';
 import { UsersModule } from 'src/modules/auth/users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
-import { QuestionaryModule } from 'src/modules/professionals/questionary/adapters/questionary.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { DatabaseModule } from 'src/infraestructure/database.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
@@ -35,12 +34,11 @@ import { QuestionaryDomainsModule } from 'src/modules/questionaries/questionary-
     AuthModule,
     OnboardingModule,
 
-    QuestionaryModule,
+    FoodsModule,
     MailModule,
 
     ProfessionalDomainsModule,
     PatientsDomainsModule,
-    FoodsModule,
     QuestionaryDomainsModule,
   ].concat(process.env.DEPLOY_PROGRAM_GENERATOR ? ProgramGeneratorDomainsModule : []),
   controllers: [AppController],

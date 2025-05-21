@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { QuestionaryPersistenceService } from 'src/modules/professionals/questionary/adapters/out/questinary-persistence.service';
-import { Questionary, QuestionarySchema } from 'src/modules/professionals/questionary/adapters/out/questionary.schema';
+import { QuestionaryPersistenceService } from 'src/modules/questionaries/questionary/adapters/out/questinary-persistence.service';
+import { Questionary, QuestionarySchema } from 'src/modules/questionaries/questionary/adapters/out/questionary.schema';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Questionary.name, schema: QuestionarySchema }])],

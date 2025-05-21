@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 
-import { Questionary, QuestionaryDocument } from 'src/modules/professionals/questionary/adapters/out/questionary.schema';
+import { Questionary, QuestionaryDocument } from 'src/modules/questionaries/questionary/adapters/out/questionary.schema';
 
 @Injectable()
 export class QuestionaryPersistenceService {

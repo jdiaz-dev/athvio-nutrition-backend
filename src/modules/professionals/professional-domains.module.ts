@@ -4,16 +4,8 @@ import { PatientGroupsModule } from 'src/modules/professionals/patient-groups/pa
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { ProgramTagsModule } from 'src/modules/professionals/program-tags/program-tags.module';
 import { ProgramsModule } from 'src/modules/professionals/programs/programs.module';
-import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
 
 @Module({
-  imports: [
-    QuestionaryConfigurationModule,
-    ProfessionalsModule,
-    ProgramsModule,
-    ProgramTagsModule,
-    PatientGroupsModule,
-    NutritionalMealsModule,
-  ],
+  imports: [ProfessionalsModule, ProgramsModule, ProgramTagsModule, PatientGroupsModule, NutritionalMealsModule],
 })
 export class ProfessionalDomainsModule {}
