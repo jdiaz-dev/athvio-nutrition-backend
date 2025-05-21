@@ -3,10 +3,10 @@ import { QuestionaryConfig, QuestionaryConfigDocument } from './questionary-conf
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { InternalErrors } from 'src/shared/enums/messages-response';
-import { CreateQuestionary } from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
+import { CreateQuestionary } from 'src/modules/questionaries/questionary-configuration/adapters/out/questionary-config';
 import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
+import { EnableQuestionaryDetailsDto } from 'src/modules/questionaries/questionary-configuration/adapters/in/dtos/enable-questionary-details.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()

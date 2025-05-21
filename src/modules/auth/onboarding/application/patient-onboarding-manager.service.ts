@@ -9,7 +9,7 @@ import { UserManagamentService } from 'src/modules/auth/users/application/user-m
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { QuestionaryConfigManager } from 'src/modules/professionals/questionary-configuration/application/questionary-configuration-manager.service';
+import { QuestionaryConfigManager } from 'src/modules/questionaries/questionary-configuration/application/questionary-configuration-manager.service';
 import { PatientQuestionaryManager } from 'src/modules/questionaries/patient-questionaries/application/patient-questionary-manager.service';
 import { ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { EnumRoles, LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';

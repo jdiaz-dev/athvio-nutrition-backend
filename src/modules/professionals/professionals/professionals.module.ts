@@ -5,7 +5,7 @@ import { ProfessionalsResolver } from 'src/modules/professionals/professionals/a
 import { Professional, ProfessionalSchema } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { QuestionaryConfigurationModule } from 'src/modules/professionals/questionary-configuration/questionary-configuration.module';
+import { QuestionaryConfigurationModule } from 'src/modules/questionaries/questionary-configuration/questionary-configuration.module';
 
 @Module({
   imports: [

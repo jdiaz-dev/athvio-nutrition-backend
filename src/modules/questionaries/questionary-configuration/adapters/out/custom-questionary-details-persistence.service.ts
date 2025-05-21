@@ -7,7 +7,7 @@ import {
   AddQuestionaryDetail,
   DeleteQuestionaryDetail,
   UpdateQuestionaryDetail,
-} from 'src/modules/professionals/questionary-configuration/adapters/out/questionary-config';
+} from 'src/modules/questionaries/questionary-configuration/adapters/out/questionary-config';
 import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 

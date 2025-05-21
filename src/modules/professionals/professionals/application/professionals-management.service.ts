@@ -3,7 +3,7 @@ import { GetProfessionalDto } from 'src/modules/professionals/professionals/adap
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
-import { QuestionaryConfigManager } from 'src/modules/professionals/questionary-configuration/application/questionary-configuration-manager.service';
+import { QuestionaryConfigManager } from 'src/modules/questionaries/questionary-configuration/application/questionary-configuration-manager.service';
 import { ProfessionalMessages } from 'src/shared/enums/messages-response';
 
 //
