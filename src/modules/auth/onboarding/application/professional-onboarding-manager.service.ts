@@ -40,7 +40,7 @@ export class ProfessionalOnboardingManagerService {
   }
   async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
     const defultProgramId = await this.createDefaultProgram(professional, dto.detectedLanguage);
-    await this.createDefaultPatient(professional, dto.email, dto.clientOffsetMinutes, defultProgramId);
+    await this.createDefaultPatient(professional, dto, defultProgramId);
   }
   private async createProfessionalAndUser({
     professionalInfo,
@@ -83,26 +83,21 @@ export class ProfessionalOnboardingManagerService {
     });
     return _id;
   }
-  private async createDefaultPatient(
-    professional: string,
-    email: string,
-    clientOffsetMinutes: number,
-    defultProgramId: string,
-  ): Promise<void> {
+  private async createDefaultPatient(professional: string, dto: SignUpProfessionalDto, defultProgramId: string): Promise<void> {
     const { _id: patient } = await this.supms.onboardingForWeb(
       {
         professional,
         userInfo: {
-          firstname: 'patient',
-          lastname: 'demo',
-          email: `demo_${email}`,
+          firstname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Steve' : 'Juan',
+          lastname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Johnson [Demo]' : 'Pérez [Demo]',
+          email: `demo_${dto.email}`,
         },
       },
       true,
     );
 
     const iso = new Date().toISOString();
-    const _date = getClientLocalTimeFromOffset(iso, clientOffsetMinutes);
+    const _date = getClientLocalTimeFromOffset(iso, dto.clientOffsetMinutes);
     await this.aps.assignProgramToPatient({
       professional,
       program: defultProgramId,
