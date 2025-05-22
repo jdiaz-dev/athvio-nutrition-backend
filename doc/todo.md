@@ -23,3 +23,4 @@
 - feat: create one endpoint to add specific food
 - refactor: orchestrator must to manage the creation of questionary 
 config nor questionary config
+- fix: change from patient demo to paciente de prueba para español
