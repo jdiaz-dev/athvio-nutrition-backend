@@ -785,7 +785,8 @@ type PatientPlan {
 type PatientQuestionary {
   _id: ID!
   createdAt: DateTime!
-  patient: ID!
+  patient: String!
+  professional: String!
   questionaryGroups: [PatientQuestionaryGroup!]!
 }
 
@@ -899,10 +900,10 @@ type Query {
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
   getProfessional(professional: GetProfessionalDto!): Professional!
+  getProfessionalQuestionary(input: GetProfessionalQuestionaryDto!): ProfessionalQuestionary!
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
-  getQuestionary(input: GetProfessionalQuestionaryDto!): ProfessionalQuestionary!
   getUser(input: GetUserDto!): User!
   populateSpanishFoods: [String!]!
 }

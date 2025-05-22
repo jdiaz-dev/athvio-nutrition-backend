@@ -13,7 +13,7 @@ export class PatientQuestionaryManager {
     return questionaryCreated;
   }
   async getPatientQuestionary(dto: GetPatientQuestionaryDto, selector: Record<string, number>): Promise<PatientQuestionary> {
-    const questionary = await this.pqps.getPatientQuestionary(dto.patient, selector);
+    const questionary = await this.pqps.getPatientQuestionary(dto, selector);
     return questionary;
   }
 }

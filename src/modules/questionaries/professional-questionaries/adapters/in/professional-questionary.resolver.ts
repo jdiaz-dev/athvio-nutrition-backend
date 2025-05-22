@@ -14,7 +14,7 @@ export class ProfessionalQuestionaryResolver {
   constructor(private qcm: ProfessionalQuestionaryManager) {}
 
   @Query(() => ProfessionalQuestionary)
-  getQuestionary(
+  getProfessionalQuestionary(
     @Args('input') dto: GetProfessionalQuestionaryDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<ProfessionalQuestionary> {

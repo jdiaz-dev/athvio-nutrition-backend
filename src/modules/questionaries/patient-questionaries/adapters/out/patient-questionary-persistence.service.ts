@@ -1,12 +1,13 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PatientQuestionary, PatientQuestionaryDocument } from './patient-questionary.schema';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { CreatePatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/questionary-config';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { GetPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
 
 @Injectable()
 export class PatientQuestionaryPersistenceService {
@@ -26,12 +27,15 @@ export class PatientQuestionaryPersistenceService {
       throw new InternalServerErrorException(InternalErrors.DATABASE);
     }
   }
-  async getPatientQuestionary(patient: string, selectors: Record<string, number>): Promise<PatientQuestionary> {
+  async getPatientQuestionary(
+    { patient, professional }: GetPatientQuestionaryDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientQuestionary> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
     try {
       const questionaryRes = await this.patientQuestionary.aggregate([
         {
-          $match: { patient: new Types.ObjectId(patient) },
+          $match: { patient, professional },
         },
         {
           $project: {

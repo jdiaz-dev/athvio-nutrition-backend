@@ -64,6 +64,7 @@ export class PatientOnboardingManagerService {
     const { questionaryGroups } = await this.qcm.getProfessionalQuestionary(professional);
     await this.pqm.createQuestionary({
       patient: patient._id,
+      professional: _proffesional._id,
       questionaryGroups: questionaryGroups.map(({ _id, questionaryDetails, ...restGroup }) => ({
         ...restGroup,
         questionaryDetails: questionaryDetails.map(({ _id, ...rest }) => ({ ...rest })),

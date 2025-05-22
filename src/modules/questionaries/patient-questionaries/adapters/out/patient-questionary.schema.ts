@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Document } from 'mongoose';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'src/shared/schemas/questionary-base.schema';
 
@@ -30,9 +30,13 @@ export class PatientQuestionary extends QuestionaryBase {
   @Field(() => ID)
   _id!: string;
 
-  @Field(() => ID)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  @Field(() => String)
+  @Prop({ type: String, required: true })
   patient!: string;
+
+  @Field(() => String)
+  @Prop({ type: String, required: true })
+  professional!: string;
 
   @Field(() => [PatientQuestionaryGroup])
   @Prop({ type: [PatientQuestionaryGroupSchema], required: true })
