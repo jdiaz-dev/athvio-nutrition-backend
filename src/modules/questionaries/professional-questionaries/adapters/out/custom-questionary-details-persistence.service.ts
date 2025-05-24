@@ -10,13 +10,16 @@ import {
 } from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary';
 import { LayersServer, CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
 export class CustomQuestionaryDetailsPersistenceService {
   private layer = LayersServer.INFRAESTRUCTURE;
 
-  constructor(@InjectModel(ProfessionalQuestionary.name) private readonly professionalQuestionary: Model<ProfessionalQuestionaryDocument>) {
-  }
+  constructor(
+    @InjectModel(ProfessionalQuestionary.name) private readonly professionalQuestionary: Model<ProfessionalQuestionaryDocument>,
+    private readonly logger: AthvioLoggerService,
+  ) {}
   async addQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetailBodies }: AddQuestionaryDetail,
     selectors: Record<string, number>,
@@ -62,7 +65,8 @@ export class CustomQuestionaryDetailsPersistenceService {
       );
 
       return questionaryRes;
-    } catch (e) {
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
@@ -117,7 +121,8 @@ export class CustomQuestionaryDetailsPersistenceService {
       );
 
       return questionaryRes;
-    } catch (e) {
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }
@@ -170,7 +175,8 @@ export class CustomQuestionaryDetailsPersistenceService {
       );
 
       return questionaryRes;
-    } catch (e) {
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
       throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
     }
   }

@@ -678,6 +678,7 @@ type Mutation {
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpPatientFromMobile(input: SignUpPatientFromMobileDto!): JwtDto!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
+  updateAnswerAndAdditionalNotes(input: UpdateAnswerAndAdditionalNotesDto!): PatientQuestionary!
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
@@ -800,11 +801,22 @@ type PatientQuestionaryDetail {
   options: [String!]!
 }
 
+input PatientQuestionaryDetailInput {
+  additionalNotes: String!
+  answer: String!
+  questionaryDetail: String!
+}
+
 type PatientQuestionaryGroup {
   _id: ID!
   description: String
   questionaryDetails: [PatientQuestionaryDetail!]!
   title: String!
+}
+
+input PatientQuestionaryGroupInput {
+  questionaryDetails: [PatientQuestionaryDetailInput!]!
+  questionaryGroup: String!
 }
 
 type Plan {
@@ -982,6 +994,13 @@ input SubscribePublishedMessageDto {
 type Subscription {
   patientMessaged(input: SubscribePublishedMessageDto!): Chat
   professionalMessaged(input: SubscribePublishedMessageDto!): Chat
+}
+
+input UpdateAnswerAndAdditionalNotesDto {
+  patient: String!
+  professional: String!
+  questionary: String!
+  questionaryGroups: [PatientQuestionaryGroupInput!]!
 }
 
 input UpdateCaloryDto {

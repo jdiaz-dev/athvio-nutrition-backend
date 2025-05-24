@@ -1,42 +1,50 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { IsMongoId, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator';
 
 @InputType()
-export class UpdateCustomQuestionaryDetailInput {
+class PatientQuestionaryDetailInput {
   @Field()
   @IsMongoId()
   questionaryDetail: string;
 
   @Field()
   @IsString()
-  fieldName: string;
+  answer: string;
 
   @Field()
   @IsString()
-  associatedQuestion: string;
-
-  @Field()
-  @IsBoolean()
-  isEnabled: boolean;
+  additionalNotes: string;
 }
 
 @InputType()
-export class UpdateCustomQuestionaryDetailsDto {
+class PatientQuestionaryGroupInput {
   @Field()
   @IsMongoId()
-  questionary: string;
+  questionaryGroup: string;
 
+  @Field(() => [PatientQuestionaryDetailInput])
+  @ValidateNested()
+  @Type(() => PatientQuestionaryDetailInput)
+  questionaryDetails: PatientQuestionaryDetailInput[];
+}
+
+@InputType()
+export class UpdateAnswerAndAdditionalNotesDto {
   @Field()
   @IsMongoId()
   professional: string;
 
   @Field()
   @IsString()
-  questionaryGroup: string;
+  patient: string;
 
-  @Field(() => [UpdateCustomQuestionaryDetailInput])
+  @Field()
+  @IsMongoId()
+  questionary: string;
+
+  @Field(() => [PatientQuestionaryGroupInput])
   @ValidateNested()
-  @Type(() => UpdateCustomQuestionaryDetailInput)
-  questionaryDetailsInput: UpdateCustomQuestionaryDetailInput[];
+  @Type(() => PatientQuestionaryGroupInput)
+  questionaryGroups: PatientQuestionaryGroupInput[];
 }

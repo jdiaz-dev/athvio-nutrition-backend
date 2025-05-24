@@ -77,7 +77,6 @@ export class PatientsPersistenceService {
     try {
       const patientRes = await this.patientModel.findOne({
         _id: patientId,
-        // state: PatientState.ACTIVE, //todo think in activate patient
       });
 
       return patientRes;

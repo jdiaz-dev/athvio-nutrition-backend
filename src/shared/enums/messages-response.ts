@@ -73,3 +73,7 @@ export enum ErrorMailService {
 export enum ErrorStorageEnum {
   SAVE_FILE = 'An error has happened trying to save file',
 }
+
+export enum ErrorPatientQuestionaryEnum {
+  NOT_FOUND = 'Patient questionary does not found',
+}
