@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { QuestionaryPersistenceService } from 'src/modules/questionaries/questionary/adapters/out/questinary-persistence.service';
+import { QuestionaryPersistenceService } from 'src/modules/questionaries/questionary/adapters/out/questionary-persistence.service';
 import { Questionary, QuestionarySchema } from 'src/modules/questionaries/questionary/adapters/out/questionary.schema';
 
 @Module({

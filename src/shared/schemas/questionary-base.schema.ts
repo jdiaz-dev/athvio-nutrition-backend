@@ -34,7 +34,7 @@ const QuestionaryDetailBaseSchema = SchemaFactory.createForClass(QuestionaryDeta
 @Schema({ _id: true, timestamps: false })
 export class QuestionaryGroupBase {
   @Field(() => ID)
-  _id!: string;
+  _id?: string;
 
   @Field(() => String)
   @Prop({ type: String, required: true })

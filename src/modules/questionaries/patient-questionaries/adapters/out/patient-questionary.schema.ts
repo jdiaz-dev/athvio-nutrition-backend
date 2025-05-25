@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'src/shared/schemas/questionary-base.schema';
 
@@ -43,7 +43,7 @@ export class PatientQuestionary extends QuestionaryBase {
   questionaryGroups!: PatientQuestionaryGroup[];
 }
 
-export type PatientQuestionaryDocument = PatientQuestionary & Document;
+export type PatientQuestionaryDocument = HydratedDocument<PatientQuestionary>;
 export const PatientQuestionarySchema = SchemaFactory.createForClass(PatientQuestionary);
 PatientQuestionarySchema.methods.toJSON = function (): Partial<PatientQuestionary> {
   const { __v, createdAt, updatedAt, ...patientQuestionary } = this.toObject();

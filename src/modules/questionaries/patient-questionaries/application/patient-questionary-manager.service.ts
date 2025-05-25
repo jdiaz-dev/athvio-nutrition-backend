@@ -23,7 +23,7 @@ export class PatientQuestionaryManager {
     selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const questionary = await this.pqps.updateAnwerAndAdditionalNotes(dto, selectors);
-    if(!questionary) throw new BadRequestException(ErrorPatientQuestionaryEnum.NOT_FOUND)
+    if (!questionary) throw new BadRequestException(ErrorPatientQuestionaryEnum.NOT_FOUND);
     return questionary;
   }
 }
