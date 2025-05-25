@@ -24,3 +24,4 @@
 - refactor: orchestrator must to manage the creation of questionary 
 config nor questionary config
 - fix: change from patient demo to paciente de prueba para español
+- fix: questionary module - completed
