@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
@@ -8,42 +8,37 @@ import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dt
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
 import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { ErrorProgramEnum, InternalErrors } from 'src/shared/enums/messages-response';
-import { LayersServer } from 'src/shared/enums/project';
+import { BaseRepository } from 'src/shared/database/base-repository';
+import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
 @Injectable()
-export class NutritionalMealsPersistenceService {
-  private layer = LayersServer.INFRAESTRUCTURE;
-
+export class NutritionalMealsPersistenceService extends BaseRepository<ProgramDocument> {
   constructor(
-    @InjectModel(Program.name) private readonly programModel: Model<ProgramDocument>,
-    private readonly logger: AthvioLoggerService,
-  ) {}
+    @InjectModel(Program.name) protected readonly programModel: Model<ProgramDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(programModel, logger, Program.name);
+  }
 
   async addMeal({ professional, program, plan, meals }: AddMealDto, selectors: Record<string, number>): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    try {
-      const programRes = await this.programModel.findOneAndUpdate(
-        { _id: program, professional },
-        { $push: { 'plans.$[plan].meals': { $each: meals } } },
-        {
-          arrayFilters: [{ 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false }],
-          new: true,
-          projection: {
-            ...restFields,
-            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
-          },
+    const programRes = await this.findOneAndUpdate(
+      { _id: program, professional },
+      { $push: { 'plans.$[plan].meals': { $each: meals } } },
+      {
+        arrayFilters: [{ 'plan._id': new Types.ObjectId(plan), 'plan.isDeleted': false }],
+        new: true,
+        projection: {
+          ...restFields,
+          plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
         },
-      );
-      if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND, this.layer);
+      },
+    );
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-      return programRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return programRes;
   }
 
   async updateMeal({ professional, program, plan, meals }: UpdateMealDto, selectors: Record<string, number>): Promise<Program> {
@@ -64,32 +59,27 @@ export class NutritionalMealsPersistenceService {
       [`meal${index}.isDeleted`]: false,
     }));
 
-    try {
-      const programRes = await this.programModel.findOneAndUpdate(
-        { _id: program, professional },
-        { $set: Object.assign({}, ...updateSubDocuments) },
-        {
-          arrayFilters: [
-            {
-              'plan._id': new Types.ObjectId(plan),
-              'plan.isDeleted': false,
-            },
-            ...arrayFilters,
-          ],
-          new: true,
-          projection: {
-            ...restFields,
-            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
+    const programRes = await this.findOneAndUpdate(
+      { _id: program, professional },
+      { $set: Object.assign({}, ...updateSubDocuments) },
+      {
+        arrayFilters: [
+          {
+            'plan._id': new Types.ObjectId(plan),
+            'plan.isDeleted': false,
           },
+          ...arrayFilters,
+        ],
+        new: true,
+        projection: {
+          ...restFields,
+          plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
         },
-      );
-      if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND, this.layer);
+      },
+    );
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-      return programRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
-    }
+    return programRes;
   }
 
   async deleteMeal({ professional, program, plan, meals }: DeleteMealDto, selectors: Record<string, number>): Promise<Program> {
@@ -101,32 +91,27 @@ export class NutritionalMealsPersistenceService {
       [`meal${index}._id`]: new Types.ObjectId(item),
       [`meal${index}.isDeleted`]: false,
     }));
-    try {
-      const programRes = await this.programModel.findOneAndUpdate(
-        { _id: program, professional },
-        { $set: Object.assign({}, ...deleteSubDocuments) },
-        {
-          arrayFilters: [
-            {
-              'plan._id': new Types.ObjectId(plan),
-              'plan.isDeleted': false,
-            },
-            ...arrayFilters,
-          ],
-          new: true,
-          projection: {
-            ...restFields,
-            plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
+    const programRes = await this.findOneAndUpdate(
+      { _id: program, professional },
+      { $set: Object.assign({}, ...deleteSubDocuments) },
+      {
+        arrayFilters: [
+          {
+            'plan._id': new Types.ObjectId(plan),
+            'plan.isDeleted': false,
           },
+          ...arrayFilters,
+        ],
+        new: true,
+        projection: {
+          ...restFields,
+          plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
         },
-      );
+      },
+    );
 
-      if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND, this.layer);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
-      return programRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE, this.layer);
-    }
+    return programRes;
   }
 }

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Schema as MongooseSchema, HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
@@ -34,7 +34,7 @@ export class Calory extends BaseSchema {
   isDeleted!: string;
 }
 
-export type CaloryDocument = Calory & Document;
+export type CaloryDocument = HydratedDocument<Calory>;
 export const CalorySchema = SchemaFactory.createForClass(Calory);
 CalorySchema.methods.toJSON = function () {
   const { __v, createdAt, updatedAt, ...rest } = this.toObject();

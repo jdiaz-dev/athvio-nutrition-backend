@@ -1,51 +1,45 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { CreateCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/create-calory.dto';
 import { GetCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/get-calory.dto';
 import { UpdateCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/update-calory.dto';
 import { Calory, CaloryDocument } from 'src/modules/patients/calories/adapters/out/calory.schema';
-import { InternalErrors } from 'src/shared/enums/messages-response';
+import { BaseRepository } from 'src/shared/database/base-repository';
 
 @Injectable()
-export class CaloriesPersistenceService {
-  constructor(@InjectModel(Calory.name) private readonly caloryModel: Model<CaloryDocument>) {}
+export class CaloriesPersistenceService extends BaseRepository<CaloryDocument> {
+  constructor(
+    @InjectModel(Calory.name) protected readonly caloryModel: Model<CaloryDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(caloryModel, logger, Calory.name);
+  }
 
   async createCalory(dto: CreateCaloryDto): Promise<Calory> {
-    try {
-      const calory = await this.caloryModel.create({
-        ...dto,
-      });
-      return calory;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    const calory = await this.create({
+      ...dto,
+    });
+    return calory;
   }
   async getCalory({ patient }: GetCaloryDto, selectors: string[]): Promise<Calory> {
-    try {
-      const caloryRes = await this.caloryModel.findOne(
-        {
-          patient,
-          isDeleted: false,
-        },
-        selectors,
-      );
-      return caloryRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    const caloryRes = await this.findOne(
+      {
+        patient,
+        isDeleted: false,
+      },
+      selectors,
+    );
+    return caloryRes;
   }
   async updateCalory({ calory, patient, ...rest }: UpdateCaloryDto, selectors: string[]): Promise<Calory> {
-    try {
-      const caloryRes = await this.caloryModel.findOneAndUpdate(
-        { _id: calory, patient, isDeleted: false },
-        { ...rest },
-        { projection: selectors, new: true },
-      );
+    const caloryRes = await this.findOneAndUpdate(
+      { _id: calory, patient, isDeleted: false },
+      { ...rest },
+      { projection: selectors, new: true },
+    );
 
-      return caloryRes;
-    } catch (error) {
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return caloryRes;
   }
 }

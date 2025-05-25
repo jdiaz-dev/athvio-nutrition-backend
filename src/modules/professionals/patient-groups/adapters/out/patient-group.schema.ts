@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
@@ -22,7 +22,7 @@ export class PatientGroup extends BaseSchema {
   isDeleted!: string;
 }
 
-export type PatientGroupDocument = PatientGroup & Document;
+export type PatientGroupDocument = HydratedDocument<PatientGroup>;
 export const PatientGroupSchema = SchemaFactory.createForClass(PatientGroup);
 PatientGroupSchema.methods.toJSON = function (): Partial<PatientGroup> {
   const { __v, createdAt, updatedAt, ...patientGroup } = this.toObject();

@@ -1,43 +1,40 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
-import { ErrorPatientPlanEnum, InternalErrors } from 'src/shared/enums/messages-response';
+import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 import { UpdatePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/update-meal.dto';
 import { DeletePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/delete-meal-plan.dto';
-import { LayersServer } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/add-meal.dto';
+import { BaseRepository } from 'src/shared/database/base-repository';
 
 @Injectable()
-export class PatientPlanNutritionalMealsPersistenceService {
+export class PatientPlanNutritionalMealsPersistenceService extends BaseRepository<PatientPlanDocument> {
   constructor(
-    @InjectModel(PatientPlan.name) private readonly clienPlanModel: Model<PatientPlanDocument>,
-    private readonly logger: AthvioLoggerService,
-  ) {}
+    @InjectModel(PatientPlan.name) protected readonly clienPlanModel: Model<PatientPlanDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(clienPlanModel, logger, PatientPlan.name);
+  }
 
   async addMealToPlan({ patient, patientPlan, meals }: AddPlanMealDto, selectors: Record<string, number>): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
-    try {
-      const patientPlanRes = await this.clienPlanModel.findOneAndUpdate(
-        { _id: patientPlan, patient, isDeleted: false },
-        { $push: { meals: { $each: meals } } },
-        {
-          projection: {
-            ...restFields,
-            meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
-          },
-          new: true,
+    const patientPlanRes = await this.findOneAndUpdate(
+      { _id: patientPlan, patient, isDeleted: false },
+      { $push: { meals: { $each: meals } } },
+      {
+        projection: {
+          ...restFields,
+          meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
         },
-      );
-      return patientPlanRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+        new: true,
+      },
+    );
+    return patientPlanRes;
   }
   async updatePlanMeal(
     { patient, patientPlan, meals }: UpdatePlanMealDto,
@@ -58,26 +55,21 @@ export class PatientPlanNutritionalMealsPersistenceService {
       [`meal${index}.isDeleted`]: false,
     }));
 
-    try {
-      const programRes = await this.clienPlanModel.findOneAndUpdate(
-        { _id: patientPlan, patient },
-        { $set: Object.assign({}, ...updateSubDocuments) },
-        {
-          arrayFilters: [...arrayFilters],
-          new: true,
-          projection: {
-            ...restFields,
-            meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
-          },
+    const programRes = await this.findOneAndUpdate(
+      { _id: patientPlan, patient },
+      { $set: Object.assign({}, ...updateSubDocuments) },
+      {
+        arrayFilters: [...arrayFilters],
+        new: true,
+        projection: {
+          ...restFields,
+          meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
         },
-      );
-      if (programRes == null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);
+      },
+    );
+    if (programRes == null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);
 
-      return programRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return programRes;
   }
 
   async deletePlanMeal(
@@ -93,26 +85,21 @@ export class PatientPlanNutritionalMealsPersistenceService {
       [`meal${index}._id`]: new Types.ObjectId(item),
       [`meal${index}.isDeleted`]: false,
     }));
-    try {
-      const programRes = await this.clienPlanModel.findOneAndUpdate(
-        { _id: patientPlan, patient },
-        { $set: Object.assign({}, ...deleteSubDocuments) },
-        {
-          arrayFilters: [...arrayFilters],
-          new: true,
-          projection: {
-            ...restFields,
-            meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
-          },
+    const programRes = await this.findOneAndUpdate(
+      { _id: patientPlan, patient },
+      { $set: Object.assign({}, ...deleteSubDocuments) },
+      {
+        arrayFilters: [...arrayFilters],
+        new: true,
+        projection: {
+          ...restFields,
+          meals: PatientPlanQueryFragmentsService.filterNestedMeals(),
         },
-      );
+      },
+    );
 
-      if (programRes == null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);
+    if (programRes == null) throw new BadRequestException(ErrorPatientPlanEnum.CLIENT_PLAN_NOT_FOUND);
 
-      return programRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return programRes;
   }
 }

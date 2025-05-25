@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Schema as MongooseSchema, HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { UnitPreference } from 'src/shared/enums/project';
@@ -66,7 +66,7 @@ export class Professional extends BaseSchema {
   isTrialPeriod: boolean;
 }
 
-export type ProfessionalDocument = Professional & Document;
+export type ProfessionalDocument = HydratedDocument<Professional>;
 export const ProfessionalSchema = SchemaFactory.createForClass(Professional);
 ProfessionalSchema.methods.toJSON = function (): Partial<Professional> {
   const { __v, createdAt, updatedAt, ...profesional } = this.toObject();

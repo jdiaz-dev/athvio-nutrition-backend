@@ -1,26 +1,33 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { CreatePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/create-patient-group.dto';
 import { DeletePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/delete-patient-group.dto';
 import { GetPatientGroupsDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/get-patient-groups.dto';
 import { UpdatePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/update-patient-group.dto';
 import { PatientGroup, PatientGroupDocument } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
+import { BaseRepository } from 'src/shared/database/base-repository';
 import { ErrorPatientGroupEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
-export class PatientGroupsPersistenceService {
-  constructor(@InjectModel(PatientGroup.name) private readonly programTagModel: Model<PatientGroupDocument>) {}
+export class PatientGroupsPersistenceService extends BaseRepository<PatientGroupDocument> {
+  constructor(
+    @InjectModel(PatientGroup.name) protected readonly programTagModel: Model<PatientGroupDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(programTagModel, logger, PatientGroup.name);
+  }
 
   async createPatientGroup({ professional, ...rest }: CreatePatientGroupDto): Promise<PatientGroup> {
-    const patientGroup = await this.programTagModel.create({
+    const patientGroup = await this.create({
       professional,
       ...rest,
     });
     return patientGroup;
   }
   async getPatientGroup(professionalId: string, groupId: string): Promise<PatientGroup> {
-    const patientGroup = await this.programTagModel.findOne({
+    const patientGroup = await this.findOne({
       _id: groupId,
       professional: professionalId,
       isDeleted: false,
@@ -31,14 +38,14 @@ export class PatientGroupsPersistenceService {
     return patientGroup;
   }
   async getPatientGroups({ professional }: GetPatientGroupsDto): Promise<PatientGroup[]> {
-    const patientGroups = await this.programTagModel.find({
+    const patientGroups = await this.find({
       professional,
       isDeleted: false,
     });
     return patientGroups;
   }
   async updatePatientGroup({ professional, patientGroup, ...rest }: UpdatePatientGroupDto): Promise<PatientGroup> {
-    const patientGroupRes = await this.programTagModel.findOneAndUpdate(
+    const patientGroupRes = await this.findOneAndUpdate(
       { _id: patientGroup, professional, isDeleted: false },
       { ...rest },
       { new: true },
@@ -49,7 +56,7 @@ export class PatientGroupsPersistenceService {
   }
 
   async deletePatientGroup({ professional, patientGroup }: DeletePatientGroupDto): Promise<PatientGroup> {
-    const patientGroupRes = await this.programTagModel.findOneAndUpdate(
+    const patientGroupRes = await this.findOneAndUpdate(
       {
         _id: patientGroup,
         professional,

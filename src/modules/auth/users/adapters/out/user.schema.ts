@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { EnumRoles } from 'src/shared/enums/project';
@@ -56,7 +56,7 @@ export class User extends BaseSchema {
   isDarkMode!: true;
 }
 
-export type UserDocument = User & Document;
+export type UserDocument = HydratedDocument<User>;
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.methods.toJSON = function (): Partial<User> {
   const { __v, createdAt, updatedAt, ...user } = this.toObject();

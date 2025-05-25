@@ -5,11 +5,14 @@ import {
   AnyKeys,
   FilterQuery,
   HydratedDocument,
+  MergeType,
   Model,
   PipelineStage,
   ProjectionType,
   QueryWithHelpers,
   UpdateQuery,
+  UpdateWithAggregationPipeline,
+  UpdateWriteOpResult,
 } from 'mongoose';
 import { QueryOptions } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
@@ -36,6 +39,16 @@ export class BaseRepository<
       this.handleError(error, 'create');
     }
   }
+  protected async insertMany<DocContents = TRawDocType>(
+    docs: Array<DocContents | TRawDocType>,
+  ): Promise<Array<MergeType<THydratedDocumentType, Omit<DocContents, '_id'>>>> {
+    try {
+      const records = await this.model.insertMany(docs);
+      return records as Array<MergeType<THydratedDocumentType, Omit<DocContents, '_id'>>>;
+    } catch (error) {
+      this.handleError(error, 'insertMany');
+    }
+  }
   protected async findOne<ResultDoc = THydratedDocumentType>(
     filter?: FilterQuery<TRawDocType>,
     projection?: ProjectionType<TRawDocType> | null,
@@ -58,15 +71,33 @@ export class BaseRepository<
       return result as ResultDoc;
     } catch (error) {
       this.handleError(error, 'findOneAndUpdate');
-      throw error;
     }
   }
-
+  protected async find<ResultDoc = THydratedDocumentType>(
+    filter: FilterQuery<TRawDocType>,
+    projection?: ProjectionType<TRawDocType> | null | undefined,
+    options?: QueryOptions<TRawDocType> | null | undefined,
+  ): Promise<QueryWithHelpers<Array<ResultDoc>, ResultDoc, TQueryHelpers, TRawDocType, 'find'>> {
+    const result = await this.model.find(filter, projection, options);
+    return result as QueryWithHelpers<Array<ResultDoc>, ResultDoc, TQueryHelpers, TRawDocType, 'find'>;
+  }
   protected async aggregate<R = any>(pipeline?: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<Array<R>>> {
     try {
       return await this.model.aggregate(pipeline, options);
     } catch (error) {
-      this.handleError(error, 'aggregate');
+      this.handleError(error, 'find');
+    }
+  }
+  protected async updateMany<ResultDoc = THydratedDocumentType>(
+    filter?: FilterQuery<TRawDocType>,
+    update?: UpdateQuery<TRawDocType> | UpdateWithAggregationPipeline,
+    options?: QueryOptions<TRawDocType> | null,
+  ): Promise<QueryWithHelpers<UpdateWriteOpResult, ResultDoc, TQueryHelpers, TRawDocType, 'updateMany'>> {
+    try {
+      const result = await this.model.updateMany(filter, update, options);
+      return result as unknown as QueryWithHelpers<UpdateWriteOpResult, ResultDoc, TQueryHelpers, TRawDocType, 'updateMany'>;
+    } catch (error) {
+      this.handleError(error, 'updateMany');
     }
   }
 

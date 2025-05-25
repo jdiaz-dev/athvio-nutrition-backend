@@ -7,20 +7,23 @@ import { DeleteNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/delet
 import { GetNotesDto, GetNotesResponse } from 'src/modules/patients/notes/adapters/in/dtos/get-notes.dto';
 import { UpdateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/update-note.dto';
 import { Note, NoteDocument } from 'src/modules/patients/notes/adapters/out/note.schema';
+import { BaseRepository } from 'src/shared/database/base-repository';
 
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
-export class NotesPersistenceService {
+export class NotesPersistenceService extends BaseRepository<NoteDocument> {
   constructor(
-    @InjectModel(Note.name) private readonly noteModel: Model<NoteDocument>,
-    private readonly logger: AthvioLoggerService,
-  ) {}
+    @InjectModel(Note.name) protected readonly noteModel: Model<NoteDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(noteModel, logger, Note.name);
+  }
 
   async createNote(dto: CreateNoteDto): Promise<Note> {
     try {
-      const note = await this.noteModel.create({
+      const note = await this.create({
         ...dto,
       });
       return note;
@@ -34,102 +37,87 @@ export class NotesPersistenceService {
     { professional, patient, offset, limit }: GetNotesDto,
     selectors: Record<string, number>,
   ): Promise<GetNotesResponse> {
-    try {
-      const notes = await this.noteModel.aggregate([
-        {
-          $match: {
-            professional: professional,
-            patient: patient,
-            isDeleted: false,
-          },
+    const notes = await this.aggregate([
+      {
+        $match: {
+          professional: professional,
+          patient: patient,
+          isDeleted: false,
         },
-        {
-          $project: {
-            ...selectors,
-          },
+      },
+      {
+        $project: {
+          ...selectors,
         },
-        {
-          $sort: { createdAt: 1 },
+      },
+      {
+        $sort: { createdAt: 1 },
+      },
+      {
+        $facet: {
+          data: [
+            {
+              $skip: offset,
+            },
+            {
+              $limit: limit,
+            },
+            {
+              $project: selectors,
+            },
+          ],
+          meta: [{ $count: 'total' }],
         },
-        {
-          $facet: {
-            data: [
-              {
-                $skip: offset,
-              },
-              {
-                $limit: limit,
-              },
-              {
-                $project: selectors,
-              },
-            ],
-            meta: [{ $count: 'total' }],
-          },
+      },
+      {
+        $project: {
+          data: 1,
+          total: { $arrayElemAt: ['$meta.total', 0] },
         },
-        {
-          $project: {
-            data: 1,
-            total: { $arrayElemAt: ['$meta.total', 0] },
-          },
-        },
-      ]);
+      },
+    ]);
 
-      const res: GetNotesResponse = {
-        data: notes[0].data,
-        meta: {
-          total: notes[0].total ? notes[0].total : 0,
-          limit: limit,
-          offset: offset,
-        },
-      };
-      return res;
-    } catch (error: unknown) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error, message: (error as Error).message });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    const res: GetNotesResponse = {
+      data: notes[0].data,
+      meta: {
+        total: notes[0].total ? notes[0].total : 0,
+        limit: limit,
+        offset: offset,
+      },
+    };
+    return res;
   }
   async updateNote({ professional, note, patient, ...rest }: UpdateNoteDto, selectors: Record<string, number>): Promise<Note> {
-    try {
-      const noteRes = await this.noteModel.findOneAndUpdate(
-        { _id: note, professional, patient, isDeleted: false },
-        { ...rest },
-        {
-          new: true,
-          projection: {
-            ...selectors,
-          },
+    const noteRes = await this.findOneAndUpdate(
+      { _id: note, professional, patient, isDeleted: false },
+      { ...rest },
+      {
+        new: true,
+        projection: {
+          ...selectors,
         },
-      );
-      return noteRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+      },
+    );
+    return noteRes;
   }
 
   async deleteNote({ note, professional, patient }: DeleteNoteDto, selectors: string[]): Promise<Note> {
-    try {
-      const noteRes = await this.noteModel.findOneAndUpdate(
-        {
-          _id: note,
-          professional,
-          patient,
-          isDeleted: false,
-        },
-        {
-          isDeleted: true,
-        },
-        {
-          new: true,
-          projection: selectors,
-        },
-      );
+    const noteRes = await this.findOneAndUpdate(
+      {
+        _id: note,
+        professional,
+        patient,
+        isDeleted: false,
+      },
+      {
+        isDeleted: true,
+      },
+      {
+        new: true,
+        projection: selectors,
+      },
+    );
 
-      return noteRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return noteRes;
   }
 }

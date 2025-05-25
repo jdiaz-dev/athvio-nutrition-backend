@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { AllowedGender, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
@@ -72,7 +72,7 @@ export class Patient extends BaseSchema {
   origin: OriginPatientEnum;
 }
 
-export type PatientDocument = Patient & Document;
+export type PatientDocument = HydratedDocument<Patient>;
 export const PatientSchema = SchemaFactory.createForClass(Patient);
 PatientSchema.methods.toJSON = function () {
   const { __v, createdAt, updatedAt, ...patient } = this.toObject();

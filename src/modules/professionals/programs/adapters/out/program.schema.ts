@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
@@ -94,7 +94,7 @@ export class Program extends BaseSchema {
   language: SupportedLanguages;
 }
 
-export type ProgramDocument = Program & Document;
+export type ProgramDocument = HydratedDocument<Program>;
 export const ProgramSchema = SchemaFactory.createForClass(Program);
 ProgramSchema.methods.toJSON = function (): Partial<Program> {
   const { __v, createdAt, updatedAt, ...program } = this.toObject();

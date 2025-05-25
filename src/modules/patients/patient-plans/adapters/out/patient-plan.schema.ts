@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { Meal, MealSchema } from 'src/shared/models/meal-plan';
@@ -89,7 +89,7 @@ export class PatientPlan extends BaseSchema {
   isDeleted!: boolean;
 }
 
-export type PatientPlanDocument = PatientPlan & Document;
+export type PatientPlanDocument = HydratedDocument<PatientPlan>;
 export const PatientPlanSchema = SchemaFactory.createForClass(PatientPlan);
 PatientPlanSchema.methods.toJSON = function (): Partial<PatientPlan> {
   const { __v, createdAt, updatedAt, ...patientPlan } = this.toObject();

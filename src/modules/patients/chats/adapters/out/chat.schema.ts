@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
@@ -42,7 +42,7 @@ export class Chat extends BaseSchema {
   comments: ChatComment[];
 }
 
-export type ChatDocument = Chat & Document;
+export type ChatDocument = HydratedDocument<Chat>;
 export const ChatSchema = SchemaFactory.createForClass(Chat);
 ChatSchema.methods.toJSON = function () {
   const { __v, createdAt, updatedAt, ...chat } = this.toObject();

@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
@@ -8,113 +8,100 @@ import {
 } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { GetNutritionalMealsResponse } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
 import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/delete-nutritional-meal.dto';
-import { InternalErrors } from 'src/shared/enums/messages-response';
 import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/create-nutritional-meal.dto';
 import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meal.dto';
 import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { EnumSources, LayersServer } from 'src/shared/enums/project';
+import { EnumSources } from 'src/shared/enums/project';
+import { BaseRepository } from 'src/shared/database/base-repository';
 
 @Injectable()
-export class NutritionalMealsPersistenceService {
+export class NutritionalMealsPersistenceService extends BaseRepository<NutritionalDocument> {
   constructor(
-    @InjectModel(NutritionalMeal.name) private readonly nutritionalMealModel: Model<NutritionalDocument>,
-    private readonly logger: AthvioLoggerService,
-  ) {}
+    @InjectModel(NutritionalMeal.name) protected readonly nutritionalMealModel: Model<NutritionalDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(nutritionalMealModel, logger, NutritionalMeal.name);
+  }
 
   async createNutritionalMeal({ professional, ...rest }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
-    try {
-      const nutritionalMeal = await this.nutritionalMealModel.create({
-        professional,
-        ...rest,
-      });
+    const nutritionalMeal = await this.create({
+      professional,
+      ...rest,
+    });
 
-      return nutritionalMeal;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return nutritionalMeal;
   }
 
   async getNutritionalMeal(
     { professional, nutritionalMeal }: Omit<GetNutritionalMealDto, 'professional'> & { professional?: string },
     selectors: string[],
   ): Promise<NutritionalMeal> {
-    try {
-      const nutritionalMealRes = await this.nutritionalMealModel.findOne(
-        {
-          _id: nutritionalMeal,
-          ...(professional && { professional }),
-          isDeleted: false,
-        },
-        selectors,
-      );
+    const nutritionalMealRes = await this.findOne(
+      {
+        _id: nutritionalMeal,
+        ...(professional && { professional }),
+        isDeleted: false,
+      },
+      selectors,
+    );
 
-      return nutritionalMealRes;
-    } catch (error: unknown) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return nutritionalMealRes;
   }
   async getNutritionalMeals(
     { match, ...rest }: GetRecordsBaseDto & { match?: { [k: string]: unknown } },
     selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
-    try {
-      const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
+    const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
-      const nutritionalMeals = await this.nutritionalMealModel.aggregate([
-        {
-          $match: {
-            ...match,
-            isDeleted: false,
-          },
+    const nutritionalMeals = await this.aggregate([
+      {
+        $match: {
+          ...match,
+          isDeleted: false,
         },
-        {
-          $match: {
-            $or: fieldsToSearch,
-          },
+      },
+      {
+        $match: {
+          $or: fieldsToSearch,
         },
-        {
-          $facet: {
-            data: [
-              {
-                $skip: rest.offset,
-              },
-              {
-                $limit: rest.limit,
-              },
-              {
-                $project: selectors,
-              },
-            ],
-            meta: [{ $count: 'total' }],
-          },
+      },
+      {
+        $facet: {
+          data: [
+            {
+              $skip: rest.offset,
+            },
+            {
+              $limit: rest.limit,
+            },
+            {
+              $project: selectors,
+            },
+          ],
+          meta: [{ $count: 'total' }],
         },
-        {
-          $project: {
-            data: 1,
-            total: { $arrayElemAt: ['$meta.total', 0] },
-          },
+      },
+      {
+        $project: {
+          data: 1,
+          total: { $arrayElemAt: ['$meta.total', 0] },
         },
-      ]);
+      },
+    ]);
 
-      const res: GetNutritionalMealsResponse = {
-        data: nutritionalMeals[0].data,
-        meta: {
-          total: nutritionalMeals[0].total ? nutritionalMeals[0].total : 0,
-          limit: rest.limit,
-          offset: rest.offset,
-        },
-      };
+    const res: GetNutritionalMealsResponse = {
+      data: nutritionalMeals[0].data,
+      meta: {
+        total: nutritionalMeals[0].total ? nutritionalMeals[0].total : 0,
+        limit: rest.limit,
+        offset: rest.offset,
+      },
+    };
 
-      return res;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return res;
   }
   async updateNutritionalMeal({
     professional,
@@ -126,45 +113,35 @@ export class NutritionalMealsPersistenceService {
     source?: EnumSources;
     image?: string;
   }): Promise<NutritionalMeal> {
-    try {
-      const nutritionalMealRes = await this.nutritionalMealModel.findOneAndUpdate(
-        {
-          _id: new Types.ObjectId(nutritionalMeal),
-          ...(professional && { professional: new Types.ObjectId(professional) }),
-          ...(source && { source }),
-          isDeleted: false,
-        },
-        { ...rest },
-        { new: true },
-      );
-      return nutritionalMealRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    const nutritionalMealRes = await this.findOneAndUpdate(
+      {
+        _id: new Types.ObjectId(nutritionalMeal),
+        ...(professional && { professional: new Types.ObjectId(professional) }),
+        ...(source && { source }),
+        isDeleted: false,
+      },
+      { ...rest },
+      { new: true },
+    );
+    return nutritionalMealRes;
   }
 
   async deleteNutritionalMeal({ professional, ...rest }: DeleteNutritionalMealDto): Promise<NutritionalMeal> {
-    try {
-      const nutritionalMealRes = await this.nutritionalMealModel.findOneAndUpdate(
-        {
-          _id: rest.nutritionalMeal,
-          professional: professional,
-          source: EnumSources.PROFESSIONAL,
-          isDeleted: false,
-        },
-        {
-          isDeleted: true,
-        },
-        {
-          new: true,
-        },
-      );
+    const nutritionalMealRes = await this.findOneAndUpdate(
+      {
+        _id: rest.nutritionalMeal,
+        professional: professional,
+        source: EnumSources.PROFESSIONAL,
+        isDeleted: false,
+      },
+      {
+        isDeleted: true,
+      },
+      {
+        new: true,
+      },
+    );
 
-      return nutritionalMealRes;
-    } catch (error) {
-      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
-      throw new InternalServerErrorException(InternalErrors.DATABASE);
-    }
+    return nutritionalMealRes;
   }
 }

@@ -8,20 +8,27 @@ import { CreateProgramTagDto } from 'src/modules/professionals/program-tags/adap
 import { UpdateProgramTagDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/update-program-tag.dto';
 import { DeleteProgramTagDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/delete-program-tag.dto';
 import { GetProgramTagsDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/get-program-tags.dto';
+import { BaseRepository } from 'src/shared/database/base-repository';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
-export class ProgramTagsPersistenceService {
-  constructor(@InjectModel(ProgramTag.name) private readonly programTagModel: Model<ProgramTagDocument>) {}
+export class ProgramTagsPersistenceService extends BaseRepository<ProgramTagDocument> {
+  constructor(
+    @InjectModel(ProgramTag.name) protected readonly programTagModel: Model<ProgramTagDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(programTagModel, logger, ProgramTag.name);
+  }
 
   async createProgramTag({ professional, ...rest }: CreateProgramTagDto): Promise<ProgramTag> {
-    const programTag = await this.programTagModel.create({
+    const programTag = await this.create({
       professional,
       ...rest,
     });
     return programTag;
   }
   async getProgramTag(professional: string, programTag: string): Promise<ProgramTag> {
-    const programTagRes = await this.programTagModel.findOne({
+    const programTagRes = await this.findOne({
       professional,
       _id: programTag,
       isDeleted: false,
@@ -30,14 +37,14 @@ export class ProgramTagsPersistenceService {
     return programTagRes;
   }
   async getProgramTags({ professional }: GetProgramTagsDto): Promise<ProgramTag[]> {
-    const programTags = await this.programTagModel.find({
+    const programTags = await this.find({
       professional,
       isDeleted: false,
     });
     return programTags;
   }
   async updateProgramTag({ professional, programTag, ...rest }: UpdateProgramTagDto): Promise<ProgramTag> {
-    const programTagRes = await this.programTagModel.findOneAndUpdate(
+    const programTagRes = await this.findOneAndUpdate(
       { _id: programTag, professional, isDeleted: false },
       { ...rest },
       { new: true },
@@ -48,7 +55,7 @@ export class ProgramTagsPersistenceService {
   }
 
   async deleteProgramTag(dto: DeleteProgramTagDto, professional: string): Promise<ProgramTag> {
-    const programTagRes = await this.programTagModel.findOneAndUpdate({
+    const programTagRes = await this.findOneAndUpdate({
       _id: dto.programTag,
       professional,
       isDeleted: true,

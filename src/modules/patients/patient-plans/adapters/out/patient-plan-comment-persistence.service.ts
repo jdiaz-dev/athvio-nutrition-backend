@@ -1,21 +1,28 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/add-patient-plan-comment.dto';
 import { DeletePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/delete-patient-plan-comment.dto';
 import { UpdatePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/update-patient-plan-comment.dto';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
+import { BaseRepository } from 'src/shared/database/base-repository';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
-export class PatientPlanCommentPersistenceService {
-  constructor(@InjectModel(PatientPlan.name) private readonly clienPlanModel: Model<PatientPlanDocument>) {}
+export class PatientPlanCommentPersistenceService extends BaseRepository<PatientPlanDocument> {
+  constructor(
+    @InjectModel(PatientPlan.name) protected readonly clienPlanModel: Model<PatientPlanDocument>,
+    protected readonly logger: AthvioLoggerService,
+  ) {
+    super(clienPlanModel, logger, PatientPlan.name);
+  }
 
   async addPatientPlanComment(
     { patientPlanId, patientId, ...rest }: AddPatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.clienPlanModel.findOneAndUpdate(
+    const patientPlan = await this.findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $push: { comments: { ...rest } } },
       { new: true, projection: selectors },
@@ -29,7 +36,7 @@ export class PatientPlanCommentPersistenceService {
     { patientPlanId, patientId, commentId, message }: UpdatePatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.clienPlanModel.findOneAndUpdate(
+    const patientPlan = await this.findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].message': message } },
       {
@@ -47,7 +54,7 @@ export class PatientPlanCommentPersistenceService {
     { patientPlanId, patientId, commentId }: DeletePatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.clienPlanModel.findOneAndUpdate(
+    const patientPlan = await this.findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].isDeleted': true } },
       {
