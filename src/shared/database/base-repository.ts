@@ -78,14 +78,18 @@ export class BaseRepository<
     projection?: ProjectionType<TRawDocType> | null | undefined,
     options?: QueryOptions<TRawDocType> | null | undefined,
   ): Promise<QueryWithHelpers<Array<ResultDoc>, ResultDoc, TQueryHelpers, TRawDocType, 'find'>> {
-    const result = await this.model.find(filter, projection, options);
-    return result as QueryWithHelpers<Array<ResultDoc>, ResultDoc, TQueryHelpers, TRawDocType, 'find'>;
+    try {
+      const result = await this.model.find(filter, projection, options);
+      return result as QueryWithHelpers<Array<ResultDoc>, ResultDoc, TQueryHelpers, TRawDocType, 'find'>;
+    } catch (error) {
+      this.handleError(error, 'find');
+    }
   }
   protected async aggregate<R = any>(pipeline?: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<Array<R>>> {
     try {
       return await this.model.aggregate(pipeline, options);
     } catch (error) {
-      this.handleError(error, 'find');
+      this.handleError(error, 'aggregate');
     }
   }
   protected async updateMany<ResultDoc = THydratedDocumentType>(
@@ -100,7 +104,6 @@ export class BaseRepository<
       this.handleError(error, 'updateMany');
     }
   }
-
   private handleError(error: unknown, operation: string): never {
     this.logger.error({
       layer: LayersServer.INFRAESTRUCTURE,
