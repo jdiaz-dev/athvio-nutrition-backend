@@ -7,7 +7,7 @@ import { ProgramsPersistenceService } from 'src/modules/professionals/programs/a
 import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPatial } from 'src/modules/professionals/programs/types/program';
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { PatientPlansPreparatorService } from 'src/shared/services/patient-plans-preparator.service';
 import { CreatePatientPlanManagerService } from 'src/modules/patients/patient-plans/application/create-patient-plan-manager.service';
@@ -16,7 +16,7 @@ import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plan
 @Injectable()
 export class AssignProgramService {
   constructor(
-    private readonly gps: GetPatientsService,
+    private readonly gps: GetPatientManagerService,
     private readonly cppms: CreatePatientPlanManagerService,
     private readonly gppms: GetPatientPlansManagerService,
     private readonly pps: PlansPersistenceService,

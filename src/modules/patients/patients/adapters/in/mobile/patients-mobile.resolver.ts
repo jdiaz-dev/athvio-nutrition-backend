@@ -4,13 +4,13 @@ import { Patient } from 'src/modules/patients/patients/adapters/out/patient.sche
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { GetPatientForMobileDto } from 'src/modules/patients/patients/adapters/in/mobile/dtos/get-patient.dto copy';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { AuthorizationPatientGuard } from 'src/shared/guards/authorization-patient.guard';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationPatientGuard])
 export class PatientsMobileResolver {
-  constructor(private readonly gps: GetPatientsService) {}
+  constructor(private readonly gps: GetPatientManagerService) {}
 
   @Query(() => Patient)
   async getPatientForMobile(

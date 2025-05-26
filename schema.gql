@@ -674,6 +674,7 @@ type Mutation {
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
   saveChatComment(input: SaveChatCommentDto!): Chat!
+  sendPatientQuestionary(input: SendPatientQuestionaryDto!): Boolean!
   signIn(input: SignInDto!): JwtDto!
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpPatientFromMobile(input: SignUpPatientFromMobileDto!): JwtDto!
@@ -747,7 +748,7 @@ type Patient {
   location: String
   notes: String
   phone: String
-  professional: ID
+  professional: String
   state: String
   target: String
   timezone: String
@@ -941,6 +942,12 @@ input SaveChatCommentDto {
   comment: ChatCommentInput!
   patient: String!
   professional: String
+}
+
+input SendPatientQuestionaryDto {
+  patient: String!
+  professional: String!
+  questionary: String!
 }
 
 input SignInDto {

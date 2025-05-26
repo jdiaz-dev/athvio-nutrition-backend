@@ -8,7 +8,7 @@ import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/use
 import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 
 @Injectable()
 export class AuthenticationService implements IValidateUserUseCase {
@@ -16,7 +16,7 @@ export class AuthenticationService implements IValidateUserUseCase {
     private readonly jwtService: JwtService,
     private ups: UsersPersistenceService,
     private pps: ProfessionalsPersistenceService,
-    private gps: GetPatientsService,
+    private gps: GetPatientManagerService,
   ) {}
   async validateCredentials(email: string, _password: string): Promise<UserValidated> {
     const user = await this.ups.getUserByEmail(email);

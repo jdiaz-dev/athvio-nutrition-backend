@@ -9,10 +9,10 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { PatientGroupsModule } from 'src/modules/professionals/patient-groups/patient-groups.module';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { PatientsMobileResolver } from 'src/modules/patients/patients/adapters/in/mobile/patients-mobile.resolver';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 
 const resolvers = [PatientsWebResolver, PatientsMobileResolver];
-const services = [PatientsPersistenceService, ManagePatientGroupService, GetPatientsService, PatientManagementService];
+const services = [PatientsPersistenceService, ManagePatientGroupService, GetPatientManagerService, PatientManagementService];
 
 @Module({
   imports: [
@@ -22,6 +22,6 @@ const services = [PatientsPersistenceService, ManagePatientGroupService, GetPati
     forwardRef(() => ProfessionalsModule),
   ],
   providers: [...resolvers, ...services],
-  exports: [PatientManagementService, GetPatientsService],
+  exports: [PatientManagementService, GetPatientManagerService],
 })
 export class PatientsModule {}

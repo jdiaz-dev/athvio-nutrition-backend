@@ -25,3 +25,5 @@
 config nor questionary config
 - fix: change from patient demo to paciente de prueba para español
 - fix: questionary module - completed
+- fix: manage english and spanish questionaries
+- refactor: rename sytem to system questionary 

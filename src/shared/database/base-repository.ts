@@ -36,7 +36,7 @@ export class BaseRepository<
       const record = await this.model.create(doc);
       return record as HydratedDocument<TRawDocType, TInstanceMethods>;
     } catch (error) {
-      this.handleError(error, 'create');
+      this.handleError(error, this.create.name);
     }
   }
   protected async insertMany<DocContents = TRawDocType>(
@@ -46,7 +46,7 @@ export class BaseRepository<
       const records = await this.model.insertMany(docs);
       return records as Array<MergeType<THydratedDocumentType, Omit<DocContents, '_id'>>>;
     } catch (error) {
-      this.handleError(error, 'insertMany');
+      this.handleError(error, this.insertMany.name);
     }
   }
   protected async findOne<ResultDoc = THydratedDocumentType>(
@@ -58,7 +58,7 @@ export class BaseRepository<
       const record = await this.model.findOne(filter, projection, options);
       return record as QueryWithHelpers<ResultDoc | null, ResultDoc, TQueryHelpers, TRawDocType, 'findOne'>;
     } catch (error) {
-      this.handleError(error, 'findOne');
+      this.handleError(error, this.findOne.name);
     }
   }
   protected async findOneAndUpdate<ResultDoc = HydratedDocument<TRawDocType, TInstanceMethods>>(
@@ -70,7 +70,7 @@ export class BaseRepository<
       const result = await this.model.findOneAndUpdate(filter, update, options).exec();
       return result as ResultDoc;
     } catch (error) {
-      this.handleError(error, 'findOneAndUpdate');
+      this.handleError(error, this.findOneAndUpdate.name);
     }
   }
   protected async find<ResultDoc = THydratedDocumentType>(
@@ -82,14 +82,14 @@ export class BaseRepository<
       const result = await this.model.find(filter, projection, options);
       return result as QueryWithHelpers<Array<ResultDoc>, ResultDoc, TQueryHelpers, TRawDocType, 'find'>;
     } catch (error) {
-      this.handleError(error, 'find');
+      this.handleError(error, this.find.name);
     }
   }
   protected async aggregate<R = any>(pipeline?: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<Array<R>>> {
     try {
       return await this.model.aggregate(pipeline, options);
     } catch (error) {
-      this.handleError(error, 'aggregate');
+      this.handleError(error, this.aggregate.name);
     }
   }
   protected async updateMany<ResultDoc = THydratedDocumentType>(
@@ -101,7 +101,7 @@ export class BaseRepository<
       const result = await this.model.updateMany(filter, update, options);
       return result as unknown as QueryWithHelpers<UpdateWriteOpResult, ResultDoc, TQueryHelpers, TRawDocType, 'updateMany'>;
     } catch (error) {
-      this.handleError(error, 'updateMany');
+      this.handleError(error, this.updateMany.name);
     }
   }
   private handleError(error: unknown, operation: string): never {
@@ -109,6 +109,7 @@ export class BaseRepository<
       layer: LayersServer.INFRAESTRUCTURE,
       operation: `${this.modelName}.${operation}`,
       message: (error as Error).message,
+      stack: (error as Error).stack,
       error,
     });
     throw new InternalServerErrorException(InternalErrors.DATABASE);

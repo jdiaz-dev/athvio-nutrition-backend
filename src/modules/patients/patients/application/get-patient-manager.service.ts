@@ -5,7 +5,7 @@ import { PatientsPersistenceService } from 'src/modules/patients/patients/adapte
 import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
-export class GetPatientsService {
+export class GetPatientManagerService {
   constructor(private pps: PatientsPersistenceService) {}
   async getPatientForMobile(patient: string, selectors?: Record<string, number>) {
     const _patient = await this.pps.getPatient({ _id: patient }, selectors || { _id: 1 });

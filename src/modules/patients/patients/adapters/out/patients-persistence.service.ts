@@ -29,17 +29,15 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
     });
     return patient.toJSON();
   }
-  async getPatient(filters: Record<string, string>, selectors: Record<string, number>): Promise<Patient> {
+  async getPatient(
+    { _id, professional }: { _id: string; professional?: string },
+    selectors: Record<string, number>,
+  ): Promise<Patient> {
     const restFields = removeAttributesWithFieldNames(selectors, ['user']);
-
-    let mappedFilters: any = {};
-    for (let filter in filters) {
-      mappedFilters[filter] = new Types.ObjectId(filters[filter]);
-    }
 
     const patientRes = await this.aggregate([
       {
-        $match: { ...mappedFilters },
+        $match: { _id: new Types.ObjectId(_id), ...(professional && { professional }) },
       },
       {
         $lookup: {
@@ -97,7 +95,7 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
     const patients = await this.aggregate([
       {
         $match: {
-          professional: new Types.ObjectId(professional),
+          professional,
           $or: states,
         },
       },

@@ -5,8 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { CreatePatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/questionary-config';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { GetPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
-import { UpdateAnswerAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-custom-questionary-details.dto';
+import { UpdateAnswerAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answer-and-additional-notes.dto';
 import { BaseRepository } from 'src/shared/database/base-repository';
 
 @Injectable()
@@ -24,18 +23,22 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
     });
   }
   async getPatientQuestionary(
-    { patient, professional }: GetPatientQuestionaryDto,
-    selectors: Record<string, number>,
+    { _id, patient, professional }: { _id?: string; patient: string; professional: string },
+    selectors?: Record<string, number>,
   ): Promise<PatientQuestionary> {
-    const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
+    const isFromExternalRequest = selectors ? true : false;
 
     const questionaryRes = await this.aggregate([
       {
-        $match: { patient, professional },
+        $match: {
+          _id: new Types.ObjectId(_id),
+          patient: patient,
+          professional: professional,
+        },
       },
       {
         $project: {
-          ...restFields,
+          ...(isFromExternalRequest && removeAttributesWithFieldNames(selectors, ['questionaryGroups'])),
           questionaryGroups: {
             $map: {
               input: '$questionaryGroups',

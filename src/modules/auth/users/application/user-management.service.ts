@@ -4,12 +4,12 @@ import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/updat
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
 import { UpdatePassword, UpdateUser } from 'src/modules/auth/users/adapters/out/users-types';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ErrorPatientsEnum, ErrorUsersEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class UserManagamentService {
-  constructor(private readonly ups: UsersPersistenceService, private readonly gps: GetPatientsService) {}
+  constructor(private readonly ups: UsersPersistenceService, private readonly gps: GetPatientManagerService) {}
 
   async getUserThroughPatient(patient: string): Promise<GetPatientUserResponse> {
     const { user } = await this.gps.getPatientById(patient);

@@ -4,14 +4,14 @@ import { PatientPlanCommentPersistenceService } from 'src/modules/patients/patie
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { CommenterType } from 'src/shared/enums/project';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 
 @Injectable()
 export class AddPatientPlanCommentService {
   constructor(
     private pps: ProfessionalsPersistenceService,
 
-    private gps: GetPatientsService,
+    private gps: GetPatientManagerService,
     private cpcps: PatientPlanCommentPersistenceService,
   ) {}
 

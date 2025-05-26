@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { GetPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
-import { UpdateAnswerAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-custom-questionary-details.dto';
+import { UpdateAnswerAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answer-and-additional-notes.dto';
 import { PatientQuestionaryPersistenceService } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary-persistence.service';
 import { PatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary.schema';
 import { CreatePatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/questionary-config';
 import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
-export class PatientQuestionaryManager {
-  constructor(private pqps: PatientQuestionaryPersistenceService) {}
+export class PatientQuestionaryManagerService {
+  constructor(private readonly pqps: PatientQuestionaryPersistenceService) {}
 
   async createQuestionary(patientQuestionary: CreatePatientQuestionary): Promise<PatientQuestionary> {
     const questionaryCreated = await this.pqps.createPatientQuestionary(patientQuestionary);

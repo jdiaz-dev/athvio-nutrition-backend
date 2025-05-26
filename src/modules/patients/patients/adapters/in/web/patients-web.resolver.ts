@@ -9,14 +9,14 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { GetPatientForWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patient.dto';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PatientsWebResolver {
   constructor(
-    private readonly gps: GetPatientsService,
+    private readonly gps: GetPatientManagerService,
     private readonly mcgs: ManagePatientGroupService,
     private readonly pms: PatientManagementService,
   ) {}

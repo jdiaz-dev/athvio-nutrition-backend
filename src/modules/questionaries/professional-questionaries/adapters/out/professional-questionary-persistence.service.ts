@@ -58,14 +58,14 @@ export class ProfessionalQuestionaryPersistenceService extends BaseRepository<Pr
     return questionaryRes;
   }
   async getProfessionalQuestionary(professional: string, selectors?: Record<string, number>): Promise<ProfessionalQuestionary> {
-    const internalUse = selectors ? true : false;
+    const isFromExternalRequest = selectors ? true : false;
     const questionaryRes = await this.aggregate([
       {
         $match: { professional: new Types.ObjectId(professional) },
       },
       {
         $project: {
-          ...(internalUse && removeAttributesWithFieldNames(selectors, ['questionaryGroups'])),
+          ...(isFromExternalRequest && removeAttributesWithFieldNames(selectors, ['questionaryGroups'])),
           questionaryGroups: {
             $map: {
               input: '$questionaryGroups',
@@ -80,7 +80,7 @@ export class ProfessionalQuestionaryPersistenceService extends BaseRepository<Pr
                     cond: {
                       $and: [
                         { $eq: ['$$detail.isDeleted', false] },
-                        ...(!internalUse ? [{ $eq: ['$$detail.isEnabled', true] }] : []),
+                        ...(!isFromExternalRequest ? [{ $eq: ['$$detail.isEnabled', true] }] : []),
                       ],
                     },
                   },

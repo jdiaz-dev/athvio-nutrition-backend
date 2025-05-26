@@ -16,8 +16,8 @@ export class Patient extends BaseSchema {
   @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
   user!: string;
 
-  @Field(() => ID, { nullable: true })
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: false })
+  @Field(() => String, { nullable: true })
+  @Prop({ type: String, required: false })
   professional!: string;
 
   @Field(() => [PatientGroup])

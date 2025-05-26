@@ -4,12 +4,12 @@ import { GetCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/get
 import { UpdateCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/update-calory.dto';
 import { CaloriesPersistenceService } from 'src/modules/patients/calories/adapters/out/calories-persistence.service';
 import { Calory } from 'src/modules/patients/calories/adapters/out/calory.schema';
-import { GetPatientsService } from 'src/modules/patients/patients/application/get-patient.service';
+import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ErrorCaloryEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class CaloryManagerService {
-  constructor(private gps: GetPatientsService, private caps: CaloriesPersistenceService) {}
+  constructor(private gps: GetPatientManagerService, private caps: CaloriesPersistenceService) {}
 
   async createCalory(dto: CreateCaloryDto): Promise<Calory> {
     await this.gps.getPatientById(dto.patient);
