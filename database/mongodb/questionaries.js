@@ -115,7 +115,7 @@ db.Questionaries.insertOne({
       ],
     },
     {
-      title: 'Customized',
+      title: 'Personalizado',
       description: '',
       questionaryDetails: [],
     },
