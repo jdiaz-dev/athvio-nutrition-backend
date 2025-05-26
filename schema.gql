@@ -793,6 +793,7 @@ type PatientQuestionary {
 
 type PatientQuestionaryDetail {
   _id: ID!
+  additionalNotes: String!
   answer: String!
   associatedQuestion: String!
   fieldName: String!

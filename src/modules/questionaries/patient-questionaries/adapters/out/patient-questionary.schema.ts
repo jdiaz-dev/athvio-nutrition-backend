@@ -10,6 +10,7 @@ class PatientQuestionaryDetail extends QuestionaryDetailBase {
   @Prop({ type: String, required: false, default: '' })
   answer?: string;
 
+  @Field(() => String)
   @Prop({ type: String, required: false, default: '' })
   additionalNotes?: string;
 }
