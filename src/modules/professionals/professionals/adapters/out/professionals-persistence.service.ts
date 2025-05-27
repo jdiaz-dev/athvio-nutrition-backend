@@ -19,9 +19,9 @@ export class ProfessionalsPersistenceService extends BaseRepository<Professional
   async createProfessional(dto: CreateProfessional): Promise<Professional> {
     return await this.create(dto);
   }
-  async getProfessionalById(professional: string, selectors: Record<string, number>): Promise<ProfessionalUser> {
-    const restFields = removeAttributesWithFieldNames(selectors, ['user']);
-    restFields;
+  async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
+    const isFromExternalRequest = selectors ? true : false;
+
     const professionalRes = await this.aggregate([
       {
         $match: {
@@ -42,12 +42,10 @@ export class ProfessionalsPersistenceService extends BaseRepository<Professional
           user: {
             $arrayElemAt: ['$user', 0],
           },
-          ...restFields,
+          ...(isFromExternalRequest && removeAttributesWithFieldNames(selectors, ['user'])),
         },
       },
-      {
-        $project: selectors,
-      },
+      ...(isFromExternalRequest ? [{ $project: selectors }] : []),
     ]);
     return professionalRes[0] as ProfessionalUser;
   }

@@ -433,9 +433,19 @@ input GetPatientForMobileDto {
   patient: String!
 }
 
+type GetPatientForMobileResponse {
+  _id: String!
+  user: User!
+}
+
 input GetPatientForWebDto {
   patient: String!
   professional: String!
+}
+
+type GetPatientForWebResponse {
+  _id: String!
+  user: User!
 }
 
 input GetPatientGroupsDto {
@@ -905,8 +915,8 @@ type Query {
   getNutritionalMealDatabases: [String!]!
   getNutritionalMealsForPatient(input: GetNutritionalMealsForPatientDto!): GetNutritionalMealsResponse!
   getNutritionalMealsForProfessional(input: GetNutritionalMealsForProfessionalDto!): GetNutritionalMealsResponse!
-  getPatientForMobile(input: GetPatientForMobileDto!): Patient!
-  getPatientForWeb(patient: GetPatientForWebDto!): Patient!
+  getPatientForMobile(input: GetPatientForMobileDto!): GetPatientForMobileResponse!
+  getPatientForWeb(patient: GetPatientForWebDto!): GetPatientForWebResponse!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
   getPatientPlansForMobile(patientPlans: GetPatientPlansForMobileDto!): [PatientPlan!]!
   getPatientPlansForWeb(patientPlans: GetPatientPlansForWebDto!): [PatientPlan!]!

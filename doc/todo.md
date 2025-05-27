@@ -27,3 +27,4 @@ config nor questionary config
 - fix: questionary module - completed
 - fix: manage english and spanish questionaries
 - refactor: rename sytem to system questionary 
+- fix: enhance trazability at moment to log error with database

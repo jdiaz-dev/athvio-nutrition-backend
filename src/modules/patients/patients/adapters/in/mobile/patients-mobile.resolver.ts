@@ -3,7 +3,10 @@ import { Args, Info, Query, Resolver } from '@nestjs/graphql';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
-import { GetPatientForMobileDto } from 'src/modules/patients/patients/adapters/in/mobile/dtos/get-patient.dto copy';
+import {
+  GetPatientForMobileDto,
+  GetPatientForMobileResponse,
+} from 'src/modules/patients/patients/adapters/in/mobile/dtos/get-patient.dto copy';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { AuthorizationPatientGuard } from 'src/shared/guards/authorization-patient.guard';
 
@@ -12,11 +15,11 @@ import { AuthorizationPatientGuard } from 'src/shared/guards/authorization-patie
 export class PatientsMobileResolver {
   constructor(private readonly gps: GetPatientManagerService) {}
 
-  @Query(() => Patient)
+  @Query(() => GetPatientForMobileResponse)
   async getPatientForMobile(
     @Args('input') dto: GetPatientForMobileDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
-  ): Promise<Patient> {
+  ): Promise<GetPatientForMobileResponse> {
     const patient = await this.gps.getPatientForMobile(dto.patient, selectors);
     return patient;
   }

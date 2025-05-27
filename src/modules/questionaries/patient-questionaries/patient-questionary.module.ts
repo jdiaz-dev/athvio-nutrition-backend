@@ -12,6 +12,8 @@ import {
 } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary.schema';
 import { SendPatientQuestionaryService } from 'src/modules/questionaries/patient-questionaries/application/send-patient-questionary.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
+import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
+import { MailModule } from 'src/modules/mail/mail.module';
 
 const resolvers = [PatientQuestionaryResolver];
 const services = [SendPatientQuestionaryService, PatientQuestionaryManagerService, PatientQuestionaryPersistenceService];
@@ -21,6 +23,8 @@ const services = [SendPatientQuestionaryService, PatientQuestionaryManagerServic
     MongooseModule.forFeature([{ name: PatientQuestionary.name, schema: PatientQuestionarySchema }]),
     forwardRef(() => AuthModule),
     PatientsModule,
+    ProfessionalsModule,
+    MailModule,
   ],
   providers: [...resolvers, ...services],
   exports: [PatientQuestionaryManagerService],

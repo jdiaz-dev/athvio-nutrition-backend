@@ -58,11 +58,7 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
           },
         },
       },
-      {
-        $project: {
-          ...selectors,
-        },
-      },
+      ...(isFromExternalRequest ? [{ $project: selectors }] : []),
     ]);
     return questionaryRes[0];
   }

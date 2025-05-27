@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { GetProfessionalDto } from 'src/modules/professionals/professionals/adapters/in/dtos/get-professional.dt';
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
@@ -16,14 +15,9 @@ export class ProfessionalsManagementService {
     await this.qcm.createQuestionary(professional._id);
     return professional;
   }
-
-  async getProfessional(dto: GetProfessionalDto, selectors: Record<string, number>): Promise<ProfessionalUser> {
-    const professional = await this.pps.getProfessionalById(dto.professional, selectors);
-    if (!professional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
-    return professional;
-  }
-  async getProfessionalById(professional: string): Promise<ProfessionalUser> {
-    const prof = await this.pps.getProfessionalById(professional, { _id: 1, 'user._id': 1 });
-    return prof;
+  async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
+    const professionalRes = await this.pps.getProfessionalById(professional, selectors);
+    if (!professionalRes) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
+    return professionalRes;
   }
 }

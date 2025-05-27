@@ -14,7 +14,7 @@ export class UserManagamentService {
   async getUserThroughPatient(patient: string): Promise<GetPatientUserResponse> {
     const { user } = await this.gps.getPatientById(patient);
     if (!user) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
-    return await this.getUserById(user);
+    return await this.getUserById(user as string);
   }
   async updateUser(dto: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
     const patient = await this.ups.updateUser(dto);

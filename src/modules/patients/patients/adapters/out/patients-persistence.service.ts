@@ -6,7 +6,7 @@ import { Patient, PatientDocument } from 'src/modules/patients/patients/adapters
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { PatientState, ManagePatientGroup } from 'src/shared/enums/project';
-import { CreatePatient, DeleteManyPatientGroup, UpdatePatient } from 'src/modules/patients/patients/adapters/out/patient.types';
+import { CreatePatient, DeleteManyPatientGroup, PatientPopulatedWithUser, UpdatePatient } from 'src/modules/patients/patients/helpers/patient.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
@@ -29,11 +29,11 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
     });
     return patient.toJSON();
   }
-  async getPatient(
+  async getPatientPopulatedWithUser(
     { _id, professional }: { _id: string; professional?: string },
-    selectors: Record<string, number>,
-  ): Promise<Patient> {
-    const restFields = removeAttributesWithFieldNames(selectors, ['user']);
+    selectors?: Record<string, number>,
+  ): Promise<PatientPopulatedWithUser> {
+    const isFromExternalRequest = selectors ? true : false;
 
     const patientRes = await this.aggregate([
       {
@@ -53,12 +53,10 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
           user: {
             $arrayElemAt: ['$user', 0],
           },
-          ...restFields,
+          ...(isFromExternalRequest && removeAttributesWithFieldNames(selectors, ['user'])),
         },
       },
-      {
-        $project: selectors,
-      },
+      ...(isFromExternalRequest ? [{ $project: selectors }] : []),
     ]);
 
     return patientRes[0];

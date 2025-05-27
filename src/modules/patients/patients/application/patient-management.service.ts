@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { CreatePatient, UpdatePatient } from 'src/modules/patients/patients/adapters/out/patient.types';
+import { CreatePatient, UpdatePatient } from 'src/modules/patients/patients/helpers/patient.types';
 import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
 import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
 

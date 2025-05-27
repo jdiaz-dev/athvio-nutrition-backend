@@ -19,6 +19,6 @@ export class ProfessionalsResolver {
     @Args('professional') dto: GetProfessionalDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<ProfessionalUser> {
-    return this.pms.getProfessional(dto, selectors);
+    return this.pms.getProfessionalById(dto.professional, selectors);
   }
 }

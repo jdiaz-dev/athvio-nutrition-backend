@@ -8,12 +8,12 @@ import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
 export class GetPatientManagerService {
   constructor(private pps: PatientsPersistenceService) {}
   async getPatientForMobile(patient: string, selectors?: Record<string, number>) {
-    const _patient = await this.pps.getPatient({ _id: patient }, selectors || { _id: 1 });
+    const _patient = await this.pps.getPatientPopulatedWithUser({ _id: patient }, selectors || { _id: 1 });
     if (!_patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
     return _patient;
   }
   async getPatient(patient: string, professional: string, selectors?: Record<string, number>) {
-    const _patient = await this.pps.getPatient({ _id: patient, professional }, selectors || { _id: 1 });
+    const _patient = await this.pps.getPatientPopulatedWithUser({ _id: patient, professional }, selectors);
     if (!_patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
     return _patient;
   }

@@ -20,8 +20,8 @@ export class PatientOnboardingManagerService {
 
   constructor(
     private readonly configService: ConfigService,
-    private prms: ProfessionalsManagementService,
-    private ups: UsersPersistenceService,
+    private readonly prms: ProfessionalsManagementService,
+    private readonly ups: UsersPersistenceService,
     private readonly pms: PatientManagementService,
     private readonly ums: UserManagamentService,
     private readonly ms: MailService,
