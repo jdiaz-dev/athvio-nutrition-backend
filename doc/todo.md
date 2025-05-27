@@ -28,3 +28,4 @@ config nor questionary config
 - fix: manage english and spanish questionaries
 - refactor: rename sytem to system questionary 
 - fix: enhance trazability at moment to log error with database
+- fix: update mail message according to detectedLanguage
