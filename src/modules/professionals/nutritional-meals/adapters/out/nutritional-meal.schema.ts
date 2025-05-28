@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { IngredientDetail, IngredientDetailSchema } from 'src/shared/models/meal-plan';
@@ -27,7 +27,7 @@ export class NutritionalMeal extends BaseSchema {
   _id!: string;
 
   @Field(() => String)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  @Prop({ type: String, required: true })
   professional!: string;
 
   @Field()

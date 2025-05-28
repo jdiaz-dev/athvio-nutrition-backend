@@ -1,6 +1,4 @@
 import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common';
-import { Types } from 'mongoose';
-
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/create-nutritional-meal.dto';
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
@@ -42,10 +40,7 @@ export class NutritionalMealsManagerService {
         ? {
             $or: [
               {
-                $and: [
-                  { professional: { $eq: new Types.ObjectId(professional) } },
-                  { source: { $eq: EnumSources.PROFESSIONAL } },
-                ],
+                $and: [{ professional: { $eq: professional } }, { source: { $eq: EnumSources.PROFESSIONAL } }],
               },
               { $and: [{ source: { $eq: EnumSources.SYSTEM }, language: { $eq: rest.language } }] },
             ],

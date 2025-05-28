@@ -116,7 +116,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
     const nutritionalMealRes = await this.findOneAndUpdate(
       {
         _id: new Types.ObjectId(nutritionalMeal),
-        ...(professional && { professional: new Types.ObjectId(professional) }),
+        ...(professional && { professional }),
         ...(source && { source }),
         isDeleted: false,
       },
@@ -130,7 +130,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
     const nutritionalMealRes = await this.findOneAndUpdate(
       {
         _id: rest.nutritionalMeal,
-        professional: professional,
+        professional,
         source: EnumSources.PROFESSIONAL,
         isDeleted: false,
       },
