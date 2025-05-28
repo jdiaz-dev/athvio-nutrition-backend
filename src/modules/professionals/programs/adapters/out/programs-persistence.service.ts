@@ -13,7 +13,7 @@ import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
 import { BaseRepository } from 'src/shared/database/base-repository';
-import {  ManageProgramTags } from 'src/shared/enums/project';
+import { ManageProgramTags } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
@@ -44,7 +44,7 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
     const programRes = await this.aggregate([
       {
         $match: {
-          ...(program && professional && { _id: new Types.ObjectId(program), professional: new Types.ObjectId(professional) }),
+          ...(program && professional && { _id: new Types.ObjectId(program), professional }),
           ...(name && source && { name, source }),
           isDeleted: false,
         },
@@ -90,7 +90,7 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
     const programs = await this.aggregate([
       {
         $match: {
-          professional: new Types.ObjectId(professional),
+          professional,
           isDeleted: false,
         },
       },

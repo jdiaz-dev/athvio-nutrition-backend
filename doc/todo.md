@@ -21,8 +21,7 @@
 - refactor: add service layer in patient plans
 - fix: remove food dto and use intead food from schema
 - feat: create one endpoint to add specific food
-- refactor: orchestrator must to manage the creation of questionary 
-config nor questionary config
+- refactor: orchestrator must to manage the creation of questionary config nor questionary config
 - fix: change from patient demo to paciente de prueba para español
 - fix: questionary module - completed
 - fix: manage english and spanish questionaries
@@ -30,4 +29,5 @@ config nor questionary config
 - fix: enhance trazability at moment to log error with database
 - fix: update mail message according to detectedLanguage
 - fix: create other folder for store images from custom meals
-- feat: delete previous image if update image 
+- feat: delete previous image if update image (require big developement)
+- fix: add logger verifiying all onboarding professional process

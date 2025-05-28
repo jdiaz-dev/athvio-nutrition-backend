@@ -889,7 +889,7 @@ type Program {
   name: String!
   patients: [Patient!]!
   plans: [Plan!]!
-  professional: ID!
+  professional: String!
   programTags: [ProgramTag!]!
 }
 

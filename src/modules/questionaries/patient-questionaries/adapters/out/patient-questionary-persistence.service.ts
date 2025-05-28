@@ -31,7 +31,7 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
     const questionaryRes = await this.aggregate([
       {
         $match: {
-          _id: new Types.ObjectId(_id),
+          ...(_id && { _id: new Types.ObjectId(_id) }),
           patient: patient,
           professional: professional,
         },

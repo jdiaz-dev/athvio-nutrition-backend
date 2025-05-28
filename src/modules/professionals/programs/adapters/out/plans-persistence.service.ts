@@ -83,7 +83,7 @@ export class PlansPersistenceService extends BaseRepository<ProgramDocument> {
       {
         $match: {
           _id: new Types.ObjectId(program),
-          professional: new Types.ObjectId(professional),
+          professional,
           isDeleted: false,
         },
       },
