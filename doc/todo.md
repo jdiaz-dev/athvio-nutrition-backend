@@ -30,3 +30,4 @@ config nor questionary config
 - fix: enhance trazability at moment to log error with database
 - fix: update mail message according to detectedLanguage
 - fix: create other folder for store images from custom meals
+- feat: delete previous image if update image 
