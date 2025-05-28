@@ -29,3 +29,4 @@ config nor questionary config
 - refactor: rename sytem to system questionary 
 - fix: enhance trazability at moment to log error with database
 - fix: update mail message according to detectedLanguage
+- fix: create other folder for store images from custom meals

@@ -11,6 +11,10 @@ const filePaths = [
     path: '/home/polsito/Mongodb/athvio.Programs.json',
     fileName: 'athvio.Programs.json',
   },
+  {
+    path: '/home/polsito/Mongodb/athvio.InternalFoods.json',
+    fileName: 'athvio.InternalFoods.json',
+  },
 ];
 async function saveRecords() {
   const promises: Promise<PutObjectCommandOutput>[] = [];

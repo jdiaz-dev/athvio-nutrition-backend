@@ -26,7 +26,8 @@ export class InternalFoodsPersistenceService extends BaseRepository<InternalFood
     const foodsRes = await this.aggregate([
       {
         $match: {
-          $or: combinedFields,
+          '$or': combinedFields,
+          'foodDetails.category': 'Generic foods',
         },
       },
       {

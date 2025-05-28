@@ -235,8 +235,32 @@ const meats = [
   'turkey',
   'venison',
 ];
-
-const allFoods = [...fruits, ...vegetables, ...grains, ...legumes, ...meats];
+const juices = [
+  'grape juice',
+  'orange juice',
+  'apple juice',
+  'carrot juice',
+  'pear juice',
+  'parsley juice',
+  'celery juice',
+  'beet juice',
+  'pineapple juice',
+  'pomegranate juice',
+  'watermelon juice',
+  'tomato juice',
+  'cranberry juice',
+  'lemon juice',
+  'lime juice',
+  'ginger juice',
+  'cucumber juice',
+  'spinach juice',
+  'kale juice',
+  'mango juice',
+  'peach juice',
+];
+const allFoods = [...fruits, ...vegetables, ...grains, ...legumes, ...meats, ...juices];
+allFoods;
+const allFoods2: string[] = [];
 //todo: delete this class
 @Injectable()
 export class FullDatabaseService {
@@ -275,13 +299,14 @@ export class FullDatabaseService {
   }
 
   async fullNamedFoods(): Promise<void> {
-    const existingFoods = await this.ifps.getInternalFoodsByNames(allFoods);
-    const filteredFoods = allFoods.filter(
+    const existingFoods = await this.ifps.getInternalFoodsByNames(allFoods2);
+    const filteredFoods = allFoods2.filter(
       (item) => !existingFoods.some(({ foodDetails }) => foodDetails.label.toLowerCase() === item.toLowerCase()),
     );
     let counter = 0;
     const intervalId = setInterval(async () => {
       if (filteredFoods[counter] === undefined) {
+        console.log('All foods processed');
         clearInterval(intervalId);
         return;
       }
