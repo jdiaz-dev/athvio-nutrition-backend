@@ -13,3 +13,15 @@ db.InternalFoods.aggregate([
     },
   },
 ]);
+
+db.InternalFoods.updateMany(
+  { 'measures.label': 'Gram' },
+  {
+    $set: {
+      'measures.$[elem].label': 'Gramos',
+    },
+  },
+  {
+    arrayFilters: [{ 'elem.label': 'Gram' }],
+  },
+);
