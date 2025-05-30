@@ -35,7 +35,7 @@ export class ProfessionalOnboardingManagerService {
 
   async onboardProfessional(dto: SignUpProfessionalDto): Promise<{ user: string; role: EnumRoles }> {
     const { user, professional, role } = await this.createProfessionalAndUser(dto);
-    this.createDefaultData(professional, dto).catch((error) => error);
+    this.createDefaultData(professional, dto).catch((error) => console.log(error));
     return { user, role };
   }
   async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
@@ -63,7 +63,8 @@ export class ProfessionalOnboardingManagerService {
       user: _id,
       ...professionalInfo,
     });
-    return { user: _id, professional, role };
+
+    return { user: _id, professional: professional.toString(), role };
   }
   private async createDefaultProgram(professional: string, detectedLanguage: SupportedLanguages): Promise<string> {
     const { name, description, plans } = await this.pms.getProgram({

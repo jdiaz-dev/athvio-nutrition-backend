@@ -12,7 +12,7 @@ export class ProfessionalsManagementService {
 
   async createProfessional(createProfessional: Omit<CreateProfessional, 'isTrialPeriod'>): Promise<Professional> {
     const professional = await this.pps.createProfessional({ ...createProfessional, isTrialPeriod: true });
-    await this.qcm.createQuestionary(professional._id);
+    await this.qcm.createQuestionary(professional._id.toString());
     return professional;
   }
   async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {

@@ -109,7 +109,6 @@ export class PlansPersistenceService extends BaseRepository<ProgramDocument> {
       },
     ]);
 
-    if (programRes[0] == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     return programRes[0] as Program;
   }
 

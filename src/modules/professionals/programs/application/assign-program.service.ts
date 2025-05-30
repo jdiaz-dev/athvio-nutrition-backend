@@ -61,6 +61,8 @@ export class AssignProgramService {
       { professional: dto.professional, program: dto.program, day: dto.startingDay },
       programPlanSelector,
     );
+
+    if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     const newPatientPlans: PatientPlanPartial[] = this.prepareAssignedPatientPlans(program.plans, dto);
 
     await this.manageProgramSyncronization(newPatientPlans, program);
