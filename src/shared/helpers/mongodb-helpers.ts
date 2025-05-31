@@ -1,4 +1,4 @@
-import { _FilterQuery } from 'mongoose';
+import { FilterQuery } from 'mongoose';
 
 type aggregationExpr = {
   $expr: {
@@ -23,7 +23,7 @@ type RegExpOtions = uniqueFieldRegExp[] | aggregationExpr[];
 export const searchByFieldsGenerator = (
   fields: string[],
   words: string[],
-): Array<_FilterQuery<uniqueFieldRegExp | aggregationExpr>> => {
+): Array<FilterQuery<uniqueFieldRegExp | aggregationExpr>> => {
   const uniqueFields: uniqueFieldRegExp[][] = fields.map((field) =>
     words.map((word) => {
       return {

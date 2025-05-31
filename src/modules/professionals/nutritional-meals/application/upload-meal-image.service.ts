@@ -16,7 +16,7 @@ export class UploadMealImageService {
   ) {}
 
   async uploadImage({ nutritionalMeal, image }: UploadDto): Promise<NutritionalMeal> {
-    const { _id } = await this.nmms.getNutritionalMeal({ nutritionalMeal }, ['_id']);
+    const { _id } = await this.nmms.getNutritionalMeal({ nutritionalMeal }, { _id: 1 });
     const fileName = await this.fileUploaderService.uploadFile(_id, image as unknown as Promise<any>, this.mealDirectory);
     const res = await this.nmps.updateNutritionalMeal({
       nutritionalMeal: _id,

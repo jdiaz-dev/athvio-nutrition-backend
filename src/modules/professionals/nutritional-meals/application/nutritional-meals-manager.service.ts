@@ -46,8 +46,8 @@ export class NutritionalMealsManagerService {
             ],
           }
         : database === NutritionalMealDatabases.CUSTOM_MEALS
-        ? { source: EnumSources.PROFESSIONAL }
-        : { source: EnumSources.SYSTEM };
+          ? { source: EnumSources.PROFESSIONAL }
+          : { source: EnumSources.SYSTEM };
 
     const filters = {
       match: {
@@ -65,7 +65,10 @@ export class NutritionalMealsManagerService {
     const nutritionalMeals = await this.nmps.getNutritionalMeals({ ...rest, match: { category } }, selectors);
     return nutritionalMeals;
   }
-  async getNutritionalMeal(dto: Omit<GetNutritionalMealDto, 'professional'> & { professional?: string }, selectors: string[]) {
+  async getNutritionalMeal(
+    dto: Omit<GetNutritionalMealDto, 'professional'> & { professional?: string },
+    selectors: Record<string, number>,
+  ) {
     const nutritionalMealRes = await this.nmps.getNutritionalMeal(dto, selectors);
     if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_MEAL_NOT_FOUND);
 

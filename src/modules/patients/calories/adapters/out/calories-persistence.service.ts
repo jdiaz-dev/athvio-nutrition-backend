@@ -23,7 +23,7 @@ export class CaloriesPersistenceService extends BaseRepository<CaloryDocument> {
     });
     return calory;
   }
-  async getCalory({ patient }: GetCaloryDto, selectors: string[]): Promise<Calory> {
+  async getCalory({ patient }: GetCaloryDto, selectors: Record<string, number>): Promise<Calory> {
     const caloryRes = await this.findOne(
       {
         patient,

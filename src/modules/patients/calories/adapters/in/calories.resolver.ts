@@ -7,7 +7,7 @@ import { UpdateCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/
 import { CaloryManagerService } from 'src/modules/patients/calories/application/calory-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractor } from 'src/shared/helpers/graphql-helpers';
+import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver(() => Calory)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -20,7 +20,10 @@ export class CaloryResolver {
   }
 
   @Query(() => Calory)
-  async getCalory(@Args('input') dto: GetCaloryDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Calory> {
+  async getCalory(
+    @Args('input') dto: GetCaloryDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<Calory> {
     return await this.ccs.getCalory(dto, selectors);
   }
 

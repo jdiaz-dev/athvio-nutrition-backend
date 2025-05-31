@@ -43,7 +43,7 @@ export class UsersPersistenceService extends BaseRepository<UserDocument> {
       {
         _id: new Types.ObjectId(user),
       },
-      ['_id', 'firstname', 'lastname', 'role', 'email', 'isActive'],
+      { _id: 1, firstname: 1, lastname: 1, role: 1, email: 1, isActive: 1 },
     );
 
     return _user;

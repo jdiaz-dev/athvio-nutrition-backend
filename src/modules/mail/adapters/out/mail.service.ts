@@ -11,7 +11,7 @@ export class MailService {
 
   constructor(private readonly logger: AthvioLoggerService) {
     this.transporter = nodemailer.createTransport({
-      SES: { ses: EmailProviderService.sesClient, aws: { SendRawEmailCommand: EmailProviderService.sendCommand } },
+      SES: { sesClient: EmailProviderService.sesClient, SendEmailCommand: EmailProviderService.sendCommand },
     });
   }
 
@@ -35,5 +35,4 @@ export class MailService {
       throw new InternalServerErrorException(ErrorMailService.SEND_MAIL);
     }
   }
-  
 }

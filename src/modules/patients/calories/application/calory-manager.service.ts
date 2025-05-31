@@ -9,14 +9,17 @@ import { ErrorCaloryEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class CaloryManagerService {
-  constructor(private gps: GetPatientManagerService, private caps: CaloriesPersistenceService) {}
+  constructor(
+    private gps: GetPatientManagerService,
+    private caps: CaloriesPersistenceService,
+  ) {}
 
   async createCalory(dto: CreateCaloryDto): Promise<Calory> {
     await this.gps.getPatientById(dto.patient);
     const calory = await this.caps.createCalory(dto);
     return calory;
   }
-  async getCalory(dto: GetCaloryDto, selectors: string[]): Promise<Calory> {
+  async getCalory(dto: GetCaloryDto, selectors: Record<string, number>): Promise<Calory> {
     const caloryRes = await this.caps.getCalory(dto, selectors);
     if (!caloryRes) throw new BadRequestException(ErrorCaloryEnum.CALORY_NOT_FOUND);
 

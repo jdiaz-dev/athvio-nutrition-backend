@@ -7,6 +7,7 @@ import {
   HydratedDocument,
   MergeType,
   Model,
+  MongooseUpdateQueryOptions,
   PipelineStage,
   ProjectionType,
   QueryWithHelpers,
@@ -18,6 +19,7 @@ import { QueryOptions } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
 import { InternalErrors } from 'src/shared/enums/messages-response';
+import { UpdateOptions } from 'mongodb';
 
 export class BaseRepository<
   TRawDocType,
@@ -95,7 +97,7 @@ export class BaseRepository<
   protected async updateMany<ResultDoc = THydratedDocumentType>(
     filter?: FilterQuery<TRawDocType>,
     update?: UpdateQuery<TRawDocType> | UpdateWithAggregationPipeline,
-    options?: QueryOptions<TRawDocType> | null,
+    options?: (UpdateOptions & MongooseUpdateQueryOptions<TRawDocType>) | null,
   ): Promise<QueryWithHelpers<UpdateWriteOpResult, ResultDoc, TQueryHelpers, TRawDocType, 'updateMany'>> {
     try {
       const result = await this.model.updateMany(filter, update, options);

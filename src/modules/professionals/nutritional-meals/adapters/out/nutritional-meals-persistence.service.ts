@@ -37,7 +37,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
 
   async getNutritionalMeal(
     { professional, nutritionalMeal }: Omit<GetNutritionalMealDto, 'professional'> & { professional?: string },
-    selectors: string[],
+    selectors: Record<string, number>,
   ): Promise<NutritionalMeal> {
     const nutritionalMealRes = await this.findOne(
       {

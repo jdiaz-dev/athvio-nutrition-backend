@@ -12,7 +12,7 @@ import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/ada
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
+import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 import { UploadDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.dto';
@@ -38,7 +38,7 @@ export class NutritionalMealsWebResolver {
   @Query(() => NutritionalMeal)
   async getNutritionalMeal(
     @Args('input') dto: GetNutritionalMealDto,
-    @Info(...selectorExtractor()) selectors: string[],
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<NutritionalMeal> {
     const nutritionalMeal = await this.nmms.getNutritionalMeal(dto, selectors);
     return nutritionalMeal;

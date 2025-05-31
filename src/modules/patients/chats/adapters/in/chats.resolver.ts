@@ -58,7 +58,7 @@ export class ChatsResolver {
     },
   })
   patientMessagedSubscription(@Args('input') _dto: SubscribePublishedMessageDto) {
-    const res = pubSub.asyncIterator(SubscriptionNames.PATIENT_MESSAGED);
+    const res = pubSub.asyncIterableIterator(SubscriptionNames.PATIENT_MESSAGED);
     return res;
   }
 
@@ -74,7 +74,7 @@ export class ChatsResolver {
     },
   })
   professionalMessagedSubscription(@Args('input') _dto: SubscribePublishedMessageDto) {
-    const res = pubSub.asyncIterator(SubscriptionNames.PROFESSIONAL_MESSAGED);
+    const res = pubSub.asyncIterableIterator(SubscriptionNames.PROFESSIONAL_MESSAGED);
 
     return res;
   }
