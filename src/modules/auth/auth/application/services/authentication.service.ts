@@ -47,9 +47,9 @@ export class AuthenticationService implements IValidateUserUseCase {
   }
   private async getRoleId({ _id: user, role }: UserValidated) {
     if (role === EnumRoles.PROFESSIONAL) {
-      return (await this.pps.getProfessionalByUser(user))._id;
+      return (await this.pps.getProfessionalByUser(user))._id.toString();
     } else {
-      return (await this.gps.getPatientByUser(user))._id;
+      return (await this.gps.getPatientByUser(user))._id.toString();
     }
   }
 }
