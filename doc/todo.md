@@ -31,3 +31,4 @@
 - fix: create other folder for store images from custom meals
 - feat: delete previous image if update image (require big developement)
 - fix: add logger verifiying all onboarding professional process
+- test: test chat between web app and mobile app
