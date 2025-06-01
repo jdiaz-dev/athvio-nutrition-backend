@@ -3,7 +3,16 @@
 - learn profiler in node.js 
 - learn clinic.js
 
-## Fixes
+## TODO (infraestructure):
+- migrate from railway to aws?,  beacuse don't have static ip
+- research how many amount of memory and cpu need the athvio-nutrition-backend app
+- check cost of loadbalancer 
+- check cost of cloudwatch
+- learn about load balancer
+- check parametrized queries to void NoSQL injection
+- configure pre commit , using linters
+
+## Fixes code 
 - enhance message error in get questionary config (standarizate errors)
 - stop to use profesional persistence service directly in various modules
 - add plastics to diseaseCauses 
