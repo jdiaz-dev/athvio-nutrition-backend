@@ -1,7 +1,7 @@
 ## Learning
 - learng about session and close methods in neoj4 driver
 - learn profiler in node.js 
-- learn  clinic.js
+- learn clinic.js
 
 ## Fixes
 - enhance message error in get questionary config (standarizate errors)
