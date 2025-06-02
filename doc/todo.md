@@ -23,7 +23,6 @@
 - add detail error property to logger.error
 - add input to receive amount of calories
 - review Anticancer Vinaigrette	amounts
-- remove mongo database and ENAMAM credentials
 - fix: separate image that belongs to system and professional 
 - fix: remove garbage images from s3
 - fix: add professional in documents that belongs to patient also

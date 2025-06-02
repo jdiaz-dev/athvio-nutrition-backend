@@ -54,5 +54,4 @@ export class ProfessionalsPersistenceService extends BaseRepository<Professional
 
     return professionalRes;
   }
-  updateTemplateMode() {}
 }
