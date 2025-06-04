@@ -28,8 +28,8 @@ export class MongodbRepository<
     protected readonly model: Model<TRawDocType>,
     protected readonly logger: AthvioLoggerService,
     protected readonly modelName: string,
-    protected readonly callerMethodName?: string,
-    private readonly handleError?: (error: unknown, mongodbOperation: string, callerMethodName?: string) => never,
+    protected readonly callerMethodName: string,
+    private readonly handleError?: (error: unknown, callerMethodName: string, mongodbOperation: string) => never,
   ) {}
 
   public async create(doc: AnyKeys<TRawDocType>): Promise<HydratedDocument<TRawDocType, TInstanceMethods>> {
@@ -37,7 +37,7 @@ export class MongodbRepository<
       const record = await this.model.create(doc);
       return record as HydratedDocument<TRawDocType, TInstanceMethods>;
     } catch (error) {
-      this.handleError(error, this.create.name);
+      this.handleError(error, this.callerMethodName, this.create.name);
     }
   }
   public async insertMany<DocContents = TRawDocType>(
@@ -47,7 +47,7 @@ export class MongodbRepository<
       const records = await this.model.insertMany(docs);
       return records as Array<MergeType<THydratedDocumentType, Omit<DocContents, '_id'>>>;
     } catch (error) {
-      this.handleError(error, this.insertMany.name);
+      this.handleError(error, this.callerMethodName, this.insertMany.name);
     }
   }
   public async findOne<ResultDoc = THydratedDocumentType>(
@@ -59,7 +59,7 @@ export class MongodbRepository<
       const record = await this.model.findOne(filter, projection, options);
       return record as QueryWithHelpers<ResultDoc | null, ResultDoc, TQueryHelpers, TRawDocType, 'findOne'>;
     } catch (error) {
-      this.handleError(error, this.findOne.name);
+      this.handleError(error, this.callerMethodName, this.findOne.name);
     }
   }
   public async findOneAndUpdate<ResultDoc = HydratedDocument<TRawDocType, TInstanceMethods>>(
@@ -71,7 +71,7 @@ export class MongodbRepository<
       const result = await this.model.findOneAndUpdate(filter, update, options).exec();
       return result as ResultDoc;
     } catch (error) {
-      this.handleError(error, this.findOneAndUpdate.name);
+      this.handleError(error, this.callerMethodName, this.findOneAndUpdate.name);
     }
   }
   public async find<ResultDoc = THydratedDocumentType>(
@@ -83,14 +83,14 @@ export class MongodbRepository<
       const result = await this.model.find(filter, projection, options);
       return result as QueryWithHelpers<Array<ResultDoc>, ResultDoc, TQueryHelpers, TRawDocType, 'find'>;
     } catch (error) {
-      this.handleError(error, this.find.name);
+      this.handleError(error, this.callerMethodName, this.find.name);
     }
   }
   public async aggregate<R = any>(pipeline?: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<Array<R>>> {
     try {
       return await this.model.aggregate(pipeline, options);
     } catch (error) {
-      this.handleError(error, this.aggregate.name, this.callerMethodName);
+      this.handleError(error, this.callerMethodName, this.aggregate.name);
     }
   }
 
@@ -103,7 +103,7 @@ export class MongodbRepository<
       const result = await this.model.updateMany(filter, update, options);
       return result as unknown as QueryWithHelpers<UpdateWriteOpResult, ResultDoc, TQueryHelpers, TRawDocType, 'updateMany'>;
     } catch (error) {
-      this.handleError(error, this.updateMany.name);
+      this.handleError(error, this.callerMethodName, this.updateMany.name);
     }
   }
 }

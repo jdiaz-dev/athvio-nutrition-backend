@@ -13,9 +13,9 @@ export class MongodbQueryBuilder<T> {
   ) {}
 
   protected startQuery(callerMethodName: string): MongodbRepository<T> {
-    return new MongodbRepository<T>(this.model, this.logger, this.modelName, callerMethodName, this.handleError.bind(this));
+    return new MongodbRepository<T>(this.model, this.logger, callerMethodName, this.modelName, this.handleError.bind(this));
   }
-  private handleError(error: unknown, mongodbOperation: string, callerMethodName?: string): never {
+  private handleError(error: unknown, callerMethodName: string, mongodbOperation: string): never {
     this.logger.error({
       layer: LayersServer.INFRAESTRUCTURE,
       trace: `${this.modelName}.${callerMethodName}.${mongodbOperation}`,
