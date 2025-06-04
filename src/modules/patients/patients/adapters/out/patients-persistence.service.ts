@@ -6,15 +6,20 @@ import { Patient, PatientDocument } from 'src/modules/patients/patients/adapters
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { PatientState, ManagePatientGroup } from 'src/shared/enums/project';
-import { CreatePatient, DeleteManyPatientGroup, PatientPopulatedWithUser, UpdatePatient } from 'src/modules/patients/patients/helpers/patient.types';
+import {
+  CreatePatient,
+  DeleteManyPatientGroup,
+  PatientPopulatedWithUser,
+  UpdatePatient,
+} from 'src/modules/patients/patients/helpers/patient.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 //todo: add loggers to log internal errors
 @Injectable()
-export class PatientsPersistenceService extends BaseRepository<PatientDocument> {
+export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocument> {
   constructor(
     @InjectModel(Patient.name) protected readonly patientModel: Model<PatientDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -23,7 +28,7 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
   }
 
   async createPatient({ professional, ...body }: CreatePatient): Promise<FlattenMaps<Patient>> {
-    const patient = await this.create({
+    const patient = await this.startQuery(this.createPatient.name).create({
       professional,
       ...body,
     });
@@ -35,7 +40,7 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
   ): Promise<PatientPopulatedWithUser> {
     const isFromExternalRequest = selectors ? true : false;
 
-    const patientRes = await this.aggregate([
+    const patientRes = await this.startQuery(this.getPatientPopulatedWithUser.name).aggregate([
       {
         $match: { _id: new Types.ObjectId(_id), ...(professional && { professional }) },
       },
@@ -62,21 +67,21 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
     return patientRes[0];
   }
   async getPatientById(patientId: string): Promise<Patient> {
-    const patientRes = await this.findOne({
+    const patientRes = await this.startQuery(this.getPatientById.name).findOne({
       _id: patientId,
     });
 
     return patientRes;
   }
   async getPatientByUser(user: string): Promise<Patient> {
-    const patientRes = await this.findOne({
+    const patientRes = await this.startQuery(this.getPatientByUser.name).findOne({
       user,
       state: PatientState.ACTIVE,
     });
     return patientRes;
   }
   async getManyPatientsByIds(patients: string[]): Promise<Patient[]> {
-    const patientsRes = await this.find({ _id: { $in: patients } }, { _id: 1 });
+    const patientsRes = await this.startQuery(this.getManyPatientsByIds.name).find({ _id: { $in: patients } }, { _id: 1 });
 
     return patientsRes;
   }
@@ -90,7 +95,7 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
         ? [{ state: dto.state }, { state: PatientState.INVITATION_PENDING }]
         : [{ state: PatientState.ARCHIVED }];
 
-    const patients = await this.aggregate([
+    const patients = await this.startQuery(this.getPatients.name).aggregate([
       {
         $match: {
           professional,
@@ -178,7 +183,7 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
     return res;
   }
   async updatePatient({ user, ...rest }: UpdatePatient, selectors?: string[]): Promise<Patient> {
-    const patientRes = await this.findOneAndUpdate(
+    const patientRes = await this.startQuery(this.updatePatient.name).findOneAndUpdate(
       { user: new Types.ObjectId(user) },
       { ...rest },
       { projection: selectors || [], new: true },
@@ -189,19 +194,26 @@ export class PatientsPersistenceService extends BaseRepository<PatientDocument> 
   async updatePatientGroup({ professional, patient, action, patientGroup }: ManagePatientGroupDto): Promise<Patient> {
     const _action = action === ManagePatientGroup.ADD ? { $push: { groups: patientGroup } } : { $pull: { groups: patientGroup } };
 
-    const patientRes = await this.findOneAndUpdate({ _id: patient, professional }, _action, {
-      new: true,
-      populate: 'groups',
-    });
+    const patientRes = await this.startQuery(this.updatePatientGroup.name).findOneAndUpdate(
+      { _id: patient, professional },
+      _action,
+      {
+        new: true,
+        populate: 'groups',
+      },
+    );
 
     return patientRes;
   }
   async deleteManyPatientGroup({ professional, patientGroup }: DeleteManyPatientGroup): Promise<UpdateWriteOpResult> {
-    const recordsUpdated = await this.updateMany({ professional, groups: patientGroup }, { $pull: { groups: patientGroup } });
+    const recordsUpdated = await this.startQuery(this.deleteManyPatientGroup.name).updateMany(
+      { professional, groups: patientGroup },
+      { $pull: { groups: patientGroup } },
+    );
     return recordsUpdated;
   }
   async managePatientState({ professional, ...dto }: ManagePatientStateDto, selectors: string[]): Promise<Patient> {
-    const patientRes = await this.findOneAndUpdate(
+    const patientRes = await this.startQuery(this.managePatientState.name).findOneAndUpdate(
       {
         _id: dto.patient,
         professional: professional,

@@ -9,10 +9,10 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/add-meal.dto';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class PatientPlanNutritionalMealsPersistenceService extends BaseRepository<PatientPlanDocument> {
+export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryBuilder<PatientPlanDocument> {
   constructor(
     @InjectModel(PatientPlan.name) protected readonly clienPlanModel: Model<PatientPlanDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -23,7 +23,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends BaseRepositor
   async addMealToPlan({ patient, patientPlan, meals }: AddPlanMealDto, selectors: Record<string, number>): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
-    const patientPlanRes = await this.findOneAndUpdate(
+    const patientPlanRes = await this.startQuery(this.addMealToPlan.name).findOneAndUpdate(
       { _id: patientPlan, patient, isDeleted: false },
       { $push: { meals: { $each: meals } } },
       {
@@ -55,7 +55,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends BaseRepositor
       [`meal${index}.isDeleted`]: false,
     }));
 
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.updatePlanMeal.name).findOneAndUpdate(
       { _id: patientPlan, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
@@ -85,7 +85,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends BaseRepositor
       [`meal${index}._id`]: new Types.ObjectId(item),
       [`meal${index}.isDeleted`]: false,
     }));
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.deletePlanMeal.name).findOneAndUpdate(
       { _id: patientPlan, patient },
       { $set: Object.assign({}, ...deleteSubDocuments) },
       {

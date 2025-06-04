@@ -8,12 +8,12 @@ import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dt
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
 import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
 @Injectable()
-export class NutritionalMealsPersistenceService extends BaseRepository<ProgramDocument> {
+export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<ProgramDocument> {
   constructor(
     @InjectModel(Program.name) protected readonly programModel: Model<ProgramDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -24,7 +24,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<ProgramDo
   async addMeal({ professional, program, plan, meals }: AddMealDto, selectors: Record<string, number>): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.addMeal.name).findOneAndUpdate(
       { _id: program, professional },
       { $push: { 'plans.$[plan].meals': { $each: meals } } },
       {
@@ -59,7 +59,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<ProgramDo
       [`meal${index}.isDeleted`]: false,
     }));
 
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.updateMeal.name).findOneAndUpdate(
       { _id: program, professional },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
@@ -91,7 +91,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<ProgramDo
       [`meal${index}._id`]: new Types.ObjectId(item),
       [`meal${index}.isDeleted`]: false,
     }));
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.deleteMeal.name).findOneAndUpdate(
       { _id: program, professional },
       { $set: Object.assign({}, ...deleteSubDocuments) },
       {

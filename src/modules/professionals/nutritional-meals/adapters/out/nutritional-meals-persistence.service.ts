@@ -15,10 +15,10 @@ import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { EnumSources } from 'src/shared/enums/project';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class NutritionalMealsPersistenceService extends BaseRepository<NutritionalDocument> {
+export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<NutritionalDocument> {
   constructor(
     @InjectModel(NutritionalMeal.name) protected readonly nutritionalMealModel: Model<NutritionalDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -27,7 +27,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
   }
 
   async createNutritionalMeal({ professional, ...rest }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMeal = await this.create({
+    const nutritionalMeal = await this.startQuery(this.createNutritionalMeal.name).create({
       professional,
       ...rest,
     });
@@ -39,7 +39,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
     { professional, nutritionalMeal }: Omit<GetNutritionalMealDto, 'professional'> & { professional?: string },
     selectors: Record<string, number>,
   ): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.findOne(
+    const nutritionalMealRes = await this.startQuery(this.getNutritionalMeal.name).findOne(
       {
         _id: nutritionalMeal,
         ...(professional && { professional }),
@@ -56,7 +56,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
   ): Promise<GetNutritionalMealsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
-    const nutritionalMeals = await this.aggregate([
+    const nutritionalMeals = await this.startQuery(this.getNutritionalMeals.name).aggregate([
       {
         $match: {
           ...match,
@@ -113,7 +113,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
     source?: EnumSources;
     image?: string;
   }): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.findOneAndUpdate(
+    const nutritionalMealRes = await this.startQuery(this.updateNutritionalMeal.name).findOneAndUpdate(
       {
         _id: new Types.ObjectId(nutritionalMeal),
         ...(professional && { professional }),
@@ -127,7 +127,7 @@ export class NutritionalMealsPersistenceService extends BaseRepository<Nutrition
   }
 
   async deleteNutritionalMeal({ professional, ...rest }: DeleteNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.findOneAndUpdate(
+    const nutritionalMealRes = await this.startQuery(this.deleteNutritionalMeal.name).findOneAndUpdate(
       {
         _id: rest.nutritionalMeal,
         professional,

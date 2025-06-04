@@ -6,10 +6,10 @@ import { CreateCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/
 import { GetCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/get-calory.dto';
 import { UpdateCaloryDto } from 'src/modules/patients/calories/adapters/in/dtos/update-calory.dto';
 import { Calory, CaloryDocument } from 'src/modules/patients/calories/adapters/out/calory.schema';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class CaloriesPersistenceService extends BaseRepository<CaloryDocument> {
+export class CaloriesPersistenceService extends MongodbQueryBuilder<CaloryDocument> {
   constructor(
     @InjectModel(Calory.name) protected readonly caloryModel: Model<CaloryDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -18,13 +18,13 @@ export class CaloriesPersistenceService extends BaseRepository<CaloryDocument> {
   }
 
   async createCalory(dto: CreateCaloryDto): Promise<Calory> {
-    const calory = await this.create({
+    const calory = await this.startQuery(this.createCalory.name).create({
       ...dto,
     });
     return calory;
   }
   async getCalory({ patient }: GetCaloryDto, selectors: Record<string, number>): Promise<Calory> {
-    const caloryRes = await this.findOne(
+    const caloryRes = await this.startQuery(this.getCalory.name).findOne(
       {
         patient,
         isDeleted: false,
@@ -34,7 +34,7 @@ export class CaloriesPersistenceService extends BaseRepository<CaloryDocument> {
     return caloryRes;
   }
   async updateCalory({ calory, patient, ...rest }: UpdateCaloryDto, selectors: string[]): Promise<Calory> {
-    const caloryRes = await this.findOneAndUpdate(
+    const caloryRes = await this.startQuery(this.updateCalory.name).findOneAndUpdate(
       { _id: calory, patient, isDeleted: false },
       { ...rest },
       { projection: selectors, new: true },

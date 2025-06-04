@@ -1,4 +1,3 @@
-import { InternalServerErrorException } from '@nestjs/common';
 import {
   Aggregate,
   AggregateOptions,
@@ -17,11 +16,9 @@ import {
 } from 'mongoose';
 import { QueryOptions } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { LayersServer } from 'src/shared/enums/project';
-import { InternalErrors } from 'src/shared/enums/messages-response';
 import { UpdateOptions } from 'mongodb';
 
-export class BaseRepository<
+export class MongodbRepository<
   TRawDocType,
   TInstanceMethods = {},
   TQueryHelpers = {},
@@ -31,9 +28,11 @@ export class BaseRepository<
     protected readonly model: Model<TRawDocType>,
     protected readonly logger: AthvioLoggerService,
     protected readonly modelName: string,
+    protected readonly callerMethodName?: string,
+    private readonly handleError?: (error: unknown, mongodbOperation: string, callerMethodName?: string) => never,
   ) {}
 
-  protected async create(doc: AnyKeys<TRawDocType>): Promise<HydratedDocument<TRawDocType, TInstanceMethods>> {
+  public async create(doc: AnyKeys<TRawDocType>): Promise<HydratedDocument<TRawDocType, TInstanceMethods>> {
     try {
       const record = await this.model.create(doc);
       return record as HydratedDocument<TRawDocType, TInstanceMethods>;
@@ -41,7 +40,7 @@ export class BaseRepository<
       this.handleError(error, this.create.name);
     }
   }
-  protected async insertMany<DocContents = TRawDocType>(
+  public async insertMany<DocContents = TRawDocType>(
     docs: Array<DocContents | TRawDocType>,
   ): Promise<Array<MergeType<THydratedDocumentType, Omit<DocContents, '_id'>>>> {
     try {
@@ -51,7 +50,7 @@ export class BaseRepository<
       this.handleError(error, this.insertMany.name);
     }
   }
-  protected async findOne<ResultDoc = THydratedDocumentType>(
+  public async findOne<ResultDoc = THydratedDocumentType>(
     filter?: FilterQuery<TRawDocType>,
     projection?: ProjectionType<TRawDocType> | null,
     options?: QueryOptions<TRawDocType> | null,
@@ -63,7 +62,7 @@ export class BaseRepository<
       this.handleError(error, this.findOne.name);
     }
   }
-  protected async findOneAndUpdate<ResultDoc = HydratedDocument<TRawDocType, TInstanceMethods>>(
+  public async findOneAndUpdate<ResultDoc = HydratedDocument<TRawDocType, TInstanceMethods>>(
     filter?: FilterQuery<TRawDocType>,
     update?: UpdateQuery<TRawDocType>,
     options?: QueryOptions<TRawDocType> | null,
@@ -75,7 +74,7 @@ export class BaseRepository<
       this.handleError(error, this.findOneAndUpdate.name);
     }
   }
-  protected async find<ResultDoc = THydratedDocumentType>(
+  public async find<ResultDoc = THydratedDocumentType>(
     filter: FilterQuery<TRawDocType>,
     projection?: ProjectionType<TRawDocType> | null | undefined,
     options?: QueryOptions<TRawDocType> | null | undefined,
@@ -87,14 +86,15 @@ export class BaseRepository<
       this.handleError(error, this.find.name);
     }
   }
-  protected async aggregate<R = any>(pipeline?: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<Array<R>>> {
+  public async aggregate<R = any>(pipeline?: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<Array<R>>> {
     try {
       return await this.model.aggregate(pipeline, options);
     } catch (error) {
-      this.handleError(error, this.aggregate.name);
+      this.handleError(error, this.aggregate.name, this.callerMethodName);
     }
   }
-  protected async updateMany<ResultDoc = THydratedDocumentType>(
+
+  public async updateMany<ResultDoc = THydratedDocumentType>(
     filter?: FilterQuery<TRawDocType>,
     update?: UpdateQuery<TRawDocType> | UpdateWithAggregationPipeline,
     options?: (UpdateOptions & MongooseUpdateQueryOptions<TRawDocType>) | null,
@@ -105,15 +105,5 @@ export class BaseRepository<
     } catch (error) {
       this.handleError(error, this.updateMany.name);
     }
-  }
-  private handleError(error: unknown, operation: string): never {
-    this.logger.error({
-      layer: LayersServer.INFRAESTRUCTURE,
-      operation: `${this.modelName}.${operation}`,
-      message: (error as Error).message,
-      stack: (error as Error).stack,
-      error,
-    });
-    throw new InternalServerErrorException(InternalErrors.DATABASE);
   }
 }

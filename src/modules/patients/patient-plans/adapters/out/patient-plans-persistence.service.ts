@@ -14,12 +14,12 @@ import {
   PatientPlanPartial,
   PatientWithAssignedDate,
 } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 
 @Injectable()
-export class PatientPlansPersistenceService extends BaseRepository<PatientPlanDocument> {
+export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientPlanDocument> {
   constructor(
     @InjectModel(PatientPlan.name) protected readonly clienPlanModel: Model<PatientPlanDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -28,20 +28,20 @@ export class PatientPlansPersistenceService extends BaseRepository<PatientPlanDo
   }
 
   async createPatientPlan(dto: CreatePatientPlanBody): Promise<PatientPlan> {
-    const patientPlan = await this.create({
+    const patientPlan = await this.startQuery(this.createPatientPlan.name).create({
       ...dto,
     });
     return patientPlan;
   }
   async createManyPatientPlan(dto: PatientPlanPartial[]): Promise<PatientPlan[]> {
-    const patientPlans = await this.insertMany(dto);
+    const patientPlans = await this.startQuery(this.createManyPatientPlan.name).insertMany(dto);
     return patientPlans;
   }
   async getPatientPlan({ patient, patientPlan }: GetPatientPlanDto, selectors: Record<string, number>): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
     patient;
 
-    const patientPlanRes = await this.aggregate([
+    const patientPlanRes = await this.startQuery(this.getPatientPlan.name).aggregate([
       {
         $match: {
           _id: new Types.ObjectId(patientPlan),
@@ -66,7 +66,7 @@ export class PatientPlansPersistenceService extends BaseRepository<PatientPlanDo
   ): Promise<PatientPlan[]> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
-    const patientPlans = await this.aggregate([
+    const patientPlans = await this.startQuery(this.getPatientPlans.name).aggregate([
       {
         $match: {
           patient: patient,
@@ -113,7 +113,7 @@ export class PatientPlansPersistenceService extends BaseRepository<PatientPlanDo
     patientWithAssignedDate: PatientWithAssignedDate[],
     selectors: Record<string, number>,
   ): Promise<PatientPlan[]> {
-    const patientPlans = await this.find(
+    const patientPlans = await this.startQuery(this.getManyPatientPlans.name).find(
       {
         $or: patientWithAssignedDate,
       },
@@ -126,7 +126,7 @@ export class PatientPlansPersistenceService extends BaseRepository<PatientPlanDo
     selectors: Record<string, number>,
   ): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
-    const patientPlanRes = await this.findOneAndUpdate(
+    const patientPlanRes = await this.startQuery(this.updatePatientPlan.name).findOneAndUpdate(
       { _id: patientPlan, patient, isDeleted: false },
       { ...rest },
       {
@@ -143,7 +143,7 @@ export class PatientPlansPersistenceService extends BaseRepository<PatientPlanDo
   }
 
   async deletePatientPlan({ patientPlan, patient }: DeletePatientPlanDto, selectors: string[]): Promise<PatientPlan> {
-    const patientPlanRes = await this.findOneAndUpdate(
+    const patientPlanRes = await this.startQuery(this.deletePatientPlan.name).findOneAndUpdate(
       {
         _id: patientPlan,
         patient,

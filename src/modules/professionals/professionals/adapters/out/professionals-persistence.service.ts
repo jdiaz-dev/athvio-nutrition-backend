@@ -5,10 +5,10 @@ import { Professional, ProfessionalDocument } from 'src/modules/professionals/pr
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class ProfessionalsPersistenceService extends BaseRepository<ProfessionalDocument> {
+export class ProfessionalsPersistenceService extends MongodbQueryBuilder<ProfessionalDocument> {
   constructor(
     @InjectModel(Professional.name) protected professionalModel: Model<ProfessionalDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -17,12 +17,12 @@ export class ProfessionalsPersistenceService extends BaseRepository<Professional
   }
 
   async createProfessional(dto: CreateProfessional): Promise<Professional> {
-    return await this.create(dto);
+    return await this.startQuery(this.createProfessional.name).create(dto);
   }
   async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
     const isFromExternalRequest = selectors ? true : false;
 
-    const professionalRes = await this.aggregate([
+    const professionalRes = await this.startQuery(this.getProfessionalById.name).aggregate([
       {
         $match: {
           _id: new Types.ObjectId(professional),
@@ -50,7 +50,7 @@ export class ProfessionalsPersistenceService extends BaseRepository<Professional
     return professionalRes[0] as ProfessionalUser;
   }
   async getProfessionalByUser(user: string): Promise<Professional> {
-    const professionalRes = await this.findOne({ user, isActive: true });
+    const professionalRes = await this.startQuery(this.getProfessionalByUser.name).findOne({ user, isActive: true });
 
     return professionalRes;
   }

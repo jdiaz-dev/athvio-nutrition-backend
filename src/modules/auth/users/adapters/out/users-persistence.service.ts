@@ -5,10 +5,10 @@ import { CreateUser, GetUserById, UpdatePassword, UpdateUser } from 'src/modules
 import { User, UserDocument } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/update-user.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class UsersPersistenceService extends BaseRepository<UserDocument> {
+export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
   constructor(
     @InjectModel(User.name) protected readonly userModel: Model<UserDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -17,12 +17,12 @@ export class UsersPersistenceService extends BaseRepository<UserDocument> {
   }
 
   async createUser(dto: CreateUser): Promise<User> {
-    const user = (await this.create(dto)).toJSON() as User;
+    const user = (await this.startQuery(this.createUser.name).create(dto)).toJSON() as User;
     return user;
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    const patient = await this.aggregate([
+    const patient = await this.startQuery(this.getUserByEmail.name).aggregate([
       {
         $match: {
           email,
@@ -39,7 +39,7 @@ export class UsersPersistenceService extends BaseRepository<UserDocument> {
     return patient[0] as User;
   }
   async getUserById(user: string): Promise<GetUserById> {
-    const _user = await this.findOne(
+    const _user = await this.startQuery(this.getUserById.name).findOne(
       {
         _id: new Types.ObjectId(user),
       },
@@ -50,7 +50,7 @@ export class UsersPersistenceService extends BaseRepository<UserDocument> {
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
-    const patient = await this.findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
+    const patient = await this.startQuery(this.updateUser.name).findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
     return patient;
   }
 }

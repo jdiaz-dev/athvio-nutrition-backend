@@ -14,10 +14,10 @@ import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class PlansPersistenceService extends BaseRepository<ProgramDocument> {
+export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument> {
   constructor(
     @InjectModel(Program.name) protected readonly programModel: Model<ProgramDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -30,7 +30,7 @@ export class PlansPersistenceService extends BaseRepository<ProgramDocument> {
     selectors: Record<string, number>,
   ): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.addProgramPlanWithMeals.name).findOneAndUpdate(
       { _id: program, professional, isDeleted: false },
       {
         $push: {
@@ -58,7 +58,7 @@ export class PlansPersistenceService extends BaseRepository<ProgramDocument> {
   ): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.updatePlanAssignedWeekDay.name).findOneAndUpdate(
       { _id: rest.program, professional, isDeleted: false },
       { $set: { 'plans.$[plan].week': rest.week, 'plans.$[plan].day': rest.day } },
       {
@@ -79,7 +79,7 @@ export class PlansPersistenceService extends BaseRepository<ProgramDocument> {
     selectors: Record<string, number>,
   ): Promise<ProgramPatial> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-    const programRes = await this.aggregate([
+    const programRes = await this.startQuery(this.getProgramPlanFilteredByDay.name).aggregate([
       {
         $match: {
           _id: new Types.ObjectId(program),
@@ -113,7 +113,7 @@ export class PlansPersistenceService extends BaseRepository<ProgramDocument> {
   }
 
   async deleteProgramPlan({ professional, ...rest }: DeleteProgramPlanDto, selectors: string[]): Promise<Program> {
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.deleteProgramPlan.name).findOneAndUpdate(
       { _id: rest.program, professional, isDeleted: false },
       {
         $pull: {

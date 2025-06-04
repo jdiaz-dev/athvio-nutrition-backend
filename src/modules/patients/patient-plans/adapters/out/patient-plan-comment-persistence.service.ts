@@ -6,11 +6,11 @@ import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/ada
 import { DeletePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/delete-patient-plan-comment.dto';
 import { UpdatePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/update-patient-plan-comment.dto';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
-export class PatientPlanCommentPersistenceService extends BaseRepository<PatientPlanDocument> {
+export class PatientPlanCommentPersistenceService extends MongodbQueryBuilder<PatientPlanDocument> {
   constructor(
     @InjectModel(PatientPlan.name) protected readonly clienPlanModel: Model<PatientPlanDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -22,7 +22,7 @@ export class PatientPlanCommentPersistenceService extends BaseRepository<Patient
     { patientPlanId, patientId, ...rest }: AddPatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.findOneAndUpdate(
+    const patientPlan = await this.startQuery(this.addPatientPlanComment.name).findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $push: { comments: { ...rest } } },
       { new: true, projection: selectors },
@@ -36,7 +36,7 @@ export class PatientPlanCommentPersistenceService extends BaseRepository<Patient
     { patientPlanId, patientId, commentId, message }: UpdatePatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.findOneAndUpdate(
+    const patientPlan = await this.startQuery(this.updatePatientPlanComment.name).findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].message': message } },
       {
@@ -54,7 +54,7 @@ export class PatientPlanCommentPersistenceService extends BaseRepository<Patient
     { patientPlanId, patientId, commentId }: DeletePatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.findOneAndUpdate(
+    const patientPlan = await this.startQuery(this.deletePatientPlanComment.name).findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].isDeleted': true } },
       {

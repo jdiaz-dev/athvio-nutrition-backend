@@ -7,11 +7,11 @@ import { DeletePatientGroupDto } from 'src/modules/professionals/patient-groups/
 import { GetPatientGroupsDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/get-patient-groups.dto';
 import { UpdatePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/update-patient-group.dto';
 import { PatientGroup, PatientGroupDocument } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { ErrorPatientGroupEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
-export class PatientGroupsPersistenceService extends BaseRepository<PatientGroupDocument> {
+export class PatientGroupsPersistenceService extends MongodbQueryBuilder<PatientGroupDocument> {
   constructor(
     @InjectModel(PatientGroup.name) protected readonly programTagModel: Model<PatientGroupDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -20,14 +20,14 @@ export class PatientGroupsPersistenceService extends BaseRepository<PatientGroup
   }
 
   async createPatientGroup({ professional, ...rest }: CreatePatientGroupDto): Promise<PatientGroup> {
-    const patientGroup = await this.create({
+    const patientGroup = await this.startQuery(this.createPatientGroup.name).create({
       professional,
       ...rest,
     });
     return patientGroup;
   }
   async getPatientGroup(professionalId: string, groupId: string): Promise<PatientGroup> {
-    const patientGroup = await this.findOne({
+    const patientGroup = await this.startQuery(this.getPatientGroup.name).findOne({
       _id: groupId,
       professional: professionalId,
       isDeleted: false,
@@ -38,14 +38,14 @@ export class PatientGroupsPersistenceService extends BaseRepository<PatientGroup
     return patientGroup;
   }
   async getPatientGroups({ professional }: GetPatientGroupsDto): Promise<PatientGroup[]> {
-    const patientGroups = await this.find({
+    const patientGroups = await this.startQuery(this.getPatientGroups.name).find({
       professional,
       isDeleted: false,
     });
     return patientGroups;
   }
   async updatePatientGroup({ professional, patientGroup, ...rest }: UpdatePatientGroupDto): Promise<PatientGroup> {
-    const patientGroupRes = await this.findOneAndUpdate(
+    const patientGroupRes = await this.startQuery(this.updatePatientGroup.name).findOneAndUpdate(
       { _id: patientGroup, professional, isDeleted: false },
       { ...rest },
       { new: true },
@@ -56,7 +56,7 @@ export class PatientGroupsPersistenceService extends BaseRepository<PatientGroup
   }
 
   async deletePatientGroup({ professional, patientGroup }: DeletePatientGroupDto): Promise<PatientGroup> {
-    const patientGroupRes = await this.findOneAndUpdate(
+    const patientGroupRes = await this.startQuery(this.deletePatientGroup.name).findOneAndUpdate(
       {
         _id: patientGroup,
         professional,

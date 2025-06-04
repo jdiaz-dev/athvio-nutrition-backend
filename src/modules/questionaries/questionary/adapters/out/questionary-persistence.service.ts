@@ -3,11 +3,11 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Questionary, QuestionaryDocument } from 'src/modules/questionaries/questionary/adapters/out/questionary.schema';
-import { BaseRepository } from 'src/shared/database/base-repository';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class QuestionaryPersistenceService extends BaseRepository<QuestionaryDocument> {
+export class QuestionaryPersistenceService extends MongodbQueryBuilder<QuestionaryDocument> {
   constructor(
     @InjectModel(Questionary.name) protected readonly questionaryModel: Model<QuestionaryDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -15,7 +15,7 @@ export class QuestionaryPersistenceService extends BaseRepository<QuestionaryDoc
     super(questionaryModel, logger, Questionary.name);
   }
   async getQuestionary(): Promise<Questionary> {
-    const questionaryRes = await this.findOne();
+    const questionaryRes = await this.startQuery(this.getQuestionary.name).findOne();
     return questionaryRes;
   }
 }

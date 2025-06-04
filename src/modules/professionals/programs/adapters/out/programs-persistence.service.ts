@@ -12,13 +12,13 @@ import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in
 import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { ManageProgramTags } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 
 @Injectable()
-export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> {
+export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocument> {
   constructor(
     @InjectModel(Program.name) protected readonly programModel: Model<ProgramDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -27,7 +27,7 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
   }
 
   async createProgram({ professional, ...rest }: CreateProgram): Promise<Program> {
-    const programRes = await this.create({
+    const programRes = await this.startQuery(this.createProgram.name).create({
       professional,
       ...rest,
     });
@@ -41,7 +41,7 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
   ): Promise<Program | null> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    const programRes = await this.aggregate([
+    const programRes = await this.startQuery(this.getProgram.name).aggregate([
       {
         $match: {
           ...(program && professional && { _id: new Types.ObjectId(program), professional }),
@@ -87,7 +87,7 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
-    const programs = await this.aggregate([
+    const programs = await this.startQuery(this.getPrograms.name).aggregate([
       {
         $match: {
           professional,
@@ -175,7 +175,7 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
     return res;
   }
   async updateProgram({ professional, program, ...rest }: UpdateProgramDto): Promise<Program | null> {
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.updateProgram.name).findOneAndUpdate(
       { _id: program, professional, isDeleted: false },
       { ...rest },
       { new: true, populate: 'programTags' },
@@ -190,15 +190,19 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
         ? { $push: { programTags: rest.programTag } }
         : { $pull: { programTags: rest.programTag } };
 
-    const programRes = await this.findOneAndUpdate({ _id: program, professional, isDeleted: false }, _action, {
-      new: true,
-      populate: 'programTags',
-    });
+    const programRes = await this.startQuery(this.updateProgramTag.name).findOneAndUpdate(
+      { _id: program, professional, isDeleted: false },
+      _action,
+      {
+        new: true,
+        populate: 'programTags',
+      },
+    );
 
     return programRes;
   }
   async updateProgramPatients(program: string, professional: string, patients: string[]): Promise<Program | null> {
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.updateProgramPatients.name).findOneAndUpdate(
       { _id: program, professional, isDeleted: false },
       { $push: { patients } },
       {
@@ -212,7 +216,7 @@ export class ProgramsPersistenceService extends BaseRepository<ProgramDocument> 
 
   async deleteProgram({ professional, ...rest }: DeleteProgramDto, selectors: string[]): Promise<Program | null> {
     selectors;
-    const programRes = await this.findOneAndUpdate(
+    const programRes = await this.startQuery(this.deleteProgram.name).findOneAndUpdate(
       {
         _id: rest.program,
         professional,

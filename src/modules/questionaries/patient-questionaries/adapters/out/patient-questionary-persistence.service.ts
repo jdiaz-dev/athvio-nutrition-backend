@@ -6,11 +6,11 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 import { CreatePatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/questionary-config';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
-import { BaseRepository } from 'src/shared/database/base-repository';
 import { UpdateAnswersDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers.dto';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class PatientQuestionaryPersistenceService extends BaseRepository<PatientQuestionaryDocument> {
+export class PatientQuestionaryPersistenceService extends MongodbQueryBuilder<PatientQuestionaryDocument> {
   constructor(
     @InjectModel(PatientQuestionary.name) protected readonly patientQuestionaryModel: Model<PatientQuestionaryDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -19,7 +19,7 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
   }
 
   async createPatientQuestionary(questionary: CreatePatientQuestionary): Promise<PatientQuestionary> {
-    return this.create({
+    return this.startQuery(this.createPatientQuestionary.name).create({
       ...questionary,
     });
   }
@@ -28,8 +28,7 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
     selectors?: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const isFromExternalRequest = selectors ? true : false;
-
-    const questionaryRes = await this.aggregate([
+    const questionaryRes = await this.startQuery(this.getPatientQuestionary.name).aggregate([
       {
         $match: {
           ...(_id && { _id: new Types.ObjectId(_id) }),
@@ -90,7 +89,7 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
       }
     }
 
-    const questionaryRes = await this.findOneAndUpdate(
+    const questionaryRes = await this.startQuery(this.updateAnwerAndAdditionalNotes.name).findOneAndUpdate(
       { _id: questionary, professional, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {

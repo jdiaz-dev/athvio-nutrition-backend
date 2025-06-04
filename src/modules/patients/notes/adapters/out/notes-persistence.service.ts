@@ -7,13 +7,13 @@ import { DeleteNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/delet
 import { GetNotesDto, GetNotesResponse } from 'src/modules/patients/notes/adapters/in/dtos/get-notes.dto';
 import { UpdateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/update-note.dto';
 import { Note, NoteDocument } from 'src/modules/patients/notes/adapters/out/note.schema';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
-export class NotesPersistenceService extends BaseRepository<NoteDocument> {
+export class NotesPersistenceService extends MongodbQueryBuilder<NoteDocument> {
   constructor(
     @InjectModel(Note.name) protected readonly noteModel: Model<NoteDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -23,7 +23,7 @@ export class NotesPersistenceService extends BaseRepository<NoteDocument> {
 
   async createNote(dto: CreateNoteDto): Promise<Note> {
     try {
-      const note = await this.create({
+      const note = await this.startQuery(this.createNote.name).create({
         ...dto,
       });
       return note;
@@ -37,7 +37,7 @@ export class NotesPersistenceService extends BaseRepository<NoteDocument> {
     { professional, patient, offset, limit }: GetNotesDto,
     selectors: Record<string, number>,
   ): Promise<GetNotesResponse> {
-    const notes = await this.aggregate([
+    const notes = await this.startQuery(this.getNotes.name).aggregate([
       {
         $match: {
           professional: professional,
@@ -88,7 +88,7 @@ export class NotesPersistenceService extends BaseRepository<NoteDocument> {
     return res;
   }
   async updateNote({ professional, note, patient, ...rest }: UpdateNoteDto, selectors: Record<string, number>): Promise<Note> {
-    const noteRes = await this.findOneAndUpdate(
+    const noteRes = await this.startQuery(this.updateNote.name).findOneAndUpdate(
       { _id: note, professional, patient, isDeleted: false },
       { ...rest },
       {
@@ -102,7 +102,7 @@ export class NotesPersistenceService extends BaseRepository<NoteDocument> {
   }
 
   async deleteNote({ note, professional, patient }: DeleteNoteDto, selectors: string[]): Promise<Note> {
-    const noteRes = await this.findOneAndUpdate(
+    const noteRes = await this.startQuery(this.deleteNote.name).findOneAndUpdate(
       {
         _id: note,
         professional,

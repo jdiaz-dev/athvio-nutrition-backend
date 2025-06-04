@@ -8,11 +8,11 @@ import { CreateProgramTagDto } from 'src/modules/professionals/program-tags/adap
 import { UpdateProgramTagDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/update-program-tag.dto';
 import { DeleteProgramTagDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/delete-program-tag.dto';
 import { GetProgramTagsDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/get-program-tags.dto';
-import { BaseRepository } from 'src/shared/database/base-repository';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class ProgramTagsPersistenceService extends BaseRepository<ProgramTagDocument> {
+export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTagDocument> {
   constructor(
     @InjectModel(ProgramTag.name) protected readonly programTagModel: Model<ProgramTagDocument>,
     protected readonly logger: AthvioLoggerService,
@@ -21,14 +21,14 @@ export class ProgramTagsPersistenceService extends BaseRepository<ProgramTagDocu
   }
 
   async createProgramTag({ professional, ...rest }: CreateProgramTagDto): Promise<ProgramTag> {
-    const programTag = await this.create({
+    const programTag = await this.startQuery(this.createProgramTag.name).create({
       professional,
       ...rest,
     });
     return programTag;
   }
   async getProgramTag(professional: string, programTag: string): Promise<ProgramTag> {
-    const programTagRes = await this.findOne({
+    const programTagRes = await this.startQuery(this.getProgramTag.name).findOne({
       professional,
       _id: programTag,
       isDeleted: false,
@@ -37,14 +37,14 @@ export class ProgramTagsPersistenceService extends BaseRepository<ProgramTagDocu
     return programTagRes;
   }
   async getProgramTags({ professional }: GetProgramTagsDto): Promise<ProgramTag[]> {
-    const programTags = await this.find({
+    const programTags = await this.startQuery(this.getProgramTags.name).find({
       professional,
       isDeleted: false,
     });
     return programTags;
   }
   async updateProgramTag({ professional, programTag, ...rest }: UpdateProgramTagDto): Promise<ProgramTag> {
-    const programTagRes = await this.findOneAndUpdate(
+    const programTagRes = await this.startQuery(this.updateProgramTag.name).findOneAndUpdate(
       { _id: programTag, professional, isDeleted: false },
       { ...rest },
       { new: true },
@@ -55,7 +55,7 @@ export class ProgramTagsPersistenceService extends BaseRepository<ProgramTagDocu
   }
 
   async deleteProgramTag(dto: DeleteProgramTagDto, professional: string): Promise<ProgramTag> {
-    const programTagRes = await this.findOneAndUpdate({
+    const programTagRes = await this.startQuery(this.deleteProgramTag.name).findOneAndUpdate({
       _id: dto.programTag,
       professional,
       isDeleted: true,

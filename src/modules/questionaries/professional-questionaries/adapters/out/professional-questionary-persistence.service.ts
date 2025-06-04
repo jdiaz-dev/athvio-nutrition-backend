@@ -7,10 +7,10 @@ import { CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { EnableQuestionaryDetailsDto } from 'src/modules/questionaries/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { BaseRepository } from 'src/shared/database/base-repository';
+import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class ProfessionalQuestionaryPersistenceService extends BaseRepository<ProfessionalQuestionaryDocument> {
+export class ProfessionalQuestionaryPersistenceService extends MongodbQueryBuilder<ProfessionalQuestionaryDocument> {
   constructor(
     @InjectModel(ProfessionalQuestionary.name)
     protected readonly professionalQuestionaryModel: Model<ProfessionalQuestionaryDocument>,
@@ -20,7 +20,7 @@ export class ProfessionalQuestionaryPersistenceService extends BaseRepository<Pr
   }
 
   async createQuestionary(questionary: CreateQuestionary): Promise<ProfessionalQuestionary> {
-    const questionaryRes = await this.create({
+    const questionaryRes = await this.startQuery(this.createQuestionary.name).create({
       ...questionary,
     });
     return questionaryRes;
@@ -35,12 +35,15 @@ export class ProfessionalQuestionaryPersistenceService extends BaseRepository<Pr
       [`detail${index}.isDeleted`]: false,
     }));
 
-    const updateSubDocuments = questionaryDetails.reduce((acc, detail, index) => {
-      acc[`questionaryGroups.$[group].questionaryDetails.$[detail${index}].isEnabled`] = detail.isEnabled;
-      return acc;
-    }, {} as Record<string, boolean>);
+    const updateSubDocuments = questionaryDetails.reduce(
+      (acc, detail, index) => {
+        acc[`questionaryGroups.$[group].questionaryDetails.$[detail${index}].isEnabled`] = detail.isEnabled;
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    );
 
-    const questionaryRes = await this.findOneAndUpdate(
+    const questionaryRes = await this.startQuery(this.enableMultipleQuestionaryDetail.name).findOneAndUpdate(
       { _id: questionary, professional },
       {
         $set: updateSubDocuments,
@@ -59,7 +62,7 @@ export class ProfessionalQuestionaryPersistenceService extends BaseRepository<Pr
   }
   async getProfessionalQuestionary(professional: string, selectors?: Record<string, number>): Promise<ProfessionalQuestionary> {
     const isFromExternalRequest = selectors ? true : false;
-    const questionaryRes = await this.aggregate([
+    const questionaryRes = await this.startQuery(this.getProfessionalQuestionary.name).aggregate([
       {
         $match: { professional: new Types.ObjectId(professional) },
       },
