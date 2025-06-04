@@ -55,6 +55,12 @@ input AdditionalInfoDto {
   weight: Float
 }
 
+input AnswersAndAdditionalNotesInput {
+  additionalNotes: String!
+  answer: String!
+  questionaryDetail: String!
+}
+
 input AssignProgramDto {
   assignmentStartDate: DateTime!
   patients: [String!]!
@@ -472,6 +478,10 @@ input GetPatientPlansForWebDto {
   startDate: String!
 }
 
+input GetPatientQuestionaryByIdDto {
+  questionary: String!
+}
+
 input GetPatientQuestionaryDto {
   patient: String!
   professional: String!
@@ -689,7 +699,7 @@ type Mutation {
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpPatientFromMobile(input: SignUpPatientFromMobileDto!): JwtDto!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
-  updateAnswerAndAdditionalNotes(input: UpdateAnswerAndAdditionalNotesDto!): PatientQuestionary!
+  updateAnswersAndAdditionalNotes(input: UpdateAnswersAndAdditionalNotesDto!): PatientQuestionary!
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
@@ -698,6 +708,7 @@ type Mutation {
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
+  updatePatientQuestionaryAnswers(input: UpdateAnswersDto!): PatientQuestionary!
   updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
   updatePlanMeal(toUpdateInput: UpdatePlanMealDto!): PatientPlan!
   updateProgram(input: UpdateProgramDto!): Program!
@@ -802,6 +813,11 @@ type PatientQuestionary {
   questionaryGroups: [PatientQuestionaryGroup!]!
 }
 
+input PatientQuestionaryAnswersInput {
+  answer: String!
+  questionaryDetail: String!
+}
+
 type PatientQuestionaryDetail {
   _id: ID!
   additionalNotes: String!
@@ -813,12 +829,6 @@ type PatientQuestionaryDetail {
   options: [String!]!
 }
 
-input PatientQuestionaryDetailInput {
-  additionalNotes: String!
-  answer: String!
-  questionaryDetail: String!
-}
-
 type PatientQuestionaryGroup {
   _id: ID!
   description: String
@@ -827,7 +837,12 @@ type PatientQuestionaryGroup {
 }
 
 input PatientQuestionaryGroupInput {
-  questionaryDetails: [PatientQuestionaryDetailInput!]!
+  questionaryDetails: [AnswersAndAdditionalNotesInput!]!
+  questionaryGroup: String!
+}
+
+input PatientQuestionaryGroupWithAnswersInput {
+  questionaryDetails: [PatientQuestionaryAnswersInput!]!
   questionaryGroup: String!
 }
 
@@ -921,6 +936,7 @@ type Query {
   getPatientPlansForMobile(patientPlans: GetPatientPlansForMobileDto!): [PatientPlan!]!
   getPatientPlansForWeb(patientPlans: GetPatientPlansForWebDto!): [PatientPlan!]!
   getPatientQuestionary(input: GetPatientQuestionaryDto!): PatientQuestionary!
+  getPatientQuestionaryById(input: GetPatientQuestionaryByIdDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
   getProfessional(professional: GetProfessionalDto!): Professional!
@@ -1014,11 +1030,18 @@ type Subscription {
   professionalMessaged(input: SubscribePublishedMessageDto!): Chat
 }
 
-input UpdateAnswerAndAdditionalNotesDto {
+input UpdateAnswersAndAdditionalNotesDto {
   patient: String!
   professional: String!
   questionary: String!
   questionaryGroups: [PatientQuestionaryGroupInput!]!
+}
+
+input UpdateAnswersDto {
+  patient: String!
+  professional: String!
+  questionary: String!
+  questionaryGroups: [PatientQuestionaryGroupWithAnswersInput!]!
 }
 
 input UpdateCaloryDto {

@@ -6,14 +6,19 @@ import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-help
 import { PatientQuestionaryManagerService } from 'src/modules/questionaries/patient-questionaries/application/patient-questionary-manager.service';
 import { PatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary.schema';
 import { GetPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
-import { UpdateAnswerAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answer-and-additional-notes.dto';
+import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
 import { SendPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/send-patient-questionary.dto';
 import { SendPatientQuestionaryService } from 'src/modules/questionaries/patient-questionaries/application/send-patient-questionary.service';
+import { UpdateAnswersDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers.dto';
+import { GetPatientQuestionaryByIdDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary-by-id';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PatientQuestionaryResolver {
-  constructor(private readonly pqms: PatientQuestionaryManagerService, private readonly spqs: SendPatientQuestionaryService) {}
+  constructor(
+    private readonly pqms: PatientQuestionaryManagerService,
+    private readonly spqs: SendPatientQuestionaryService,
+  ) {}
 
   @Query(() => PatientQuestionary)
   getPatientQuestionary(
@@ -22,9 +27,23 @@ export class PatientQuestionaryResolver {
   ): Promise<PatientQuestionary> {
     return this.pqms.getPatientQuestionary(dto, selectors);
   }
+  @Query(() => PatientQuestionary)
+  getPatientQuestionaryById(
+    @Args('input') dto: GetPatientQuestionaryByIdDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<PatientQuestionary> {
+    return this.pqms.getPatientQuestionaryById(dto, selectors);
+  }
   @Mutation(() => PatientQuestionary)
-  updateAnswerAndAdditionalNotes(
-    @Args('input') dto: UpdateAnswerAndAdditionalNotesDto,
+  updatePatientQuestionaryAnswers(
+    @Args('input') dto: UpdateAnswersDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<PatientQuestionary> {
+    return this.pqms.updateAnswers(dto, selectors);
+  }
+  @Mutation(() => PatientQuestionary)
+  updateAnswersAndAdditionalNotes(
+    @Args('input') dto: UpdateAnswersAndAdditionalNotesDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
     return this.pqms.updateAnswerAndAdditionalNotes(dto, selectors);

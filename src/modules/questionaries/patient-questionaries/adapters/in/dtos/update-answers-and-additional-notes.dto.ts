@@ -1,17 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsMongoId, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { PatientQuestionaryAnswersInput } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers.dto';
 
 @InputType()
-class PatientQuestionaryDetailInput {
-  @Field()
-  @IsMongoId()
-  questionaryDetail: string;
-
-  @Field()
-  @IsString()
-  answer: string;
-
+class AnswersAndAdditionalNotesInput extends PatientQuestionaryAnswersInput {
   @Field()
   @IsString()
   additionalNotes: string;
@@ -23,14 +16,14 @@ class PatientQuestionaryGroupInput {
   @IsMongoId()
   questionaryGroup: string;
 
-  @Field(() => [PatientQuestionaryDetailInput])
+  @Field(() => [AnswersAndAdditionalNotesInput])
   @ValidateNested()
-  @Type(() => PatientQuestionaryDetailInput)
-  questionaryDetails: PatientQuestionaryDetailInput[];
+  @Type(() => AnswersAndAdditionalNotesInput)
+  questionaryDetails: AnswersAndAdditionalNotesInput[];
 }
 
 @InputType()
-export class UpdateAnswerAndAdditionalNotesDto {
+export class UpdateAnswersAndAdditionalNotesDto {
   @Field()
   @IsMongoId()
   professional: string;

@@ -5,8 +5,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { CreatePatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/questionary-config';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { UpdateAnswerAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answer-and-additional-notes.dto';
+import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
 import { BaseRepository } from 'src/shared/database/base-repository';
+import { UpdateAnswersDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers.dto';
 
 @Injectable()
 export class PatientQuestionaryPersistenceService extends BaseRepository<PatientQuestionaryDocument> {
@@ -23,7 +24,7 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
     });
   }
   async getPatientQuestionary(
-    { _id, patient, professional }: { _id?: string; patient: string; professional: string },
+    { _id, patient, professional }: { _id?: string; patient?: string; professional?: string },
     selectors?: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const isFromExternalRequest = selectors ? true : false;
@@ -32,8 +33,8 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
       {
         $match: {
           ...(_id && { _id: new Types.ObjectId(_id) }),
-          patient: patient,
-          professional: professional,
+          ...(patient && { patient }),
+          ...(professional && { professional }),
         },
       },
       {
@@ -63,7 +64,7 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
     return questionaryRes[0];
   }
   async updateAnwerAndAdditionalNotes(
-    { questionary, professional, patient, questionaryGroups }: UpdateAnswerAndAdditionalNotesDto,
+    { questionary, professional, patient, questionaryGroups }: UpdateAnswersDto | UpdateAnswersAndAdditionalNotesDto,
     selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
@@ -76,11 +77,15 @@ export class PatientQuestionaryPersistenceService extends BaseRepository<Patient
       arrayFilters.push({ [`group${x}._id`]: new Types.ObjectId(questionaryGroup) });
 
       for (let y = 0; y < questionaryDetails.length; y++) {
-        const { questionaryDetail, answer, additionalNotes } = questionaryDetails[y];
+        const { questionaryDetail, answer, ...rest } = questionaryDetails[y];
         arrayFilters.push({ [`detail${x}with${y}._id`]: new Types.ObjectId(questionaryDetail) });
         updateSubDocuments.push({
           [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].answer`]: answer,
-          [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].additionalNotes`]: additionalNotes,
+          ...((rest as Record<string, string> | undefined).additionalNotes && {
+            [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].additionalNotes`]: (
+              rest as Record<string, string> | undefined
+            ).additionalNotes,
+          }),
         });
       }
     }
