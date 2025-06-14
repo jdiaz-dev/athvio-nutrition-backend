@@ -2,6 +2,8 @@
 - learng about session and close methods in neoj4 driver
 - learn profiler in node.js 
 - learn clinic.js
+- learn close-with-grace to handle application shutdown events
+- use nest-commander to create cli tools (with spanish foods can be good)
 
 ## TODO (infraestructure):
 - migrate from railway to aws?,  beacuse don't have static ip
@@ -23,7 +25,7 @@
 - add detail error property to logger.error
 - add input to receive amount of calories
 - review Anticancer Vinaigrette	amounts
-- fix: separate image that belongs to system and professional 
+- fix: separate image that belongs to system and professional
 - fix: remove garbage images from s3
 - fix: add professional in documents that belongs to patient also
 - refactor: add service layer in patient plans
@@ -31,12 +33,12 @@
 - feat: create one endpoint to add specific food
 - refactor: orchestrator must to manage the creation of questionary config nor questionary config
 - fix: change from patient demo to paciente de prueba para español
-- fix: questionary module - completed
 - fix: manage english and spanish questionaries
 - refactor: rename sytem to system questionary 
-- fix: enhance trazability at moment to log error with database
 - fix: update mail message according to detectedLanguage
 - fix: create other folder for store images from custom meals
 - feat: delete previous image if update image (require big developement)
 - fix: add logger verifiying all onboarding professional process
 - test: test chat between web app and mobile app
+- fix: check connection with mongodb
+- fix: validate schema of loaded environment variables, not run if it is not loaded
