@@ -440,8 +440,22 @@ input GetPatientForMobileDto {
 }
 
 type GetPatientForMobileResponse {
-  _id: String!
+  _id: ID!
+  birthday: DateTime
+  createdAt: DateTime!
+  gender: String
+  groups: [PatientGroup!]!
+  height: Float
+  limitation: String
+  location: String
+  notes: String
+  phone: String
+  professional: String
+  state: String
+  target: String
+  timezone: String
   user: User!
+  weight: Float
 }
 
 input GetPatientForWebDto {
@@ -450,8 +464,22 @@ input GetPatientForWebDto {
 }
 
 type GetPatientForWebResponse {
-  _id: String!
+  _id: ID!
+  birthday: DateTime
+  createdAt: DateTime!
+  gender: String
+  groups: [PatientGroup!]!
+  height: Float
+  limitation: String
+  location: String
+  notes: String
+  phone: String
+  professional: String
+  state: String
+  target: String
+  timezone: String
   user: User!
+  weight: Float
 }
 
 input GetPatientGroupsDto {

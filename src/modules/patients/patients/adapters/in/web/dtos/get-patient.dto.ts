@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsMongoId } from 'class-validator';
-import { User } from 'src/modules/auth/users/adapters/out/user.schema';
+import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 
 @InputType()
 export class GetPatientForWebDto {
@@ -14,10 +14,4 @@ export class GetPatientForWebDto {
 }
 
 @ObjectType()
-export class GetPatientForWebResponse {
-  @Field()
-  _id: string;
-
-  @Field(() => User)
-  user: User;
-}
+export class GetPatientForWebResponse extends Patient {}

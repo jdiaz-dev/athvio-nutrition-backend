@@ -6,7 +6,7 @@ export type CreatePatient = Partial<Patient> & {
   isActive: boolean;
 };
 
-export type PatientPopulatedWithUser = Pick<Patient, '_id'> & {
+export type PatientPopulatedWithUser = Patient & {
   user: User;
 };
 
@@ -19,4 +19,5 @@ export type UpdatePatient = {
 export interface DeleteManyPatientGroup {
   professional: string;
   patientGroup: string;
+  
 }
