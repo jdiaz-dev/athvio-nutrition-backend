@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth/auth.module';
-import configuration from './configuration';
 import { UsersModule } from 'src/modules/auth/users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
@@ -17,12 +16,14 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
 import { FoodsModule } from 'src/modules/program-generator/foods/foods.module';
 import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
 import { QuestionaryDomainsModule } from 'src/modules/questionaries/questionary-domains.module';
+import { getConfiguration, validateEnvironmentVariables } from 'configuration';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [configuration],
+      load: [getConfiguration],
+      validate: validateEnvironmentVariables,
     }),
     DatabaseModule,
     SecurityModule,
