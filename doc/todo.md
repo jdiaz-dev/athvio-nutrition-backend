@@ -4,6 +4,7 @@
 - learn clinic.js
 - learn close-with-grace to handle application shutdown events
 - use nest-commander to create cli tools (with spanish foods can be good)
+- learn about cookies and sessions with express.js
 
 ## TODO (infraestructure):
 - migrate from railway to aws?,  beacuse don't have static ip
@@ -11,7 +12,7 @@
 - check cost of loadbalancer 
 - check cost of cloudwatch
 - learn about load balancer
-- check parametrized queries to void NoSQL injection
+- check parametrized queries to void NoSQL injection    
 - configure pre commit , using linters
 
 ## Fixes code 
@@ -42,3 +43,6 @@
 - test: test chat between web app and mobile app
 - fix: check connection with mongodb
 - fix: validate schema of loaded environment variables, not run if it is not loaded
+
+## Videos
+- singleton controller (NESTjs) thousands of request without lose indepent request object
