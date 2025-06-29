@@ -1,10 +1,13 @@
 ## Learning
 - learng about session and close methods in neoj4 driver
 - learn profiler in node.js 
-- learn clinic.js
 - learn close-with-grace to handle application shutdown events
 - use nest-commander to create cli tools (with spanish foods can be good)
 - learn about cookies and sessions with express.js
+- deploy multiregion app/infraestructure
+- implement kafka or rabbitmq to onboard new users 
+- learn about event sourcing pattern, what is the relationship with CQRS
+- implement multiregion infraestructure
 
 ## TODO (infraestructure):
 - migrate from railway to aws?,  beacuse don't have static ip
@@ -45,4 +48,3 @@
 - fix: validate schema of loaded environment variables, not run if it is not loaded
 
 ## Videos
-- singleton controller (NESTjs) thousands of request without lose indepent request object
