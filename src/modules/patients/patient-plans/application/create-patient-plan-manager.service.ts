@@ -4,7 +4,7 @@ import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/pat
 import { PatientPlanPartial } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
-import { Meal } from 'src/shared/models/meal-plan';
+import { Meal } from 'src/shared/schemas/meal-plan';
 
 @Injectable()
 export class CreatePatientPlanManagerService {

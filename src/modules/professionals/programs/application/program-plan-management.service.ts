@@ -5,7 +5,7 @@ import { PlansPersistenceService } from 'src/modules/professionals/programs/adap
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
-import { Meal } from 'src/shared/models/meal-plan';
+import { Meal } from 'src/shared/schemas/meal-plan';
 
 @Injectable()
 export class ProgramPlanManagementService {

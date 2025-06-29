@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
 import { MealBodyInput } from 'src/modules/professionals/programs/adapters/in/dtos/meal/meal-body.input';
-import { Meal } from 'src/shared/models/meal-plan';
+import { Meal } from 'src/shared/schemas/meal-plan';
 
 @InputType()
 export class CreatePatientPlanDto {

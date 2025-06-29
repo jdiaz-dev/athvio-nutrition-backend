@@ -1,8 +1,8 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IngredientType } from 'src/shared/enums/project';
-import { Ingredient, IngredientSchema } from 'src/shared/models/ingredient';
-import { Macros, MacroSchema } from 'src/shared/models/macros';
+import { Ingredient, IngredientSchema } from 'src/shared/schemas/ingredient';
+import { Macros, MacroSchema } from 'src/shared/schemas/macros';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()

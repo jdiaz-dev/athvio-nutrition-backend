@@ -5,7 +5,7 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
-import { IngredientDetail } from 'src/shared/models/meal-plan';
+import { IngredientDetail } from 'src/shared/schemas/meal-plan';
 
 @Resolver(() => NutritionalMeal)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])

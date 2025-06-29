@@ -3,8 +3,8 @@ import { IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { Meta } from 'src/shared/dtos/get-records-response';
 import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
-import { Macros } from 'src/shared/models/macros';
-import { IngredientDetail } from 'src/shared/models/meal-plan';
+import { Macros } from 'src/shared/schemas/macros';
+import { IngredientDetail } from 'src/shared/schemas/meal-plan';
 
 @InputType()
 export class GetFoodsDto extends GetRecordsBaseDto {
