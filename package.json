@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "save:mongodb": "dotenvx run -f .env.development -- ts-node ./scripts/save-mongodb-records.ts"
+    "save:mongodb": "dotenvx run -f .env.development -- ts-node ./scripts/save-mongodb-records.ts",
+    "nsolid:test":"dotenvx run -f .env.development -- nsolid dist/src/main.js"
   },
   "dependencies": {
     "@apollo/server": "^4.12.1",
