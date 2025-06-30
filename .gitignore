@@ -38,3 +38,4 @@ lerna-debug.log*
 mongo_data.json
 help
 uploads/
+graphql-test.yml
