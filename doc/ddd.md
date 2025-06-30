@@ -1,9 +1,9 @@
 # DDD
 ## Bounded context
 - auth
+- backoffice
 - patients
 - professionals
-- backoffice
 
 ## Domains, subdomains and modules
 |--auth (domain)

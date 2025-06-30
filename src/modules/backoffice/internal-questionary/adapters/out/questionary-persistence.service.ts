@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Questionary, QuestionaryDocument } from 'src/modules/questionaries/questionary/adapters/out/questionary.schema';
+import { Questionary, QuestionaryDocument } from 'src/modules/backoffice/internal-questionary/adapters/out/questionary.schema';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 

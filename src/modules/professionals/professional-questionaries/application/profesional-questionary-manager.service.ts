@@ -1,15 +1,15 @@
-import { AddCustomQuestionaryDetailsDto } from 'src/modules/questionaries/professional-questionaries/adapters/in/dtos/add-custom-questionary-details.dto';
+import { AddCustomQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/add-custom-questionary-details.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateQuestionary } from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary';
-import { ProfessionalQuestionaryPersistenceService } from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary-persistence.service';
-import { ProfessionalQuestionary } from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary.schema';
+import { CreateQuestionary } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary';
+import { ProfessionalQuestionaryPersistenceService } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary-persistence.service';
+import { ProfessionalQuestionary } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary.schema';
 import { ErrorProfessionalQuestionary } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
-import { DeleteCustomQuestionaryDetailsDto } from 'src/modules/questionaries/professional-questionaries/adapters/in/dtos/delete-custom-questionary-details.dto';
-import { UpdateCustomQuestionaryDetailsDto } from 'src/modules/questionaries/professional-questionaries/adapters/in/dtos/update-custom-questionary-details.dto';
-import { EnableQuestionaryDetailsDto } from 'src/modules/questionaries/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
-import { CustomQuestionaryDetailsPersistenceService } from 'src/modules/questionaries/professional-questionaries/adapters/out/custom-questionary-details-persistence.service';
-import { QuestionaryPersistenceService } from 'src/modules/questionaries/questionary/adapters/out/questionary-persistence.service';
+import { DeleteCustomQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/delete-custom-questionary-details.dto';
+import { UpdateCustomQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/update-custom-questionary-details.dto';
+import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
+import { CustomQuestionaryDetailsPersistenceService } from 'src/modules/professionals/professional-questionaries/adapters/out/custom-questionary-details-persistence.service';
+import { QuestionaryPersistenceService } from 'src/modules/backoffice/internal-questionary/adapters/out/questionary-persistence.service';
 
 @Injectable()
 export class ProfessionalQuestionaryManager {

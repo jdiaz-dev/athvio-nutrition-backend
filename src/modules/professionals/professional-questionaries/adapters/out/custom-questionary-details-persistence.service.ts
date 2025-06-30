@@ -6,7 +6,7 @@ import {
   AddQuestionaryDetail,
   DeleteQuestionaryDetail,
   UpdateQuestionaryDetail,
-} from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary';
+} from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary';
 import { CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
-import { ProfessionalQuestionaryManager } from 'src/modules/questionaries/professional-questionaries/application/profesional-questionary-manager.service';
+import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 import { ProfessionalMessages } from 'src/shared/enums/messages-response';
 
 //

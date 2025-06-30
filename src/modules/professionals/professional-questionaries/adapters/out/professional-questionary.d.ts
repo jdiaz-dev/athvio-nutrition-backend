@@ -1,4 +1,4 @@
-import { Questionary } from 'src/modules/questionaries/questionary/adapters/out/questionary.schema';
+import { Questionary } from 'src/modules/backoffice/questionary/adapters/out/questionary.schema';
 import { QuestionaryDetail, QuestionaryGroup } from 'src/shared/schemas/questionary-base.schema';
 
 export type CreateQuestionary = Pick<Questionary, 'professional'> & {

@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ProfessionalQuestionary, ProfessionalQuestionaryDocument } from './professional-questionary.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateQuestionary } from 'src/modules/questionaries/professional-questionaries/adapters/out/professional-questionary';
+import { CreateQuestionary } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary';
 import { CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { EnableQuestionaryDetailsDto } from 'src/modules/questionaries/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
+import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 

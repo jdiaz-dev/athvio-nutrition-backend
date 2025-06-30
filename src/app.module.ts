@@ -15,7 +15,7 @@ import { ProfessionalDomainsModule } from 'src/modules/professionals/professiona
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
 import { FoodsModule } from 'src/modules/program-generator/foods/foods.module';
 import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
-import { QuestionaryDomainsModule } from 'src/modules/questionaries/questionary-domains.module';
+import { QuestionaryDomainsModule } from 'src/modules/backoffice/questionary-domains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'configuration';
 
 @Module({
