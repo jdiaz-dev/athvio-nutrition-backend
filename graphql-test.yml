@@ -1,0 +1,30 @@
+config:
+  target: "http://localhost:56343"
+  phases:
+    - duration: 60     # run for 60 seconds
+      arrivalRate: 5   # 5 users per second
+  payload:
+    # path: "users.csv"  # optional, for dynamic variables
+    # fields:
+      # - email
+      # - password
+
+scenarios:
+  - name: "GraphQL query test"
+    flow:
+      - post:
+          url: "/graphql"
+          headers:
+            Content-Type: "application/json"
+          json:
+            query: |
+              mutation signIn($input: SignInDto!){
+                signIn(input:$input){
+                  _id,
+                  role
+                  token
+                }    
+              }
+            variables:
+              email: "demo58@gmail.com"
+              password: "demo58ATHVIO?"

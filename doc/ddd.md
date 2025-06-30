@@ -2,6 +2,8 @@
 ## Bounded context
 - patients
 - professionals
+- backoffice
+- auth
 
 ## Domains, subdomains and modules
 |--auth (domain)
