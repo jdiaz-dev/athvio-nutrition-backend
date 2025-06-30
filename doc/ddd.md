@@ -4,7 +4,10 @@
 - professionals
 
 ## Domains, subdomains and modules
-|--patients
+|--auth (domain)
+|  |--users (subdomain)
+|  |  |--onboarding (module)
+|--patients 
 |  |--patient plans
 |  |  |--meals
 |  |  |--workouts
@@ -19,7 +22,7 @@
 |  |--program tags
 |  |--programs
 |  |--professional-questionaries
-|--backoffice
+|--backoffice (internal tools)
 |  |--nutritional meals
 |  |  |--nutritional meal providers
 |  |  |--internal nutritional meal
