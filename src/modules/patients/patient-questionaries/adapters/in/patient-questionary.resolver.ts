@@ -3,14 +3,14 @@ import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
-import { PatientQuestionaryManagerService } from 'src/modules/questionaries/patient-questionaries/application/patient-questionary-manager.service';
-import { PatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary.schema';
-import { GetPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
-import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
-import { SendPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/send-patient-questionary.dto';
-import { SendPatientQuestionaryService } from 'src/modules/questionaries/patient-questionaries/application/send-patient-questionary.service';
-import { UpdateAnswersDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers.dto';
-import { GetPatientQuestionaryByIdDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary-by-id';
+import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
+import { PatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary.schema';
+import { GetPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
+import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
+import { SendPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/send-patient-questionary.dto';
+import { SendPatientQuestionaryService } from 'src/modules/patients/patient-questionaries/application/send-patient-questionary.service';
+import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers.dto';
+import { GetPatientQuestionaryByIdDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/get-patient-questionary-by-id';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])

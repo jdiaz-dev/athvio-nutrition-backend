@@ -7,7 +7,7 @@ import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { ProgramsModule } from 'src/modules/professionals/programs/programs.module';
 import { ProfessionalQuestionariesModule } from 'src/modules/questionaries/professional-questionaries/professional-questionaries.module';
-import { PatientQuestionaryModule } from 'src/modules/questionaries/patient-questionaries/patient-questionary.module';
+import { PatientQuestionaryModule } from 'src/modules/patients/patient-questionaries/patient-questionary.module';
 
 @Module({
   imports: [

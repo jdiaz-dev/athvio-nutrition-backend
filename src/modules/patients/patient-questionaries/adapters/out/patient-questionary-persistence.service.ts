@@ -3,10 +3,10 @@ import { PatientQuestionary, PatientQuestionaryDocument } from './patient-questi
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { CreatePatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/questionary-config';
+import { CreatePatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/questionary-config';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
-import { UpdateAnswersDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers.dto';
+import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
+import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers.dto';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()

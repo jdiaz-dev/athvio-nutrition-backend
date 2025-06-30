@@ -10,7 +10,7 @@ import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/questionaries/professional-questionaries/application/profesional-questionary-manager.service';
-import { PatientQuestionaryManagerService } from 'src/modules/questionaries/patient-questionaries/application/patient-questionary-manager.service';
+import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
 import { ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { EnumRoles, LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 

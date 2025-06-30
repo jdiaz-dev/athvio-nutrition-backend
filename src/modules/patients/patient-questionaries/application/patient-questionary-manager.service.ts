@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { GetPatientQuestionaryByIdDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary-by-id';
-import { GetPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
-import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
-import { UpdateAnswersDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/update-answers.dto';
-import { PatientQuestionaryPersistenceService } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary-persistence.service';
-import { PatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary.schema';
-import { CreatePatientQuestionary } from 'src/modules/questionaries/patient-questionaries/adapters/out/questionary-config';
+import { GetPatientQuestionaryByIdDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/get-patient-questionary-by-id';
+import { GetPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
+import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
+import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers.dto';
+import { PatientQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
+import { PatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary.schema';
+import { CreatePatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/questionary-config';
 import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()

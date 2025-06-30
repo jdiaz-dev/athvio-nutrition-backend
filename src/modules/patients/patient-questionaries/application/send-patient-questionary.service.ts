@@ -3,8 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { SendPatientQuestionaryDto } from 'src/modules/questionaries/patient-questionaries/adapters/in/dtos/send-patient-questionary.dto';
-import { PatientQuestionaryPersistenceService } from 'src/modules/questionaries/patient-questionaries/adapters/out/patient-questionary-persistence.service';
+import { SendPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/send-patient-questionary.dto';
+import { PatientQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
 import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
