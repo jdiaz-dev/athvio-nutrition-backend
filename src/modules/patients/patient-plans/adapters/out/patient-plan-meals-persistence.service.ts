@@ -23,7 +23,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
   async addMealToPlan({ patient, patientPlan, meals }: AddPlanMealDto, selectors: Record<string, number>): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
-    const patientPlanRes = await this.startQuery(this.addMealToPlan.name).findOneAndUpdate(
+    const patientPlanRes = await this.initializeQuery(this.addMealToPlan.name).findOneAndUpdate(
       { _id: patientPlan, patient, isDeleted: false },
       { $push: { meals: { $each: meals } } },
       {
@@ -55,7 +55,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
       [`meal${index}.isDeleted`]: false,
     }));
 
-    const programRes = await this.startQuery(this.updatePlanMeal.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.updatePlanMeal.name).findOneAndUpdate(
       { _id: patientPlan, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
@@ -85,7 +85,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
       [`meal${index}._id`]: new Types.ObjectId(item),
       [`meal${index}.isDeleted`]: false,
     }));
-    const programRes = await this.startQuery(this.deletePlanMeal.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.deletePlanMeal.name).findOneAndUpdate(
       { _id: patientPlan, patient },
       { $set: Object.assign({}, ...deleteSubDocuments) },
       {

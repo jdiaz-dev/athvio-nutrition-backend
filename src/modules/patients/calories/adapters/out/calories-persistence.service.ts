@@ -18,13 +18,13 @@ export class CaloriesPersistenceService extends MongodbQueryBuilder<CaloryDocume
   }
 
   async createCalory(dto: CreateCaloryDto): Promise<Calory> {
-    const calory = await this.startQuery(this.createCalory.name).create({
+    const calory = await this.initializeQuery(this.createCalory.name).create({
       ...dto,
     });
     return calory;
   }
   async getCalory({ patient }: GetCaloryDto, selectors: Record<string, number>): Promise<Calory> {
-    const caloryRes = await this.startQuery(this.getCalory.name).findOne(
+    const caloryRes = await this.initializeQuery(this.getCalory.name).findOne(
       {
         patient,
         isDeleted: false,
@@ -34,7 +34,7 @@ export class CaloriesPersistenceService extends MongodbQueryBuilder<CaloryDocume
     return caloryRes;
   }
   async updateCalory({ calory, patient, ...rest }: UpdateCaloryDto, selectors: string[]): Promise<Calory> {
-    const caloryRes = await this.startQuery(this.updateCalory.name).findOneAndUpdate(
+    const caloryRes = await this.initializeQuery(this.updateCalory.name).findOneAndUpdate(
       { _id: calory, patient, isDeleted: false },
       { ...rest },
       { projection: selectors, new: true },

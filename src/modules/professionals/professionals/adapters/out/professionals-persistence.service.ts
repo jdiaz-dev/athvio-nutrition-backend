@@ -17,12 +17,12 @@ export class ProfessionalsPersistenceService extends MongodbQueryBuilder<Profess
   }
 
   async createProfessional(dto: CreateProfessional): Promise<Professional> {
-    return await this.startQuery(this.createProfessional.name).create(dto);
+    return await this.initializeQuery(this.createProfessional.name).create(dto);
   }
   async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
     const isFromExternalRequest = selectors ? true : false;
 
-    const professionalRes = await this.startQuery(this.getProfessionalById.name).aggregate([
+    const professionalRes = await this.initializeQuery(this.getProfessionalById.name).aggregate([
       {
         $match: {
           _id: new Types.ObjectId(professional),
@@ -50,7 +50,7 @@ export class ProfessionalsPersistenceService extends MongodbQueryBuilder<Profess
     return professionalRes[0] as ProfessionalUser;
   }
   async getProfessionalByUser(user: string): Promise<Professional> {
-    const professionalRes = await this.startQuery(this.getProfessionalByUser.name).findOne({ user, isActive: true });
+    const professionalRes = await this.initializeQuery(this.getProfessionalByUser.name).findOne({ user, isActive: true });
 
     return professionalRes;
   }

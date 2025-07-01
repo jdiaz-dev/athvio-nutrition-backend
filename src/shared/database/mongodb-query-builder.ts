@@ -12,7 +12,7 @@ export class MongodbQueryBuilder<T> {
     private readonly modelName: string,
   ) {}
 
-  protected startQuery(callerMethodName: string): MongodbRepository<T> {
+  protected initializeQuery(callerMethodName: string): MongodbRepository<T> {
     return new MongodbRepository<T>(this.model, this.logger, callerMethodName, this.modelName, this.handleError.bind(this));
   }
   private handleError(error: unknown, callerMethodName: string, mongodbOperation: string): never {

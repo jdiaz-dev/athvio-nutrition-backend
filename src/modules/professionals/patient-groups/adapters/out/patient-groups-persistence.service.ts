@@ -20,14 +20,14 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
   }
 
   async createPatientGroup({ professional, ...rest }: CreatePatientGroupDto): Promise<PatientGroup> {
-    const patientGroup = await this.startQuery(this.createPatientGroup.name).create({
+    const patientGroup = await this.initializeQuery(this.createPatientGroup.name).create({
       professional,
       ...rest,
     });
     return patientGroup;
   }
   async getPatientGroup(professionalId: string, groupId: string): Promise<PatientGroup> {
-    const patientGroup = await this.startQuery(this.getPatientGroup.name).findOne({
+    const patientGroup = await this.initializeQuery(this.getPatientGroup.name).findOne({
       _id: groupId,
       professional: professionalId,
       isDeleted: false,
@@ -38,14 +38,14 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
     return patientGroup;
   }
   async getPatientGroups({ professional }: GetPatientGroupsDto): Promise<PatientGroup[]> {
-    const patientGroups = await this.startQuery(this.getPatientGroups.name).find({
+    const patientGroups = await this.initializeQuery(this.getPatientGroups.name).find({
       professional,
       isDeleted: false,
     });
     return patientGroups;
   }
   async updatePatientGroup({ professional, patientGroup, ...rest }: UpdatePatientGroupDto): Promise<PatientGroup> {
-    const patientGroupRes = await this.startQuery(this.updatePatientGroup.name).findOneAndUpdate(
+    const patientGroupRes = await this.initializeQuery(this.updatePatientGroup.name).findOneAndUpdate(
       { _id: patientGroup, professional, isDeleted: false },
       { ...rest },
       { new: true },
@@ -56,7 +56,7 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
   }
 
   async deletePatientGroup({ professional, patientGroup }: DeletePatientGroupDto): Promise<PatientGroup> {
-    const patientGroupRes = await this.startQuery(this.deletePatientGroup.name).findOneAndUpdate(
+    const patientGroupRes = await this.initializeQuery(this.deletePatientGroup.name).findOneAndUpdate(
       {
         _id: patientGroup,
         professional,

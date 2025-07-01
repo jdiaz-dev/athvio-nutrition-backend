@@ -28,20 +28,20 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
   }
 
   async createPatientPlan(dto: CreatePatientPlanBody): Promise<PatientPlan> {
-    const patientPlan = await this.startQuery(this.createPatientPlan.name).create({
+    const patientPlan = await this.initializeQuery(this.createPatientPlan.name).create({
       ...dto,
     });
     return patientPlan;
   }
   async createManyPatientPlan(dto: PatientPlanPartial[]): Promise<PatientPlan[]> {
-    const patientPlans = await this.startQuery(this.createManyPatientPlan.name).insertMany(dto);
+    const patientPlans = await this.initializeQuery(this.createManyPatientPlan.name).insertMany(dto);
     return patientPlans;
   }
   async getPatientPlan({ patient, patientPlan }: GetPatientPlanDto, selectors: Record<string, number>): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
     patient;
 
-    const patientPlanRes = await this.startQuery(this.getPatientPlan.name).aggregate([
+    const patientPlanRes = await this.initializeQuery(this.getPatientPlan.name).aggregate([
       {
         $match: {
           _id: new Types.ObjectId(patientPlan),
@@ -66,7 +66,7 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
   ): Promise<PatientPlan[]> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
-    const patientPlans = await this.startQuery(this.getPatientPlans.name).aggregate([
+    const patientPlans = await this.initializeQuery(this.getPatientPlans.name).aggregate([
       {
         $match: {
           patient: patient,
@@ -113,7 +113,7 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
     patientWithAssignedDate: PatientWithAssignedDate[],
     selectors: Record<string, number>,
   ): Promise<PatientPlan[]> {
-    const patientPlans = await this.startQuery(this.getManyPatientPlans.name).find(
+    const patientPlans = await this.initializeQuery(this.getManyPatientPlans.name).find(
       {
         $or: patientWithAssignedDate,
       },
@@ -126,7 +126,7 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
     selectors: Record<string, number>,
   ): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
-    const patientPlanRes = await this.startQuery(this.updatePatientPlan.name).findOneAndUpdate(
+    const patientPlanRes = await this.initializeQuery(this.updatePatientPlan.name).findOneAndUpdate(
       { _id: patientPlan, patient, isDeleted: false },
       { ...rest },
       {
@@ -143,7 +143,7 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
   }
 
   async deletePatientPlan({ patientPlan, patient }: DeletePatientPlanDto, selectors: string[]): Promise<PatientPlan> {
-    const patientPlanRes = await this.startQuery(this.deletePatientPlan.name).findOneAndUpdate(
+    const patientPlanRes = await this.initializeQuery(this.deletePatientPlan.name).findOneAndUpdate(
       {
         _id: patientPlan,
         patient,

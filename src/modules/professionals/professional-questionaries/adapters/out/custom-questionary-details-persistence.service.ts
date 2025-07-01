@@ -26,7 +26,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
   ): Promise<ProfessionalQuestionary> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
 
-    const questionaryRes = await this.startQuery(this.addQuestionaryDetail.name).findOneAndUpdate(
+    const questionaryRes = await this.initializeQuery(this.addQuestionaryDetail.name).findOneAndUpdate(
       { _id: questionary, professional },
       {
         $push: {
@@ -82,7 +82,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
       [`detail${index}.isDeleted`]: false,
     }));
 
-    const questionaryRes = await this.startQuery(this.updateQuestionaryDetail.name).findOneAndUpdate(
+    const questionaryRes = await this.initializeQuery(this.updateQuestionaryDetail.name).findOneAndUpdate(
       { _id: questionary, professional },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
@@ -129,7 +129,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
       [`detail${index}._id`]: new Types.ObjectId(item),
       [`detail${index}.isDeleted`]: false,
     }));
-    const questionaryRes = await this.startQuery(this.deleteQuestionaryDetail.name).findOneAndUpdate(
+    const questionaryRes = await this.initializeQuery(this.deleteQuestionaryDetail.name).findOneAndUpdate(
       { _id: questionary, professional },
       {
         $set: Object.assign({}, ...deleteSubDocuments),

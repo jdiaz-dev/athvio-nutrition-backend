@@ -17,16 +17,16 @@ export class ChatsPersistenceService extends MongodbQueryBuilder<ChatDocument> {
   }
 
   async createChat({ professional, patient }: Pick<Chat, 'professional' | 'patient'>): Promise<Chat> {
-    const chat = await this.startQuery(this.createChat.name).create({ professional, patient });
+    const chat = await this.initializeQuery(this.createChat.name).create({ professional, patient });
     return chat;
   }
   async getChat(chatRequester: ChatRequester): Promise<Chat> {
-    const chat = await this.startQuery(this.getChat.name).findOne(chatRequester);
+    const chat = await this.initializeQuery(this.getChat.name).findOne(chatRequester);
     return chat;
   }
   async saveChatComment({ chatRequester, newComment }: AddNewComment, selectors: Record<string, number>): Promise<Chat> {
     const restFields = removeAttributesWithFieldNames(selectors, ['comments']);
-    const res = await this.startQuery(this.saveChatComment.name).findOneAndUpdate(
+    const res = await this.initializeQuery(this.saveChatComment.name).findOneAndUpdate(
       {
         ...chatRequester,
       },

@@ -30,7 +30,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
     selectors: Record<string, number>,
   ): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-    const programRes = await this.startQuery(this.addProgramPlanWithMeals.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.addProgramPlanWithMeals.name).findOneAndUpdate(
       { _id: program, professional, isDeleted: false },
       {
         $push: {
@@ -58,7 +58,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
   ): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    const programRes = await this.startQuery(this.updatePlanAssignedWeekDay.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.updatePlanAssignedWeekDay.name).findOneAndUpdate(
       { _id: rest.program, professional, isDeleted: false },
       { $set: { 'plans.$[plan].week': rest.week, 'plans.$[plan].day': rest.day } },
       {
@@ -79,7 +79,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
     selectors: Record<string, number>,
   ): Promise<ProgramPatial> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
-    const programRes = await this.startQuery(this.getProgramPlanFilteredByDay.name).aggregate([
+    const programRes = await this.initializeQuery(this.getProgramPlanFilteredByDay.name).aggregate([
       {
         $match: {
           _id: new Types.ObjectId(program),
@@ -113,7 +113,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
   }
 
   async deleteProgramPlan({ professional, ...rest }: DeleteProgramPlanDto, selectors: string[]): Promise<Program> {
-    const programRes = await this.startQuery(this.deleteProgramPlan.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.deleteProgramPlan.name).findOneAndUpdate(
       { _id: rest.program, professional, isDeleted: false },
       {
         $pull: {

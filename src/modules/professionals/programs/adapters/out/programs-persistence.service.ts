@@ -27,7 +27,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
   }
 
   async createProgram({ professional, ...rest }: CreateProgram): Promise<Program> {
-    const programRes = await this.startQuery(this.createProgram.name).create({
+    const programRes = await this.initializeQuery(this.createProgram.name).create({
       professional,
       ...rest,
     });
@@ -41,7 +41,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
   ): Promise<Program | null> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    const programRes = await this.startQuery(this.getProgram.name).aggregate([
+    const programRes = await this.initializeQuery(this.getProgram.name).aggregate([
       {
         $match: {
           ...(program && professional && { _id: new Types.ObjectId(program), professional }),
@@ -87,7 +87,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
-    const programs = await this.startQuery(this.getPrograms.name).aggregate([
+    const programs = await this.initializeQuery(this.getPrograms.name).aggregate([
       {
         $match: {
           professional,
@@ -175,7 +175,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     return res;
   }
   async updateProgram({ professional, program, ...rest }: UpdateProgramDto): Promise<Program | null> {
-    const programRes = await this.startQuery(this.updateProgram.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.updateProgram.name).findOneAndUpdate(
       { _id: program, professional, isDeleted: false },
       { ...rest },
       { new: true, populate: 'programTags' },
@@ -190,7 +190,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
         ? { $push: { programTags: rest.programTag } }
         : { $pull: { programTags: rest.programTag } };
 
-    const programRes = await this.startQuery(this.updateProgramTag.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.updateProgramTag.name).findOneAndUpdate(
       { _id: program, professional, isDeleted: false },
       _action,
       {
@@ -202,7 +202,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     return programRes;
   }
   async updateProgramPatients(program: string, professional: string, patients: string[]): Promise<Program | null> {
-    const programRes = await this.startQuery(this.updateProgramPatients.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.updateProgramPatients.name).findOneAndUpdate(
       { _id: program, professional, isDeleted: false },
       { $push: { patients } },
       {
@@ -216,7 +216,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
 
   async deleteProgram({ professional, ...rest }: DeleteProgramDto, selectors: string[]): Promise<Program | null> {
     selectors;
-    const programRes = await this.startQuery(this.deleteProgram.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.deleteProgram.name).findOneAndUpdate(
       {
         _id: rest.program,
         professional,

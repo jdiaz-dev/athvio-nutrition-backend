@@ -27,7 +27,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
   }
 
   async createNutritionalMeal({ professional, ...rest }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMeal = await this.startQuery(this.createNutritionalMeal.name).create({
+    const nutritionalMeal = await this.initializeQuery(this.createNutritionalMeal.name).create({
       professional,
       ...rest,
     });
@@ -39,7 +39,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
     { professional, nutritionalMeal }: Omit<GetNutritionalMealDto, 'professional'> & { professional?: string },
     selectors: Record<string, number>,
   ): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.startQuery(this.getNutritionalMeal.name).findOne(
+    const nutritionalMealRes = await this.initializeQuery(this.getNutritionalMeal.name).findOne(
       {
         _id: nutritionalMeal,
         ...(professional && { professional }),
@@ -56,7 +56,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
   ): Promise<GetNutritionalMealsResponse> {
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
-    const nutritionalMeals = await this.startQuery(this.getNutritionalMeals.name).aggregate([
+    const nutritionalMeals = await this.initializeQuery(this.getNutritionalMeals.name).aggregate([
       {
         $match: {
           ...match,
@@ -113,7 +113,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
     source?: EnumSources;
     image?: string;
   }): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.startQuery(this.updateNutritionalMeal.name).findOneAndUpdate(
+    const nutritionalMealRes = await this.initializeQuery(this.updateNutritionalMeal.name).findOneAndUpdate(
       {
         _id: new Types.ObjectId(nutritionalMeal),
         ...(professional && { professional }),
@@ -127,7 +127,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
   }
 
   async deleteNutritionalMeal({ professional, ...rest }: DeleteNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.startQuery(this.deleteNutritionalMeal.name).findOneAndUpdate(
+    const nutritionalMealRes = await this.initializeQuery(this.deleteNutritionalMeal.name).findOneAndUpdate(
       {
         _id: rest.nutritionalMeal,
         professional,

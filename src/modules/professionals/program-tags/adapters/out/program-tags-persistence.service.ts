@@ -21,14 +21,14 @@ export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTa
   }
 
   async createProgramTag({ professional, ...rest }: CreateProgramTagDto): Promise<ProgramTag> {
-    const programTag = await this.startQuery(this.createProgramTag.name).create({
+    const programTag = await this.initializeQuery(this.createProgramTag.name).create({
       professional,
       ...rest,
     });
     return programTag;
   }
   async getProgramTag(professional: string, programTag: string): Promise<ProgramTag> {
-    const programTagRes = await this.startQuery(this.getProgramTag.name).findOne({
+    const programTagRes = await this.initializeQuery(this.getProgramTag.name).findOne({
       professional,
       _id: programTag,
       isDeleted: false,
@@ -37,14 +37,14 @@ export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTa
     return programTagRes;
   }
   async getProgramTags({ professional }: GetProgramTagsDto): Promise<ProgramTag[]> {
-    const programTags = await this.startQuery(this.getProgramTags.name).find({
+    const programTags = await this.initializeQuery(this.getProgramTags.name).find({
       professional,
       isDeleted: false,
     });
     return programTags;
   }
   async updateProgramTag({ professional, programTag, ...rest }: UpdateProgramTagDto): Promise<ProgramTag> {
-    const programTagRes = await this.startQuery(this.updateProgramTag.name).findOneAndUpdate(
+    const programTagRes = await this.initializeQuery(this.updateProgramTag.name).findOneAndUpdate(
       { _id: programTag, professional, isDeleted: false },
       { ...rest },
       { new: true },
@@ -55,7 +55,7 @@ export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTa
   }
 
   async deleteProgramTag(dto: DeleteProgramTagDto, professional: string): Promise<ProgramTag> {
-    const programTagRes = await this.startQuery(this.deleteProgramTag.name).findOneAndUpdate({
+    const programTagRes = await this.initializeQuery(this.deleteProgramTag.name).findOneAndUpdate({
       _id: dto.programTag,
       professional,
       isDeleted: true,

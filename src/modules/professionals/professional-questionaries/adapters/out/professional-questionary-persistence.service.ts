@@ -20,7 +20,7 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
   }
 
   async createQuestionary(questionary: CreateQuestionary): Promise<ProfessionalQuestionary> {
-    const questionaryRes = await this.startQuery(this.createQuestionary.name).create({
+    const questionaryRes = await this.initializeQuery(this.createQuestionary.name).create({
       ...questionary,
     });
     return questionaryRes;
@@ -43,7 +43,7 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
       {} as Record<string, boolean>,
     );
 
-    const questionaryRes = await this.startQuery(this.enableMultipleQuestionaryDetail.name).findOneAndUpdate(
+    const questionaryRes = await this.initializeQuery(this.enableMultipleQuestionaryDetail.name).findOneAndUpdate(
       { _id: questionary, professional },
       {
         $set: updateSubDocuments,
@@ -62,7 +62,7 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
   }
   async getProfessionalQuestionary(professional: string, selectors?: Record<string, number>): Promise<ProfessionalQuestionary> {
     const isFromExternalRequest = selectors ? true : false;
-    const questionaryRes = await this.startQuery(this.getProfessionalQuestionary.name).aggregate([
+    const questionaryRes = await this.initializeQuery(this.getProfessionalQuestionary.name).aggregate([
       {
         $match: { professional: new Types.ObjectId(professional) },
       },

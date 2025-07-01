@@ -24,7 +24,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Prog
   async addMeal({ professional, program, plan, meals }: AddMealDto, selectors: Record<string, number>): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    const programRes = await this.startQuery(this.addMeal.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.addMeal.name).findOneAndUpdate(
       { _id: program, professional },
       { $push: { 'plans.$[plan].meals': { $each: meals } } },
       {
@@ -59,7 +59,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Prog
       [`meal${index}.isDeleted`]: false,
     }));
 
-    const programRes = await this.startQuery(this.updateMeal.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.updateMeal.name).findOneAndUpdate(
       { _id: program, professional },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
@@ -91,7 +91,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Prog
       [`meal${index}._id`]: new Types.ObjectId(item),
       [`meal${index}.isDeleted`]: false,
     }));
-    const programRes = await this.startQuery(this.deleteMeal.name).findOneAndUpdate(
+    const programRes = await this.initializeQuery(this.deleteMeal.name).findOneAndUpdate(
       { _id: program, professional },
       { $set: Object.assign({}, ...deleteSubDocuments) },
       {

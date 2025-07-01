@@ -28,7 +28,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
   }
 
   async createPatient({ professional, ...body }: CreatePatient): Promise<FlattenMaps<Patient>> {
-    const patient = await this.startQuery(this.createPatient.name).create({
+    const patient = await this.initializeQuery(this.createPatient.name).create({
       professional,
       ...body,
     });
@@ -40,7 +40,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
   ): Promise<PatientPopulatedWithUser> {
     const isFromExternalRequest = selectors ? true : false;
 
-    const patientRes = await this.startQuery(this.getPatientPopulatedWithUser.name).aggregate([
+    const patientRes = await this.initializeQuery(this.getPatientPopulatedWithUser.name).aggregate([
       {
         $match: { _id: new Types.ObjectId(_id), ...(professional && { professional }) },
       },
@@ -67,21 +67,21 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     return patientRes[0];
   }
   async getPatientById(patientId: string): Promise<Patient> {
-    const patientRes = await this.startQuery(this.getPatientById.name).findOne({
+    const patientRes = await this.initializeQuery(this.getPatientById.name).findOne({
       _id: patientId,
     });
 
     return patientRes;
   }
   async getPatientByUser(user: string): Promise<Patient> {
-    const patientRes = await this.startQuery(this.getPatientByUser.name).findOne({
+    const patientRes = await this.initializeQuery(this.getPatientByUser.name).findOne({
       user,
       state: PatientState.ACTIVE,
     });
     return patientRes;
   }
   async getManyPatientsByIds(patients: string[]): Promise<Patient[]> {
-    const patientsRes = await this.startQuery(this.getManyPatientsByIds.name).find({ _id: { $in: patients } }, { _id: 1 });
+    const patientsRes = await this.initializeQuery(this.getManyPatientsByIds.name).find({ _id: { $in: patients } }, { _id: 1 });
 
     return patientsRes;
   }
@@ -95,7 +95,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
         ? [{ state: dto.state }, { state: PatientState.INVITATION_PENDING }]
         : [{ state: PatientState.ARCHIVED }];
 
-    const patients = await this.startQuery(this.getPatients.name).aggregate([
+    const patients = await this.initializeQuery(this.getPatients.name).aggregate([
       {
         $match: {
           professional,
@@ -183,7 +183,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     return res;
   }
   async updatePatient({ user, ...rest }: UpdatePatient, selectors?: string[]): Promise<Patient> {
-    const patientRes = await this.startQuery(this.updatePatient.name).findOneAndUpdate(
+    const patientRes = await this.initializeQuery(this.updatePatient.name).findOneAndUpdate(
       { user: new Types.ObjectId(user) },
       { ...rest },
       { projection: selectors || [], new: true },
@@ -194,7 +194,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
   async updatePatientGroup({ professional, patient, action, patientGroup }: ManagePatientGroupDto): Promise<Patient> {
     const _action = action === ManagePatientGroup.ADD ? { $push: { groups: patientGroup } } : { $pull: { groups: patientGroup } };
 
-    const patientRes = await this.startQuery(this.updatePatientGroup.name).findOneAndUpdate(
+    const patientRes = await this.initializeQuery(this.updatePatientGroup.name).findOneAndUpdate(
       { _id: patient, professional },
       _action,
       {
@@ -206,14 +206,14 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     return patientRes;
   }
   async deleteManyPatientGroup({ professional, patientGroup }: DeleteManyPatientGroup): Promise<UpdateWriteOpResult> {
-    const recordsUpdated = await this.startQuery(this.deleteManyPatientGroup.name).updateMany(
+    const recordsUpdated = await this.initializeQuery(this.deleteManyPatientGroup.name).updateMany(
       { professional, groups: patientGroup },
       { $pull: { groups: patientGroup } },
     );
     return recordsUpdated;
   }
   async managePatientState({ professional, ...dto }: ManagePatientStateDto, selectors: string[]): Promise<Patient> {
-    const patientRes = await this.startQuery(this.managePatientState.name).findOneAndUpdate(
+    const patientRes = await this.initializeQuery(this.managePatientState.name).findOneAndUpdate(
       {
         _id: dto.patient,
         professional: professional,

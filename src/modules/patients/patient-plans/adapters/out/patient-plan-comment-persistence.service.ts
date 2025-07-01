@@ -22,7 +22,7 @@ export class PatientPlanCommentPersistenceService extends MongodbQueryBuilder<Pa
     { patientPlanId, patientId, ...rest }: AddPatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.startQuery(this.addPatientPlanComment.name).findOneAndUpdate(
+    const patientPlan = await this.initializeQuery(this.addPatientPlanComment.name).findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $push: { comments: { ...rest } } },
       { new: true, projection: selectors },
@@ -36,7 +36,7 @@ export class PatientPlanCommentPersistenceService extends MongodbQueryBuilder<Pa
     { patientPlanId, patientId, commentId, message }: UpdatePatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.startQuery(this.updatePatientPlanComment.name).findOneAndUpdate(
+    const patientPlan = await this.initializeQuery(this.updatePatientPlanComment.name).findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].message': message } },
       {
@@ -54,7 +54,7 @@ export class PatientPlanCommentPersistenceService extends MongodbQueryBuilder<Pa
     { patientPlanId, patientId, commentId }: DeletePatientPlanCommentDto,
     selectors: string[],
   ): Promise<PatientPlan> {
-    const patientPlan = await this.startQuery(this.deletePatientPlanComment.name).findOneAndUpdate(
+    const patientPlan = await this.initializeQuery(this.deletePatientPlanComment.name).findOneAndUpdate(
       { _id: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].isDeleted': true } },
       {

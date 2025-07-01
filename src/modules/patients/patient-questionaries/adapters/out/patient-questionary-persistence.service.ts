@@ -19,7 +19,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
   }
 
   async createPatientQuestionary(questionary: CreatePatientQuestionary): Promise<PatientQuestionary> {
-    return this.startQuery(this.createPatientQuestionary.name).create({
+    return this.initializeQuery(this.createPatientQuestionary.name).create({
       ...questionary,
     });
   }
@@ -28,7 +28,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     selectors?: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const isFromExternalRequest = selectors ? true : false;
-    const questionaryRes = await this.startQuery(this.getPatientQuestionary.name).aggregate([
+    const questionaryRes = await this.initializeQuery(this.getPatientQuestionary.name).aggregate([
       {
         $match: {
           ...(_id && { _id: new Types.ObjectId(_id) }),
@@ -89,7 +89,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
       }
     }
 
-    const questionaryRes = await this.startQuery(this.updateAnwerAndAdditionalNotes.name).findOneAndUpdate(
+    const questionaryRes = await this.initializeQuery(this.updateAnwerAndAdditionalNotes.name).findOneAndUpdate(
       { _id: questionary, professional, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {

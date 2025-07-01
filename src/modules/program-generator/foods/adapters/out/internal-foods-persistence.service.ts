@@ -18,12 +18,12 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
   }
 
   async saveInternalFoods(data: Omit<InternalFood, '_id' | 'createdAt' | 'updatedAt'>[]): Promise<InternalFood[]> {
-    const res = await this.startQuery(this.saveInternalFoods.name).insertMany(data);
+    const res = await this.initializeQuery(this.saveInternalFoods.name).insertMany(data);
     return res;
   }
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
     const combinedFields = searchByFieldsGenerator(['foodDetails.label'], dto.search);
-    const foodsRes = await this.startQuery(this.getInternalFoods.name).aggregate([
+    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
         $match: {
           '$or': combinedFields,
@@ -80,7 +80,7 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
     return res;
   }
   async getInternalFoodsByNames(foodNames: string[]): Promise<InternalFood[]> {
-    const foodsRes = await this.startQuery(this.getInternalFoodsByNames.name).find(
+    const foodsRes = await this.initializeQuery(this.getInternalFoodsByNames.name).find(
       {
         $or: foodNames.map((item) => ({ 'foodDetails.label': item })),
       },

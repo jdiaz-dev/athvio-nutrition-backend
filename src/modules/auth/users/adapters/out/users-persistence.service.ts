@@ -17,12 +17,12 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
   }
 
   async createUser(dto: CreateUser): Promise<User> {
-    const user = (await this.startQuery(this.createUser.name).create(dto)).toJSON() as User;
+    const user = (await this.initializeQuery(this.createUser.name).create(dto)).toJSON() as User;
     return user;
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    const patient = await this.startQuery(this.getUserByEmail.name).aggregate([
+    const patient = await this.initializeQuery(this.getUserByEmail.name).aggregate([
       {
         $match: {
           email,
@@ -39,7 +39,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
     return patient[0] as User;
   }
   async getUserById(user: string): Promise<GetUserById> {
-    const _user = await this.startQuery(this.getUserById.name).findOne(
+    const _user = await this.initializeQuery(this.getUserById.name).findOne(
       {
         _id: new Types.ObjectId(user),
       },
@@ -50,7 +50,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
-    const patient = await this.startQuery(this.updateUser.name).findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
+    const patient = await this.initializeQuery(this.updateUser.name).findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
     return patient;
   }
 }
