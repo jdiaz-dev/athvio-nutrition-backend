@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InternalCountersPersistenceService } from 'src/modules/program-generator/foods/adapters/out/internal-counters-persistence.service';
-import { InternalFoodsPersistenceService } from 'src/modules/program-generator/foods/adapters/out/internal-foods-persistence.service';
-import { NextLink } from 'src/modules/program-generator/foods/adapters/out/providers/food.types';
-import { FoodsProviderService } from 'src/modules/program-generator/foods/adapters/out/providers/foods-provider.service';
-import { TranslatorService } from 'src/modules/program-generator/foods/adapters/out/providers/translator.service';
+import { InternalCountersPersistenceService } from 'src/modules/backoffice/foods/adapters/out/internal-counters-persistence.service';
+import { InternalFoodsPersistenceService } from 'src/modules/backoffice/foods/adapters/out/internal-foods-persistence.service';
+import { NextLink } from 'src/modules/backoffice/foods/adapters/out/providers/food.types';
+import { FoodsProviderService } from 'src/modules/backoffice/foods/adapters/out/providers/foods-provider.service';
+import { TranslatorService } from 'src/modules/backoffice/foods/adapters/out/providers/translator.service';
 
 const fruits = [
   'apple',

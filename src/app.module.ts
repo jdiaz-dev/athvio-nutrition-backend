@@ -13,7 +13,6 @@ import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.modu
 import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-domains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
-import { FoodsModule } from 'src/modules/program-generator/foods/foods.module';
 import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
 import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'configuration';
@@ -35,7 +34,6 @@ import { getConfiguration, validateEnvironmentVariables } from 'configuration';
     AuthModule,
     OnboardingModule,
 
-    FoodsModule,
     MailModule,
 
     ProfessionalDomainsModule,

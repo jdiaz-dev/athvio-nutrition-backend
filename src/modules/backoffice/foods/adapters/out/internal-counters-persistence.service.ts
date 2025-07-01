@@ -8,7 +8,7 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 import {
   InternalCounter,
   InternalCounterDocument,
-} from 'src/modules/program-generator/foods/adapters/out/internal-counter.schema';
+} from 'src/modules/backoffice/foods/adapters/out/internal-counter.schema';
 
 @Injectable()
 export class InternalCountersPersistenceService {

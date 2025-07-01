@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { InternalFood, InternalFoodDocument } from 'src/modules/program-generator/foods/adapters/out/internal-food.schema';
+import { InternalFood, InternalFoodDocument } from 'src/modules/backoffice/foods/adapters/out/internal-food.schema';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
-import { GetFoods, GetInternalFoodsResponse } from 'src/modules/program-generator/foods/helpers/foods';
+import { GetFoods, GetInternalFoodsResponse } from 'src/modules/backoffice/foods/helpers/foods';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
