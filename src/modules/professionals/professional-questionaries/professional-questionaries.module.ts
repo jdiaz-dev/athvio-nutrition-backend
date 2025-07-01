@@ -14,7 +14,11 @@ import { CustomQuestionaryDetailsPersistenceService } from 'src/modules/professi
 import { InternalQuestionaryModule } from 'src/modules/backoffice/internal-questionary/internal-questionary.module';
 
 const resolvers = [ProfessionalQuestionaryResolver, CustomQuestionaryDetailResolver];
-const services = [ProfessionalQuestionaryManager, CustomQuestionaryDetailsPersistenceService, ProfessionalInternalQuestionaryPersistenceService];
+const services = [
+  ProfessionalQuestionaryManager,
+  CustomQuestionaryDetailsPersistenceService,
+  ProfessionalInternalQuestionaryPersistenceService,
+];
 
 @Module({
   imports: [

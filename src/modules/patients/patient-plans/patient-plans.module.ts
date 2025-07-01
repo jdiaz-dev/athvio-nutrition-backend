@@ -35,8 +35,8 @@ const applicationServices = [
   imports: [
     MongooseModule.forFeature([{ name: PatientPlan.name, schema: PatientPlanSchema }]),
     forwardRef(() => AuthModule),
-    ProfessionalsModule,
-    PatientsModule,
+    forwardRef(() => ProfessionalsModule),
+    forwardRef(() => PatientsModule),
   ],
   providers: [...resolvers, ...persistenceServices, ...applicationServices],
   exports: [CreatePatientPlanManagerService, GetPatientPlansManagerService],

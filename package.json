@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "save:mongodb": "dotenvx run -f .env.development -- ts-node ./scripts/save-mongodb-records.ts",
-    "nsolid:test":"dotenvx run -f .env.development -- nsolid dist/src/main.js"
+    "nsolid:test": "dotenvx run -f .env.development -- nsolid dist/src/main.js"
   },
   "dependencies": {
     "@apollo/server": "^4.12.1",
@@ -33,7 +33,7 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.2",
     "@nestjs/devtools-integration": "^0.2.0",
-    "@nestjs/graphql": "^13.1.0",
+    "@nestjs/graphql": "^11.0.6",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/passport": "^11.0.5",

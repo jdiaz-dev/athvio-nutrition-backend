@@ -22,8 +22,8 @@ const services = [SendPatientQuestionaryService, PatientQuestionaryManagerServic
   imports: [
     MongooseModule.forFeature([{ name: PatientQuestionary.name, schema: PatientQuestionarySchema }]),
     forwardRef(() => AuthModule),
-    PatientsModule,
-    ProfessionalsModule,
+    forwardRef(() => PatientsModule),
+    forwardRef(() => ProfessionalsModule),
     MailModule,
   ],
   providers: [...resolvers, ...services],

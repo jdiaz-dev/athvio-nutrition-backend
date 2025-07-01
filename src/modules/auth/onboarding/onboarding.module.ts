@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
 import { ProfessionalOnboardingManagerService } from 'src/modules/auth/onboarding/application/professional-onboarding-manager.service';
 import { UsersModule } from 'src/modules/auth/users/users.module';
@@ -12,10 +12,10 @@ import { PatientInternalQuestionaryModule } from 'src/modules/patients/patient-q
 @Module({
   imports: [
     UsersModule,
-    PatientsModule,
-    ProfessionalsModule,
+    forwardRef(() => PatientsModule),
+    forwardRef(() => ProfessionalsModule),
     ProgramsModule,
-    ProfessionalQuestionariesModule,
+    forwardRef(() => ProfessionalQuestionariesModule),
     PatientInternalQuestionaryModule,
     MailModule,
   ],

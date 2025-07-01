@@ -17,6 +17,7 @@
 - learn about load balancer
 - check parametrized queries to void NoSQL injection    
 - configure pre commit, using linters
+- change PatientInternalQuestionaryModule to PatientQuestionaryModule
 
 ## Fixes code 
 - enhance message error in get questionary config (standarizate errors)

@@ -14,9 +14,9 @@ const resolvers = [UsersMobileResolver, UsersWebResolver];
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    forwardRef(() => AuthModule),
+    forwardRef(() => PatientsModule),
     forwardRef(() => ProfessionalsModule),
-    PatientsModule,
+    forwardRef(() => AuthModule),
   ],
   providers: [...resolvers, ...services],
   exports: [UsersPersistenceService, UserManagamentService],

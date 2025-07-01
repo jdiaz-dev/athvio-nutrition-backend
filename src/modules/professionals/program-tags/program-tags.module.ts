@@ -11,7 +11,7 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
   imports: [
     MongooseModule.forFeature([{ name: ProgramTag.name, schema: ProgramTagSchema }]),
     forwardRef(() => AuthModule),
-    ProfessionalsModule,
+    forwardRef(() => ProfessionalsModule),
   ],
   providers: [ProgramTagsResolver, ...[ProgramTagsPersistenceService, ProgramTagsManagementService]],
   exports: [ProgramTagsPersistenceService],

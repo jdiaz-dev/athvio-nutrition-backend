@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
-import { AuthModule } from './modules/auth/auth/auth.module';
-import { UsersModule } from 'src/modules/auth/users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
@@ -13,12 +11,16 @@ import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.modu
 import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-domains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
-import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
 import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'configuration';
+import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { AuthSubDomainsModule } from 'src/modules/auth/auth-subdomains.module';
 
 @Module({
   imports: [
+    DevtoolsModule.register({
+      http: process.env.NODE_ENV !== 'production',
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [getConfiguration],
@@ -30,12 +32,9 @@ import { getConfiguration, validateEnvironmentVariables } from 'configuration';
     ObservabilityModule,
 
     SharedModule,
-    UsersModule,
-    AuthModule,
-    OnboardingModule,
-
     MailModule,
 
+    AuthSubDomainsModule,
     ProfessionalDomainsModule,
     PatientsDomainsModule,
     BackofficeDomainsModule,
