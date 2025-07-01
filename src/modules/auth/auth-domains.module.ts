@@ -6,4 +6,4 @@ import { UsersModule } from 'src/modules/auth/users/users.module';
 @Module({
   imports: [UsersModule, AuthModule, OnboardingModule],
 })
-export class AuthSubDomainsModule {}
+export class AuthDomainsModule {}

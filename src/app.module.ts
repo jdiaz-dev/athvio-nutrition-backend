@@ -14,7 +14,7 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
 import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'configuration';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
-import { AuthSubDomainsModule } from 'src/modules/auth/auth-subdomains.module';
+import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
 
 @Module({
   imports: [
@@ -34,7 +34,7 @@ import { AuthSubDomainsModule } from 'src/modules/auth/auth-subdomains.module';
     SharedModule,
     MailModule,
 
-    AuthSubDomainsModule,
+    AuthDomainsModule,
     ProfessionalDomainsModule,
     PatientsDomainsModule,
     BackofficeDomainsModule,
