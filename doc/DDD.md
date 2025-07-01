@@ -1,4 +1,5 @@
 # DDD
+
 ## Bounded context
 - auth
 - backoffice
@@ -27,8 +28,7 @@
 |  |--professional-questionaries
 |--backoffice (internal tools)
 |  |--nutritional meals
-|  |  |--nutritional meal providers
-|  |  |--internal nutritional meal
+|  |  |--food (external provider)
 |  |  |--internal questionaries
 |--mail
 
