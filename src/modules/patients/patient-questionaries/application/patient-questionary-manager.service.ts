@@ -3,14 +3,14 @@ import { GetPatientQuestionaryByIdDto } from 'src/modules/patients/patient-quest
 import { GetPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
 import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers.dto';
-import { PatientQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
+import { PatientInternalQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
 import { PatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary.schema';
 import { CreatePatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/questionary-config';
 import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class PatientQuestionaryManagerService {
-  constructor(private readonly pqps: PatientQuestionaryPersistenceService) {}
+  constructor(private readonly pqps: PatientInternalQuestionaryPersistenceService) {}
 
   async createQuestionary(patientQuestionary: CreatePatientQuestionary): Promise<PatientQuestionary> {
     const questionaryCreated = await this.pqps.createPatientQuestionary(patientQuestionary);

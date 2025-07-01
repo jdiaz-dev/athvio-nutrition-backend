@@ -10,7 +10,7 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class ProfessionalQuestionaryPersistenceService extends MongodbQueryBuilder<ProfessionalQuestionaryDocument> {
+export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQueryBuilder<ProfessionalQuestionaryDocument> {
   constructor(
     @InjectModel(ProfessionalQuestionary.name)
     protected readonly professionalQuestionaryModel: Model<ProfessionalQuestionaryDocument>,

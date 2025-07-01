@@ -7,7 +7,7 @@ import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { ProgramsModule } from 'src/modules/professionals/programs/programs.module';
 import { ProfessionalQuestionariesModule } from 'src/modules/professionals/professional-questionaries/professional-questionaries.module';
-import { PatientQuestionaryModule } from 'src/modules/patients/patient-questionaries/patient-questionary.module';
+import { PatientInternalQuestionaryModule } from 'src/modules/patients/patient-questionaries/patient-questionary.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { PatientQuestionaryModule } from 'src/modules/patients/patient-questiona
     ProfessionalsModule,
     ProgramsModule,
     ProfessionalQuestionariesModule,
-    PatientQuestionaryModule,
+    PatientInternalQuestionaryModule,
     MailModule,
   ],
   providers: [PatientOnboardingManagerService, ProfessionalOnboardingManagerService],

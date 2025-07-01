@@ -1,7 +1,7 @@
 import { AddCustomQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/add-custom-questionary-details.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateQuestionary } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary';
-import { ProfessionalQuestionaryPersistenceService } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary-persistence.service';
+import { ProfessionalInternalQuestionaryPersistenceService } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary-persistence.service';
 import { ProfessionalQuestionary } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary.schema';
 import { ErrorProfessionalQuestionary } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
@@ -9,15 +9,15 @@ import { DeleteCustomQuestionaryDetailsDto } from 'src/modules/professionals/pro
 import { UpdateCustomQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/update-custom-questionary-details.dto';
 import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
 import { CustomQuestionaryDetailsPersistenceService } from 'src/modules/professionals/professional-questionaries/adapters/out/custom-questionary-details-persistence.service';
-import { QuestionaryPersistenceService } from 'src/modules/backoffice/internal-questionary/adapters/out/questionary-persistence.service';
+import { InternalQuestionaryPersistenceService } from 'src/modules/backoffice/internal-questionary/adapters/out/internal-questionary-persistence.service';
 
 @Injectable()
 export class ProfessionalQuestionaryManager {
   private layer = LayersServer.APPLICATION;
 
   constructor(
-    private readonly qps: QuestionaryPersistenceService,
-    private qcps: ProfessionalQuestionaryPersistenceService,
+    private readonly qps: InternalQuestionaryPersistenceService,
+    private qcps: ProfessionalInternalQuestionaryPersistenceService,
     private oqdp: CustomQuestionaryDetailsPersistenceService,
   ) {}
 

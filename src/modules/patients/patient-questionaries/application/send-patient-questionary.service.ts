@@ -4,14 +4,14 @@ import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { SendPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/send-patient-questionary.dto';
-import { PatientQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
+import { PatientInternalQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
 import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class SendPatientQuestionaryService {
   constructor(
     private readonly configService: ConfigService,
-    private readonly pqps: PatientQuestionaryPersistenceService,
+    private readonly pqps: PatientInternalQuestionaryPersistenceService,
     private readonly pms: ProfessionalsManagementService,
     private readonly gpms: GetPatientManagerService,
     private readonly ms: MailService,

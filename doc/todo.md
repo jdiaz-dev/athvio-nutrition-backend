@@ -16,7 +16,7 @@
 - check cost of cloudwatch
 - learn about load balancer
 - check parametrized queries to void NoSQL injection    
-- configure pre commit , using linters
+- configure pre commit, using linters
 
 ## Fixes code 
 - enhance message error in get questionary config (standarizate errors)
@@ -46,5 +46,6 @@
 - test: test chat between web app and mobile app
 - fix: check connection with mongodb
 - fix: validate schema of loaded environment variables, not run if it is not loaded
+- fix: change questionary by internal questionary in model of mongodb
 
 ## Videos

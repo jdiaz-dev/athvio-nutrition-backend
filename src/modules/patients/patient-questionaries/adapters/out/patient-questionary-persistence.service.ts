@@ -10,7 +10,7 @@ import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/ada
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
-export class PatientQuestionaryPersistenceService extends MongodbQueryBuilder<PatientQuestionaryDocument> {
+export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBuilder<PatientQuestionaryDocument> {
   constructor(
     @InjectModel(PatientQuestionary.name) protected readonly patientQuestionaryModel: Model<PatientQuestionaryDocument>,
     protected readonly logger: AthvioLoggerService,

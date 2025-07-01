@@ -4,7 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 
 import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
-import { PatientQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
+import { PatientInternalQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
 import { PatientQuestionaryResolver } from 'src/modules/patients/patient-questionaries/adapters/in/patient-questionary.resolver';
 import {
   PatientQuestionary,
@@ -16,7 +16,7 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { MailModule } from 'src/modules/mail/mail.module';
 
 const resolvers = [PatientQuestionaryResolver];
-const services = [SendPatientQuestionaryService, PatientQuestionaryManagerService, PatientQuestionaryPersistenceService];
+const services = [SendPatientQuestionaryService, PatientQuestionaryManagerService, PatientInternalQuestionaryPersistenceService];
 
 @Module({
   imports: [
@@ -29,4 +29,4 @@ const services = [SendPatientQuestionaryService, PatientQuestionaryManagerServic
   providers: [...resolvers, ...services],
   exports: [PatientQuestionaryManagerService],
 })
-export class PatientQuestionaryModule {}
+export class PatientInternalQuestionaryModule {}
