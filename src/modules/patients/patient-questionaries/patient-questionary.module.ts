@@ -29,4 +29,4 @@ const services = [SendPatientQuestionaryService, PatientQuestionaryManagerServic
   providers: [...resolvers, ...services],
   exports: [PatientQuestionaryManagerService],
 })
-export class PatientInternalQuestionaryModule {}
+export class PatientQuestionaryModule {}
