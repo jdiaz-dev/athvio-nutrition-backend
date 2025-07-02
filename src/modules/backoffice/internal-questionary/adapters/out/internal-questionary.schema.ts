@@ -4,7 +4,7 @@ import { HydratedDocument } from 'mongoose';
 import { QuestionaryBase } from 'src/shared/schemas/questionary-base.schema';
 
 @ObjectType()
-@Schema({ timestamps: true, collection: 'Questionaries' })
+@Schema({ timestamps: true, collection: 'InternalQuestionaries' })
 export class InternalQuestionary extends QuestionaryBase {}
 
 export type InternalQuestionaryDocument = HydratedDocument<InternalQuestionary>;
