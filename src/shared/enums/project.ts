@@ -8,11 +8,6 @@ export enum EnumEnvironments {
   LOCAL = 'local',
 }
 
-export enum EnumRoles {
-  PROFESSIONAL = 'professional',
-  PATIENT = 'patient',
-}
-
 export enum ManageProgramTags {
   ADD = 'add',
   REMOVE = 'remove',

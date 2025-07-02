@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { EnumRoles } from 'src/shared/enums/project';
+import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true, collection: 'Users' })
@@ -23,7 +23,7 @@ export class User extends BaseSchema {
   email!: string;
 
   @Prop({ type: String, required: false })
-  password!: string;
+  password?: string;
 
   @Field()
   @Prop({ type: String, required: false })

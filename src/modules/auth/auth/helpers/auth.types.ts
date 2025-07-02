@@ -1,4 +1,4 @@
-import { EnumRoles } from 'src/shared/enums/project';
+import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 export interface UserLoged {
   _id: string;

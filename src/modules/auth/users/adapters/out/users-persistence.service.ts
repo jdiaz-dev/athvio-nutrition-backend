@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreateUser, GetUserById, UpdatePassword, UpdateUser } from 'src/modules/auth/users/adapters/out/users-types';
+import { GetUserById, UpdatePassword, UpdateUser } from 'src/modules/auth/users/adapters/out/users-types';
 import { User, UserDocument } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/update-user.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
@@ -16,7 +16,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
     super(userModel, logger, User.name);
   }
 
-  async createUser(dto: CreateUser): Promise<User> {
+  async createUser(dto: Partial<User>): Promise<User> {
     const user = (await this.initializeQuery(this.createUser.name).create(dto)).toJSON() as User;
     return user;
   }

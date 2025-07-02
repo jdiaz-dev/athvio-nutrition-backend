@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
+import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { AuthorizationMessages } from 'src/shared/enums/messages-response';
-import { EnumRoles } from 'src/shared/enums/project';
 
 @Injectable()
 export class AuthorizationService {

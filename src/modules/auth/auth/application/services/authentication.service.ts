@@ -3,12 +3,12 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import * as bcryptjs from 'bcryptjs';
 import { IValidateUserUseCase, UserValidated } from '../ports/in/validate-user.use-case';
 import { JwtService } from '@nestjs/jwt';
-import { EnumRoles } from 'src/shared/enums/project';
 import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
 import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
+import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 @Injectable()
 export class AuthenticationService implements IValidateUserUseCase {

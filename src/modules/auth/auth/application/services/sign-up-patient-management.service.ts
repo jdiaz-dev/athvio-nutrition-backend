@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
 import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
-import { EnumRoles, LayersServer, PatientState } from 'src/shared/enums/project';
+import { LayersServer, PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/web/dtos/activate-user.dto';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
@@ -11,6 +11,7 @@ import { SignUpPatientFromMobileDto } from 'src/modules/auth/auth/adapters/in/mo
 import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { AuthenticationService } from 'src/modules/auth/auth/application/services/authentication.service';
 import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
+import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 @Injectable()
 export class SignUpPatientManagamentService {

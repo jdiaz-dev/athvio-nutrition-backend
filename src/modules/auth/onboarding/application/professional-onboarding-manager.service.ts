@@ -4,13 +4,15 @@ import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dto
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
 import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
-import { CreateUser } from 'src/modules/auth/users/adapters/out/users-types';
+import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
+import { EnumRoles } from 'src/modules/auth/shared/enums';
+import { UserEntity } from 'src/modules/auth/users/domain/userEntity';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
-import { EnumRoles, EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/project';
+import { EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/project';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -31,6 +33,7 @@ export class ProfessionalOnboardingManagerService {
     private prms: ProfessionalsManagementService,
     private readonly aps: AssignProgramService,
     private ups: UsersPersistenceService,
+    private cus: CreateUserService,
   ) {}
 
   async onboardProfessional(dto: SignUpProfessionalDto): Promise<{ user: string; role: EnumRoles }> {
@@ -46,18 +49,29 @@ export class ProfessionalOnboardingManagerService {
     professionalInfo,
     clientOffsetMinutes,
     detectedLanguage,
+    firstname,
+    lastname,
+    email,
+    password,
     ...userDto
   }: SignUpProfessionalDto): Promise<{ user: string; professional: string; role: EnumRoles }> {
-    const user = await this.ups.getUserByEmail(userDto.email);
+    const user = await this.ups.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
-    const _user: CreateUser = {
-      ...userDto,
-      password: EncryptionService.encrypt(userDto.password),
-      role: EnumRoles.PROFESSIONAL,
-      isActive: true,
-    };
-    const { _id, role } = await this.ups.createUser(_user);
+    const userEntity = new UserEntity(
+      email,
+      EnumRoles.PROFESSIONAL,
+      true,
+      firstname,
+      lastname,
+      EncryptionService.encrypt(password),
+    );
+    if (userDto.countryCode) userEntity.countryCode = userDto.countryCode;
+    if (userDto.country) userEntity.country = userDto.country;
+    if (userDto.phone) userEntity.phone = userDto.phone;
+    if (userDto.acceptedTerms) userEntity.acceptedTerms = userDto.acceptedTerms;
+
+    const { _id, role } = await this.cus.createUser(userEntity);
 
     const { _id: professional } = await this.prms.createProfessional({
       user: _id,

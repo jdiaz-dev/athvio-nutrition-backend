@@ -8,8 +8,9 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { UsersMobileResolver } from 'src/modules/auth/users/adapters/in/mobile/users-mobile.resolver';
+import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 
-const services = [UsersPersistenceService, UserManagamentService];
+const services = [UsersPersistenceService, UserManagamentService, CreateUserService];
 const resolvers = [UsersMobileResolver, UsersWebResolver];
 @Module({
   imports: [
@@ -19,6 +20,6 @@ const resolvers = [UsersMobileResolver, UsersWebResolver];
     forwardRef(() => AuthModule),
   ],
   providers: [...resolvers, ...services],
-  exports: [UsersPersistenceService, UserManagamentService],
+  exports: [UsersPersistenceService, CreateUserService, UserManagamentService],
 })
 export class UsersModule {}

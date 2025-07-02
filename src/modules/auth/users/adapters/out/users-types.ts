@@ -1,7 +1,5 @@
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 
-export type CreateUser = Partial<User>;
-
 export type GetUserById = Pick<User, '_id' | 'firstname' | 'lastname' | 'role' | 'email' | 'isActive'>;
 
 export type UpdateUser = Partial<Pick<User, 'password' | 'isActive'>> & { user: string };
