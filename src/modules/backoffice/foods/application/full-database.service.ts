@@ -306,7 +306,7 @@ export class FullDatabaseService {
     let counter = 0;
     const intervalId = setInterval(async () => {
       if (filteredFoods[counter] === undefined) {
-        console.log('All foods processed');
+        console.log('All foods processed.');
         clearInterval(intervalId);
         return;
       }
