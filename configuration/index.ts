@@ -8,7 +8,7 @@ import { EnumEnvironments } from 'src/shared/enums/project';
 class DatabaseVariables {
   @IsString()
   MONGO_DB_CONNECTION: string;
-  @IsString()
+  /* @IsString()
   NEO4J_DATABASE: string;
   @IsString()
   NEO4J_SCHEME: string;
@@ -19,7 +19,7 @@ class DatabaseVariables {
   @IsString()
   NEO4J_USERNAME: string;
   @IsString()
-  NEO4J_PASSWORD: string;
+  NEO4J_PASSWORD: string; */
 }
 
 class AllowedOriginVariables extends DatabaseVariables {
