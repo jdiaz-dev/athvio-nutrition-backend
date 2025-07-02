@@ -1,4 +1,4 @@
-db.Questionaries.insertOne({
+db.InternalQuestionaries.insertOne({
   questionaryGroups: [
     {
       title: 'Informaciones de consulta',
