@@ -9,7 +9,10 @@ import { ErrorPatientsEnum, ErrorUsersEnum } from 'src/shared/enums/messages-res
 
 @Injectable()
 export class UserManagamentService {
-  constructor(private readonly ups: UsersPersistenceService, private readonly gps: GetPatientManagerService) {}
+  constructor(
+    private readonly ups: UsersPersistenceService,
+    private readonly gps: GetPatientManagerService,
+  ) {}
 
   async getUserThroughPatient(patient: string): Promise<GetPatientUserResponse> {
     const { user } = await this.gps.getPatientById(patient);
@@ -26,5 +29,9 @@ export class UserManagamentService {
     const _user = await this.ups.getUserById(user);
     if (!_user) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
     return _user;
+  }
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.ups.getUserByEmail(email);
+    return user;
   }
 }

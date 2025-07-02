@@ -20,6 +20,6 @@ const resolvers = [UsersMobileResolver, UsersWebResolver];
     forwardRef(() => AuthModule),
   ],
   providers: [...resolvers, ...services],
-  exports: [UsersPersistenceService, CreateUserService, UserManagamentService],
+  exports: [CreateUserService, UserManagamentService],
 })
 export class UsersModule {}

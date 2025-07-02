@@ -3,23 +3,23 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import * as bcryptjs from 'bcryptjs';
 import { IValidateUserUseCase, UserValidated } from '../ports/in/validate-user.use-case';
 import { JwtService } from '@nestjs/jwt';
-import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
 import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
+import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 
 @Injectable()
 export class AuthenticationService implements IValidateUserUseCase {
   constructor(
     private readonly jwtService: JwtService,
-    private ups: UsersPersistenceService,
+    private ums: UserManagamentService,
     private pps: ProfessionalsPersistenceService,
     private gps: GetPatientManagerService,
   ) {}
   async validateCredentials(email: string, _password: string): Promise<UserValidated> {
-    const user = await this.ups.getUserByEmail(email);
+    const user = await this.ums.getUserByEmail(email);
     if (!user) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
 
     const { _id, role, password } = user;

@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
-import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { UserEntity } from 'src/modules/auth/users/domain/userEntity';
@@ -13,6 +12,7 @@ import { AssignProgramService } from 'src/modules/professionals/programs/applica
 import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
 import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
 import { EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/project';
+import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -32,7 +32,7 @@ export class ProfessionalOnboardingManagerService {
     private readonly pms: ProgramManagementService,
     private prms: ProfessionalsManagementService,
     private readonly aps: AssignProgramService,
-    private ups: UsersPersistenceService,
+    private ums: UserManagamentService,
     private cus: CreateUserService,
   ) {}
 
@@ -55,7 +55,7 @@ export class ProfessionalOnboardingManagerService {
     password,
     ...userDto
   }: SignUpProfessionalDto): Promise<{ user: string; professional: string; role: EnumRoles }> {
-    const user = await this.ups.getUserByEmail(email);
+    const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
     const userEntity = new UserEntity(

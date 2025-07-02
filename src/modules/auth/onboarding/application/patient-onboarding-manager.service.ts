@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { SignUpPatientFromMobileDto } from 'src/modules/auth/auth/adapters/in/mobile/dtos/sign-up-patient-from-mobile.dto';
 import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
-import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
@@ -23,9 +22,8 @@ export class PatientOnboardingManagerService {
   constructor(
     private readonly configService: ConfigService,
     private readonly prms: ProfessionalsManagementService,
-    private readonly ups: UsersPersistenceService,
-    private readonly pms: PatientManagementService,
     private readonly ums: UserManagamentService,
+    private readonly pms: PatientManagementService,
     private readonly ms: MailService,
     private readonly qcm: ProfessionalQuestionaryManager,
     private readonly pqms: PatientQuestionaryManagerService,
@@ -35,7 +33,7 @@ export class PatientOnboardingManagerService {
     { professional, userInfo, additionalInfo }: SignUpPatientDto,
     isPatientDemo: boolean = false,
   ): Promise<SignUpPatientResponse> {
-    const userEmail = await this.ups.getUserByEmail(userInfo.email);
+    const userEmail = await this.ums.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
     const _proffesional = await this.prms.getProfessionalById(professional);
@@ -77,7 +75,7 @@ export class PatientOnboardingManagerService {
     return _patient;
   }
   async onboardingForMobile({ email, password }: SignUpPatientFromMobileDto): Promise<{ user: string; role: EnumRoles }> {
-    const user = await this.ups.getUserByEmail(email);
+    const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
     const userEntity = new UserEntity(email, EnumRoles.PATIENT, false);
