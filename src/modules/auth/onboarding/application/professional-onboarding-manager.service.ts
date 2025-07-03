@@ -57,7 +57,7 @@ export class ProfessionalOnboardingManagerService {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
-    const { _id, role } = await this.cus.createUserForProfessionals({
+    const { _id, role } = await this.cus.createUserForProfessional({
       ...userDto,
       email,
       firstname,

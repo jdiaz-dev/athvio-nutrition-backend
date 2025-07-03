@@ -8,7 +8,7 @@ import { UserEntity } from 'src/modules/auth/users/domain/userEntity';
 export class CreateUserService {
   constructor(private readonly ups: UsersPersistenceService) {}
 
-  async createUserForProfessionals({
+  async createUserForProfessional({
     email,
     firstname,
     lastname,
