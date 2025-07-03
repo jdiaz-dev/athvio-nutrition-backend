@@ -13,7 +13,6 @@ import { ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-
 import { LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
-import { UserEntity } from 'src/modules/auth/users/domain/userEntity';
 
 @Injectable()
 export class PatientOnboardingManagerService {
@@ -39,11 +38,12 @@ export class PatientOnboardingManagerService {
     const _proffesional = await this.prms.getProfessionalById(professional);
     if (!_proffesional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
-    const userEntity = new UserEntity(userInfo.email, EnumRoles.PATIENT, false, userInfo.firstname, userInfo.lastname);
-    if (additionalInfo?.countryCode) userEntity.countryCode = additionalInfo.countryCode;
-    if (additionalInfo?.country) userEntity.country = additionalInfo.country;
-
-    const { _id, firstname, lastname, email } = await this.cus.createUser(userEntity);
+    const { _id, firstname, lastname, email } = await this.cus.createUserForWebPatient({
+      email: userInfo.email,
+      firstname: userInfo.firstname,
+      lastname: userInfo.lastname,
+      ...additionalInfo,
+    });
 
     const patient = await this.pms.createPatient({
       professional,
@@ -78,9 +78,7 @@ export class PatientOnboardingManagerService {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
-    const userEntity = new UserEntity(email, EnumRoles.PATIENT, false);
-    userEntity.password = EncryptionService.encrypt(password);
-    const { _id, role } = await this.cus.createUser(userEntity);
+    const { _id, role } = await this.cus.createUserForMobilePatient({ email, password: EncryptionService.encrypt(password) });
 
     await this.pms.createPatient({
       user: _id,

@@ -5,7 +5,6 @@ import { EncryptionService } from 'src/modules/auth/auth/application/services/en
 import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
-import { UserEntity } from 'src/modules/auth/users/domain/userEntity';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 
@@ -58,20 +57,13 @@ export class ProfessionalOnboardingManagerService {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
-    const userEntity = new UserEntity(
+    const { _id, role } = await this.cus.createUserForProfessionals({
+      ...userDto,
       email,
-      EnumRoles.PROFESSIONAL,
-      true,
       firstname,
       lastname,
-      EncryptionService.encrypt(password),
-    );
-    if (userDto.countryCode) userEntity.countryCode = userDto.countryCode;
-    if (userDto.country) userEntity.country = userDto.country;
-    if (userDto.phone) userEntity.phone = userDto.phone;
-    if (userDto.acceptedTerms) userEntity.acceptedTerms = userDto.acceptedTerms;
-
-    const { _id, role } = await this.cus.createUser(userEntity);
+      password: EncryptionService.encrypt(password),
+    });
 
     const { _id: professional } = await this.prms.createProfessional({
       user: _id,
