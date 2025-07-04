@@ -12,6 +12,7 @@ import { ProgramManagementService } from 'src/modules/professionals/programs/app
 import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
 import { EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/project';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
+import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -33,6 +34,7 @@ export class ProfessionalOnboardingManagerService {
     private readonly aps: AssignProgramService,
     private ums: UserManagamentService,
     private cus: CreateUserService,
+    private qcm: ProfessionalQuestionaryManager,
   ) {}
 
   async onboardProfessional(dto: SignUpProfessionalDto): Promise<{ user: string; role: EnumRoles }> {
@@ -41,6 +43,7 @@ export class ProfessionalOnboardingManagerService {
     return { user, role };
   }
   async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
+    await this.qcm.createQuestionary(professional);
     const defultProgramId = await this.createDefaultProgram(professional, dto.detectedLanguage);
     await this.createDefaultPatient(professional, dto, defultProgramId);
   }
@@ -81,7 +84,7 @@ export class ProfessionalOnboardingManagerService {
       language: detectedLanguage,
     });
     const { _id } = await this.pms.createProgram({
-      professional: professional,
+      professional,
       name,
       description,
       plans: plans.map(({ _id, createdAt, updatedAt, ...rest }) => ({ ...rest })),
