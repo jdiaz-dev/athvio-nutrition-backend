@@ -4,6 +4,7 @@ import { CustomBadRequestException } from 'src/shared/exceptions/custom-bad-requ
 
 export class UserEntity {
   constructor(
+    public uuid: string,
     public email: UserEmail,
     public role: EnumRoles,
     public isActive: boolean,
@@ -15,7 +16,6 @@ export class UserEntity {
     public acceptedTerms?: boolean,
     public photo?: string,
     public phone?: string,
-    public _id?: string,
   ) {}
   validateUserCreationForProfessional() {
     if (!this.email || !this.firstname || !this.lastname || !this.password) {

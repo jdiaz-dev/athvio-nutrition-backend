@@ -12,6 +12,10 @@ export class Patient extends BaseSchema {
   @Field(() => ID)
   _id!: string;
 
+  @Field(() => ID)
+  @Prop({ type: String, required: true, unique: true })
+  uuid: string;
+
   @Field(() => User)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
   user!: User | MongooseSchema.Types.ObjectId | string;

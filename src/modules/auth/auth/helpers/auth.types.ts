@@ -1,7 +1,7 @@
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 export interface UserLoged {
-  _id: string;
+  uuid: string;
   role: EnumRoles;
   token: string;
 }

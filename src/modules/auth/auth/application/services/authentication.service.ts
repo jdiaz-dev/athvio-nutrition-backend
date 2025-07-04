@@ -39,17 +39,17 @@ export class AuthenticationService implements IValidateUserUseCase {
   }
   async generateToken(userValidated: UserValidated): Promise<UserLoged> {
     const res: UserLoged = {
-      _id: await this.getRoleId(userValidated),
+      uuid: await this.getRoleId(userValidated),
       role: userValidated.role,
-      token: this.jwtService.sign({ user: userValidated._id.toString() }),
+      token: this.jwtService.sign({ user: userValidated._id }),
     };
     return res;
   }
-  private async getRoleId({ _id: user, role }: UserValidated) {
+  private async getRoleId({ _id: userDatabaseId, role }: UserValidated) {
     if (role === EnumRoles.PROFESSIONAL) {
-      return (await this.pps.getProfessionalByUser(user))._id.toString();
+      return (await this.pps.getProfessionalByUser(userDatabaseId)).uuid;
     } else {
-      return (await this.gps.getPatientByUser(user))._id.toString();
+      return (await this.gps.getPatientByUser(userDatabaseId)).uuid;
     }
   }
 }

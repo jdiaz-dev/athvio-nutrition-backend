@@ -11,8 +11,8 @@ import { ProfessionalQuestionaryManager } from 'src/modules/professionals/profes
 import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
 import { ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
-import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
+import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
 
 @Injectable()
 export class PatientOnboardingManagerService {
@@ -73,11 +73,13 @@ export class PatientOnboardingManagerService {
     };
     return _patient;
   }
-  async onboardingForMobile({ email, password }: SignUpPatientFromMobileDto): Promise<{ user: string; role: EnumRoles }> {
+  async onboardingForMobile({ email, password }: SignUpPatientFromMobileDto): Promise<UserValidated> {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
-    const { _id, role } = await this.cus.createUserForMobilePatient(email, { password: EncryptionService.encrypt(password) });
+    const { _id, role } = await this.cus.createUserForMobilePatient(email, {
+      password: EncryptionService.encrypt(password),
+    });
 
     await this.pms.createPatient({
       user: _id,
@@ -86,7 +88,7 @@ export class PatientOnboardingManagerService {
       state: PatientState.ACTIVE,
     });
 
-    return { user: _id, role };
+    return { _id, role };
   }
   private async sendMail(
     proffesionalUser: string,

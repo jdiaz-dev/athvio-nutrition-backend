@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
@@ -9,8 +10,8 @@ import { ProfessionalMessages } from 'src/shared/enums/messages-response';
 export class ProfessionalsManagementService {
   constructor(private pps: ProfessionalsPersistenceService) {}
 
-  async createProfessional(createProfessional: Omit<CreateProfessional, 'isTrialPeriod'>): Promise<Professional> {
-    const professional = await this.pps.createProfessional({ ...createProfessional, isTrialPeriod: true });
+  async createProfessional(createProfessional: Omit<CreateProfessional, 'uuid' | 'isTrialPeriod'>): Promise<Professional> {
+    const professional = await this.pps.createProfessional({ uuid: randomUUID(), ...createProfessional, isTrialPeriod: true });
     return professional;
   }
   async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {

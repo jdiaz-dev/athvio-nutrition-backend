@@ -4,7 +4,6 @@ import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dto
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
-import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 
@@ -13,6 +12,7 @@ import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
 import { EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/project';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
+import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -37,12 +37,14 @@ export class ProfessionalOnboardingManagerService {
     private qcm: ProfessionalQuestionaryManager,
   ) {}
 
-  async onboardProfessional(dto: SignUpProfessionalDto): Promise<{ user: string; role: EnumRoles }> {
-    const { user, professional, role } = await this.createProfessionalAndUser(dto);
-    this.createDefaultData(professional, dto).catch((error) => console.log(error));
-    return { user, role };
+  async onboardProfessional(dto: SignUpProfessionalDto): Promise<UserValidated> {
+    const { _id, professional, role } = await this.createProfessionalAndUser(dto);
+    professional;
+    // this.createDefaultData(professional, dto).catch((error) => console.log(error));
+    this.createDefaultData;
+    return { _id, role };
   }
-  async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
+  private async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
     await this.qcm.createQuestionary(professional);
     const programId = await this.createDefaultProgram(professional, dto.detectedLanguage);
     await this.createDefaultPatient(professional, dto, programId);
@@ -56,23 +58,23 @@ export class ProfessionalOnboardingManagerService {
     email,
     password,
     ...userDto
-  }: SignUpProfessionalDto): Promise<{ user: string; professional: string; role: EnumRoles }> {
+  }: SignUpProfessionalDto): Promise<{ professional: string } & UserValidated> {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
-    const { _id, role } = await this.cus.createUserForProfessional(email, {
+    const { _id: userDatabaseId, role } = await this.cus.createUserForProfessional(email, {
       ...userDto,
       firstname,
       lastname,
       password: EncryptionService.encrypt(password),
     });
 
-    const { _id: professional } = await this.prms.createProfessional({
-      user: _id,
+    const { _id: professionalDatabaseId } = await this.prms.createProfessional({
+      user: userDatabaseId,
       ...professionalInfo,
     });
 
-    return { user: _id, professional: professional.toString(), role };
+    return { _id: userDatabaseId, professional: professionalDatabaseId.toString(), role };
   }
   private async createDefaultProgram(professional: string, detectedLanguage: SupportedLanguages): Promise<string> {
     const { name, description, plans } = await this.pms.getProgram({

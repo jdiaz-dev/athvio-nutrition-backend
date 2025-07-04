@@ -4,7 +4,7 @@ import { EnumRoles } from 'src/modules/auth/shared/enums';
 @ObjectType()
 export class JwtDto {
   @Field()
-  _id: string;
+  uuid: string;
 
   @Field()
   role: EnumRoles;

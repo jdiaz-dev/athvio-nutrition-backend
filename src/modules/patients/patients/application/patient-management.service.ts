@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
@@ -11,7 +12,7 @@ export class PatientManagementService {
   constructor(private pps: PatientsPersistenceService) {}
 
   async createPatient(createPatient: CreatePatient): Promise<Patient> {
-    const patient = await this.pps.createPatient({ ...createPatient, isActive: true });
+    const patient = await this.pps.createPatient({ uuid: randomUUID(), ...createPatient, isActive: true });
 
     return patient;
   }

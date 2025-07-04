@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
@@ -5,7 +6,6 @@ import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/use
 import { UserEntity } from 'src/modules/auth/users/domain/user-entity';
 import { UserEmail } from 'src/modules/auth/users/domain/user-email';
 import { UserForProfessional } from 'src/modules/auth/users/types/user-entity.';
-
 @Injectable()
 export class CreateUserService {
   constructor(private readonly ups: UsersPersistenceService) {}
@@ -14,7 +14,15 @@ export class CreateUserService {
     _email: string,
     { firstname, lastname, password, ...rest }: UserForProfessional,
   ): Promise<User> {
-    const userEntity = new UserEntity(new UserEmail(_email), EnumRoles.PROFESSIONAL, true, firstname, lastname, password);
+    const userEntity = new UserEntity(
+      randomUUID(),
+      new UserEmail(_email),
+      EnumRoles.PROFESSIONAL,
+      true,
+      firstname,
+      lastname,
+      password,
+    );
     if (rest.countryCode) userEntity.countryCode = rest.countryCode;
     if (rest.country) userEntity.country = rest.country;
     if (rest.phone) userEntity.phone = rest.phone;
@@ -33,7 +41,7 @@ export class CreateUserService {
       ...rest
     }: Pick<UserEntity, 'firstname' | 'lastname'> & Partial<Pick<UserEntity, 'country' | 'countryCode'>>,
   ): Promise<User> {
-    const userEntity = new UserEntity(new UserEmail(_email), EnumRoles.PATIENT, false, firstname, lastname);
+    const userEntity = new UserEntity(randomUUID(), new UserEmail(_email), EnumRoles.PATIENT, false, firstname, lastname);
     if (rest.countryCode) userEntity.countryCode = rest.countryCode;
     if (rest.country) userEntity.country = rest.country;
     userEntity.validateUserCreationForWebPatient();
@@ -43,7 +51,7 @@ export class CreateUserService {
     return userCreated;
   }
   async createUserForMobilePatient(_email: string, { password }: Pick<UserEntity, 'password'>): Promise<User> {
-    const userEntity = new UserEntity(new UserEmail(_email), EnumRoles.PATIENT, false);
+    const userEntity = new UserEntity(randomUUID(), new UserEmail(_email), EnumRoles.PATIENT, false);
     userEntity.password = password;
     userEntity.validateUserForMobilePatient();
 

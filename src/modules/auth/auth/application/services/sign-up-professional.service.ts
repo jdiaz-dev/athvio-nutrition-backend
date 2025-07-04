@@ -6,10 +6,13 @@ import { ProfessionalOnboardingManagerService } from 'src/modules/auth/onboardin
 
 @Injectable()
 export class SignUpProfessionalService {
-  constructor(private as: AuthenticationService, private poms: ProfessionalOnboardingManagerService) {}
+  constructor(
+    private as: AuthenticationService,
+    private poms: ProfessionalOnboardingManagerService,
+  ) {}
 
   async signUpProfessional(dto: SignUpProfessionalDto): Promise<UserLoged> {
-    const { user: _id, role } = await this.poms.onboardProfessional(dto);
+    const { _id, role } = await this.poms.onboardProfessional(dto);
     return this.as.generateToken({ _id, role });
   }
 }

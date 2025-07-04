@@ -455,6 +455,7 @@ type GetPatientForMobileResponse {
   target: String
   timezone: String
   user: User!
+  uuid: ID!
   weight: Float
 }
 
@@ -479,6 +480,7 @@ type GetPatientForWebResponse {
   target: String
   timezone: String
   user: User!
+  uuid: ID!
   weight: Float
 }
 
@@ -612,9 +614,9 @@ enum IngredientType {
 }
 
 type JwtDto {
-  _id: String!
   role: String!
   token: String!
+  uuid: String!
 }
 
 type Macros {
@@ -802,6 +804,7 @@ type Patient {
   target: String
   timezone: String
   user: User!
+  uuid: ID!
   weight: Float
 }
 
@@ -892,13 +895,13 @@ input PlanBodyInput {
 }
 
 type Professional {
-  _id: ID!
   company: String!
   createdAt: DateTime!
   organization: Organization!
   timezone: String!
   unitPreference: String!
   user: User!
+  uuid: ID!
 }
 
 type ProfessionalQuestionary {
@@ -1184,7 +1187,6 @@ input UploadDto {
 }
 
 type User {
-  _id: ID!
   country: String!
   countryCode: String!
   createdAt: DateTime!
@@ -1195,4 +1197,5 @@ type User {
   phone: String!
   photo: String
   role: String!
+  uuid: ID!
 }

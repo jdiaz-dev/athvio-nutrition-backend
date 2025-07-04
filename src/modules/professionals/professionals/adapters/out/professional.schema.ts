@@ -36,8 +36,11 @@ export const OrganizationSchema = SchemaFactory.createForClass(Organization);
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Professionals' })
 export class Professional extends BaseSchema {
-  @Field(() => ID)
   _id!: MongooseSchema.Types.ObjectId;
+
+  @Field(() => ID)
+  @Prop({ type: String, required: true, unique: true })
+  uuid: string;
 
   @Field(() => User || String)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
