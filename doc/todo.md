@@ -17,6 +17,7 @@
 - learn about load balancer
 - check parametrized queries to void NoSQL injection    
 - configure pre commit, using linters
+- remove validations of entity user
 
 ## Fixes code 
 - enhance message error in get questionary config (standarizate errors)

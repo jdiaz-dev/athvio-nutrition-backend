@@ -38,8 +38,7 @@ export class PatientOnboardingManagerService {
     const _proffesional = await this.prms.getProfessionalById(professional);
     if (!_proffesional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
-    const { _id, firstname, lastname, email } = await this.cus.createUserForWebPatient({
-      email: userInfo.email,
+    const { _id, firstname, lastname, email } = await this.cus.createUserForWebPatient(userInfo.email, {
       firstname: userInfo.firstname,
       lastname: userInfo.lastname,
       ...additionalInfo,
@@ -78,7 +77,7 @@ export class PatientOnboardingManagerService {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
-    const { _id, role } = await this.cus.createUserForMobilePatient({ email, password: EncryptionService.encrypt(password) });
+    const { _id, role } = await this.cus.createUserForMobilePatient(email, { password: EncryptionService.encrypt(password) });
 
     await this.pms.createPatient({
       user: _id,

@@ -2,46 +2,53 @@ import { Injectable } from '@nestjs/common';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
-import { UserEntity } from 'src/modules/auth/users/domain/userEntity';
+import { UserEntity } from 'src/modules/auth/users/domain/user-entity';
+import { UserForProfessional } from 'src/modules/auth/users/domain/user-entity.types';
+import { UserEmail } from 'src/modules/auth/users/domain/user-email';
 
 @Injectable()
 export class CreateUserService {
   constructor(private readonly ups: UsersPersistenceService) {}
 
-  async createUserForProfessional({
-    email,
-    firstname,
-    lastname,
-    password,
-    ...rest
-  }: Omit<UserEntity, 'isActive' | 'role'>): Promise<User> {
-    const userEntity = new UserEntity(email, EnumRoles.PROFESSIONAL, true, firstname, lastname, password);
+  async createUserForProfessional(
+    _email: string,
+    { firstname, lastname, password, ...rest }: UserForProfessional,
+  ): Promise<User> {
+    const userEntity = new UserEntity(new UserEmail(_email), EnumRoles.PROFESSIONAL, true, firstname, lastname, password);
     if (rest.countryCode) userEntity.countryCode = rest.countryCode;
     if (rest.country) userEntity.country = rest.country;
     if (rest.phone) userEntity.phone = rest.phone;
     if (rest.acceptedTerms) userEntity.acceptedTerms = rest.acceptedTerms;
+    userEntity.validateUserCreationForProfessional();
 
-    const userCreated = await this.ups.createUser(userEntity);
+    const { email, ...restEntity } = userEntity;
+    const userCreated = await this.ups.createUser({ email: email.value, ...restEntity });
     return userCreated;
   }
-  async createUserForWebPatient({
-    email,
-    firstname,
-    lastname,
-    ...rest
-  }: Pick<UserEntity, 'email' | 'firstname' | 'lastname'> & Partial<Pick<UserEntity, 'country' | 'countryCode'>>): Promise<User> {
-    const userEntity = new UserEntity(email, EnumRoles.PATIENT, false, firstname, lastname);
+  async createUserForWebPatient(
+    _email: string,
+    {
+      firstname,
+      lastname,
+      ...rest
+    }: Pick<UserEntity, 'firstname' | 'lastname'> & Partial<Pick<UserEntity, 'country' | 'countryCode'>>,
+  ): Promise<User> {
+    const userEntity = new UserEntity(new UserEmail(_email), EnumRoles.PATIENT, false, firstname, lastname);
     if (rest.countryCode) userEntity.countryCode = rest.countryCode;
     if (rest.country) userEntity.country = rest.country;
+    userEntity.validateUserCreationForWebPatient();
 
-    const userCreated = await this.ups.createUser(userEntity);
+    const { email, ...restEntity } = userEntity;
+    const userCreated = await this.ups.createUser({ email: email.value, ...restEntity });
     return userCreated;
   }
-  async createUserForMobilePatient({ email, password }: Pick<UserEntity, 'email' | 'password'>): Promise<User> {
-    const userEntity = new UserEntity(email, EnumRoles.PATIENT, false);
+  async createUserForMobilePatient(_email: string, { password }: Pick<UserEntity, 'password'>): Promise<User> {
+    const userEntity = new UserEntity(new UserEmail(_email), EnumRoles.PATIENT, false);
     userEntity.password = password;
+    userEntity.validateUserForMobilePatient();
 
-    const userCreated = await this.ups.createUser(userEntity);
+    const { email, ...restEntity } = userEntity;
+    const userCreated = await this.ups.createUser({ email: email.value, ...restEntity });
     return userCreated;
   }
 }
