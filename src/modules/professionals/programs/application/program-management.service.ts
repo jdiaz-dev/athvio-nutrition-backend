@@ -43,7 +43,6 @@ export class ProgramManagementService {
     return program;
   }
   async deleteProgram(dto: DeleteProgramDto, selectors: string[]): Promise<Program | null> {
-    selectors;
     const program = await this.pps.deleteProgram(dto, selectors);
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
