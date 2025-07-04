@@ -3,8 +3,8 @@ import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
 import { UserEntity } from 'src/modules/auth/users/domain/user-entity';
-import { UserForProfessional } from 'src/modules/auth/users/domain/user-entity.types';
 import { UserEmail } from 'src/modules/auth/users/domain/user-email';
+import { UserForProfessional } from 'src/modules/auth/users/types/user-entity.';
 
 @Injectable()
 export class CreateUserService {

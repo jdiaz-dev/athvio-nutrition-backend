@@ -44,8 +44,8 @@ export class ProfessionalOnboardingManagerService {
   }
   async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
     await this.qcm.createQuestionary(professional);
-    const defultProgramId = await this.createDefaultProgram(professional, dto.detectedLanguage);
-    await this.createDefaultPatient(professional, dto, defultProgramId);
+    const programId = await this.createDefaultProgram(professional, dto.detectedLanguage);
+    await this.createDefaultPatient(professional, dto, programId);
   }
   private async createProfessionalAndUser({
     professionalInfo,
@@ -92,7 +92,7 @@ export class ProfessionalOnboardingManagerService {
     });
     return _id;
   }
-  private async createDefaultPatient(professional: string, dto: SignUpProfessionalDto, defultProgramId: string): Promise<void> {
+  private async createDefaultPatient(professional: string, dto: SignUpProfessionalDto, programId: string): Promise<void> {
     const { _id: patient } = await this.supms.onboardingForWeb(
       {
         professional,
@@ -109,7 +109,7 @@ export class ProfessionalOnboardingManagerService {
     const _date = getClientLocalTimeFromOffset(iso, dto.clientOffsetMinutes);
     await this.aps.assignProgramToPatient({
       professional,
-      program: defultProgramId,
+      program: programId,
       assignmentStartDate: new Date(_date.year(), _date.month(), 7),
       patients: [patient],
       startingDay: 1,
