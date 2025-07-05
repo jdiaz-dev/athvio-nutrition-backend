@@ -39,9 +39,7 @@ export class ProfessionalOnboardingManagerService {
 
   async onboardProfessional(dto: SignUpProfessionalDto): Promise<UserValidated> {
     const { _id, professional, role } = await this.createProfessionalAndUser(dto);
-    professional;
-    // this.createDefaultData(professional, dto).catch((error) => console.log(error));
-    this.createDefaultData;
+    this.createDefaultData(professional, dto).catch((error) => console.log(error));
     return { _id, role };
   }
   private async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
@@ -69,12 +67,12 @@ export class ProfessionalOnboardingManagerService {
       password: EncryptionService.encrypt(password),
     });
 
-    const { _id: professionalDatabaseId } = await this.prms.createProfessional({
+    const { _id: professionalId } = await this.prms.createProfessional({
       user: userDatabaseId,
       ...professionalInfo,
     });
 
-    return { _id: userDatabaseId, professional: professionalDatabaseId.toString(), role };
+    return { _id: userDatabaseId, professional: professionalId.toString(), role };
   }
   private async createDefaultProgram(professional: string, detectedLanguage: SupportedLanguages): Promise<string> {
     const { name, description, plans } = await this.pms.getProgram({

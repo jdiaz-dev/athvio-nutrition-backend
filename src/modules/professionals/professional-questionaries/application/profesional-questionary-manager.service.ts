@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { AddCustomQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/add-custom-questionary-details.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateQuestionary } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary';
@@ -24,6 +25,7 @@ export class ProfessionalQuestionaryManager {
   async createQuestionary(professional: string): Promise<ProfessionalQuestionary> {
     const globalQuestionary = await this.qps.getQuestionary();
     const questionary: CreateQuestionary = {
+      uuid: randomUUID(),
       professional,
       questionaryGroups: globalQuestionary.questionaryGroups,
     };

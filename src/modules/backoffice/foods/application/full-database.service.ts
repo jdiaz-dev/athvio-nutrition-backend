@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import { InternalCountersPersistenceService } from 'src/modules/backoffice/foods/adapters/out/internal-counters-persistence.service';
 import { InternalFoodsPersistenceService } from 'src/modules/backoffice/foods/adapters/out/internal-foods-persistence.service';
 import { NextLink } from 'src/modules/backoffice/foods/adapters/out/providers/food.types';
@@ -294,7 +295,12 @@ export class FullDatabaseService {
       }));
 
       const foodsSaved = await this.ifps.saveInternalFoods(records);
-      await this.icps.saveInternalCounter({ total: foodsSaved.length, uri: foods[1], nextUri: foods[0]._links.next.href });
+      await this.icps.saveInternalCounter({
+        uuid: randomUUID(),
+        total: foodsSaved.length,
+        uri: foods[1],
+        nextUri: foods[0]._links.next.href,
+      });
     }, 10000);
   }
 

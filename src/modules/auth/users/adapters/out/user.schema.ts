@@ -9,10 +9,6 @@ import { EnumRoles } from 'src/modules/auth/shared/enums';
 export class User extends BaseSchema {
   _id!: string;
 
-  @Field(() => String)
-  @Prop({ type: String, required: true, unique: true })
-  uuid: string;
-
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   firstname: string;

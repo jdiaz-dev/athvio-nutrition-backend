@@ -11,3 +11,8 @@ For error management this app use the errors provided by default for Nest.js
 
 ## Example
 Check create-patient-plan.service.ts
+
+## Use of _id and uuid
+_id: internal mongoId (use internal only)
+uuid: external id (use external only)
+

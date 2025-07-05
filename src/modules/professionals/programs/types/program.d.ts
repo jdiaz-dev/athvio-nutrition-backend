@@ -17,5 +17,9 @@ export type AddProgramPlanWithMeals = {
   planBody: Pick<Plan, 'title' | 'day' | 'week' | 'meals'> & Partial<Pick<Plan, 'planDetail'>>;
 };
 
-export type CreateProgram = CreateProgramDto & { plans?: Omit<Plan, '_id' | 'createdAt' | 'updatedAt'>[]; source?: EnumSources };
+export type CreateProgram = CreateProgramDto &
+  Pick<Program, 'uuid'> & {
+    plans?: Omit<Plan, '_id' | 'createdAt' | 'updatedAt'>[];
+    source?: EnumSources;
+  };
 export type GetProgram = Partial<GetProgramDto> & { name?: string; source?: EnumSources; language?: 'en' | 'es' };

@@ -1,4 +1,7 @@
 db.InternalQuestionaries.insertOne({
+  uuid: UUID()
+    .toString('hex')
+    .replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, '$1-$2-$3-$4-$5'),
   questionaryGroups: [
     {
       title: 'Informaciones de consulta',
