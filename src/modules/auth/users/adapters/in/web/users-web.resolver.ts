@@ -17,6 +17,7 @@ export class UsersWebResolver {
   updateUser(@Args('input') dto: UpdateUserDto): Promise<User> {
     return this.ums.updateUser(dto);
   }
+  @UseGuards(...[AuthorizationGuard])
   @Query(() => User)
   getUser(@Args('input') dto: GetUserDto): Promise<GetUserById> {
     return this.ums.getUserById(dto.user);

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Professional, ProfessionalDocument } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
@@ -25,7 +25,7 @@ export class ProfessionalsPersistenceService extends MongodbQueryBuilder<Profess
     const professionalRes = await this.initializeQuery(this.getProfessionalById.name).aggregate([
       {
         $match: {
-          _id: new Types.ObjectId(professional),
+          uuid: professional,
         },
       },
       {

@@ -1197,5 +1197,5 @@ type User {
   phone: String!
   photo: String
   role: String!
-  uuid: ID!
+  uuid: String!
 }
