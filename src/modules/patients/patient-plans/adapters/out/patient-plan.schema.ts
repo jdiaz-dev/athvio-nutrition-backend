@@ -73,8 +73,8 @@ export class PatientPlan extends BaseSchema {
   // planWorkouts!: any[];
 
   @Field(() => [Comment])
-  @Prop({ type: [CommentSchema], required: true, default: [] })
-  comments: Comment[];
+  @Prop({ type: [CommentSchema], required: false, default: [] })
+  comments!: Comment[];
 
   @Field()
   @Prop({ type: String, required: false })

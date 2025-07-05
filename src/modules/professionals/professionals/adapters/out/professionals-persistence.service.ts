@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Professional, ProfessionalDocument } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
@@ -19,13 +19,16 @@ export class ProfessionalsPersistenceService extends MongodbQueryBuilder<Profess
   async createProfessional(dto: CreateProfessional): Promise<Professional> {
     return await this.initializeQuery(this.createProfessional.name).create(dto);
   }
-  async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
+  async getProfessionalByIdentifier(
+    match: { uuid?: string; _id?: Types.ObjectId },
+    selectors?: Record<string, number>,
+  ): Promise<ProfessionalUser> {
     const isFromExternalRequest = selectors ? true : false;
 
-    const professionalRes = await this.initializeQuery(this.getProfessionalById.name).aggregate([
+    const professionalRes = await this.initializeQuery(this.getProfessionalByIdentifier.name).aggregate([
       {
         $match: {
-          uuid: professional,
+          ...match,
         },
       },
       {

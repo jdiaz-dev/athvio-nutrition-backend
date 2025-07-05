@@ -4,6 +4,7 @@ import { Professional } from 'src/modules/professionals/professionals/adapters/o
 import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { ProfessionalMessages } from 'src/shared/enums/messages-response';
+import { Types } from 'mongoose';
 
 //
 @Injectable()
@@ -15,12 +16,12 @@ export class ProfessionalsManagementService {
     return professional;
   }
   async getProfessionalByUuid(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
-    const professionalRes = await this.pps.getProfessionalById(professional, selectors);
+    const professionalRes = await this.pps.getProfessionalByIdentifier({ uuid: professional }, selectors);
     if (!professionalRes) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
     return professionalRes;
   }
   async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
-    const professionalRes = await this.pps.getProfessionalById(professional, selectors);
+    const professionalRes = await this.pps.getProfessionalByIdentifier({ _id: new Types.ObjectId(professional) }, selectors);
     if (!professionalRes) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
     return professionalRes;
   }

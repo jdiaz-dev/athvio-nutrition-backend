@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import { GetPatientQuestionaryByIdDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/get-patient-questionary-by-id';
 import { GetPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/get-patient-questionary.dto';
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
@@ -12,8 +13,8 @@ import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response'
 export class PatientQuestionaryManagerService {
   constructor(private readonly pqps: PatientInternalQuestionaryPersistenceService) {}
 
-  async createQuestionary(patientQuestionary: CreatePatientQuestionary): Promise<PatientQuestionary> {
-    const questionaryCreated = await this.pqps.createPatientQuestionary(patientQuestionary);
+  async createQuestionary(patientQuestionary: Omit<CreatePatientQuestionary, 'uuid'>): Promise<PatientQuestionary> {
+    const questionaryCreated = await this.pqps.createPatientQuestionary({ uuid: randomUUID(), ...patientQuestionary });
     return questionaryCreated;
   }
   async getPatientQuestionary(
