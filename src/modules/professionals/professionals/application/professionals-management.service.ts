@@ -14,6 +14,11 @@ export class ProfessionalsManagementService {
     const professional = await this.pps.createProfessional({ uuid: randomUUID(), ...createProfessional, isTrialPeriod: true });
     return professional;
   }
+  async getProfessionalByUuid(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
+    const professionalRes = await this.pps.getProfessionalById(professional, selectors);
+    if (!professionalRes) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
+    return professionalRes;
+  }
   async getProfessionalById(professional: string, selectors?: Record<string, number>): Promise<ProfessionalUser> {
     const professionalRes = await this.pps.getProfessionalById(professional, selectors);
     if (!professionalRes) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);

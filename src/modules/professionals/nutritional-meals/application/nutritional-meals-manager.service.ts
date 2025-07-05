@@ -2,7 +2,6 @@ import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/com
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/create-nutritional-meal.dto';
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
-import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import {
   GetNutritionalMealsForProfessionalDto,
   GetNutritionalMealsResponse,
@@ -15,17 +14,18 @@ import { ErrorNutritionalMealEnum } from 'src/shared/enums/messages-response';
 import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/delete-nutritional-meal.dto';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
+import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 
 @Injectable()
 export class NutritionalMealsManagerService {
   constructor(
     @Inject(forwardRef(() => UploadMealImageService)) private readonly umis: UploadMealImageService,
-    private readonly pps: ProfessionalsPersistenceService,
+    private readonly pms: ProfessionalsManagementService,
     private readonly nmps: NutritionalMealsPersistenceService,
   ) {}
 
   async createNutritionalMeal({ image, ...dto }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
-    await this.pps.getProfessionalById(dto.professional, { _id: 1 });
+    await this.pms.getProfessionalById(dto.professional, { _id: 1 });
     const nutritionalMeal = await this.nmps.createNutritionalMeal(dto);
     if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: nutritionalMeal._id, image });
 

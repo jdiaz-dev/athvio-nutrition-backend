@@ -4,18 +4,18 @@ import { CreatePatientGroupDto } from 'src/modules/professionals/patient-groups/
 import { DeletePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/delete-patient-group.dto';
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
 import { PatientGroupsPersistenceService } from 'src/modules/professionals/patient-groups/adapters/out/patient-groups-persistence.service';
-import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
+import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 
 @Injectable()
 export class PatientGroupsManagementService {
   constructor(
     private pms: PatientManagementService,
     private cgps: PatientGroupsPersistenceService,
-    private pps: ProfessionalsPersistenceService,
+    private prms: ProfessionalsManagementService,
   ) {}
 
   async createPatientGroup(dto: CreatePatientGroupDto): Promise<PatientGroup> {
-    await this.pps.getProfessionalById(dto.professional, { _id: 1 });
+    await this.prms.getProfessionalById(dto.professional, { _id: 1 });
     const patientGroup = await this.cgps.createPatientGroup(dto);
 
     return patientGroup;

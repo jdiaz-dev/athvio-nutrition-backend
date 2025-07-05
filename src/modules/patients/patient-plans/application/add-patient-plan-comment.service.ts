@@ -3,13 +3,13 @@ import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/ada
 import { PatientPlanCommentPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-comment-persistence.service';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { CommenterType } from 'src/shared/enums/project';
-import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
+import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 
 @Injectable()
 export class AddPatientPlanCommentService {
   constructor(
-    private pps: ProfessionalsPersistenceService,
+    private pms: ProfessionalsManagementService,
 
     private gps: GetPatientManagerService,
     private cpcps: PatientPlanCommentPersistenceService,
@@ -17,7 +17,7 @@ export class AddPatientPlanCommentService {
 
   async addPatientPlanComment(dto: AddPatientPlanCommentDto, selectors: string[]): Promise<PatientPlan> {
     if (dto.commenter.type === CommenterType.PROFESSIONAL) {
-      await this.pps.getProfessionalById(dto.commenter.commenterId, { _id: 1 });
+      await this.pms.getProfessionalById(dto.commenter.commenterId, { _id: 1 });
     } else {
       await this.gps.getPatientById(dto.commenter.commenterId);
     }

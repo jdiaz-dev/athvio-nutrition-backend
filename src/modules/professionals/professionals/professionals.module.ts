@@ -9,6 +9,6 @@ import { ProfessionalsManagementService } from 'src/modules/professionals/profes
 @Module({
   imports: [MongooseModule.forFeature([{ name: Professional.name, schema: ProfessionalSchema }]), forwardRef(() => AuthModule)],
   providers: [ProfessionalsResolver, ...[ProfessionalsPersistenceService, ProfessionalsManagementService]],
-  exports: [ProfessionalsManagementService, ProfessionalsPersistenceService],
+  exports: [ProfessionalsManagementService],
 })
 export class ProfessionalsModule {}

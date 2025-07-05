@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { ProgramTagsPersistenceService } from 'src/modules/professionals/program-tags/adapters/out/program-tags-persistence.service';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
 import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
@@ -16,11 +16,11 @@ export class ProgramManagementService {
   constructor(
     private ptps: ProgramTagsPersistenceService,
     private pps: ProgramsPersistenceService,
-    private prps: ProfessionalsPersistenceService,
+    private pms: ProfessionalsManagementService,
   ) {}
 
   async createProgram({ plans, ...rest }: Omit<CreateProgram, 'uuid'>) {
-    await this.prps.getProfessionalById(rest.professional, { _id: 1 });
+    await this.pms.getProfessionalById(rest.professional, { _id: 1 });
     const program = await this.pps.createProgram({
       uuid: randomUUID(),
       ...rest,
