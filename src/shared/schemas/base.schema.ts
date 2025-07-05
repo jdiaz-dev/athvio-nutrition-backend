@@ -7,7 +7,7 @@ export class BaseSchema {
   _id!: string | MongooseSchema.Types.ObjectId;
 
   @Field(() => String)
-  @Prop({ type: String, required: true, unique: true })
+  @Prop({ type: String, required: true })
   uuid: string;
 
   @Field()
