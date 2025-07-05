@@ -4,7 +4,7 @@ import { ArrayNotEmpty, IsArray, IsBoolean, IsUUID, IsString, ValidateNested } f
 @InputType()
 class EnableQuestionaryDetail {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionaryDetail: string;
 
   @Field()
@@ -15,11 +15,11 @@ class EnableQuestionaryDetail {
 @InputType()
 export class EnableQuestionaryDetailsDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionary: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

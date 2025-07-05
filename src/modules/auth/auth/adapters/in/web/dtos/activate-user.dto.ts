@@ -4,7 +4,7 @@ import { IsUUID, IsString } from 'class-validator';
 @InputType()
 export class ActivatePatientDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   user: string;
 
   @Field()

@@ -5,7 +5,7 @@ import { GetUserById } from 'src/modules/auth/users/adapters/out/users-types';
 @InputType()
 export class GetPatientUser {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 }
 @ObjectType()

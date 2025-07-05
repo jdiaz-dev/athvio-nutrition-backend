@@ -5,11 +5,11 @@ import { Patient } from 'src/modules/patients/patients/adapters/out/patient.sche
 @InputType()
 export class GetPatientForWebDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 }
 

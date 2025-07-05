@@ -4,11 +4,11 @@ import { IsNumber, IsUUID } from 'class-validator';
 @InputType()
 export class UpdateCaloryDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient!: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   calory!: string;
 
   @Field()

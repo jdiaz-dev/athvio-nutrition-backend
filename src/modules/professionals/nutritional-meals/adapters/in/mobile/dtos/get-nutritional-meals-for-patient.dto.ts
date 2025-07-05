@@ -8,7 +8,7 @@ import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
 @InputType()
 export class GetNutritionalMealsForPatientDto extends GetRecordsBaseDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()

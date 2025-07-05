@@ -7,11 +7,11 @@ import { UploadScalar } from 'src/shared/graphql/upload.scalar';
 @InputType()
 export class UpdateNutritionalMealDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   nutritionalMeal: string;
 
   @Field()

@@ -4,11 +4,11 @@ import { ArrayNotEmpty, IsArray, IsUUID, IsString } from 'class-validator';
 @InputType()
 export class DeleteCustomQuestionaryDetailsDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionary: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
@@ -18,6 +18,6 @@ export class DeleteCustomQuestionaryDetailsDto {
   @Field(() => [String])
   @IsArray()
   @ArrayNotEmpty()
-  @IsUUID({ each: true })
+  @IsUUID(4, { each: true })
   questionaryDetails: string[];
 }

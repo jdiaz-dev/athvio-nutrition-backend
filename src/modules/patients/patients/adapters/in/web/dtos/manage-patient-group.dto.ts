@@ -5,15 +5,15 @@ import { ManagePatientGroup } from 'src/shared/enums/project';
 @InputType()
 export class ManagePatientGroupDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient!: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patientGroup!: string;
 
   @Field()

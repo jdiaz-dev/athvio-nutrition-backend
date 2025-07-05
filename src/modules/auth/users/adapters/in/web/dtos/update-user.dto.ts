@@ -4,7 +4,7 @@ import { IsString, IsUUID } from 'class-validator';
 @InputType()
 export class UpdateUserDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   user: string;
 
   @Field()

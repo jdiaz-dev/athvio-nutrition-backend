@@ -4,11 +4,11 @@ import { IsUUID } from 'class-validator';
 @InputType()
 export class GetProgramDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   program: string;
 
   plan?: string;

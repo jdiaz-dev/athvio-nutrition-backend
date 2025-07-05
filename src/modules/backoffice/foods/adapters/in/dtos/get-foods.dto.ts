@@ -9,7 +9,7 @@ import { IngredientDetail } from 'src/shared/schemas/meal-plan';
 @InputType()
 export class GetFoodsDto extends GetRecordsBaseDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

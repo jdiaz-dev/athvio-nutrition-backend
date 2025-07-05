@@ -13,7 +13,7 @@ class AnswersAndAdditionalNotesInput extends PatientQuestionaryAnswersInput {
 @InputType()
 class PatientQuestionaryGroupInput {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionaryGroup: string;
 
   @Field(() => [AnswersAndAdditionalNotesInput])
@@ -25,7 +25,7 @@ class PatientQuestionaryGroupInput {
 @InputType()
 export class UpdateAnswersAndAdditionalNotesDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
@@ -33,7 +33,7 @@ export class UpdateAnswersAndAdditionalNotesDto {
   patient: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionary: string;
 
   @Field(() => [PatientQuestionaryGroupInput])

@@ -3,15 +3,15 @@ import { IsUUID, IsString } from 'class-validator';
 
 @InputType()
 export class UpdatePatientPlanCommentDto {
-  @IsUUID()
+  @IsUUID(4)
   @Field()
   patientPlanId: string;
 
-  @IsUUID()
+  @IsUUID(4)
   @Field()
   patientId: string;
 
-  @IsUUID()
+  @IsUUID(4)
   @Field()
   commentId: string;
 

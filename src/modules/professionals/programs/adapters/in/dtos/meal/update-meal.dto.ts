@@ -6,15 +6,15 @@ import { MealBodyInput } from 'src/modules/professionals/programs/adapters/in/dt
 @InputType()
 export class UpdateMealDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   program: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   plan: string;
 
   @Field(() => [MealBodyInput])

@@ -7,7 +7,7 @@ import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
 @InputType()
 export class GetProgramsDto extends GetRecordsBaseDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 }
 

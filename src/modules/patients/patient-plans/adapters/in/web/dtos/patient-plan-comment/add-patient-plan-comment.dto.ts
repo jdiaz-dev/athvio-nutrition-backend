@@ -6,7 +6,7 @@ import { CommenterType } from 'src/shared/enums/project';
 @InputType()
 export class CommenterInput {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   commenterId!: string;
 
   @Field()
@@ -16,11 +16,11 @@ export class CommenterInput {
 
 @InputType()
 export class AddPatientPlanCommentDto {
-  @IsUUID()
+  @IsUUID(4)
   @Field()
   patientPlanId: string;
 
-  @IsUUID()
+  @IsUUID(4)
   @Field()
   patientId: string;
 

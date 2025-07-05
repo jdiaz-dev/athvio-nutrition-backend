@@ -5,7 +5,7 @@ import { Type } from 'class-transformer';
 @InputType()
 export class PatientQuestionaryAnswersInput {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionaryDetail: string;
 
   @Field()
@@ -16,7 +16,7 @@ export class PatientQuestionaryAnswersInput {
 @InputType()
 class PatientQuestionaryGroupWithAnswersInput {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionaryGroup: string;
 
   @Field(() => [PatientQuestionaryAnswersInput])
@@ -28,7 +28,7 @@ class PatientQuestionaryGroupWithAnswersInput {
 @InputType()
 export class UpdateAnswersDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
@@ -36,7 +36,7 @@ export class UpdateAnswersDto {
   patient: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionary: string;
 
   @Field(() => [PatientQuestionaryGroupWithAnswersInput])

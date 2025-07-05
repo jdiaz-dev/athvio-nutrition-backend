@@ -5,7 +5,7 @@ import { IsBoolean, IsUUID, IsString, ValidateNested } from 'class-validator';
 @InputType()
 export class UpdateCustomQuestionaryDetailInput {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionaryDetail: string;
 
   @Field()
@@ -24,11 +24,11 @@ export class UpdateCustomQuestionaryDetailInput {
 @InputType()
 export class UpdateCustomQuestionaryDetailsDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionary: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

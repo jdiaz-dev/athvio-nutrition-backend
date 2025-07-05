@@ -9,7 +9,7 @@ import { SupportedLanguages } from 'src/shared/enums/project';
 @InputType()
 export class GetNutritionalMealsForProfessionalDto extends GetRecordsBaseDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

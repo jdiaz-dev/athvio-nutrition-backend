@@ -4,10 +4,10 @@ import { IsUUID } from 'class-validator';
 @InputType()
 export class SubscribePublishedMessageDto {
   @Field({ nullable: true })
-  @IsUUID()
+  @IsUUID(4)
   professional?: string;
 
   @Field(() => String)
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 }

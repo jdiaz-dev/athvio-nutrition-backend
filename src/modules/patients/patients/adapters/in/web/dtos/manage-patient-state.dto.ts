@@ -5,11 +5,11 @@ import { PatientState } from 'src/shared/enums/project';
 @InputType()
 export class ManagePatientStateDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()

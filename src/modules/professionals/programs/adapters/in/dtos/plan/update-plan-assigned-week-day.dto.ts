@@ -4,15 +4,15 @@ import { IsUUID, IsNumber } from 'class-validator';
 @InputType()
 export class UpdatePlanAssignedWeekDayDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   program: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   plan: string;
 
   @Field()

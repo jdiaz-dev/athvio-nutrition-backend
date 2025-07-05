@@ -8,7 +8,7 @@ import { PatientState } from 'src/shared/enums/project';
 @InputType()
 export class GetPatientsDto extends GetRecordsBaseDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

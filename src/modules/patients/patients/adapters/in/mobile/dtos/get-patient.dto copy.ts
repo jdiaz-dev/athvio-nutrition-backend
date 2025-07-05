@@ -5,7 +5,7 @@ import { GetPatientForWebResponse } from 'src/modules/patients/patients/adapters
 @InputType()
 export class GetPatientForMobileDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 }
 

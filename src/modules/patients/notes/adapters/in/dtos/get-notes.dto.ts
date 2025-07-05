@@ -7,11 +7,11 @@ import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
 @InputType()
 export class GetNotesDto extends GetRecordsBaseDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 }
 

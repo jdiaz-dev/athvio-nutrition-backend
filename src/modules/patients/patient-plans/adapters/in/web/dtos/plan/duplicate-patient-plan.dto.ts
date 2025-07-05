@@ -5,15 +5,15 @@ import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/pat
 @InputType()
 export class DuplicatePatientPlanDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patientPlan: string;
 
   @Field()

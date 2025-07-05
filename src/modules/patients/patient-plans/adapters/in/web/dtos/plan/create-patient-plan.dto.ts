@@ -6,11 +6,11 @@ import { Meal } from 'src/shared/schemas/meal-plan';
 @InputType()
 export class CreatePatientPlanDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()

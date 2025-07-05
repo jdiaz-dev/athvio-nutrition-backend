@@ -20,11 +20,11 @@ class CreateCustomQuestionaryDetailInput {
 @InputType()
 export class AddCustomQuestionaryDetailsDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   questionary: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

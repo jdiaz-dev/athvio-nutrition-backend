@@ -4,17 +4,15 @@ import { IsDate, IsUUID, IsNumber } from 'class-validator';
 @InputType()
 export class AssignProgramDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   program: string;
 
   @Field(() => [String])
-  @IsUUID({
-    each: true
-  })
+  @IsUUID(4, { each: true })
   patients: string[];
 
   @Field()

@@ -4,11 +4,11 @@ import { IsUUID, IsOptional } from 'class-validator';
 @InputType()
 export class GetChatDto {
   @Field({ nullable: true })
-  @IsUUID()
+  @IsUUID(4)
   @IsOptional()
   professional?: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 }

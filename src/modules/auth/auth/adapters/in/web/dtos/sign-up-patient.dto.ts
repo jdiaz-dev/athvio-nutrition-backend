@@ -92,7 +92,7 @@ export class CreateUserInfoDto {
 @InputType()
 export class SignUpPatientDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

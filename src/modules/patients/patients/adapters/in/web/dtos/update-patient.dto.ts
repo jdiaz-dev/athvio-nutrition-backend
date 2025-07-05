@@ -6,7 +6,7 @@ import { AllowedGender } from 'src/shared/enums/project';
 @InputType()
 class UpdateUserInfoDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   user: string;
 
   @Field()
@@ -22,11 +22,11 @@ class UpdateUserInfoDto {
 @InputType()
 export class UpdatePatientMobileDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()

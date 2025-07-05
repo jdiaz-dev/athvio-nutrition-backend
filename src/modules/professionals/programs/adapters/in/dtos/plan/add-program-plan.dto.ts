@@ -6,11 +6,11 @@ import { PlanBodyInput } from 'src/modules/professionals/programs/adapters/in/dt
 @InputType()
 export class AddProgramPlanDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   program: string;
 
   @Field()

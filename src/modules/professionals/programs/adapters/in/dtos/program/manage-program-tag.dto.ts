@@ -5,15 +5,15 @@ import { ManageProgramTags } from 'src/shared/enums/project';
 @InputType()
 export class ManageProgramTagDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   program: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   programTag: string;
 
   @Field()

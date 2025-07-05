@@ -5,7 +5,7 @@ import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 @InputType()
 export class GetPatientPlansForWebDto extends GetRecordsBaseDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()

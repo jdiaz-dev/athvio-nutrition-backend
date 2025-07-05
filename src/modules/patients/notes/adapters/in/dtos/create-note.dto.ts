@@ -4,11 +4,11 @@ import { IsDateString, IsUUID, IsString } from 'class-validator';
 @InputType()
 export class CreateNoteDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()

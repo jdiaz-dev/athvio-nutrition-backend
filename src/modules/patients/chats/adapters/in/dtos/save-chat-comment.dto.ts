@@ -49,12 +49,12 @@ class ChatCommentInput {
 @InputType()
 export class SaveChatCommentDto {
   @Field({ nullable: true })
-  @IsUUID()
+  @IsUUID(4)
   @IsOptional()
   professional?: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field(() => ChatCommentInput)

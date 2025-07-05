@@ -4,6 +4,6 @@ import { IsUUID } from 'class-validator';
 @InputType()
 export class GetProfessionalQuestionaryDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 }

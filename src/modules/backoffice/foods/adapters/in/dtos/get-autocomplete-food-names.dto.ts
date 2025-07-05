@@ -5,7 +5,7 @@ import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
 @InputType()
 export class GetAutocompleteFoodNamesDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()

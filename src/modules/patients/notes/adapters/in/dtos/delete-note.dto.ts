@@ -4,14 +4,14 @@ import { IsUUID } from 'class-validator';
 @InputType()
 export class DeleteNoteDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   patient: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   note: string;
 }

@@ -4,20 +4,20 @@ import { ArrayNotEmpty, IsArray, IsUUID } from 'class-validator';
 @InputType()
 export class DeleteMealDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   program: string;
 
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   plan: string;
 
   @Field(() => [String])
   @IsArray()
   @ArrayNotEmpty()
-  @IsUUID({ each: true })
+  @IsUUID(4, { each: true })
   meals: string[];
 }

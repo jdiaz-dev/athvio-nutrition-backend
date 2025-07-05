@@ -4,7 +4,7 @@ import { IsUUID, IsOptional, IsString, MaxLength } from 'class-validator';
 @InputType()
 export class CreateProgramDto {
   @Field()
-  @IsUUID()
+  @IsUUID(4)
   professional: string;
 
   @Field()
