@@ -5,17 +5,17 @@ import { IValidateUserUseCase, UserValidated } from '../ports/in/validate-user.u
 import { JwtService } from '@nestjs/jwt';
 import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
-import { ProfessionalsPersistenceService } from 'src/modules/professionals/professionals/adapters/out/professionals-persistence.service';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
+import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 
 @Injectable()
 export class AuthenticationService implements IValidateUserUseCase {
   constructor(
     private readonly jwtService: JwtService,
     private ums: UserManagamentService,
-    private pps: ProfessionalsPersistenceService,
+    private pms: ProfessionalsManagementService,
     private gps: GetPatientManagerService,
   ) {}
   async validateCredentials(email: string, _password: string): Promise<UserValidated> {
@@ -28,7 +28,7 @@ export class AuthenticationService implements IValidateUserUseCase {
     if (!validPassword) throw new UnauthorizedException(ErrorUsersEnum.BAD_CREDENTIALS);
 
     if (role === EnumRoles.PROFESSIONAL) {
-      const professional = await this.pps.getProfessionalByUser(_id);
+      const professional = await this.pms.getProfessionalByUser(_id);
       if (!professional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
     } else if (role === EnumRoles.PATIENT) {
       const patient = await this.gps.getPatientByUser(_id);
@@ -47,7 +47,7 @@ export class AuthenticationService implements IValidateUserUseCase {
   }
   private async getRoleId({ _id: userDatabaseId, role }: UserValidated) {
     if (role === EnumRoles.PROFESSIONAL) {
-      return (await this.pps.getProfessionalByUser(userDatabaseId)).uuid;
+      return (await this.pms.getProfessionalByUser(userDatabaseId)).uuid;
     } else {
       return (await this.gps.getPatientByUser(userDatabaseId)).uuid;
     }

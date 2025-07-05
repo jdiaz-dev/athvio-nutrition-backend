@@ -24,4 +24,10 @@ export class ProfessionalsManagementService {
     if (!professionalRes) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
     return professionalRes;
   }
+  async getProfessionalByUser(user: string): Promise<Professional> {
+    const professionalRes = await this.pps.getProfessionalByUser(user);
+    if (!professionalRes) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
+
+    return professionalRes;
+  }
 }
