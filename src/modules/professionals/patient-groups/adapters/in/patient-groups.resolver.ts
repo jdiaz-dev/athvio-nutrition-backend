@@ -5,7 +5,6 @@ import { DeletePatientGroupDto } from 'src/modules/professionals/patient-groups/
 import { GetPatientGroupsDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/get-patient-groups.dto';
 import { UpdatePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/update-patient-group.dto';
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
-import { PatientGroupsPersistenceService } from 'src/modules/professionals/patient-groups/adapters/out/patient-groups-persistence.service';
 import { PatientGroupsManagementService } from 'src/modules/professionals/patient-groups/application/patient-groups-management.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -13,7 +12,7 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PatientGroupsResolver {
-  constructor(private readonly cgps: PatientGroupsPersistenceService, private cgms: PatientGroupsManagementService) {}
+  constructor(private cgms: PatientGroupsManagementService) {}
 
   @Mutation(() => PatientGroup)
   @UseGuards(AuthorizationGuard)
@@ -24,14 +23,14 @@ export class PatientGroupsResolver {
   @Query(() => [PatientGroup])
   @UseGuards(AuthorizationGuard)
   async getPatientGroups(@Args('input') dto: GetPatientGroupsDto): Promise<PatientGroup[]> {
-    const patientGroup = await this.cgps.getPatientGroups(dto);
+    const patientGroup = await this.cgms.getPatientGroups(dto);
     return patientGroup;
   }
 
   @Mutation(() => PatientGroup)
   @UseGuards(AuthorizationGuard)
   async updatePatientGroup(@Args('input') dto: UpdatePatientGroupDto): Promise<PatientGroup> {
-    return this.cgps.updatePatientGroup(dto);
+    return this.cgms.updatePatientGroup(dto);
   }
 
   @Mutation(() => PatientGroup)

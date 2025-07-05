@@ -7,9 +7,6 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 @Schema({ timestamps: true, collection: 'PatientGroups' })
 export class PatientGroup extends BaseSchema {
   @Field(() => ID)
-  _id!: string;
-
-  @Field(() => ID)
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
   professional!: string;
 

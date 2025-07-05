@@ -818,7 +818,6 @@ type Patient {
 }
 
 type PatientGroup {
-  _id: ID!
   createdAt: DateTime!
   groupName: String!
   isDeleted: String!

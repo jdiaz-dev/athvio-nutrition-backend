@@ -48,5 +48,6 @@
 - fix: check connection with mongodb
 - fix: validate schema of loaded environment variables, not run if it is not loaded
 - fix: change questionary by internal questionary in model of mongodb
+- fix: move creating of uuid of patient group to one application class
 
 ## Videos

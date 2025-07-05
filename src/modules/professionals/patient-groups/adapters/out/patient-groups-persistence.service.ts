@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -21,6 +22,7 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
 
   async createPatientGroup({ professional, ...rest }: CreatePatientGroupDto): Promise<PatientGroup> {
     const patientGroup = await this.initializeQuery(this.createPatientGroup.name).create({
+      uuid: randomUUID(),
       professional,
       ...rest,
     });
@@ -46,7 +48,7 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
   }
   async updatePatientGroup({ professional, patientGroup, ...rest }: UpdatePatientGroupDto): Promise<PatientGroup> {
     const patientGroupRes = await this.initializeQuery(this.updatePatientGroup.name).findOneAndUpdate(
-      { _id: patientGroup, professional, isDeleted: false },
+      { uuid: patientGroup, professional, isDeleted: false },
       { ...rest },
       { new: true },
     );
