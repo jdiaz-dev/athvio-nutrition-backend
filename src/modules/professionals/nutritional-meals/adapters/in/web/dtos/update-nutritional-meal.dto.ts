@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsArray, IsMongoId, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsUUID, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { IngredientDetailsInput } from 'src/shared/dtos/ingredient-detail-input';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 import { UploadScalar } from 'src/shared/graphql/upload.scalar';
@@ -7,11 +7,11 @@ import { UploadScalar } from 'src/shared/graphql/upload.scalar';
 @InputType()
 export class UpdateNutritionalMealDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   nutritionalMeal: string;
 
   @Field()

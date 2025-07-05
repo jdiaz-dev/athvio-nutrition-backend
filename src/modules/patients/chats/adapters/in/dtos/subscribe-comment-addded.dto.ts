@@ -1,13 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId } from 'class-validator';
+import { IsUUID } from 'class-validator';
 
 @InputType()
 export class SubscribePublishedMessageDto {
   @Field({ nullable: true })
-  @IsMongoId()
+  @IsUUID()
   professional?: string;
 
   @Field(() => String)
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 }

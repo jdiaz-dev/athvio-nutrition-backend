@@ -1,14 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { ArrayNotEmpty, IsArray, IsMongoId, IsString } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsUUID, IsString } from 'class-validator';
 
 @InputType()
 export class DeleteCustomQuestionaryDetailsDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionary: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
@@ -18,6 +18,6 @@ export class DeleteCustomQuestionaryDetailsDto {
   @Field(() => [String])
   @IsArray()
   @ArrayNotEmpty()
-  @IsMongoId({ each: true })
+  @IsUUID({ each: true })
   questionaryDetails: string[];
 }

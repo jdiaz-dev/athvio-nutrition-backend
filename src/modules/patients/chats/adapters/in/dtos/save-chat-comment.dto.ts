@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import {
   IsEnum,
-  IsMongoId,
+  IsUUID,
   IsOptional,
   IsString,
   ValidateNested,
@@ -49,12 +49,12 @@ class ChatCommentInput {
 @InputType()
 export class SaveChatCommentDto {
   @Field({ nullable: true })
-  @IsMongoId()
+  @IsUUID()
   @IsOptional()
   professional?: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 
   @Field(() => ChatCommentInput)

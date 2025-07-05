@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDateString, IsMongoId } from 'class-validator';
+import { IsDateString, IsUUID } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 
 @InputType()
 export class GetPatientPlansForWebDto extends GetRecordsBaseDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 
   @Field()

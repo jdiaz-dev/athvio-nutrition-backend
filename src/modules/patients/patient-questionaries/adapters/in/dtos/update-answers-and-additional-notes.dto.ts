@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { IsUUID, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PatientQuestionaryAnswersInput } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers.dto';
 
@@ -13,7 +13,7 @@ class AnswersAndAdditionalNotesInput extends PatientQuestionaryAnswersInput {
 @InputType()
 class PatientQuestionaryGroupInput {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionaryGroup: string;
 
   @Field(() => [AnswersAndAdditionalNotesInput])
@@ -25,7 +25,7 @@ class PatientQuestionaryGroupInput {
 @InputType()
 export class UpdateAnswersAndAdditionalNotesDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
@@ -33,7 +33,7 @@ export class UpdateAnswersAndAdditionalNotesDto {
   patient: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionary: string;
 
   @Field(() => [PatientQuestionaryGroupInput])

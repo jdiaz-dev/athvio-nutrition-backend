@@ -1,14 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDateString, IsMongoId, IsString } from 'class-validator';
+import { IsDateString, IsUUID, IsString } from 'class-validator';
 
 @InputType()
 export class CreateNoteDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 
   @Field()

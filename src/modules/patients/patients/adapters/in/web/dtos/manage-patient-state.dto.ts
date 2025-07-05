@@ -1,15 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEnum, IsMongoId } from 'class-validator';
+import { IsEnum, IsUUID } from 'class-validator';
 import { PatientState } from 'src/shared/enums/project';
 
 @InputType()
 export class ManagePatientStateDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 
   @Field()

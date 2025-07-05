@@ -1,14 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNumber, IsMongoId } from 'class-validator';
+import { IsNumber, IsUUID } from 'class-validator';
 
 @InputType()
 export class UpdateCaloryDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient!: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   calory!: string;
 
   @Field()

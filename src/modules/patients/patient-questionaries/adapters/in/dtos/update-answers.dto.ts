@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { IsUUID, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 @InputType()
 export class PatientQuestionaryAnswersInput {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionaryDetail: string;
 
   @Field()
@@ -16,7 +16,7 @@ export class PatientQuestionaryAnswersInput {
 @InputType()
 class PatientQuestionaryGroupWithAnswersInput {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionaryGroup: string;
 
   @Field(() => [PatientQuestionaryAnswersInput])
@@ -28,7 +28,7 @@ class PatientQuestionaryGroupWithAnswersInput {
 @InputType()
 export class UpdateAnswersDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
@@ -36,7 +36,7 @@ export class UpdateAnswersDto {
   patient: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionary: string;
 
   @Field(() => [PatientQuestionaryGroupWithAnswersInput])

@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsUUID, IsString, ValidateNested } from 'class-validator';
 
 @InputType()
 export class UpdateCustomQuestionaryDetailInput {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionaryDetail: string;
 
   @Field()
@@ -24,11 +24,11 @@ export class UpdateCustomQuestionaryDetailInput {
 @InputType()
 export class UpdateCustomQuestionaryDetailsDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionary: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()

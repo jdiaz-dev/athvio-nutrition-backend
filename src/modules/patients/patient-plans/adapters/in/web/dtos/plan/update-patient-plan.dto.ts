@@ -1,18 +1,18 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsUUID, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class UpdatePatientPlanDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patientPlan: string;
 
   @Field()

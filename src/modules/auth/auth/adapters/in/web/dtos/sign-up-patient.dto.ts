@@ -1,6 +1,6 @@
 import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsString, IsEmail, IsNumber, IsDate, IsEnum, IsOptional, ValidateNested, IsMongoId } from 'class-validator';
+import { IsString, IsEmail, IsNumber, IsDate, IsEnum, IsOptional, ValidateNested, IsUUID } from 'class-validator';
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
 import { AllowedGender } from 'src/shared/enums/project';
 
@@ -92,7 +92,7 @@ export class CreateUserInfoDto {
 @InputType()
 export class SignUpPatientDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()

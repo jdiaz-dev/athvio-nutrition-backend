@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsUUID, IsOptional, IsString, MaxLength } from 'class-validator';
 
 @InputType()
 export class CreateProgramDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()

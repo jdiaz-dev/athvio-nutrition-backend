@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { ArrayNotEmpty, IsArray, IsDate, IsMongoId, IsNumber, IsUUID, Max, ValidateNested } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsDate, IsUUID, IsNumber, IsUUID, Max, ValidateNested } from 'class-validator';
 
 @InputType()
 export class PatientMacrosInput {
@@ -43,7 +43,7 @@ export class GenerateNutritionalPlanDto {
   diseases: string[];
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 
   @Field()

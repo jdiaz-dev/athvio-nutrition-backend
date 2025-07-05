@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsUUID, IsOptional, IsString } from 'class-validator';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { Meta } from 'src/shared/dtos/get-records-response';
 import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
@@ -9,7 +9,7 @@ import { IngredientDetail } from 'src/shared/schemas/meal-plan';
 @InputType()
 export class GetFoodsDto extends GetRecordsBaseDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()

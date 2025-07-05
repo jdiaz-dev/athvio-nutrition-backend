@@ -1,12 +1,12 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsDate, IsEnum, IsMongoId, IsBoolean, ValidateNested, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsDate, IsEnum, IsUUID, IsBoolean, ValidateNested, IsOptional } from 'class-validator';
 import { AllowedGender } from 'src/shared/enums/project';
 
 @InputType()
 class UpdateUserInfoDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   user: string;
 
   @Field()
@@ -22,11 +22,11 @@ class UpdateUserInfoDto {
 @InputType()
 export class UpdatePatientMobileDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 
   @Field()

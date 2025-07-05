@@ -1,14 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsOptional } from 'class-validator';
+import { IsUUID, IsOptional } from 'class-validator';
 
 @InputType()
 export class GetChatDto {
   @Field({ nullable: true })
-  @IsMongoId()
+  @IsUUID()
   @IsOptional()
   professional?: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   patient: string;
 }

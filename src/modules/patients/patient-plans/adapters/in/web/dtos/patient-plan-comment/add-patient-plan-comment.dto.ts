@@ -1,12 +1,12 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsEnum, IsMongoId, IsString, ValidateNested } from 'class-validator';
+import { IsEnum, IsUUID, IsString, ValidateNested } from 'class-validator';
 import { CommenterType } from 'src/shared/enums/project';
 
 @InputType()
 export class CommenterInput {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   commenterId!: string;
 
   @Field()
@@ -16,11 +16,11 @@ export class CommenterInput {
 
 @InputType()
 export class AddPatientPlanCommentDto {
-  @IsMongoId()
+  @IsUUID()
   @Field()
   patientPlanId: string;
 
-  @IsMongoId()
+  @IsUUID()
   @Field()
   patientId: string;
 

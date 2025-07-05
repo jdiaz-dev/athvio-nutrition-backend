@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsString } from 'class-validator';
+import { IsUUID, IsString } from 'class-validator';
 
 @InputType()
 export class SendPatientQuestionaryDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   professional: string;
 
   @Field()
@@ -12,6 +12,6 @@ export class SendPatientQuestionaryDto {
   patient: string;
 
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionary: string;
 }

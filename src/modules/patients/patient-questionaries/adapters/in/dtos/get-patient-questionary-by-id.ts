@@ -1,9 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsMongoId } from 'class-validator';
+import { IsUUID } from 'class-validator';
 
 @InputType()
 export class GetPatientQuestionaryByIdDto {
   @Field()
-  @IsMongoId()
+  @IsUUID()
   questionary: string;
 }
