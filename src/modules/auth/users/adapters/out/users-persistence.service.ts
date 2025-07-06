@@ -38,12 +38,18 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
     ]);
     return patient[0] as User;
   }
-  async getUserById(user: string): Promise<GetUserById> {
-    const _user = await this.initializeQuery(this.getUserById.name).findOne(
+  async getUserByIdentifier(identifier: { _id?: Types.ObjectId; uuid?: string }): Promise<GetUserById> {
+    const _user = await this.initializeQuery(this.getUserByIdentifier.name).findOne(
+      { ...identifier },
       {
-        _id: new Types.ObjectId(user),
+        _id: 1,
+        uuid: 1,
+        firstname: 1,
+        lastname: 1,
+        role: 1,
+        email: 1,
+        isActive: 1,
       },
-      { _id: 1, firstname: 1, lastname: 1, role: 1, email: 1, isActive: 1 },
     );
 
     return _user;

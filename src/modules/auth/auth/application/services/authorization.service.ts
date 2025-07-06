@@ -6,13 +6,13 @@ import { AuthorizationMessages } from 'src/shared/enums/messages-response';
 @Injectable()
 export class AuthorizationService {
   constructor(private ums: UserManagamentService) {}
-  async verifyIfIsProfessional(userDatabaseId: string): Promise<boolean> {
-    const _user = await this.ums.getUserById(userDatabaseId);
+  async verifyIfIsProfessional(user: string): Promise<boolean> {
+    const _user = await this.ums.getUserByUuid(user);
     if (_user.role !== EnumRoles.PROFESSIONAL) throw new UnauthorizedException(AuthorizationMessages.NOT_AUTHORIZED);
     return true;
   }
-  async verifyIfIsPatient(userDatabaseId: string): Promise<boolean> {
-    const _user = await this.ums.getUserById(userDatabaseId);
+  async verifyIfIsPatient(user: string): Promise<boolean> {
+    const _user = await this.ums.getUserByUuid(user);
     if (_user.role !== EnumRoles.PATIENT) throw new UnauthorizedException(AuthorizationMessages.NOT_AUTHORIZED);
     return true;
   }

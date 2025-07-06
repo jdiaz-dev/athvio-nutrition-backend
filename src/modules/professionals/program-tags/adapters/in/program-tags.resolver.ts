@@ -34,6 +34,7 @@ export class ProgramTagsResolver {
 
   @Mutation(() => ProgramTag)
   deleteProgramTag(@Args('input') dto: DeleteProgramTagDto, @CurrentUser() context: IUserContext): Promise<ProgramTag> {
-    return this.ptms.deleteProgramTag(dto, context.professionalId);
+    context;
+    return this.ptms.deleteProgramTag(dto);
   }
 }

@@ -14,7 +14,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
   validate({ user }: ValidateUser): Record<string, string> {
-    console.log('-------user', user);
     return { user };
   }
 }

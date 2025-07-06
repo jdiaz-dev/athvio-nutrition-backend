@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { GetPatientUserResponse } from 'src/modules/auth/users/adapters/in/mobile/dtos/get-patient-user-info';
 import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/update-user.dto';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
@@ -26,7 +27,16 @@ export class UserManagamentService {
     return patient;
   }
   async getUserById(user: string) {
-    const _user = await this.ups.getUserById(user);
+    const _user = await this.ups.getUserByIdentifier({
+      _id: new Types.ObjectId(user),
+    });
+    if (!_user) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
+    return _user;
+  }
+  async getUserByUuid(user: string) {
+    const _user = await this.ups.getUserByIdentifier({
+      uuid: user,
+    });
     if (!_user) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
     return _user;
   }

@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { ProgramTagsPersistenceService } from 'src/modules/professionals/program-tags/adapters/out/program-tags-persistence.service';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
 import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
@@ -10,11 +9,12 @@ import { Program } from 'src/modules/professionals/programs/adapters/out/program
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
+import { ProgramTagsManagerService } from 'src/modules/professionals/program-tags/application/program-tags-manager.service';
 
 @Injectable()
 export class ProgramManagementService {
   constructor(
-    private ptps: ProgramTagsPersistenceService,
+    private ptms: ProgramTagsManagerService,
     private pps: ProgramsPersistenceService,
     private pms: ProfessionalsManagementService,
   ) {}
@@ -39,7 +39,7 @@ export class ProgramManagementService {
     return program;
   }
   async manageProgramTag(dto: ManageProgramTagDto): Promise<Program> {
-    await this.ptps.getProgramTag(dto.professional, dto.programTag);
+    await this.ptms.getProgramTag(dto.professional, dto.programTag);
     const program = await this.pps.updateProgramTag(dto);
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 

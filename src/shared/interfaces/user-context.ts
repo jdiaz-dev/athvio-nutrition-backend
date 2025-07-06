@@ -1,3 +1,3 @@
 export interface IUserContext {
-  professionalId: string;
+  user: string;
 }

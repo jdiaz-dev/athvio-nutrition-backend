@@ -7,7 +7,7 @@ import { AuthenticationService } from 'src/modules/auth/auth/application/service
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   private validateUserUseCase: IValidateUserUseCase;
-  
+
   constructor(authService: AuthenticationService) {
     super({
       usernameField: 'email',
