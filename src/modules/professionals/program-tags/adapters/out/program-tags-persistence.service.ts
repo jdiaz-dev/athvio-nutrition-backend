@@ -10,6 +10,7 @@ import { DeleteProgramTagDto } from 'src/modules/professionals/program-tags/adap
 import { GetProgramTagsDto } from 'src/modules/professionals/program-tags/adapters/in/dtos/get-program-tags.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTagDocument> {
@@ -22,6 +23,7 @@ export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTa
 
   async createProgramTag({ professional, ...rest }: CreateProgramTagDto): Promise<ProgramTag> {
     const programTag = await this.initializeQuery(this.createProgramTag.name).create({
+      uuid: randomUUID(),
       professional,
       ...rest,
     });

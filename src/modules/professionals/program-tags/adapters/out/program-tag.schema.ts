@@ -1,15 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'ProgramTags' })
 export class ProgramTag extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
-  @Field(() => ID)
+  @Field()
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
   professional!: string;
 

@@ -954,10 +954,9 @@ type Program {
 }
 
 type ProgramTag {
-  _id: ID!
   createdAt: DateTime!
   isDeleted: String!
-  professional: ID!
+  professional: String!
   title: String!
   uuid: String!
 }
