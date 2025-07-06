@@ -14,7 +14,7 @@ import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
-import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
+import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
@@ -24,7 +24,7 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 export class ProgramsResolver {
   constructor(
     private readonly pps: ProgramsPersistenceService,
-    private readonly pms: ProgramManagementService,
+    private readonly pms: ProgramManagerService,
     private readonly aps: AssignProgramService,
   ) {}
 

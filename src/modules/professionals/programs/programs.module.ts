@@ -13,14 +13,14 @@ import { Program, ProgramSchema } from 'src/modules/professionals/programs/adapt
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 import { ProgramPlanManagementService } from 'src/modules/professionals/programs/application/program-plan-management.service';
-import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
+import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 
 const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
 const services = [
   ProgramsPersistenceService,
-  ProgramManagementService,
+  ProgramManagerService,
   PlansPersistenceService,
   NutritionalMealsPersistenceService,
   AssignProgramService,
@@ -38,6 +38,6 @@ const services = [
     PatientPlansModule,
   ],
   providers: [...resolvers, ...services],
-  exports: [ProgramManagementService, AssignProgramService],
+  exports: [ProgramManagerService, AssignProgramService],
 })
 export class ProgramsModule {}

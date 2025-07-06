@@ -4,12 +4,12 @@ import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adap
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { ProgramManagementService } from 'src/modules/professionals/programs/application/program-management.service';
+import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { Meal } from 'src/shared/schemas/meal-plan';
 
 @Injectable()
 export class ProgramPlanManagementService {
-  constructor(private readonly pms: ProgramManagementService, private readonly pps: PlansPersistenceService) {}
+  constructor(private readonly pms: ProgramManagerService, private readonly pps: PlansPersistenceService) {}
 
   async addProgramPlan(
     { professional, program, planBody }: AddProgramPlanDto,

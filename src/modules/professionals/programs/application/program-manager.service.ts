@@ -12,7 +12,7 @@ import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { ProgramTagsManagerService } from 'src/modules/professionals/program-tags/application/program-tags-manager.service';
 
 @Injectable()
-export class ProgramManagementService {
+export class ProgramManagerService {
   constructor(
     private ptms: ProgramTagsManagerService,
     private pps: ProgramsPersistenceService,
