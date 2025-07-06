@@ -661,7 +661,6 @@ input ManageProgramTagDto {
 }
 
 type Meal {
-  _id: ID!
   cookingInstructions: String!
   createdAt: DateTime!
   image: String
@@ -889,7 +888,6 @@ input PatientQuestionaryGroupWithAnswersInput {
 }
 
 type Plan {
-  _id: ID!
   createdAt: DateTime!
   day: Float!
   isDeleted: Boolean!

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IngredientType } from 'src/shared/enums/project';
 import { Ingredient, IngredientSchema } from 'src/shared/schemas/ingredient';
@@ -71,9 +71,6 @@ export const IngredientDetailSchema = SchemaFactory.createForClass(IngredientDet
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class Meal extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field({ nullable: true })
   @Prop({ type: Number, required: false })
   position: number;

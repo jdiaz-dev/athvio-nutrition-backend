@@ -44,7 +44,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     const programRes = await this.initializeQuery(this.getProgram.name).aggregate([
       {
         $match: {
-          ...(program && professional && { _id: new Types.ObjectId(program), professional }),
+          ...(program && professional && { uuid: program, professional: new Types.ObjectId(professional) }),
           ...(name && source && { name, source }),
           isDeleted: false,
         },
@@ -90,7 +90,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     const programs = await this.initializeQuery(this.getPrograms.name).aggregate([
       {
         $match: {
-          professional,
+          professional: new Types.ObjectId(professional),
           isDeleted: false,
         },
       },

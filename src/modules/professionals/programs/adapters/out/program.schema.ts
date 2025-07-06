@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema, Types } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
@@ -20,9 +20,6 @@ const PlanDetailSchema = SchemaFactory.createForClass(PlanDetail);
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class Plan extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field()
   @Prop({ type: String, required: false, default: '' })
   title!: string;
@@ -57,8 +54,8 @@ export class Program extends BaseSchema {
   _id!: string;
 
   @Field(() => String)
-  @Prop({ type: String, required: true })
-  professional!: string;
+  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  professional!: string | MongooseSchema.Types.ObjectId | Types.ObjectId;
 
   @Field()
   @Prop({ type: String, required: true })

@@ -12,7 +12,6 @@ import {
 import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
@@ -23,7 +22,6 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class ProgramsResolver {
   constructor(
-    private readonly pps: ProgramsPersistenceService,
     private readonly pms: ProgramManagerService,
     private readonly aps: AssignProgramService,
   ) {}
@@ -47,7 +45,7 @@ export class ProgramsResolver {
     @Args('input') dto: GetProgramsDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<GetProgramsResponse> {
-    const program = await this.pps.getPrograms(dto, selectors);
+    const program = await this.pms.getPrograms(dto, selectors);
     return program;
   }
 
