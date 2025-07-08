@@ -52,7 +52,6 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
       { ...rest },
       { new: true },
     );
-
     if (patientGroup == null) throw new BadRequestException(ErrorPatientGroupEnum.CLIENT_GROUP_NOT_FOUND);
     return patientGroupRes;
   }
@@ -60,7 +59,7 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
   async deletePatientGroup({ professional, patientGroup }: DeletePatientGroupDto): Promise<PatientGroup> {
     const patientGroupRes = await this.initializeQuery(this.deletePatientGroup.name).findOneAndUpdate(
       {
-        _id: patientGroup,
+        uuid: patientGroup,
         professional,
         isDeleted: false,
       },

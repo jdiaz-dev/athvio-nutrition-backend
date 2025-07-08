@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
 import {
@@ -44,7 +44,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     const programRes = await this.initializeQuery(this.getProgram.name).aggregate([
       {
         $match: {
-          ...(program && professional && { uuid: program, professional: new Types.ObjectId(professional) }),
+          ...(program && professional && { uuid: program, professional }),
           ...(name && source && { name, source }),
           isDeleted: false,
         },
@@ -59,7 +59,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
                     input: '$plans',
                     as: 'plan',
                     cond: {
-                      $and: [{ $eq: ['$$plan.isDeleted', false] }, plan ? { $eq: ['$$plan._id', new Types.ObjectId(plan)] } : {}],
+                      $and: [{ $eq: ['$$plan.isDeleted', false] }, plan ? { $eq: ['$$plan.uuid', plan] } : {}],
                     },
                   },
                 },
@@ -90,7 +90,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     const programs = await this.initializeQuery(this.getPrograms.name).aggregate([
       {
         $match: {
-          professional: new Types.ObjectId(professional),
+          professional,
           isDeleted: false,
         },
       },
@@ -125,7 +125,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
                 $expr: {
                   $in: [
                     {
-                      $toString: '$_id',
+                      $toString: '$uuid',
                     },
                     '$$letProgramTags',
                   ],
@@ -176,7 +176,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
   }
   async updateProgram({ professional, program, ...rest }: UpdateProgramDto): Promise<Program | null> {
     const programRes = await this.initializeQuery(this.updateProgram.name).findOneAndUpdate(
-      { _id: program, professional, isDeleted: false },
+      { uuid: program, professional, isDeleted: false },
       { ...rest },
       { new: true, populate: 'programTags' },
     );
@@ -191,7 +191,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
         : { $pull: { programTags: rest.programTag } };
 
     const programRes = await this.initializeQuery(this.updateProgramTag.name).findOneAndUpdate(
-      { _id: program, professional, isDeleted: false },
+      { uuid: program, professional, isDeleted: false },
       _action,
       {
         new: true,
@@ -203,7 +203,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
   }
   async updateProgramPatients(program: string, professional: string, patients: string[]): Promise<Program | null> {
     const programRes = await this.initializeQuery(this.updateProgramPatients.name).findOneAndUpdate(
-      { _id: program, professional, isDeleted: false },
+      { uuid: program, professional, isDeleted: false },
       { $push: { patients } },
       {
         new: true,
@@ -218,7 +218,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
     selectors;
     const programRes = await this.initializeQuery(this.deleteProgram.name).findOneAndUpdate(
       {
-        _id: rest.program,
+        uuid: rest.program,
         professional,
         isDeleted: false,
       },

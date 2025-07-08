@@ -82,14 +82,14 @@ export class ProfessionalOnboardingManagerService {
       source: EnumSources.SYSTEM,
       language: detectedLanguage,
     });
-    const { _id } = await this.pms.createProgram({
+    const { uuid } = await this.pms.createProgram({
       professional,
       name,
       description,
       plans: plans.map(({ _id, createdAt, updatedAt, ...rest }) => ({ ...rest })),
       source: EnumSources.PROFESSIONAL,
     });
-    return _id;
+    return uuid;
   }
   private async createDefaultPatient(professional: string, dto: SignUpProfessionalDto, programId: string): Promise<void> {
     const { _id: patient } = await this.supms.onboardingForWeb(

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { Meal, MealSchema } from 'src/shared/schemas/meal-plan';
 import { PlanState } from 'src/shared/enums/project';
@@ -21,9 +21,6 @@ const CommenterSchema = SchemaFactory.createForClass(Commenter);
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class Comment extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field()
   @Prop({ type: CommenterSchema, required: true })
   commenter!: Commenter;
@@ -41,9 +38,6 @@ const CommentSchema = SchemaFactory.createForClass(Comment);
 @ObjectType()
 @Schema({ _id: true, timestamps: true, collection: 'PatientPlans' })
 export class PatientPlan extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field()
   @Prop({ type: String, required: true })
   patient!: string;

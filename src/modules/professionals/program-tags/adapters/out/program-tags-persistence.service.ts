@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { BadRequestException } from '@nestjs/common';
 import { ErrorProgramTagEnum } from 'src/shared/enums/messages-response';
 import { ProgramTag, ProgramTagDocument } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
@@ -31,8 +31,8 @@ export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTa
   }
   async getProgramTag(professional: string, programTag: string): Promise<ProgramTag> {
     const programTagRes = await this.initializeQuery(this.getProgramTag.name).findOne({
+      uuid: programTag,
       professional,
-      _id: programTag,
       isDeleted: false,
     });
     if (!programTagRes) throw new BadRequestException(ErrorProgramTagEnum.PROGRAM_TAG_NOT_FOUND);
@@ -59,7 +59,7 @@ export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTa
     const programTagRes = await this.initializeQuery(this.deleteProgramTag.name).findOneAndUpdate(
       {
         uuid: dto.programTag,
-        professional: new Types.ObjectId(dto.professional),
+        professional: dto.professional,
         isDeleted: false,
       },
       { isDeleted: true },

@@ -104,7 +104,6 @@ input ChatCommentInput {
 }
 
 type Comment {
-  _id: ID!
   commenter: Commenter!
   createdAt: DateTime!
   isDeleted: String!
@@ -820,7 +819,7 @@ type PatientGroup {
   createdAt: DateTime!
   groupName: String!
   isDeleted: String!
-  professional: ID!
+  professional: String!
   uuid: String!
 }
 
@@ -832,7 +831,6 @@ input PatientMacrosInput {
 }
 
 type PatientPlan {
-  _id: ID!
   assignedDate: DateTime!
   commentResult: String!
   comments: [Comment!]!
@@ -939,7 +937,6 @@ type ProfessionalQuestionaryGroup {
 }
 
 type Program {
-  _id: ID!
   createdAt: DateTime!
   description: String!
   isSyncActive: Boolean!

@@ -82,7 +82,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
     const programRes = await this.initializeQuery(this.getProgramPlanFilteredByDay.name).aggregate([
       {
         $match: {
-          _id: new Types.ObjectId(program),
+          uuid: program,
           professional,
           isDeleted: false,
         },

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { Meal, MealSchema } from 'src/shared/schemas/meal-plan';
@@ -50,9 +50,6 @@ const PlanSchema = SchemaFactory.createForClass(Plan);
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Programs' })
 export class Program extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field(() => String)
   @Prop({ type: String, required: true })
   professional!: string;
@@ -67,7 +64,7 @@ export class Program extends BaseSchema {
 
   @Field(() => [ProgramTag])
   @Prop({ type: [String], required: true, default: [], ref: ProgramTag.name })
-  programTags: ProgramTag[];
+  programTags: String[];
 
   @Field(() => [Plan])
   @Prop({ type: [PlanSchema], required: false })

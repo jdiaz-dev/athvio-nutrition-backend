@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { HydratedDocument } from 'mongoose';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'PatientGroups' })
 export class PatientGroup extends BaseSchema {
-  @Field(() => ID)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  @Field()
+  @Prop({ type: String, required: true })
   professional!: string;
 
   @Field()

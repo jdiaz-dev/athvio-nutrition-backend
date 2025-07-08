@@ -24,10 +24,10 @@ export class ProgramManagerService {
   ) {}
 
   async createProgram({ plans, professional, ...rest }: Omit<CreateProgram, 'uuid'>) {
-    const { _id } = await this.pms.getProfessionalByUuid(professional.toString(), { _id: 1 });
+    const { uuid } = await this.pms.getProfessionalByUuid(professional.toString(), { _id: 1, uuid: 1 });
     const program = await this.pps.createProgram({
       uuid: randomUUID(),
-      professional: _id,
+      professional: uuid,
       ...rest,
       ...(plans && {
         plans: plans.map(({ meals, ...restPlan }) => ({
@@ -39,16 +39,14 @@ export class ProgramManagerService {
     });
     return program;
   }
-  async getProgram({ professional, ...restDto }: GetProgram, selectors?: Record<string, number>): Promise<Program> {
-    const { _id } = await this.pms.getProfessionalByUuid(professional, { _id: 1 });
-    const program = await this.pps.getProgram({ professional: _id.toString(), ...restDto }, selectors);
+  async getProgram(dto: GetProgram, selectors?: Record<string, number>): Promise<Program> {
+    const program = await this.pps.getProgram(dto, selectors);
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
     return program;
   }
   async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Record<string, number>): Promise<GetProgramsResponse> {
-    const { _id } = await this.pms.getProfessionalByUuid(professional, { _id: 1 });
-    const programs = await this.pps.getPrograms({ professional: _id.toString(), ...rest }, selectors);
+    const programs = await this.pps.getPrograms({ professional, ...rest }, selectors);
     return programs;
   }
   async manageProgramTag(dto: ManageProgramTagDto): Promise<Program> {
