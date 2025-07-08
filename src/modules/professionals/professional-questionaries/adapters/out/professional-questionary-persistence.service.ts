@@ -64,7 +64,7 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
     const isFromExternalRequest = selectors ? true : false;
     const questionaryRes = await this.initializeQuery(this.getProfessionalQuestionary.name).aggregate([
       {
-        $match: { professional: new Types.ObjectId(professional) },
+        $match: { professional },
       },
       {
         $project: {

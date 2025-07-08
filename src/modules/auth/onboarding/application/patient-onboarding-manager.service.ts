@@ -35,7 +35,7 @@ export class PatientOnboardingManagerService {
     const userEmail = await this.ums.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
-    const _proffesional = await this.prms.getProfessionalById(professional);
+    const _proffesional = await this.prms.getProfessionalByUuid(professional);
     if (!_proffesional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
     const { _id, firstname, lastname, email } = await this.cus.createUserForWebPatient(userInfo.email, {

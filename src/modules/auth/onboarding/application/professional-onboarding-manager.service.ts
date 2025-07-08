@@ -62,12 +62,11 @@ export class ProfessionalOnboardingManagerService {
       password: EncryptionService.encrypt(password),
     });
 
-    const { uuid: professionalId } = await this.prms.createProfessional({
+    const { uuid: professionalUuid } = await this.prms.createProfessional({
       user: uuid,
       ...professionalInfo,
     });
-
-    return { uuid, professional: professionalId.toString(), role };
+    return { uuid, professional: professionalUuid, role };
   }
   private async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
     await this.qcm.createQuestionary(professional);

@@ -8,4 +8,4 @@ export interface CreateProfessional {
   isTrialPeriod: boolean;
 }
 
-export type ProfessionalUser = Pick<Professional, '_id'> & { user: User };
+export type ProfessionalUser = Pick<Professional, '_id' | 'uuid'> & { user: User };

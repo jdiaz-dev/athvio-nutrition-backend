@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { AllowedGender, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
@@ -13,8 +13,8 @@ export class Patient extends BaseSchema {
   _id!: string;
 
   @Field(() => User)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
-  user!: User | MongooseSchema.Types.ObjectId | string;
+  @Prop({ type: String, required: false, ref: User.name })
+  user!: string;
 
   @Field(() => String, { nullable: true })
   @Prop({ type: String, required: false })
