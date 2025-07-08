@@ -77,18 +77,18 @@ export class PatientOnboardingManagerService {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
-    const { _id, role } = await this.cus.createUserForMobilePatient(email, {
+    const { uuid, role } = await this.cus.createUserForMobilePatient(email, {
       password: EncryptionService.encrypt(password),
     });
 
     await this.pms.createPatient({
-      user: _id,
+      user: uuid,
       isActive: true,
       origin: OriginPatientEnum.MOBILE,
       state: PatientState.ACTIVE,
     });
 
-    return { _id, role };
+    return { uuid, role };
   }
   private async sendMail(
     proffesionalUser: string,

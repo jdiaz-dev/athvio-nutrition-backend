@@ -12,7 +12,7 @@ export class SignUpProfessionalService {
   ) {}
 
   async signUpProfessional(dto: SignUpProfessionalDto): Promise<UserLoged> {
-    const { _id, role } = await this.poms.onboardProfessional(dto);
-    return this.as.generateToken({ _id, role });
+    const { uuid, role } = await this.poms.onboardProfessional(dto);
+    return this.as.generateToken({ uuid, role });
   }
 }

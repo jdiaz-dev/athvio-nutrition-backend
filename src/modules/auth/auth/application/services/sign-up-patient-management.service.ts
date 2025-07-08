@@ -27,8 +27,8 @@ export class SignUpPatientManagamentService {
     return this.patientOnboardingManagerService.onboardingForWeb(dto);
   }
   async signUpPatientFromMobile(dto: SignUpPatientFromMobileDto): Promise<UserLoged> {
-    const { _id, role } = await this.patientOnboardingManagerService.onboardingForMobile(dto);
-    return this.as.generateToken({ _id, role });
+    const { uuid, role } = await this.patientOnboardingManagerService.onboardingForMobile(dto);
+    return this.as.generateToken({ uuid, role });
   }
   async activatePatient({ user, password }: ActivatePatientDto): Promise<Patient> {
     const { _id, role, isActive } = await this.ums.getUserById(user);

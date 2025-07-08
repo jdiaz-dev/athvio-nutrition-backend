@@ -31,6 +31,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
       {
         $project: {
           _id: 1,
+          uuid:1,
           role: 1,
           password: 1,
         },

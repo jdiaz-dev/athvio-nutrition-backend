@@ -35,7 +35,7 @@ export class ProfessionalsPersistenceService extends MongodbQueryBuilder<Profess
         $lookup: {
           from: 'Users',
           localField: 'user',
-          foreignField: '_id',
+          foreignField: 'uuid',
           as: 'user',
         },
       },

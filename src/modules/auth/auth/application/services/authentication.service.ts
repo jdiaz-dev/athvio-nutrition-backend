@@ -22,34 +22,34 @@ export class AuthenticationService implements IValidateUserUseCase {
     const user = await this.ums.getUserByEmail(email);
     if (!user) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
 
-    const { _id, role, password } = user;
+    const { uuid, role, password } = user;
     const validPassword = await bcryptjs.compare(_password, password);
 
     if (!validPassword) throw new UnauthorizedException(ErrorUsersEnum.BAD_CREDENTIALS);
 
     if (role === EnumRoles.PROFESSIONAL) {
-      const professional = await this.pms.getProfessionalByUser(_id);
+      const professional = await this.pms.getProfessionalByUser(uuid);
       if (!professional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND);
     } else if (role === EnumRoles.PATIENT) {
-      const patient = await this.gps.getPatientByUser(_id);
+      const patient = await this.gps.getPatientByUser(uuid);
       if (!patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
     }
 
-    return { _id, role };
+    return { uuid, role };
   }
   async generateToken(userValidated: UserValidated): Promise<UserLoged> {
     const res: UserLoged = {
       uuid: await this.getUuidOfRole(userValidated),
       role: userValidated.role,
-      token: this.jwtService.sign({ user: (await this.ums.getUserById(userValidated._id)).uuid }),
+      token: this.jwtService.sign({ user: (await this.ums.getUserByUuid(userValidated.uuid)).uuid }),
     };
     return res;
   }
-  private async getUuidOfRole({ _id: userDatabaseId, role }: UserValidated) {
+  private async getUuidOfRole({ uuid, role }: UserValidated) {
     if (role === EnumRoles.PROFESSIONAL) {
-      return (await this.pms.getProfessionalByUser(userDatabaseId)).uuid;
+      return (await this.pms.getProfessionalByUser(uuid)).uuid;
     } else {
-      return (await this.gps.getPatientByUser(userDatabaseId)).uuid;
+      return (await this.gps.getPatientByUser(uuid)).uuid;
     }
   }
 }

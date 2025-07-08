@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Schema as MongooseSchema, HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { UnitPreference } from 'src/shared/enums/project';
@@ -37,7 +37,7 @@ export const OrganizationSchema = SchemaFactory.createForClass(Organization);
 @Schema({ timestamps: true, collection: 'Professionals' })
 export class Professional extends BaseSchema {
   @Field(() => User || String)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: false, ref: User.name })
+  @Prop({ type: String, required: false, ref: User.name })
   user!: User | string;
 
   @Field()

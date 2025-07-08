@@ -38,14 +38,9 @@ export class ProfessionalOnboardingManagerService {
   ) {}
 
   async onboardProfessional(dto: SignUpProfessionalDto): Promise<UserValidated> {
-    const { _id, professional, role } = await this.createProfessionalAndUser(dto);
+    const { uuid, professional, role } = await this.createProfessionalAndUser(dto);
     this.createDefaultData(professional, dto).catch((error) => console.log(error));
-    return { _id, role };
-  }
-  private async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
-    await this.qcm.createQuestionary(professional);
-    const programId = await this.createDefaultProgram(professional, dto.detectedLanguage);
-    await this.createDefaultPatient(professional, dto, programId);
+    return { uuid, role };
   }
   private async createProfessionalAndUser({
     professionalInfo,
@@ -60,19 +55,24 @@ export class ProfessionalOnboardingManagerService {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
-    const { _id: userDatabaseId, role } = await this.cus.createUserForProfessional(email, {
+    const { uuid, role } = await this.cus.createUserForProfessional(email, {
       ...userDto,
       firstname,
       lastname,
       password: EncryptionService.encrypt(password),
     });
 
-    const { _id: professionalId } = await this.prms.createProfessional({
-      user: userDatabaseId,
+    const { uuid: professionalId } = await this.prms.createProfessional({
+      user: uuid,
       ...professionalInfo,
     });
 
-    return { _id: userDatabaseId, professional: professionalId.toString(), role };
+    return { uuid, professional: professionalId.toString(), role };
+  }
+  private async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
+    await this.qcm.createQuestionary(professional);
+    const programId = await this.createDefaultProgram(professional, dto.detectedLanguage);
+    await this.createDefaultPatient(professional, dto, programId);
   }
   private async createDefaultProgram(professional: string, detectedLanguage: SupportedLanguages): Promise<string> {
     const { name, description, plans } = await this.pms.getProgram({
