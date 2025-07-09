@@ -7,7 +7,7 @@ import { ProgramTagsModule } from 'src/modules/professionals/program-tags/progra
 import { MealsResolver } from 'src/modules/professionals/programs/adapters/in/meals.resolver';
 import { PlansResolver } from 'src/modules/professionals/programs/adapters/in/plans.resolver';
 import { ProgramsResolver } from 'src/modules/professionals/programs/adapters/in/programs.resolver';
-import { NutritionalMealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
+import { MealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { Program, ProgramSchema } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
@@ -16,15 +16,17 @@ import { ProgramPlanManagementService } from 'src/modules/professionals/programs
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
+import { PlanMealsManagerService } from 'src/modules/professionals/programs/application/plan-meals-manager.service';
 
 const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
 const services = [
   ProgramsPersistenceService,
   ProgramManagerService,
   PlansPersistenceService,
-  NutritionalMealsPersistenceService,
+  MealsPersistenceService,
   AssignProgramService,
   ProgramPlanManagementService,
+  PlanMealsManagerService,
 ];
 
 @Module({

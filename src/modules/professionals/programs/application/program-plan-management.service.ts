@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/add-program-plan.dto';
 import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/duplicate-program-plan.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
@@ -9,7 +10,10 @@ import { Meal } from 'src/shared/schemas/meal-plan';
 
 @Injectable()
 export class ProgramPlanManagementService {
-  constructor(private readonly pms: ProgramManagerService, private readonly pps: PlansPersistenceService) {}
+  constructor(
+    private readonly pms: ProgramManagerService,
+    private readonly pps: PlansPersistenceService,
+  ) {}
 
   async addProgramPlan(
     { professional, program, planBody }: AddProgramPlanDto,
@@ -21,8 +25,9 @@ export class ProgramPlanManagementService {
         professional,
         program,
         planBody: {
+          uuid: randomUUID(),
           ...rest,
-          meals: meals as Meal[],
+          meals: meals.map((item) => ({ uuid: randomUUID(), ...item })) as Meal[],
         },
       },
       selectors,
@@ -45,6 +50,7 @@ export class ProgramPlanManagementService {
         professional,
         program,
         planBody: {
+          uuid: randomUUID(),
           day,
           week,
           title: baseProgramPlan.title,

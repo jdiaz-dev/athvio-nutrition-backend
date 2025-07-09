@@ -225,7 +225,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
       {
         isDeleted: true,
       },
-      { new: true, populate: 'programTags' },
+      { new: true },
     );
 
     return programRes;

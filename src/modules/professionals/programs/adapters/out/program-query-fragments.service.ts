@@ -17,6 +17,7 @@ export class ProgramQueryFragmentsService {
         as: 'plan',
         in: {
           _id: '$$plan._id',
+          uuid: '$$plan.uuid',
           title: '$$plan.title',
           week: '$$plan.week',
           day: '$$plan.day',
