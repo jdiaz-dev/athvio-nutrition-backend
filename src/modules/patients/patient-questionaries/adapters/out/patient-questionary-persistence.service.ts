@@ -45,6 +45,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
               as: 'group',
               in: {
                 _id: '$$group._id',
+                uuid: '$$group.uuid',
                 title: '$$group.title',
                 questionaryDetails: {
                   $filter: {
@@ -73,11 +74,11 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     for (let x = 0; x < questionaryGroups.length; x++) {
       const { questionaryGroup, questionaryDetails } = questionaryGroups[x];
 
-      arrayFilters.push({ [`group${x}._id`]: new Types.ObjectId(questionaryGroup) });
+      arrayFilters.push({ [`group${x}.uuid`]: questionaryGroup });
 
       for (let y = 0; y < questionaryDetails.length; y++) {
         const { questionaryDetail, answer, ...rest } = questionaryDetails[y];
-        arrayFilters.push({ [`detail${x}with${y}._id`]: new Types.ObjectId(questionaryDetail) });
+        arrayFilters.push({ [`detail${x}with${y}.uuid`]: questionaryDetail });
         updateSubDocuments.push({
           [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].answer`]: answer,
           ...((rest as Record<string, string> | undefined).additionalNotes && {
@@ -90,7 +91,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     }
 
     const questionaryRes = await this.initializeQuery(this.updateAnwerAndAdditionalNotes.name).findOneAndUpdate(
-      { _id: questionary, professional, patient },
+      { uuid: questionary, professional, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
         arrayFilters: [...arrayFilters],
@@ -103,6 +104,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
               as: 'group',
               in: {
                 _id: '$$group._id',
+                uuid: '$$group.uuid',
                 title: '$$group.title',
                 questionaryDetails: {
                   $filter: {

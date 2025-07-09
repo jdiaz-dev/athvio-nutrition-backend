@@ -35,20 +35,20 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     return patient.toJSON();
   }
   async getPatientPopulatedWithUser(
-    { _id, professional }: { _id: string; professional?: string },
+    { uuid, professional }: { uuid: string; professional?: string },
     selectors?: Record<string, number>,
   ): Promise<PatientPopulatedWithUser> {
     const isFromExternalRequest = selectors ? true : false;
 
     const patientRes = await this.initializeQuery(this.getPatientPopulatedWithUser.name).aggregate([
       {
-        $match: { _id: new Types.ObjectId(_id), ...(professional && { professional }) },
+        $match: { uuid, ...(professional && { professional }) },
       },
       {
         $lookup: {
           from: 'Users',
           localField: 'user',
-          foreignField: '_id',
+          foreignField: 'uuid',
           as: 'user',
         },
       },

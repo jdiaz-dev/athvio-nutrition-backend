@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 import { UpdatePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/update-meal.dto';
@@ -24,7 +24,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
 
     const patientPlanRes = await this.initializeQuery(this.addMealToPlan.name).findOneAndUpdate(
-      { _id: patientPlan, patient, isDeleted: false },
+      { uuid: patientPlan, patient, isDeleted: false },
       { $push: { meals: { $each: meals } } },
       {
         projection: {
@@ -51,12 +51,12 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
     }));
 
     const arrayFilters = meals.map((body, index) => ({
-      [`meal${index}._id`]: new Types.ObjectId(body.meal),
+      [`meal${index}.uuid`]: body.meal,
       [`meal${index}.isDeleted`]: false,
     }));
 
     const programRes = await this.initializeQuery(this.updatePlanMeal.name).findOneAndUpdate(
-      { _id: patientPlan, patient },
+      { uuid: patientPlan, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
         arrayFilters: [...arrayFilters],
@@ -82,11 +82,11 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
       [`meals.$[meal${index}].isDeleted`]: true,
     }));
     const arrayFilters = meals.map((item, index) => ({
-      [`meal${index}._id`]: new Types.ObjectId(item),
+      [`meal${index}.uuid`]: item,
       [`meal${index}.isDeleted`]: false,
     }));
     const programRes = await this.initializeQuery(this.deletePlanMeal.name).findOneAndUpdate(
-      { _id: patientPlan, patient },
+      { uuid: patientPlan, patient },
       { $set: Object.assign({}, ...deleteSubDocuments) },
       {
         arrayFilters: [...arrayFilters],

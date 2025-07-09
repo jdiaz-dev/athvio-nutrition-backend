@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { GetPatientPlansForMobileDto } from 'src/modules/patients/patient-plans/adapters/in/mobile/dtos/get-patient-plans-for-mobile.dto';
 import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/delete-patient-plan.dto';
@@ -44,7 +44,7 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
     const patientPlanRes = await this.initializeQuery(this.getPatientPlan.name).aggregate([
       {
         $match: {
-          _id: new Types.ObjectId(patientPlan),
+          uuid: patientPlan,
           patient: patient,
           isDeleted: false,
         },
@@ -127,7 +127,7 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
   ): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
     const patientPlanRes = await this.initializeQuery(this.updatePatientPlan.name).findOneAndUpdate(
-      { _id: patientPlan, patient, isDeleted: false },
+      { uuid: patientPlan, patient, isDeleted: false },
       { ...rest },
       {
         new: true,
@@ -145,7 +145,7 @@ export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientP
   async deletePatientPlan({ patientPlan, patient }: DeletePatientPlanDto, selectors: string[]): Promise<PatientPlan> {
     const patientPlanRes = await this.initializeQuery(this.deletePatientPlan.name).findOneAndUpdate(
       {
-        _id: patientPlan,
+        uuid: patientPlan,
         patient,
         isDeleted: false,
       },

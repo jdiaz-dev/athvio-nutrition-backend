@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
+import { Injectable } from '@nestjs/common';
 import { CreatePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/create-patient-plan.dto';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { PatientPlanPartial } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
@@ -17,7 +17,12 @@ export class CreatePatientPlanManagerService {
   async createPatientPlan({ patient, professional, meals, ...rest }: CreatePatientPlanDto): Promise<PatientPlan> {
     await this.gps.getPatient(patient, professional);
 
-    const patientPlan = await this.cpps.createPatientPlan({ patient, ...rest, meals: meals as Meal[] });
+    const patientPlan = await this.cpps.createPatientPlan({
+      uuid: randomUUID(),
+      patient,
+      ...rest,
+      meals: meals.map((meal) => ({ uuid: randomUUID(), ...meal })) as Meal[],
+    });
     return patientPlan;
   }
   async createManyPatientPlan(dto: PatientPlanPartial[]): Promise<PatientPlan[]> {
