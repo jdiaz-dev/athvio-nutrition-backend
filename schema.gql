@@ -1033,16 +1033,16 @@ input SignUpPatientFromMobileDto {
 }
 
 type SignUpPatientResponse {
-  _id: ID!
   birthday: DateTime
   gender: String
   groups: [PatientGroup!]!
   height: Float
   location: String
   phone: String
-  professional: ID!
+  professional: String!
   timezone: String
   userInfo: CreateUserInfoResponse!
+  uuid: String!
   weight: Float
 }
 

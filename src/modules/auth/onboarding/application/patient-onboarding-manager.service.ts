@@ -35,10 +35,10 @@ export class PatientOnboardingManagerService {
     const userEmail = await this.ums.getUserByEmail(userInfo.email);
     if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
 
-    const _proffesional = await this.prms.getProfessionalByUuid(professional);
+    const _proffesional = await this.prms.getProfessionalByUuid(professional, { 'uuid': 1, 'user.uuid': 1 });
     if (!_proffesional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
-    const { _id, firstname, lastname, email } = await this.cus.createUserForWebPatient(userInfo.email, {
+    const { uuid, firstname, lastname, email } = await this.cus.createUserForWebPatient(userInfo.email, {
       firstname: userInfo.firstname,
       lastname: userInfo.lastname,
       ...additionalInfo,
@@ -46,7 +46,7 @@ export class PatientOnboardingManagerService {
 
     const patient = await this.pms.createPatient({
       professional,
-      user: _id,
+      user: uuid,
       ...additionalInfo,
       origin: OriginPatientEnum.WEB,
       isActive: true,
@@ -54,15 +54,15 @@ export class PatientOnboardingManagerService {
 
     const { questionaryGroups } = await this.qcm.getProfessionalQuestionary(professional);
     await this.pqms.createQuestionary({
-      patient: patient._id,
-      professional: _proffesional._id,
+      patient: patient.uuid,
+      professional: _proffesional.uuid,
       questionaryGroups: questionaryGroups.map(({ _id, questionaryDetails, ...restGroup }) => ({
         ...restGroup,
         questionaryDetails: questionaryDetails.map(({ _id, ...rest }) => ({ ...rest })),
       })),
     });
 
-    if (!isPatientDemo) await this.sendMail(_proffesional.user._id.toString(), _id, email, firstname);
+    if (!isPatientDemo) await this.sendMail(_proffesional.user.uuid, uuid, email, firstname);
     const _patient = {
       ...patient,
       userInfo: {
@@ -96,7 +96,7 @@ export class PatientOnboardingManagerService {
     patientEmail: string,
     patientFirstname: string,
   ): Promise<void> {
-    const { firstname: professionalFirstname, lastname: professionalLastname } = await this.ums.getUserById(proffesionalUser);
+    const { firstname: professionalFirstname, lastname: professionalLastname } = await this.ums.getUserByUuid(proffesionalUser);
     const origin = this.configService.get<string[]>('whiteListOrigins')[0];
     const url = `${origin}/activate/${patientUserId}`;
     const mailTitle = `Invitation from ${professionalFirstname} ${professionalLastname}`;

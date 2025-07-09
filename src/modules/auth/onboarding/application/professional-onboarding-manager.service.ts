@@ -92,7 +92,7 @@ export class ProfessionalOnboardingManagerService {
     return uuid;
   }
   private async createDefaultPatient(professional: string, dto: SignUpProfessionalDto, programId: string): Promise<void> {
-    const { _id: patient } = await this.supms.onboardingForWeb(
+    const { uuid: patient } = await this.supms.onboardingForWeb(
       {
         professional,
         userInfo: {

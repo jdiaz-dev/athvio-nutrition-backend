@@ -10,8 +10,8 @@ import { ProgramsModule } from 'src/modules/professionals/programs/programs.modu
   imports: [
     ProfessionalsModule,
     ProfessionalQuestionariesModule,
-    ProgramsModule,
     ProgramTagsModule,
+    ProgramsModule,
     PatientGroupsModule,
     NutritionalMealsModule,
   ],

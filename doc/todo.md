@@ -49,5 +49,6 @@
 - fix: validate schema of loaded environment variables, not run if it is not loaded
 - fix: change questionary by internal questionary in model of mongodb
 - fix: move creating of uuid of patient-group, program-tags to one application class
-
+- fix: validate user inside the token with professional send in body (void unwanted relationship between professionals and records from other domains that doesn't belong to it)
+- fix: fix population of program tags in program schema 
 ## Videos

@@ -1,4 +1,4 @@
-import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { IsString, IsEmail, IsNumber, IsDate, IsEnum, IsOptional, ValidateNested, IsUUID } from 'class-validator';
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
@@ -123,10 +123,10 @@ export class CreateUserInfoResponse {
 
 @ObjectType()
 export class SignUpPatientResponse {
-  @Field(() => ID)
-  _id!: string;
+  @Field()
+  uuid!: string;
 
-  @Field(() => ID)
+  @Field()
   professional: string;
 
   @Field(() => [PatientGroup])

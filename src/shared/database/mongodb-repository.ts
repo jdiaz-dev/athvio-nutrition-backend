@@ -27,7 +27,6 @@ export class MongodbRepository<
   constructor(
     protected readonly model: Model<TRawDocType>,
     protected readonly logger: AthvioLoggerService,
-    protected readonly modelName: string,
     protected readonly callerMethodName: string,
     private readonly handleError?: (error: unknown, callerMethodName: string, mongodbOperation: string) => never,
   ) {}
@@ -68,7 +67,7 @@ export class MongodbRepository<
     options?: QueryOptions<TRawDocType> | null,
   ): Promise<ResultDoc | null> {
     try {
-      const result = await this.model.findOneAndUpdate(filter, update, options).exec();
+      const result = await this.model.findOneAndUpdate(filter, update, options);
       return result as ResultDoc;
     } catch (error) {
       this.handleError(error, this.callerMethodName, this.findOneAndUpdate.name);

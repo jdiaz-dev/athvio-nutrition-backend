@@ -81,7 +81,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     return patientRes;
   }
   async getManyPatientsByIds(patients: string[]): Promise<Patient[]> {
-    const patientsRes = await this.initializeQuery(this.getManyPatientsByIds.name).find({ _id: { $in: patients } }, { _id: 1 });
+    const patientsRes = await this.initializeQuery(this.getManyPatientsByIds.name).find({ uuid: { $in: patients } }, { uuid: 1 });
 
     return patientsRes;
   }

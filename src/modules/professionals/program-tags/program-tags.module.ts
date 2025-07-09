@@ -14,6 +14,6 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
     forwardRef(() => ProfessionalsModule),
   ],
   providers: [ProgramTagsResolver, ...[ProgramTagsPersistenceService, ProgramTagsManagerService]],
-  exports: [ProgramTagsManagerService],
+  exports: [MongooseModule, ProgramTagsManagerService],
 })
 export class ProgramTagsModule {}
