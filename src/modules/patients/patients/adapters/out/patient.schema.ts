@@ -21,7 +21,7 @@ export class Patient extends BaseSchema {
   professional!: string;
 
   @Field(() => [PatientGroup])
-  @Prop({ type: [String], required: true, default: [], ref: PatientGroup.name, index: true })
+  @Prop({ type: [String], required: true, default: [], ref: PatientGroup.name })
   groups!: [string];
 
   @Field({ nullable: true })

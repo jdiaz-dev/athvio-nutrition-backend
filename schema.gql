@@ -858,7 +858,6 @@ input PatientQuestionaryAnswersInput {
 }
 
 type PatientQuestionaryDetail {
-  _id: ID!
   additionalNotes: String!
   answer: String!
   associatedQuestion: String!
@@ -866,13 +865,14 @@ type PatientQuestionaryDetail {
   isDeleted: Boolean!
   isEnabled: Boolean!
   options: [String!]!
+  uuid: String!
 }
 
 type PatientQuestionaryGroup {
-  _id: ID!
   description: String
   questionaryDetails: [PatientQuestionaryDetail!]!
   title: String!
+  uuid: String!
 }
 
 input PatientQuestionaryGroupInput {
@@ -913,27 +913,26 @@ type Professional {
 }
 
 type ProfessionalQuestionary {
-  _id: ID!
   createdAt: DateTime!
-  professional: ID!
+  professional: String!
   questionaryGroups: [ProfessionalQuestionaryGroup!]!
   uuid: String!
 }
 
 type ProfessionalQuestionaryDetail {
-  _id: ID!
   associatedQuestion: String!
   fieldName: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
   options: [String!]!
+  uuid: String!
 }
 
 type ProfessionalQuestionaryGroup {
-  _id: ID!
   description: String
   questionaryDetails: [ProfessionalQuestionaryDetail!]!
   title: String!
+  uuid: String!
 }
 
 type Program {
@@ -989,19 +988,19 @@ type Query {
 }
 
 type QuestionaryDetailBase {
-  _id: ID!
   associatedQuestion: String!
   fieldName: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
   options: [String!]!
+  uuid: String!
 }
 
 type QuestionaryGroupBase {
-  _id: ID!
   description: String
   questionaryDetails: [QuestionaryDetailBase!]!
   title: String!
+  uuid: String!
 }
 
 input SaveChatCommentDto {

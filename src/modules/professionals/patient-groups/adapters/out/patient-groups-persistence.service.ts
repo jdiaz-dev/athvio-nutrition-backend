@@ -30,7 +30,7 @@ export class PatientGroupsPersistenceService extends MongodbQueryBuilder<Patient
   }
   async getPatientGroup(professionalId: string, groupId: string): Promise<PatientGroup> {
     const patientGroup = await this.initializeQuery(this.getPatientGroup.name).findOne({
-      _id: groupId,
+      uuid: groupId,
       professional: professionalId,
       isDeleted: false,
     });

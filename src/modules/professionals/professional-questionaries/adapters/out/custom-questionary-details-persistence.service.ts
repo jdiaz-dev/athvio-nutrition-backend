@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ProfessionalQuestionary, ProfessionalQuestionaryDocument } from './professional-questionary.schema';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   AddQuestionaryDetail,
@@ -27,7 +27,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
 
     const questionaryRes = await this.initializeQuery(this.addQuestionaryDetail.name).findOneAndUpdate(
-      { _id: questionary, professional },
+      { uuid: questionary, professional },
       {
         $push: {
           'questionaryGroups.$[questionaryGroup].questionaryDetails': {
@@ -36,9 +36,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
         },
       },
       {
-        arrayFilters: [
-          { 'questionaryGroup._id': new Types.ObjectId(questionaryGroup), 'questionaryGroup.title': CustomFieldsGroupName },
-        ],
+        arrayFilters: [{ 'questionaryGroup.uuid': questionaryGroup, 'questionaryGroup.title': CustomFieldsGroupName }],
         new: true,
         projection: {
           ...restFields,
@@ -48,6 +46,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
               as: 'group',
               in: {
                 _id: '$$group._id',
+                uuid: '$$group.uuid',
                 title: '$$group.title',
                 questionaryDetails: {
                   $filter: {
@@ -78,18 +77,15 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
     }));
 
     const arrayFilters = questionaryDetailBodies.map((body, index) => ({
-      [`detail${index}._id`]: new Types.ObjectId(body.questionaryDetail),
+      [`detail${index}.uuid`]: body.questionaryDetail,
       [`detail${index}.isDeleted`]: false,
     }));
 
     const questionaryRes = await this.initializeQuery(this.updateQuestionaryDetail.name).findOneAndUpdate(
-      { _id: questionary, professional },
+      { uuid: questionary, professional },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
-        arrayFilters: [
-          { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': CustomFieldsGroupName },
-          ...arrayFilters,
-        ],
+        arrayFilters: [{ 'group.uuid': questionaryGroup, 'group.title': CustomFieldsGroupName }, ...arrayFilters],
         new: true,
         projection: {
           ...restFields,
@@ -99,6 +95,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
               as: 'group',
               in: {
                 _id: '$$group._id',
+                uuid: '$$group.uuid',
                 title: '$$group.title',
                 questionaryDetails: {
                   $filter: {
@@ -126,19 +123,16 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
       [`questionaryGroups.$[group].questionaryDetails.$[detail${index}].isDeleted`]: true,
     }));
     const arrayFilters = questionaryDetails.map((item, index) => ({
-      [`detail${index}._id`]: new Types.ObjectId(item),
+      [`detail${index}.uuid`]: item,
       [`detail${index}.isDeleted`]: false,
     }));
     const questionaryRes = await this.initializeQuery(this.deleteQuestionaryDetail.name).findOneAndUpdate(
-      { _id: questionary, professional },
+      { uuid: questionary, professional },
       {
         $set: Object.assign({}, ...deleteSubDocuments),
       },
       {
-        arrayFilters: [
-          { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': CustomFieldsGroupName },
-          ...arrayFilters,
-        ],
+        arrayFilters: [{ 'group.uuid': questionaryGroup, 'group.title': CustomFieldsGroupName }, ...arrayFilters],
         new: true,
         projection: {
           ...restFields,
@@ -148,6 +142,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
               as: 'group',
               in: {
                 _id: '$$group._id',
+                uuid: '$$group.uuid',
                 title: '$$group.title',
                 questionaryDetails: {
                   $filter: {

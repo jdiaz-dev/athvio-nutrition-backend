@@ -1,12 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
 export class QuestionaryDetailBase {
-  @Field(() => ID)
   _id?: string;
+
+  @Field()
+  @Prop({ type: String, required: true })
+  uuid: string;
 
   @Field(() => String)
   @Prop({ type: String, required: true })
@@ -33,8 +36,11 @@ const QuestionaryDetailBaseSchema = SchemaFactory.createForClass(QuestionaryDeta
 @ObjectType()
 @Schema({ _id: true, timestamps: false })
 export class QuestionaryGroupBase {
-  @Field(() => ID)
   _id?: string;
+
+  @Field()
+  @Prop({ type: String, required: true })
+  uuid: string;
 
   @Field(() => String)
   @Prop({ type: String, required: true })

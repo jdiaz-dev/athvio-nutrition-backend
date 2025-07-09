@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ProfessionalQuestionary, ProfessionalQuestionaryDocument } from './professional-questionary.schema';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateQuestionary } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary';
 import { CustomFieldsGroupName } from 'src/shared/enums/project';
@@ -31,7 +31,7 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
     selectors: Record<string, number>,
   ): Promise<ProfessionalQuestionary> {
     const arrayFilters = questionaryDetails.map((detail, index) => ({
-      [`detail${index}._id`]: new Types.ObjectId(detail.questionaryDetail),
+      [`detail${index}.uuid`]: detail.questionaryDetail,
       [`detail${index}.isDeleted`]: false,
     }));
 
@@ -44,15 +44,12 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
     );
 
     const questionaryRes = await this.initializeQuery(this.enableMultipleQuestionaryDetail.name).findOneAndUpdate(
-      { _id: questionary, professional },
+      { uuid: questionary, professional },
       {
         $set: updateSubDocuments,
       },
       {
-        arrayFilters: [
-          { 'group._id': new Types.ObjectId(questionaryGroup), 'group.title': { $ne: CustomFieldsGroupName } },
-          ...arrayFilters,
-        ],
+        arrayFilters: [{ 'group.uuid': questionaryGroup, 'group.title': { $ne: CustomFieldsGroupName } }, ...arrayFilters],
         new: true,
         projection: selectors,
       },
@@ -75,6 +72,7 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
               as: 'group',
               in: {
                 _id: '$$group._id',
+                uuid: '$$group.uuid',
                 title: '$$group.title',
                 questionaryDetails: {
                   $filter: {

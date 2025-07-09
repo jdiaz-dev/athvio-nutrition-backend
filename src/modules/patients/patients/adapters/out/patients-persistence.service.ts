@@ -106,7 +106,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
         $lookup: {
           from: 'Users',
           localField: 'user',
-          foreignField: '_id',
+          foreignField: 'uuid',
           as: 'user',
         },
       },
@@ -121,12 +121,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
             {
               $match: {
                 $expr: {
-                  $in: [
-                    {
-                      $toString: '$_id',
-                    },
-                    '$$letGroups',
-                  ],
+                  $in: ['$uuid', '$$letGroups'],
                 },
               },
             },
@@ -195,11 +190,18 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     const _action = action === ManagePatientGroup.ADD ? { $push: { groups: patientGroup } } : { $pull: { groups: patientGroup } };
 
     const patientRes = await this.initializeQuery(this.updatePatientGroup.name).findOneAndUpdate(
-      { _id: patient, professional },
+      { uuid: patient, professional },
       _action,
       {
         new: true,
-        populate: 'groups',
+        populate: [
+          {
+            path: 'groups',
+            localField: 'groups',
+            foreignField: 'uuid',
+            model: 'PatientGroup',
+          },
+        ],
       },
     );
 
@@ -215,7 +217,7 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
   async managePatientState({ professional, ...dto }: ManagePatientStateDto, selectors: string[]): Promise<Patient> {
     const patientRes = await this.initializeQuery(this.managePatientState.name).findOneAndUpdate(
       {
-        _id: dto.patient,
+        uuid: dto.patient,
         professional: professional,
       },
       { state: dto.state },

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'src/shared/schemas/questionary-base.schema';
 
 @Schema({ _id: true, timestamps: false })
@@ -20,10 +20,7 @@ const ProfessionalQuestionaryGroupSchema = SchemaFactory.createForClass(Professi
 @ObjectType()
 @Schema({ timestamps: true, collection: 'ProfessionalQuestionaries' })
 export class ProfessionalQuestionary extends QuestionaryBase {
-  @Field(() => ID)
-  _id!: string;
-
-  @Field(() => ID)
+  @Field()
   @Prop({ type: String, required: true })
   professional!: string;
 

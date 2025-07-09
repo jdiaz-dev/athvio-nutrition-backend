@@ -13,8 +13,22 @@ import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response'
 export class PatientQuestionaryManagerService {
   constructor(private readonly pqps: PatientInternalQuestionaryPersistenceService) {}
 
-  async createQuestionary(patientQuestionary: Omit<CreatePatientQuestionary, 'uuid'>): Promise<PatientQuestionary> {
-    const questionaryCreated = await this.pqps.createPatientQuestionary({ uuid: randomUUID(), ...patientQuestionary });
+  async createQuestionary({
+    questionaryGroups,
+    ...restPatientQuestionary
+  }: Omit<CreatePatientQuestionary, 'uuid'>): Promise<PatientQuestionary> {
+    const questionaryCreated = await this.pqps.createPatientQuestionary({
+      uuid: randomUUID(),
+      ...restPatientQuestionary,
+      questionaryGroups: questionaryGroups.map(({ questionaryDetails, ...restGroup }) => ({
+        ...restGroup,
+        uuid: randomUUID(),
+        questionaryDetails: questionaryDetails.map((detail) => ({
+          ...detail,
+          uuid: randomUUID(),
+        })),
+      })),
+    });
     return questionaryCreated;
   }
   async getPatientQuestionary(

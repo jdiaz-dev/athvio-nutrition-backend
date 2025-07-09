@@ -5,7 +5,7 @@ import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'sr
 
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
-class PatientQuestionaryDetail extends QuestionaryDetailBase {
+export class PatientQuestionaryDetail extends QuestionaryDetailBase {
   @Field(() => String)
   @Prop({ type: String, required: false, default: '' })
   answer?: string;

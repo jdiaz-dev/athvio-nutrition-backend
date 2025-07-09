@@ -27,7 +27,14 @@ export class ProfessionalQuestionaryManager {
     const questionary: CreateQuestionary = {
       uuid: randomUUID(),
       professional,
-      questionaryGroups: globalQuestionary.questionaryGroups,
+      questionaryGroups: globalQuestionary.questionaryGroups.map(({ questionaryDetails, ...group }) => ({
+        ...group,
+        questionaryDetails: questionaryDetails.map((detail) => ({
+          ...detail,
+          uuid: randomUUID(),
+        })),
+        uuid: randomUUID(),
+      })),
     };
 
     const questionaryCreated = await this.qcps.createQuestionary(questionary);
