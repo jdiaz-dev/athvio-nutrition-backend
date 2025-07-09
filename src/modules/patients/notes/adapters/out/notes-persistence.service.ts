@@ -21,7 +21,7 @@ export class NotesPersistenceService extends MongodbQueryBuilder<NoteDocument> {
     super(noteModel, logger, Note.name);
   }
 
-  async createNote(dto: CreateNoteDto): Promise<Note> {
+  async createNote(dto: CreateNoteDto & { uuid: string }): Promise<Note> {
     try {
       const note = await this.initializeQuery(this.createNote.name).create({
         ...dto,
@@ -89,7 +89,7 @@ export class NotesPersistenceService extends MongodbQueryBuilder<NoteDocument> {
   }
   async updateNote({ professional, note, patient, ...rest }: UpdateNoteDto, selectors: Record<string, number>): Promise<Note> {
     const noteRes = await this.initializeQuery(this.updateNote.name).findOneAndUpdate(
-      { _id: note, professional, patient, isDeleted: false },
+      { uuid: note, professional, patient, isDeleted: false },
       { ...rest },
       {
         new: true,
@@ -104,7 +104,7 @@ export class NotesPersistenceService extends MongodbQueryBuilder<NoteDocument> {
   async deleteNote({ note, professional, patient }: DeleteNoteDto, selectors: string[]): Promise<Note> {
     const noteRes = await this.initializeQuery(this.deleteNote.name).findOneAndUpdate(
       {
-        _id: note,
+        uuid: note,
         professional,
         patient,
         isDeleted: false,

@@ -16,8 +16,8 @@ export class ChatsPersistenceService extends MongodbQueryBuilder<ChatDocument> {
     super(chatModel, logger, Chat.name);
   }
 
-  async createChat({ professional, patient }: Pick<Chat, 'professional' | 'patient'>): Promise<Chat> {
-    const chat = await this.initializeQuery(this.createChat.name).create({ professional, patient });
+  async createChat(data: Pick<Chat, 'uuid' | 'professional' | 'patient'>): Promise<Chat> {
+    const chat = await this.initializeQuery(this.createChat.name).create(data);
     return chat;
   }
   async getChat(chatRequester: ChatRequester): Promise<Chat> {

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { HydratedDocument } from 'mongoose';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
@@ -9,9 +9,6 @@ import { CommenterType } from 'src/shared/enums/project';
 @ObjectType()
 @Schema({ _id: true })
 export class ChatComment extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field()
   @Prop({ type: String, enum: CommenterType, required: true })
   commenter: CommenterType;
@@ -26,15 +23,12 @@ const ChatCommentSchema = SchemaFactory.createForClass(ChatComment);
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Chats' })
 export class Chat extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field(() => String || Professional)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true, ref: Professional.name })
-  professional!: Professional | string;
+  @Prop({ type: String, required: true, ref: Professional.name })
+  professional!: string;
 
   @Field(() => String || Patient)
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true, ref: Patient.name })
+  @Prop({ type: String, required: true, ref: Patient.name })
   patient: string | Patient;
 
   @Field(() => [ChatComment])

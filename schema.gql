@@ -82,7 +82,6 @@ type Calory {
 }
 
 type Chat {
-  _id: ID!
   comments: [ChatComment!]!
   createdAt: DateTime!
   patient: String!
@@ -91,7 +90,6 @@ type Chat {
 }
 
 type ChatComment {
-  _id: ID!
   commenter: String!
   content: String!
   createdAt: DateTime!

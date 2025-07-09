@@ -35,14 +35,14 @@ export class ChatsResolver {
     @Args('input') dto: SaveChatCommentDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PartialChat> {
-    const { _id, professional, patient, comments } = await this.cms.addChatComment(dto, selectors);
+    const { uuid, professional, patient, comments } = await this.cms.addChatComment(dto, selectors);
 
     if (dto.comment.commenter === CommenterType.PATIENT) {
-      const chat = { _id, professional, patient, comments };
+      const chat = { uuid, professional, patient, comments };
       pubSub.publish(SubscriptionNames.PATIENT_MESSAGED, { patientMessaged: chat });
       return chat;
     } else {
-      const chat = { _id, patient, comments };
+      const chat = { uuid, patient, comments };
       pubSub.publish(SubscriptionNames.PROFESSIONAL_MESSAGED, { professionalMessaged: chat });
       return chat;
     }

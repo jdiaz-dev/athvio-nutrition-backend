@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/create-note.dto';
 import { DeleteNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/delete-note.dto';
@@ -13,7 +14,7 @@ export class NotesManagerService {
   constructor(private readonly nps: NotesPersistenceService) {}
 
   async createNote(dto: CreateNoteDto): Promise<Note> {
-    return this.nps.createNote(dto);
+    return this.nps.createNote({ uuid: randomUUID(), ...dto });
   }
   async getNotes(dto: GetNotesDto, selectors: Record<string, number>): Promise<GetNotesResponse> {
     return this.nps.getNotes(dto, selectors);

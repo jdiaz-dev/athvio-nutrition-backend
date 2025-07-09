@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { GetChatDto } from 'src/modules/patients/chats/adapters/in/dtos/get-chat-dto';
 import { SaveChatCommentDto } from 'src/modules/patients/chats/adapters/in/dtos/save-chat-comment.dto';
@@ -16,16 +17,17 @@ export class ChatManagerService {
     const chat = await this.cps.saveChatComment(
       {
         chatRequester: this.generateParamRequester(professional, patient),
-        newComment: comment,
+        newComment: { uuid: randomUUID(), ...comment },
       },
       selectors,
     );
+
     return chat;
   }
 
   async getChat({ professional, patient }: GetChatDto): Promise<Chat> {
     const chat = await this.cps.getChat(this.generateParamRequester(professional, patient));
-    if (!chat) return await this.cps.createChat({ professional, patient });
+    if (!chat) return await this.cps.createChat({ uuid: randomUUID(), professional, patient });
 
     return chat;
   }
