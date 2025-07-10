@@ -8,10 +8,7 @@ db.NutritionalMeals.updateMany(
   { $set: { category: 'Dressings, dips and sauces' } },
 );
 
-db.NutritionalMeals.updateMany(
-  {},
-  { $set: { language: 'en' } },
-);
+db.NutritionalMeals.updateMany({}, { $set: { language: 'en' } });
 
 db.NutritionalMeals.updateMany({}, { $rename: { owner: 'source' } });
 
@@ -52,6 +49,19 @@ db.Meals.aggregate([
     },
   },
 ]);
+
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+// Update each document with a random UUID string
+db.NutritionalMeals.find().forEach((doc) => {
+  db.NutritionalMeals.updateOne({ _id: doc._id }, { $set: { uuid: uuidv4() } });
+});
 
 //available nutritional meal cateories
 const catories = ['Dressings, dips and sauces'];
