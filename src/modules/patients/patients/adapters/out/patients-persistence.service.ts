@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FlattenMaps, Model, UpdateWriteOpResult, Types } from 'mongoose';
+import { FlattenMaps, Model, UpdateWriteOpResult } from 'mongoose';
 import { GetPatientsDto, GetPatientsResponse } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patients.dto';
 import { Patient, PatientDocument } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
@@ -10,7 +10,6 @@ import {
   CreatePatient,
   DeleteManyPatientGroup,
   PatientPopulatedWithUser,
-  UpdatePatient,
 } from 'src/modules/patients/patients/helpers/patient.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
@@ -177,9 +176,9 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     };
     return res;
   }
-  async updatePatient({ user, ...rest }: UpdatePatient, selectors?: string[]): Promise<Patient> {
+  async updatePatient({ user, ...rest }: Partial<Patient>, selectors?: string[]): Promise<Patient> {
     const patientRes = await this.initializeQuery(this.updatePatient.name).findOneAndUpdate(
-      { user: new Types.ObjectId(user) },
+      { user },
       { ...rest },
       { projection: selectors || [], new: true },
     );

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
 import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
-import { LayersServer, PatientState } from 'src/shared/enums/project';
+import { PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/web/dtos/activate-user.dto';
 import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
@@ -15,7 +15,6 @@ import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 @Injectable()
 export class SignUpPatientManagamentService {
-  private layer = LayersServer.APPLICATION;
   constructor(
     private readonly ums: UserManagamentService,
     private readonly pms: PatientManagementService,
@@ -33,11 +32,11 @@ export class SignUpPatientManagamentService {
   async activatePatient({ user, password }: ActivatePatientDto): Promise<Patient> {
     const { _id, role, isActive } = await this.ums.getUserById(user);
 
-    if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT, this.layer);
+    if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT);
     if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
 
     await this.ums.updateUser({ user: _id, isActive: true, password: EncryptionService.encrypt(password) });
-    const activatedPatient = await this.pms.updatePatient({ user: _id, state: PatientState.ACTIVE });
+    const activatedPatient = await this.pms.updatePatientState({ user: _id, state: PatientState.ACTIVE });
     return activatedPatient;
   }
 }

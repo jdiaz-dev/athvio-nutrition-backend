@@ -1,22 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsDate, IsEnum, IsUUID, IsBoolean, ValidateNested, IsOptional } from 'class-validator';
+import { IsNumber, IsDate, IsEnum, IsUUID, IsOptional } from 'class-validator';
 import { AllowedGender } from 'src/shared/enums/project';
-
-@InputType()
-class UpdateUserInfoDto {
-  @Field()
-  @IsUUID(4)
-  user: string;
-
-  @Field()
-  @IsString()
-  password!: string;
-
-  @Field()
-  @IsBoolean()
-  acceptedTerms!: boolean;
-}
 
 //class destined for app
 @InputType()
@@ -28,19 +12,6 @@ export class UpdatePatientMobileDto {
   @Field()
   @IsUUID(4)
   patient: string;
-
-  @Field()
-  @ValidateNested()
-  @Type(() => UpdateUserInfoDto)
-  updateUserInfo: UpdateUserInfoDto;
-
-  @Field()
-  @IsString()
-  location!: string;
-
-  @Field()
-  @IsString()
-  timezone!: string;
 
   @Field({ nullable: true })
   @IsNumber()
@@ -60,14 +31,4 @@ export class UpdatePatientMobileDto {
   @IsEnum(AllowedGender)
   @IsOptional()
   gender!: AllowedGender;
-
-  @Field({ nullable: true })
-  @IsString()
-  @IsOptional()
-  codeCountry!: string;
-
-  @Field({ nullable: true })
-  @IsString()
-  @IsOptional()
-  phone!: string;
 }

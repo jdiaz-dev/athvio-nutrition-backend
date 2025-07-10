@@ -43,6 +43,10 @@ export class PatientsWebResolver {
   }
 
   @Mutation(() => Patient)
+  updatePatient(@Args('input') dto: ManagePatientGroupDto): Promise<Patient> {
+    return this.mcgs.managePatientGroup(dto);
+  }
+  @Mutation(() => Patient)
   managePatientGroup(@Args('input') dto: ManagePatientGroupDto): Promise<Patient> {
     return this.mcgs.managePatientGroup(dto);
   }

@@ -3,7 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ManagePatientGroupDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-group.dto';
 import { ManagePatientStateDto } from 'src/modules/patients/patients/adapters/in/web/dtos/manage-patient-state.dto';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { CreatePatient, UpdatePatient } from 'src/modules/patients/patients/helpers/patient.types';
+import { CreatePatient, UpdatePatientState } from 'src/modules/patients/patients/helpers/patient.types';
 import { PatientsPersistenceService } from 'src/modules/patients/patients/adapters/out/patients-persistence.service';
 import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
 
@@ -16,7 +16,7 @@ export class PatientManagementService {
 
     return patient;
   }
-  async updatePatient(updatePatient: UpdatePatient, selectors?: string[]): Promise<Patient> {
+  async updatePatientState(updatePatient: UpdatePatientState, selectors?: string[]): Promise<Patient> {
     const patient = await this.pps.updatePatient(updatePatient, selectors);
     if (patient == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
 

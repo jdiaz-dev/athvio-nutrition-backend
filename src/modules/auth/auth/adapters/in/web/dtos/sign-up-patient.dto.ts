@@ -150,9 +150,6 @@ export class SignUpPatientResponse {
   @Field({ nullable: true })
   gender: string;
 
-  @Field({ nullable: true })
-  phone: string;
-
   @Field(() => CreateUserInfoResponse)
   userInfo: CreateUserInfoResponse;
 }

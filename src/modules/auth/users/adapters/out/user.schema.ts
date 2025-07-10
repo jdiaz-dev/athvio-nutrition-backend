@@ -28,13 +28,13 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false })
   countryCode!: string;
 
-  @Field()
-  @Prop({ type: String, required: false })
-  country!: string;
-
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   phone!: string;
+
+  @Field()
+  @Prop({ type: String, required: false })
+  country!: string;
 
   @Field({ nullable: true })
   @Prop({ type: String, required: false })

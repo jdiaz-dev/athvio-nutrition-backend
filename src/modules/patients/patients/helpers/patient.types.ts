@@ -10,7 +10,7 @@ export type PatientPopulatedWithUser = Patient & {
   user: User;
 };
 
-export type UpdatePatient = {
+export type UpdatePatientState = {
   //professional: string;
   user: string;
   state: PatientState;

@@ -39,11 +39,12 @@ export class CreateUserService {
       firstname,
       lastname,
       ...rest
-    }: Pick<UserEntity, 'firstname' | 'lastname'> & Partial<Pick<UserEntity, 'country' | 'countryCode'>>,
+    }: Pick<UserEntity, 'firstname' | 'lastname'> & Partial<Pick<UserEntity, 'country' | 'countryCode' | 'phone'>>,
   ): Promise<User> {
     const userEntity = new UserEntity(randomUUID(), new UserEmail(_email), EnumRoles.PATIENT, false, firstname, lastname);
     if (rest.countryCode) userEntity.countryCode = rest.countryCode;
     if (rest.country) userEntity.country = rest.country;
+    if (rest.phone) userEntity.phone = rest.phone;
     userEntity.validateUserCreationForWebPatient();
 
     const { email, ...restEntity } = userEntity;
