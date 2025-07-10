@@ -24,7 +24,7 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false })
   password?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   countryCode!: string;
 
@@ -32,7 +32,7 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false })
   country!: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ type: String, required: false })
   phone!: string;
 

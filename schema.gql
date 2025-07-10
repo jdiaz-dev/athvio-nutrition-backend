@@ -1193,13 +1193,13 @@ input UploadDto {
 
 type User {
   country: String!
-  countryCode: String!
+  countryCode: String
   createdAt: DateTime!
   email: String!
   firstname: String
   isDarkMode: Boolean!
   lastname: String
-  phone: String!
+  phone: String
   photo: String
   role: String!
   uuid: String!

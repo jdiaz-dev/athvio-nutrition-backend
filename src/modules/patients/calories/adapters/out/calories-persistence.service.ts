@@ -35,7 +35,7 @@ export class CaloriesPersistenceService extends MongodbQueryBuilder<CaloryDocume
   }
   async updateCalory({ calory, patient, ...rest }: UpdateCaloryDto, selectors: string[]): Promise<Calory> {
     const caloryRes = await this.initializeQuery(this.updateCalory.name).findOneAndUpdate(
-      { _id: calory, patient, isDeleted: false },
+      { uuid: calory, patient, isDeleted: false },
       { ...rest },
       { projection: selectors, new: true },
     );

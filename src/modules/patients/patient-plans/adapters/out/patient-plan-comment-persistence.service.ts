@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/add-patient-plan-comment.dto';
 import { DeletePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/delete-patient-plan-comment.dto';
@@ -23,7 +23,7 @@ export class PatientPlanCommentPersistenceService extends MongodbQueryBuilder<Pa
     selectors: string[],
   ): Promise<PatientPlan> {
     const patientPlan = await this.initializeQuery(this.addPatientPlanComment.name).findOneAndUpdate(
-      { _id: patientPlanId, patientId, isDeleted: false },
+      { uuid: patientPlanId, patientId, isDeleted: false },
       { $push: { comments: { ...rest } } },
       { new: true, projection: selectors },
     );
@@ -37,10 +37,10 @@ export class PatientPlanCommentPersistenceService extends MongodbQueryBuilder<Pa
     selectors: string[],
   ): Promise<PatientPlan> {
     const patientPlan = await this.initializeQuery(this.updatePatientPlanComment.name).findOneAndUpdate(
-      { _id: patientPlanId, patientId, isDeleted: false },
+      { uuid: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].message': message } },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(commentId), 'el.isDeleted': false }],
+        arrayFilters: [{ 'el.uuid': commentId, 'el.isDeleted': false }],
         new: true,
         projection: selectors,
       },
@@ -55,10 +55,10 @@ export class PatientPlanCommentPersistenceService extends MongodbQueryBuilder<Pa
     selectors: string[],
   ): Promise<PatientPlan> {
     const patientPlan = await this.initializeQuery(this.deletePatientPlanComment.name).findOneAndUpdate(
-      { _id: patientPlanId, patientId, isDeleted: false },
+      { uuid: patientPlanId, patientId, isDeleted: false },
       { $set: { 'comments.$[el].isDeleted': true } },
       {
-        arrayFilters: [{ 'el._id': new Types.ObjectId(commentId), 'el.isDeleted': false }],
+        arrayFilters: [{ 'el._id': commentId, 'el.isDeleted': false }],
         new: true,
         projection: selectors,
       },

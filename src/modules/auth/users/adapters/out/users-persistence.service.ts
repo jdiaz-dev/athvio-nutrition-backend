@@ -31,7 +31,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
       {
         $project: {
           _id: 1,
-          uuid:1,
+          uuid: 1,
           role: 1,
           password: 1,
         },
@@ -57,7 +57,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
   }
 
   async updateUser({ user, ...rest }: UpdateUser | UpdatePassword | UpdateUserDto): Promise<User> {
-    const patient = await this.initializeQuery(this.updateUser.name).findOneAndUpdate({ _id: user }, { ...rest }, { new: true });
+    const patient = await this.initializeQuery(this.updateUser.name).findOneAndUpdate({ uuid: user }, { ...rest }, { new: true });
     return patient;
   }
 }
