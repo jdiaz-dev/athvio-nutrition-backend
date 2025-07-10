@@ -761,7 +761,6 @@ type Note {
 }
 
 type NutritionalMeal {
-  _id: ID!
   cookingInstructions: String!
   createdAt: DateTime!
   description: String

@@ -15,6 +15,7 @@ import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-
 import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/delete-nutritional-meal.dto';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class NutritionalMealsManagerService {
@@ -25,9 +26,9 @@ export class NutritionalMealsManagerService {
   ) {}
 
   async createNutritionalMeal({ image, ...dto }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
-    await this.pms.getProfessionalById(dto.professional, { _id: 1 });
-    const nutritionalMeal = await this.nmps.createNutritionalMeal(dto);
-    if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: nutritionalMeal._id, image });
+    await this.pms.getProfessionalByUuid(dto.professional, { _id: 1 });
+    const nutritionalMeal = await this.nmps.createNutritionalMeal({ uuid: randomUUID(), ...dto });
+    if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: nutritionalMeal.uuid, image });
 
     return nutritionalMeal;
   }

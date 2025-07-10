@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 
 import {
   NutritionalMeal,
@@ -26,12 +26,8 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
     super(nutritionalMealModel, logger, NutritionalMeal.name);
   }
 
-  async createNutritionalMeal({ professional, ...rest }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMeal = await this.initializeQuery(this.createNutritionalMeal.name).create({
-      professional,
-      ...rest,
-    });
-
+  async createNutritionalMeal(data: CreateNutritionalMealDto & { uuid: string }): Promise<NutritionalMeal> {
+    const nutritionalMeal = await this.initializeQuery(this.createNutritionalMeal.name).create(data);
     return nutritionalMeal;
   }
 
@@ -41,7 +37,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
   ): Promise<NutritionalMeal> {
     const nutritionalMealRes = await this.initializeQuery(this.getNutritionalMeal.name).findOne(
       {
-        _id: nutritionalMeal,
+        uuid: nutritionalMeal,
         ...(professional && { professional }),
         isDeleted: false,
       },
@@ -115,7 +111,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
   }): Promise<NutritionalMeal> {
     const nutritionalMealRes = await this.initializeQuery(this.updateNutritionalMeal.name).findOneAndUpdate(
       {
-        _id: new Types.ObjectId(nutritionalMeal),
+        uuid: nutritionalMeal,
         ...(professional && { professional }),
         ...(source && { source }),
         isDeleted: false,
@@ -129,7 +125,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
   async deleteNutritionalMeal({ professional, ...rest }: DeleteNutritionalMealDto): Promise<NutritionalMeal> {
     const nutritionalMealRes = await this.initializeQuery(this.deleteNutritionalMeal.name).findOneAndUpdate(
       {
-        _id: rest.nutritionalMeal,
+        uuid: rest.nutritionalMeal,
         professional,
         source: EnumSources.PROFESSIONAL,
         isDeleted: false,

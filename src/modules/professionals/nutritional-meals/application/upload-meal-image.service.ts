@@ -16,10 +16,10 @@ export class UploadMealImageService {
   ) {}
 
   async uploadImage({ nutritionalMeal, image }: UploadDto): Promise<NutritionalMeal> {
-    const { _id } = await this.nmms.getNutritionalMeal({ nutritionalMeal }, { _id: 1 });
-    const fileName = await this.fileUploaderService.uploadFile(_id, image as unknown as Promise<any>, this.mealDirectory);
+    const { uuid } = await this.nmms.getNutritionalMeal({ nutritionalMeal }, { _id: 1, uuid: 1 });
+    const fileName = await this.fileUploaderService.uploadFile(uuid, image as unknown as Promise<any>, this.mealDirectory);
     const res = await this.nmps.updateNutritionalMeal({
-      nutritionalMeal: _id,
+      nutritionalMeal: uuid,
       image: `${this.fileUploaderService.storageUrl}/${this.mealDirectory}/${fileName}`,
     });
     return res;

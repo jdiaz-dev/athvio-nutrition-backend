@@ -60,7 +60,7 @@ export class ProfessionalQuestionaryManager {
         questionary,
         professional,
         questionaryGroup,
-        questionaryDetailBodies: questionaryDetailsInput.map((item) => ({ ...item, fieldType: 'text' })),
+        questionaryDetailBodies: questionaryDetailsInput.map((item) => ({ uuid: randomUUID(), fieldType: 'text', ...item })),
       },
       selector,
     );

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { IngredientDetail, IngredientDetailSchema } from 'src/shared/schemas/meal-plan';
 import { Macros, MacroSchema } from 'src/shared/schemas/macros';
@@ -23,9 +23,6 @@ export const RelatedStudySchema = SchemaFactory.createForClass(RelatedStudy);
 @ObjectType()
 @Schema({ timestamps: true, collection: 'NutritionalMeals' })
 export class NutritionalMeal extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
   @Field(() => String)
   @Prop({ type: String, required: true })
   professional!: string;
