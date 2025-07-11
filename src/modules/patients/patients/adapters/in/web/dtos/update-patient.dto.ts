@@ -4,7 +4,7 @@ import { AllowedGender } from 'src/shared/enums/project';
 
 //class destined for app
 @InputType()
-export class UpdatePatientMobileDto {
+export class UpdatePatientWebDto {
   @Field()
   @IsUUID(4)
   professional: string;

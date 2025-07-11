@@ -15,6 +15,7 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { UpdatePatientWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/update-patient.dto';
 
 //todo: add loggers to log internal errors
 @Injectable()
@@ -176,9 +177,18 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
     };
     return res;
   }
-  async updatePatient({ user, ...rest }: Partial<Patient>, selectors?: string[]): Promise<Patient> {
-    const patientRes = await this.initializeQuery(this.updatePatient.name).findOneAndUpdate(
+  async updatePatientByUser({ user, ...rest }: Pick<Patient, 'user'> & Partial<Patient>, selectors?: string[]): Promise<Patient> {
+    const patientRes = await this.initializeQuery(this.updatePatientByUser.name).findOneAndUpdate(
       { user },
+      { ...rest },
+      { projection: selectors || [], new: true },
+    );
+
+    return patientRes;
+  }
+  async updatePatientByUuid({ patient, professional, ...rest }: UpdatePatientWebDto, selectors?: string[]): Promise<Patient> {
+    const patientRes = await this.initializeQuery(this.updatePatientByUser.name).findOneAndUpdate(
+      { uuid: patient, professional },
       { ...rest },
       { projection: selectors || [], new: true },
     );

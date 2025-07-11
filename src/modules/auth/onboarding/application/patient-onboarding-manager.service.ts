@@ -5,7 +5,7 @@ import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/a
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { MailService } from 'src/modules/mail/adapters/out/mail.service';
-import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
+import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
@@ -22,7 +22,7 @@ export class PatientOnboardingManagerService {
     private readonly configService: ConfigService,
     private readonly prms: ProfessionalsManagementService,
     private readonly ums: UserManagamentService,
-    private readonly pms: PatientManagementService,
+    private readonly pms: PatientManagerService,
     private readonly ms: MailService,
     private readonly qcm: ProfessionalQuestionaryManager,
     private readonly pqms: PatientQuestionaryManagerService,

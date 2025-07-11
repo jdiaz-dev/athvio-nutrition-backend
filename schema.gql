@@ -735,7 +735,7 @@ type Mutation {
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
   updateNote(input: UpdateNoteDto!): Note!
   updateNutritionalMeal(input: UpdateNutritionalMealDto!): NutritionalMeal!
-  updatePatient(input: ManagePatientGroupDto!): Patient!
+  updatePatientForWeb(patient: UpdatePatientWebDto!): Patient!
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
@@ -1145,6 +1145,15 @@ input UpdatePatientPlanDto {
   title: String
 }
 
+input UpdatePatientWebDto {
+  birthday: DateTime!
+  gender: String
+  height: Float
+  patient: String!
+  professional: String!
+  weight: Float
+}
+
 input UpdatePlanAssignedWeekDayDto {
   day: Float!
   plan: String!
@@ -1177,6 +1186,7 @@ input UpdateUserDto {
   email: String!
   firstname: String!
   lastname: String!
+  phone: String!
   user: String!
 }
 

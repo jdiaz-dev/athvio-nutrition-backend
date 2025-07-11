@@ -4,7 +4,7 @@ import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/a
 import { PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/web/dtos/activate-user.dto';
-import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
+import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { SignUpPatientFromMobileDto } from 'src/modules/auth/auth/adapters/in/mobile/dtos/sign-up-patient-from-mobile.dto';
@@ -17,7 +17,7 @@ import { EnumRoles } from 'src/modules/auth/shared/enums';
 export class SignUpPatientManagamentService {
   constructor(
     private readonly ums: UserManagamentService,
-    private readonly pms: PatientManagementService,
+    private readonly pms: PatientManagerService,
     private as: AuthenticationService,
     private readonly patientOnboardingManagerService: PatientOnboardingManagerService,
   ) {}

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
+import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
 import { CreatePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/create-patient-group.dto';
 import { DeletePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/delete-patient-group.dto';
 import { GetPatientGroupsDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/get-patient-groups.dto';
@@ -10,7 +10,7 @@ import { PatientGroupsPersistenceService } from 'src/modules/professionals/patie
 @Injectable()
 export class PatientGroupsManagementService {
   constructor(
-    private pms: PatientManagementService,
+    private pms: PatientManagerService,
     private cgps: PatientGroupsPersistenceService,
   ) {}
 

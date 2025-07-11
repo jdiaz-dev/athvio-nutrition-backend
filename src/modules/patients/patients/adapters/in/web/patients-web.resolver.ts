@@ -13,7 +13,8 @@ import {
   GetPatientForWebResponse,
 } from 'src/modules/patients/patients/adapters/in/web/dtos/get-patient.dto';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
-import { PatientManagementService } from 'src/modules/patients/patients/application/patient-management.service';
+import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
+import { UpdatePatientWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/update-patient.dto';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -21,7 +22,7 @@ export class PatientsWebResolver {
   constructor(
     private readonly gps: GetPatientManagerService,
     private readonly mcgs: ManagePatientGroupService,
-    private readonly pms: PatientManagementService,
+    private readonly pms: PatientManagerService,
   ) {}
 
   @Query(() => GetPatientForWebResponse)
@@ -43,8 +44,8 @@ export class PatientsWebResolver {
   }
 
   @Mutation(() => Patient)
-  updatePatient(@Args('input') dto: ManagePatientGroupDto): Promise<Patient> {
-    return this.mcgs.managePatientGroup(dto);
+  updatePatientForWeb(@Args('patient') dto: UpdatePatientWebDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Patient> {
+    return this.pms.updatePatientInfo(dto, selectors);
   }
   @Mutation(() => Patient)
   managePatientGroup(@Args('input') dto: ManagePatientGroupDto): Promise<Patient> {

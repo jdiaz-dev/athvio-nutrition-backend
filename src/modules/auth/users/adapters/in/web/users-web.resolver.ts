@@ -12,14 +12,14 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 export class UsersWebResolver {
   constructor(private readonly ums: UserManagamentService) {}
 
-  @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
-  @Mutation(() => User)
-  updateUser(@Args('input') dto: UpdateUserDto): Promise<User> {
-    return this.ums.updateUser(dto);
-  }
   @UseGuards(...[AuthorizationGuard])
   @Query(() => User)
   getUser(@Args('input') dto: GetUserDto): Promise<GetUserById> {
     return this.ums.getUserById(dto.user);
+  }
+  @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
+  @Mutation(() => User)
+  updateUser(@Args('input') dto: UpdateUserDto): Promise<User> {
+    return this.ums.updateUser(dto);
   }
 }

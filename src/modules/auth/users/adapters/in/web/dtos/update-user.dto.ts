@@ -18,4 +18,8 @@ export class UpdateUserDto {
   @Field()
   @IsString()
   lastname: string;
+
+  @Field()
+  @IsString()
+  phone: string;
 }
