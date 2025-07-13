@@ -223,3 +223,7 @@ this.programModel.findOneAndUpdate(
     },
   },
 );
+
+db.Programs.find().forEach((doc) => {
+  db.Programs.updateOne({ _id: doc._id }, { $set: { uuid: uuidv4() } });
+});

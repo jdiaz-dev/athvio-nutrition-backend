@@ -39,7 +39,7 @@ export class ProfessionalOnboardingManagerService {
 
   async onboardProfessional(dto: SignUpProfessionalDto): Promise<UserValidated> {
     const { uuid, professional, role } = await this.createProfessionalAndUser(dto);
-    this.createDefaultData(professional, dto).catch((error) => console.log(error));
+    this.createDefaultData(professional, dto).catch((error) => console.error(error));
     return { uuid, role };
   }
   private async createProfessionalAndUser({

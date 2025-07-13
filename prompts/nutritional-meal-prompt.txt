@@ -1,6 +1,13 @@
 ### PROMPT TO PARSE IMAGE TO JSON
 
-Parse the imagen to this json structure, must to acomplish with all the fields and instructions contained in the json. must to extract all data including all the ingredients. must calculate the macros of the ingredients and all the meal in general
+Parse the imagen to this json structure below, must to acomplish with all the fields and instructions contained in the json. must to extract all data including all the ingredients. must calculate the macros of the ingredients and all the meal in general. If you found Variations and Note subtitles, include it inside cookingInstructions field (it is one string field) in this way
+Variations:
+-
+-
+
+Notes:
+-
+-
 {
     "_id": ObjectId(), //must be object
     "createdAt": Date(), //leave as Date() function
@@ -40,11 +47,15 @@ Parse the imagen to this json structure, must to acomplish with all the fields a
     "description":"",
     "healthBenefits":"",  //optional, normally full field when you don't see underlined numbers, if you not found it must have the next  result  "healthBenefits":""
     "source":"SYSTEM",
-    "bookSource": "Beat cancer kitchen",
+    "bookSource": "Gerson therapy cookbook",
     "relatedStudies": [{ summary:'', link:'' }], //mandatory when you see small underlined numbers (reference quotes) in the text of blue color, optional otherwise; if you not found it must have the next  result  "relatedStudies":[]
-    "author": "Chris Wark",
+    "author": "Erick Freeman and Taylor Oliver,
     "isDeleted": false,
+    "language":"en",
+    "uuid": uuidv4(),
+    "categories":["vegetarian", "fruit", "cooked"],
 }
+
 
 
 ### PROMPT TO TRANSLATE JSON FROM ENGLISH TO SPANISH
