@@ -52,7 +52,7 @@ Notes:
     "author": "Erick Freeman and Taylor Oliver,
     "isDeleted": false,
     "language":"en",
-    "uuid": uuidv4(),
+    "uuid": uuidv4(), //it is a function not a string
     "categories":["vegetarian", "fruit", "cooked"],
 }
 
@@ -60,155 +60,101 @@ Notes:
 
 ### PROMPT TO TRANSLATE JSON FROM ENGLISH TO SPANISH
 
-in the next json I need that you only translate name, ingredientDetails.ingredient.name, ingredientDetails.ingredient.label and cookingInstructions values; i need also that return the json with the rest properties and values; all the structure of indredientDetails must be completed also: 
+in the next json I need that you only translate name, ingredientDetails.ingredient.name, ingredientDetails.ingredient.label and cookingInstructions, healthBenefits (if exists) values; i need also that return the json with the rest properties and values; all the structure of indredientDetails must be completed also: 
 {
   "_id": {
-    "$oid": "67dc50534c0d70b0aaabab32"
+    "$oid": "68744d603494b6426e44e65c"
   },
-  "createdAt": {
-    "$date": "2025-03-20T17:28:51.000Z"
-  },
+  "createdAt": "Sun Jul 13 2025 19:20:48 GMT-0500 (Peru Standard Time)",
   "updatedAt": {
-    "$date": "2025-03-25T19:11:42.169Z"
+    "$date": "2025-07-14T00:25:14.509Z"
   },
   "professional": {
     "$oid": "67cb5064a52f7c0e3d6543cf"
   },
-  "name": "Cacao Almond Banana Nice Cream",
+  "name": "Puré de manzana crudo",
   "ingredientDetails": [
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 0,
-        "protein": 0,
-        "carbs": 0,
-        "fat": 0,
-        "calories": 0,
-        "name": "Lemon Juice",
-        "amount": 1,
-        "label": "Unit"
+        "weightInGrams": 276,
+        "protein": 0.3,
+        "carbs": 15.2,
+        "fat": 0.2,
+        "calories": 57,
+        "name": "Manzana, cruda, mediana",
+        "amount": "1",
+        "label": "Unidad"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67dc50534c0d70b0aaabab33"
+        "$oid": "68744d603494b6426e44e64d"
       },
-      "createdAt": "2025-03-20T12:15:37.000Z",
-      "updatedAt": "2025-03-20T12:15:37.000Z"
+      "createdAt": "2025-03-10T19:07:26.335Z",
+      "updatedAt": "2025-03-10T19:07:26.335Z"
     },
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 0,
-        "protein": 0,
-        "carbs": 0,
+        "weightInGrams": 14,
+        "protein": 0.1,
+        "carbs": 5.8,
         "fat": 0,
-        "calories": 0,
-        "name": "Vanilla Extract",
-        "amount": 1,
-        "label": "Teaspoon"
+        "calories": 21,
+        "name": "Miel (opcional)",
+        "amount": "2",
+        "label": "Cucharadita"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67dc50534c0d70b0aaabab34"
+        "$oid": "68744d603494b6426e44e64e"
       },
-      "createdAt": "2025-03-20T12:15:37.000Z",
-      "updatedAt": "2025-03-20T12:15:37.000Z"
+      "createdAt": "2025-03-10T19:07:26.335Z",
+      "updatedAt": "2025-03-10T19:07:26.335Z"
     },
     {
       "ingredientType": "UNIQUE_INGREDIENT",
       "ingredient": {
-        "weightInGrams": 0,
+        "weightInGrams": 5,
         "protein": 0,
-        "carbs": 0,
+        "carbs": 1.6,
         "fat": 0,
-        "calories": 0,
-        "name": "Almond Milk",
-        "amount": "1/4",
-        "label": "Cup"
+        "calories": 4,
+        "name": "Jugo de limón (opcional)",
+        "amount": "1",
+        "label": "Cucharadita"
       },
       "equivalents": [],
       "_id": {
-        "$oid": "67dc50534c0d70b0aaabab35"
+        "$oid": "68744d603494b6426e44e64f"
       },
-      "createdAt": "2025-03-20T12:15:37.000Z",
-      "updatedAt": "2025-03-20T12:15:37.000Z"
-    },
-    {
-      "ingredientType": "UNIQUE_INGREDIENT",
-      "ingredient": {
-        "weightInGrams": 0,
-        "protein": 0,
-        "carbs": 0,
-        "fat": 0,
-        "calories": 0,
-        "name": "Cacao Powder",
-        "amount": 2,
-        "label": "Teaspoon"
-      },
-      "equivalents": [],
-      "_id": {
-        "$oid": "67dc50534c0d70b0aaabab36"
-      },
-      "createdAt": "2025-03-20T12:15:37.000Z",
-      "updatedAt": "2025-03-20T12:15:37.000Z"
-    },
-    {
-      "ingredientType": "UNIQUE_INGREDIENT",
-      "ingredient": {
-        "weightInGrams": 0,
-        "protein": 0,
-        "carbs": 0,
-        "fat": 0,
-        "calories": 0,
-        "name": "Frozen ripe Bananas",
-        "amount": 3,
-        "label": "Unit"
-      },
-      "equivalents": [],
-      "_id": {
-        "$oid": "67dc50534c0d70b0aaabab37"
-      },
-      "createdAt": "2025-03-20T12:15:37.000Z",
-      "updatedAt": "2025-03-20T12:15:37.000Z"
-    },
-    {
-      "ingredientType": "UNIQUE_INGREDIENT",
-      "ingredient": {
-        "weightInGrams": 0,
-        "protein": 0,
-        "carbs": 0,
-        "fat": 0,
-        "calories": 0,
-        "name": "Almond Butter",
-        "amount": "1/4",
-        "label": "Cup"
-      },
-      "equivalents": [],
-      "_id": {
-        "$oid": "67dc50534c0d70b0aaabab38"
-      },
-      "createdAt": "2025-03-20T12:15:37.000Z",
-      "updatedAt": "2025-03-20T12:15:37.000Z"
+      "createdAt": "2025-03-10T19:07:26.335Z",
+      "updatedAt": "2025-03-10T19:07:26.335Z"
     }
   ],
-  "cookingInstructions": "1. Gently blend the lemon juice, vanilla extract, almond milk, and cacao powder in a food processor or high-powered blender. Then add the bananas and blend all the ingredients together until smooth.\n\n2. Add the almond butter and pulse 3 to 4 times to swirl the almond butter into the mix. Serve immediately or freeze in an airtight container for up to 30 days.",
-  "image": "https://athvio-images.s3.us-east-1.amazonaws.com/nutritional-meals/1742929900673_67dc50534c0d70b0aaabab32_Cacao Almond Banana Nice Cream.png",
+  "cookingInstructions": "Procesa las manzanas con la parte de molienda de un exprimidor Norwalk o con un procesador de alimentos. Mezcla con el endulzante y el jugo de limón y sirve.",
+  "image": "https://athvio-images.s3.us-east-1.amazonaws.com/nutritional-meals/1752452713138_70bbf768-bf59-490a-8227-0ff766e405a8_raw-applesauce.jpg",
   "macros": {
-    "weightInGrams": 100,
-    "protein": 0.85,
-    "carbs": 0.06,
-    "fat": 81.1,
-    "calories": 717
+    "weightInGrams": 295,
+    "protein": 0.4,
+    "carbs": 22.6,
+    "fat": 0.2,
+    "calories": 82
   },
-  "yield": "2 cups",
-  "servings": "4",
+  "yield": "",
+  "servings": "2",
   "description": "",
   "healthBenefits": "",
-  "relatedStudies": [],
-  "author": "Chris Wark",
-  "isDeleted": false,
-  "category": "Desserts",
-  "bookSource": "Beat Cancer Kitchen",
   "source": "SYSTEM",
-  "language": "es"
+  "bookSource": "Gerson therapy cookbook",
+  "relatedStudies": [],
+  "author": "Erick Freeman and Taylor Oliver",
+  "isDeleted": false,
+  "language": "en",
+  "uuid": "70bbf768-bf59-490a-8227-0ff766e405a8",
+  "categories": [
+    "vegetarian",
+    "fruit",
+    "raw"
+  ]
 }
