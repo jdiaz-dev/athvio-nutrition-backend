@@ -63,7 +63,10 @@ export class NutritionalMealsManagerService {
     { patient, category, ...rest }: GetNutritionalMealsForPatientDto,
     selectors: Record<string, number>,
   ): Promise<GetNutritionalMealsResponse> {
-    const nutritionalMeals = await this.nmps.getNutritionalMeals({ ...rest, match: { category } }, selectors);
+    const nutritionalMeals = await this.nmps.getNutritionalMeals(
+      { ...rest, match: { categories: { $in: [category] } } },
+      selectors,
+    );
     return nutritionalMeals;
   }
   async getNutritionalMeal(

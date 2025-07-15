@@ -11,11 +11,10 @@ import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-
 @Resolver()
 export class UsersWebResolver {
   constructor(private readonly ums: UserManagamentService) {}
-
-  @UseGuards(...[AuthorizationGuard])
+  //public endpoint
   @Query(() => User)
   getUser(@Args('input') dto: GetUserDto): Promise<GetUserById> {
-    return this.ums.getUserById(dto.user);
+    return this.ums.getUserByUuid(dto.user);
   }
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)

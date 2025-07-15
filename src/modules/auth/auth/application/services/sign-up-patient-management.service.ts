@@ -30,13 +30,13 @@ export class SignUpPatientManagamentService {
     return this.as.generateToken({ uuid, role });
   }
   async activatePatient({ user, password }: ActivatePatientDto): Promise<Patient> {
-    const { _id, role, isActive } = await this.ums.getUserById(user);
+    const { uuid, role, isActive } = await this.ums.getUserByUuid(user);
 
     if (role !== EnumRoles.PATIENT) throw new BadRequestException(ErrorPatientsEnum.USER_IS_NOT_PATIENT);
     if (isActive) throw new BadRequestException(ErrorPatientsEnum.USER_ALREADY_ACTIVE);
 
-    await this.ums.updateUser({ user: _id, isActive: true, password: EncryptionService.encrypt(password) });
-    const activatedPatient = await this.pms.updatePatientState({ user: _id, state: PatientState.ACTIVE });
+    await this.ums.updateUser({ user: uuid, isActive: true, password: EncryptionService.encrypt(password) });
+    const activatedPatient = await this.pms.updatePatientState({ user: uuid, state: PatientState.ACTIVE });
     return activatedPatient;
   }
 }
