@@ -33,7 +33,7 @@ Notes:
         "updatedAt": "2025-03-10T19:07:26.335Z"
       }
     ],
-    "cookingInstructions": "",
+    "cookingInstructions": "", // use \n if it is necessary
     "image":"", 
     "macros": {
       "weightInGrams": 100, //must be number
