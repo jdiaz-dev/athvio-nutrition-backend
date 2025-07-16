@@ -38,3 +38,8 @@ Goal: Starve the tumor by cutting its blood supply.
 4. Inhibition of Apoptosis
 - Cancer cells often adapt to oxidative stress by suppressing programmed cell death, allowing them to survive longer.
 
+## question 
+- how to works one anti-inflamatory effect
+- how to works selective toxicity
+
+

@@ -35,3 +35,14 @@ all known for their antioxidant and anti-inflammatory effects. These compounds c
 - Saponins
 
 
+# Allspice
+- Eugenol - Induces apoptosis, Inhibits angiogenesis , Acts as a potent antioxidant and anti-inflammatory agent.
+- Gallic Acid 
+    - A phenolic acid present in small amounts.
+    - Promotes oxidative stress in cancer cells (selective toxicity)
+    - Inhibits metastasis and tumor proliferation.
+- Quercetin
+    - allspice in trace amounts
+    - Modulates signaling pathways like PI3K/AKT and MAPK
+    - Inhibits cancer cell cycle progression.
+- Tannins and Terpenes
