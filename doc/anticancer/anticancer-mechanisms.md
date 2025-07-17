@@ -38,8 +38,31 @@ Goal: Starve the tumor by cutting its blood supply.
 4. Inhibition of Apoptosis
 - Cancer cells often adapt to oxidative stress by suppressing programmed cell death, allowing them to survive longer.
 
+## Disrupt cancer cell membranes
+- "Disrupt cancer cell membranes" means that saponins physically or chemically interfere with the structure and integrity of the outer layer (membrane) of cancer cells, causing damage or death.
+
+## Signaling pathways
+- In biology, signaling pathways are a series of molecular events inside a cell that are triggered by signals from outside the cell — like hormones, growth factors, or nutrients — and lead to a specific response. These responses can include:
+    - cell growth or division
+    - cell death (apoptosis)
+    - inflammation
+    - movement
+    - production of proteins
+    - and many others.
+
+### In cancer context:
+- Cancer often arises when signaling pathways that control cell growth, division, or death are disrupted. Some of the most well-known cancer-related pathways include:
+| Pathway           | Role                    | Cancer Connection                              |
+| ----------------- | ----------------------- | ---------------------------------------------- |
+| **PI3K/Akt/mTOR** | Cell growth & survival  | Often overactive in many cancers               |
+| **MAPK/ERK**      | Cell division & growth  | Frequently mutated in tumors                   |
+| **Wnt/β-catenin** | Cell proliferation      | Implicated in colon and other cancers          |
+| **NF-κB**         | Inflammation & survival | Promotes cancer cell resistance to death       |
+| **p53**           | DNA repair & apoptosis  | Mutated in \~50% of cancers (tumor suppressor) |
+
+
 ## question 
 - how to works one anti-inflamatory effect
 - how to works selective toxicity
-
+- saponina is one antinutrient
 

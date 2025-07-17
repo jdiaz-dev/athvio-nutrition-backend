@@ -1,6 +1,6 @@
 # Honey
 1. Rich in Polyphenols and Flavonoids:
-Honey contains compounds like quercetin, kaempferol, chrysin, and galangin — 
+Honey contains compounds like quercetin, kaemp  rol, chrysin, and galangin — 
 all known for their antioxidant and anti-inflammatory effects. These compounds can:
 - Inhibit tumor cell proliferation
 - Induce apoptosis 
@@ -14,6 +14,7 @@ all known for their antioxidant and anti-inflammatory effects. These compounds c
 - Anthocyanins  (in red apples) - Antioxidant, anti-inflammatory, and may reduce cancer cell invasion and metastasis
 
 # Banana
+- Banana Lectin - inhibit cancer cell growth and trigger immune responses.
 - Ferulic acid - Antioxidant, anti-inflammatory, apoptosis inducer
 - Gallic acid - Antiproliferative, pro-apoptotic
 - Catechins - Antioxidant, inhibit angiogenesis
@@ -46,3 +47,19 @@ all known for their antioxidant and anti-inflammatory effects. These compounds c
     - Modulates signaling pathways like PI3K/AKT and MAPK
     - Inhibits cancer cell cycle progression.
 - Tannins and Terpenes
+
+# Quinoa
+- Saponins
+    - Disrupt cancer cell membranes, 
+    - induce apoptosis (programmed cell death) 
+    - and inhibit tumor growth.
+- Polyphenols (Quercetin, kaempferol, ferulic acid, gallic acid)
+    - Strong antioxidants that neutralize free radicals, 
+    - inhibit inflammation, 
+    - and interfere with cancer cell signaling pathways.
+- Flavonoids (Quercetin & Kaempferol)
+    - Inhibit cancer cell proliferation.
+    - Induce apoptosis in various cancer cells.
+    - Suppress angiogenesis.
+- Phytosterols (Beta-sitosterol.)    
+    - Inhibit tumor growth by modulating immune response and reducing inflammation.
