@@ -52,4 +52,8 @@
 - fix: validate user inside the token with professional send in body (void unwanted relationship between professionals and records from other domains that doesn't belong to it)
 - fix: fix population of program tags in program schema
  
+## Database
+- fix zanahorias search
+- add chili
+
 ## Videos
