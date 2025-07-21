@@ -17,5 +17,9 @@ export class Ingredient extends Macros {
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   label: string;
+
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
+  internalFood?: string;
 }
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);
