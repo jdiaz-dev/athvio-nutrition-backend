@@ -7,7 +7,6 @@ RETURN dc;
 MATCH (n)-[r]->(m)
 RETURN n, r, m;
 
-
 //get diseases caused by parasites 
 MATCH (dc:DiseaseCause {name: "Parasites"})
 OPTIONAL MATCH (di:Disease)-[hdc:HAS_DISEASE_CAUSE]->(dc)

@@ -49,11 +49,11 @@ all known for their antioxidant and anti-inflammatory effects. These compounds c
 - Tannins and Terpenes
 
 # Quinoa
-- Saponins
-    - Disrupt cancer cell membranes, 
+- Saponins (done)
+    - Cytolisis: Disrupt cancer cell membranes, 
     - induce apoptosis (programmed cell death) 
-    - and inhibit tumor growth.
-- Polyphenols (Quercetin, kaempferol, ferulic acid, gallic acid)
+    - Antitumor: inhibit tumor growth .
+- Polyphenols (Quercetin, kaempferol, ferulic acid, gallic acid) 
     - Strong antioxidants that neutralize free radicals, 
     - inhibit inflammation, 
     - and interfere with cancer cell signaling pathways.
@@ -61,7 +61,7 @@ all known for their antioxidant and anti-inflammatory effects. These compounds c
     - Inhibit cancer cell proliferation.
     - Induce apoptosis in various cancer cells.
     - Suppress angiogenesis.
-- Phytosterols (Beta-sitosterol.)    
+- Phytosterols (Beta-sitosterol.)    (done)
     - Inhibit tumor growth by modulating immune response and reducing inflammation.
 
 

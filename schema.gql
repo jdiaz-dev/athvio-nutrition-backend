@@ -121,6 +121,16 @@ input CommenterInput {
   type: String!
 }
 
+type Compound {
+  createdAt: DateTime!
+  englishName: String!
+  isActive: Boolean!
+  mechanisms: [Mechanism!]!
+  spanishName: String!
+  updatedAt: DateTime!
+  uuid: String!
+}
+
 input CreateCaloryDto {
   calories: Float!
   carbs: Float!
@@ -335,6 +345,16 @@ type Food {
   name: String!
 }
 
+type FoodAnalyzer {
+  compounds: [Compound!]!
+  createdAt: DateTime!
+  englishName: String!
+  isActive: Boolean!
+  spanishName: String!
+  updatedAt: DateTime!
+  uuid: String!
+}
+
 type FoodProviderSession {
   nextSession: String!
   title: String!
@@ -356,6 +376,10 @@ input GenerateNutritionalPlanDto {
   patient: String!
   startDate: DateTime!
   totalDays: Float!
+}
+
+input GetAnalyzedFoodsDto {
+  internalFoods: [String!]!
 }
 
 input GetAutocompleteFoodNamesDto {
@@ -685,6 +709,19 @@ type Measure {
   weightInGrams: Float!
 }
 
+type Mechanism {
+  createdAt: DateTime!
+  englishDescription: String!
+  englishName: String!
+  englishRelatedDisease: String!
+  isActive: Boolean!
+  spanishDescription: String!
+  spanishName: String!
+  spanishRelatedDisease: String!
+  updatedAt: DateTime!
+  uuid: String!
+}
+
 type Meta {
   limit: Float!
   offset: Float!
@@ -955,6 +992,7 @@ type Query {
   getAllDiseaseCauses: [DiseaseCause!]!
   getAllDiseases: [Disease!]!
   getAllNutritionalPreferences: [NutritionalPreference!]!
+  getAnalyzedFoods(input: GetAnalyzedFoodsDto!): [FoodAnalyzer!]!
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
