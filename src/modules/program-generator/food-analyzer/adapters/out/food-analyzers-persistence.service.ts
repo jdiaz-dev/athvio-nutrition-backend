@@ -18,8 +18,10 @@ export class FoodAnalyzersPersistenceService {
 
         WITH f, c, collect(m {
           uuid: m.uuid,
-          spanishName: m.spanishName,
           englishName: m.englishName,
+          spanishName: m.spanishName,
+          englishCategory: m.englishCategory,
+          spanishCategory: m.spanishCategory,
           englishDescription: m.englishDescription,
           spanishDescription: m.spanishDescription,
           englishRelatedDisease: m.englishRelatedDisease,

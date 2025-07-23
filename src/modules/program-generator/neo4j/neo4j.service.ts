@@ -34,14 +34,14 @@ export class Neo4jService implements OnApplicationShutdown {
 
   getReadSession(database?: string) {
     return this.driver.session({
-      database: database || this.config.scheme,
+      database: database || this.config.database,
       defaultAccessMode: neo4j.session.READ,
     });
   }
 
   getWriteSession(database?: string) {
     return this.driver.session({
-      database: database || this.config.scheme,
+      database: database || this.config.database,
       defaultAccessMode: neo4j.session.WRITE,
     });
   }
