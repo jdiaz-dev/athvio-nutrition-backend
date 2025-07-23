@@ -9,6 +9,10 @@ class Mechanism {
   @Field()
   spanishName: string;
   @Field()
+  englishCategory: string;
+  @Field()
+  spanishCategory: string;
+  @Field()
   englishDescription: string;
   @Field()
   spanishDescription: string;

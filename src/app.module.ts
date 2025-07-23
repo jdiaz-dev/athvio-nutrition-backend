@@ -38,7 +38,8 @@ import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
     ProfessionalDomainsModule,
     PatientsDomainsModule,
     BackofficeDomainsModule,
-  ].concat(process.env.DEPLOY_PROGRAM_GENERATOR ? ProgramGeneratorDomainsModule : []),
+    ProgramGeneratorDomainsModule,
+  ],
   controllers: [AppController],
 })
 export class AppModule {}

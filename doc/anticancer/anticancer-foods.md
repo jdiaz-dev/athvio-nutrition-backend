@@ -57,10 +57,23 @@ all known for their antioxidant and anti-inflammatory effects. These compounds c
     - Strong antioxidants that neutralize free radicals, 
     - inhibit inflammation, 
     - and interfere with cancer cell signaling pathways.
-- Flavonoids (Quercetin & Kaempferol)
-    - Inhibit cancer cell proliferation.
-    - Induce apoptosis in various cancer cells.
-    - Suppress angiogenesis.
+- Quercetin (Flavonoids)
+    - Induce apoptosis.
+    - Cell cycle arrest
+    - Suppress angiogenesis: 
+        - Suppresses vascular endothelial growth factor (VEGF) and its receptors.
+        - Prevents tumors from developing new blood supply.
+    - Antioxidant & Reactive Oxygen Species (ROS) Modulation
+        - Neutralizes ROS, reducing DNA damage and mutations.
+        - Modulates Nrf2 pathway to enhance antioxidant defenses.
+    - Anti-Inflammatory 
+        - Inhibits NF-κB signaling pathway, lowering inflammatory cytokines (e.g., TNF-α, IL-6).
+        - Reduces the inflammatory environment that supports tumor growth.
+    - Inhibition of Metastasis
+        - Reduces matrix metalloproteinases (MMP-2, MMP-9) activity, which is crucial for invasion and metastasis.
+
+- Kaempferol
+
 - Phytosterols (Beta-sitosterol.)    (done)
     - Inhibit tumor growth by modulating immune response and reducing inflammation.
 

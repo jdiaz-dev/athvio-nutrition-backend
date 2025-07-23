@@ -1,8 +1,13 @@
-# Anticancer mechanisms - concepts 
+# Anticancer mechanism cateogories - concepts 
 ## Inhibit Tumor Cell Proliferation
 - Meaning: Prevents cancer cells from multiplying and forming new cells.
-- Mechanism: Targets the cell cycle to stop uncontrolled division of cancer cells.
-Goal: Stop tumor from growing bigger.
+- Mechanism: Targets the cell cycle to stop uncontrolled division of cancer cells (broader outcome).
+- Goal: Stop tumor from growing bigger.
+- Mechanisms involved:
+    - Cell cycle arrest (one mechanism): Stops cells at a specific checkpoint in the cell cycle (G1, S, or G2/M phases).
+    - Inducing apoptosis (killing cells)
+    - Inducing senescence (permanent cell arrest)
+    - Limiting metabolic activity or nutrient supply (like anti-angiogenesis)
 
 ## Induce Apoptosis
 - Meaning: Triggers programmed cell death in cancer cells.
@@ -49,6 +54,8 @@ Goal: Starve the tumor by cutting its blood supply.
     - movement
     - production of proteins
     - and many others.
+
+## Inhibition of metastasis
 
 ### In cancer context:
 - Cancer often arises when signaling pathways that control cell growth, division, or death are disrupted. Some of the most well-known cancer-related pathways include:

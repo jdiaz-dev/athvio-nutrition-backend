@@ -711,10 +711,12 @@ type Measure {
 
 type Mechanism {
   createdAt: DateTime!
+  englishCategory: String!
   englishDescription: String!
   englishName: String!
   englishRelatedDisease: String!
   isActive: Boolean!
+  spanishCategory: String!
   spanishDescription: String!
   spanishName: String!
   spanishRelatedDisease: String!
