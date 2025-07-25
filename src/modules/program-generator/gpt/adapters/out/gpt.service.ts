@@ -45,12 +45,16 @@ export class GptService {
           },
           {
             role: 'user',
-            content: `
+            content: prompt
+            
+            /* `
             """generate nutritional plan for 7 days"""."""the nutritional plan is for 1800 calories every day"""."""every day must contain 3 meals"""."""the nutritional plan must contain this indications: must contain carrot juice all days, must contain cabbage juice all days, must include 20 ml of castor oil all days, all the nutritional plan must be a vegan diet """
-            `,
+            `, */
+
+
           },
         ],
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         response_format: zodResponseFormat(schemaPrompt, 'nutri_response'),
       });
 

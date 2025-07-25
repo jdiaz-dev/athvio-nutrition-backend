@@ -26,7 +26,13 @@ export class CreatePatientPlanManagerService {
     return patientPlan;
   }
   async createManyPatientPlan(dto: PatientPlanPartial[]): Promise<PatientPlan[]> {
-    const patientPlans = await this.cpps.createManyPatientPlan(dto.map((plan) => ({ ...plan, uuid: randomUUID() })));
+    const patientPlans = await this.cpps.createManyPatientPlan(
+      dto.map(({ meals, ...restPlan }) => ({
+        ...restPlan,
+        meals: meals.map((meal) => ({ ...meal, uuid: randomUUID() })),
+        uuid: randomUUID(),
+      })),
+    );
     return patientPlans;
   }
 }
