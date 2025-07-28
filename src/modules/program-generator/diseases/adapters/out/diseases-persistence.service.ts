@@ -12,9 +12,9 @@ export class DiseasesPersistenceService {
     const res = await this.neo4jService.read(
       `
         MATCH (d:Disease)
-        WHERE d.id = $disease AND d.isActive = $isActive
+        WHERE d.uuid = $disease AND d.isActive = $isActive
         RETURN COLLECT(DISTINCT {
-           id: d.id,
+           uuid: d.uuid,
            name: d.name
         }) AS ${resultName}
       `,
@@ -27,14 +27,14 @@ export class DiseasesPersistenceService {
     const res = await this.neo4jService.read(
       `
         MATCH (d:Disease)
-        WHERE d.id IN $diseaseIds AND d.isActive = $isActive
+        WHERE d.uuid IN $diseaseIds AND d.isActive = $isActive
         OPTIONAL MATCH (d)-[:HAS_RECOMMENDATION]->(r:Recommendation)
         OPTIONAL MATCH (r)-[:HAS_RESTRICTION]->(res:Restriction)
 
         WITH d, res,
           COLLECT(DISTINCT 
             CASE WHEN r IS NOT NULL THEN {
-              id: r.id,
+              uuid: r.uuid,
               name: r.name,
               details: r.details
             } ELSE NULL END
@@ -43,7 +43,7 @@ export class DiseasesPersistenceService {
 
         RETURN d.name AS disease, 
         COLLECT(DISTINCT {
-            id:d.id,
+            uuid:d.uuid,
             name:d.name,
             recommendations: recommendations 
           }
@@ -60,7 +60,7 @@ export class DiseasesPersistenceService {
       `
         MATCH (d:Disease {isActive: $isActive}) 
         RETURN COLLECT(DISTINCT {
-           id: d.id,
+           uuid: d.uuid,
            name: d.name
         }) AS ${resultName}
       `,

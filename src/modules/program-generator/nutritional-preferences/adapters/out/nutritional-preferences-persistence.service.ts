@@ -11,9 +11,9 @@ export class NutritionalPreferencesPersistenceService {
     const res = await this.neo4jService.read(
       `
         MATCH (np:NutritionalPreference) 
-        WHERE np.id = $nutritionalPreference AND np.isActive = $isActive
+        WHERE np.uuid = $nutritionalPreference AND np.isActive = $isActive
         RETURN COLLECT(DISTINCT {
-           id: np.id,
+           uuid: np.uuid,
            name: np.name
         }) AS ${resultName}
       `,
@@ -27,9 +27,9 @@ export class NutritionalPreferencesPersistenceService {
     const res = await this.neo4jService.read(
       `
         MATCH (np:NutritionalPreference) 
-        WHERE np.id IN $nutritionalPreferencesIds AND np.isActive = $isActive
+        WHERE np.uuid IN $nutritionalPreferencesIds AND np.isActive = $isActive
         RETURN COLLECT(DISTINCT {
-           id: np.id,
+           uuid: np.uuid,
            name: np.name
         }) AS ${resultName}
       `,
@@ -45,7 +45,7 @@ export class NutritionalPreferencesPersistenceService {
       `
         MATCH (np:NutritionalPreference {isActive: $isActive}) 
         RETURN COLLECT(DISTINCT {
-           id: np.id,
+           uuid: np.uuid,
            name: np.name
         }) AS ${resultName}
       `,

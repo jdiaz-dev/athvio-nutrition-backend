@@ -12,9 +12,9 @@ export class DiseaseCausesPersistenceService {
     const res = await this.neo4jService.read(
       `
         MATCH (dc:DiseaseCause) 
-        WHERE dc.id = $diseaseCause AND dc.isActive = $isActive
+        WHERE dc.uuid = $diseaseCause AND dc.isActive = $isActive
         RETURN COLLECT(DISTINCT {
-           id: dc.id,
+           uuid: dc.uuid,
            name: dc.name
         }) AS ${ressultName}
       `,
@@ -27,26 +27,26 @@ export class DiseaseCausesPersistenceService {
     const res = await this.neo4jService.read(
       `
         MATCH (dc:DiseaseCause)-[:HAS_RECOMMENDATION]->(r:Recommendation)
-        WHERE dc.id IN $diseaseCauseIds AND dc.isActive = $isActive
+        WHERE dc.uuid IN $diseaseCauseIds AND dc.isActive = $isActive
 
         OPTIONAL MATCH (r)-[:HAS_RESTRICTION]->(di:Disease)
         WITH dc, r, COLLECT(DISTINCT
           CASE WHEN di IS NOT NULL THEN {
             name: di.name
           } ELSE NULL END
-        ) AS restrictions, COLLECT(DISTINCT di.id) AS restrictionIds
+        ) AS restrictions, COLLECT(DISTINCT di.uuid) AS restrictionIds
 
         WHERE NONE(id IN restrictionIds WHERE id IN $excludedDiseasesIds)
 
         WITH dc, COLLECT(DISTINCT {
-          id: r.id,
+          uuid: r.uuid,
           name: r.name, 
           details: r.details,
           restrictions: restrictions 
         }) AS recommendations
 
         WITH dc, COLLECT(DISTINCT {
-          id:dc.id,
+          uuid: dc.uuid,
           name: dc.name, 
           recommendations: recommendations 
         }) AS _diseaseCause
@@ -64,7 +64,7 @@ export class DiseaseCausesPersistenceService {
       `
         MATCH (dc:DiseaseCause {isActive: $isActive}) 
         RETURN COLLECT(DISTINCT {
-           id: dc.id,
+           uuid: dc.uuid,
            name: dc.name
         }) AS ${ressultName}
       `,

@@ -288,13 +288,13 @@ input DeleteProgramTagDto {
 }
 
 type Disease {
-  id: ID!
   name: String!
+  uuid: String!
 }
 
 type DiseaseCause {
-  id: ID!
   name: String!
+  uuid: String!
 }
 
 input DuplicatePatientPlanDto {
@@ -818,7 +818,6 @@ type NutritionalMeal {
 
 type NutritionalPreference {
   createdAt: DateTime!
-  id: ID!
   name: String!
   uuid: String!
 }
