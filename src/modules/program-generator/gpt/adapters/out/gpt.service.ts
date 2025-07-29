@@ -10,7 +10,10 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 @Injectable()
 export class GptService {
   private openai: OpenAI;
-  constructor(private readonly configService: ConfigService, private readonly logger: AthvioLoggerService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly logger: AthvioLoggerService,
+  ) {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('gptProvider.gptSecretKey'),
     });
@@ -37,21 +40,19 @@ export class GptService {
           {
             role: 'system',
             content: `
-            - You are a assistant expert nutritionist. You must help to another nutritionist to threat their patients
-            - The patient have this diseases : cancer, diabetes
-            - The root cause of the previous diseases are caused by : parasites, fungi
-            - When the nutritionist request a nutritional you must to accomplish with every instruction closed in triple quotes 
+              - Eres un asistente experto en nutrición. Debes ayudar a otro nutricionista a evaluar a sus pacientes.
+              - El paciente padece estas enfermedades: cáncer, diabetes.
+              - La causa raiz de las enfermedades mencionadas es: parásitos, hongos.
+              - Cuando el nutricionista te solicite un plan nutricional, debes seguir todas las instrucciones entre comillas triples.
             `,
           },
           {
             role: 'user',
-            content: prompt
-            
+            content: prompt,
+
             /* `
             """generate nutritional plan for 7 days"""."""the nutritional plan is for 1800 calories every day"""."""every day must contain 3 meals"""."""the nutritional plan must contain this indications: must contain carrot juice all days, must contain cabbage juice all days, must include 20 ml of castor oil all days, all the nutritional plan must be a vegan diet """
             `, */
-
-
           },
         ],
         model: 'gpt-4o',

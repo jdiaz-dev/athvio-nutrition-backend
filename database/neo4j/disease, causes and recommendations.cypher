@@ -41,7 +41,7 @@ ON CREATE SET leakyGut.uuid = randomUUID(), leakyGut.isActive = true, leakyGut.c
 //caused by abscence of magnesium
 MERGE (infarction:Disease {name: "Infarto"})
 ON CREATE SET infarction.uuid = randomUUID(), infarction.isActive = true, infarction.createdAt = datetime(), infarction.updatedAt = datetime()
-MERGE (cerebroVascularAccident:Disease {name: "Accidente Cerebrovascular "})
+MERGE (cerebroVascularAccident:Disease {name: "Accidente Cerebrovascular"})
 ON CREATE SET cerebroVascularAccident.uuid = randomUUID(), cerebroVascularAccident.isActive = true, cerebroVascularAccident.createdAt = datetime(), cerebroVascularAccident.updatedAt = datetime()
 MERGE (osteoarthritis:Disease {name: "Artrosis"})
 ON CREATE SET osteoarthritis.uuid = randomUUID(), osteoarthritis.isActive = true, osteoarthritis.createdAt = datetime(), osteoarthritis.updatedAt = datetime()
@@ -55,7 +55,7 @@ ON CREATE SET psylliumHusk.uuid = randomUUID(), psylliumHusk.details = '"""Inclu
 MERGE (castorOilRec:Recommendation {name: "Aceite de ricino"})
 ON CREATE SET castorOilRec.uuid = randomUUID(), castorOilRec.details = '"""Incluye el primer dia 20 ml  de aceite de ricino y repetir cada 3 dias"""', castorOilRec.isActive = true, castorOilRec.createdAt = datetime(), castorOilRec.updatedAt = datetime()
 MERGE (carrotRec:Recommendation {name: "Jugo de zanahoria"})
-ON CREATE SET carrotRec.uuid = randomUUID(), carrotRec.details = '"""Incluye 1 a 1/2L de jugo de zanahoria cada dia"""', carrotRec.isActive = true, carrotRec.createdAt = datetime(), carrotRec.updatedAt = datetime()
+ON CREATE SET carrotRec.uuid = randomUUID(), carrotRec.details = '"""Incluye 1L de jugo de zanahoria cada dia (primera comida del dia)"""', carrotRec.isActive = true, carrotRec.createdAt = datetime(), carrotRec.updatedAt = datetime()
 MERGE (celeryRec:Recommendation {name: "Jugo de apio"})
 ON CREATE SET celeryRec.uuid = randomUUID(), celeryRec.details = '"""Incluye 1 L de jugo de apio y pepino cada dia"""', celeryRec.isActive = true, celeryRec.createdAt = datetime(), celeryRec.updatedAt = datetime()
 MERGE (cabbageRec:Recommendation {name: "Jugo de repollo"})

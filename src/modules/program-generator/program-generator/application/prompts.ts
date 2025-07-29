@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-const restrictionPrompt = 'Void processed foods and processed supplements. ';
-const betterCasePrompt = "Use only organic foods but you void use 'organic' word in the response. ";
-const undesiredCookingMethodPrompt = 'Void to add grilled foods. ';
+const restrictionPrompt = 'Evita alimentos procesados y suplementos procesados. ';
+const betterCasePrompt = "Usa solamente alimentos orgánicos pero evita usar la palabra 'orgánico' en la respuesta. ";
+const undesiredCookingMethodPrompt = 'Evita añadir alimentos a la parrilla. ';
 
 export const basicNutritionPrompt = (
   stringDiseases: string,
@@ -16,9 +16,9 @@ export const basicNutritionPrompt = (
   },
 ) => {
   days;
-  const planPeriodPrompt = `"""Build a nutritional plan for ${days} days in total""". """Every day must have ${meals} meals and at least 3 ingredients in every meal""". """It nutritional plan is intended to heal ${stringDiseases}""".`;
-  const macros = `"""Every day must be configured with ${_macros.calories} kcal""".`;
-  return planPeriodPrompt + macros + restrictionPrompt + betterCasePrompt + undesiredCookingMethodPrompt;
+  const planPeriodPrompt = `"""Crea un plan nutricional para ${days} dias en total""". """Cada dia debe tener ${meals} comidas y al menos 3 ingredientes en cada comida (tambien puede tener más ingredientes)""". """Este plan nutricional esta destinado a curar ${stringDiseases}""".`;
+  // const macros = `"""The total amount of calories every day must be ${_macros.calories} kcal""".`;
+  return planPeriodPrompt + restrictionPrompt + betterCasePrompt + undesiredCookingMethodPrompt;
 };
 
 export const nutritionalPlanPrompt = (
@@ -27,12 +27,29 @@ export const nutritionalPlanPrompt = (
   recommendationForDiseases: string,
   nutritionalPreferences: string,
 ) => {
-  return `The diseases was caused by ${diseases}, therefore include mainly this recommendations: ${recommendationsForCauses}, ${recommendationForDiseases} and include these nutritional preferences: ${nutritionalPreferences}`;
+  return ` La enfermedad fue causada por ${diseases}, por lo tanto ten presente estas recomendaciones: ${recommendationsForCauses}, ${recommendationForDiseases} e incluye esta preferencia nutricional: ${nutritionalPreferences}`;
 };
 
 const MacrosSchema = z.object({
   weightInGrams: z.number(),
-  label: z.enum(['Tablespoon', 'Cup', 'Stick', 'Gram', 'Ounce', 'Pound', 'Pat']),
+  label: z.enum([
+    'Cucharada',
+    'Cucharadas',
+    'Taza',
+    'Tazas',
+    'Rama',
+    'Ramas',
+    'Gramo',
+    'Gramos',
+    'Litro',
+    'Litros',
+    'Onza',
+    'Onzas',
+    'Libra',
+    'Libras',
+    'Mano',
+    'Manos',
+  ]),
   protein: z.number(),
   carbs: z.number(),
   fat: z.number(),
