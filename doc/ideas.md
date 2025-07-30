@@ -127,3 +127,5 @@
 - material medicos, naturopatas, profesionales de la salud del PRESENTE que curan exitosamente a sus pacientes 
 - material de exorcismos exitosos realizando una dexintoxicacion (si esque los hay) aparte de la biblia
 
+## Questions 2
+- do you used bentonite in the cleanse protocol
