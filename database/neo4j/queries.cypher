@@ -31,9 +31,9 @@ OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
 RETURN d,hdica,dc,hrec,rec,hres,di
 
 
-//get cancer
+//get diesease
 MATCH (d:Disease)
-WHERE d.name in ["Cancer"]
+WHERE d.name in ["Fibromialgia"]
 OPTIONAL MATCH (d:Disease)-[hdica:HAS_DISEASE_CAUSE]->(dc:DiseaseCause)
 OPTIONAL MATCH (dc:DiseaseCause)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
 OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)

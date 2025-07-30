@@ -33,6 +33,8 @@ export const nutritionalPlanPrompt = (
 const MacrosSchema = z.object({
   weightInGrams: z.number(),
   label: z.enum([
+    'Unidad',
+    'Unidades',
     'Cucharada',
     'Cucharadas',
     'Taza',
