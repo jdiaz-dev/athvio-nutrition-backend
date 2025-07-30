@@ -76,6 +76,8 @@ MERGE (magnesium:Recommendation {name: "Magnesio"})
 ON CREATE SET magnesium.uuid = randomUUID(), magnesium.details = "Consumir 500 mg de citráto de magnesio", magnesium.isActive = true, magnesium.createdAt = datetime(), magnesium.updatedAt = datetime() 
 MERGE (lysine:Recommendation {name: "Lisina"})
 ON CREATE SET lysine.uuid = randomUUID(), lysine.details = "Consumir alimentos con lisina", lysine.isActive = true, lysine.createdAt = datetime(), lysine.updatedAt = datetime() 
+MERGE (boneBroth:Recommendation {name: "Caldo de huesos"})
+ON CREATE SET boneBroth.uuid = randomUUID(), boneBroth.details = "Consumir caldo de huesos", boneBroth.isActive = true, boneBroth.createdAt = datetime(), boneBroth.updatedAt = datetime() 
 //black seeds
 //garlic
 
@@ -181,6 +183,7 @@ ON CREATE SET gcbombs.uuid = randomUUID(), gcbombs.details = '"""Incluir verdura
 WITH * 
 // Connect DiseaseCauses to Recommendations (disease to recommendation)
 MERGE (cancer)-[:HAS_RECOMMENDATION]->(gcbombs)
+MERGE (leakyGut)-[:HAS_RECOMMENDATION]->(boneBroth)
 
 // Ensure previous results are carried forward
 WITH *

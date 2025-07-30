@@ -33,11 +33,12 @@ RETURN d,hdica,dc,hrec,rec,hres,di
 
 //get diesease
 MATCH (d:Disease)
-WHERE d.name in ["Fibromialgia"]
+WHERE d.name in ["Intestino permeable"]
 OPTIONAL MATCH (d:Disease)-[hdica:HAS_DISEASE_CAUSE]->(dc:DiseaseCause)
-OPTIONAL MATCH (dc:DiseaseCause)-[hrec:HAS_RECOMMENDATION]->(rec:Recommendation)
+OPTIONAL MATCH (d:Disease)-[d_h_rec:HAS_RECOMMENDATION]->(d_rec:Recommendation)
+OPTIONAL MATCH (dc:DiseaseCause)-[dc_h_rec:HAS_RECOMMENDATION]->(dc_rec:Recommendation)
 OPTIONAL MATCH (rec)-[hres:HAS_RESTRICTION]->(di:Disease)
-RETURN d,hdica,dc,hrec,rec,hres,di
+RETURN d,d_h_rec,dc_h_rec,hdica,dc,d_rec,dc_rec,hres,di
 
 //get diabetes and relations if exists
 MATCH (d:DiseaseCause {name: "Viruses"})
