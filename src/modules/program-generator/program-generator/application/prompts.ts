@@ -56,7 +56,7 @@ const MacrosSchema = z.object({
   carbs: z.number(),
   fat: z.number(),
   calories: z.number(),
-  amount: z.number(),
+  amount: z.number().min(1).max(1000),
 });
 
 const IngredientSchema = z

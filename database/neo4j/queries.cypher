@@ -33,7 +33,7 @@ RETURN d,hdica,dc,hrec,rec,hres,di
 
 //get diesease
 MATCH (d:Disease)
-WHERE d.name in ["Intestino permeable"]
+WHERE d.name in ["Gastritis"]
 OPTIONAL MATCH (d:Disease)-[hdica:HAS_DISEASE_CAUSE]->(dc:DiseaseCause)
 OPTIONAL MATCH (d:Disease)-[d_h_rec:HAS_RECOMMENDATION]->(d_rec:Recommendation)
 OPTIONAL MATCH (dc:DiseaseCause)-[dc_h_rec:HAS_RECOMMENDATION]->(dc_rec:Recommendation)

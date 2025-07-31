@@ -43,9 +43,10 @@ export class NutritionalPlanGeneratorService {
       `"""Debes cumplir con el objetivo calórico establecido para cada dia (${macros.calories} kcal)""".` +
       `"""Para cumplir con el objetivo calórico, incluye ingredientes alto en calorías cumpliendo la preferencia ${nutritionalPreferences}""".` +
       '"""Los ingredientes pueden ser simples o compuestos. Ejemplo: zanahoria, jugo de zanahoria""".' +
+      '"""Asegurate que los macros para cada ingrediente sea bien calculado deacuerdo de acuerdo a la cantidad""".' +
       // '"""Añade más ingredientes si es necesario pero cumple con el tipo de dieta que se te pidio""".' +
       '"""Los valores de los atributos deben estar en español"""';
-    console.info(nutritionalPrompt);
+    if (process.env.NODE_ENV === 'development') console.info(nutritionalPrompt);
 
     const res = await this.gpt.chatCompletion<PlansSchemaPromptType>(nutritionalPrompt, PlansSchemaPrompt);
     return res.plans;

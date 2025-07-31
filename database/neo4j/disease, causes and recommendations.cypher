@@ -12,6 +12,8 @@ MERGE (heavyMetals:DiseaseCause {name: "Metales pesados"})
 ON CREATE SET heavyMetals.uuid = randomUUID(), heavyMetals.isActive = true, heavyMetals.createdAt = datetime(), heavyMetals.updatedAt = datetime()
 MERGE (plastics:DiseaseCause {name: "Plásticos"})
 ON CREATE SET plastics.uuid = randomUUID(), plastics.isActive = true, plastics.createdAt = datetime(), plastics.updatedAt = datetime()
+MERGE (químicos:DiseaseCause {name: "Químicos"})
+ON CREATE SET químicos.uuid = randomUUID(), químicos.isActive = true, químicos.createdAt = datetime(), químicos.updatedAt = datetime()
 MERGE (viruses:DiseaseCause {name: "Viruses"})
 ON CREATE SET viruses.uuid = randomUUID(), viruses.isActive = true, viruses.createdAt = datetime(), viruses.updatedAt = datetime()
 MERGE (endodontics:DiseaseCause {name: "Endodoncia"})
@@ -38,6 +40,8 @@ MERGE (hypothyroidism:Disease {name: "Hipotiroidismo"})
 ON CREATE SET hypothyroidism.uuid = randomUUID(), hypothyroidism.isActive = true, hypothyroidism.createdAt = datetime(), hypothyroidism.updatedAt = datetime()
 MERGE (leakyGut:Disease {name: "Intestino permeable"})
 ON CREATE SET leakyGut.uuid = randomUUID(), leakyGut.isActive = true, leakyGut.createdAt = datetime(), leakyGut.updatedAt = datetime()
+MERGE (gastritis:Disease {name: "Gastritis"})
+ON CREATE SET gastritis.uuid = randomUUID(), gastritis.isActive = true, gastritis.createdAt = datetime(), gastritis.updatedAt = datetime()
 
 
 //caused by abscence of magnesium
@@ -58,7 +62,7 @@ MERGE (castorOilRec:Recommendation {name: "Aceite de ricino"})
 ON CREATE SET castorOilRec.uuid = randomUUID(), castorOilRec.details = '"""Incluye el primer dia 20 ml  de aceite de ricino y repetir cada 3 dias"""', castorOilRec.isActive = true, castorOilRec.createdAt = datetime(), castorOilRec.updatedAt = datetime()
 MERGE (carrotRec:Recommendation {name: "Jugo de zanahoria"})
 ON CREATE SET carrotRec.uuid = randomUUID(), carrotRec.details = '"""Incluye 1L de jugo de zanahoria cada dia (primera comida del dia)"""', carrotRec.isActive = true, carrotRec.createdAt = datetime(), carrotRec.updatedAt = datetime()
-MERGE (celeryRec:Recommendation {name: "Jugo de apio"})
+MERGE (celeryRec:Recommendation {name: "Jugo de apio y pepino"})
 ON CREATE SET celeryRec.uuid = randomUUID(), celeryRec.details = '"""Incluye 1 L de jugo de apio y pepino cada dia"""', celeryRec.isActive = true, celeryRec.createdAt = datetime(), celeryRec.updatedAt = datetime()
 MERGE (cabbageRec:Recommendation {name: "Jugo de repollo"})
 ON CREATE SET cabbageRec.uuid = randomUUID(), cabbageRec.details = '"""Incluye 0.25L de jugo de repollo cada dia"""', cabbageRec.isActive = true, cabbageRec.createdAt = datetime(), cabbageRec.updatedAt = datetime()
@@ -77,7 +81,7 @@ ON CREATE SET magnesium.uuid = randomUUID(), magnesium.details = "Consumir 500 m
 MERGE (lysine:Recommendation {name: "Lisina"})
 ON CREATE SET lysine.uuid = randomUUID(), lysine.details = "Consumir alimentos con lisina", lysine.isActive = true, lysine.createdAt = datetime(), lysine.updatedAt = datetime() 
 MERGE (boneBroth:Recommendation {name: "Caldo de huesos"})
-ON CREATE SET boneBroth.uuid = randomUUID(), boneBroth.details = "Consumir caldo de huesos", boneBroth.isActive = true, boneBroth.createdAt = datetime(), boneBroth.updatedAt = datetime() 
+ON CREATE SET boneBroth.uuid = randomUUID(), boneBroth.details = '"""Consumir caldo de huesos todos los dias"""', boneBroth.isActive = true, boneBroth.createdAt = datetime(), boneBroth.updatedAt = datetime() 
 //black seeds
 //garlic
 
@@ -148,6 +152,12 @@ MERGE (cerebroVascularAccident)-[:HAS_DISEASE_CAUSE]->(magnesium)
 
 //osteoarthritis
 MERGE (osteoarthritis)-[:HAS_DISEASE_CAUSE]->(magnesium)
+
+//gastritis
+MERGE (gastritis)-[:HAS_DISEASE_CAUSE]->(mucoidPlaque)
+MERGE (gastritis)-[:HAS_DISEASE_CAUSE]->(parasites)
+MERGE (gastritis)-[:HAS_DISEASE_CAUSE]->(fungi)
+MERGE (gastritis)-[:HAS_DISEASE_CAUSE]->(bacteria)
 
 WITH *
 
