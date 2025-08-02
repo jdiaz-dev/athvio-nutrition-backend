@@ -143,15 +143,15 @@ arrestG2M.isActive = true, arrestG2M.createdAt = datetime(), arrestG2M.updatedAt
 MERGE (inhibitVEGF:Mechanisms {englishName: "Inhibition of VEGF"})
 ON CREATE SET inhibitVEGF.uuid = randomUUID(), inhibitVEGF.spanishName = "Inhibición de VEGF",
 inhibitVEGF.englishCategory = "Anti-angiogenesis", inhibitVEGF.spanishCategory = "Antiangiogénesis",
-inhibitVEGF.englishDescription = "Blocks VEGF signaling reducing angiogenesis",
-inhibitVEGF.spanishDescription = "Bloquea la señalización VEGF reduciendo la angiogénesis",
+inhibitVEGF.englishDescription = "Blocks VEGF (Vascular Endothelial Growth Factor) signaling reducing angiogenesis",
+inhibitVEGF.spanishDescription = "Bloquea la señalización VEGF (Vascular Endothelial Growth Factor) reduciendo la angiogénesis",
 inhibitVEGF.isActive = true, inhibitVEGF.createdAt = datetime(), inhibitVEGF.updatedAt = datetime()
 
 MERGE (inhibitVEGFR:Mechanisms {englishName: "Inhibition of VEGFR signaling"})
 ON CREATE SET inhibitVEGFR.uuid = randomUUID(), inhibitVEGFR.spanishName = "Inhibición de la señalización de VEGFR",
 inhibitVEGFR.englishCategory = "Anti-angiogenesis", inhibitVEGFR.spanishCategory = "Antiangiogénesis",
-inhibitVEGFR.englishDescription = "Blocks VEGFR signaling pathway",
-inhibitVEGFR.spanishDescription = "Bloquea la vía de señalización VEGFR",
+inhibitVEGFR.englishDescription = "Blocks VEGFR (Vascular Endothelial Growth Factor Receptor) signaling pathway",
+inhibitVEGFR.spanishDescription = "Bloquea la vía de señalización VEGFR (Vascular Endothelial Growth Factor Receptor)",
 inhibitVEGFR.isActive = true, inhibitVEGFR.createdAt = datetime(), inhibitVEGFR.updatedAt = datetime()
 
 MERGE (inhibitAngiopoietin:Mechanisms {englishName: "Inhibition of angiopoietin"})
@@ -217,6 +217,53 @@ pd1Inhibition.spanishDescription = "Bloquea el punto de control PD-1 para mejora
 pd1Inhibition.isActive = true, pd1Inhibition.createdAt = datetime(), pd1Inhibition.updatedAt = datetime()
 
 // ===============================
+// HORMONAL MECHANISMS
+// ===============================
+MERGE (inhibitERSignaling:Mechanisms {englishName: "Inhibition of estrogen receptor signaling"})
+ON CREATE SET inhibitERSignaling.uuid = randomUUID(),
+inhibitERSignaling.spanishName = "Inhibición de la señalización del receptor de estrógeno",
+inhibitERSignaling.englishCategory = "Hormonal regulation",
+inhibitERSignaling.spanishCategory = "Regulación hormonal",
+inhibitERSignaling.englishDescription = "Blocks signaling mediated by estrogen receptors, reducing growth of hormone-dependent tumors",
+inhibitERSignaling.spanishDescription = "Bloquea la señalización mediada por receptores de estrógeno, reduciendo el crecimiento de tumores dependientes de hormonas",
+inhibitERSignaling.isActive = true,
+inhibitERSignaling.createdAt = datetime(),
+inhibitERSignaling.updatedAt = datetime()
+
+MERGE (inhibitARSignaling:Mechanisms {englishName: "Inhibition of androgen receptor signaling"})
+ON CREATE SET inhibitARSignaling.uuid = randomUUID(),
+inhibitARSignaling.spanishName = "Inhibición de la señalización del receptor de andrógeno",
+inhibitARSignaling.englishCategory = "Hormonal regulation",
+inhibitARSignaling.spanishCategory = "Regulación hormonal",
+inhibitARSignaling.englishDescription = "Blocks androgen receptor signaling, reducing growth of androgen-dependent tumors",
+inhibitARSignaling.spanishDescription = "Bloquea la señalización del receptor de andrógeno, reduciendo el crecimiento de tumores dependientes de andrógenos",
+inhibitARSignaling.isActive = true,
+inhibitARSignaling.createdAt = datetime(),
+inhibitARSignaling.updatedAt = datetime()
+
+MERGE (inhibitPRSignaling:Mechanisms {englishName: "Inhibition of progesterone receptor signaling"})
+ON CREATE SET inhibitPRSignaling.uuid = randomUUID(),
+inhibitPRSignaling.spanishName = "Inhibición de la señalización del receptor de progesterona",
+inhibitPRSignaling.englishCategory = "Hormonal regulation",
+inhibitPRSignaling.spanishCategory = "Regulación hormonal",
+inhibitPRSignaling.englishDescription = "Blocks progesterone receptor signaling, impacting hormone-related cancer growth",
+inhibitPRSignaling.spanishDescription = "Bloquea la señalización del receptor de progesterona, impactando el crecimiento del cáncer dependiente de hormonas",
+inhibitPRSignaling.isActive = true,
+inhibitPRSignaling.createdAt = datetime(),
+inhibitPRSignaling.updatedAt = datetime()
+
+MERGE (aromataseInhibition:Mechanisms {englishName: "Aromatase inhibition"})
+ON CREATE SET aromataseInhibition.uuid = randomUUID(),
+aromataseInhibition.spanishName = "Inhibición de la aromatasa",
+aromataseInhibition.englishCategory = "Hormonal regulation",
+aromataseInhibition.spanishCategory = "Regulación hormonal",
+aromataseInhibition.englishDescription = "Inhibits aromatase enzyme, lowering estrogen synthesis",
+aromataseInhibition.spanishDescription = "Inhibe la enzima aromatasa, reduciendo la síntesis de estrógenos",
+aromataseInhibition.isActive = true,
+aromataseInhibition.createdAt = datetime(),
+aromataseInhibition.updatedAt = datetime()
+
+// ===============================
 // OTHER CELL DEATH
 // ===============================
 MERGE (necroptosis:Mechanisms {englishName: "Induction of necroptosis"})
@@ -267,6 +314,8 @@ MERGE (phytosterols)-[:HAS_MECHANISMS]->(inhibitProliferation)
 MERGE (phytosterols)-[:HAS_MECHANISMS]->(arrestG1)
 MERGE (phytosterols)-[:HAS_MECHANISMS]->(nkActivation)
 MERGE (phytosterols)-[:HAS_MECHANISMS]->(pd1Inhibition)
+MERGE (phytosterols)-[:HAS_MECHANISMS]->(inhibitARSignaling) //validate mechanism
+MERGE (phytosterols)-[:HAS_MECHANISMS]->(inhibitERSignaling) //validate mechanism
 
 MERGE (quercetin)-[:HAS_MECHANISMS]->(induceApoptosis)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(caspase3)
@@ -274,6 +323,8 @@ MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitVEGF)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitVEGFR)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitMigration)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitEMT)
+MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitERSignaling) //validate mechanism
+MERGE (quercetin)-[:HAS_MECHANISMS]->(aromataseInhibition) //validate mechanism
 
 // --- Oat milk compounds ---
 MERGE (avenanthramides)-[:HAS_MECHANISMS]->(induceApoptosis)

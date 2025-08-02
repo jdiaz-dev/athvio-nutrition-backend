@@ -129,3 +129,6 @@
 
 ## Questions 2
 - do you used bentonite in the cleanse protocol
+- what about the consume of fruit and meat (uric acid)
+
+
