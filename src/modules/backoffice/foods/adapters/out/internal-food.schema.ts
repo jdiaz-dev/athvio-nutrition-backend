@@ -79,3 +79,4 @@ InternalFoodSchema.methods.toJSON = function () {
   const { __v, createdAt, updatedAt, ...food } = this.toObject();
   return food;
 };
+InternalFoodSchema.index({ 'foodDetails.label': 'text' });

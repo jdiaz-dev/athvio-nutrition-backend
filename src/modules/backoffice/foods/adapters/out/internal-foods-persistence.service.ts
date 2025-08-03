@@ -4,7 +4,6 @@ import { Model } from 'mongoose';
 
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { InternalFood, InternalFoodDocument } from 'src/modules/backoffice/foods/adapters/out/internal-food.schema';
-import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { GetFoods, GetInternalFoodsResponse } from 'src/modules/backoffice/foods/helpers/foods';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
@@ -22,18 +21,17 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
     return res;
   }
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
-    const combinedFields = searchByFieldsGenerator(['foodDetails.label'], dto.search);
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
         $match: {
-          '$or': combinedFields,
+          ...(dto.search[0].length > 0 && { $text: { $search: dto.search.join(' ') } }),
           'foodDetails.category': 'Generic foods',
         },
       },
       {
         $addFields: {
           isExactMatch: {
-            $eq: [{ $toLower: '$foodDetails.label' }, dto.search[0].toLowerCase()],
+            $in: [{ $toLower: '$foodDetails.label' }, dto.search.map((word) => word.toLowerCase())],
           },
         },
       },
