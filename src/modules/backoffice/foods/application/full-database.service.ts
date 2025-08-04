@@ -6,13 +6,8 @@ import { NextLink } from 'src/modules/backoffice/foods/adapters/out/providers/fo
 import { FoodsProviderService } from 'src/modules/backoffice/foods/adapters/out/providers/foods-provider.service';
 import { TranslatorService } from 'src/modules/backoffice/foods/adapters/out/providers/translator.service';
 
-//black beans
-//arroz salvaje
-//judias verdes
-//champiñones
-//tofu
-//gallina
-const allFoods2: string[] = ['psyllium husk', 'olive oil'];
+const allFoods2: string[] = [];
+
 //todo: delete this class
 @Injectable()
 export class FullDatabaseService {

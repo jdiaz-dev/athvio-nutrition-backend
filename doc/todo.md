@@ -55,5 +55,6 @@
 ## Database
 - fix zanahorias search
 - add chili
+- fix: it is difficult to search judias verdes
 
 ## Videos

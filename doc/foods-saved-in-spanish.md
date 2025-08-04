@@ -234,10 +234,10 @@ const meats = [
 const juices = [
   'grape juice',
   'orange juice',
-  'apple juice',
+  'apple juice',//x
   'carrot juice',
   'pear juice',
-  'parsley juice',
+  'parsley juice',//x
   'celery juice',
   'beet juice',
   'pineapple juice',
@@ -253,10 +253,15 @@ const juices = [
   'kale juice',
   'mango juice',
   'peach juice',
+  
 ];
 
 const others = [
-  
+  'psyllium husk', 
+  'olive oil', 
+  'black beans', 
+  'green beans',
+  'tofu'
 ]
 
 ```;
