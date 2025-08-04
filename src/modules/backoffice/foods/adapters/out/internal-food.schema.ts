@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @Schema({ _id: false, timestamps: false })
@@ -63,9 +63,6 @@ export const FoodDetailsSchema = SchemaFactory.createForClass(FoodDetails);
 @ObjectType()
 @Schema({ timestamps: true, collection: 'InternalFoods' })
 export class InternalFood extends BaseSchema {
-  @Field(() => ID)
-  _id: string;
-
   @Prop({ type: FoodDetailsSchema, required: false })
   foodDetails: FoodDetails;
 

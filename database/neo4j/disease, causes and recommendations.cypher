@@ -54,7 +54,7 @@ ON CREATE SET osteoarthritis.uuid = randomUUID(), osteoarthritis.isActive = true
 
 
 //Include Chukrut/sauerkraut twice by week
-//Incluye Chukrut/encurtidos 2 veces por semana
+//Incluye Chucrut/encurtidos 2 veces por semana
 // -------------------------- Recommendation Nodes (for causes)
 MERGE (psylliumHusk:Recommendation {name: "Psyllium Husk"})
 ON CREATE SET psylliumHusk.uuid = randomUUID(), psylliumHusk.details = '"""Incluir 1 cuchara de psyllium husk todos los dias"""', psylliumHusk.isActive = true, psylliumHusk.createdAt = datetime(), psylliumHusk.updatedAt = datetime()
@@ -68,8 +68,8 @@ MERGE (cabbageRec:Recommendation {name: "Jugo de repollo"})
 ON CREATE SET cabbageRec.uuid = randomUUID(), cabbageRec.details = '"""Incluye 0.25L de jugo de repollo cada dia"""', cabbageRec.isActive = true, cabbageRec.createdAt = datetime(), cabbageRec.updatedAt = datetime()
 MERGE (propolisRec:Recommendation {name: "Propóleo"})
 ON CREATE SET propolisRec.uuid = randomUUID(), propolisRec.details = '"""Incluye propóleo crudo 2 veces por semana empezando el segundo dia"""',  propolisRec.isActive = true, propolisRec.createdAt = datetime(), propolisRec.updatedAt = datetime() 
-MERGE (chukrutRec:Recommendation {name: "Chukrut"})
-ON CREATE SET chukrutRec.uuid = randomUUID(), chukrutRec.details = '"""Incluye Chukrut/encurtidos 2 veces por semana"""', chukrutRec.isActive = true, chukrutRec.createdAt = datetime(), chukrutRec.updatedAt = datetime() 
+MERGE (chukrutRec:Recommendation {name: "Chucrut"})
+ON CREATE SET chukrutRec.uuid = randomUUID(), chukrutRec.details = '"""Incluye Chucrut/encurtidos 2 veces por semana"""', chukrutRec.isActive = true, chukrutRec.createdAt = datetime(), chukrutRec.updatedAt = datetime() 
 MERGE (ketoRec:Recommendation {name: "Dieta cetogénica"})
 ON CREATE SET ketoRec.uuid = randomUUID(), ketoRec.details = "Sigue una dieta cetogénica", ketoRec.isActive = true, ketoRec.createdAt = datetime(), ketoRec.updatedAt = datetime() 
 MERGE (oreganOilRec:Recommendation {name: "Aceite de Orégano"})

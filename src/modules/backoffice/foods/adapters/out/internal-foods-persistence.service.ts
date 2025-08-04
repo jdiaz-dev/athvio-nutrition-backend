@@ -16,7 +16,7 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
     super(internalFoodModel, logger, InternalFood.name);
   }
 
-  async saveInternalFoods(data: Omit<InternalFood, '_id' | 'uuid' | 'createdAt' | 'updatedAt'>[]): Promise<InternalFood[]> {
+  async saveInternalFoods(data: Omit<InternalFood, '_id' | 'createdAt' | 'updatedAt'>[]): Promise<InternalFood[]> {
     const res = await this.initializeQuery(this.saveInternalFoods.name).insertMany(data);
     return res;
   }
@@ -77,6 +77,7 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
 
     return res;
   }
+
   async getInternalFoodsByNames(foodNames: string[]): Promise<InternalFood[]> {
     const foodsRes = await this.initializeQuery(this.getInternalFoodsByNames.name).find(
       {
