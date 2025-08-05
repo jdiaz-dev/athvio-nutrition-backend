@@ -13,6 +13,9 @@ ON CREATE SET banana.uuid = randomUUID(), banana.spanishName = "Plátano", banan
 MERGE (allspice:Food {englishName: "Allspice"})
 ON CREATE SET allspice.uuid = randomUUID(), allspice.spanishName = "Pimienta dulce", allspice.internalFood = "2e43f344-babb-4012-a911-ed65947c9c5e", allspice.isActive = true, allspice.createdAt = datetime(), allspice.updatedAt = datetime()
 
+MERGE (carrotJuice:Food {englishName: "Carrot juice"})
+ON CREATE SET carrotJuice.uuid = randomUUID(), carrotJuice.spanishName = "Jugo de zanahoria", carrotJuice.internalFood = "a9815eda-7d94-4d90-bca9-723065e566d8", carrotJuice.isActive = true, carrotJuice.createdAt = datetime(), carrotJuice.updatedAt = datetime()
+
 // ===============================
 // COMPOUNDS: Quinoa
 // ===============================
@@ -62,20 +65,118 @@ MERGE (gallicAcid:Compound {englishName: "Gallic acid"})
 ON CREATE SET gallicAcid.uuid = randomUUID(), gallicAcid.spanishName = "Ácido gálico", gallicAcid.isActive = true, gallicAcid.createdAt = datetime(), gallicAcid.updatedAt = datetime()
 
 // ===============================
+// COMPOUNDS: Carrot juice
+// ===============================
+MERGE (β_carotene:Compound {englishName: "β-Carotene"})
+ON CREATE SET β_carotene.uuid = randomUUID(), β_carotene.spanishName = "β-Caroteno", 
+β_carotene.englishFamily = "Carotenoids", 
+β_carotene.spanishFamily = "Carotenoides", 
+β_carotene.isActive = true, β_carotene.createdAt = datetime(), β_carotene.updatedAt = datetime()
+
+MERGE (falcarinol:Compound {englishName: "Falcarinol"})
+ON CREATE SET falcarinol.uuid = randomUUID(),
+falcarinol.spanishName = "Falcarinol",
+falcarinol.englishCategory = "Polyacetylenes",
+falcarinol.spanishCategory = "Poliacetilenos",
+falcarinol.isActive = true,
+falcarinol.createdAt = datetime(),
+falcarinol.updatedAt = datetime()
+
+MERGE (falcarindiol:Compound {englishName: "Falcarindiol"})
+ON CREATE SET falcarindiol.uuid = randomUUID(),
+falcarindiol.spanishName = "Falcarindiol",
+falcarindiol.englishCategory = "Polyacetylenes",
+falcarindiol.spanishCategory = "Poliacetilenos",
+falcarindiol.isActive = true,
+falcarindiol.createdAt = datetime(),
+falcarindiol.updatedAt = datetime()
+
+MERGE (alphaCarotene:Compound {englishName: "α-Carotene"})
+ON CREATE SET alphaCarotene.uuid = randomUUID(),
+alphaCarotene.spanishName = "α-Caroteno",
+alphaCarotene.englishCategory = "Carotenoids",
+alphaCarotene.spanishCategory = "Carotenoides",
+alphaCarotene.isActive = true,
+alphaCarotene.createdAt = datetime(),
+alphaCarotene.updatedAt = datetime()
+
+MERGE (lutein:Compound {englishName: "Lutein"})
+ON CREATE SET lutein.uuid = randomUUID(),
+lutein.spanishName = "Luteína",
+lutein.englishCategory = "Carotenoids",
+lutein.spanishCategory = "Carotenoides",
+lutein.isActive = true,
+lutein.createdAt = datetime(),
+lutein.updatedAt = datetime()
+
+MERGE (terpenes:Compound {englishName: "Terpenes"})
+ON CREATE SET terpenes.uuid = randomUUID(),
+terpenes.spanishName = "Terpenos",
+terpenes.englishCategory = "Terpenoids",
+terpenes.spanishCategory = "Terpenoides",
+terpenes.isActive = true,
+terpenes.createdAt = datetime(),
+terpenes.updatedAt = datetime()
+
+// ===============================
+// ANTI-INFLAMMATORY MECHANISMS
+// ===============================
+MERGE (antiInflammatoryNFkB:Mechanisms {englishName: "Inhibition of NF-κB signaling"})
+ON CREATE SET antiInflammatoryNFkB.uuid = randomUUID(),
+antiInflammatoryNFkB.spanishName = "Inhibición de la señalización NF-κB",
+antiInflammatoryNFkB.englishCategory = "Anti-inflammatory",
+antiInflammatoryNFkB.spanishCategory = "Antiinflamatorio",
+antiInflammatoryNFkB.englishDescription = "Blocks NF-κB (protein) pathway to reduce inflammation-related tumor progression",
+antiInflammatoryNFkB.spanishDescription = "Bloquea la vía NF-κB (proteina) para reducir la progresión tumoral relacionada con la inflamación",
+antiInflammatoryNFkB.isActive = true,
+antiInflammatoryNFkB.createdAt = datetime(),
+antiInflammatoryNFkB.updatedAt = datetime()
+
+MERGE (antiInflammatoryCOX2:Mechanisms {englishName: "Inhibition of COX-2 enzyme"})
+ON CREATE SET antiInflammatoryCOX2.uuid = randomUUID(),
+antiInflammatoryCOX2.spanishName = "Inhibición de la enzima COX-2",
+antiInflammatoryCOX2.englishCategory = "Anti-inflammatory",
+antiInflammatoryCOX2.spanishCategory = "Antiinflamatorio",
+antiInflammatoryCOX2.englishDescription = "Reduces prostaglandin production and inflammation in tumor microenvironment",
+antiInflammatoryCOX2.spanishDescription = "Reduce la producción de prostaglandinas y la inflamación en el microambiente tumoral",
+antiInflammatoryCOX2.isActive = true,
+antiInflammatoryCOX2.createdAt = datetime(),
+antiInflammatoryCOX2.updatedAt = datetime()
+
+// ===============================
+// ANTIOXIDANT MECHANISMS
+// ===============================
+MERGE (rosScavenging:Mechanisms {englishName: "Reactive oxygen species (ROS) scavenging"})
+ON CREATE SET rosScavenging.uuid = randomUUID(),
+rosScavenging.spanishName = "Captación de especies reactivas de oxígeno (ROS)",
+rosScavenging.englishCategory = "Antioxidant",
+rosScavenging.spanishCategory = "Antioxidante",
+rosScavenging.englishDescription = "Neutralizes reactive oxygen species, preventing oxidative DNA damage",
+rosScavenging.spanishDescription = "Neutraliza especies reactivas de oxígeno, previniendo daño oxidativo del ADN",
+rosScavenging.isActive = true,
+rosScavenging.createdAt = datetime(),
+rosScavenging.updatedAt = datetime()
+
+MERGE (nrf2Activation:Mechanisms {englishName: "Activation of Nrf2 antioxidant pathway"})
+ON CREATE SET nrf2Activation.uuid = randomUUID(),
+nrf2Activation.spanishName = "Activación de la vía antioxidante Nrf2",
+nrf2Activation.englishCategory = "Antioxidant",
+nrf2Activation.spanishCategory = "Antioxidante",
+nrf2Activation.englishDescription = "Activates Nrf2 (nuclear factor erythroid 2–related factor 2) pathway to increase antioxidant enzymes",
+nrf2Activation.spanishDescription = "Activa la vía Nrf2 (Factor nuclear relacionado con el eritroide 2) para aumentar enzimas antioxidantes",
+nrf2Activation.isActive = true,
+nrf2Activation.createdAt = datetime(),
+nrf2Activation.updatedAt = datetime()
+
+// ===============================
 // APOPTOSIS MECHANISMS
 // ===============================
-MERGE (induceApoptosis:Mechanisms {englishName: "Induction of apoptosis"})
-ON CREATE SET induceApoptosis.uuid = randomUUID(), induceApoptosis.spanishName = "Inducción de apoptosis",
-induceApoptosis.englishCategory = "Apoptosis", induceApoptosis.spanishCategory = "Apoptosis",
-induceApoptosis.englishDescription = "Triggers programmed cell death pathways",
-induceApoptosis.spanishDescription = "Activa vías de muerte celular programada",
-induceApoptosis.isActive = true, induceApoptosis.createdAt = datetime(), induceApoptosis.updatedAt = datetime()
 
 MERGE (caspase3:Mechanisms {englishName: "Activation of caspase-3"})
 ON CREATE SET caspase3.uuid = randomUUID(), caspase3.spanishName = "Activación de caspasa-3",
 caspase3.englishCategory = "Apoptosis", caspase3.spanishCategory = "Apoptosis",
-caspase3.englishDescription = "Activates caspase-3 leading to apoptosis",
-caspase3.spanishDescription = "Activa la caspasa-3 que conduce a apoptosis",
+caspase3.englishDescription = "Activates caspase-3 (enzyme) leading to apoptosis",
+caspase3.spanishDescription = "Activa la caspasa-3 (enzyma) que conduce a apoptosis",
 caspase3.isActive = true, caspase3.createdAt = datetime(), caspase3.updatedAt = datetime()
 
 MERGE (caspase8:Mechanisms {englishName: "Activation of caspase-8"})
@@ -299,12 +400,18 @@ MERGE (banana)-[:HAS_COMPOUND]->(pectin)
 MERGE (allspice)-[:HAS_COMPOUND]->(eugenol)
 MERGE (allspice)-[:HAS_COMPOUND]->(gallicAcid)
 
+MERGE (carrotJuice)-[:HAS_COMPOUND]->(β_carotene)
+MERGE (carrotJuice)-[:HAS_COMPOUND]->(falcarinol)
+MERGE (carrotJuice)-[:HAS_COMPOUND]->(falcarindiol)
+MERGE (carrotJuice)-[:HAS_COMPOUND]->(alphaCarotene)
+MERGE (carrotJuice)-[:HAS_COMPOUND]->(lutein)
+MERGE (carrotJuice)-[:HAS_COMPOUND]->(terpenes)
+
 // =========================================
 // RELATIONSHIPS: COMPOUNDS → MECHANISMS
 // =========================================
 
 // --- Quinoa compounds ---
-MERGE (saponins)-[:HAS_MECHANISMS]->(induceApoptosis)
 MERGE (saponins)-[:HAS_MECHANISMS]->(caspase3)
 MERGE (saponins)-[:HAS_MECHANISMS]->(caspase8)
 MERGE (saponins)-[:HAS_MECHANISMS]->(inhibitMigration)
@@ -317,7 +424,6 @@ MERGE (phytosterols)-[:HAS_MECHANISMS]->(pd1Inhibition)
 MERGE (phytosterols)-[:HAS_MECHANISMS]->(inhibitARSignaling) //validate mechanism
 MERGE (phytosterols)-[:HAS_MECHANISMS]->(inhibitERSignaling) //validate mechanism
 
-MERGE (quercetin)-[:HAS_MECHANISMS]->(induceApoptosis)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(caspase3)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitVEGF)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitVEGFR)
@@ -325,18 +431,21 @@ MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitMigration)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitEMT)
 MERGE (quercetin)-[:HAS_MECHANISMS]->(inhibitERSignaling) //validate mechanism
 MERGE (quercetin)-[:HAS_MECHANISMS]->(aromataseInhibition) //validate mechanism
+MERGE (quercetin)-[:HAS_MECHANISMS]->(antiInflammatoryNFkB) //validate mechanism
+MERGE (quercetin)-[:HAS_MECHANISMS]->(rosScavenging) //validate mechanism
+MERGE (quercetin)-[:HAS_MECHANISMS]->(nrf2Activation) //validate mechanism
 
 // --- Oat milk compounds ---
-MERGE (avenanthramides)-[:HAS_MECHANISMS]->(induceApoptosis)
 MERGE (avenanthramides)-[:HAS_MECHANISMS]->(caspase8)
 MERGE (avenanthramides)-[:HAS_MECHANISMS]->(nkActivation)
 MERGE (avenanthramides)-[:HAS_MECHANISMS]->(pd1Inhibition)
+MERGE (avenanthramides)-[:HAS_MECHANISMS]->(antiInflammatoryNFkB) //validate mechanism
+MERGE (avenanthramides)-[:HAS_MECHANISMS]->(rosScavenging) //validate mechanism
 
 MERGE (betaGlucans)-[:HAS_MECHANISMS]->(nkActivation)
 MERGE (betaGlucans)-[:HAS_MECHANISMS]->(ctlActivation)
 MERGE (betaGlucans)-[:HAS_MECHANISMS]->(pd1Inhibition)
 
-MERGE (ferulicAcid)-[:HAS_MECHANISMS]->(induceApoptosis)
 MERGE (ferulicAcid)-[:HAS_MECHANISMS]->(caspase3)
 MERGE (ferulicAcid)-[:HAS_MECHANISMS]->(arrestG2M)
 MERGE (ferulicAcid)-[:HAS_MECHANISMS]->(inhibitVEGF)
@@ -344,7 +453,6 @@ MERGE (ferulicAcid)-[:HAS_MECHANISMS]->(inhibitVEGF)
 // --- Banana compounds ---
 MERGE (dopamine)-[:HAS_MECHANISMS]->(nkActivation)
 MERGE (dopamine)-[:HAS_MECHANISMS]->(ctlActivation)
-MERGE (dopamine)-[:HAS_MECHANISMS]->(induceApoptosis)
 
 MERGE (catecholamines)-[:HAS_MECHANISMS]->(nkActivation)
 MERGE (catecholamines)-[:HAS_MECHANISMS]->(pd1Inhibition)
@@ -354,19 +462,45 @@ MERGE (resistantStarch)-[:HAS_MECHANISMS]->(ctlActivation)
 
 MERGE (pectin)-[:HAS_MECHANISMS]->(inhibitMigration)
 MERGE (pectin)-[:HAS_MECHANISMS]->(inhibitMMP)
-MERGE (pectin)-[:HAS_MECHANISMS]->(induceApoptosis)
 
 // --- Allspice compounds ---
-MERGE (eugenol)-[:HAS_MECHANISMS]->(induceApoptosis)
 MERGE (eugenol)-[:HAS_MECHANISMS]->(caspase3)
 MERGE (eugenol)-[:HAS_MECHANISMS]->(inhibitVEGF)
 MERGE (eugenol)-[:HAS_MECHANISMS]->(inhibitTie2)
 MERGE (eugenol)-[:HAS_MECHANISMS]->(necroptosis)
 MERGE (eugenol)-[:HAS_MECHANISMS]->(ferroptosis)
+MERGE (eugenol)-[:HAS_MECHANISMS]->(antiInflammatoryCOX2) //validate mechanism
+MERGE (eugenol)-[:HAS_MECHANISMS]->(rosScavenging) //validate mechanism
+MERGE (eugenol)-[:HAS_MECHANISMS]->(nrf2Activation) //validate mechanism
 
-MERGE (gallicAcid)-[:HAS_MECHANISMS]->(induceApoptosis)
 MERGE (gallicAcid)-[:HAS_MECHANISMS]->(p53)
 MERGE (gallicAcid)-[:HAS_MECHANISMS]->(baxbcl2)
 MERGE (gallicAcid)-[:HAS_MECHANISMS]->(inhibitVEGF)
 MERGE (gallicAcid)-[:HAS_MECHANISMS]->(inhibitMMP)
 MERGE (gallicAcid)-[:HAS_MECHANISMS]->(inhibitMigration)
+MERGE (gallicAcid)-[:HAS_MECHANISMS]->(rosScavenging) //validate mechanism
+MERGE (gallicAcid)-[:HAS_MECHANISMS]->(nrf2Activation) //validate mechanism
+
+MERGE (β_carotene)-[:HAS_MECHANISMS]->(rosScavenging)
+MERGE (β_carotene)-[:HAS_MECHANISMS]->(nrf2Activation)
+MERGE (β_carotene)-[:HAS_MECHANISMS]->(arrestG1)
+MERGE (β_carotene)-[:HAS_MECHANISMS]->(nkActivation)
+
+MERGE (falcarinol)-[:HAS_MECHANISMS]->(caspase3)
+MERGE (falcarinol)-[:HAS_MECHANISMS]->(arrestG1)
+MERGE (falcarinol)-[:HAS_MECHANISMS]->(antiInflammatoryNFkB)
+
+MERGE (falcarindiol)-[:HAS_MECHANISMS]->(caspase3)
+MERGE (falcarindiol)-[:HAS_MECHANISMS]->(antiInflammatoryNFkB)
+MERGE (falcarindiol)-[:HAS_MECHANISMS]->(antiInflammatoryCOX2)
+
+MERGE (alphaCarotene)-[:HAS_MECHANISMS]->(rosScavenging)
+MERGE (alphaCarotene)-[:HAS_MECHANISMS]->(nrf2Activation)
+MERGE (alphaCarotene)-[:HAS_MECHANISMS]->(arrestG1)
+
+MERGE (lutein)-[:HAS_MECHANISMS]->(rosScavenging)
+MERGE (lutein)-[:HAS_MECHANISMS]->(nrf2Activation)
+MERGE (lutein)-[:HAS_MECHANISMS]->(inhibitVEGF)
+
+MERGE (terpenes)-[:HAS_MECHANISMS]->(caspase3)
+MERGE (terpenes)-[:HAS_MECHANISMS]->(inhibitVEGFR)
