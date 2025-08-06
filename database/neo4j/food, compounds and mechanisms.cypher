@@ -137,8 +137,8 @@ ON CREATE SET antiInflammatoryCOX2.uuid = randomUUID(),
 antiInflammatoryCOX2.spanishName = "Inhibición de la enzima COX-2",
 antiInflammatoryCOX2.englishCategory = "Anti-inflammatory",
 antiInflammatoryCOX2.spanishCategory = "Antiinflamatorio",
-antiInflammatoryCOX2.englishDescription = "Reduces prostaglandin production and inflammation in tumor microenvironment",
-antiInflammatoryCOX2.spanishDescription = "Reduce la producción de prostaglandinas y la inflamación en el microambiente tumoral",
+antiInflammatoryCOX2.englishDescription = "Reduces prostaglandin ( lipid compounds derived from arachidonic acid) production and inflammation in tumor microenvironment",
+antiInflammatoryCOX2.spanishDescription = "Reduce la producción de prostaglandinas (compuestos lipídicos derivados del ácido araquidónico ) y la inflamación en el microambiente tumoral",
 antiInflammatoryCOX2.isActive = true,
 antiInflammatoryCOX2.createdAt = datetime(),
 antiInflammatoryCOX2.updatedAt = datetime()
@@ -162,8 +162,8 @@ ON CREATE SET nrf2Activation.uuid = randomUUID(),
 nrf2Activation.spanishName = "Activación de la vía antioxidante Nrf2",
 nrf2Activation.englishCategory = "Antioxidant",
 nrf2Activation.spanishCategory = "Antioxidante",
-nrf2Activation.englishDescription = "Activates Nrf2 (nuclear factor erythroid 2–related factor 2) pathway to increase antioxidant enzymes",
-nrf2Activation.spanishDescription = "Activa la vía Nrf2 (Factor nuclear relacionado con el eritroide 2) para aumentar enzimas antioxidantes",
+nrf2Activation.englishDescription = "Activates Nrf2 (transcription factor protein) pathway to increase antioxidant enzymes",
+nrf2Activation.spanishDescription = "Activa la vía Nrf2 (proteina factor de transcripcion) para aumentar enzimas antioxidantes",
 nrf2Activation.isActive = true,
 nrf2Activation.createdAt = datetime(),
 nrf2Activation.updatedAt = datetime()
@@ -244,15 +244,15 @@ arrestG2M.isActive = true, arrestG2M.createdAt = datetime(), arrestG2M.updatedAt
 MERGE (inhibitVEGF:Mechanisms {englishName: "Inhibition of VEGF"})
 ON CREATE SET inhibitVEGF.uuid = randomUUID(), inhibitVEGF.spanishName = "Inhibición de VEGF",
 inhibitVEGF.englishCategory = "Anti-angiogenesis", inhibitVEGF.spanishCategory = "Antiangiogénesis",
-inhibitVEGF.englishDescription = "Blocks VEGF (Vascular Endothelial Growth Factor) signaling reducing angiogenesis",
-inhibitVEGF.spanishDescription = "Bloquea la señalización VEGF (Vascular Endothelial Growth Factor) reduciendo la angiogénesis",
+inhibitVEGF.englishDescription = "Blocks VEGF (Vascular Endothelial Growth Factor - signal protein) signaling reducing angiogenesis",
+inhibitVEGF.spanishDescription = "Bloquea la señalización VEGF (Vascular Endothelial Growth Factor - proteína de señalización) reduciendo la angiogénesis",
 inhibitVEGF.isActive = true, inhibitVEGF.createdAt = datetime(), inhibitVEGF.updatedAt = datetime()
 
 MERGE (inhibitVEGFR:Mechanisms {englishName: "Inhibition of VEGFR signaling"})
 ON CREATE SET inhibitVEGFR.uuid = randomUUID(), inhibitVEGFR.spanishName = "Inhibición de la señalización de VEGFR",
 inhibitVEGFR.englishCategory = "Anti-angiogenesis", inhibitVEGFR.spanishCategory = "Antiangiogénesis",
-inhibitVEGFR.englishDescription = "Blocks VEGFR (Vascular Endothelial Growth Factor Receptor) signaling pathway",
-inhibitVEGFR.spanishDescription = "Bloquea la vía de señalización VEGFR (Vascular Endothelial Growth Factor Receptor)",
+inhibitVEGFR.englishDescription = "Blocks VEGFR (Vascular Endothelial Growth Factor Receptor - receptor protein) signaling pathway",
+inhibitVEGFR.spanishDescription = "Bloquea la vía de señalización VEGFR (Vascular Endothelial Growth Factor Receptor - proteína receptora)",
 inhibitVEGFR.isActive = true, inhibitVEGFR.createdAt = datetime(), inhibitVEGFR.updatedAt = datetime()
 
 MERGE (inhibitAngiopoietin:Mechanisms {englishName: "Inhibition of angiopoietin"})

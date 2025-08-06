@@ -51,10 +51,14 @@
 - fix: move creating of uuid of patient-group, program-tags to one application class
 - fix: validate user inside the token with professional send in body (void unwanted relationship between professionals and records from other domains that doesn't belong to it)
 - fix: fix population of program tags in program schema
+- fix: get data from neo4j sorted by alphabetic 
  
 ## Database
 - fix zanahorias search
 - add chili
 - fix: it is difficult to search judias verdes
+- fix: enhance this :
+1. Neutraliza especies reactivas de oxígeno, previniendo daño oxidativo del ADN
+2. Activa la vía Nrf2 (Factor nuclear relacionado con el eritroide 2) para aumentar enzimas antioxidantes
 
 ## Videos
