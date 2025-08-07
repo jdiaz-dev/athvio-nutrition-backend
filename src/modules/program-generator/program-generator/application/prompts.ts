@@ -71,7 +71,7 @@ const IngredientDetailSchema = z.object({
 });
 
 const MealSchema = z.object({
-  mealTag: z.string(),
+  mealTag: z.enum(['Infusiones en ayunas', 'Desayuno', 'Almuerzo', 'Cena']),
   name: z.string(),
   cookingInstructions: z.string(),
   ingredientDetails: z.array(IngredientDetailSchema),

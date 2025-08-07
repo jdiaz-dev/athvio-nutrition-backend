@@ -45,7 +45,8 @@ export class NutritionalPlanGeneratorService {
       '"""Los ingredientes pueden ser simples o compuestos. Ejemplo: zanahoria, jugo de zanahoria""".' +
       '"""Asegurate que los macros para cada ingrediente sea bien calculado deacuerdo de acuerdo a la cantidad""".' +
       // '"""Añade más ingredientes si es necesario pero cumple con el tipo de dieta que se te pidio""".' +
-      '"""Los valores de los atributos deben estar en español"""';
+      '"""Los valores de los atributos deben estar en español"""' + 
+      '"""Debes incluir infusiones con adaptógenos en caso que se te haya solicitado"""';
 
     if (process.env.NODE_ENV === 'development') console.info(nutritionalPrompt);
 

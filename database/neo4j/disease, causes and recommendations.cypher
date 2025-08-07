@@ -233,4 +233,6 @@ MERGE (grainFree:NutritionalPreference {name: "Libre de granos"})
 ON CREATE SET grainFree.uuid = randomUUID(), grainFree.isActive = true, grainFree.createdAt = datetime(), grainFree.updatedAt = datetime()
 MERGE (dairyFree:NutritionalPreference {name: "Libre de lácteos"})
 ON CREATE SET dairyFree.uuid = randomUUID(), dairyFree.isActive = true, dairyFree.createdAt = datetime(), dairyFree.updatedAt = datetime()
+MERGE (infusions:NutritionalPreference {name: '"""Infusiones de adaptógenos"""'})
+ON CREATE SET infusions.uuid = randomUUID(), infusions.isActive = true, infusions.createdAt = datetime(), infusions.updatedAt = datetime()
 //homocistein - test to discard stroke

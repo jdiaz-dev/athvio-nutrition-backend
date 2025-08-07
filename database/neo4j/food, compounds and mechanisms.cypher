@@ -182,15 +182,15 @@ caspase3.isActive = true, caspase3.createdAt = datetime(), caspase3.updatedAt = 
 MERGE (caspase8:Mechanisms {englishName: "Activation of caspase-8"})
 ON CREATE SET caspase8.uuid = randomUUID(), caspase8.spanishName = "Activación de caspasa-8",
 caspase8.englishCategory = "Apoptosis", caspase8.spanishCategory = "Apoptosis",
-caspase8.englishDescription = "Activates caspase-8 leading to apoptosis",
-caspase8.spanishDescription = "Activa la caspasa-8 que conduce a apoptosis",
+caspase8.englishDescription = "Activates caspase-8 (protease enzyme - protein that cuts other proteins) leading to apoptosis",
+caspase8.spanishDescription = "Activa la caspasa-8 (enzyma proteasa  - proteina que corta otras proteinas) que conduce a apoptosis",
 caspase8.isActive = true, caspase8.createdAt = datetime(), caspase8.updatedAt = datetime()
 
 MERGE (p53:Mechanisms {englishName: "Activation of p53"})
 ON CREATE SET p53.uuid = randomUUID(), p53.spanishName = "Activación de p53",
 p53.englishCategory = "Apoptosis", p53.spanishCategory = "Apoptosis",
 p53.englishDescription = "Activates p53-mediated apoptotic pathways",
-p53.spanishDescription = "Activa vías apoptóticas mediadas por p53",
+p53.spanishDescription = "Activa vías apoptóticas mediadas por p53 (protein)",
 p53.isActive = true, p53.createdAt = datetime(), p53.updatedAt = datetime()
 
 MERGE (baxbcl2:Mechanisms {englishName: "Modulation of Bax/Bcl-2 ratio"})
@@ -275,8 +275,8 @@ inhibitTie2.isActive = true, inhibitTie2.createdAt = datetime(), inhibitTie2.upd
 MERGE (inhibitMMP:Mechanisms {englishName: "Inhibition of matrix metalloproteinases"})
 ON CREATE SET inhibitMMP.uuid = randomUUID(), inhibitMMP.spanishName = "Inhibición de metaloproteinasas de matriz",
 inhibitMMP.englishCategory = "Anti-metastasis", inhibitMMP.spanishCategory = "Antimetástasis",
-inhibitMMP.englishDescription = "Reduces MMP-2 and MMP-9 activity crucial for metastasis",
-inhibitMMP.spanishDescription = "Reduce la actividad de MMP-2 y MMP-9 cruciales para la metástasis",
+inhibitMMP.englishDescription = "Reduces MMP-2 (enzyme) and MMP-9 (enzyme) activity crucial for metastasis",
+inhibitMMP.spanishDescription = "Reduce la actividad de MMP-2 (enzyme) y MMP-9 (enzyme) cruciales para la metástasis",
 inhibitMMP.isActive = true, inhibitMMP.createdAt = datetime(), inhibitMMP.updatedAt = datetime()
 
 MERGE (inhibitMigration:Mechanisms {englishName: "Inhibition of tumor cell migration"})
@@ -289,8 +289,8 @@ inhibitMigration.isActive = true, inhibitMigration.createdAt = datetime(), inhib
 MERGE (inhibitEMT:Mechanisms {englishName: "Inhibition of epithelial-to-mesenchymal transition"})
 ON CREATE SET inhibitEMT.uuid = randomUUID(), inhibitEMT.spanishName = "Inhibición de la transición epitelio-mesénquima",
 inhibitEMT.englishCategory = "Anti-metastasis", inhibitEMT.spanishCategory = "Antimetástasis",
-inhibitEMT.englishDescription = "Suppresses EMT involved in invasion and metastasis",
-inhibitEMT.spanishDescription = "Suprime la EMT involucrada en la invasión y metástasis",
+inhibitEMT.englishDescription = "Suppresses EMT (biological process  - Epithelial–Mesenchymal Transition) involved in invasion and metastasis",
+inhibitEMT.spanishDescription = "Suprime la EMT (proceso biológico - Transición epitelio-mesénquima) involucrada en la invasión y metástasis",
 inhibitEMT.isActive = true, inhibitEMT.createdAt = datetime(), inhibitEMT.updatedAt = datetime()
 
 // ===============================
@@ -313,8 +313,8 @@ ctlActivation.isActive = true, ctlActivation.createdAt = datetime(), ctlActivati
 MERGE (pd1Inhibition:Mechanisms {englishName: "Inhibition of PD-1 checkpoint"})
 ON CREATE SET pd1Inhibition.uuid = randomUUID(), pd1Inhibition.spanishName = "Inhibición del punto de control PD-1",
 pd1Inhibition.englishCategory = "Immune modulation", pd1Inhibition.spanishCategory = "Modulación inmunológica",
-pd1Inhibition.englishDescription = "Blocks PD-1 checkpoint to enhance immune response",
-pd1Inhibition.spanishDescription = "Bloquea el punto de control PD-1 para mejorar la respuesta inmune",
+pd1Inhibition.englishDescription = "Blocks PD-1 (Programmed Cell Death Protein 1) checkpoint to enhance immune response",
+pd1Inhibition.spanishDescription = "Bloquea el punto de control PD-1 (proteína de muerte celular programada 1) para mejorar la respuesta inmune",
 pd1Inhibition.isActive = true, pd1Inhibition.createdAt = datetime(), pd1Inhibition.updatedAt = datetime()
 
 // ===============================
@@ -370,8 +370,8 @@ aromataseInhibition.updatedAt = datetime()
 MERGE (necroptosis:Mechanisms {englishName: "Induction of necroptosis"})
 ON CREATE SET necroptosis.uuid = randomUUID(), necroptosis.spanishName = "Inducción de necroptosis",
 necroptosis.englishCategory = "Cell death", necroptosis.spanishCategory = "Muerte celular",
-necroptosis.englishDescription = "Triggers necroptotic cell death",
-necroptosis.spanishDescription = "Activa la muerte celular por necroptosis",
+necroptosis.englishDescription = "Triggers necroptotic cell death (a form of programmed cell death)",
+necroptosis.spanishDescription = "Activa la muerte celular por necroptosis (tipo de muerte celular programada)",
 necroptosis.isActive = true, necroptosis.createdAt = datetime(), necroptosis.updatedAt = datetime()
 
 MERGE (ferroptosis:Mechanisms {englishName: "Induction of ferroptosis"})

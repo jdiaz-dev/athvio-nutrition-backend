@@ -60,5 +60,9 @@
 - fix: enhance this :
 1. Neutraliza especies reactivas de oxígeno, previniendo daño oxidativo del ADN
 2. Activa la vía Nrf2 (Factor nuclear relacionado con el eritroide 2) para aumentar enzimas antioxidantes
+- fix: 
+1. Activa la muerte celular por necroptosis
+2. apoptosis
+- fix: add description to include adaptogens teas
 
 ## Videos
