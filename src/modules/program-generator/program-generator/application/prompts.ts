@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-const restrictionPrompt = 'Evita alimentos procesados y suplementos procesados. ';
-const betterCasePrompt = "Usa solamente alimentos orgánicos pero evita usar la palabra 'orgánico' en la respuesta. ";
-const undesiredCookingMethodPrompt = 'Evita añadir alimentos a la parrilla. ';
+const restrictionPrompt = 'Evita alimentos procesados y suplementos procesados.';
+const betterCasePrompt = "Usa solamente alimentos orgánicos pero evita usar la palabra 'orgánico' en la respuesta.";
+const undesiredCookingMethodPrompt = 'Evita añadir alimentos a la parrilla.';
 
 export const basicNutritionPrompt = (
   stringDiseases: string,
@@ -16,18 +16,25 @@ export const basicNutritionPrompt = (
   },
 ) => {
   days;
-  const planPeriodPrompt = `"""Crea un plan nutricional para ${days} dias en total""". """Cada dia debe tener ${meals} comidas y al menos 3 ingredientes en cada comida (tambien puede tener más ingredientes)""". """Este plan nutricional esta destinado a curar ${stringDiseases}""".`;
-  // const macros = `"""The total amount of calories every day must be ${_macros.calories} kcal""".`;
+  const planPeriodPrompt =
+    `Crea un plan nutricional para ${days} dias en total.` +
+    `Cada dia debe tener ${meals} comidas y al menos 3 ingredientes en cada comida (tambien puede tener más ingredientes).` +
+    `Este plan nutricional esta destinado a curar ${stringDiseases}.`;
   return planPeriodPrompt + restrictionPrompt + betterCasePrompt + undesiredCookingMethodPrompt;
 };
 
 export const nutritionalPlanPrompt = (
-  diseases: string,
+  diseaseCauses: string,
   recommendationsForCauses: string,
   recommendationForDiseases: string,
   nutritionalPreferences: string,
 ) => {
-  return ` La enfermedad fue causada por ${diseases}, por lo tanto ten presente estas recomendaciones: ${recommendationsForCauses}, ${recommendationForDiseases} e incluye esta preferencia nutricional: ${nutritionalPreferences}`;
+  return (
+    `La enfermedad fue causada por ${diseaseCauses}, por lo tanto debes revisar y cumplir solo y únicamente con las siguientes recomendaciones.` +
+    `${recommendationsForCauses}.` +
+    `${recommendationForDiseases}.` +
+    `${nutritionalPreferences}.`
+  );
 };
 
 const MacrosSchema = z.object({

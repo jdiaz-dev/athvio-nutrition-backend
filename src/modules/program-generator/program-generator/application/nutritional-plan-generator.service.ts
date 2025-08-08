@@ -40,15 +40,11 @@ export class NutritionalPlanGeneratorService {
     const nutritionalPrompt =
       basicNutritionPrompt(diseases, totalDays, mealsByDay, macros) +
       nutritionalPlanPrompt(diseaseCauses, recommendationsForCauses, recommendationForDiseases, nutritionalPreferences) +
-      `"""Debes cumplir con el objetivo calórico establecido para cada dia (${macros.calories} kcal)""".` +
-      `"""Para cumplir con el objetivo calórico, incluye ingredientes alto en calorías cumpliendo la preferencia ${nutritionalPreferences}""".` +
-      '"""Los ingredientes pueden ser simples o compuestos. Ejemplo: zanahoria, jugo de zanahoria""".' +
-      '"""Asegurate que los macros para cada ingrediente sea bien calculado deacuerdo de acuerdo a la cantidad""".' +
-      // '"""Añade más ingredientes si es necesario pero cumple con el tipo de dieta que se te pidio""".' +
-      '"""Los valores de los atributos deben estar en español"""' + 
-      '"""Debes incluir infusiones con adaptógenos en caso que se te haya solicitado"""';
-
-    if (process.env.NODE_ENV === 'development') console.info(nutritionalPrompt);
+      `Debes cumplir con el objetivo calórico establecido para cada dia (${macros.calories} kcal).` +
+      `Para cumplir con el objetivo calórico, incluye ingredientes alto en calorías.` +
+      'Los ingredientes pueden ser simples o compuestos, ejemplo: zanahoria, jugo de zanahoria.' +
+      'Asegurate que los macros para cada ingrediente sea bien calculado deacuerdo de acuerdo a la cantidad.' +
+      'Los valores de los atributos deben estar en español';
 
     const res = await this.gpt.chatCompletion<PlansSchemaPromptType>(nutritionalPrompt, PlansSchemaPrompt);
     return res.plans;

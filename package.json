@@ -32,7 +32,6 @@
     "@nestjs/common": "^11.1.2",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.2",
-    "@nestjs/devtools-integration": "^0.2.0",
     "@nestjs/graphql": "^13.1.0",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/mongoose": "^11.0.3",
@@ -90,8 +89,8 @@
     "ts-jest": "29.3.4",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
-    "tsconfig-paths": "4.2.0",
-    "typescript": "^5.8.3"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.2"
   },
   "jest": {
     "moduleFileExtensions": [

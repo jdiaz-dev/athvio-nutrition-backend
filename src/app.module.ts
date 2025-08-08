@@ -13,14 +13,10 @@ import { ProfessionalDomainsModule } from 'src/modules/professionals/professiona
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
 import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'configuration';
-import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
 
 @Module({
   imports: [
-    DevtoolsModule.register({
-      http: process.env.NODE_ENV !== 'production',
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [getConfiguration],

@@ -6,9 +6,16 @@
       "request": "launch",
       "name": "Debug Nest Framework",
       "args": ["${workspaceFolder}/src/main.ts"],
-      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "envFile": "${workspaceFolder}/.env.development",
+      "runtimeArgs": [
+        "-r",
+        "tsconfig-paths/register",
+        "-r",
+        "ts-node/register"
+      ],
       "sourceMaps": true,
       "cwd": "${workspaceFolder}",
+      "timeout": 30000
     }
   ]
 }

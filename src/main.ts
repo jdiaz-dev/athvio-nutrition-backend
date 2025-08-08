@@ -7,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, { snapshot: true });
+  const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;

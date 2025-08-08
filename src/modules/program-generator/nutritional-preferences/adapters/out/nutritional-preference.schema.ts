@@ -8,4 +8,6 @@ export class NutritionalPreference extends BaseSchema {
 
   @Field(() => String)
   name: string;
+
+  spanishDetails: string;
 }

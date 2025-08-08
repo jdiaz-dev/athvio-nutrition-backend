@@ -57,31 +57,31 @@ ON CREATE SET osteoarthritis.uuid = randomUUID(), osteoarthritis.isActive = true
 //Incluye Chucrut/encurtidos 2 veces por semana
 // -------------------------- Recommendation Nodes (for causes)
 MERGE (psylliumHusk:Recommendation {name: "Psyllium Husk"})
-ON CREATE SET psylliumHusk.uuid = randomUUID(), psylliumHusk.details = '"""Incluir 1 cuchara de psyllium husk todos los dias"""', psylliumHusk.isActive = true, psylliumHusk.createdAt = datetime(), psylliumHusk.updatedAt = datetime()
+ON CREATE SET psylliumHusk.uuid = randomUUID(), psylliumHusk.details = 'Incluir 1 cuchara de psyllium husk todos los dias', psylliumHusk.isActive = true, psylliumHusk.createdAt = datetime(), psylliumHusk.updatedAt = datetime()
 MERGE (castorOilRec:Recommendation {name: "Aceite de ricino"})
-ON CREATE SET castorOilRec.uuid = randomUUID(), castorOilRec.details = '"""Incluye el primer dia 20 ml  de aceite de ricino y repetir cada 3 dias"""', castorOilRec.isActive = true, castorOilRec.createdAt = datetime(), castorOilRec.updatedAt = datetime()
+ON CREATE SET castorOilRec.uuid = randomUUID(), castorOilRec.details = 'Incluye el primer dia 20 ml  de aceite de ricino y repetir cada 3 dias', castorOilRec.isActive = true, castorOilRec.createdAt = datetime(), castorOilRec.updatedAt = datetime()
 MERGE (carrotRec:Recommendation {name: "Jugo de zanahoria"})
-ON CREATE SET carrotRec.uuid = randomUUID(), carrotRec.details = '"""Incluye 1L de jugo de zanahoria cada dia (primera comida del dia)"""', carrotRec.isActive = true, carrotRec.createdAt = datetime(), carrotRec.updatedAt = datetime()
+ON CREATE SET carrotRec.uuid = randomUUID(), carrotRec.details = 'Incluye 1L de jugo de zanahoria cada dia (primera comida del dia despues de la infusión si esque la hubo)', carrotRec.isActive = true, carrotRec.createdAt = datetime(), carrotRec.updatedAt = datetime()
 MERGE (celeryRec:Recommendation {name: "Jugo de apio y pepino"})
-ON CREATE SET celeryRec.uuid = randomUUID(), celeryRec.details = '"""Incluye 1 L de jugo de apio y pepino cada dia"""', celeryRec.isActive = true, celeryRec.createdAt = datetime(), celeryRec.updatedAt = datetime()
+ON CREATE SET celeryRec.uuid = randomUUID(), celeryRec.details = 'Incluye 1 L de jugo de apio y pepino cada dia', celeryRec.isActive = true, celeryRec.createdAt = datetime(), celeryRec.updatedAt = datetime()
 MERGE (cabbageRec:Recommendation {name: "Jugo de repollo"})
-ON CREATE SET cabbageRec.uuid = randomUUID(), cabbageRec.details = '"""Incluye 0.25L de jugo de repollo cada dia"""', cabbageRec.isActive = true, cabbageRec.createdAt = datetime(), cabbageRec.updatedAt = datetime()
+ON CREATE SET cabbageRec.uuid = randomUUID(), cabbageRec.details = 'Incluye 0,25L de jugo de repollo cada dia', cabbageRec.isActive = true, cabbageRec.createdAt = datetime(), cabbageRec.updatedAt = datetime()
 MERGE (propolisRec:Recommendation {name: "Propóleo"})
-ON CREATE SET propolisRec.uuid = randomUUID(), propolisRec.details = '"""Incluye propóleo crudo 2 veces por semana empezando el segundo dia"""',  propolisRec.isActive = true, propolisRec.createdAt = datetime(), propolisRec.updatedAt = datetime() 
+ON CREATE SET propolisRec.uuid = randomUUID(), propolisRec.details = 'Incluye propóleo crudo 2 veces por semana empezando el segundo dia',  propolisRec.isActive = true, propolisRec.createdAt = datetime(), propolisRec.updatedAt = datetime() 
 MERGE (chukrutRec:Recommendation {name: "Chucrut"})
-ON CREATE SET chukrutRec.uuid = randomUUID(), chukrutRec.details = '"""Incluye Chucrut/encurtidos 2 veces por semana"""', chukrutRec.isActive = true, chukrutRec.createdAt = datetime(), chukrutRec.updatedAt = datetime() 
+ON CREATE SET chukrutRec.uuid = randomUUID(), chukrutRec.details = 'Incluye Chucrut/encurtidos 2 veces por semana', chukrutRec.isActive = true, chukrutRec.createdAt = datetime(), chukrutRec.updatedAt = datetime() 
 MERGE (ketoRec:Recommendation {name: "Dieta cetogénica"})
 ON CREATE SET ketoRec.uuid = randomUUID(), ketoRec.details = "Sigue una dieta cetogénica", ketoRec.isActive = true, ketoRec.createdAt = datetime(), ketoRec.updatedAt = datetime() 
 MERGE (oreganOilRec:Recommendation {name: "Aceite de Orégano"})
 ON CREATE SET oreganOilRec.uuid = randomUUID(), oreganOilRec.details = "Consume aceite de orégano", oreganOilRec.isActive = true, oreganOilRec.createdAt = datetime(), oreganOilRec.updatedAt = datetime() 
 MERGE (brasilNutsRec:Recommendation {name: "Quelación mediante selenio"})
-ON CREATE SET brasilNutsRec.uuid = randomUUID(), brasilNutsRec.details = '"""Incluye 2 nueces de brasil remojado todos los dias"""', brasilNutsRec.isActive = true, brasilNutsRec.createdAt = datetime(), brasilNutsRec.updatedAt = datetime() 
+ON CREATE SET brasilNutsRec.uuid = randomUUID(), brasilNutsRec.details = 'Incluye 2 nueces de brasil remojado todos los dias', brasilNutsRec.isActive = true, brasilNutsRec.createdAt = datetime(), brasilNutsRec.updatedAt = datetime() 
 MERGE (magnesium:Recommendation {name: "Magnesio"})
 ON CREATE SET magnesium.uuid = randomUUID(), magnesium.details = "Consumir 500 mg de citráto de magnesio", magnesium.isActive = true, magnesium.createdAt = datetime(), magnesium.updatedAt = datetime() 
 MERGE (lysine:Recommendation {name: "Lisina"})
 ON CREATE SET lysine.uuid = randomUUID(), lysine.details = "Consumir alimentos con lisina", lysine.isActive = true, lysine.createdAt = datetime(), lysine.updatedAt = datetime() 
 MERGE (boneBroth:Recommendation {name: "Caldo de huesos"})
-ON CREATE SET boneBroth.uuid = randomUUID(), boneBroth.details = '"""Consumir caldo de huesos todos los dias"""', boneBroth.isActive = true, boneBroth.createdAt = datetime(), boneBroth.updatedAt = datetime() 
+ON CREATE SET boneBroth.uuid = randomUUID(), boneBroth.details = 'Consumir caldo de huesos todos los dias', boneBroth.isActive = true, boneBroth.createdAt = datetime(), boneBroth.updatedAt = datetime() 
 //black seeds
 //garlic
 
@@ -188,7 +188,7 @@ MERGE (osteoarthritis)-[:HAS_RECOMMENDATION]->(magnesium)
 WITH * 
 // Create Recommendation Nodes (for specific disease)
 MERGE (gcbombs:Recommendation {name: "gcbombs"})
-ON CREATE SET gcbombs.uuid = randomUUID(), gcbombs.details = '"""Incluir verduras, cruciferas, frijoles, cebolla, hongos, bayas y semillas"""', gcbombs.isActive = true, gcbombs.createdAt = datetime(), gcbombs.updatedAt = datetime() 
+ON CREATE SET gcbombs.uuid = randomUUID(), gcbombs.details = 'Incluir verduras, cruciferas, frijoles, cebolla, hongos, bayas y semillas', gcbombs.isActive = true, gcbombs.createdAt = datetime(), gcbombs.updatedAt = datetime() 
 
 WITH * 
 // Connect DiseaseCauses to Recommendations (disease to recommendation)
@@ -208,31 +208,59 @@ WITH *
 
 // Nutritional Preferences
 MERGE (vegan:NutritionalPreference {name: "Vegano"})
-ON CREATE SET vegan.uuid = randomUUID(), vegan.isActive = true, vegan.createdAt = datetime(), vegan.updatedAt = datetime()
+ON CREATE SET vegan.uuid = randomUUID(), vegan.isActive = true, 
+vegan.spanishDetails = "La dieta debe ser vegano", 
+vegan.createdAt = datetime(), vegan.updatedAt = datetime()
 MERGE (lactoOvo:NutritionalPreference {name: "Lacto-ovovegetariano"})
-ON CREATE SET lactoOvo.uuid = randomUUID(), lactoOvo.isActive = true, lactoOvo.createdAt = datetime(), lactoOvo.updatedAt = datetime()
+ON CREATE SET lactoOvo.uuid = randomUUID(), lactoOvo.isActive = true, 
+lactoOvo.spanishDetails = "La dieta debe ser lacto-ovovegetariano", 
+lactoOvo.createdAt = datetime(), lactoOvo.updatedAt = datetime()
 MERGE (carnivore:NutritionalPreference {name: "Carnívoro"})
-ON CREATE SET carnivore.uuid = randomUUID(), carnivore.isActive = true, carnivore.createdAt = datetime(), carnivore.updatedAt = datetime()
+ON CREATE SET carnivore.uuid = randomUUID(), carnivore.isActive = true, 
+carnivore.spanishDetails = "La dieta debe ser carnívoro", 
+carnivore.createdAt = datetime(), carnivore.updatedAt = datetime()
 MERGE (homnivore:NutritionalPreference {name: "Homnívoro"})
-ON CREATE SET homnivore.uuid = randomUUID(), homnivore.isActive = true, homnivore.createdAt = datetime(), homnivore.updatedAt = datetime()
+ON CREATE SET homnivore.uuid = randomUUID(), homnivore.isActive = true, 
+homnivore.spanishDetails = "La dieta debe ser homnívoro", 
+homnivore.createdAt = datetime(), homnivore.updatedAt = datetime()
 MERGE (ketogenic:NutritionalPreference {name: "Ketogénico"})
-ON CREATE SET ketogenic.uuid = randomUUID(), ketogenic.isActive = true, ketogenic.createdAt = datetime(), ketogenic.updatedAt = datetime()
+ON CREATE SET ketogenic.uuid = randomUUID(), ketogenic.isActive = true, 
+ketogenic.spanishDetails = "La dieta debe ser cetogénico", 
+ketogenic.createdAt = datetime(), ketogenic.updatedAt = datetime()
 MERGE (lowFODMAPs:NutritionalPreference {name: "Bajo en FODMAPs"})
-ON CREATE SET lowFODMAPs.uuid = randomUUID(), lowFODMAPs.isActive = true, lowFODMAPs.createdAt = datetime(), lowFODMAPs.updatedAt = datetime()
+ON CREATE SET lowFODMAPs.uuid = randomUUID(), lowFODMAPs.isActive = true, 
+lowFODMAPs.spanishDetails = "La dieta debe ser bajo en FODMAPs", 
+lowFODMAPs.createdAt = datetime(), lowFODMAPs.updatedAt = datetime()
 MERGE (hypocaloric:NutritionalPreference {name: "Hipocalórico"})
-ON CREATE SET hypocaloric.uuid = randomUUID(), hypocaloric.isActive = true, hypocaloric.createdAt = datetime(), hypocaloric.updatedAt = datetime()
+ON CREATE SET hypocaloric.uuid = randomUUID(), hypocaloric.isActive = true, 
+hypocaloric.spanishDetails = "La dieta debe ser hipocalórico", 
+hypocaloric.createdAt = datetime(), hypocaloric.updatedAt = datetime()
 MERGE (hypoglycemic:NutritionalPreference {name: "Hipoglicémico"})
-ON CREATE SET hypoglycemic.uuid = randomUUID(), hypoglycemic.isActive = true, hypoglycemic.createdAt = datetime(), hypoglycemic.updatedAt = datetime()
+ON CREATE SET hypoglycemic.uuid = randomUUID(), hypoglycemic.isActive = true, 
+hypoglycemic.spanishDetails = "La dieta debe ser hipoglicémico", 
+hypoglycemic.createdAt = datetime(), hypoglycemic.updatedAt = datetime()
 MERGE (lowFiber:NutritionalPreference {name: "Bajo en fibra"})
-ON CREATE SET lowFiber.uuid = randomUUID(), lowFiber.isActive = true, lowFiber.createdAt = datetime(), lowFiber.updatedAt = datetime()
+ON CREATE SET lowFiber.uuid = randomUUID(), lowFiber.isActive = true, 
+lowFiber.spanishDetails = "La dieta debe ser bajo en fibra", 
+lowFiber.createdAt = datetime(), lowFiber.updatedAt = datetime()
 MERGE (richInFibers:NutritionalPreference {name: "Rico en fibra"})
-ON CREATE SET richInFibers.uuid = randomUUID(), richInFibers.isActive = true, richInFibers.createdAt = datetime(), richInFibers.updatedAt = datetime()
+ON CREATE SET richInFibers.uuid = randomUUID(), richInFibers.isActive = true, 
+richInFibers.spanishDetails = "La dieta debe ser rico en fibra", 
+richInFibers.createdAt = datetime(), richInFibers.updatedAt = datetime()
 MERGE (glutenFree:NutritionalPreference {name: "Libre de gluten"})
-ON CREATE SET glutenFree.uuid = randomUUID(), glutenFree.isActive = true, glutenFree.createdAt = datetime(), glutenFree.updatedAt = datetime()
+ON CREATE SET glutenFree.uuid = randomUUID(), glutenFree.isActive = true, 
+glutenFree.spanishDetails = "La dieta debe ser libre de gluten", 
+glutenFree.createdAt = datetime(), glutenFree.updatedAt = datetime()
 MERGE (grainFree:NutritionalPreference {name: "Libre de granos"})
-ON CREATE SET grainFree.uuid = randomUUID(), grainFree.isActive = true, grainFree.createdAt = datetime(), grainFree.updatedAt = datetime()
+ON CREATE SET grainFree.uuid = randomUUID(), grainFree.isActive = true, 
+grainFree.spanishDetails = "La dieta debe ser libre de granos", 
+grainFree.createdAt = datetime(), grainFree.updatedAt = datetime()
 MERGE (dairyFree:NutritionalPreference {name: "Libre de lácteos"})
-ON CREATE SET dairyFree.uuid = randomUUID(), dairyFree.isActive = true, dairyFree.createdAt = datetime(), dairyFree.updatedAt = datetime()
-MERGE (infusions:NutritionalPreference {name: '"""Infusiones de adaptógenos"""'})
-ON CREATE SET infusions.uuid = randomUUID(), infusions.isActive = true, infusions.createdAt = datetime(), infusions.updatedAt = datetime()
+ON CREATE SET dairyFree.uuid = randomUUID(), dairyFree.isActive = true, 
+dairyFree.spanishDetails = "La dieta debe ser libre de lácteos", 
+dairyFree.createdAt = datetime(), dairyFree.updatedAt = datetime()
+MERGE (infusions:NutritionalPreference {name: 'Infusiones de adaptógenos'})
+ON CREATE SET infusions.uuid = randomUUID(), infusions.isActive = true, 
+infusions.spanishDetails = "La dieta debe incluir infusiones con adaptógenos", 
+infusions.createdAt = datetime(), infusions.updatedAt = datetime()
 //homocistein - test to discard stroke

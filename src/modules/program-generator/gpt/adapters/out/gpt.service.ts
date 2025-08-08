@@ -19,21 +19,16 @@ export class GptService {
     });
   }
 
-  /* 
-  
-
-  You are a assistant expert nutritionist. You must help to another nutritionist to threat their patients
-  The patient have this diseases : cancer, diabetes,
-  the root cause of the previous diseases are caused by : parasites, fungi
-  when the nutritionist request a nutritional you must to accomplish with every instruction closed in triple quotes 
-
-  - """the patient need  one nutritiona plan for 7 days"""
-  - """the nutritional plan is for 1800 calories every day"""
-  - """every day must contain 3 meals""" 
-  - """the nutritional plan must contain this indications: must contain carrot juice all days, must contain cabbage juice all days, must include 20 ml of castor oil all days, all the nutritional plan must be a vegan diet """
-  */
+  private addTripleQuotes(prompt: string): string {
+    return prompt
+      .split('.')
+      .map((sentence) => `"""${sentence}"""`)
+      .join('.');
+  }
   async chatCompletion<T>(prompt: string, schemaPrompt: ZodType<T>): Promise<T> {
-    prompt;
+    const quotedPrompt = this.addTripleQuotes(prompt);
+    if (process.env.NODE_ENV === 'development') console.info(quotedPrompt);
+
     try {
       const res = await this.openai.chat.completions.create({
         messages: [
@@ -44,15 +39,12 @@ export class GptService {
               - El paciente padece estas enfermedades: cáncer, diabetes.
               - La causa raiz de las enfermedades mencionadas es: parásitos, hongos.
               - Cuando el nutricionista te solicite un plan nutricional, debes seguir todas las instrucciones entre comillas triples.
+
             `,
           },
           {
             role: 'user',
-            content: prompt,
-
-            /* `
-            """generate nutritional plan for 7 days"""."""the nutritional plan is for 1800 calories every day"""."""every day must contain 3 meals"""."""the nutritional plan must contain this indications: must contain carrot juice all days, must contain cabbage juice all days, must include 20 ml of castor oil all days, all the nutritional plan must be a vegan diet """
-            `, */
+            content: quotedPrompt,
           },
         ],
         model: 'gpt-4o',
