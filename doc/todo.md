@@ -63,6 +63,7 @@
 - fix: 
 1. Activa la muerte celular por necroptosis
 2. apoptosis
-- fix: add description to include adaptogens teas
+- fix: infusiones con adaptogenos no funciona (preferencias nutricionales)
+
 
 ## Videos
