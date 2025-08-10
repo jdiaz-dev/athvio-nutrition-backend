@@ -6,6 +6,7 @@ import { NextLink } from 'src/modules/backoffice/foods/adapters/out/providers/fo
 import { FoodsProviderService } from 'src/modules/backoffice/foods/adapters/out/providers/foods-provider.service';
 import { TranslatorService } from 'src/modules/backoffice/foods/adapters/out/providers/translator.service';
 
+//milk
 const allFoods2: string[] = [];
 
 //todo: delete this class

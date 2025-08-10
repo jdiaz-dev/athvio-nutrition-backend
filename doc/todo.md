@@ -56,7 +56,7 @@
 ## Database
 - fix zanahorias search
 - add chili
-- fix: it is difficult to search judias verdes
+- fix: it is difficult to search judias verdes, limon
 - fix: enhance this :
 1. Neutraliza especies reactivas de oxígeno, previniendo daño oxidativo del ADN
 2. Activa la vía Nrf2 (Factor nuclear relacionado con el eritroide 2) para aumentar enzimas antioxidantes
