@@ -7,6 +7,6 @@ export class WorkFlowStreamAuditResolver {
   @Mutation(() => String)
   @UseInterceptors(GqlInterceptor)
   signUpProfessionalScreen(): String {
-    return 'received';
+    return 'receivedd';
   }
 }
