@@ -17,6 +17,7 @@ import { PatientOnboardingMobileResolver } from 'src/modules/auth/auth/adapters/
 import { PatientOnboardingWebResolver } from 'src/modules/auth/auth/adapters/in/web/patient-onboarding-web.resolver';
 import { MobileWebAuthenticationResolver } from 'src/modules/auth/auth/adapters/in/mobile-web-authentication.resolver';
 import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
+import { WorkFlowStreamAuditModule } from 'src/modules/backoffice/work-steram-audit/work-flow-stream-audit.module';
 
 const services = [
   AuthenticationService,
@@ -47,6 +48,7 @@ const resolvers = [
     forwardRef(() => ProfessionalsModule),
     forwardRef(() => PatientsModule),
     forwardRef(() => OnboardingModule),
+    WorkFlowStreamAuditModule,
   ],
   providers: [...services, ...resolvers],
   exports: [AuthorizationService, SignUpPatientManagamentService],

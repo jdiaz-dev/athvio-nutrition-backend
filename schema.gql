@@ -769,6 +769,7 @@ type Mutation {
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpPatientFromMobile(input: SignUpPatientFromMobileDto!): JwtDto!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
+  signUpProfessionalScreen: String!
   updateAnswersAndAdditionalNotes(input: UpdateAnswersAndAdditionalNotesDto!): PatientQuestionary!
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
