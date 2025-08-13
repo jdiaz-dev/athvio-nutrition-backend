@@ -1,11 +1,3 @@
-export interface IWinstonLogger {
-  nameAzureStorage: string;
-  keyAzureStorage: string;
-  containerName: string;
-  errorBlob: string;
-  exceptionBlob: string;
-}
-
 interface INeo4j {
   database: string;
   scheme: string;
