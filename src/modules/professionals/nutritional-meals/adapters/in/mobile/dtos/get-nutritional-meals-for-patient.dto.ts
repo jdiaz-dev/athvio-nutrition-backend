@@ -11,7 +11,7 @@ export class GetNutritionalMealsForPatientDto extends GetRecordsBaseDto {
   @IsUUID(4)
   patient: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(NutritionalMealCategories)
   category: NutritionalMealCategories;
 }

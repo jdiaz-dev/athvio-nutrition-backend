@@ -12,7 +12,7 @@ export class GetFoodsDto extends GetRecordsBaseDto {
   @IsUUID(4)
   professional: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(FoodDatabases)
   foodDatabase: FoodDatabases;
 
@@ -21,7 +21,7 @@ export class GetFoodsDto extends GetRecordsBaseDto {
   @IsOptional()
   session?: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(SupportedLanguages)
   targetLanguage: SupportedLanguages;
 }
@@ -49,7 +49,7 @@ export class Measure {
 
 @ObjectType()
 export class Food {
-  @Field()
+  @Field(() => String)
   foodDatabase: FoodDatabases;
 
   @Field()

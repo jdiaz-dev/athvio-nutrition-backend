@@ -102,17 +102,10 @@ input ChatCommentInput {
 }
 
 type Comment {
-  commenter: Commenter!
+  commenter: String!
   createdAt: DateTime!
   isDeleted: String!
   message: String!
-  uuid: String!
-}
-
-type Commenter {
-  commenterId: String!
-  createdAt: DateTime!
-  type: String!
   uuid: String!
 }
 
@@ -333,7 +326,7 @@ type Equivalent {
 input EquivalentsInput {
   customIngredient: CustomIngredientInput
   ingredient: IngredientInput
-  ingredientType: String!
+  ingredientType: IngredientType!
 }
 
 type Food {
@@ -616,7 +609,7 @@ input IngredientDetailsInput {
   customIngredient: CustomIngredientInput
   equivalents: [EquivalentsInput!]!
   ingredient: IngredientInput
-  ingredientType: String!
+  ingredientType: IngredientType!
 }
 
 input IngredientInput {
@@ -807,12 +800,10 @@ type NutritionalMeal {
   healthBenefits: String
   image: String
   ingredientDetails: [IngredientDetail!]!
-  ingredients: [IngredientDetail!]!
   macros: Macros!
   name: String!
   professional: String!
   servings: String!
-  source: String!
   uuid: String!
   yield: String!
 }
@@ -1249,6 +1240,5 @@ type User {
   lastname: String
   phone: String
   photo: String
-  role: String!
   uuid: String!
 }

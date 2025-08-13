@@ -52,6 +52,7 @@
 - fix: validate user inside the token with professional send in body (void unwanted relationship between professionals and records from other domains that doesn't belong to it)
 - fix: fix population of program tags in program schema
 - fix: get data from neo4j sorted by alphabetic 
+- fix: @Field(() => String) replace with proper a proper enum using registerEnumType when is one enum
  
 ## Database
 - fix zanahorias search

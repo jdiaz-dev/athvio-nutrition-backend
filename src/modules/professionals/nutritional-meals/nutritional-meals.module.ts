@@ -13,8 +13,8 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { NutritionalMealsMobileResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/nutritional-meals-mobile.resolver';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 import { SharedModule } from 'src/shared/shared.module';
-
-const resolvers = [NutritionalMealsWebResolver, NutritionalMealsMobileResolver, IngredientsResolver];
+IngredientsResolver;
+const resolvers = [NutritionalMealsWebResolver, NutritionalMealsMobileResolver];
 const services = [NutritionalMealsPersistenceService, NutritionalMealsManagerService, UploadMealImageService];
 
 @Module({

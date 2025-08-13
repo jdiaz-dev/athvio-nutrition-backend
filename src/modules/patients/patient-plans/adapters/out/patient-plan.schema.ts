@@ -21,7 +21,7 @@ const CommenterSchema = SchemaFactory.createForClass(Commenter);
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class Comment extends BaseSchema {
-  @Field()
+  @Field(() => String)
   @Prop({ type: CommenterSchema, required: true })
   commenter!: Commenter;
 
@@ -74,7 +74,7 @@ export class PatientPlan extends BaseSchema {
   @Prop({ type: String, required: false })
   commentResult: string;
 
-  @Field()
+  @Field(() => String)
   @Prop({ type: String, enum: PlanState, required: true, default: PlanState.UPCOMING })
   state: PlanState;
 

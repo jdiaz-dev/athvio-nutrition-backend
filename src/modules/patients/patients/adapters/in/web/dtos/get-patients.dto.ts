@@ -11,7 +11,7 @@ export class GetPatientsDto extends GetRecordsBaseDto {
   @IsUUID(4)
   professional: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(PatientState)
   state!: PatientState;
 }

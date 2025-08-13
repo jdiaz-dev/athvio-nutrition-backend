@@ -44,7 +44,7 @@ export class Patient extends BaseSchema {
   @Prop({ type: Date, required: false })
   birthday!: Date;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop({ type: String, enum: AllowedGender, required: false })
   gender!: string;
 
@@ -60,7 +60,7 @@ export class Patient extends BaseSchema {
   @Prop({ type: String, required: false })
   notes!: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop({ type: String, enum: PatientState, required: true, default: PatientState.INVITATION_PENDING })
   state!: PatientState;
 

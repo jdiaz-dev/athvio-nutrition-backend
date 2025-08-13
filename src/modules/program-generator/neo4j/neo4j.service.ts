@@ -1,7 +1,7 @@
 import neo4j, { Result, Driver, int, Transaction } from 'neo4j-driver';
 import { Injectable, Inject, OnApplicationShutdown, InternalServerErrorException } from '@nestjs/common';
 import { NEO4J_CONFIG, NEO4J_DRIVER } from 'src/modules/program-generator/shared/constants';
-import { Neo4jConfig } from 'src/modules/program-generator/shared/types';
+import { Neo4jConfig } from 'src/modules/program-generator/shared/types.d';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
 import { InternalErrors } from 'src/shared/enums/messages-response';

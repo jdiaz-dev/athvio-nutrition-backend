@@ -12,9 +12,8 @@ import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/pro
 import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-domains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
 import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
-import { getConfiguration, validateEnvironmentVariables } from 'configuration';
+import { getConfiguration, validateEnvironmentVariables } from 'src/configuration';
 import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({

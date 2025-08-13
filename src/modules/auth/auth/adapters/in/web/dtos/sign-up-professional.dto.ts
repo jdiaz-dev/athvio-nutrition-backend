@@ -58,7 +58,7 @@ export class SignUpProfessionalDto {
   @IsNumber()
   clientOffsetMinutes: number;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(SupportedLanguages)
   detectedLanguage: SupportedLanguages;
 }

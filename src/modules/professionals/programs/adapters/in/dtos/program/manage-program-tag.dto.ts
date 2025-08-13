@@ -16,7 +16,7 @@ export class ManageProgramTagDto {
   @IsUUID(4)
   programTag: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(ManageProgramTags)
   action: string;
 }

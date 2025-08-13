@@ -9,7 +9,7 @@ export class CommenterInput {
   @IsUUID(4)
   commenterId!: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(CommenterType)
   type!: CommenterType;
 }

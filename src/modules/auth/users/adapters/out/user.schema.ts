@@ -40,7 +40,6 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false })
   photo!: string;
 
-  @Field()
   @Prop({ type: String, required: true, enum: EnumRoles })
   role: EnumRoles;
 

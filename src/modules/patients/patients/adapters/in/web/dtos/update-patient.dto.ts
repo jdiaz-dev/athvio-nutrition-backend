@@ -27,7 +27,7 @@ export class UpdatePatientWebDto {
   @IsDate()
   birthday!: Date;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @IsEnum(AllowedGender)
   @IsOptional()
   gender!: AllowedGender;

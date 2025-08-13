@@ -36,7 +36,7 @@ function IsValidCommenter(property: string, validationOptions?: ValidationOption
 
 @InputType()
 class ChatCommentInput {
-  @Field()
+  @Field(() => String)
   @IsEnum(CommenterType)
   commenter: CommenterType;
 

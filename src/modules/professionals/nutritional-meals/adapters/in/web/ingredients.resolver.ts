@@ -11,7 +11,7 @@ import { IngredientDetail } from 'src/shared/schemas/meal-plan';
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class IngredientsResolver {
   //resolving object array
-  @ResolveField('ingredients', () => [IngredientDetail])
+  @ResolveField(() => [IngredientDetail], { name: 'ingredients' })
   getProductProviders(@Parent() customMeal: NutritionalMeal): IngredientDetail[] {
     return customMeal.ingredientDetails;
   }

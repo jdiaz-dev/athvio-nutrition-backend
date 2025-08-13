@@ -6,7 +6,7 @@ export class JwtDto {
   @Field()
   uuid: string;
 
-  @Field()
+  @Field(() => String)
   role: EnumRoles;
 
   @Field()

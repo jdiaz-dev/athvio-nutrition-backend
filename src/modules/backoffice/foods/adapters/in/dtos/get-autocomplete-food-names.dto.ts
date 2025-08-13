@@ -12,11 +12,11 @@ export class GetAutocompleteFoodNamesDto {
   @IsString()
   search: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(FoodDatabases)
   foodDatabase: FoodDatabases;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(SupportedLanguages)
   targetLanguage: SupportedLanguages;
 }

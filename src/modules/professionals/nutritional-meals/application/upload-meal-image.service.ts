@@ -4,13 +4,14 @@ import { UploadDto } from 'src/modules/professionals/nutritional-meals/adapters/
 import { FileUploaderService } from 'src/shared/services/file-uploader.service';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
+import { WrapperType } from 'src/shared/types.d';
 
 @Injectable()
 export class UploadMealImageService {
   private readonly mealDirectory = 'nutritional-meals';
 
   constructor(
-    @Inject(forwardRef(() => NutritionalMealsManagerService)) private readonly nmms: NutritionalMealsManagerService,
+    @Inject(forwardRef(() => NutritionalMealsManagerService)) private readonly nmms: WrapperType<NutritionalMealsManagerService>,
     private readonly nmps: NutritionalMealsPersistenceService,
     private readonly fileUploaderService: FileUploaderService,
   ) {}

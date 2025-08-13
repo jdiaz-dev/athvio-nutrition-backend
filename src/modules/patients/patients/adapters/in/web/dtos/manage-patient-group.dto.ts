@@ -16,7 +16,7 @@ export class ManagePatientGroupDto {
   @IsUUID(4)
   patientGroup!: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(ManagePatientGroup)
   action!: ManagePatientGroup;
 }

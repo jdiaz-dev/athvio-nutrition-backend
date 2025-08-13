@@ -13,7 +13,7 @@ export class GetPatientPlansForMobileDto extends GetRecordsBaseDto {
   @IsDate()
   currentDate: Date;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(PatientPlanTypeDates)
   patientPlanTypeDate: PatientPlanTypeDates;
 }

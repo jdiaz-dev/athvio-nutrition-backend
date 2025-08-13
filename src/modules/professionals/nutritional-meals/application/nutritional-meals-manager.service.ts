@@ -16,11 +16,12 @@ import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { randomUUID } from 'node:crypto';
+import { WrapperType } from 'src/shared/types.d';
 
 @Injectable()
 export class NutritionalMealsManagerService {
   constructor(
-    @Inject(forwardRef(() => UploadMealImageService)) private readonly umis: UploadMealImageService,
+    @Inject(forwardRef(() => UploadMealImageService)) private readonly umis: WrapperType<UploadMealImageService>,
     private readonly pms: ProfessionalsManagementService,
     private readonly nmps: NutritionalMealsPersistenceService,
   ) {}

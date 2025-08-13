@@ -31,7 +31,7 @@ export class AdditionalInfoDto {
   @IsOptional()
   birthday!: Date;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @IsEnum(AllowedGender)
   @IsOptional()
   gender!: string;

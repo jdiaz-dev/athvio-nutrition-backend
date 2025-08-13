@@ -12,11 +12,11 @@ export class GetNutritionalMealsForProfessionalDto extends GetRecordsBaseDto {
   @IsUUID(4)
   professional: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(NutritionalMealDatabases)
   database: NutritionalMealDatabases;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(SupportedLanguages)
   language: SupportedLanguages;
 }

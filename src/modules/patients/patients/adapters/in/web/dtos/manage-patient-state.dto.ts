@@ -12,7 +12,7 @@ export class ManagePatientStateDto {
   @IsUUID(4)
   patient: string;
 
-  @Field()
+  @Field(() => String)
   @IsEnum(PatientState)
   state: string;
 }
