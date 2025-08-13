@@ -27,13 +27,14 @@ export class GptService {
   }
   async chatCompletion<T>(prompt: string, schemaPrompt: ZodType<T>): Promise<T> {
     const quotedPrompt = this.addTripleQuotes(prompt);
+
     if (process.env.NODE_ENV === 'development') console.log(quotedPrompt);
 
     try {
       const res = await this.openai.chat.completions.create({
         messages: [
           {
-            role: 'system',
+            role: 'assistant',
             content: `
               - Eres un asistente experto en nutrición. Debes ayudar a otro nutricionista a evaluar a sus pacientes.
               - El paciente padece estas enfermedades: cáncer, diabetes.
@@ -43,11 +44,11 @@ export class GptService {
             `,
           },
           {
-            role: 'user',
-            content: quotedPrompt,
+            role: 'developer',
+            content: `"""Debes cumplir con las siguientes indicaciones de forma precisa:""". ${quotedPrompt}`,
           },
         ],
-        model: 'gpt-4o',
+        model: 'gpt-4o', //posible migration to gpt-4.1
         response_format: zodResponseFormat(schemaPrompt, 'nutri_response'),
       });
 
