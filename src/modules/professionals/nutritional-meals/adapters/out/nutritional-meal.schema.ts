@@ -67,6 +67,7 @@ export class NutritionalMeal extends BaseSchema {
   @Prop({ type: String, required: false })
   healthBenefits: string;
 
+  @Field(() => String)
   @Prop({ type: String, required: true, enum: EnumSources, default: EnumSources.PROFESSIONAL })
   source: EnumSources;
 

@@ -800,10 +800,12 @@ type NutritionalMeal {
   healthBenefits: String
   image: String
   ingredientDetails: [IngredientDetail!]!
+  ingredients: [IngredientDetail!]!
   macros: Macros!
   name: String!
   professional: String!
   servings: String!
+  source: String!
   uuid: String!
   yield: String!
 }
