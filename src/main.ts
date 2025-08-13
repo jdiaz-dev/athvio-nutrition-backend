@@ -19,8 +19,7 @@ async function bootstrap(): Promise<void> {
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
-  helmet;
-  /* app.use(
+  app.use(
     helmet({
       crossOriginEmbedderPolicy: false,
       contentSecurityPolicy: {
@@ -32,7 +31,7 @@ async function bootstrap(): Promise<void> {
         },
       },
     }),
-  ); */
+  );
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(port);
   console.log(`Server running on port ${port}`);
