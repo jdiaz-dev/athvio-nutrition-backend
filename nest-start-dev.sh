@@ -20,6 +20,7 @@ dotenvx run -f .env.development -- nest start --watch -b swc --type-check 2>&1 \
     printf '%s\n' "$line"
   done
 
+
 # rm -rf dist
 # npx swc src -d dist --config-file .swcrc
 # npx swc configuration -d dist --config-file .swcrc
