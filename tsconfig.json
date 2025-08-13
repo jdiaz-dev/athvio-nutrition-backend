@@ -37,6 +37,7 @@
       "configuration/*": ["src/configuration/*"],
       //"./src/modules*"
     },
+    "preserveWatchOutput": false,
     "noEmitOnError": true, //to void create js file in root of shared folder in error case
     "types": ["node"],
     //to allow use external packages : https://stackoverflow.com/questions/48189713/visual-studio-shared-typescript-library-ts6059-file-is-not-under-rootd

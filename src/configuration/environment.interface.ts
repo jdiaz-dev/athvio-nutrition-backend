@@ -6,6 +6,7 @@ interface INeo4j {
   username: string;
   password: string;
 }
+
 interface IDatabase {
   mongodb: string;
   neo4j: INeo4j;

@@ -27,7 +27,7 @@ export class GptService {
   }
   async chatCompletion<T>(prompt: string, schemaPrompt: ZodType<T>): Promise<T> {
     const quotedPrompt = this.addTripleQuotes(prompt);
-    if (process.env.NODE_ENV === 'development') console.info(quotedPrompt);
+    if (process.env.NODE_ENV === 'development') console.log(quotedPrompt);
 
     try {
       const res = await this.openai.chat.completions.create({
