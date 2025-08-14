@@ -28,26 +28,11 @@ async function bootstrap(): Promise<void> {
           scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
           manifestSrc: [`'self'`, 'apollo-server-landing-page.cdn.apollographql.com'],
           frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
-
-          // defaultSrc: ["'none'"],
-          // baseUri: ["'none'"],
-          // formAction: ["'none'"],
-          // frameAncestors: ["'none'"],
-          // // allow nothing to load
-          // connectSrc: ["'self'"],
         },
       },
-
-      // referrerPolicy: { policy: 'no-referrer' },
-      // // HSTS: only enable when you are 100% HTTPS in prod (looks like you are)
-      // hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
-      // xFrameOptions: { action: 'deny' }, // same as X-Frame-Options: DENY
-      // xContentTypeOptions: true,
     }),
   );
   app.use((_req: any, res: any, next: any) => {
-    // Block features your API doesn’t need. Adjust as necessary.
-    // Syntax: feature=(), or feature=("self" https://example.com)
     res.setHeader(
       'Permissions-Policy',
       [
@@ -66,7 +51,6 @@ async function bootstrap(): Promise<void> {
         'publickey-credentials-get=()',
         'screen-wake-lock=()',
         'xr-spatial-tracking=()',
-        // (optional) disable FLoC / topics if your runtime recognizes it:
         'interest-cohort=()',
       ].join(', '),
     );
