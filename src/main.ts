@@ -29,8 +29,6 @@ async function bootstrap(): Promise<void> {
           manifestSrc: [`'self'`, 'apollo-server-landing-page.cdn.apollographql.com'],
           frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
 
-
-          
           defaultSrc: ["'none'"],
           baseUri: ["'none'"],
           formAction: ["'none'"],
@@ -39,6 +37,12 @@ async function bootstrap(): Promise<void> {
           connectSrc: ["'self'"],
         },
       },
+
+      referrerPolicy: { policy: 'no-referrer' },
+      // HSTS: only enable when you are 100% HTTPS in prod (looks like you are)
+      hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+      xFrameOptions: { action: 'deny' }, // same as X-Frame-Options: DENY
+      xContentTypeOptions: true,
     }),
   );
   app.useGlobalPipes(new ValidationPipe());
