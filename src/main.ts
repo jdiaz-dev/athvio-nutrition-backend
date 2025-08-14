@@ -28,6 +28,15 @@ async function bootstrap(): Promise<void> {
           scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
           manifestSrc: [`'self'`, 'apollo-server-landing-page.cdn.apollographql.com'],
           frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
+
+
+          
+          defaultSrc: ["'none'"],
+          baseUri: ["'none'"],
+          formAction: ["'none'"],
+          frameAncestors: ["'none'"],
+          // allow nothing to load
+          connectSrc: ["'self'"],
         },
       },
     }),
