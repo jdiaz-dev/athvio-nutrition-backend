@@ -38,11 +38,11 @@ async function bootstrap(): Promise<void> {
         },
       },
 
-      referrerPolicy: { policy: 'no-referrer' },
-      // HSTS: only enable when you are 100% HTTPS in prod (looks like you are)
-      hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
-      xFrameOptions: { action: 'deny' }, // same as X-Frame-Options: DENY
-      xContentTypeOptions: true,
+      // referrerPolicy: { policy: 'no-referrer' },
+      // // HSTS: only enable when you are 100% HTTPS in prod (looks like you are)
+      // hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+      // xFrameOptions: { action: 'deny' }, // same as X-Frame-Options: DENY
+      // xContentTypeOptions: true,
     }),
   );
   app.use((_req: any, res: any, next: any) => {
