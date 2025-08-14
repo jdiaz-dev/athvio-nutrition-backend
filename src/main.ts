@@ -45,6 +45,33 @@ async function bootstrap(): Promise<void> {
       xContentTypeOptions: true,
     }),
   );
+  app.use((_req: any, res: any, next: any) => {
+    // Block features your API doesn’t need. Adjust as necessary.
+    // Syntax: feature=(), or feature=("self" https://example.com)
+    res.setHeader(
+      'Permissions-Policy',
+      [
+        'geolocation=()',
+        'microphone=()',
+        'camera=()',
+        'fullscreen=()',
+        'payment=()',
+        'usb=()',
+        'accelerometer=()',
+        'autoplay=()',
+        'clipboard-read=()',
+        'clipboard-write=()',
+        'magnetometer=()',
+        'gyroscope=()',
+        'publickey-credentials-get=()',
+        'screen-wake-lock=()',
+        'xr-spatial-tracking=()',
+        // (optional) disable FLoC / topics if your runtime recognizes it:
+        'interest-cohort=()',
+      ].join(', '),
+    );
+    next();
+  });
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(port);
   console.log(`Server running on port ${port}`);
