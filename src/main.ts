@@ -32,30 +32,30 @@ async function bootstrap(): Promise<void> {
       },
     }),
   );
-  app.use((_req: any, res: any, next: any) => {
-    res.setHeader(
-      'Permissions-Policy',
-      [
-        'geolocation=()',
-        'microphone=()',
-        'camera=()',
-        'fullscreen=()',
-        'payment=()',
-        'usb=()',
-        'accelerometer=()',
-        'autoplay=()',
-        'clipboard-read=()',
-        'clipboard-write=()',
-        'magnetometer=()',
-        'gyroscope=()',
-        'publickey-credentials-get=()',
-        'screen-wake-lock=()',
-        'xr-spatial-tracking=()',
-        'interest-cohort=()',
-      ].join(', '),
-    );
-    next();
-  });
+  // app.use((_req: any, res: any, next: any) => {
+  //   res.setHeader(
+  //     'Permissions-Policy',
+  //     [
+  //       'geolocation=()',
+  //       'microphone=()',
+  //       'camera=()',
+  //       'fullscreen=()',
+  //       'payment=()',
+  //       'usb=()',
+  //       'accelerometer=()',
+  //       'autoplay=()',
+  //       'clipboard-read=()',
+  //       'clipboard-write=()',
+  //       'magnetometer=()',
+  //       'gyroscope=()',
+  //       'publickey-credentials-get=()',
+  //       'screen-wake-lock=()',
+  //       'xr-spatial-tracking=()',
+  //       'interest-cohort=()',
+  //     ].join(', '),
+  //   );
+  //   next();
+  // });
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(port);
   console.log(`Server running on port ${port}`);
