@@ -6,6 +6,11 @@ import { GqlInterceptor } from 'src/shared/interceptors/gql.interceptor';
 export class WorkFlowStreamAuditResolver {
   @Mutation(() => String)
   @UseInterceptors(GqlInterceptor)
+  landingScreen(): String {
+    return 'receivedd';
+  }
+  @Mutation(() => String)
+  @UseInterceptors(GqlInterceptor)
   signUpProfessionalScreen(): String {
     return 'receivedd';
   }

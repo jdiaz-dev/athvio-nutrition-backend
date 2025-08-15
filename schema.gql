@@ -753,6 +753,7 @@ type Mutation {
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
   generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
+  landingScreen: String!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
