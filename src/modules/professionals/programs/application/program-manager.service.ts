@@ -14,6 +14,7 @@ import {
   GetProgramsDto,
   GetProgramsResponse,
 } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-programs.dto';
+import { DuplicateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/duplicate-program.dto';
 
 @Injectable()
 export class ProgramManagerService {
@@ -59,8 +60,21 @@ export class ProgramManagerService {
   async updateProgram(dto: UpdateProgramDto): Promise<Program> {
     const program = await this.pps.updateProgram(dto);
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
-
     return program;
+  }
+  async duplicateProgram(dto: DuplicateProgramDto): Promise<Program> {
+    const program = await this.pps.getProgram(dto, { plans: 1, name: 1, description: 1 });
+    if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+    const { name, description, plans } = program;
+
+    const duplicatedProgram = await this.createProgram({
+      professional: dto.professional,
+      name: `${name} (duplicado)`,
+      description,
+      plans: plans.map((plan) => ({ ...plan, uuid: randomUUID() })),
+    });
+
+    return duplicatedProgram;
   }
   async deleteProgram(dto: DeleteProgramDto, selectors: string[]): Promise<Program | null> {
     const program = await this.pps.deleteProgram(dto, selectors);

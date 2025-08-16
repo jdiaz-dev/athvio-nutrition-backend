@@ -77,6 +77,11 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
                 plans: ProgramQueryFragmentsService.sortPlansByDay(),
               },
             },
+            {
+              $project: {
+                ...selectors,
+              },
+            },
           ]
         : []),
     ]);

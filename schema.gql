@@ -297,6 +297,11 @@ input DuplicatePatientPlanDto {
   professional: String!
 }
 
+input DuplicateProgramDto {
+  professional: String!
+  program: String!
+}
+
 input DuplicateProgramPlanDto {
   day: Float!
   plan: String!
@@ -750,6 +755,7 @@ type Mutation {
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
+  duplicateProgram(input: DuplicateProgramDto!): Program!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
   generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!

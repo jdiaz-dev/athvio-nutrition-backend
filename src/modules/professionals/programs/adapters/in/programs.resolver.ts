@@ -17,6 +17,7 @@ import { ProgramManagerService } from 'src/modules/professionals/programs/applic
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
+import { DuplicateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/duplicate-program.dto';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -39,7 +40,6 @@ export class ProgramsResolver {
     const program = await this.pms.getProgram(dto, selectors);
     return program;
   }
-
   @Query(() => GetProgramsResponse)
   async getPrograms(
     @Args('input') dto: GetProgramsDto,
@@ -48,12 +48,14 @@ export class ProgramsResolver {
     const program = await this.pms.getPrograms(dto, selectors);
     return program;
   }
-
   @Mutation(() => Program)
   async updateProgram(@Args('input') dto: UpdateProgramDto): Promise<Program> {
     return this.pms.updateProgram(dto);
   }
-
+  @Mutation(() => Program)
+  async duplicateProgram(@Args('input') dto: DuplicateProgramDto): Promise<Program> {
+    return this.pms.duplicateProgram(dto);
+  }
   @Mutation(() => Program)
   async manageProgramTag(@Args('input') dto: ManageProgramTagDto): Promise<Program> {
     return this.pms.manageProgramTag(dto);
