@@ -6,7 +6,6 @@ import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/pat
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { Plan } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPatial } from 'src/modules/professionals/programs/types/program';
-import { programPlanSelector } from 'src/modules/professionals/programs/adapters/out/program-plan-selectors';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { PatientPlansPreparatorService } from 'src/shared/services/patient-plans-preparator.service';
@@ -59,7 +58,7 @@ export class AssignProgramService {
     await this.gps.getManyPatientsByIds(dto.patients);
     const program = await this.pps.getProgramPlanFilteredByDay(
       { professional: dto.professional, program: dto.program, day: dto.startingDay },
-      programPlanSelector,
+      { plans: 1, name: 1, description: 1 },
     );
 
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
