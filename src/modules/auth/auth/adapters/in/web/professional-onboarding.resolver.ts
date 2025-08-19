@@ -18,6 +18,6 @@ export class ProfessionalOnboardingResolver {
   @Mutation(() => JwtDto)
   @UseInterceptors(GqlInterceptor)
   signUpProfessionalWithGoogle(@Args('input') dto: SignUpProfessionalWithGoogleDto): Promise<JwtDto> {
-    return this.sups.signUpWithGoogle(dto);
+    return this.sups.signUpOrSignInWithGoogle(dto);
   }
 }

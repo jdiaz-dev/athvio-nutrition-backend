@@ -8,10 +8,10 @@ import { PatientManagerService } from 'src/modules/patients/patients/application
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { SignUpPatientFromMobileDto } from 'src/modules/auth/auth/adapters/in/mobile/dtos/sign-up-patient-from-mobile.dto';
-import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { AuthenticationService } from 'src/modules/auth/auth/application/services/authentication.service';
 import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
+import { JwtDto } from 'src/modules/auth/auth/helpers/dtos/jwt.dto';
 
 @Injectable()
 export class SignUpPatientManagerService {
@@ -25,7 +25,7 @@ export class SignUpPatientManagerService {
   async signUpPatientFromWeb(dto: SignUpPatientDto): Promise<SignUpPatientResponse> {
     return this.patientOnboardingManagerService.onboardingForWeb(dto);
   }
-  async signUpPatientFromMobile(dto: SignUpPatientFromMobileDto): Promise<UserLoged> {
+  async signUpPatientFromMobile(dto: SignUpPatientFromMobileDto): Promise<JwtDto> {
     const { uuid, role } = await this.patientOnboardingManagerService.onboardingForMobile(dto);
     return this.as.generateToken({ uuid, role });
   }

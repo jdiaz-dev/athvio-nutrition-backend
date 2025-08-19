@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { AuthenticationService } from 'src/modules/auth/auth/application/services/authentication.service';
-import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
 import { ProfessionalOnboardingManagerService } from 'src/modules/auth/onboarding/application/professional-onboarding-manager.service';
 import { GoogleVerifierService } from 'src/modules/auth/auth/application/services/google-verifier.service';
 import { SignUpProfessionalWithGoogleDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional-with-google.dto';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
+import { JwtDto } from 'src/modules/auth/auth/helpers/dtos/jwt.dto';
 
 @Injectable()
 export class SignUpProfessionalService {
@@ -16,15 +16,15 @@ export class SignUpProfessionalService {
     private gvs: GoogleVerifierService,
   ) {}
 
-  async signUpProfessional(dto: SignUpProfessionalDto): Promise<UserLoged> {
+  async signUpProfessional(dto: SignUpProfessionalDto): Promise<JwtDto> {
     const { uuid, role } = await this.poms.onboardProfessional(dto);
     return this.as.generateToken({ uuid, role });
   }
-  async signUpWithGoogle({
+  async signUpOrSignInWithGoogle({
     clientOffsetMinutes,
     detectedLanguage,
     idToken,
-  }: SignUpProfessionalWithGoogleDto): Promise<UserLoged> {
+  }: SignUpProfessionalWithGoogleDto): Promise<JwtDto> {
     const payload = await this.gvs.verifyWithGoogle(idToken);
     const { uuid, role } =
       (await this.ums.getUserByGoogleSub(payload.sub)) ??

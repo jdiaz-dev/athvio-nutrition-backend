@@ -3,12 +3,12 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import * as bcryptjs from 'bcryptjs';
 import { IValidateUserUseCase, UserValidated } from '../ports/in/validate-user.use-case';
 import { JwtService } from '@nestjs/jwt';
-import { UserLoged } from 'src/modules/auth/auth/helpers/auth.types';
 import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
+import { JwtDto } from 'src/modules/auth/auth/helpers/dtos/jwt.dto';
 
 @Injectable()
 export class AuthenticationService implements IValidateUserUseCase {
@@ -37,8 +37,8 @@ export class AuthenticationService implements IValidateUserUseCase {
 
     return { uuid, role };
   }
-  async generateToken(userValidated: UserValidated): Promise<UserLoged> {
-    const res: UserLoged = {
+  async generateToken(userValidated: UserValidated): Promise<JwtDto> {
+    const res: JwtDto = {
       uuid: await this.getUuidOfRole(userValidated),
       role: userValidated.role,
       token: this.jwtService.sign({ user: (await this.ums.getUserByUuid(userValidated.uuid)).uuid }, { expiresIn: '1d' }),
