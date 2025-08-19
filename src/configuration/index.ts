@@ -8,7 +8,7 @@ import { EnumEnvironments } from 'src/shared/enums/project';
 class DatabaseVariables {
   @IsString()
   MONGO_DB_CONNECTION: string;
-  /* @IsString()
+  @IsString()
   NEO4J_DATABASE: string;
   @IsString()
   NEO4J_SCHEME: string;
@@ -19,7 +19,7 @@ class DatabaseVariables {
   @IsString()
   NEO4J_USERNAME: string;
   @IsString()
-  NEO4J_PASSWORD: string; */
+  NEO4J_PASSWORD: string;
 }
 
 class AllowedOriginVariables extends DatabaseVariables {
@@ -49,7 +49,14 @@ class SecurityVariables extends FoodProviderVariables {
   RATE_LIMIT_VALUE: string;
 }
 
-class OtherVariables extends SecurityVariables {
+class OauthVariables extends SecurityVariables {
+  @IsString()
+  OAUTH_GOOGLE_CLIENT_ID: string;
+  @IsString()
+  OAUTH_GOOGLE_CLIENT_SECRET: string;
+}
+
+class OtherVariables extends OauthVariables {
   @IsEnum(EnumEnvironments)
   NODE_ENV: EnumEnvironments;
   @IsString()

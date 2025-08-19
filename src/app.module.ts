@@ -14,6 +14,7 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
 import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'src/configuration';
 import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
