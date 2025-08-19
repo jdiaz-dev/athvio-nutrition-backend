@@ -770,6 +770,7 @@ type Mutation {
   signUpPatientFromMobile(input: SignUpPatientFromMobileDto!): JwtDto!
   signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
   signUpProfessionalScreen: String!
+  signUpProfessionalWithGoogle(input: SignUpProfessionalWithGoogleDto!): JwtDto!
   updateAnswersAndAdditionalNotes(input: UpdateAnswersAndAdditionalNotesDto!): PatientQuestionary!
   updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
@@ -1087,11 +1088,17 @@ input SignUpProfessionalDto {
   countryCode: String
   detectedLanguage: String!
   email: String!
-  firstname: String!
-  lastname: String!
+  firstname: String
+  lastname: String
   password: String!
   phone: String
   professionalInfo: CreateProfesionalInfoDto
+}
+
+input SignUpProfessionalWithGoogleDto {
+  clientOffsetMinutes: Float!
+  detectedLanguage: String!
+  idToken: String!
 }
 
 input SubscribePublishedMessageDto {

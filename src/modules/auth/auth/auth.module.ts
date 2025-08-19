@@ -18,6 +18,7 @@ import { PatientOnboardingWebResolver } from 'src/modules/auth/auth/adapters/in/
 import { MobileWebAuthenticationResolver } from 'src/modules/auth/auth/adapters/in/mobile-web-authentication.resolver';
 import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
 import { WorkFlowStreamAuditModule } from 'src/modules/backoffice/work-steram-audit/work-flow-stream-audit.module';
+import { GoogleAuthenticationService } from 'src/modules/auth/auth/application/services/google-authentication.service';
 
 const services = [
   AuthenticationService,
@@ -26,6 +27,7 @@ const services = [
   JwtStrategy,
   SignUpProfessionalService,
   SignUpPatientManagamentService,
+  GoogleAuthenticationService,
 ];
 const resolvers = [
   ProfessionalOnboardingResolver,

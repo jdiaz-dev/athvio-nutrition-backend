@@ -37,7 +37,7 @@ export class ProfessionalOnboardingManagerService {
     private qcm: ProfessionalQuestionaryManager,
   ) {}
 
-  async onboardProfessional(dto: SignUpProfessionalDto): Promise<UserValidated> {
+  async onboardProfessional(dto: SignUpProfessionalDto & { googleSub?: string; photo?: string }): Promise<UserValidated> {
     const { uuid, professional, role } = await this.createProfessionalAndUser(dto);
     this.createDefaultData(professional, dto).catch((error) => console.error(error));
     return { uuid, role };
@@ -59,7 +59,7 @@ export class ProfessionalOnboardingManagerService {
       ...userDto,
       firstname,
       lastname,
-      password: EncryptionService.encrypt(password),
+      ...(password && { password: EncryptionService.encrypt(password) }),
     });
 
     const { uuid: professionalUuid } = await this.prms.createProfessional({

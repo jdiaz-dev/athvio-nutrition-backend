@@ -6,13 +6,15 @@ import { SupportedLanguages } from 'src/shared/enums/project';
 
 @InputType()
 export class SignUpProfessionalDto {
-  @Field()
+  @Field({ nullable: true })
   @IsString()
-  firstname: string;
+  @IsOptional()
+  firstname?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
-  lastname: string;
+  @IsOptional()
+  lastname?: string;
 
   @Field()
   @IsEmail()
@@ -26,33 +28,33 @@ export class SignUpProfessionalDto {
     minNumbers: 0,
     minSymbols: 0,
   })
-  password: string;
+  password?: string;
 
   @Field({ nullable: true }) //if it is optional attribute, it is mandatory add {nullable: true} or it will happend a infinite loop
   @IsString()
   @IsOptional()
-  countryCode!: string;
+  countryCode?: string;
 
   @Field({ nullable: true })
-  @IsOptional()
   @IsString()
-  country: string;
+  @IsOptional()
+  country?: string;
 
   @Field({ nullable: true })
-  @IsOptional()
   @IsString()
-  phone!: string;
+  @IsOptional()
+  phone?: string;
 
   @Field({ nullable: true })
-  @IsOptional()
   @IsBoolean()
-  acceptedTerms!: boolean;
+  @IsOptional()
+  acceptedTerms?: boolean;
 
   @Field(() => CreateProfesionalInfoDto, { nullable: true })
   @IsOptional()
   @ValidateNested()
   @Type(() => CreateProfesionalInfoDto)
-  professionalInfo!: CreateProfesionalInfoDto;
+  professionalInfo?: CreateProfesionalInfoDto;
 
   @Field()
   @IsNumber()

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { GetUserById, UpdatePassword, UpdateUser } from 'src/modules/auth/users/adapters/out/users-types';
+import { GetUserById, UpdatePassword, UpdateUser } from 'src/modules/auth/users/types/users-types';
 import { User, UserDocument } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/update-user.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
@@ -39,7 +39,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
     ]);
     return patient[0] as User;
   }
-  async getUserByIdentifier(identifier: { _id?: Types.ObjectId; uuid?: string }): Promise<GetUserById> {
+  async getUserByIdentifier(identifier: { _id?: Types.ObjectId; uuid?: string; googleSub?: string }): Promise<GetUserById> {
     const _user = await this.initializeQuery(this.getUserByIdentifier.name).findOne(
       { ...identifier },
       {

@@ -17,9 +17,10 @@ export class UserEntity {
     public acceptedTerms?: boolean,
     public photo?: string,
     public phone?: string,
+    public googleSub?: string,
   ) {}
   validateUserCreationForProfessional() {
-    if (!this.email || !this.firstname || !this.lastname || !this.password) {
+    if (!this.email) {
       throw new CustomBadRequestException(ErrorUserEntityEnum.USER_FOR_PROFESSIONAL);
     }
   }

@@ -4,7 +4,7 @@ import { GetPatientUserResponse } from 'src/modules/auth/users/adapters/in/mobil
 import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/update-user.dto';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UsersPersistenceService } from 'src/modules/auth/users/adapters/out/users-persistence.service';
-import { UpdatePassword, UpdateUser } from 'src/modules/auth/users/adapters/out/users-types';
+import { GetUserById, UpdatePassword, UpdateUser } from 'src/modules/auth/users/types/users-types';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ErrorPatientsEnum, ErrorUsersEnum } from 'src/shared/enums/messages-response';
 
@@ -15,6 +15,10 @@ export class UserManagamentService {
     private readonly gps: GetPatientManagerService,
   ) {}
 
+  async createUser(dto: Partial<User>): Promise<User> {
+    const user = await this.ups.createUser(dto);
+    return user;
+  }
   async getUserThroughPatient(patient: string): Promise<GetPatientUserResponse> {
     const { user } = await this.gps.getPatientById(patient);
     if (!user) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
@@ -26,14 +30,14 @@ export class UserManagamentService {
     if (patient == null) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
     return patient;
   }
-  async getUserById(user: string) {
+  async getUserById(user: string): Promise<GetUserById> {
     const _user = await this.ups.getUserByIdentifier({
       _id: new Types.ObjectId(user),
     });
     if (!_user) throw new BadRequestException(ErrorUsersEnum.USER_NOT_FOUND);
     return _user;
   }
-  async getUserByUuid(user: string) {
+  async getUserByUuid(user: string): Promise<GetUserById> {
     const _user = await this.ups.getUserByIdentifier({
       uuid: user,
     });
@@ -42,6 +46,10 @@ export class UserManagamentService {
   }
   async getUserByEmail(email: string): Promise<User> {
     const user = await this.ups.getUserByEmail(email);
+    return user;
+  }
+  async getUserByGoogleSub(googleSub: string): Promise<GetUserById> {
+    const user = await this.ups.getUserByIdentifier({ googleSub });
     return user;
   }
 }

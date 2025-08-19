@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsUUID } from 'class-validator';
-import { GetUserById } from 'src/modules/auth/users/adapters/out/users-types';
+import { GetUserById } from 'src/modules/auth/users/types/users-types';
 
 @InputType()
 export class GetPatientUser {

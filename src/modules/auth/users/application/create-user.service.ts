@@ -23,10 +23,14 @@ export class CreateUserService {
       lastname,
       password,
     );
+
+    if (rest.photo) userEntity.photo = rest.photo;
     if (rest.countryCode) userEntity.countryCode = rest.countryCode;
     if (rest.country) userEntity.country = rest.country;
     if (rest.phone) userEntity.phone = rest.phone;
     if (rest.acceptedTerms) userEntity.acceptedTerms = rest.acceptedTerms;
+    if (rest.googleSub) userEntity.googleSub = rest.googleSub;
+
     userEntity.validateUserCreationForProfessional();
 
     const { email, ...restEntity } = userEntity;

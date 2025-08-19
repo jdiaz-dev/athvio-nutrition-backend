@@ -24,6 +24,9 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false })
   password?: string;
 
+  @Prop({ type: String, required: false })
+  googleSub?: string;
+
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   countryCode!: string;
