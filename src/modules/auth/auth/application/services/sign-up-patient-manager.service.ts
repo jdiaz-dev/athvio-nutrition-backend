@@ -14,7 +14,7 @@ import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/app
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 @Injectable()
-export class SignUpPatientManagamentService {
+export class SignUpPatientManagerService {
   constructor(
     private readonly ums: UserManagamentService,
     private readonly pms: PatientManagerService,

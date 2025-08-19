@@ -12,13 +12,13 @@ import { SignUpProfessionalService } from 'src/modules/auth/auth/application/ser
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { AuthorizationService } from 'src/modules/auth/auth/application/services/authorization.service';
-import { SignUpPatientManagamentService } from 'src/modules/auth/auth/application/services/sign-up-patient-management.service';
+import { SignUpPatientManagerService } from 'src/modules/auth/auth/application/services/sign-up-patient-manager.service';
 import { PatientOnboardingMobileResolver } from 'src/modules/auth/auth/adapters/in/mobile/patient-onboarding-mobile.resolver';
 import { PatientOnboardingWebResolver } from 'src/modules/auth/auth/adapters/in/web/patient-onboarding-web.resolver';
 import { MobileWebAuthenticationResolver } from 'src/modules/auth/auth/adapters/in/mobile-web-authentication.resolver';
 import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
 import { WorkFlowStreamAuditModule } from 'src/modules/backoffice/work-steram-audit/work-flow-stream-audit.module';
-import { GoogleAuthenticationService } from 'src/modules/auth/auth/application/services/google-authentication.service';
+import { GoogleVerifierService } from 'src/modules/auth/auth/application/services/google-verifier.service';
 
 const services = [
   AuthenticationService,
@@ -26,8 +26,8 @@ const services = [
   LocalStrategy,
   JwtStrategy,
   SignUpProfessionalService,
-  SignUpPatientManagamentService,
-  GoogleAuthenticationService,
+  SignUpPatientManagerService,
+  GoogleVerifierService,
 ];
 const resolvers = [
   ProfessionalOnboardingResolver,
@@ -53,6 +53,6 @@ const resolvers = [
     WorkFlowStreamAuditModule,
   ],
   providers: [...services, ...resolvers],
-  exports: [AuthorizationService, SignUpPatientManagamentService],
+  exports: [AuthorizationService, SignUpPatientManagerService],
 })
 export class AuthModule {}

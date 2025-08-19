@@ -4,7 +4,7 @@ import { OAuth2Client, TokenPayload } from 'google-auth-library';
 import { AuthErrorEnum } from 'src/modules/auth/auth/domain/auth-enum';
 
 @Injectable()
-export class GoogleAuthenticationService {
+export class GoogleVerifierService {
   private google = new OAuth2Client(process.env.OAUTH_GOOGLE_CLIENT_ID);
 
   constructor() {}
@@ -21,7 +21,7 @@ export class GoogleAuthenticationService {
     return payload;
   }
 
-  async loginWithGoogle(idToken: string): Promise<TokenPayload> {
+  async verifyWithGoogle(idToken: string): Promise<TokenPayload> {
     const payload = await this.verifyGoogleIdToken(idToken);
     return payload;
   }

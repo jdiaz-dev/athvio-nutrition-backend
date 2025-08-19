@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
-import { SignUpPatientManagamentService } from 'src/modules/auth/auth/application/services/sign-up-patient-management.service';
+import { SignUpPatientManagerService } from 'src/modules/auth/auth/application/services/sign-up-patient-manager.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
@@ -13,7 +13,7 @@ import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/web/dtos/a
 
 @Resolver()
 export class PatientOnboardingWebResolver {
-  constructor(private sppms: SignUpPatientManagamentService) {}
+  constructor(private sppms: SignUpPatientManagerService) {}
 
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => SignUpPatientResponse)
