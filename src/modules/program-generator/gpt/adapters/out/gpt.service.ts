@@ -48,7 +48,7 @@ export class GptService {
             content: `"""Debes cumplir con las siguientes indicaciones de forma precisa:""". ${quotedPrompt}`,
           },
         ],
-        model: 'gpt-4o', //posible migration to gpt-4.1
+        model: 'gpt-4.1', //posible migration to gpt-4.1 //prev: gpt-4o
         response_format: zodResponseFormat(schemaPrompt, 'nutri_response'),
       });
 
