@@ -21,29 +21,23 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
     return res;
   }
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
+    const hasSearch = Array.isArray(dto.search) && dto.search.join(' ').trim().length > 0;
+
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
         $match: {
-          ...(dto.search[0].length > 0 && { $text: { $search: dto.search.join(' ') } }),
+          ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
           'foodDetails.category': 'Generic foods',
         },
       },
       {
         $addFields: {
-          isExactMatch: {
-            $in: [{ $toLower: '$foodDetails.label' }, dto.search.map((word) => word.toLowerCase())],
-          },
+          ...(hasSearch && { score: { $meta: 'textScore' } }),
         },
       },
       {
         $sort: {
-          'isExactMatch': -1,
-          'foodDetails.label': 1,
-        },
-      },
-      {
-        $project: {
-          isExactMatch: 0,
+          score: -1,
         },
       },
       {
@@ -66,6 +60,7 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
         },
       },
     ]);
+
     const res: GetInternalFoodsResponse = {
       data: foodsRes[0].data,
       meta: {
