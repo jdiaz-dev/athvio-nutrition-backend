@@ -261,7 +261,8 @@ const others = [
   'olive oil', 
   'black beans', 
   'green beans',
-  'tofu'
+  'tofu',
+  'hot Pepper'
 ]
 
 ```;

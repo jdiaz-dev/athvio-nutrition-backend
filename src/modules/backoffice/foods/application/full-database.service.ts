@@ -49,7 +49,7 @@ export class FullDatabaseService {
         uri: foods[1],
         nextUri: foods[0]._links.next.href,
       });
-    }, 10000);
+    }, 1000);
   }
 
   async fullNamedFoods(): Promise<void> {
