@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
 
 @InputType()
@@ -15,4 +15,9 @@ export class IngredientInput extends MacrosInput {
   @Field()
   @IsString()
   label: string;
+
+  @Field({ nullable: true })
+  @IsUUID(4)
+  @IsOptional()
+  internalFood?: string;
 }

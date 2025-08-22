@@ -622,6 +622,7 @@ input IngredientInput {
   calories: Float!
   carbs: Float!
   fat: Float!
+  internalFood: String
   label: String!
   name: String!
   protein: Float!
