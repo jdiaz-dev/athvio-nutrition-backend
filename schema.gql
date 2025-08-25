@@ -76,6 +76,13 @@ type CalculatedMacros {
   protein: Float!
 }
 
+input CalculatedMacrosInput {
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  protein: Float!
+}
+
 type Chat {
   comments: [ChatComment!]!
   createdAt: DateTime!
@@ -155,11 +162,9 @@ input CreatePatientPlanDto {
 }
 
 input CreatePlanificationDto {
-  calories: Float!
-  carbs: Float!
-  fat: Float!
+  configuredMacros: CalculatedMacrosInput!
   patient: String!
-  protein: Float!
+  patientInformation: PatientInformationInput!
 }
 
 input CreateProfesionalInfoDto {
@@ -548,6 +553,10 @@ type GetPatientsResponse {
   meta: Meta!
 }
 
+input GetPlanificationDto {
+  patient: String!
+}
+
 input GetProfessionalDto {
   professional: String!
 }
@@ -860,6 +869,14 @@ type PatientInformation {
   weight: Float!
 }
 
+input PatientInformationInput {
+  activityFactor: Float!
+  age: Float!
+  gender: String!
+  height: Float!
+  weight: Float!
+}
+
 input PatientMacrosInput {
   calories: Float!
   carbs: Float!
@@ -1025,7 +1042,8 @@ type Query {
   getPatientQuestionaryById(input: GetPatientQuestionaryByIdDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
-  getPlanification(input: getPlanificationDto!): Planification!
+  getPlanification(input: GetPlanificationDto!): Planification!
+  getPlanifications(input: GetPlanificationDto!): [Planification!]!
   getProfessional(professional: GetProfessionalDto!): Professional!
   getProfessionalQuestionary(input: GetProfessionalQuestionaryDto!): ProfessionalQuestionary!
   getProgram(input: GetProgramDto!): Program!
@@ -1265,10 +1283,6 @@ type User {
   phone: String
   photo: String
   uuid: String!
-}
-
-input getPlanificationDto {
-  patient: String!
 }
 
 input updatePlanificationDto {

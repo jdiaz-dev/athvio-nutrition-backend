@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsNumber, IsUUID, ValidateNested } from 'class-validator';
 
 @InputType()
-export class PatientInformation {
+export class PatientInformationInput {
   @Field()
   @IsNumber()
   weight: number;
@@ -24,7 +24,7 @@ export class PatientInformation {
 }
 
 @InputType()
-export class CalculatedMacros {
+export class CalculatedMacrosInput {
   @Field()
   @IsNumber()
   protein: number;
@@ -48,11 +48,11 @@ export class CreatePlanificationDto {
   @IsUUID(4)
   patient!: string;
 
-  @Field(() => PatientInformation)
+  @Field(() => PatientInformationInput)
   @ValidateNested()
-  patientInformation: PatientInformation;
+  patientInformation: PatientInformationInput;
 
-  @Field(() => CalculatedMacros)
+  @Field(() => CalculatedMacrosInput)
   @ValidateNested()
-  configuredMacros!: CalculatedMacros;
+  configuredMacros!: CalculatedMacrosInput;
 }
