@@ -69,16 +69,11 @@ input AssignProgramDto {
   startingDay: Float!
 }
 
-type Calory {
-  _id: ID!
+type CalculatedMacros {
   calories: Float!
   carbs: Float!
-  createdAt: DateTime!
   fat: Float!
-  isDeleted: String!
-  patient: ID!
   protein: Float!
-  uuid: String!
 }
 
 type Chat {
@@ -124,14 +119,6 @@ type Compound {
   uuid: String!
 }
 
-input CreateCaloryDto {
-  calories: Float!
-  carbs: Float!
-  fat: Float!
-  patient: String!
-  protein: Float!
-}
-
 input CreateCustomQuestionaryDetailInput {
   associatedQuestion: String!
   fieldName: String!
@@ -165,6 +152,14 @@ input CreatePatientPlanDto {
   patient: String!
   professional: String!
   title: String
+}
+
+input CreatePlanificationDto {
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  patient: String!
+  protein: Float!
 }
 
 input CreateProfesionalInfoDto {
@@ -389,10 +384,6 @@ input GetAutocompleteFoodNamesDto {
 
 type GetAutocompleteFoodNamesResponse {
   foodNames: [String!]!
-}
-
-input GetCaloryDto {
-  patient: String!
 }
 
 input GetChatDto {
@@ -736,12 +727,12 @@ type Mutation {
   addPlanMeal(toAddInput: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
-  createCalory(input: CreateCaloryDto!): Calory!
   createMeal(toAddInput: AddMealDto!): Program!
   createNote(input: CreateNoteDto!): Note!
   createNutritionalMeal(input: CreateNutritionalMealDto!): NutritionalMeal!
   createPatientGroup(input: CreatePatientGroupDto!): PatientGroup!
   createPatientPlan(input: CreatePatientPlanDto!): PatientPlan!
+  createPlanification(input: CreatePlanificationDto!): Planification!
   createProgram(input: CreateProgramDto!): Program!
   createProgramTag(input: CreateProgramTagDto!): ProgramTag!
   deleteCustomQuestionaryDetails(toDeleteInput: DeleteCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
@@ -774,7 +765,6 @@ type Mutation {
   signUpProfessionalScreen: String!
   signUpProfessionalWithGoogle(input: SignUpProfessionalWithGoogleDto!): JwtDto!
   updateAnswersAndAdditionalNotes(input: UpdateAnswersAndAdditionalNotesDto!): PatientQuestionary!
-  updateCalory(input: UpdateCaloryDto!): Calory!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
   updateNote(input: UpdateNoteDto!): Note!
@@ -786,6 +776,7 @@ type Mutation {
   updatePatientQuestionaryAnswers(input: UpdateAnswersDto!): PatientQuestionary!
   updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
   updatePlanMeal(toUpdateInput: UpdatePlanMealDto!): PatientPlan!
+  updatePlanification(input: updatePlanificationDto!): Planification!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
@@ -859,6 +850,14 @@ type PatientGroup {
   isDeleted: String!
   professional: String!
   uuid: String!
+}
+
+type PatientInformation {
+  activityFactor: Float!
+  age: Float!
+  gender: String!
+  height: Float!
+  weight: Float!
 }
 
 input PatientMacrosInput {
@@ -940,6 +939,16 @@ input PlanBodyInput {
   week: Float!
 }
 
+type Planification {
+  _id: ID!
+  configuredMacros: CalculatedMacros!
+  createdAt: DateTime!
+  isDeleted: String!
+  patient: ID!
+  patientInformation: PatientInformation!
+  uuid: String!
+}
+
 type Professional {
   company: String!
   createdAt: DateTime!
@@ -999,7 +1008,6 @@ type Query {
   getAllNutritionalPreferences: [NutritionalPreference!]!
   getAnalyzedFoods(input: GetAnalyzedFoodsDto!): [FoodAnalyzer!]!
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
-  getCalory(input: GetCaloryDto!): Calory!
   getChat(chat: GetChatDto!): Chat
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
@@ -1017,6 +1025,7 @@ type Query {
   getPatientQuestionaryById(input: GetPatientQuestionaryByIdDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
+  getPlanification(input: getPlanificationDto!): Planification!
   getProfessional(professional: GetProfessionalDto!): Professional!
   getProfessionalQuestionary(input: GetProfessionalQuestionaryDto!): ProfessionalQuestionary!
   getProgram(input: GetProgramDto!): Program!
@@ -1131,15 +1140,6 @@ input UpdateAnswersDto {
   professional: String!
   questionary: String!
   questionaryGroups: [PatientQuestionaryGroupWithAnswersInput!]!
-}
-
-input UpdateCaloryDto {
-  calories: Float!
-  calory: String!
-  carbs: Float!
-  fat: Float!
-  patient: String!
-  protein: Float!
 }
 
 input UpdateCustomQuestionaryDetailInput {
@@ -1265,4 +1265,17 @@ type User {
   phone: String
   photo: String
   uuid: String!
+}
+
+input getPlanificationDto {
+  patient: String!
+}
+
+input updatePlanificationDto {
+  calories: Float!
+  calory: String!
+  carbs: Float!
+  fat: Float!
+  patient: String!
+  protein: Float!
 }

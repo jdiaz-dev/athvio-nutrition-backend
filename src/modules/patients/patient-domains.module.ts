@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CaloriesModule } from 'src/modules/patients/calories/calories.module';
+import { CaloriesModule } from 'src/modules/patients/planifications/planifications.module';
 
 import { ChatsModule } from 'src/modules/patients/chats/chats.module';
 import { NotesModule } from 'src/modules/patients/notes/notes.module';
