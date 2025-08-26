@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
@@ -23,8 +23,12 @@ export class PatientInformation {
   gender: string;
 
   @Field()
+  @Prop({ type: String, required: true })
+  physicActivityName: string;
+
+  @Field()
   @Prop({ type: Number, required: true })
-  activityFactor: number;
+  physicActivityFactor: number;
 }
 const PatientInformationSchema = SchemaFactory.createForClass(PatientInformation);
 
@@ -52,12 +56,9 @@ const MacroSchema = SchemaFactory.createForClass(CalculatedMacros);
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Planifications' })
 export class Planification extends BaseSchema {
-  @Field(() => ID)
-  _id!: string;
-
-  @Field(() => ID)
+  @Field()
   @Prop({ type: String, required: true })
-  patient!: string;
+  patient: string;
 
   @Field(() => PatientInformation)
   @Prop({ type: PatientInformationSchema, required: true })

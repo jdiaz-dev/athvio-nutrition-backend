@@ -3,27 +3,27 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { CreatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/create-planification.dto';
-import { GetPlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-calory.dto';
-import { updatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/update-calory.dto';
+import { GetPlanificationsDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-planifications.dto';
+import { UpdatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/update-planification.dto';
 import { Planification, PlanificationDocument } from 'src/modules/patients/planifications/adapters/out/planification.schema';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 @Injectable()
 export class PlanificationsPersistenceService extends MongodbQueryBuilder<PlanificationDocument> {
   constructor(
-    @InjectModel(Planification.name) protected readonly caloryModel: Model<PlanificationDocument>,
+    @InjectModel(Planification.name) protected readonly planificationModel: Model<PlanificationDocument>,
     protected readonly logger: AthvioLoggerService,
   ) {
-    super(caloryModel, logger, Planification.name);
+    super(planificationModel, logger, Planification.name);
   }
 
-  async createPlanification(dto: CreatePlanificationDto): Promise<Planification> {
+  async createPlanification(data: { uuid: string } & CreatePlanificationDto): Promise<Planification> {
     const planificationRes = await this.initializeQuery(this.createPlanification.name).create({
-      ...dto,
+      ...data,
     });
     return planificationRes;
   }
-  async getPlanification({ patient }: GetPlanificationDto, selectors: Record<string, number>): Promise<Planification> {
+  async getPlanification({ patient }: GetPlanificationsDto, selectors: Record<string, number>): Promise<Planification> {
     const planificationRes = await this.initializeQuery(this.getPlanification.name).findOne(
       {
         patient,
@@ -33,7 +33,7 @@ export class PlanificationsPersistenceService extends MongodbQueryBuilder<Planif
     );
     return planificationRes;
   }
-  async getPlanifications({ patient }: GetPlanificationDto, selectors: Record<string, number>): Promise<Planification[]> {
+  async getPlanifications({ patient }: GetPlanificationsDto, selectors: Record<string, number>): Promise<Planification[]> {
     const planificationsRes = await this.initializeQuery(this.getPlanifications.name).find(
       {
         patient,
@@ -43,9 +43,12 @@ export class PlanificationsPersistenceService extends MongodbQueryBuilder<Planif
     );
     return planificationsRes;
   }
-  async updatePlanification({ calory, patient, ...rest }: updatePlanificationDto, selectors: string[]): Promise<Planification> {
+  async updatePlanification(
+    { planification, patient, ...rest }: UpdatePlanificationDto,
+    selectors: string[],
+  ): Promise<Planification> {
     const planificationRes = await this.initializeQuery(this.updatePlanification.name).findOneAndUpdate(
-      { uuid: calory, patient, isDeleted: false },
+      { uuid: planification, patient, isDeleted: false },
       { ...rest },
       { projection: selectors, new: true },
     );

@@ -23,6 +23,12 @@ export class GetPatientManagerService {
 
     return _patient;
   }
+  async getPatientByUuid(patient: string): Promise<Patient> {
+    const _patient = await this.pps.getPatientByUuid(patient);
+    if (!_patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
+
+    return _patient;
+  }
   async getPatientByUser(user: string): Promise<Patient> {
     const patient = await this.pps.getPatientByUser(user);
     return patient;

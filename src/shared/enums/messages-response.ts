@@ -44,8 +44,8 @@ export enum ErrorNutritionalMealEnum {
   NUTRITIONAL_MEAL_NOT_FOUND = 'This nutritional meal does not exist.',
 }
 
-export enum ErrorCaloryEnum {
-  CALORY_NOT_FOUND = 'This calory does not exist.',
+export enum ErrorPlanificationEnum {
+  PLANIFICATION_NOT_FOUND = 'This planification does not exist.',
 }
 
 export enum ErrorNotesEnum {

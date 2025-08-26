@@ -73,6 +73,13 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
 
     return patientRes;
   }
+  async getPatientByUuid(patient: string): Promise<Patient> {
+    const patientRes = await this.initializeQuery(this.getPatientByUuid.name).findOne({
+      uuid: patient,
+    });
+
+    return patientRes;
+  }
   async getPatientByUser(user: string): Promise<Patient> {
     const patientRes = await this.initializeQuery(this.getPatientByUser.name).findOne({
       user,

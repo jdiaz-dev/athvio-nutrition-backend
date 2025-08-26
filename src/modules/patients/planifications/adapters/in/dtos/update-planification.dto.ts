@@ -6,10 +6,14 @@ import {
 } from 'src/modules/patients/planifications/adapters/in/dtos/shared-inputs';
 
 @InputType()
-export class CreatePlanificationDto {
+export class UpdatePlanificationDto {
   @Field()
   @IsUUID(4)
   patient!: string;
+
+  @Field()
+  @IsUUID(4)
+  planification!: string;
 
   @Field(() => PatientInformationInput)
   @ValidateNested()

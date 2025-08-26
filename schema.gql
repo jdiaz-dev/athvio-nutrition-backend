@@ -553,7 +553,7 @@ type GetPatientsResponse {
   meta: Meta!
 }
 
-input GetPlanificationDto {
+input GetPlanificationsDto {
   patient: String!
 }
 
@@ -785,7 +785,7 @@ type Mutation {
   updatePatientQuestionaryAnswers(input: UpdateAnswersDto!): PatientQuestionary!
   updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
   updatePlanMeal(toUpdateInput: UpdatePlanMealDto!): PatientPlan!
-  updatePlanification(input: updatePlanificationDto!): Planification!
+  updatePlanification(input: UpdatePlanificationDto!): Planification!
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
@@ -862,18 +862,20 @@ type PatientGroup {
 }
 
 type PatientInformation {
-  activityFactor: Float!
   age: Float!
   gender: String!
   height: Float!
+  physicActivityFactor: Float!
+  physicActivityName: String!
   weight: Float!
 }
 
 input PatientInformationInput {
-  activityFactor: Float!
   age: Float!
   gender: String!
   height: Float!
+  physicActivityFactor: Float!
+  physicActivityName: String!
   weight: Float!
 }
 
@@ -957,11 +959,10 @@ input PlanBodyInput {
 }
 
 type Planification {
-  _id: ID!
   configuredMacros: CalculatedMacros!
   createdAt: DateTime!
   isDeleted: String!
-  patient: ID!
+  patient: String!
   patientInformation: PatientInformation!
   uuid: String!
 }
@@ -1042,8 +1043,7 @@ type Query {
   getPatientQuestionaryById(input: GetPatientQuestionaryByIdDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
-  getPlanification(input: GetPlanificationDto!): Planification!
-  getPlanifications(input: GetPlanificationDto!): [Planification!]!
+  getPlanifications(input: GetPlanificationsDto!): [Planification!]!
   getProfessional(professional: GetProfessionalDto!): Professional!
   getProfessionalQuestionary(input: GetProfessionalQuestionaryDto!): ProfessionalQuestionary!
   getProgram(input: GetProgramDto!): Program!
@@ -1243,6 +1243,13 @@ input UpdatePlanMealDto {
   professional: String!
 }
 
+input UpdatePlanificationDto {
+  configuredMacros: CalculatedMacrosInput!
+  patient: String!
+  patientInformation: PatientInformationInput!
+  planification: String!
+}
+
 input UpdateProgramDto {
   description: String!
   name: String!
@@ -1283,13 +1290,4 @@ type User {
   phone: String
   photo: String
   uuid: String!
-}
-
-input updatePlanificationDto {
-  calories: Float!
-  calory: String!
-  carbs: Float!
-  fat: Float!
-  patient: String!
-  protein: Float!
 }
