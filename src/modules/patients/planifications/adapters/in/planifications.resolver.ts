@@ -26,6 +26,10 @@ export class PlanificationResolver {
   ): Promise<Planification[]> {
     return await this.ccs.getPlanifications(dto, selectors);
   }
+  @Query(() => String)
+  async getPhysicActivityFactors(): Promise<String> {
+    return 'string';
+  }
 
   @Mutation(() => Planification)
   async updatePlanification(

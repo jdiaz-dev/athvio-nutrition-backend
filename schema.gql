@@ -1043,6 +1043,7 @@ type Query {
   getPatientQuestionaryById(input: GetPatientQuestionaryByIdDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
+  getPhysicActivityFactors: String!
   getPlanifications(input: GetPlanificationsDto!): [Planification!]!
   getProfessional(professional: GetProfessionalDto!): Professional!
   getProfessionalQuestionary(input: GetProfessionalQuestionaryDto!): ProfessionalQuestionary!

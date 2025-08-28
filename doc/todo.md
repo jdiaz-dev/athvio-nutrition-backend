@@ -55,7 +55,8 @@
 - fix: @Field(() => String) replace with proper a proper enum using registerEnumType when is one enum
 - fix: inject OAUTH_GOOGLE_CLIENT_ID variable throught nestjs config
 - fix: SECURITY - implement mechanism to avoid remove production insteal of local
- 
+- feat: physic activity factor 
+
 ## Database
 - fix zanahorias search
 - add chili
