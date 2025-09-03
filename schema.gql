@@ -365,6 +365,11 @@ type FoodsMeta {
   total: Float!
 }
 
+type Formula {
+  createdAt: DateTime!
+  uuid: String!
+}
+
 input GenerateNutritionalPlanDto {
   diseaseCauses: [String!]!
   diseases: [String!]!
@@ -1030,6 +1035,7 @@ type Query {
   getChat(chat: GetChatDto!): Chat
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
+  getFormula: Formula!
   getNotes(input: GetNotesDto!): GetNotesResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!
