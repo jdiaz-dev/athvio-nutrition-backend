@@ -16,14 +16,17 @@ import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { EnumSources } from 'src/shared/enums/project';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<NutritionalDocument> {
   constructor(
     @InjectModel(NutritionalMeal.name) protected readonly nutritionalMealModel: Model<NutritionalDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(nutritionalMealModel, logger, NutritionalMeal.name);
+    super(nutritionalMealModel, logger, NutritionalMeal.name, als);
   }
 
   async createNutritionalMeal(data: CreateNutritionalMealDto & { uuid: string }): Promise<NutritionalMeal> {

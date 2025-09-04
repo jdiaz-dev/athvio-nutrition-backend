@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { Chat, ChatDocument } from 'src/modules/patients/chats/adapters/out/chat.schema';
 import { AddNewComment, ChatRequester } from 'src/modules/patients/chats/adapters/out/chema.types';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class ChatsPersistenceService extends MongodbQueryBuilder<ChatDocument> {
   constructor(
     @InjectModel(Chat.name) protected readonly chatModel: Model<ChatDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(chatModel, logger, Chat.name);
+    super(chatModel, logger, Chat.name, als);
   }
 
   async createChat(data: Pick<Chat, 'uuid' | 'professional' | 'patient'>): Promise<Chat> {

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
@@ -14,6 +14,9 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
 import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'src/configuration';
 import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { randomUUID } from 'node:crypto';
+import { Trazability } from 'src/shared/types';
 
 @Module({
   imports: [
@@ -38,4 +41,17 @@ import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
   ],
   controllers: [AppController],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  constructor(private readonly als: AsyncLocalStorage<Trazability>) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply((_req: any, _res: any, next: any) => {
+        const store = {
+          traceId: randomUUID(),
+        };
+        this.als.run(store, () => next());
+      })
+      .forRoutes('*');
+  }
+}

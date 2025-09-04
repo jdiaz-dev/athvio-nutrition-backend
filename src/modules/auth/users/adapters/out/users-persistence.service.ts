@@ -6,14 +6,17 @@ import { User, UserDocument } from 'src/modules/auth/users/adapters/out/user.sch
 import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/update-user.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
   constructor(
     @InjectModel(User.name) protected readonly userModel: Model<UserDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(userModel, logger, User.name);
+    super(userModel, logger, User.name, als);
   }
 
   async createUser(dto: Partial<User>): Promise<User> {

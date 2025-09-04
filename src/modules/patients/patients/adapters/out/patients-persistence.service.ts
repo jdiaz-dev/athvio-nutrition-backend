@@ -16,6 +16,8 @@ import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { UpdatePatientWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/update-patient.dto';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 //todo: add loggers to log internal errors
 @Injectable()
@@ -23,8 +25,9 @@ export class PatientsPersistenceService extends MongodbQueryBuilder<PatientDocum
   constructor(
     @InjectModel(Patient.name) protected readonly patientModel: Model<PatientDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(patientModel, logger, Patient.name);
+    super(patientModel, logger, Patient.name, als);
   }
 
   async createPatient({ professional, ...body }: CreatePatient): Promise<FlattenMaps<Patient>> {

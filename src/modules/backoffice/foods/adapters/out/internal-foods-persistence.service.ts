@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AsyncLocalStorage } from 'node:async_hooks';
 
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { InternalFood, InternalFoodDocument } from 'src/modules/backoffice/foods/adapters/out/internal-food.schema';
 import { GetFoods, GetInternalFoodsResponse } from 'src/modules/backoffice/foods/helpers/foods';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class InternalFoodsPersistenceService extends MongodbQueryBuilder<InternalFoodDocument> {
   constructor(
     @InjectModel(InternalFood.name) protected readonly internalFoodModel: Model<InternalFoodDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(internalFoodModel, logger, InternalFood.name);
+    super(internalFoodModel, logger, InternalFood.name, als);
   }
 
   async saveInternalFoods(data: Omit<InternalFood, '_id' | 'createdAt' | 'updatedAt'>[]): Promise<InternalFood[]> {

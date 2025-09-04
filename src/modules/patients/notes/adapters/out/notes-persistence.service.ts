@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { CreateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/create-note.dto';
 import { DeleteNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/delete-note.dto';
@@ -11,14 +12,16 @@ import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class NotesPersistenceService extends MongodbQueryBuilder<NoteDocument> {
   constructor(
     @InjectModel(Note.name) protected readonly noteModel: Model<NoteDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(noteModel, logger, Note.name);
+    super(noteModel, logger, Note.name, als);
   }
 
   async createNote(dto: CreateNoteDto & { uuid: string }): Promise<Note> {

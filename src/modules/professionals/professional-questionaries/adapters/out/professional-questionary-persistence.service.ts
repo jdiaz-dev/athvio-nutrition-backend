@@ -8,6 +8,8 @@ import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpe
 import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQueryBuilder<ProfessionalQuestionaryDocument> {
@@ -15,8 +17,9 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
     @InjectModel(ProfessionalQuestionary.name)
     protected readonly professionalQuestionaryModel: Model<ProfessionalQuestionaryDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(professionalQuestionaryModel, logger, ProfessionalQuestionary.name);
+    super(professionalQuestionaryModel, logger, ProfessionalQuestionary.name, als);
   }
 
   async createQuestionary(questionary: CreateQuestionary): Promise<ProfessionalQuestionary> {

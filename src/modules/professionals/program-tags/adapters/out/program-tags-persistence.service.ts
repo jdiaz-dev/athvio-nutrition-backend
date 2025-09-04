@@ -11,14 +11,17 @@ import { GetProgramTagsDto } from 'src/modules/professionals/program-tags/adapte
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { randomUUID } from 'node:crypto';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class ProgramTagsPersistenceService extends MongodbQueryBuilder<ProgramTagDocument> {
   constructor(
     @InjectModel(ProgramTag.name) protected readonly programTagModel: Model<ProgramTagDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(programTagModel, logger, ProgramTag.name);
+    super(programTagModel, logger, ProgramTag.name, als);
   }
 
   async createProgramTag({ professional, ...rest }: CreateProgramTagDto): Promise<ProgramTag> {

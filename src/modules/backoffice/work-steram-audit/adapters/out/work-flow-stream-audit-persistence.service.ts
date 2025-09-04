@@ -8,14 +8,17 @@ import {
   WorkFlowStreamAudit,
   WorkFlowStreamAuditDocument,
 } from 'src/modules/backoffice/work-steram-audit/adapters/out/work-flow-stream-audit.schema';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class WorkFlowStreamAuditPersistenceService extends MongodbQueryBuilder<WorkFlowStreamAuditDocument> {
   constructor(
     @InjectModel(WorkFlowStreamAudit.name) protected readonly questionaryModel: Model<WorkFlowStreamAuditDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(questionaryModel, logger, WorkFlowStreamAudit.name);
+    super(questionaryModel, logger, WorkFlowStreamAudit.name, als);
   }
   async createWorkFlowStreamAudit(
     data: Pick<WorkFlowStreamAudit, 'uuid' | 'path' | 'operation' | 'body'>,

@@ -8,14 +8,17 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
 import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers.dto';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBuilder<PatientQuestionaryDocument> {
   constructor(
     @InjectModel(PatientQuestionary.name) protected readonly patientQuestionaryModel: Model<PatientQuestionaryDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(patientQuestionaryModel, logger, PatientQuestionary.name);
+    super(patientQuestionaryModel, logger, PatientQuestionary.name, als);
   }
 
   async createPatientQuestionary(questionary: CreatePatientQuestionary): Promise<PatientQuestionary> {

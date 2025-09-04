@@ -6,14 +6,17 @@ import { CreateProfessional, ProfessionalUser } from 'src/modules/professionals/
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class ProfessionalsPersistenceService extends MongodbQueryBuilder<ProfessionalDocument> {
   constructor(
     @InjectModel(Professional.name) protected professionalModel: Model<ProfessionalDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(professionalModel, logger, Professional.name);
+    super(professionalModel, logger, Professional.name, als);
   }
 
   async createProfessional(dto: CreateProfessional): Promise<Professional> {

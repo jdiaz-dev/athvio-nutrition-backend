@@ -1,20 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { CreatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/create-planification.dto';
 import { GetPlanificationsDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-planifications.dto';
 import { UpdatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/update-planification.dto';
 import { Planification, PlanificationDocument } from 'src/modules/patients/planifications/adapters/out/planification.schema';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class PlanificationsPersistenceService extends MongodbQueryBuilder<PlanificationDocument> {
   constructor(
     @InjectModel(Planification.name) protected readonly planificationModel: Model<PlanificationDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(planificationModel, logger, Planification.name);
+    super(planificationModel, logger, Planification.name, als);
   }
 
   async createPlanification(data: { uuid: string } & CreatePlanificationDto): Promise<Planification> {

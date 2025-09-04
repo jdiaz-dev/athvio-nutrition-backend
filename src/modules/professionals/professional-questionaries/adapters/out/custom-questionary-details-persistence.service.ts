@@ -11,14 +11,17 @@ import { CustomFieldsGroupName } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuilder<ProfessionalQuestionaryDocument> {
   constructor(
     @InjectModel(ProfessionalQuestionary.name) protected readonly professionalQuestionary: Model<ProfessionalQuestionaryDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(professionalQuestionary, logger, ProfessionalQuestionary.name);
+    super(professionalQuestionary, logger, ProfessionalQuestionary.name, als);
   }
   async addQuestionaryDetail(
     { questionary, questionaryGroup, professional, questionaryDetailBodies }: AddQuestionaryDetail,

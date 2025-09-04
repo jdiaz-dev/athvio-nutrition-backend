@@ -10,14 +10,17 @@ import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-p
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/add-meal.dto';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryBuilder<PatientPlanDocument> {
   constructor(
     @InjectModel(PatientPlan.name) protected readonly clienPlanModel: Model<PatientPlanDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(clienPlanModel, logger, PatientPlan.name);
+    super(clienPlanModel, logger, PatientPlan.name, als);
   }
 
   async addMealToPlan({ patient, patientPlan, meals }: AddPlanMealDto, selectors: Record<string, number>): Promise<PatientPlan> {

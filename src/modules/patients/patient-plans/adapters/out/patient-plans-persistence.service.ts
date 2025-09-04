@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { GetPatientPlansForMobileDto } from 'src/modules/patients/patient-plans/adapters/in/mobile/dtos/get-patient-plans-for-mobile.dto';
 import { DeletePatientPlanDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/delete-patient-plan.dto';
@@ -17,14 +18,16 @@ import {
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
+import { Trazability } from 'src/shared/types';
 
 @Injectable()
 export class PatientPlansPersistenceService extends MongodbQueryBuilder<PatientPlanDocument> {
   constructor(
     @InjectModel(PatientPlan.name) protected readonly clienPlanModel: Model<PatientPlanDocument>,
     protected readonly logger: AthvioLoggerService,
+    protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(clienPlanModel, logger, PatientPlan.name);
+    super(clienPlanModel, logger, PatientPlan.name, als);
   }
 
   async createPatientPlan(dto: CreatePatientPlanBody): Promise<PatientPlan> {
