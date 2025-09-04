@@ -126,6 +126,12 @@ type Compound {
   uuid: String!
 }
 
+type Constant {
+  case: String
+  spanishConstantName: String!
+  value: Float!
+}
+
 input CreateCustomQuestionaryDetailInput {
   associatedQuestion: String!
   fieldName: String!
@@ -367,7 +373,14 @@ type FoodsMeta {
 
 type Formula {
   createdAt: DateTime!
+  formulaGroups: [FormulaGroup!]!
+  spanishGroupName: String!
   uuid: String!
+}
+
+type FormulaGroup {
+  constants: [Constant!]!
+  spanishFormulaName: String!
 }
 
 input GenerateNutritionalPlanDto {
