@@ -4,7 +4,7 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 import { LayersServer } from 'src/shared/enums/project';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { MongodbRepository } from 'src/shared/database/mongodb-repository';
-import { AsyncLocalStorage } from 'async_hooks';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
 
 export class MongodbQueryBuilder<T> {
