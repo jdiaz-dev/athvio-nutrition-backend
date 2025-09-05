@@ -70,10 +70,13 @@ input AssignProgramDto {
 }
 
 type CalculatedMacros {
-  calories: Float!
-  carbs: Float!
-  fat: Float!
-  protein: Float!
+  carbsInPercentage: Float!
+  fatInPercentage: Float!
+  proteinInPercentage: Float!
+  totalCalories: Float!
+  totalCarbs: Float!
+  totalFat: Float!
+  totalProtein: Float!
 }
 
 input CalculatedMacrosInput {

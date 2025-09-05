@@ -37,19 +37,31 @@ const PatientInformationSchema = SchemaFactory.createForClass(PatientInformation
 export class CalculatedMacros {
   @Field()
   @Prop({ type: Number, required: true })
-  protein: number;
+  proteinInPercentage: number;
 
   @Field()
   @Prop({ type: Number, required: true })
-  carbs: number;
+  carbsInPercentage: number;
 
   @Field()
   @Prop({ type: Number, required: true })
-  fat: number;
+  fatInPercentage: number;
 
   @Field()
   @Prop({ type: Number, required: true })
-  calories: number;
+  totalProtein: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
+  totalCarbs: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
+  totalFat: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
+  totalCalories: number;
 }
 const MacroSchema = SchemaFactory.createForClass(CalculatedMacros);
 
