@@ -14,7 +14,7 @@ export class NutritionalPreferencesPersistenceService {
         WHERE np.uuid = $nutritionalPreference AND np.isActive = $isActive
         RETURN COLLECT(DISTINCT {
            uuid: np.uuid,
-           name: np.name
+           spanishName: np.spanishName
         }) AS ${resultName}
       `,
       { nutritionalPreference, isActive: true },
@@ -30,7 +30,7 @@ export class NutritionalPreferencesPersistenceService {
         WHERE np.uuid IN $nutritionalPreferencesIds AND np.isActive = $isActive
         RETURN COLLECT(DISTINCT {
            uuid: np.uuid,
-           name: np.name,
+           spanishName: np.spanishName,
            spanishDetails: np.spanishDetails
         }) AS ${resultName}
       `,
@@ -47,7 +47,7 @@ export class NutritionalPreferencesPersistenceService {
         MATCH (np:NutritionalPreference {isActive: $isActive}) 
         RETURN COLLECT(DISTINCT {
            uuid: np.uuid,
-           name: np.name
+           spanishName: np.spanishName
         }) AS ${resultName}
       `,
       { isActive: true },

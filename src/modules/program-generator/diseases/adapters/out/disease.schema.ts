@@ -6,7 +6,8 @@ export class Disease {
   @Field()
   uuid: string;
   @Field(() => String)
-  name: string;
+  spanishName: string;
+  englishName: string;
   recommendations: Recommendation[];
   isActive: boolean;
   createdAt: Date;

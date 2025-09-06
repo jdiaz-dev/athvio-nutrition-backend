@@ -15,7 +15,7 @@ export class DiseasesPersistenceService {
         WHERE d.uuid = $disease AND d.isActive = $isActive
         RETURN COLLECT(DISTINCT {
            uuid: d.uuid,
-           name: d.name
+           spanishName: d.spanishName
         }) AS ${resultName}
       `,
       { disease, isActive: true },
@@ -35,16 +35,16 @@ export class DiseasesPersistenceService {
           COLLECT(DISTINCT 
             CASE WHEN r IS NOT NULL THEN {
               uuid: r.uuid,
-              name: r.name,
+              spanishName: r.spanishName,
               details: r.details
             } ELSE NULL END
           ) AS recommendations,
           COLLECT(res) AS restrictions
 
-        RETURN d.name AS disease, 
+        RETURN d.spanishName AS disease, 
         COLLECT(DISTINCT {
             uuid:d.uuid,
-            name:d.name,
+            spanishName:d.spanishName,
             recommendations: recommendations 
           }
         ) AS ${resultName};
@@ -61,7 +61,7 @@ export class DiseasesPersistenceService {
         MATCH (d:Disease {isActive: $isActive}) 
         RETURN COLLECT(DISTINCT {
            uuid: d.uuid,
-           name: d.name
+           spanishName: d.spanishName
         }) AS ${resultName}
       `,
       { isActive: true },

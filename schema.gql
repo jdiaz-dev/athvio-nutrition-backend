@@ -290,12 +290,12 @@ input DeleteProgramTagDto {
 }
 
 type Disease {
-  name: String!
+  spanishName: String!
   uuid: String!
 }
 
 type DiseaseCause {
-  name: String!
+  spanishName: String!
   uuid: String!
 }
 
@@ -844,7 +844,8 @@ type NutritionalMeal {
 
 type NutritionalPreference {
   createdAt: DateTime!
-  name: String!
+  englishName: String!
+  spanishName: String!
   uuid: String!
 }
 

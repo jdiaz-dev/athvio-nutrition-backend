@@ -6,8 +6,11 @@ export class NutritionalPreference extends BaseSchema {
   @Field()
   uuid: string;
 
-  @Field(() => String)
-  name: string;
+  @Field()
+  spanishName: string;
+
+  @Field()
+  englishName: string;
 
   spanishDetails: string;
 }

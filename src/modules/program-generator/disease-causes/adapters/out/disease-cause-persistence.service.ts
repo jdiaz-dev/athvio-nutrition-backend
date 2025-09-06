@@ -15,7 +15,7 @@ export class DiseaseCausesPersistenceService {
         WHERE dc.uuid = $diseaseCause AND dc.isActive = $isActive
         RETURN COLLECT(DISTINCT {
            uuid: dc.uuid,
-           name: dc.name
+           spanishName: dc.spanishName
         }) AS ${ressultName}
       `,
       { diseaseCause, isActive: true },
@@ -32,7 +32,7 @@ export class DiseaseCausesPersistenceService {
         OPTIONAL MATCH (r)-[:HAS_RESTRICTION]->(di:Disease)
         WITH dc, r, COLLECT(DISTINCT
           CASE WHEN di IS NOT NULL THEN {
-            name: di.name
+            spanishName: di.spanishName
           } ELSE NULL END
         ) AS restrictions, COLLECT(DISTINCT di.uuid) AS restrictionIds
 
@@ -40,14 +40,14 @@ export class DiseaseCausesPersistenceService {
 
         WITH dc, COLLECT(DISTINCT {
           uuid: r.uuid,
-          name: r.name, 
+          spanishName: r.spanishName, 
           details: r.details,
           restrictions: restrictions 
         }) AS recommendations
 
         WITH dc, COLLECT(DISTINCT {
           uuid: dc.uuid,
-          name: dc.name, 
+          spanishName: dc.spanishName, 
           recommendations: recommendations 
         }) AS _diseaseCause
 
@@ -65,7 +65,7 @@ export class DiseaseCausesPersistenceService {
         MATCH (dc:DiseaseCause {isActive: $isActive}) 
         RETURN COLLECT(DISTINCT {
            uuid: dc.uuid,
-           name: dc.name
+           spanishName: dc.spanishName
         }) AS ${ressultName}
       `,
       { isActive: true },
