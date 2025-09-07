@@ -31,17 +31,37 @@ export class PatientInformationInput {
 export class CalculatedMacrosInput {
   @Field()
   @IsNumber()
-  protein: number;
+  proteinInPercentage: number;
 
   @Field()
   @IsNumber()
-  carbs: number;
+  carbsInPercentage: number;
 
   @Field()
   @IsNumber()
-  fat: number;
+  fatInPercentage: number;
 
   @Field()
   @IsNumber()
-  calories: number;
+  totalProtein: number;
+
+  @Field()
+  @IsNumber()
+  totalCarbs: number;
+
+  @Field()
+  @IsNumber()
+  totalFat: number;
+
+  @Field()
+  @IsNumber()
+  basalEnergyRate: number;
+
+  @Field()
+  @IsNumber()
+  totalCalories: number;
+
+  @Field()
+  @IsNumber()
+  planCalories: number;
 }

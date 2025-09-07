@@ -69,21 +69,16 @@ input AssignProgramDto {
   startingDay: Float!
 }
 
-type CalculatedMacros {
+input CalculatedMacrosInput {
+  basalEnergyRate: Float!
   carbsInPercentage: Float!
   fatInPercentage: Float!
+  planCalories: Float!
   proteinInPercentage: Float!
   totalCalories: Float!
   totalCarbs: Float!
   totalFat: Float!
   totalProtein: Float!
-}
-
-input CalculatedMacrosInput {
-  calories: Float!
-  carbs: Float!
-  fat: Float!
-  protein: Float!
 }
 
 type Chat {
@@ -127,6 +122,18 @@ type Compound {
   spanishName: String!
   updatedAt: DateTime!
   uuid: String!
+}
+
+type ConfiguredMacros {
+  basalEnergyRate: Float!
+  carbsInPercentage: Float!
+  fatInPercentage: Float!
+  planCalories: Float!
+  proteinInPercentage: Float!
+  totalCalories: Float!
+  totalCarbs: Float!
+  totalFat: Float!
+  totalProtein: Float!
 }
 
 type Constant {
@@ -982,7 +989,7 @@ input PlanBodyInput {
 }
 
 type Planification {
-  configuredMacros: CalculatedMacros!
+  configuredMacros: ConfiguredMacros!
   createdAt: DateTime!
   isDeleted: String!
   patient: String!

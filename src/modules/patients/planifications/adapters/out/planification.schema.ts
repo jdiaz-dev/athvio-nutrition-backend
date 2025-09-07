@@ -34,7 +34,7 @@ const PatientInformationSchema = SchemaFactory.createForClass(PatientInformation
 
 @ObjectType()
 @Schema({ _id: false })
-export class CalculatedMacros {
+export class ConfiguredMacros {
   @Field()
   @Prop({ type: Number, required: true })
   proteinInPercentage: number;
@@ -61,9 +61,17 @@ export class CalculatedMacros {
 
   @Field()
   @Prop({ type: Number, required: true })
+  basalEnergyRate: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
   totalCalories: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
+  planCalories: number;
 }
-const MacroSchema = SchemaFactory.createForClass(CalculatedMacros);
+const MacroSchema = SchemaFactory.createForClass(ConfiguredMacros);
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Planifications' })
@@ -76,9 +84,9 @@ export class Planification extends BaseSchema {
   @Prop({ type: PatientInformationSchema, required: true })
   patientInformation: PatientInformation;
 
-  @Field(() => CalculatedMacros)
+  @Field(() => ConfiguredMacros)
   @Prop({ type: MacroSchema, required: true })
-  configuredMacros!: CalculatedMacros;
+  configuredMacros!: ConfiguredMacros;
 
   @Field()
   @Prop({ type: Boolean, required: true, default: false })
