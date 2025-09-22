@@ -43,6 +43,18 @@ export class CalculatedMacrosInput {
 
   @Field()
   @IsNumber()
+  proteinDensity: number;
+
+  @Field()
+  @IsNumber()
+  carbsDensity: number;
+
+  @Field()
+  @IsNumber()
+  fatDensity: number;
+
+  @Field()
+  @IsNumber()
   totalProtein: number;
 
   @Field()

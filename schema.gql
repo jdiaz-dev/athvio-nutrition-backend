@@ -71,9 +71,12 @@ input AssignProgramDto {
 
 input CalculatedMacrosInput {
   basalEnergyRate: Float!
+  carbsDensity: Float!
   carbsInPercentage: Float!
+  fatDensity: Float!
   fatInPercentage: Float!
   planCalories: Float!
+  proteinDensity: Float!
   proteinInPercentage: Float!
   totalCalories: Float!
   totalCarbs: Float!
@@ -126,9 +129,12 @@ type Compound {
 
 type ConfiguredMacros {
   basalEnergyRate: Float!
+  carbsDensity: Float!
   carbsInPercentage: Float!
+  fatDensity: Float!
   fatInPercentage: Float!
   planCalories: Float!
+  proteinDensity: Float!
   proteinInPercentage: Float!
   totalCalories: Float!
   totalCarbs: Float!

@@ -11,6 +11,7 @@
 - learn about cpu profiling
 - learn about how works internally one the event loop
 - learn to create threads in C++
+- learn about tail call optimization (tail call optimizations)
 
 ## TODO (infraestructure):
 - migrate from railway to aws?,  beacuse don't have static ip
@@ -58,6 +59,7 @@
 - fix: @Field(() => String) replace with proper a proper enum using registerEnumType when is one enum
 - fix: inject OAUTH_GOOGLE_CLIENT_ID variable throught nestjs config
 - fix: SECURITY - implement mechanism to avoid remove production insteal of local
+- fix: change order for meals in one program plan
 - feat: physic activity factor 
 
 ## Database

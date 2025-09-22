@@ -49,6 +49,18 @@ export class ConfiguredMacros {
 
   @Field()
   @Prop({ type: Number, required: true })
+  proteinDensity: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
+  carbsDensity: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
+  fatDensity: number;
+
+  @Field()
+  @Prop({ type: Number, required: true })
   totalProtein: number;
 
   @Field()
