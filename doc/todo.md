@@ -8,7 +8,6 @@
 - implement kafka or rabbitmq to onboard new users 
 - learn about event sourcing pattern, what is the relationship with CQRS
 - implement multiregion infraestructure
-- learn about cpu profiling
 - learn about how works internally one the event loop
 - learn to create threads in C++
 - learn about tail call optimization (tail call optimizations)
