@@ -11,6 +11,7 @@
 - learn about how works internally one the event loop
 - learn to create threads in C++
 - learn about tail call optimization (tail call optimizations)
+- implement some example of sessions
 
 ## TODO (infraestructure):
 - migrate from railway to aws?,  beacuse don't have static ip

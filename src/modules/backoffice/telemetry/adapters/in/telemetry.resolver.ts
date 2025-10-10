@@ -9,4 +9,10 @@ export class TelemetryResolver {
     cpu_usage;
     return 'receivedd';
   }
+  @Mutation(() => String)
+  getMemoryUsage(): String {
+    const memory_usage = process.memoryUsage();
+    console.log(JSON.stringify(memory_usage));
+    return 'receivedd';
+  }
 }

@@ -795,6 +795,7 @@ type Mutation {
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
   generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   getCpuUsage: String!
+  getMemoryUsage: String!
   landingScreen: String!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
