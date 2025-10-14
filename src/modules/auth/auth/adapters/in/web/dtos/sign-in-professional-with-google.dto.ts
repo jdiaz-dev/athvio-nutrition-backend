@@ -1,5 +1,7 @@
-import { InputType } from '@nestjs/graphql';
-import { SignUpProfessionalWithGoogleDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional-with-google.dto';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class SignInProfessionalWithGoogleDto extends SignUpProfessionalWithGoogleDto {}
+export class SignInProfessionalWithGoogleDto {
+  @Field()
+  idToken: string;
+}

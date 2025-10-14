@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthenticationService } from 'src/modules/auth/auth/application/services/authentication.service';
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
 import { ProfessionalOnboardingManagerService } from 'src/modules/auth/onboarding/application/professional-onboarding-manager.service';
@@ -6,6 +6,9 @@ import { GoogleVerifierService } from 'src/modules/auth/auth/application/service
 import { SignUpProfessionalWithGoogleDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional-with-google.dto';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { JwtDto } from 'src/modules/auth/auth/helpers/dtos/jwt.dto';
+import { ProfessionalAuthErrors } from 'src/modules/auth/auth/helpers/auth-constants';
+import { SignInProfessionalWithGoogleDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-in-professional-with-google.dto';
+import { SignUpProfessionalResponse } from 'src/modules/auth/auth/helpers/dtos/sign-up-profesional-response.dto';
 
 @Injectable()
 export class SignUpProfessionalService {
@@ -16,28 +19,32 @@ export class SignUpProfessionalService {
     private gvs: GoogleVerifierService,
   ) {}
 
-  async signUpProfessional(dto: SignUpProfessionalDto): Promise<JwtDto> {
-    const { uuid, role } = await this.poms.onboardProfessional(dto);
-    return this.as.generateToken({ uuid, role });
+  async signUpProfessional(dto: SignUpProfessionalDto): Promise<SignUpProfessionalResponse> {
+    const payment = await this.poms.onboardProfessional(dto);
+    return { payment };
   }
-  async signUpOrSignInWithGoogle({
+  async signUpWithGoogle({
     clientOffsetMinutes,
     detectedLanguage,
     idToken,
-  }: SignUpProfessionalWithGoogleDto): Promise<JwtDto> {
+  }: SignUpProfessionalWithGoogleDto): Promise<SignUpProfessionalResponse> {
     const payload = await this.gvs.verifyWithGoogle(idToken);
-    const { uuid, role } =
-      (await this.ums.getUserByGoogleSub(payload.sub)) ??
-      (await this.ums.getUserByEmail(payload.email)) ??
-      (await this.poms.onboardProfessional({
-        email: payload.email,
-        googleSub: payload.sub,
-        ...(payload.given_name && { firstname: payload.given_name }),
-        ...(payload.family_name && { lastname: payload.family_name }),
-        ...(payload.picture && { photo: payload.picture }),
-        clientOffsetMinutes,
-        detectedLanguage,
-      }));
+
+    const payment = await this.poms.onboardProfessional({
+      email: payload.email,
+      googleSub: payload.sub,
+      ...(payload.given_name && { firstname: payload.given_name }),
+      ...(payload.family_name && { lastname: payload.family_name }),
+      ...(payload.picture && { photo: payload.picture }),
+      clientOffsetMinutes,
+      detectedLanguage,
+    });
+    return { payment };
+  }
+  async signInWithGoogle({ idToken }: SignInProfessionalWithGoogleDto): Promise<JwtDto> {
+    const payload = await this.gvs.verifyWithGoogle(idToken);
+    const { uuid, role } = (await this.ums.getUserByGoogleSub(payload.sub)) ?? (await this.ums.getUserByEmail(payload.email));
+    if (!uuid) throw new UnauthorizedException(ProfessionalAuthErrors.PROFESSIONAL_UNAUTHORIZED);
     return this.as.generateToken({ uuid, role });
   }
 }

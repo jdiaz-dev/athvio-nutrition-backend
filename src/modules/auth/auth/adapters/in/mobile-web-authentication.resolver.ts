@@ -23,6 +23,6 @@ export class MobileWebAuthenticationResolver {
 
   @Mutation(() => JwtDto)
   async signInWithGoogle(@Args('input') dto: SignInProfessionalWithGoogleDto): Promise<JwtDto> {
-    return this.sups.signUpOrSignInWithGoogle(dto);
+    return this.sups.signInWithGoogle(dto);
   }
 }

@@ -806,9 +806,10 @@ type Mutation {
   signInWithGoogle(input: SignInProfessionalWithGoogleDto!): JwtDto!
   signUpPatient(input: SignUpPatientDto!): SignUpPatientResponse!
   signUpPatientFromMobile(input: SignUpPatientFromMobileDto!): JwtDto!
-  signUpProfessional(input: SignUpProfessionalDto!): JwtDto!
+  signUpProfessional(input: SignUpProfessionalDto!): SignUpProfessionalResponse!
   signUpProfessionalScreen: String!
-  signUpProfessionalWithGoogle(input: SignUpProfessionalWithGoogleDto!): JwtDto!
+  signUpProfessionalWithGoogle(input: SignUpProfessionalWithGoogleDto!): SignUpProfessionalResponse!
+  testPayment: String!
   updateAnswersAndAdditionalNotes(input: UpdateAnswersAndAdditionalNotesDto!): PatientQuestionary!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
@@ -1126,8 +1127,6 @@ input SignInDto {
 }
 
 input SignInProfessionalWithGoogleDto {
-  clientOffsetMinutes: Float!
-  detectedLanguage: String!
   idToken: String!
 }
 
@@ -1167,6 +1166,10 @@ input SignUpProfessionalDto {
   password: String!
   phone: String
   professionalInfo: CreateProfesionalInfoDto
+}
+
+type SignUpProfessionalResponse {
+  payment: String!
 }
 
 input SignUpProfessionalWithGoogleDto {

@@ -61,6 +61,7 @@
 - fix: SECURITY - implement mechanism to avoid remove production insteal of local
 - fix: change order for meals in one program plan
 - feat: physic activity factor 
+- fix: enable send email for wig up patient from web
 
 ## Database
 - fix zanahorias search

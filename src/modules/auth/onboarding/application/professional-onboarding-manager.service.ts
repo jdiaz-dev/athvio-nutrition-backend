@@ -13,6 +13,7 @@ import { EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
+import { PaymentsManagerService } from 'src/modules/professionals/payments/application/payments-manager.service';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -30,17 +31,19 @@ export class ProfessionalOnboardingManagerService {
   constructor(
     private readonly supms: PatientOnboardingManagerService,
     private readonly pms: ProgramManagerService,
-    private prms: ProfessionalsManagementService,
+    private readonly prms: ProfessionalsManagementService,
     private readonly aps: AssignProgramService,
-    private ums: UserManagamentService,
-    private cus: CreateUserService,
-    private qcm: ProfessionalQuestionaryManager,
+    private readonly ums: UserManagamentService,
+    private readonly cus: CreateUserService,
+    private readonly qcm: ProfessionalQuestionaryManager,
+    private readonly pams: PaymentsManagerService,
   ) {}
 
-  async onboardProfessional(dto: SignUpProfessionalDto & { googleSub?: string; photo?: string }): Promise<UserValidated> {
-    const { uuid, professional, role } = await this.createProfessionalAndUser(dto);
+  async onboardProfessional(dto: SignUpProfessionalDto & { googleSub?: string; photo?: string }): Promise<string> {
+    const { professional } = await this.createProfessionalAndUser(dto);
     this.createDefaultData(professional, dto).catch((error) => console.error(error));
-    return { uuid, role };
+    const { uuid: payment } = await this.pams.createPendingPayment(professional);
+    return payment;
   }
   private async createProfessionalAndUser({
     professionalInfo,
