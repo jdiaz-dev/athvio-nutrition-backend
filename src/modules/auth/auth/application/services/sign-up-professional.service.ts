@@ -43,8 +43,8 @@ export class SignUpProfessionalService {
   }
   async signInWithGoogle({ idToken }: SignInProfessionalWithGoogleDto): Promise<JwtDto> {
     const payload = await this.gvs.verifyWithGoogle(idToken);
-    const { uuid, role } = (await this.ums.getUserByGoogleSub(payload.sub)) ?? (await this.ums.getUserByEmail(payload.email));
-    if (!uuid) throw new UnauthorizedException(ProfessionalAuthErrors.PROFESSIONAL_UNAUTHORIZED);
-    return this.as.generateToken({ uuid, role });
+    const user = (await this.ums.getUserByGoogleSub(payload.sub)) ?? (await this.ums.getUserByEmail(payload.email));
+    if (!user) throw new UnauthorizedException(ProfessionalAuthErrors.PROFESSIONAL_UNAUTHORIZED);
+    return this.as.generateToken({ uuid: user.uuid, role: user.role });
   }
 }

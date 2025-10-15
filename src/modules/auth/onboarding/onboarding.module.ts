@@ -8,6 +8,7 @@ import { ProfessionalsModule } from 'src/modules/professionals/professionals/pro
 import { ProgramsModule } from 'src/modules/professionals/programs/programs.module';
 import { ProfessionalQuestionariesModule } from 'src/modules/professionals/professional-questionaries/professional-questionaries.module';
 import { PatientQuestionaryModule } from 'src/modules/patients/patient-questionaries/patient-questionary.module';
+import { PaymentsModule } from 'src/modules/professionals/payments/payments.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PatientQuestionaryModule } from 'src/modules/patients/patient-questiona
     forwardRef(() => ProfessionalQuestionariesModule),
     PatientQuestionaryModule,
     MailModule,
+    PaymentsModule,
   ],
   providers: [PatientOnboardingManagerService, ProfessionalOnboardingManagerService],
   exports: [PatientOnboardingManagerService, ProfessionalOnboardingManagerService],

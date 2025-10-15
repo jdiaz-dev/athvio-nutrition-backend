@@ -809,7 +809,6 @@ type Mutation {
   signUpProfessional(input: SignUpProfessionalDto!): SignUpProfessionalResponse!
   signUpProfessionalScreen: String!
   signUpProfessionalWithGoogle(input: SignUpProfessionalWithGoogleDto!): SignUpProfessionalResponse!
-  testPayment: String!
   updateAnswersAndAdditionalNotes(input: UpdateAnswersAndAdditionalNotesDto!): PatientQuestionary!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
@@ -827,6 +826,7 @@ type Mutation {
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
   uploadImage(input: UploadDto!): NutritionalMeal!
+  verifyPayment(input: VerifyPaymentDto!): VerificationPaymentResponse!
 }
 
 type Note {
@@ -1332,4 +1332,12 @@ type User {
   phone: String
   photo: String
   uuid: String!
+}
+
+type VerificationPaymentResponse {
+  isSucceded: Boolean!
+}
+
+input VerifyPaymentDto {
+  externalId: String!
 }
