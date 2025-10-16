@@ -56,7 +56,18 @@ class OauthVariables extends SecurityVariables {
   OAUTH_GOOGLE_CLIENT_SECRET: string;
 }
 
-class OtherVariables extends OauthVariables {
+enum POLAR_SERVER {
+  PRODUCTION = 'production',
+  SANDBOX = 'sandbox',
+}
+class PaymentProcessorVariables extends OauthVariables {
+  @IsString()
+  POLAR_ACCESS_TOKEN: string;
+  @IsEnum(POLAR_SERVER)
+  POLAR_SERVER: POLAR_SERVER;
+}
+
+class OtherVariables extends PaymentProcessorVariables {
   @IsEnum(EnumEnvironments)
   NODE_ENV: EnumEnvironments;
   @IsString()

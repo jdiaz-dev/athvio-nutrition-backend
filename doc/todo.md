@@ -62,6 +62,7 @@
 - fix: change order for meals in one program plan
 - feat: physic activity factor 
 - fix: enable send email for wig up patient from web
+- fix: set and update isActive field in professional ?
 
 ## Database
 - fix zanahorias search
@@ -74,6 +75,5 @@
 1. Activa la muerte celular por necroptosis
 2. apoptosis
 - fix: infusiones con adaptogenos no funciona (preferencias nutricionales)
-
 
 ## Videos
