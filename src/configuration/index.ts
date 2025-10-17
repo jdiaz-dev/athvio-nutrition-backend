@@ -65,6 +65,8 @@ class PaymentProcessorVariables extends OauthVariables {
   POLAR_ACCESS_TOKEN: string;
   @IsEnum(POLAR_SERVER)
   POLAR_SERVER: POLAR_SERVER;
+  @IsString()
+  POLAR_PRODUCT_ID: string;
 }
 
 class OtherVariables extends PaymentProcessorVariables {
