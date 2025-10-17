@@ -7,7 +7,7 @@ import { InternalPaymentStatus } from 'src/modules/professionals/payments/helper
 
 @Injectable()
 export class PaymentsManagerService {
-  constructor(protected readonly pps: PaymentsPersistenceService) {}
+  constructor(private readonly pps: PaymentsPersistenceService) {}
 
   async createPendingPayment(professional: string): Promise<Payment> {
     return await this.pps.createPayment({ uuid: randomUUID(), professional, status: InternalPaymentStatus.PENDING });

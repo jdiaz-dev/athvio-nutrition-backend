@@ -20,8 +20,8 @@ export class SignUpProfessionalService {
   ) {}
 
   async signUpProfessional(dto: SignUpProfessionalDto): Promise<SignUpProfessionalResponse> {
-    const payment = await this.poms.onboardProfessional(dto);
-    return { payment };
+    const paymentLink = await this.poms.onboardProfessional(dto);
+    return { paymentLink };
   }
   async signUpWithGoogle({
     clientOffsetMinutes,
@@ -30,7 +30,7 @@ export class SignUpProfessionalService {
   }: SignUpProfessionalWithGoogleDto): Promise<SignUpProfessionalResponse> {
     const payload = await this.gvs.verifyWithGoogle(idToken);
 
-    const payment = await this.poms.onboardProfessional({
+    const paymentLink = await this.poms.onboardProfessional({
       email: payload.email,
       googleSub: payload.sub,
       ...(payload.given_name && { firstname: payload.given_name }),
@@ -39,7 +39,7 @@ export class SignUpProfessionalService {
       clientOffsetMinutes,
       detectedLanguage,
     });
-    return { payment };
+    return { paymentLink };
   }
   async signInWithGoogle({ idToken }: SignInProfessionalWithGoogleDto): Promise<JwtDto> {
     const payload = await this.gvs.verifyWithGoogle(idToken);

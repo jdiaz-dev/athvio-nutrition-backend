@@ -1169,7 +1169,7 @@ input SignUpProfessionalDto {
 }
 
 type SignUpProfessionalResponse {
-  payment: String!
+  paymentLink: String!
 }
 
 input SignUpProfessionalWithGoogleDto {

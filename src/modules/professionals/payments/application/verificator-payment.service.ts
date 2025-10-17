@@ -18,8 +18,8 @@ export class VerificatorPaymentService {
   constructor(
     private readonly logger: AthvioLoggerService,
     private readonly als: AsyncLocalStorage<Trazability>,
-    protected readonly pprs: PaymentsProcessorService,
-    protected readonly pms: PaymentsManagerService,
+    private readonly pprs: PaymentsProcessorService,
+    private readonly pms: PaymentsManagerService,
   ) {}
 
   async verifyPayment(payment: string): Promise<VerificationPaymentResponse> {

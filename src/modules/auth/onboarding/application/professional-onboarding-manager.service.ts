@@ -13,7 +13,7 @@ import { EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
-import { PaymentsManagerService } from 'src/modules/professionals/payments/application/payments-manager.service';
+import { CreatePaymentLinkService } from 'src/modules/professionals/payments/application/create-payment-link.service';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -36,14 +36,14 @@ export class ProfessionalOnboardingManagerService {
     private readonly ums: UserManagamentService,
     private readonly cus: CreateUserService,
     private readonly qcm: ProfessionalQuestionaryManager,
-    private readonly pams: PaymentsManagerService,
+    private readonly cpls: CreatePaymentLinkService,
   ) {}
 
   async onboardProfessional(dto: SignUpProfessionalDto & { googleSub?: string; photo?: string }): Promise<string> {
     const { professional } = await this.createProfessionalAndUser(dto);
     this.createDefaultData(professional, dto).catch((error) => console.error(error));
-    const { uuid: payment } = await this.pams.createPendingPayment(professional);
-    return payment;
+    const paymentLink = await this.cpls.createPaymentLink(professional);
+    return paymentLink;
   }
   private async createProfessionalAndUser({
     professionalInfo,
