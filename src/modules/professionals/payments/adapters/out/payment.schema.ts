@@ -5,8 +5,8 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @Schema({ timestamps: true, collection: 'Payments' })
 export class Payment extends BaseSchema {
-  @Prop({ type: String, required: true })
-  professional!: string;
+  @Prop({ type: String, required: false })
+  professional?: string;
 
   @Prop({ type: String, required: false })
   external_id?: string;
