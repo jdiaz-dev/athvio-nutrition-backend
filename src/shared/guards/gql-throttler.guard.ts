@@ -4,15 +4,32 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Injectable()
 export class GqlThrottlerGuard extends ThrottlerGuard {
-  getRequestResponse(context: ExecutionContext) {
-    const gqlCtx = GqlExecutionContext.create(context);
-    const ctx = gqlCtx.getContext();
-
-    if (!ctx.req) {
-      // Handle cases where request object may not exist (e.g., subscriptions)
-      return { req: ctx.connectionParams, res: null };
+  protected getRequestResponse(context: ExecutionContext) {
+    if (context.getType<'graphql' | 'http' | string>() !== 'graphql') {
+      return super.getRequestResponse(context);
     }
 
-    return { req: ctx.req, res: ctx.req.res };
+    const gqlCtx = GqlExecutionContext.create(context);
+    const ctx = gqlCtx.getContext() ?? {};
+
+    const req =
+      ctx.req ??
+      ctx.request ??
+      ctx.connectionParams;
+
+    let res =
+      ctx.res ??
+      ctx.reply ??
+      ctx.raw ??
+      (ctx.req && ctx.req.res);
+
+    if (!res) {
+      res = {
+        header: () => {},
+        setHeader: () => {},
+      };
+    }
+
+    return { req, res };
   }
 }

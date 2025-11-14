@@ -34,7 +34,7 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
         sortSchema: true,
         autoTransformHttpErrors: true,
         // @ts-ignore
-        context: ({ req, res }) => ({ req, res }),
+        context: ({ request, reply }) => ({ req: request, res: reply }),
         formatResponse: (response: GraphQLResponse): GraphQLResponse => {
           return response;
         },

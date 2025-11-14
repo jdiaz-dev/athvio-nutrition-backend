@@ -5,20 +5,47 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 // @ts-ignore
-import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+import  processRequest from 'graphql-upload/processRequest.js';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const adapter = new FastifyAdapter();
+  const fastify = adapter.getInstance();
+
+  fastify.addContentTypeParser(
+    'multipart',
+    (request: any, _payload: any, done: (err: Error | null) => void) => {
+      (request as any).isMultipart = true;
+      done(null);
+    },
+  );
+
+  fastify.addHook('preValidation', async (request: any, reply: any) => {
+    if (!request.isMultipart) return;
+    request.body = await processRequest(request.raw, reply.raw);
+  });
+
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    adapter,
+  );
+
   const configService = app.get(ConfigService);
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;
-  app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
+
   app.enableCors({
     origin: whiteListOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
+
+  // This still works via middie, though in the long term you'd probably switch
+  // to @fastify/helmet for native Fastify integration.
   app.use(
     helmet({
       crossOriginEmbedderPolicy: false,
@@ -32,6 +59,7 @@ async function bootstrap(): Promise<void> {
       },
     }),
   );
+
   app.use((_req: any, res: any, next: any) => {
     res.setHeader(
       'Permissions-Policy',
@@ -56,8 +84,11 @@ async function bootstrap(): Promise<void> {
     );
     next();
   });
+
   app.useGlobalPipes(new ValidationPipe());
+
   await app.listen(port);
   console.log(`Server running on port ${port}`);
 }
+
 void bootstrap();
