@@ -39,7 +39,7 @@ async function bootstrap(): Promise<void> {
   const port = configService.get<string>('port') || process.env.PORT;
 
   app.enableCors({
-    origin: "*", //whiteListOrigins,
+    origin: true, //whiteListOrigins,
     // credentials: true,
     // methods: ['GET', 'POST', 'OPTIONS'],
     // allowedHeaders: "*"//['Content-Type', 'Authorization'],
