@@ -5,11 +5,7 @@ import { BaseSchema } from 'src/shared/schemas/base.schema';
 
 @ObjectType()
 @Schema({ _id: false, timestamps: false })
-export class Constant {
-  @Field()
-  @Prop({ type: String, required: true })
-  spanishConstantName: string;
-
+export class ValueCase {
   @Field()
   @Prop({ type: Number, required: true })
   value: number;
@@ -18,7 +14,21 @@ export class Constant {
   @Prop({ type: String, required: false })
   case?: string;
 }
-export const NutrientsSchema = SchemaFactory.createForClass(Constant);
+export const ValueCaseSchema = SchemaFactory.createForClass(ValueCase);
+
+
+@ObjectType()
+@Schema({ _id: false, timestamps: false })
+export class Constant {
+  @Field()
+  @Prop({ type: String, required: true })
+  spanishConstantName: string;
+
+  @Field(() => [ValueCase])
+  @Prop({ type: [ValueCaseSchema], required: true })
+  valueCases: ValueCase[];
+}
+export const ConstantSchema = SchemaFactory.createForClass(Constant);
 
 @ObjectType()
 @Schema({ _id: false, timestamps: false })
@@ -28,7 +38,7 @@ export class FormulaGroup {
   spanishFormulaName: string;
 
   @Field(() => [Constant])
-  @Prop({ type: [NutrientsSchema], required: true })
+  @Prop({ type: [ConstantSchema], required: true })
   constants: Constant[];
 }
 export const FormulaGroupSchema = SchemaFactory.createForClass(FormulaGroup);

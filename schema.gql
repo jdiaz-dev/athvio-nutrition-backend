@@ -143,9 +143,8 @@ type ConfiguredMacros {
 }
 
 type Constant {
-  case: String
   spanishConstantName: String!
-  value: Float!
+  valueCases: [ValueCase!]!
 }
 
 input CreateCustomQuestionaryDetailInput {
@@ -1332,6 +1331,11 @@ type User {
   phone: String
   photo: String
   uuid: String!
+}
+
+type ValueCase {
+  case: String
+  value: Float!
 }
 
 type VerificationPaymentResponse {

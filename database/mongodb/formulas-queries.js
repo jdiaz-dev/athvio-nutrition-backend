@@ -4,47 +4,59 @@ db.Formulas.insertOne({
   formulaGroups: [
     {
       uuid: '4678e70d-9ede-49c2-b0e1-a532f29908bd',
-      spanishFormulaName: 'Ecuación de Mifflin-St Jeor',
+      spanishFormulaName: 'MIFFLIN',
       constants: [
         {
           spanishConstantName: 'Sedentario',
-          value: 1.2,
-          spanishCase: 'Mujeres',
-        },
-        {
-          spanishConstantName: 'Sedentario',
-          value: 1.2,
-          spanishCase: 'Hombres',
+          valueCases:[
+            {
+              value: 1.2,
+              spanishCase: 'Mujeres',
+            },
+            {
+              value: 1.2,
+              spanishCase: 'Hombres',
+            },
+          ]
         },
         {
           spanishConstantName: 'Ligera',
-          value: 1.56,
-          spanishCase: 'Mujeres', 
-        },
-        {
-          spanishConstantName: 'Ligera',
-          value: 1.55,
-          spanishCase: 'Hombres',
+          valueCases:[
+            {
+              value: 1.56,
+              spanishCase: 'Mujeres',
+            },
+            {
+              value: 1.55,
+              spanishCase: 'Hombres',
+            },
+          ]
         },
         {
           spanishConstantName: 'Moderada',
-          value: 1.64,
-          spanishCase: 'Mujeres',
-        },
-        {
-          spanishConstantName: 'Moderada',
-          value: 1.78,
-          spanishCase: 'Hombres',
+          valueCases:[
+            {
+              value: 1.64,
+              spanishCase: 'Mujeres',
+            },
+            {
+              value: 1.78,
+              spanishCase: 'Hombres',
+            },
+          ]
         },
         {
           spanishConstantName: 'Intensa',
-          value: 1.82,
-          spanishCase: 'Mujeres',
-        },
-        {
-          spanishConstantName: 'Intensa',
-          value: 2.1,
-          spanishCase: 'Hombres',
+          valueCases:[
+            {
+              value: 1.82,
+              spanishCase: 'Mujeres',
+            },
+            {
+              value: 2.1,
+              spanishCase: 'Hombres',
+            },
+          ]
         },
       ],
     },
