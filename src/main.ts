@@ -11,7 +11,6 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
-  console.log(whiteListOrigins)
   const port = configService.get<string>('port') || process.env.PORT;
   app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
   app.enableCors({
