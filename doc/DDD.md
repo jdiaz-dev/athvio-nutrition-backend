@@ -5,7 +5,6 @@
 - backoffice
 - patients
 - professionals
-- mail
 
 ## Domains, subdomains and modules
 |--auth (domain)
@@ -30,5 +29,5 @@
 |  |--nutritional meals
 |  |  |--food (external provider)
 |  |  |--internal questionaries
-|--mail
+|  |--mail
 
