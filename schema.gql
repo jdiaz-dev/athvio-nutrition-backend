@@ -84,6 +84,12 @@ input CalculatedMacrosInput {
   totalProtein: Float!
 }
 
+type Case {
+  coefficients: [Coefficient!]!
+  constants: [Constant!]!
+  spanishCaseLabel: String!
+}
+
 type Chat {
   comments: [ChatComment!]!
   createdAt: DateTime!
@@ -102,6 +108,11 @@ type ChatComment {
 input ChatCommentInput {
   commenter: String!
   content: String!
+}
+
+type Coefficient {
+  value: Float
+  variable: String!
 }
 
 type Comment {
@@ -143,8 +154,8 @@ type ConfiguredMacros {
 }
 
 type Constant {
-  spanishConstantName: String!
-  valueCases: [ValueCase!]!
+  name: String!
+  value: Float
 }
 
 input CreateCustomQuestionaryDetailInput {
@@ -394,7 +405,8 @@ type Formula {
 }
 
 type FormulaGroup {
-  constants: [Constant!]!
+  cases: [Case!]!
+  parameters: [Parameter!]!
   spanishFormulaName: String!
 }
 
@@ -869,6 +881,11 @@ type Organization {
   company: String!
   postalCode: String!
   province: String!
+}
+
+type Parameter {
+  spanishParameterName: String!
+  valueCases: [ValueCase!]!
 }
 
 type Patient {

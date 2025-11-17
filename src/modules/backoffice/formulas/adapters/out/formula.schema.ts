@@ -16,19 +16,61 @@ export class ValueCase {
 }
 export const ValueCaseSchema = SchemaFactory.createForClass(ValueCase);
 
+@ObjectType()
+@Schema({ _id: false, timestamps: false })
+export class Parameter {
+  @Field()
+  @Prop({ type: String, required: true })
+  spanishParameterName: string;
+
+  @Field(() => [ValueCase])
+  @Prop({ type: [ValueCaseSchema], required: true })
+  valueCases: ValueCase[];
+}
+export const ParameterSchema = SchemaFactory.createForClass(Parameter);
 
 @ObjectType()
 @Schema({ _id: false, timestamps: false })
 export class Constant {
   @Field()
   @Prop({ type: String, required: true })
-  spanishConstantName: string;
+  name: string;
 
-  @Field(() => [ValueCase])
-  @Prop({ type: [ValueCaseSchema], required: true })
-  valueCases: ValueCase[];
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
+  value: number;
 }
 export const ConstantSchema = SchemaFactory.createForClass(Constant);
+
+@ObjectType()
+@Schema({ _id: false, timestamps: false })
+export class Coefficient {
+  @Field()
+  @Prop({ type: String, required: true })
+  variable: string;
+
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
+  value: number;
+}
+export const CoefficientSchema = SchemaFactory.createForClass(Coefficient);
+
+@ObjectType()
+@Schema({ _id: false, timestamps: false })
+export class Case {
+  @Field()
+  @Prop({ type: String, required: true })
+  spanishCaseLabel: string;
+
+  @Field(() => [Coefficient])
+  @Prop({ type: [CoefficientSchema], required: true })
+  coefficients: Coefficient[];
+
+  @Field(() => [Constant])
+  @Prop({ type: [ConstantSchema], required: false })
+  constants: Constant[];
+}
+export const CaseSchema = SchemaFactory.createForClass(Case);
 
 @ObjectType()
 @Schema({ _id: false, timestamps: false })
@@ -37,9 +79,13 @@ export class FormulaGroup {
   @Prop({ type: String, required: false })
   spanishFormulaName: string;
 
-  @Field(() => [Constant])
-  @Prop({ type: [ConstantSchema], required: true })
-  constants: Constant[];
+  @Field(() => [Case])
+  @Prop({ type: [CaseSchema], required: true })
+  cases: Case[];
+
+  @Field(() => [Parameter])
+  @Prop({ type: [ParameterSchema], required: true })
+  parameters: Parameter[];
 }
 export const FormulaGroupSchema = SchemaFactory.createForClass(FormulaGroup);
 
