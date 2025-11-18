@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthenticationService } from 'src/modules/auth/auth/application/services/authentication.service';
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
-import { ProfessionalOnboardingManagerService } from 'src/modules/auth/onboarding/application/professional-onboarding-manager.service';
+import { ProfessionalOnboardingManagerService } from 'src/modules/onboarding/application/professional-onboarding-manager.service';
 import { GoogleVerifierService } from 'src/modules/auth/auth/application/services/google-verifier.service';
 import { SignUpProfessionalWithGoogleDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional-with-google.dto';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';

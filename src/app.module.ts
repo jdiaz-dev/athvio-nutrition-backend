@@ -17,6 +17,7 @@ import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import { Trazability } from 'src/shared/types';
+import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { Trazability } from 'src/shared/types';
     MailModule,
 
     AuthDomainsModule,
+    OnboardingModule,
     ProfessionalDomainsModule,
     PatientsDomainsModule,
     BackofficeDomainsModule,

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
-import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
+import { PatientOnboardingManagerService } from 'src/modules/onboarding/application/patient-onboarding-manager.service';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';

@@ -9,7 +9,7 @@ import { EncryptionService } from 'src/modules/auth/auth/application/services/en
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { SignUpPatientFromMobileDto } from 'src/modules/auth/auth/adapters/in/mobile/dtos/sign-up-patient-from-mobile.dto';
 import { AuthenticationService } from 'src/modules/auth/auth/application/services/authentication.service';
-import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
+import { PatientOnboardingManagerService } from 'src/modules/onboarding/application/patient-onboarding-manager.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { JwtDto } from 'src/modules/auth/auth/helpers/dtos/jwt.dto';
 

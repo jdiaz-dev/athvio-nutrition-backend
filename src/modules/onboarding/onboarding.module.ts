@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { PatientOnboardingManagerService } from 'src/modules/auth/onboarding/application/patient-onboarding-manager.service';
-import { ProfessionalOnboardingManagerService } from 'src/modules/auth/onboarding/application/professional-onboarding-manager.service';
+import { PatientOnboardingManagerService } from 'src/modules/onboarding/application/patient-onboarding-manager.service';
+import { ProfessionalOnboardingManagerService } from 'src/modules/onboarding/application/professional-onboarding-manager.service';
 import { UsersModule } from 'src/modules/auth/users/users.module';
 import { MailModule } from 'src/modules/mail/mail.module';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';

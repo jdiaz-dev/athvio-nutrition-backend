@@ -16,7 +16,7 @@ import { SignUpPatientManagerService } from 'src/modules/auth/auth/application/s
 import { PatientOnboardingMobileResolver } from 'src/modules/auth/auth/adapters/in/mobile/patient-onboarding-mobile.resolver';
 import { PatientOnboardingWebResolver } from 'src/modules/auth/auth/adapters/in/web/patient-onboarding-web.resolver';
 import { MobileWebAuthenticationResolver } from 'src/modules/auth/auth/adapters/in/mobile-web-authentication.resolver';
-import { OnboardingModule } from 'src/modules/auth/onboarding/onboarding.module';
+import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 import { WorkFlowStreamAuditModule } from 'src/modules/backoffice/work-steram-audit/work-flow-stream-audit.module';
 import { GoogleVerifierService } from 'src/modules/auth/auth/application/services/google-verifier.service';
 
