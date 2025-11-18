@@ -10,7 +10,7 @@ import { DeleteCustomQuestionaryDetailsDto } from 'src/modules/professionals/pro
 import { UpdateCustomQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/update-custom-questionary-details.dto';
 import { EnableQuestionaryDetailsDto } from 'src/modules/professionals/professional-questionaries/adapters/in/dtos/enable-questionary-details.dto';
 import { CustomQuestionaryDetailsPersistenceService } from 'src/modules/professionals/professional-questionaries/adapters/out/custom-questionary-details-persistence.service';
-import { InternalQuestionaryPersistenceService } from 'src/modules/backoffice/internal-questionary/adapters/out/internal-questionary-persistence.service';
+import { InternalQuestionaryPersistenceService } from 'src/modules/nutrition/internal-questionary/adapters/out/internal-questionary-persistence.service';
 
 @Injectable()
 export class ProfessionalQuestionaryManager {

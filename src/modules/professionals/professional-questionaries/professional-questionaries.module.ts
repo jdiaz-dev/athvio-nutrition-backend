@@ -11,7 +11,7 @@ import { ProfessionalQuestionaryManager } from 'src/modules/professionals/profes
 import { ProfessionalQuestionaryResolver } from 'src/modules/professionals/professional-questionaries/adapters/in/professional-questionary.resolver';
 import { CustomQuestionaryDetailResolver } from 'src/modules/professionals/professional-questionaries/adapters/in/custom-questionary-detail.resolver';
 import { CustomQuestionaryDetailsPersistenceService } from 'src/modules/professionals/professional-questionaries/adapters/out/custom-questionary-details-persistence.service';
-import { InternalQuestionaryModule } from 'src/modules/backoffice/internal-questionary/internal-questionary.module';
+import { InternalQuestionaryModule } from 'src/modules/nutrition/internal-questionary/internal-questionary.module';
 
 const resolvers = [ProfessionalQuestionaryResolver, CustomQuestionaryDetailResolver];
 const services = [

@@ -5,7 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import {
   InternalQuestionary,
   InternalQuestionaryDocument,
-} from 'src/modules/backoffice/internal-questionary/adapters/out/internal-questionary.schema';
+} from 'src/modules/nutrition/internal-questionary/adapters/out/internal-questionary.schema';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
