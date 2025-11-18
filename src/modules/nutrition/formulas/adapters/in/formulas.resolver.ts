@@ -1,6 +1,6 @@
 import { Info, Query, Resolver } from '@nestjs/graphql';
-import { FormulasManagerService } from 'src/modules/backoffice/formulas/application/formulas-manager.service';
-import { Formula } from 'src/modules/backoffice/formulas/adapters/out/formula.schema';
+import { FormulasManagerService } from 'src/modules/nutrition/formulas/application/formulas-manager.service';
+import { Formula } from 'src/modules/nutrition/formulas/adapters/out/formula.schema';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()

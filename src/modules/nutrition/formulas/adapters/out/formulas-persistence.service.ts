@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { Formula, FormulaDocument } from 'src/modules/backoffice/formulas/adapters/out/formula.schema';
+import { Formula, FormulaDocument } from 'src/modules/nutrition/formulas/adapters/out/formula.schema';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { Trazability } from 'src/shared/types';
 

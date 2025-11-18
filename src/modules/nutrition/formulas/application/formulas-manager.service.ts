@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { Formula } from 'src/modules/backoffice/formulas/adapters/out/formula.schema';
-import { FormulasPersistenceService } from 'src/modules/backoffice/formulas/adapters/out/formulas-persistence.service';
-import { FormulaErrorEnum } from 'src/modules/backoffice/formulas/domain/formula.enum';
+import { Formula } from 'src/modules/nutrition/formulas/adapters/out/formula.schema';
+import { FormulasPersistenceService } from 'src/modules/nutrition/formulas/adapters/out/formulas-persistence.service';
+import { FormulaErrorEnum } from 'src/modules/nutrition/formulas/domain/formula.enum';
 
 @Injectable()
 export class FormulasManagerService {
