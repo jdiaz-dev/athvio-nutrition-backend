@@ -1,13 +1,13 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { Food, FoodsMeta, GetFoodsResponse, Measure } from 'src/modules/backoffice/foods/adapters/in/dtos/get-foods.dto';
+import { Food, FoodsMeta, GetFoodsResponse, Measure } from 'src/modules/nutrition/foods/adapters/in/dtos/get-foods.dto';
 import {
   FoodHint,
   FoodMeasure,
   FoodParsedResponse,
   NextLink,
-} from 'src/modules/backoffice/foods/adapters/out/providers/food.types';
-import { GetFoods } from 'src/modules/backoffice/foods/helpers/foods';
+} from 'src/modules/nutrition/foods/adapters/out/providers/food.types';
+import { GetFoods } from 'src/modules/nutrition/foods/helpers/foods';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
 import { defaultSizePageFoodProvider, FoodDatabases, LayersServer } from 'src/shared/enums/project';
 

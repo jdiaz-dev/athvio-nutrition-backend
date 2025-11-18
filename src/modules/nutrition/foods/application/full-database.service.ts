@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { InternalCountersPersistenceService } from 'src/modules/backoffice/foods/adapters/out/internal-counters-persistence.service';
-import { InternalFoodsPersistenceService } from 'src/modules/backoffice/foods/adapters/out/internal-foods-persistence.service';
-import { NextLink } from 'src/modules/backoffice/foods/adapters/out/providers/food.types';
-import { FoodsProviderService } from 'src/modules/backoffice/foods/adapters/out/providers/foods-provider.service';
-import { TranslatorService } from 'src/modules/backoffice/foods/adapters/out/providers/translator.service';
+import { InternalCountersPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-counters-persistence.service';
+import { InternalFoodsPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-foods-persistence.service';
+import { NextLink } from 'src/modules/nutrition/foods/adapters/out/providers/food.types';
+import { FoodsProviderService } from 'src/modules/nutrition/foods/adapters/out/providers/foods-provider.service';
+import { TranslatorService } from 'src/modules/nutrition/foods/adapters/out/providers/translator.service';
 
 //milk
 const allFoods2: string[] = [];

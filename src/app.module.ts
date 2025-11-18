@@ -18,6 +18,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import { Trazability } from 'src/shared/types';
 import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
+import { NutritionDomainsModule } from 'src/modules/nutrition/nutrition-domains.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 
     AuthDomainsModule,
     OnboardingModule,
+    NutritionDomainsModule,
     ProfessionalDomainsModule,
     PatientsDomainsModule,
     BackofficeDomainsModule,
