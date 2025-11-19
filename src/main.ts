@@ -13,6 +13,7 @@ import {
 
 async function bootstrap(): Promise<void> {
   const adapter = new FastifyAdapter();
+  
   const fastify = adapter.getInstance();
 
   fastify.addContentTypeParser(
@@ -27,7 +28,6 @@ async function bootstrap(): Promise<void> {
     if (!request.isMultipart) return;
     request.body = await processRequest(request.raw, reply.raw);
   });
-
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter,
@@ -37,12 +37,19 @@ async function bootstrap(): Promise<void> {
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;
   console.log('------whiteListOrigins', whiteListOrigins)
-  app.enableCors({
+  adapter.enableCors({
     origin: whiteListOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: "*"//['Content-Type', 'Authorization'],
-  });
+  })
+
+  /* app.enableCors({
+    origin: whiteListOrigins,
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: "*"//['Content-Type', 'Authorization'],
+  }); */
 
   // This still works via middie, though in the long term you'd probably switch
   // to @fastify/helmet for native Fastify integration.
