@@ -36,7 +36,7 @@ async function bootstrap(): Promise<void> {
   const configService = app.get(ConfigService);
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;
-
+  console.log('------whiteListOrigins', whiteListOrigins)
   app.enableCors({
     origin: whiteListOrigins,
     credentials: true,
