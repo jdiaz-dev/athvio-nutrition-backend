@@ -14,8 +14,8 @@ import {
 async function bootstrap(): Promise<void> {
   const adapter = new FastifyAdapter();
   const fastify = adapter.getInstance();
-
-  fastify.addContentTypeParser(
+  fastify
+  /* fastify.addContentTypeParser(
     'multipart',
     (request: any, _payload: any, done: (err: Error | null) => void) => {
       (request as any).isMultipart = true;
@@ -26,7 +26,7 @@ async function bootstrap(): Promise<void> {
   fastify.addHook('preValidation', async (request: any, reply: any) => {
     if (!request.isMultipart) return;
     request.body = await processRequest(request.raw, reply.raw);
-  });
+  }); */
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter,
@@ -44,8 +44,8 @@ async function bootstrap(): Promise<void> {
   }) */
 
   app.enableCors({
-    // origin: whiteListOrigins,
-    origin: (origin, callback) => {
+    origin: whiteListOrigins,
+    /* origin: (origin, callback) => {
       console.log('---1111', origin);
       // Allow non-browser clients (no Origin header)
       if (!origin) {
@@ -58,10 +58,10 @@ async function bootstrap(): Promise<void> {
 
       console.log('Blocked CORS origin:', origin);
       return callback(new Error('Not allowed by CORS'), false);
-    },
+    }, */
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: "*"//['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // This still works via middie, though in the long term you'd probably switch
