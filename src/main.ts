@@ -18,7 +18,7 @@ async function bootstrap(): Promise<void> {
     origin: [process.env.ORIGIN_PRODUCTION_WEB_DOMAIN],
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: "*"//['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
   const fastify = adapter.getInstance();
 
