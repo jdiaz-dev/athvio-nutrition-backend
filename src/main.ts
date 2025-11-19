@@ -13,13 +13,6 @@ import {
 
 async function bootstrap(): Promise<void> {
   const adapter = new FastifyAdapter();
-  
-  /* adapter.enableCors({
-    origin: [process.env.ORIGIN_PRODUCTION_WEB_DOMAIN],
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }) */
   const fastify = adapter.getInstance();
 
   fastify.addContentTypeParser(
@@ -44,7 +37,21 @@ async function bootstrap(): Promise<void> {
   const port = configService.get<string>('port') || process.env.PORT;
   console.log('------whiteListOrigins', whiteListOrigins)
   adapter.enableCors({
-    origin: whiteListOrigins,
+    // origin: whiteListOrigins,
+    origin: (origin, callback) => {
+      console.log('---1111', origin);
+      // Allow non-browser clients (no Origin header)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (whiteListOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.log('Blocked CORS origin:', origin);
+      return callback(new Error('Not allowed by CORS'), false);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
