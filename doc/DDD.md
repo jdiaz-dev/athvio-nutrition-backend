@@ -7,12 +7,12 @@
 - professionals
 
 ## Domains, subdomains and modules
+|--onboarding
 |--auth (domain)
 |  |--users (subdomain)
-|  |  |--onboarding (module)
 |--patients 
 |  |--patient plans
-|  |  |--meals
+|  |  |--meals (module)
 |  |  |--workouts
 |  |  |--healthy habits
 |  |--notes
@@ -25,9 +25,10 @@
 |  |--program tags
 |  |--programs
 |  |--professional-questionaries
-|--backoffice (internal tools)
-|  |--nutritional meals
-|  |  |--food (external provider)
-|  |  |--internal questionaries
+|--nutrition
+|  |--food (external provider)
+|  |--formulas
+|  |--internal questionaries
+|--communication
 |  |--mail
 
