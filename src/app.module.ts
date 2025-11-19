@@ -7,18 +7,18 @@ import { MailModule } from 'src/modules/mail/mail.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { DatabaseModule } from 'src/infraestructure/database.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
-import { PatientsDomainsModule } from 'src/modules/patients/patient-domains.module';
+import { PatientsDomainsModule } from 'src/modules/patients/patient-subdomains.module';
 import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
-import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-domains.module';
+import { ProfessionalDomainsModule } from 'src/modules/professionals/professional-subdomains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
-import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-domains.module';
+import { BackofficeDomainsModule } from 'src/modules/backoffice/backoffice-subdomains.module';
 import { getConfiguration, validateEnvironmentVariables } from 'src/configuration';
-import { AuthDomainsModule } from 'src/modules/auth/auth-domains.module';
+import { AuthDomainsModule } from 'src/modules/auth/auth-subdomains.module';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import { Trazability } from 'src/shared/types';
 import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
-import { NutritionDomainsModule } from 'src/modules/nutrition/nutrition-domains.module';
+import { NutritionDomainsModule } from 'src/modules/nutrition/nutrition-subdomains.module';
 
 @Module({
   imports: [
