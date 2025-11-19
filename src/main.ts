@@ -36,7 +36,14 @@ async function bootstrap(): Promise<void> {
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;
   console.log('------whiteListOrigins', whiteListOrigins)
-  adapter.enableCors({
+  /* adapter.enableCors({
+    origin: whiteListOrigins,
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }) */
+
+  app.enableCors({
     // origin: whiteListOrigins,
     origin: (origin, callback) => {
       console.log('---1111', origin);
@@ -54,15 +61,8 @@ async function bootstrap(): Promise<void> {
     },
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-
-  /* app.enableCors({
-    origin: whiteListOrigins,
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: "*"//['Content-Type', 'Authorization'],
-  }); */
+  });
 
   // This still works via middie, though in the long term you'd probably switch
   // to @fastify/helmet for native Fastify integration.
