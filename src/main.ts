@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import helmet from 'helmet';
+// import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 // @ts-ignore
@@ -114,7 +114,7 @@ async function bootstrap(): Promise<void> {
 
   // This still works via middie, though in the long term you'd probably switch
   // to @fastify/helmet for native Fastify integration.
-  app.use(
+  /* app.use(
     helmet({
       crossOriginEmbedderPolicy: false,
       contentSecurityPolicy: {
@@ -126,9 +126,9 @@ async function bootstrap(): Promise<void> {
         },
       },
     }),
-  );
+  ); */
 
-  app.use((_req: any, res: any, next: any) => {
+  /* app.use((_req: any, res: any, next: any) => {
     res.setHeader(
       'Permissions-Policy',
       [
@@ -151,7 +151,7 @@ async function bootstrap(): Promise<void> {
       ].join(', '),
     );
     next();
-  });
+  }); */
 
   app.useGlobalPipes(new ValidationPipe());
 
