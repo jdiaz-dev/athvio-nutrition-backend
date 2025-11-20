@@ -17,12 +17,12 @@ async function bootstrap(): Promise<void> {
 
   // Register CORS plugin BEFORE creating the app
   await fastify.register(import('@fastify/cors'), {
-    origin: true, // We'll configure this properly after getting config
+    origin: "*", // We'll configure this properly after getting config
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
-
+  
   fastify.addContentTypeParser(
     'multipart',
     (request: any, _payload: any, done: (err: Error | null) => void) => {
@@ -44,7 +44,7 @@ async function bootstrap(): Promise<void> {
   const configService = app.get(ConfigService);
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;
-
+  console.log('Whitelist Origins:', whiteListOrigins);
   // Re-register CORS with proper whitelist after getting config
   await app.register(import('@fastify/cors'), {
     origin: (origin, cb) => {
