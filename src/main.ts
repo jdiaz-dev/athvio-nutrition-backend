@@ -16,6 +16,26 @@ async function bootstrap(): Promise<void> {
   const adapter = new FastifyAdapter();
   const fastify = adapter.getInstance();
   fastify
+  await fastify.register(cors, {
+    origin: (origin, cb) => {
+      console.log('>>> CORS origin callback:', origin);
+
+      // Allow non-browser or same-origin requests (no Origin header)
+      if (!origin) {
+        return cb(null, true);
+      }
+
+      // For now, allow everything to be sure CORS is not the problem
+      return cb(null, true);
+
+      // After debug, you can go back to:
+      // if (whiteListOrigins.includes(origin)) return cb(null, true);
+      // return cb(new Error('Not allowed by CORS'), false);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: '*', // debug: allow everything
+  });
   /* fastify.addContentTypeParser(
     'multipart',
     (request: any, _payload: any, done: (err: Error | null) => void) => {
@@ -90,26 +110,7 @@ async function bootstrap(): Promise<void> {
     allowedHeaders: ['Content-Type', 'Authorization'],
   }); */
 
-  await fastify.register(cors, {
-    origin: (origin, cb) => {
-      console.log('>>> CORS origin callback:', origin);
-
-      // Allow non-browser or same-origin requests (no Origin header)
-      if (!origin) {
-        return cb(null, true);
-      }
-
-      // For now, allow everything to be sure CORS is not the problem
-      return cb(null, true);
-
-      // After debug, you can go back to:
-      // if (whiteListOrigins.includes(origin)) return cb(null, true);
-      // return cb(new Error('Not allowed by CORS'), false);
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: '*', // debug: allow everything
-  });
+  
 
   // This still works via middie, though in the long term you'd probably switch
   // to @fastify/helmet for native Fastify integration.
