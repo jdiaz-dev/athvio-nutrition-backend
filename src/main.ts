@@ -27,6 +27,16 @@ async function bootstrap(): Promise<void> {
     if (!request.isMultipart) return;
     request.body = await processRequest(request.raw, reply.raw);
   }); */
+  
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    adapter,
+  );
+
+  const configService = app.get(ConfigService);
+  const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
+  const port = configService.get<string>('port') || process.env.PORT;
+  console.log('------whiteListOrigins', whiteListOrigins)
   adapter.enableCors({
     // origin: whiteListOrigins,
     origin: (origin, callback) => {
@@ -47,16 +57,6 @@ async function bootstrap(): Promise<void> {
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    adapter,
-  );
-
-  const configService = app.get(ConfigService);
-  const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
-  const port = configService.get<string>('port') || process.env.PORT;
-  console.log('------whiteListOrigins', whiteListOrigins)
-  
 
   /* app.enableCors({
     // origin: whiteListOrigins,
