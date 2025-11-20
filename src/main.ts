@@ -10,6 +10,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import cors from '@fastify/cors';
 
 async function bootstrap(): Promise<void> {
   const adapter = new FastifyAdapter();
@@ -27,7 +28,15 @@ async function bootstrap(): Promise<void> {
     if (!request.isMultipart) return;
     request.body = await processRequest(request.raw, reply.raw);
   }); */
-  
+  fastify.addHook('onRequest', async (request, _reply) => {
+    console.log(
+    '>>> onRequest',
+    request.method,
+    request.url,
+    'Origin:',
+    request.headers.origin,
+  );
+});
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter,
@@ -58,17 +67,9 @@ async function bootstrap(): Promise<void> {
     allowedHeaders: ['Content-Type', 'Authorization'],
   }) */
 
-  fastify.addHook('onRequest', async (request, _reply) => {
-    console.log(
-    '>>> onRequest',
-    request.method,
-    request.url,
-    'Origin:',
-    request.headers.origin,
-  );
-});
+  
 
-  app.enableCors({
+  /* app.enableCors({
     // origin: whiteListOrigins,
     origin: (origin, callback) => {
       console.log('---1111', origin);
@@ -87,6 +88,27 @@ async function bootstrap(): Promise<void> {
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+  }); */
+
+  await fastify.register(cors, {
+    origin: (origin, cb) => {
+      console.log('>>> CORS origin callback:', origin);
+
+      // Allow non-browser or same-origin requests (no Origin header)
+      if (!origin) {
+        return cb(null, true);
+      }
+
+      // For now, allow everything to be sure CORS is not the problem
+      return cb(null, true);
+
+      // After debug, you can go back to:
+      // if (whiteListOrigins.includes(origin)) return cb(null, true);
+      // return cb(new Error('Not allowed by CORS'), false);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: '*', // debug: allow everything
   });
 
   // This still works via middie, though in the long term you'd probably switch
