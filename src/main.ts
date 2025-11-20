@@ -41,11 +41,9 @@ async function bootstrap(): Promise<void> {
     origin: whiteListOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: "*"//['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  // This still works via middie, though in the long term you'd probably switch
-  // to @fastify/helmet for native Fastify integration.
   app.use(
     helmet({
       crossOriginEmbedderPolicy: false,
