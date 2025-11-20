@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import helmet from '@fastify/helmet';
+import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 // @ts-ignore
-import processRequest from 'graphql-upload/processRequest.js';
+import  processRequest from 'graphql-upload/processRequest.js';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -15,14 +15,6 @@ async function bootstrap(): Promise<void> {
   const adapter = new FastifyAdapter();
   const fastify = adapter.getInstance();
 
-  // Register CORS plugin BEFORE creating the app
-  /* await fastify.register(import('@fastify/cors'), {
-    origin: "*", // We'll configure this properly after getting config
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }); */
-  
   fastify.addContentTypeParser(
     'multipart',
     (request: any, _payload: any, done: (err: Error | null) => void) => {
@@ -44,38 +36,32 @@ async function bootstrap(): Promise<void> {
   const configService = app.get(ConfigService);
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
   const port = configService.get<string>('port') || process.env.PORT;
-  console.log('Whitelist Origins:', whiteListOrigins);
-  // Re-register CORS with proper whitelist after getting config
-  await app.register(import('@fastify/cors'), {
-    origin: (origin, cb) => {
-      console.log('Request Origin:', origin);
-      if (!origin || whiteListOrigins.includes(origin)) {
-        cb(null, true);
-        return;
-      }
-      cb(new Error('Not allowed by CORS'), false);
-    },
+
+  app.enableCors({
+    origin: whiteListOrigins,
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: "*"//['Content-Type', 'Authorization'],
   });
 
-  // Use @fastify/helmet instead of helmet
-  await app.register(helmet, {
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: {
-      directives: {
-        imgSrc: [`'self'`, 'data:', 'apollo-server-landing-page.cdn.apollographql.com'],
-        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
-        manifestSrc: [`'self'`, 'apollo-server-landing-page.cdn.apollographql.com'],
-        frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
+  // This still works via middie, though in the long term you'd probably switch
+  // to @fastify/helmet for native Fastify integration.
+  app.use(
+    helmet({
+      crossOriginEmbedderPolicy: false,
+      contentSecurityPolicy: {
+        directives: {
+          imgSrc: [`'self'`, 'data:', 'apollo-server-landing-page.cdn.apollographql.com'],
+          scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+          manifestSrc: [`'self'`, 'apollo-server-landing-page.cdn.apollographql.com'],
+          frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
+        },
       },
-    },
-  });
+    }),
+  );
 
-  // Add Permissions-Policy using Fastify hook instead of Express middleware
-  fastify.addHook('onSend', async (_request, reply) => {
-    reply.header(
+  app.use((_req: any, res: any, next: any) => {
+    res.setHeader(
       'Permissions-Policy',
       [
         'geolocation=()',
@@ -96,11 +82,12 @@ async function bootstrap(): Promise<void> {
         'interest-cohort=()',
       ].join(', '),
     );
+    next();
   });
 
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(port, '0.0.0.0'); // Important for production deployment
+  await app.listen(port, '0.0.0.0');
   console.log(`Server running on port ${port}`);
 }
 
