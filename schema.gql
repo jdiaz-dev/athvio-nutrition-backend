@@ -1354,6 +1354,7 @@ type User {
 
 type ValueCase {
   case: String
+  spanishCase: String
   value: Float!
 }
 

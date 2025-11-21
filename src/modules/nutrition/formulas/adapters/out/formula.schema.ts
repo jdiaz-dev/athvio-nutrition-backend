@@ -13,6 +13,10 @@ export class ValueCase {
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   case?: string;
+
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
+  spanishCase?: string;
 }
 export const ValueCaseSchema = SchemaFactory.createForClass(ValueCase);
 
@@ -26,7 +30,7 @@ export class Parameter {
   @Field()
   @Prop({ type: String, required: true })
   description: string;
-  
+
   @Field(() => [ValueCase])
   @Prop({ type: [ValueCaseSchema], required: true })
   valueCases: ValueCase[];
