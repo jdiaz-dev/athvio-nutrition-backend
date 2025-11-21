@@ -23,6 +23,10 @@ export class Parameter {
   @Prop({ type: String, required: true })
   spanishParameterName: string;
 
+  @Field()
+  @Prop({ type: String, required: true })
+  description: string;
+  
   @Field(() => [ValueCase])
   @Prop({ type: [ValueCaseSchema], required: true })
   valueCases: ValueCase[];
@@ -82,6 +86,10 @@ export class FormulaGroup {
   @Field(() => [Case])
   @Prop({ type: [CaseSchema], required: true })
   cases: Case[];
+
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
+  parameterDescription: string;
 
   @Field(() => [Parameter])
   @Prop({ type: [ParameterSchema], required: true })

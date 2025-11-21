@@ -406,6 +406,7 @@ type Formula {
 
 type FormulaGroup {
   cases: [Case!]!
+  parameterDescription: String
   parameters: [Parameter!]!
   spanishFormulaName: String!
 }
@@ -884,6 +885,7 @@ type Organization {
 }
 
 type Parameter {
+  description: String!
   spanishParameterName: String!
   valueCases: [ValueCase!]!
 }

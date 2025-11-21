@@ -11,54 +11,55 @@ db.Formulas.insertOne({
           coefficients: [
             { variable: 'weight', value: 10 },
             { variable: 'height', value: 6.25 },
-            { variable: 'age', value: -5 }
+            { variable: 'age', value: -5 },
           ],
-          constants: [
-            { name: 'baseAdjustment', value: -161 }
-          ]
+          constants: [{ name: 'baseAdjustment', value: -161 }],
         },
         {
           spanishCaseLabel: 'Hombres',
           coefficients: [
             { variable: 'weight', value: 10 },
             { variable: 'height', value: 6.25 },
-            { variable: 'age', value: -5 }
+            { variable: 'age', value: -5 },
           ],
-          constants: [
-            { name: 'baseAdjustment', value: 5 }
-          ]
-        }
+          constants: [{ name: 'baseAdjustment', value: 5 }],
+        },
       ],
+      parameterDescription: 'Factor de actividad física',
       parameters: [
         {
           spanishParameterName: 'Sedentario',
+          description: 'No realiza actividad física',
           valueCases: [
             { value: 1.2, spanishCase: 'Mujeres' },
-            { value: 1.2, spanishCase: 'Hombres' }
-          ]
+            { value: 1.2, spanishCase: 'Hombres' },
+          ],
         },
         {
           spanishParameterName: 'Ligera',
+          description: '3 horas semanales de actividad física',
           valueCases: [
             { value: 1.56, spanishCase: 'Mujeres' },
-            { value: 1.55, spanishCase: 'Hombres' }
-          ]
+            { value: 1.55, spanishCase: 'Hombres' },
+          ],
         },
         {
           spanishParameterName: 'Moderada',
+          description: '6 horas semanales de actividad física',
           valueCases: [
             { value: 1.64, spanishCase: 'Mujeres' },
-            { value: 1.78, spanishCase: 'Hombres' }
-          ]
+            { value: 1.78, spanishCase: 'Hombres' },
+          ],
         },
         {
           spanishParameterName: 'Intensa',
+          description: '4 a 5 horas diarias de actividad física',
           valueCases: [
             { value: 1.82, spanishCase: 'Mujeres' },
-            { value: 2.1, spanishCase: 'Hombres' }
-          ]
-        }
-      ]
+            { value: 2.1, spanishCase: 'Hombres' },
+          ],
+        },
+      ],
     },
 
     {
@@ -70,42 +71,51 @@ db.Formulas.insertOne({
           coefficients: [
             { variable: 'weight', value: 9.247 },
             { variable: 'height', value: 3.098 },
-            { variable: 'age', value: -4.330 }
+            { variable: 'age', value: -4.33 },
           ],
-          constants: [
-            { name: 'baseAdjustment', value: 447.593 }
-          ]
+          constants: [{ name: 'baseAdjustment', value: 447.593 }],
         },
         {
           spanishCaseLabel: 'Hombres',
           coefficients: [
             { variable: 'weight', value: 13.397 },
             { variable: 'height', value: 4.799 },
-            { variable: 'age', value: -5.677 }
+            { variable: 'age', value: -5.677 },
           ],
-          constants: [
-            { name: 'baseAdjustment', value: 88.362 }
-          ]
-        }
+          constants: [{ name: 'baseAdjustment', value: 88.362 }],
+        },
       ],
+      parameterDescription: 'Actividad física',
       parameters: [
-        { spanishParameterName: 'Sedentario', valueCases: [
-          { value: 1.2, spanishCase: 'Mujeres' },
-          { value: 1.2, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Ligera', valueCases: [
-          { value: 1.56, spanishCase: 'Mujeres' },
-          { value: 1.55, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Moderada', valueCases: [
-          { value: 1.64, spanishCase: 'Mujeres' },
-          { value: 1.78, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Intensa', valueCases: [
-          { value: 1.82, spanishCase: 'Mujeres' },
-          { value: 2.1, spanishCase: 'Hombres' }
-        ]}
-      ]
+        {
+          spanishParameterName: 'Sedentario',
+          valueCases: [
+            { value: 1.2, spanishCase: 'Mujeres' },
+            { value: 1.2, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Ligera',
+          valueCases: [
+            { value: 1.56, spanishCase: 'Mujeres' },
+            { value: 1.55, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Moderada',
+          valueCases: [
+            { value: 1.64, spanishCase: 'Mujeres' },
+            { value: 1.78, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Intensa',
+          valueCases: [
+            { value: 1.82, spanishCase: 'Mujeres' },
+            { value: 2.1, spanishCase: 'Hombres' },
+          ],
+        },
+      ],
     },
 
     {
@@ -114,41 +124,50 @@ db.Formulas.insertOne({
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
-          coefficients: [
-            { variable: 'weight', value: 7.18 }
-          ],
-          constants: [
-            { name: 'baseAdjustment', value: 795 }
-          ]
+          coefficients: [{ variable: 'weight', value: 7.18 }],
+          constants: [{ name: 'baseAdjustment', value: 795 }],
         },
         {
           spanishCaseLabel: 'Hombres',
-          coefficients: [
-            { variable: 'weight', value: 10.2 }
-          ],
-          constants: [
-            { name: 'baseAdjustment', value: 879 }
-          ]
-        }
+          coefficients: [{ variable: 'weight', value: 10.2 }],
+          constants: [{ name: 'baseAdjustment', value: 879 }],
+        },
       ],
+      parameterDescription: 'Factor de actividad física',
       parameters: [
-        { spanishParameterName: 'Sedentario', valueCases: [
-          { value: 1.2, spanishCase: 'Mujeres' },
-          { value: 1.2, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Ligera', valueCases: [
-          { value: 1.56, spanishCase: 'Mujeres' },
-          { value: 1.55, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Moderada', valueCases: [
-          { value: 1.64, spanishCase: 'Mujeres' },
-          { value: 1.78, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Intensa', valueCases: [
-          { value: 1.82, spanishCase: 'Mujeres' },
-          { value: 2.1, spanishCase: 'Hombres' }
-        ]}
-      ]
+        {
+          spanishParameterName: 'Sedentario',
+          description: 'No realiza actividad física',
+          valueCases: [
+            { value: 1.2, spanishCase: 'Mujeres' },
+            { value: 1.2, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Ligera',
+          description: '3 horas semanales de actividad física',
+          valueCases: [
+            { value: 1.56, spanishCase: 'Mujeres' },
+            { value: 1.55, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Moderada',
+          description: '6 horas semanales de actividad física',
+          valueCases: [
+            { value: 1.64, spanishCase: 'Mujeres' },
+            { value: 1.78, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Intensa',
+          description: '4 a 5 horas diarias de actividad física',
+          valueCases: [
+            { value: 1.82, spanishCase: 'Mujeres' },
+            { value: 2.1, spanishCase: 'Hombres' },
+          ],
+        },
+      ],
     },
 
     {
@@ -157,41 +176,50 @@ db.Formulas.insertOne({
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
-          coefficients: [
-            { variable: 'leanMass', value: 20.9 }
-          ],
-          constants: [
-            { name: 'baseAdjustment', value: 500 }
-          ]
+          coefficients: [{ variable: 'leanMass', value: 20.9 }],
+          constants: [{ name: 'baseAdjustment', value: 500 }],
         },
         {
           spanishCaseLabel: 'Hombres',
-          coefficients: [
-            { variable: 'leanMass', value: 22.3 }
-          ],
-          constants: [
-            { name: 'baseAdjustment', value: 500 }
-          ]
-        }
+          coefficients: [{ variable: 'leanMass', value: 22.3 }],
+          constants: [{ name: 'baseAdjustment', value: 500 }],
+        },
       ],
+      parameterDescription: 'Factor de actividad física',
       parameters: [
-        { spanishParameterName: 'Sedentario', valueCases: [
-          { value: 1.2, spanishCase: 'Mujeres' },
-          { value: 1.2, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Ligera', valueCases: [
-          { value: 1.56, spanishCase: 'Mujeres' },
-          { value: 1.55, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Moderada', valueCases: [
-          { value: 1.64, spanishCase: 'Mujeres' },
-          { value: 1.78, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Intensa', valueCases: [
-          { value: 1.82, spanishCase: 'Mujeres' },
-          { value: 2.1, spanishCase: 'Hombres' }
-        ]}
-      ]
+        {
+          spanishParameterName: 'Sedentario',
+          description: 'No realiza actividad física',
+          valueCases: [
+            { value: 1.2, spanishCase: 'Mujeres' },
+            { value: 1.2, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Ligera',
+          description: '3 horas semanales de actividad física',
+          valueCases: [
+            { value: 1.56, spanishCase: 'Mujeres' },
+            { value: 1.55, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Moderada',
+          description: '6 horas semanales de actividad física',
+          valueCases: [
+            { value: 1.64, spanishCase: 'Mujeres' },
+            { value: 1.78, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Intensa',
+          description: '4 a 5 horas diarias de actividad física',
+          valueCases: [
+            { value: 1.82, spanishCase: 'Mujeres' },
+            { value: 2.1, spanishCase: 'Hombres' },
+          ],
+        },
+      ],
     },
 
     {
@@ -200,41 +228,49 @@ db.Formulas.insertOne({
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
-          coefficients: [
-            { variable: 'weight', value: 8.7 }
-          ],
-          constants: [
-            { name: 'baseAdjustment', value: 829 }
-          ]
+          coefficients: [{ variable: 'weight', value: 8.7 }],
+          constants: [{ name: 'baseAdjustment', value: 829 }],
         },
         {
           spanishCaseLabel: 'Hombres',
-          coefficients: [
-            { variable: 'weight', value: 11.6 }
-          ],
-          constants: [
-            { name: 'baseAdjustment', value: 879 }
-          ]
-        }
+          coefficients: [{ variable: 'weight', value: 11.6 }],
+          constants: [{ name: 'baseAdjustment', value: 879 }],
+        },
       ],
       parameters: [
-        { spanishParameterName: 'Sedentario', valueCases: [
-          { value: 1.2, spanishCase: 'Mujeres' },
-          { value: 1.2, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Ligera', valueCases: [
-          { value: 1.56, spanishCase: 'Mujeres' },
-          { value: 1.55, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Moderada', valueCases: [
-          { value: 1.64, spanishCase: 'Mujeres' },
-          { value: 1.78, spanishCase: 'Hombres' }
-        ]},
-        { spanishParameterName: 'Intensa', valueCases: [
-          { value: 1.82, spanishCase: 'Mujeres' },
-          { value: 2.1, spanishCase: 'Hombres' }
-        ]}
-      ]
-    }
-  ]
+        {
+          spanishParameterName: 'Sedentario',
+          description: 'No realiza actividad física',
+          valueCases: [
+            { value: 1.2, spanishCase: 'Mujeres' },
+            { value: 1.2, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Ligera',
+          description: '3 horas semanales de actividad física',
+          valueCases: [
+            { value: 1.56, spanishCase: 'Mujeres' },
+            { value: 1.55, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Moderada',
+          description: '6 horas semanales de actividad física',
+          valueCases: [
+            { value: 1.64, spanishCase: 'Mujeres' },
+            { value: 1.78, spanishCase: 'Hombres' },
+          ],
+        },
+        {
+          spanishParameterName: 'Intensa',
+          description: '4 a 5 horas diarias de actividad física',
+          valueCases: [
+            { value: 1.82, spanishCase: 'Mujeres' },
+            { value: 2.1, spanishCase: 'Hombres' },
+          ],
+        },
+      ],
+    },
+  ],
 });
