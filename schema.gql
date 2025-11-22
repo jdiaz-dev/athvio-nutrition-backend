@@ -85,6 +85,7 @@ input CalculatedMacrosInput {
 }
 
 type Case {
+  case: String!
   coefficients: [Coefficient!]!
   constants: [Constant!]!
   spanishCaseLabel: String!

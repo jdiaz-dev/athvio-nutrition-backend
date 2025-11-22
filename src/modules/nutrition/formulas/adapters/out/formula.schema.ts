@@ -70,6 +70,10 @@ export class Case {
   @Prop({ type: String, required: true })
   spanishCaseLabel: string;
 
+  @Field()
+  @Prop({ type: String, required: true })
+  case: string;
+
   @Field(() => [Coefficient])
   @Prop({ type: [CoefficientSchema], required: true })
   coefficients: Coefficient[];

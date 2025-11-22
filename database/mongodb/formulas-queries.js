@@ -8,6 +8,7 @@ db.Formulas.insertOne({
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
+          case: 'female',
           coefficients: [
             { variable: 'weight', value: 10 },
             { variable: 'height', value: 6.25 },
@@ -17,6 +18,7 @@ db.Formulas.insertOne({
         },
         {
           spanishCaseLabel: 'Hombres',
+          case: 'male',
           coefficients: [
             { variable: 'weight', value: 10 },
             { variable: 'height', value: 6.25 },
@@ -67,6 +69,7 @@ db.Formulas.insertOne({
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
+          case: 'female',
           coefficients: [
             { variable: 'weight', value: 9.247 },
             { variable: 'height', value: 3.098 },
@@ -76,6 +79,7 @@ db.Formulas.insertOne({
         },
         {
           spanishCaseLabel: 'Hombres',
+          case: 'male',
           coefficients: [
             { variable: 'weight', value: 13.397 },
             { variable: 'height', value: 4.799 },
@@ -127,11 +131,13 @@ db.Formulas.insertOne({
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
+          case: 'female',
           coefficients: [{ variable: 'weight', value: 7.18 }],
           constants: [{ name: 'baseAdjustment', value: 795 }],
         },
         {
           spanishCaseLabel: 'Hombres',
+          case: 'male',
           coefficients: [{ variable: 'weight', value: 10.2 }],
           constants: [{ name: 'baseAdjustment', value: 879 }],
         },
@@ -179,11 +185,13 @@ db.Formulas.insertOne({
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
+          case: 'female',
           coefficients: [{ variable: 'leanMass', value: 20.9 }],
           constants: [{ name: 'baseAdjustment', value: 500 }],
         },
         {
           spanishCaseLabel: 'Hombres',
+          case: 'male',
           coefficients: [{ variable: 'leanMass', value: 22.3 }],
           constants: [{ name: 'baseAdjustment', value: 500 }],
         },
@@ -225,17 +233,19 @@ db.Formulas.insertOne({
       ],
     },
 
-    {
+    /* {
       uuid: 'b1d7bb8a-5db0-42e6-8a07-fcf11ebef174',
       spanishFormulaName: 'OMS',
       cases: [
         {
           spanishCaseLabel: 'Mujeres',
+          case: 'female',
           coefficients: [{ variable: 'weight', value: 8.7 }],
           constants: [{ name: 'baseAdjustment', value: 829 }],
         },
         {
           spanishCaseLabel: 'Hombres',
+          case: 'male',
           coefficients: [{ variable: 'weight', value: 11.6 }],
           constants: [{ name: 'baseAdjustment', value: 879 }],
         },
@@ -274,6 +284,6 @@ db.Formulas.insertOne({
           ],
         },
       ],
-    },
+    }, */
   ],
 });
