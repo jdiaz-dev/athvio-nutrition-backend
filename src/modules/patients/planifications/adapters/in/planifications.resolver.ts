@@ -8,6 +8,7 @@ import { PlanificationManagerService } from 'src/modules/patients/planifications
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
+import { GetLastPlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-last-planification.dto';
 
 @Resolver(() => Planification)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -19,6 +20,13 @@ export class PlanificationResolver {
     return this.ccs.createPlanification(dto);
   }
 
+  @Query(() => Planification)
+  async getLastPlanification(
+    @Args('lastPlanification') dto: GetLastPlanificationDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<Planification> {
+    return await this.ccs.getLastPlanification(dto, selectors);
+  }
   @Query(() => [Planification])
   async getPlanifications(
     @Args('input') dto: GetPlanificationsDto,

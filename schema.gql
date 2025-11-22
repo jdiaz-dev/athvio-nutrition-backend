@@ -459,6 +459,10 @@ type GetFoodsResponse {
   meta: FoodsMeta!
 }
 
+input GetLastPlanificationDto {
+  patient: String!
+}
+
 input GetNotesDto {
   limit: Float = 30
   offset: Float = 0
@@ -1087,6 +1091,7 @@ type Query {
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getFormula: Formula!
+  getLastPlanification(lastPlanification: GetLastPlanificationDto!): Planification!
   getNotes(input: GetNotesDto!): GetNotesResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!

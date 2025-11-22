@@ -7,6 +7,7 @@ import { Planification } from 'src/modules/patients/planifications/adapters/out/
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ErrorPlanificationEnum } from 'src/shared/enums/messages-response';
 import { randomUUID } from 'node:crypto';
+import { GetLastPlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-last-planification.dto';
 
 @Injectable()
 export class PlanificationManagerService {
@@ -18,6 +19,10 @@ export class PlanificationManagerService {
   async createPlanification(dto: CreatePlanificationDto): Promise<Planification> {
     await this.gps.getPatientByUuid(dto.patient);
     const planification = await this.caps.createPlanification({ uuid: randomUUID(), ...dto });
+    return planification;
+  }
+  async getLastPlanification(dto: GetLastPlanificationDto, selectors: Record<string, number>): Promise<Planification> {
+    const planification = await this.caps.getPlanification(dto, selectors, { sort: { createdAt: -1 } });
     return planification;
   }
   async getPlanifications(dto: GetPlanificationsDto, selectors: Record<string, number>): Promise<Planification[]> {

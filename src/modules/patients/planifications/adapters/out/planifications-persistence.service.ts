@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { CreatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/create-planification.dto';
+import { GetLastPlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-last-planification.dto';
 import { GetPlanificationsDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-planifications.dto';
 import { UpdatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/update-planification.dto';
 import { Planification, PlanificationDocument } from 'src/modules/patients/planifications/adapters/out/planification.schema';
@@ -26,13 +27,18 @@ export class PlanificationsPersistenceService extends MongodbQueryBuilder<Planif
     });
     return planificationRes;
   }
-  async getPlanification({ patient }: GetPlanificationsDto, selectors: Record<string, number>): Promise<Planification> {
+  async getPlanification(
+    { patient }: GetLastPlanificationDto,
+    selectors: Record<string, number>,
+    options?: { sort: { createdAt: number } },
+  ): Promise<Planification> {
     const planificationRes = await this.initializeQuery(this.getPlanification.name).findOne(
       {
         patient,
         isDeleted: false,
       },
       selectors,
+      ...(options ? [options] : []),
     );
     return planificationRes;
   }

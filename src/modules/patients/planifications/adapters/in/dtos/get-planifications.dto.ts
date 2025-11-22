@@ -1,9 +1,5 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsUUID } from 'class-validator';
+import { InputType } from '@nestjs/graphql';
+import { GetLastPlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-last-planification.dto';
 
 @InputType()
-export class GetPlanificationsDto {
-  @Field()
-  @IsUUID(4)
-  patient!: string;
-}
+export class GetPlanificationsDto extends GetLastPlanificationDto {}
