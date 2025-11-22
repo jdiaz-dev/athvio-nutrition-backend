@@ -5,4 +5,4 @@ import { WorkFlowStreamAuditModule } from 'src/modules/backoffice/work-steram-au
 @Module({
   imports: [WorkFlowStreamAuditModule, TelemetryModule],
 })
-export class BackofficeDomainsModule {}
+export class BackofficeSubDomainsModule {}

@@ -18,4 +18,4 @@ import { ProgramsModule } from 'src/modules/professionals/programs/programs.modu
     NutritionalMealsModule,
   ],
 })
-export class ProfessionalDomainsModule {}
+export class ProfessionalSubDomainsModule {}

@@ -5,4 +5,4 @@ import { UsersModule } from 'src/modules/auth/users/users.module';
 @Module({
   imports: [UsersModule, AuthModule],
 })
-export class AuthDomainsModule {}
+export class AuthSubDomainsModule {}

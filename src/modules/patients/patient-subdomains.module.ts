@@ -11,4 +11,4 @@ import { PatientsModule } from 'src/modules/patients/patients/patients.module';
   imports: [PatientsModule, PatientPlansModule, PatientQuestionaryModule, ChatsModule, CaloriesModule, NotesModule],
   providers: [PatientsModule],
 })
-export class PatientsDomainsModule {}
+export class PatientsSubDomainsModule {}

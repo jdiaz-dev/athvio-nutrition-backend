@@ -6,4 +6,4 @@ import { InternalQuestionaryModule } from 'src/modules/nutrition/internal-questi
 @Module({
   imports: [FoodsModule, FormulasModule, InternalQuestionaryModule],
 })
-export class NutritionDomainsModule {}
+export class NutritionSubDomainsModule {}
