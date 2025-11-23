@@ -1091,7 +1091,7 @@ type Query {
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getFormula: Formula!
-  getLastPlanification(lastPlanification: GetLastPlanificationDto!): Planification!
+  getLastPlanification(lastPlanification: GetLastPlanificationDto!): Planification
   getNotes(input: GetNotesDto!): GetNotesResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!

@@ -40,7 +40,6 @@ export class GptService {
               - El paciente padece estas enfermedades: cáncer, diabetes.
               - La causa raiz de las enfermedades mencionadas es: parásitos, hongos.
               - Cuando el nutricionista te solicite un plan nutricional, debes seguir todas las instrucciones entre comillas triples.
-
             `,
           },
           {

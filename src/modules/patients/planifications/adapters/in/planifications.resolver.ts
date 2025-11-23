@@ -20,7 +20,7 @@ export class PlanificationResolver {
     return this.ccs.createPlanification(dto);
   }
 
-  @Query(() => Planification)
+  @Query(() => Planification, { nullable: true })
   async getLastPlanification(
     @Args('lastPlanification') dto: GetLastPlanificationDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
