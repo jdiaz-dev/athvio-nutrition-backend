@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { IngredientsResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/web/ingredients.resolver';
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
-import { NutritionalMealsWebResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/web/nutritional-meals-web.resolver';
+import { NutritionalMealsWebResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/web/nutritional-meals.web.resolver';
 import {
   NutritionalMeal,
   NutritionalMealSchema,
@@ -13,8 +13,14 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { NutritionalMealsMobileResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/nutritional-meals-mobile.resolver';
 import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
 import { SharedModule } from 'src/shared/shared.module';
+import { NutritionalMealsSystemResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/web/nutritional-meals.system.resolver';
 
-const resolvers = [IngredientsResolver, NutritionalMealsWebResolver, NutritionalMealsMobileResolver];
+const resolvers = [
+  IngredientsResolver,
+  NutritionalMealsWebResolver,
+  NutritionalMealsMobileResolver,
+  NutritionalMealsSystemResolver,
+];
 const services = [NutritionalMealsPersistenceService, NutritionalMealsManagerService, UploadMealImageService];
 
 @Module({

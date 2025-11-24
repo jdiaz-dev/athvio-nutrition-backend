@@ -16,16 +16,16 @@ async function bootstrap(): Promise<void> {
   const fastify = adapter.getInstance();
 
   fastify.addContentTypeParser(
-    'multipart',
-    (request: any, _payload: any, done: (err: Error | null) => void) => {
-      (request as any).isMultipart = true;
+    'multipart/form-data',
+    (_request: any, _payload: any, done: (err: Error | null, body?: any) => void) => {
       done(null);
     },
   );
 
   fastify.addHook('preValidation', async (request: any, reply: any) => {
-    if (!request.isMultipart) return;
-    request.body = await processRequest(request.raw, reply.raw);
+    if (request.headers['content-type']?.startsWith('multipart/form-data')) {
+      request.body = await processRequest(request.raw, reply.raw);
+    }
   });
 
   const app = await NestFactory.create<NestFastifyApplication>(

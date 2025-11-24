@@ -842,7 +842,7 @@ type Mutation {
   updateProgram(input: UpdateProgramDto!): Program!
   updateProgramTag(input: UpdateProgramTagDto!): ProgramTag!
   updateUser(input: UpdateUserDto!): User!
-  uploadImage(input: UploadDto!): NutritionalMeal!
+  uploadImageToDefaultMeal(input: UploadImageToDefaultMealDto!): NutritionalMeal!
   verifyPayment(input: VerifyPaymentDto!): VerificationPaymentResponse!
 }
 
@@ -1340,9 +1340,10 @@ input UpdateUserDto {
 """Upload files"""
 scalar Upload
 
-input UploadDto {
+input UploadImageToDefaultMealDto {
   image: Upload!
   nutritionalMeal: String!
+  role: String!
 }
 
 type User {

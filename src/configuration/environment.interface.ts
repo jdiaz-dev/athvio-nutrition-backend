@@ -13,7 +13,11 @@ interface IDatabase {
 }
 
 interface Storage {
-  storageUrl: string;
+  foodImagesStorage: string;
+  foodImagesStorageUrl: string;
+  foodInternalImagesStorage: string;
+  foodInternalImagesDirectory: string;
+  foodInternalStorageUrl: string;
 }
 
 interface FoodApi {

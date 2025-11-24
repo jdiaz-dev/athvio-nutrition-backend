@@ -63,7 +63,7 @@
 - feat: physic activity factor 
 - fix: enable send email for wig up patient from web
 - fix: set and update isActive field in professional ?
-- fix: manage when there arent planification created in db
+- fix: manage upload image error when I don't upload nothing 
 
 ## Database
 - fix zanahorias search

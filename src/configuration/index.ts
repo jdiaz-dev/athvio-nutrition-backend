@@ -69,13 +69,24 @@ class PaymentProcessorVariables extends OauthVariables {
   POLAR_PRODUCT_ID: string;
 }
 
-class OtherVariables extends PaymentProcessorVariables {
+class StorageVariables extends PaymentProcessorVariables {
+  @IsString()
+  FOOD_IMAGES_STORAGE: string;
+  @IsString()
+  FOOD_IMAGES_STORAGE_URL: string;
+  @IsString()
+  FOOD_INTERNAL_IMAGES_STORAGE: string;
+  @IsString()
+  FOOD_INTERNAL_IMAGES_DIRECTORY: string;
+  @IsString()
+  FOOD_INTERNAL_STORAGE_URL: string;
+}
+
+class OtherVariables extends StorageVariables {
   @IsEnum(EnumEnvironments)
   NODE_ENV: EnumEnvironments;
   @IsString()
   PORT: string;
-  @IsString()
-  STORAGE_URL: string;
   @IsString()
   SIGN_TOKEN: string;
   @IsString()
