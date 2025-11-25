@@ -9,6 +9,7 @@ import { StorageService } from 'src/shared/services/storage.service';
 @Injectable()
 export class FileUploaderService {
   private readonly localUploadDir = 'uploads';
+  private readonly localNestedDirectory = 'nutritional-meals';
 
   constructor(
     private readonly storageService: StorageService,
@@ -18,7 +19,7 @@ export class FileUploaderService {
   async uploadFile(storageName: string, entityId: string, file: Promise<any>, directory?: string): Promise<string> {
     const fileData = await file;
     const fileName = `${Date.now()}_${entityId}_${fileData.filename}`;
-    const uploadDir = join(process.cwd(), this.localUploadDir, directory);
+    const uploadDir = join(process.cwd(), this.localUploadDir, this.localNestedDirectory);
     const savedFilePath = await this.uploadFileInLocalDirectory(fileData.createReadStream, uploadDir, fileName);
 
     const fileBuffer = readFileSync(savedFilePath);

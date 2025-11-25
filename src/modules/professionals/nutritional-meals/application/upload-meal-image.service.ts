@@ -23,9 +23,7 @@ export class UploadMealImageService {
     private readonly nmps: NutritionalMealsPersistenceService,
     private readonly fileUploaderService: FileUploaderService,
     private readonly configService: ConfigService,
-  ) {
-    console.log(this.configService.get<string>('storage'));
-  }
+  ) {}
   private async uploadImageToStorage(source: EnumSources, uuid: string, image: UploadScalar, role?: string): Promise<string> {
     let fileName: string;
     if (source === EnumSources.SYSTEM && role === TemporalRole.MASTER) {
@@ -61,7 +59,7 @@ export class UploadMealImageService {
 
     const res = await this.nmps.updateNutritionalMeal({
       nutritionalMeal: uuid,
-      image: `${imageBaseUrl}/${this.mealDirectory}/${fileName}`,
+      image: imageBaseUrl,
     });
     return res;
   }
