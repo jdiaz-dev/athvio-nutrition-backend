@@ -28,6 +28,11 @@ export class MealBodyInput {
   @IsOptional()
   image?: string;
 
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  imageSource?: string;
+
   @Field(() => [IngredientDetailsInput], { nullable: false })
   @IsArray()
   @ValidateNested()

@@ -4,7 +4,7 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { IngredientDetail, IngredientDetailSchema } from 'src/shared/schemas/meal-plan';
 import { Macros, MacroSchema } from 'src/shared/schemas/macros';
-import { EnumSources } from 'src/shared/enums/project';
+import { EnumSources, MealImageSources } from 'src/shared/enums/project';
 
 enum SystemMealBookSourcesEnum {
   BEAT_CANCER_KITCHEN = 'Beat cancer kitchen',
@@ -46,6 +46,10 @@ export class NutritionalMeal extends BaseSchema {
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   image!: string;
+
+  @Field({ nullable: true })
+  @Prop({ type: String, enum: MealImageSources, required: true })
+  imageSource!: string;
 
   @Field()
   @Prop({ type: MacroSchema, required: true })

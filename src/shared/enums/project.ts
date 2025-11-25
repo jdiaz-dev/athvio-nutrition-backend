@@ -87,3 +87,10 @@ export enum SupportedLanguages {
   ENGLISH = 'en',
   SPANISH = 'es',
 }
+
+export enum MealImageSources {
+  UPLOADED = 'uploaded',
+  NUTRITIONAL_MEAL = 'nutritional_meal',
+  PROGRAM = 'program',
+  PATIENT_PLAN = 'patient_plan',
+}

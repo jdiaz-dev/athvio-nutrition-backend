@@ -734,6 +734,7 @@ type Meal {
   cookingInstructions: String!
   createdAt: DateTime!
   image: String
+  imageSource: String
   ingredientDetails: [IngredientDetail!]!
   macros: Macros!
   mealTag: String!
@@ -745,6 +746,7 @@ type Meal {
 input MealBodyInput {
   cookingInstructions: String!
   image: String
+  imageSource: String
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   meal: String
@@ -863,6 +865,7 @@ type NutritionalMeal {
   description: String
   healthBenefits: String
   image: String
+  imageSource: String
   ingredientDetails: [IngredientDetail!]!
   ingredients: [IngredientDetail!]!
   macros: Macros!

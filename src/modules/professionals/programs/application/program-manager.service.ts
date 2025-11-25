@@ -15,6 +15,7 @@ import {
   GetProgramsResponse,
 } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-programs.dto';
 import { DuplicateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/duplicate-program.dto';
+import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
 
 @Injectable()
 export class ProgramManagerService {
@@ -24,7 +25,16 @@ export class ProgramManagerService {
     private pms: ProfessionalsManagementService,
   ) {}
 
-  async createProgram({ plans, professional, ...rest }: Omit<CreateProgram, 'uuid'>) {
+  async createProgram({ professional, ...rest }: CreateProgramDto) {
+    const { uuid } = await this.pms.getProfessionalByUuid(professional.toString(), { _id: 1, uuid: 1 });
+    const program = await this.pps.createProgram({
+      uuid: randomUUID(),
+      professional: uuid,
+      ...rest,
+    });
+    return program;
+  }
+  async createProgramWithPlans({ plans, professional, ...rest }: Omit<CreateProgram, 'uuid'>) {
     const { uuid } = await this.pms.getProfessionalByUuid(professional.toString(), { _id: 1, uuid: 1 });
     const program = await this.pps.createProgram({
       uuid: randomUUID(),
@@ -67,7 +77,7 @@ export class ProgramManagerService {
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     const { name, description, plans } = program;
 
-    const duplicatedProgram = await this.createProgram({
+    const duplicatedProgram = await this.createProgramWithPlans({
       professional: dto.professional,
       name: `${name} (duplicado)`,
       description,

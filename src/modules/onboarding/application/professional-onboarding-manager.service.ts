@@ -85,7 +85,7 @@ export class ProfessionalOnboardingManagerService {
       source: EnumSources.SYSTEM,
       language: detectedLanguage,
     });
-    const { uuid } = await this.pms.createProgram({
+    const { uuid } = await this.pms.createProgramWithPlans({
       professional,
       name,
       description,

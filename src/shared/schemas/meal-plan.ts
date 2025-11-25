@@ -1,6 +1,6 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IngredientType } from 'src/shared/enums/project';
+import { IngredientType, MealImageSources } from 'src/shared/enums/project';
 import { Ingredient, IngredientSchema } from 'src/shared/schemas/ingredient';
 import { Macros, MacroSchema } from 'src/shared/schemas/macros';
 import { BaseSchema } from 'src/shared/schemas/base.schema';
@@ -87,6 +87,10 @@ export class Meal extends BaseSchema {
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   image?: string;
+
+  @Field({ nullable: true })
+  @Prop({ type: String, enum: MealImageSources, required: false })
+  imageSource?: string;
 
   @Field(() => [IngredientDetail])
   @Prop({ type: [IngredientDetailSchema], required: true })
