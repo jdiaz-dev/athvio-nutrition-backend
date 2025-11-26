@@ -12,11 +12,12 @@ import { PlansPersistenceService } from 'src/modules/professionals/programs/adap
 import { Program, ProgramSchema } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
-import { ProgramPlanManagementService } from 'src/modules/professionals/programs/application/program-plan-management.service';
+import { ProgramPlanManagerService } from 'src/modules/professionals/programs/application/program-plan-manager.service';
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { PlanMealsManagerService } from 'src/modules/professionals/programs/application/plan-meals-manager.service';
+import { ProgramMealImageManagerService } from 'src/modules/professionals/programs/application/program-meal-image-manager.service';
 
 const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
 const services = [
@@ -25,8 +26,9 @@ const services = [
   PlansPersistenceService,
   MealsPersistenceService,
   AssignProgramService,
-  ProgramPlanManagementService,
+  ProgramPlanManagerService,
   PlanMealsManagerService,
+  ProgramMealImageManagerService,
 ];
 
 @Module({

@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import { IsArray, IsNumber, IsString, ValidateNested, IsOptional } from 'class-validator';
 import { IngredientDetailsInput } from 'src/shared/dtos/ingredient-detail-input';
 import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
+import { UploadScalar } from 'src/shared/graphql/upload.scalar';
 
 @InputType()
 export class MealBodyInput {
@@ -24,9 +25,12 @@ export class MealBodyInput {
   name: string;
 
   @Field({ nullable: true })
-  @IsString()
   @IsOptional()
   image?: string;
+
+  @Field(() => UploadScalar, { nullable: true })
+  @IsOptional()
+  imageUploaded?: UploadScalar;
 
   @Field({ nullable: true })
   @IsString()

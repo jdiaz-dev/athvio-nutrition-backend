@@ -11,7 +11,7 @@ import {
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { NutritionalMealsMobileResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/nutritional-meals-mobile.resolver';
-import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
+import { NutritionalMealImageManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meal-image-manager.service';
 import { SharedModule } from 'src/shared/shared.module';
 import { NutritionalMealsSystemResolver } from 'src/modules/professionals/nutritional-meals/adapters/in/web/nutritional-meals.system.resolver';
 
@@ -21,7 +21,7 @@ const resolvers = [
   NutritionalMealsMobileResolver,
   NutritionalMealsSystemResolver,
 ];
-const services = [NutritionalMealsPersistenceService, NutritionalMealsManagerService, UploadMealImageService];
+const services = [NutritionalMealsPersistenceService, NutritionalMealsManagerService, NutritionalMealImageManagerService];
 
 @Module({
   imports: [

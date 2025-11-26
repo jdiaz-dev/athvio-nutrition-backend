@@ -5,13 +5,14 @@ import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adap
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
-import { Meal } from 'src/shared/schemas/meal-plan';
+import { ProgramMealImageManagerService } from 'src/modules/professionals/programs/application/program-meal-image-manager.service';
 
 @Injectable()
-export class ProgramPlanManagementService {
+export class ProgramPlanManagerService {
   constructor(
     private readonly pms: ProgramManagerService,
     private readonly pps: PlansPersistenceService,
+    private readonly upmis: ProgramMealImageManagerService,
   ) {}
 
   async addProgramPlan(
@@ -19,6 +20,8 @@ export class ProgramPlanManagementService {
     selectors: Record<string, number>,
   ): Promise<Program> {
     const { meals, ...rest } = planBody;
+    const imageMealsProcessed = await this.upmis.processImageMeals(meals);
+
     const _program = await this.pps.addProgramPlanWithMeals(
       {
         professional,
@@ -26,7 +29,7 @@ export class ProgramPlanManagementService {
         planBody: {
           uuid: randomUUID(),
           ...rest,
-          meals: meals.map((item) => ({ uuid: randomUUID(), ...item })) as Meal[],
+          meals: imageMealsProcessed,
         },
       },
       selectors,

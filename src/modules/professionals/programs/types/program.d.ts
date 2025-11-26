@@ -4,6 +4,7 @@ import { Plan, Program } from 'src/modules/professionals/programs/adapters/out/p
 import { EnumSources } from 'src/shared/enums/project';
 import { Meal } from 'src/shared/schemas/meal-plan';
 
+type RequiredDataMeal = Omit<Meal, '_id' | 'isDeleted' | 'createdAt' | 'updatedAt'>;
 export type ProgramPlanFilteredByDay = {
   professional: string;
   program: string;
@@ -15,7 +16,10 @@ export type ProgramPatial = Pick<Program, 'plans' | 'patients' | 'isSyncActive'>
 export type AddProgramPlanWithMeals = {
   professional: string;
   program: string;
-  planBody: Pick<Plan, 'uuid' | 'title' | 'day' | 'week' | 'meals'> & Partial<Pick<Plan, 'planDetail'>>;
+  planBody: Pick<Plan, 'uuid' | 'title' | 'day' | 'week'> &
+    Partial<Pick<Plan, 'planDetail'>> & {
+      meals: RequiredDataMeal[];
+    };
 };
 
 export type CreateProgram = Omit<CreateProgramDto, 'professional'> &
@@ -29,5 +33,5 @@ export type AddPlanMeal = {
   professional: string;
   program: string;
   plan: string;
-  meals: Omit<Meal, '_id' | 'isDeleted' | 'createdAt' | 'updatedAt'>[];
+  meals: RequiredDataMeal[];
 };

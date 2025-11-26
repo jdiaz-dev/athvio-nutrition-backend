@@ -64,6 +64,7 @@
 - fix: enable send email for wig up patient from web
 - fix: set and update isActive field in professional ?
 - fix: manage upload image error when I don't upload nothing 
+- fix: add imageSource in addMeal of programs
 
 ## Database
 - fix zanahorias search

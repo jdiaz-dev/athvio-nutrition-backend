@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
-import { UploadDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload.dto';
+import { UploadDto } from 'src/shared/dtos/upload.dto';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { WrapperType } from 'src/shared/types.d';
@@ -11,7 +11,7 @@ import { StorageService } from 'src/shared/services/storage.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class UploadMealImageService {
+export class NutritionalMealImageManagerService {
   constructor(
     @Inject(forwardRef(() => NutritionalMealsManagerService)) private readonly nmms: WrapperType<NutritionalMealsManagerService>,
     private readonly nmps: NutritionalMealsPersistenceService,

@@ -35,7 +35,7 @@ export class ProgramManagerService {
     });
     return program;
   }
-  async createProgramDuringOnboarding({ plans, professional, ...rest }: Omit<CreateProgram, 'uuid'>) {
+  async createProgramForOnboarding({ plans, professional, ...rest }: Omit<CreateProgram, 'uuid'>) {
     const { uuid } = await this.pms.getProfessionalByUuid(professional.toString(), { _id: 1, uuid: 1 });
     const program = await this.pps.createProgram({
       uuid: randomUUID(),

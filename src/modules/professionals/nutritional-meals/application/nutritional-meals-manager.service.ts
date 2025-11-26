@@ -13,7 +13,7 @@ import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-mea
 import { ErrorNutritionalMealEnum } from 'src/shared/enums/messages-response';
 import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { DeleteNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/delete-nutritional-meal.dto';
-import { UploadMealImageService } from 'src/modules/professionals/nutritional-meals/application/upload-meal-image.service';
+import { NutritionalMealImageManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meal-image-manager.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { randomUUID } from 'node:crypto';
 import { WrapperType } from 'src/shared/types.d';
@@ -21,7 +21,8 @@ import { WrapperType } from 'src/shared/types.d';
 @Injectable()
 export class NutritionalMealsManagerService {
   constructor(
-    @Inject(forwardRef(() => UploadMealImageService)) private readonly umis: WrapperType<UploadMealImageService>,
+    @Inject(forwardRef(() => NutritionalMealImageManagerService))
+    private readonly umis: WrapperType<NutritionalMealImageManagerService>,
     private readonly pms: ProfessionalsManagementService,
     private readonly nmps: NutritionalMealsPersistenceService,
   ) {}

@@ -747,6 +747,7 @@ input MealBodyInput {
   cookingInstructions: String!
   image: String
   imageSource: String
+  imageUploaded: Upload
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   meal: String

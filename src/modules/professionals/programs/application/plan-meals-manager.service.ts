@@ -5,14 +5,20 @@ import { MealsPersistenceService } from 'src/modules/professionals/programs/adap
 import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
-import { randomUUID } from 'node:crypto';
+import { ProgramMealImageManagerService } from 'src/modules/professionals/programs/application/program-meal-image-manager.service';
 
 @Injectable()
 export class PlanMealsManagerService {
-  constructor(private readonly mps: MealsPersistenceService) {}
+  constructor(
+    private readonly mps: MealsPersistenceService,
+    private readonly upmis: ProgramMealImageManagerService,
+  ) {}
 
   async addMeal({ meals, ...restDto }: AddMealDto, selectors: Record<string, number>): Promise<Program> {
-    return this.mps.addMeal({ ...restDto, meals: meals.map((item) => ({ uuid: randomUUID(), ...item })) }, selectors);
+    const imageMealsProcessed = await this.upmis.processImageMeals(meals);
+    const plan = await this.mps.addMeal({ ...restDto, meals: imageMealsProcessed }, selectors);
+
+    return plan;
   }
 
   async updateMeal(dto: UpdateMealDto, selectors: Record<string, number>): Promise<Program> {
