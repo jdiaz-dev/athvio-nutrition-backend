@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { MealImageSources } from 'src/shared/enums/project';
 dayjs.extend(utc);
 
 type Ingredient = {
@@ -13,6 +14,8 @@ type Ingredient = {
 type Meal = {
   mealTag: string;
   ingredientDetails: (Ingredient | any)[];
+  image?: string;
+  imageSource?: MealImageSources;
 };
 @Injectable()
 export class PatientPlansPreparatorService {
@@ -43,7 +46,7 @@ export class PatientPlansPreparatorService {
       const formattedIngredients = meal.ingredientDetails.map((ingredientDetail) => {
         return { ingredientType: 'UNIQUE_INGREDIENT', ...ingredientDetail };
       });
-      return { ...meal, ingredientDetails: formattedIngredients };
+      return { ...meal, imageSource: MealImageSources.PROGRAM, ingredientDetails: formattedIngredients };
     });
   }
 }

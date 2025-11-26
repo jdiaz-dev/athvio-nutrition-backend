@@ -75,11 +75,11 @@ class StorageVariables extends PaymentProcessorVariables {
   @IsString()
   FOOD_IMAGES_STORAGE_URL: string;
   @IsString()
-  FOOD_INTERNAL_IMAGES_STORAGE: string;
+  INTERNAL_FOOD_IMAGES_STORAGE: string;
   @IsString()
-  FOOD_INTERNAL_IMAGES_DIRECTORY: string;
+  INTERNAL_FOOD_IMAGES_DIRECTORY: string;
   @IsString()
-  FOOD_INTERNAL_STORAGE_URL: string;
+  INTERNAL_FOOD_STORAGE_URL: string;
 }
 
 class OtherVariables extends StorageVariables {

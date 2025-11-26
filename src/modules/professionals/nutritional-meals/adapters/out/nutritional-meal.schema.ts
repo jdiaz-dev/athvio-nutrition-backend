@@ -45,11 +45,11 @@ export class NutritionalMeal extends BaseSchema {
 
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
-  image!: string;
+  image?: string;
 
   @Field({ nullable: true })
-  @Prop({ type: String, enum: MealImageSources, required: true })
-  imageSource!: string;
+  @Prop({ type: String, enum: MealImageSources, required: false })
+  imageSource?: string;
 
   @Field()
   @Prop({ type: MacroSchema, required: true })

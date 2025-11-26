@@ -16,6 +16,7 @@ import {
 } from 'src/modules/professionals/programs/adapters/in/dtos/program/get-programs.dto';
 import { DuplicateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/duplicate-program.dto';
 import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
+import { MealImageSources } from 'src/shared/enums/project';
 
 @Injectable()
 export class ProgramManagerService {
@@ -34,7 +35,7 @@ export class ProgramManagerService {
     });
     return program;
   }
-  async createProgramWithPlans({ plans, professional, ...rest }: Omit<CreateProgram, 'uuid'>) {
+  async createProgramDuringOnboarding({ plans, professional, ...rest }: Omit<CreateProgram, 'uuid'>) {
     const { uuid } = await this.pms.getProfessionalByUuid(professional.toString(), { _id: 1, uuid: 1 });
     const program = await this.pps.createProgram({
       uuid: randomUUID(),
@@ -44,7 +45,11 @@ export class ProgramManagerService {
         plans: plans.map(({ meals, ...restPlan }) => ({
           ...restPlan,
           uuid: randomUUID(),
-          meals: meals.map((meal) => ({ ...meal, uuid: randomUUID() })),
+          meals: meals.map(({ image, ...restMeal }) => ({
+            ...restMeal,
+            ...(image && { image, imageSource: MealImageSources.PROGRAM }),
+            uuid: randomUUID(),
+          })),
         })),
       }),
     });
@@ -77,11 +82,20 @@ export class ProgramManagerService {
     if (program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     const { name, description, plans } = program;
 
-    const duplicatedProgram = await this.createProgramWithPlans({
+    const duplicatedProgram = await this.pps.createProgram({
+      uuid: randomUUID(),
       professional: dto.professional,
       name: `${name} (duplicado)`,
       description,
-      plans: plans.map((plan) => ({ ...plan, uuid: randomUUID() })),
+      plans: plans.map(({ meals, ...restPlan }) => ({
+        ...restPlan,
+        uuid: randomUUID(),
+        meals: meals.map(({ image, ...restMeal }) => ({
+          ...restMeal,
+          ...(image && { image, imageSource: MealImageSources.PROGRAM }),
+          uuid: randomUUID(),
+        })),
+      })),
     });
 
     return duplicatedProgram;

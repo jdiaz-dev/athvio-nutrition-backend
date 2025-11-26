@@ -14,7 +14,7 @@ import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { EnumSources } from 'src/shared/enums/project';
+import { EnumSources, MealImageSources } from 'src/shared/enums/project';
 import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
@@ -29,7 +29,9 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
     super(nutritionalMealModel, logger, NutritionalMeal.name, als);
   }
 
-  async createNutritionalMeal(data: CreateNutritionalMealDto & { uuid: string }): Promise<NutritionalMeal> {
+  async createNutritionalMeal(
+    data: CreateNutritionalMealDto & { uuid: string; imageSource: MealImageSources },
+  ): Promise<NutritionalMeal> {
     const nutritionalMeal = await this.initializeQuery(this.createNutritionalMeal.name).create(data);
     return nutritionalMeal;
   }
@@ -111,6 +113,7 @@ export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<Nutr
     professional?: string;
     source?: EnumSources;
     image?: string;
+    imageSource?: MealImageSources;
   }): Promise<NutritionalMeal> {
     const nutritionalMealRes = await this.initializeQuery(this.updateNutritionalMeal.name).findOneAndUpdate(
       {

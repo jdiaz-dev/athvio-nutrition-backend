@@ -16,9 +16,9 @@ export const local: IEnvironment = {
   storage: {
     foodImagesStorage: process.env.FOOD_IMAGES_STORAGE,
     foodImagesStorageUrl: process.env.FOOD_IMAGES_STORAGE_URL,
-    foodInternalImagesStorage: process.env.FOOD_INTERNAL_IMAGES_STORAGE,
-    foodInternalImagesDirectory: process.env.FOOD_INTERNAL_IMAGES_DIRECTORY,
-    foodInternalStorageUrl: process.env.FOOD_INTERNAL_STORAGE_URL,
+    internalFoodImagesStorage: process.env.INTERNAL_FOOD_IMAGES_STORAGE,
+    internalFoodImagesDirectory: process.env.INTERNAL_FOOD_IMAGES_DIRECTORY,
+    internalFoodStorageUrl: process.env.INTERNAL_FOOD_STORAGE_URL,
   },
   security: { rateLimit: { ttl: process.env.RATE_LIMIT_TLL, limit: process.env.RATE_LIMIT_VALUE } },
   tokenKey: process.env.SIGN_TOKEN,

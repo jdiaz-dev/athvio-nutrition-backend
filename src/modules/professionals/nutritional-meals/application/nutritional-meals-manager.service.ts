@@ -7,7 +7,7 @@ import {
   GetNutritionalMealsResponse,
 } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meals-for-professional.dto';
 import { NutritionalMealDatabases } from 'src/modules/professionals/nutritional-meals/helpers/constants';
-import { EnumSources } from 'src/shared/enums/project';
+import { EnumSources, MealImageSources } from 'src/shared/enums/project';
 import { GetNutritionalMealsForPatientDto } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/dtos/get-nutritional-meals-for-patient.dto';
 import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meal.dto';
 import { ErrorNutritionalMealEnum } from 'src/shared/enums/messages-response';
@@ -28,7 +28,11 @@ export class NutritionalMealsManagerService {
 
   async createNutritionalMeal({ image, ...dto }: CreateNutritionalMealDto): Promise<NutritionalMeal> {
     await this.pms.getProfessionalByUuid(dto.professional, { _id: 1 });
-    const nutritionalMeal = await this.nmps.createNutritionalMeal({ uuid: randomUUID(), ...dto });
+    const nutritionalMeal = await this.nmps.createNutritionalMeal({
+      uuid: randomUUID(),
+      ...(image && { imageSource: MealImageSources.UPLOADED }),
+      ...dto,
+    });
     if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: nutritionalMeal.uuid, image });
 
     return nutritionalMeal;

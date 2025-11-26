@@ -15,9 +15,9 @@ interface IDatabase {
 interface Storage {
   foodImagesStorage: string;
   foodImagesStorageUrl: string;
-  foodInternalImagesStorage: string;
-  foodInternalImagesDirectory: string;
-  foodInternalStorageUrl: string;
+  internalFoodImagesStorage: string;
+  internalFoodImagesDirectory: string;
+  internalFoodStorageUrl: string;
 }
 
 interface FoodApi {

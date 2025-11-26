@@ -5,10 +5,25 @@ import { PatientPlansPreparatorService } from 'src/shared/services/patient-plans
 import { StorageService } from 'src/shared/services/storage.service';
 import { FileUploaderService } from 'src/shared/services/file-uploader.service';
 import { UploadScalar } from 'src/shared/graphql/upload.scalar';
+import { UploadFileManagerService } from 'src/shared/services/upload-file-manager.service';
 
 @Module({
   imports: [HttpModule],
-  providers: [HttpHandlerService, StorageService, PatientPlansPreparatorService, FileUploaderService, UploadScalar],
-  exports: [HttpHandlerService, PatientPlansPreparatorService, FileUploaderService, UploadScalar],
+  providers: [
+    HttpHandlerService,
+    StorageService,
+    PatientPlansPreparatorService,
+    FileUploaderService,
+    UploadScalar,
+    UploadFileManagerService,
+  ],
+  exports: [
+    HttpHandlerService,
+    PatientPlansPreparatorService,
+    FileUploaderService,
+    StorageService,
+    UploadScalar,
+    UploadFileManagerService,
+  ],
 })
 export class SharedModule {}

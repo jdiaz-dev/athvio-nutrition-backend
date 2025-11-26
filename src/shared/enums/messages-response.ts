@@ -72,6 +72,7 @@ export enum ErrorMailService {
 
 export enum ErrorStorageEnum {
   SAVE_FILE = 'An error has happened trying to save file',
+  DELETE_FILE = 'An error has happened trying to delete file',
 }
 
 export enum ErrorPatientQuestionaryEnum {
