@@ -11,10 +11,10 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       inject: [ConfigService],
-      uploads: {
-        maxFileSize: 10 * 1024 * 1024,
+      /* uploads: {
+        maxFileSize: 40 * 1024 * 1024,
         maxFiles: 1,
-      },
+      }, */
       // @ts-ignore //todo: remove ts-ignore
       useFactory: (configService: ConfigService) => ({
         csrfPrevention: false,

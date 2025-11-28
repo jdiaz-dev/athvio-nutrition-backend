@@ -24,13 +24,9 @@ export class MealBodyInput {
   @IsString()
   name: string;
 
-  @Field({ nullable: true })
+  @Field(() => UploadScalar || String, { nullable: true })
   @IsOptional()
-  image?: string;
-
-  @Field(() => UploadScalar, { nullable: true })
-  @IsOptional()
-  imageUploaded?: UploadScalar;
+  image?: UploadScalar | string;
 
   @Field({ nullable: true })
   @IsString()

@@ -17,16 +17,16 @@ export class ProgramMealImageManagerService {
   }
   async processImageMeals(meals: MealBodyInput[]) {
     const imageMealsProcessed = await Promise.all(
-      meals.map(async ({ image, imageUploaded, imageSource, ...rest }) => {
+      meals.map(async ({ image, imageSource, ...rest }) => {
         const uuid = randomUUID();
 
-        if (imageUploaded && typeof imageUploaded !== 'string' && imageSource === MealImageSources.UPLOADED) {
+        if (image && typeof image !== 'string' && imageSource === MealImageSources.UPLOADED) {
           return {
             uuid,
             ...rest,
             image: (await this.uploadImage({
               meal: uuid,
-              image: imageUploaded,
+              image,
             })) as string,
             imageSource,
           };

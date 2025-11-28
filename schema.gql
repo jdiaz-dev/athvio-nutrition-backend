@@ -745,9 +745,8 @@ type Meal {
 
 input MealBodyInput {
   cookingInstructions: String!
-  image: String
+  image: Upload
   imageSource: String
-  imageUploaded: Upload
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   meal: String
@@ -1341,7 +1340,6 @@ input UpdateUserDto {
   user: String!
 }
 
-"""Upload files"""
 scalar Upload
 
 input UploadImageToDefaultMealDto {
