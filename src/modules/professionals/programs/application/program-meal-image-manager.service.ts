@@ -20,7 +20,7 @@ export class ProgramMealImageManagerService {
       meals.map(async ({ image, imageSource, ...rest }) => {
         const uuid = randomUUID();
 
-        if (image && typeof image !== 'string' && imageSource === MealImageSources.UPLOADED) {
+        if (image && typeof image !== 'string') {
           return {
             uuid,
             ...rest,
@@ -28,7 +28,7 @@ export class ProgramMealImageManagerService {
               meal: uuid,
               image,
             })) as string,
-            imageSource,
+            imageSource: MealImageSources.UPLOADED,
           };
         }
 
