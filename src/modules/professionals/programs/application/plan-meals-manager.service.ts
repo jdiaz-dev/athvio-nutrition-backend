@@ -21,8 +21,9 @@ export class PlanMealsManagerService {
     return plan;
   }
 
-  async updateMeal(dto: UpdateMealDto, selectors: Record<string, number>): Promise<Program> {
-    return this.mps.updateMeal(dto, selectors);
+  async updateMeal({ meals, ...rest }: UpdateMealDto, selectors: Record<string, number>): Promise<Program> {
+    const imageMealsProcessed = await this.upmis.processImageMeals(meals);
+    return this.mps.updateMeal({ ...rest, meals: imageMealsProcessed }, selectors);
   }
 
   async deleteMeal(dto: DeleteMealDto, selectors: Record<string, number>): Promise<Program> {
