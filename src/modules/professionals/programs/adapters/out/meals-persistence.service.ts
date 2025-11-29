@@ -56,6 +56,7 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
       [`plans.$[plan].meals.$[meal${index}].cookingInstructions`]: body.cookingInstructions,
       [`plans.$[plan].meals.$[meal${index}].macros`]: body.macros,
       [`plans.$[plan].meals.$[meal${index}].image`]: body.image,
+      [`plans.$[plan].meals.$[meal${index}].imageSource`]: body.imageSource,
     }));
 
     const arrayFilters = meals.map((body, index) => ({

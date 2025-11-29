@@ -6,6 +6,7 @@ import { StorageService } from 'src/shared/services/storage.service';
 import { FileUploaderService } from 'src/shared/services/file-uploader.service';
 import { UploadScalar } from 'src/shared/graphql/upload.scalar';
 import { UploadFileManagerService } from 'src/shared/services/upload-file-manager.service';
+import { MealImagesManagerService } from 'src/shared/services/meal-images-manager.service';
 
 @Module({
   imports: [HttpModule],
@@ -16,6 +17,7 @@ import { UploadFileManagerService } from 'src/shared/services/upload-file-manage
     FileUploaderService,
     UploadScalar,
     UploadFileManagerService,
+    MealImagesManagerService,
   ],
   exports: [
     HttpHandlerService,
@@ -24,6 +26,7 @@ import { UploadFileManagerService } from 'src/shared/services/upload-file-manage
     StorageService,
     UploadScalar,
     UploadFileManagerService,
+    MealImagesManagerService,
   ],
 })
 export class SharedModule {}

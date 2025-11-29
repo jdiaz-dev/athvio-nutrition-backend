@@ -6,7 +6,7 @@ import { UploadFileManagerService } from 'src/shared/services/upload-file-manage
 import { MealBodyInput } from 'src/modules/professionals/programs/adapters/in/dtos/meal/meal-body.input';
 
 @Injectable()
-export class ProgramMealImageManagerService {
+export class MealImagesManagerService {
   constructor(private readonly ufms: UploadFileManagerService) {}
 
   private async uploadImage({ meal, image: newImage }: UploadDto & { meal: string }): Promise<string> {
@@ -19,13 +19,14 @@ export class ProgramMealImageManagerService {
     const imageMealsProcessed = await Promise.all(
       meals.map(async ({ image, imageSource, ...rest }) => {
         const uuid = randomUUID();
+        const isNonExistingMeal = !rest.meal;
 
         if (image && typeof image !== 'string') {
           return {
-            uuid,
+            ...(isNonExistingMeal && { uuid }),
             ...rest,
             image: (await this.uploadImage({
-              meal: uuid,
+              meal: isNonExistingMeal ? uuid : rest.meal,
               image,
             })) as string,
             imageSource: MealImageSources.UPLOADED,
@@ -33,7 +34,7 @@ export class ProgramMealImageManagerService {
         }
 
         return {
-          uuid,
+          ...(isNonExistingMeal && { uuid }),
           ...(image && { image: image as string }),
           ...(imageSource && { imageSource }),
           ...rest,

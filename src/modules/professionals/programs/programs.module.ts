@@ -17,7 +17,6 @@ import { ProgramManagerService } from 'src/modules/professionals/programs/applic
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { PlanMealsManagerService } from 'src/modules/professionals/programs/application/plan-meals-manager.service';
-import { ProgramMealImageManagerService } from 'src/modules/professionals/programs/application/program-meal-image-manager.service';
 
 const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
 const services = [
@@ -28,7 +27,6 @@ const services = [
   AssignProgramService,
   ProgramPlanManagerService,
   PlanMealsManagerService,
-  ProgramMealImageManagerService,
 ];
 
 @Module({

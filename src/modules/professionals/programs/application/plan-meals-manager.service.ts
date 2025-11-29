@@ -5,24 +5,24 @@ import { MealsPersistenceService } from 'src/modules/professionals/programs/adap
 import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
-import { ProgramMealImageManagerService } from 'src/modules/professionals/programs/application/program-meal-image-manager.service';
+import { MealImagesManagerService } from 'src/shared/services/meal-images-manager.service';
 
 @Injectable()
 export class PlanMealsManagerService {
   constructor(
     private readonly mps: MealsPersistenceService,
-    private readonly upmis: ProgramMealImageManagerService,
+    private readonly mims: MealImagesManagerService,
   ) {}
 
   async addMeal({ meals, ...restDto }: AddMealDto, selectors: Record<string, number>): Promise<Program> {
-    const imageMealsProcessed = await this.upmis.processImageMeals(meals);
+    const imageMealsProcessed = await this.mims.processImageMeals(meals);
     const plan = await this.mps.addMeal({ ...restDto, meals: imageMealsProcessed }, selectors);
 
     return plan;
   }
 
   async updateMeal({ meals, ...rest }: UpdateMealDto, selectors: Record<string, number>): Promise<Program> {
-    const imageMealsProcessed = await this.upmis.processImageMeals(meals);
+    const imageMealsProcessed = await this.mims.processImageMeals(meals);
     return this.mps.updateMeal({ ...rest, meals: imageMealsProcessed }, selectors);
   }
 

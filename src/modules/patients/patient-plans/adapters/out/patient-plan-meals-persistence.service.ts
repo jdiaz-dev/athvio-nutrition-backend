@@ -44,6 +44,7 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
     selectors: Record<string, number>,
   ): Promise<PatientPlan> {
     const restFields = removeAttributesWithFieldNames(selectors, ['meals']);
+
     const updateSubDocuments = meals.map((body, index) => ({
       [`meals.$[meal${index}].position`]: body.position,
       [`meals.$[meal${index}].mealTag`]: body.mealTag,
@@ -51,6 +52,8 @@ export class PatientPlanNutritionalMealsPersistenceService extends MongodbQueryB
       [`meals.$[meal${index}].ingredientDetails`]: body.ingredientDetails,
       [`meals.$[meal${index}].cookingInstructions`]: body.cookingInstructions,
       [`meals.$[meal${index}].macros`]: body.macros,
+      [`meals.$[meal${index}].image`]: body.image,
+      [`meals.$[meal${index}].imageSource`]: body.imageSource,
     }));
 
     const arrayFilters = meals.map((body, index) => ({

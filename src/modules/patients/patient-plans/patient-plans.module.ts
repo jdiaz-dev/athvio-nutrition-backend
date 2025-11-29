@@ -13,9 +13,10 @@ import { PatientPlanNutritionalMealsPersistenceService } from 'src/modules/patie
 import { PatientPlanMealsResolver } from 'src/modules/patients/patient-plans/adapters/in/web/patient-plan-meals.resolver';
 import { DuplicatePatientPlanService } from 'src/modules/patients/patient-plans/application/duplicate-patient-plan.service';
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
-import { AddPlanMealService } from 'src/modules/patients/patient-plans/application/add-plan-meal.service';
+import { PatientPlanMealManagerService } from 'src/modules/patients/patient-plans/application/patient-plan-meal-manager.service';
 import { PatientPlansMobileResolver } from 'src/modules/patients/patient-plans/adapters/in/mobile/patient-plans-mobile.resolver';
 import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plans/application/get-patient-plans-manager.service';
+import { SharedModule } from 'src/shared/shared.module';
 
 const resolvers = [PatientPlansWebResolver, PatientPlansMobileResolver, PatientPlanCommentsResolver, PatientPlanMealsResolver];
 const persistenceServices = [
@@ -27,7 +28,7 @@ const applicationServices = [
   CreatePatientPlanManagerService,
   AddPatientPlanCommentService,
   DuplicatePatientPlanService,
-  AddPlanMealService,
+  PatientPlanMealManagerService,
   GetPatientPlansManagerService,
 ];
 
@@ -37,6 +38,7 @@ const applicationServices = [
     forwardRef(() => AuthModule),
     forwardRef(() => ProfessionalsModule),
     forwardRef(() => PatientsModule),
+    SharedModule,
   ],
   providers: [...resolvers, ...persistenceServices, ...applicationServices],
   exports: [CreatePatientPlanManagerService, GetPatientPlansManagerService],
