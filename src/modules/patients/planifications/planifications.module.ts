@@ -10,5 +10,6 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 @Module({
   imports: [MongooseModule.forFeature([{ name: Planification.name, schema: PlanificationSchema }]), AuthModule, PatientsModule],
   providers: [PlanificationResolver, PlanificationsPersistenceService, PlanificationManagerService],
+  exports: [PlanificationManagerService],
 })
 export class CaloriesModule {}

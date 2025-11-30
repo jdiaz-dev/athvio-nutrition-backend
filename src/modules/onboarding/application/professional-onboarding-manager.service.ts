@@ -14,6 +14,7 @@ import { UserManagamentService } from 'src/modules/auth/users/application/user-m
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
 import { CreatePaymentLinkService } from 'src/modules/professionals/payments/application/create-payment-link.service';
+import { PlanificationManagerService } from 'src/modules/patients/planifications/application/planification-manager.service';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -37,6 +38,7 @@ export class ProfessionalOnboardingManagerService {
     private readonly cus: CreateUserService,
     private readonly qcm: ProfessionalQuestionaryManager,
     private readonly cpls: CreatePaymentLinkService,
+    private readonly plms: PlanificationManagerService,
   ) {}
 
   async onboardProfessional(dto: SignUpProfessionalDto & { googleSub?: string; photo?: string }): Promise<string> {
@@ -74,7 +76,7 @@ export class ProfessionalOnboardingManagerService {
   private async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
     await this.qcm.createQuestionary(professional);
     const programId = await this.createDefaultProgram(professional, dto.detectedLanguage);
-    await this.createDefaultPatient(professional, dto, programId);
+    await this.onboardDemoPatient(professional, dto, programId);
   }
   private async createDefaultProgram(professional: string, detectedLanguage: SupportedLanguages): Promise<string> {
     const { name, description, plans } = await this.pms.getProgram({
@@ -94,7 +96,7 @@ export class ProfessionalOnboardingManagerService {
     });
     return uuid;
   }
-  private async createDefaultPatient(professional: string, dto: SignUpProfessionalDto, programId: string): Promise<void> {
+  private async onboardDemoPatient(professional: string, dto: SignUpProfessionalDto, programId: string): Promise<void> {
     const { uuid: patient } = await this.supms.onboardingForWeb(
       {
         professional,
@@ -109,6 +111,31 @@ export class ProfessionalOnboardingManagerService {
 
     const iso = new Date().toISOString();
     const _date = getClientLocalTimeFromOffset(iso, dto.clientOffsetMinutes);
+    await this.plms.createPlanification({
+      patient,
+      patientInformation: {
+        weight: 58,
+        height: 163,
+        age: 20,
+        gender: 'male',
+        physicActivityName: '',
+        physicActivityFactor: 0,
+      },
+      configuredMacros: {
+        proteinInPercentage: 0,
+        carbsInPercentage: 0,
+        fatInPercentage: 0,
+        proteinDensity: 0,
+        carbsDensity: 0,
+        fatDensity: 0,
+        totalProtein: 0,
+        totalCarbs: 0,
+        totalFat: 0,
+        basalEnergyRate: 0,
+        totalCalories: 0,
+        planCalories: 3000,
+      },
+    });
     await this.aps.assignProgramToPatient({
       professional,
       program: programId,
