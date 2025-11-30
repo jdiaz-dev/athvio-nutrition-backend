@@ -12,4 +12,4 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
   providers: [PlanificationResolver, PlanificationsPersistenceService, PlanificationManagerService],
   exports: [PlanificationManagerService],
 })
-export class CaloriesModule {}
+export class PlanificationModule {}

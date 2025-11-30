@@ -118,8 +118,8 @@ export class ProfessionalOnboardingManagerService {
         height: 163,
         age: 20,
         gender: 'male',
-        physicActivityName: '',
-        physicActivityFactor: 0,
+        physicActivityName: 'Sedentario',
+        physicActivityFactor: 1.2,
       },
       configuredMacros: {
         proteinInPercentage: 0,
