@@ -1,0 +1,14 @@
+## Learning
+- learng about session and close methods in neoj4 driver
+- learn profiler in node.js 
+- learn close-with-grace to handle application shutdown events
+- use nest-commander to create cli tools (with spanish foods can be good)
+- learn about cookies and sessions with express.js
+- deploy multiregion app/infraestructure
+- implement kafka or rabbitmq to onboard new users 
+- learn about event sourcing pattern, what is the relationship with CQRS
+- implement multiregion infraestructure
+- learn about how works internally one the event loop
+- learn to create threads in C++
+- learn about tail call optimization (tail call optimizations)
+- implement some example of sessions

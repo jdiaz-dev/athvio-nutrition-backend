@@ -1,18 +1,3 @@
-## Learning
-- learng about session and close methods in neoj4 driver
-- learn profiler in node.js 
-- learn close-with-grace to handle application shutdown events
-- use nest-commander to create cli tools (with spanish foods can be good)
-- learn about cookies and sessions with express.js
-- deploy multiregion app/infraestructure
-- implement kafka or rabbitmq to onboard new users 
-- learn about event sourcing pattern, what is the relationship with CQRS
-- implement multiregion infraestructure
-- learn about how works internally one the event loop
-- learn to create threads in C++
-- learn about tail call optimization (tail call optimizations)
-- implement some example of sessions
-
 ## TODO (infraestructure):
 - migrate from railway to aws?,  beacuse don't have static ip
 - research how many amount of memory and cpu need the athvio-nutrition-backend app
@@ -68,6 +53,8 @@
 - fix: add imageSource in addMeal of programs
 - fix: use Promise.allSettled instead of Promise.all
 
+- discovery: test multiple request to edamam api (1unit carrot, 100g carrot, 100g tomato )
+
 ## Database
 - fix zanahorias search
 - add chili
@@ -79,5 +66,3 @@
 1. Activa la muerte celular por necroptosis
 2. apoptosis
 - fix: infusiones con adaptogenos no funciona (preferencias nutricionales)
-
-## Videos
