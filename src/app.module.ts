@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
-import { DatabaseModule } from 'src/infraestructure/database.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
 import { PatientsSubDomainsModule } from 'src/modules/patients/patient-subdomains.module';
 import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
@@ -27,12 +26,11 @@ import { NutritionSubDomainsModule } from 'src/modules/nutrition/nutrition-subdo
       load: [getConfiguration],
       validate: validateEnvironmentVariables,
     }),
-    DatabaseModule,
+    SharedModule,
     SecurityModule,
     GraphqlModule,
     ObservabilityModule,
 
-    SharedModule,
     MailModule,
 
     AuthSubDomainsModule,

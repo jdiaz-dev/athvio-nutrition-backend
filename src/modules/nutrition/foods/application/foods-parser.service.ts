@@ -6,7 +6,7 @@ import {
   FoodMeasure,
   FoodParsedResponse,
   NextLink,
-} from 'src/modules/nutrition/foods/adapters/out/providers/food.types';
+} from 'src/modules/nutrition/foods/helpers/food.types';
 import { GetFoods } from 'src/modules/nutrition/foods/helpers/foods';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
 import { defaultSizePageFoodProvider, FoodDatabases, LayersServer } from 'src/shared/enums/project';

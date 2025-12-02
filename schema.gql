@@ -1117,7 +1117,6 @@ type Query {
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
   getUser(input: GetUserDto!): User!
-  populateSpanishFoods: [String!]!
 }
 
 type QuestionaryDetailBase {
