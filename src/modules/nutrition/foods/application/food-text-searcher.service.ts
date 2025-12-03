@@ -6,7 +6,10 @@ import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
 
 @Injectable()
 export class FoodTextSearcherService {
-  constructor(private readonly fps: FoodsProviderService, private readonly ifps: InternalFoodsPersistenceService) {}
+  constructor(
+    private readonly fps: FoodsProviderService,
+    private readonly ifps: InternalFoodsPersistenceService,
+  ) {}
 
   async getFoodNamesFromProvider(search: string): Promise<string[]> {
     return this.fps.autoCompleteText(search);

@@ -1,6 +1,6 @@
 import { GetFoodsDto } from 'src/modules/backoffice/foods/adapters/in/dtos/get-foods.dto';
 import { InternalFood } from 'src/modules/nutrition/foods/adapters/out/internal-food.schema';
-import { GetRecordsResponse } from 'src/shared/dtos/get-records-response';
+import { GetRecordsResponse } from 'src/shared/adapters/in/dtos/get-records-response';
 
 export type GetFoods = Omit<GetFoodsDto, 'targetLanguage'>;
 
