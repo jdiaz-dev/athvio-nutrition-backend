@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SharedModule } from 'src/shared/shared.module';
 import { TranslatorService } from 'src/cli/services/translator.service';
 import { FullDatabaseService } from 'src/cli/services/full-database.service';
@@ -7,6 +7,7 @@ import { MongoDbModule } from 'src/shared/infrastructure/mongodb.module';
 import { ConfigModule } from '@nestjs/config';
 import { getConfiguration, validateEnvironmentVariables } from 'src/configuration';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
+import { FoodsModule } from 'src/modules/nutrition/foods/foods.module';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
       load: [getConfiguration],
       validate: validateEnvironmentVariables,
     }),
-    SharedModule,
+    forwardRef(() => SharedModule),
     ObservabilityModule,
     MongoDbModule,
+    forwardRef(() => FoodsModule),
   ],
   providers: [TranslatorService, FullDatabaseService, PopulateDbWithTranslatedFoods],
 })
