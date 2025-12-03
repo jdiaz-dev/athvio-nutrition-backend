@@ -1,6 +1,6 @@
 import { IsString, IsUUID } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
-import { UploadDto } from 'src/shared/dtos/upload.dto';
+import { UploadDto } from 'src/shared/adapters/in/dtos/upload.dto';
 
 @InputType()
 export class UploadImageToDefaultMealDto extends UploadDto {

@@ -12,12 +12,12 @@ import { CreateNutritionalMealDto } from 'src/modules/professionals/nutritional-
 import { GetNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/get-nutritional-meal.dto';
 import { UpdateNutritionalMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/update-nutritional-meal.dto';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
-import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { EnumSources, MealImageSources } from 'src/shared/enums/project';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
+import { GetRecordsBaseDto } from 'src/shared/adapters/in/dtos/get-records-base.dto';
 
 @Injectable()
 export class NutritionalMealsPersistenceService extends MongodbQueryBuilder<NutritionalDocument> {

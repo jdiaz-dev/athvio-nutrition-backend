@@ -7,7 +7,7 @@ import { AddPatientPlanCommentDto } from 'src/modules/patients/patient-plans/ada
 import { DeletePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/delete-patient-plan-comment.dto';
 import { UpdatePatientPlanCommentDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/patient-plan-comment/update-patient-plan-comment.dto';
 import { PatientPlan, PatientPlanDocument } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 import { Trazability } from 'src/shared/types';
 

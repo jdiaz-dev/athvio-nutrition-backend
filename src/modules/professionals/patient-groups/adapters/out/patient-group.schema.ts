@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { BaseSchema } from 'src/shared/schemas/base.schema';
+import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'PatientGroups' })

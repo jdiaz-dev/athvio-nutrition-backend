@@ -7,7 +7,7 @@ import { CreatePatientQuestionary } from 'src/modules/patients/patient-questiona
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers-and-additional-notes.dto';
 import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/dtos/update-answers.dto';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
 

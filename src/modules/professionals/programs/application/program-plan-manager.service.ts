@@ -5,7 +5,7 @@ import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adap
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
-import { MealImagesManagerService } from 'src/shared/services/meal-images-manager.service';
+import { MealImagesManagerService } from 'src/shared/application/meal-images-manager.service';
 
 @Injectable()
 export class ProgramPlanManagerService {

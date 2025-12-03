@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'src/shared/schemas/questionary-base.schema';
+import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'src/shared/adapters/out/schemas/questionary-base.schema';
 
 @Schema({ _id: true, timestamps: false })
 @ObjectType()

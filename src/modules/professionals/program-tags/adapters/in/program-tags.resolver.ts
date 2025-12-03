@@ -7,9 +7,9 @@ import { UpdateProgramTagDto } from 'src/modules/professionals/program-tags/adap
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { ProgramTagsManagerService } from 'src/modules/professionals/program-tags/application/program-tags-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
-import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { IUserContext } from 'src/shared/interfaces/user-context';
+import { CurrentUser } from 'src/shared/adapters/in/decorators/current-user.decorator';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])

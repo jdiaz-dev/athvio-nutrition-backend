@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { UploadScalar } from 'src/shared/graphql/upload.scalar';
+import { UploadScalar } from 'src/shared/adapters/in/graphql/upload.scalar';
 
 @InputType()
 export class UploadDto {

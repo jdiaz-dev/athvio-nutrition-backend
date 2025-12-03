@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { UnitPreference } from 'src/shared/enums/project';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
+import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 
 @ObjectType()
 @Schema({ _id: false })

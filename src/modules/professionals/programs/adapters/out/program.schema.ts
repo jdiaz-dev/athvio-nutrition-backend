@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { BaseSchema } from 'src/shared/schemas/base.schema';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
-import { Meal, MealSchema } from 'src/shared/schemas/meal-plan';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { EnumSources, SupportedLanguages } from 'src/shared/enums/project';
+import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
+import { Meal, MealSchema } from 'src/shared/adapters/out/schemas/meal-plan';
 
 @Schema({ _id: false, timestamps: false })
 export class PlanDetail {

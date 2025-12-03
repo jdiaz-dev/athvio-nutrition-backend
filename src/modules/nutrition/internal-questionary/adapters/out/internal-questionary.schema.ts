@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { QuestionaryBase } from 'src/shared/schemas/questionary-base.schema';
+import { QuestionaryBase } from 'src/shared/adapters/out/schemas/questionary-base.schema';
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'InternalQuestionaries' })

@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "cli:save:mongodb": "dotenvx run -f .env.development -- ts-node ./scripts/save-mongodb-records.ts",
-    "cli:populatedb": "ts-node src/cli/cli.ts",
+    "cli:populatedb": "dotenvx run -f .env.development -- ts-node -r tsconfig-paths/register src/cli/cli.ts populatedb",
     "nsolid:test": "dotenvx run -f .env.development -- nsolid dist/main.js"
   },
   "dependencies": {

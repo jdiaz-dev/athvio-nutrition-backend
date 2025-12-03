@@ -5,7 +5,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { Chat, ChatDocument } from 'src/modules/patients/chats/adapters/out/chat.schema';
 import { AddNewComment, ChatRequester } from 'src/modules/patients/chats/adapters/out/chema.types';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { Trazability } from 'src/shared/types';
 

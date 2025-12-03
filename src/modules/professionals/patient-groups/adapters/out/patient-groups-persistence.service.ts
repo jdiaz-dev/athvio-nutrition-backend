@@ -8,7 +8,7 @@ import { DeletePatientGroupDto } from 'src/modules/professionals/patient-groups/
 import { GetPatientGroupsDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/get-patient-groups.dto';
 import { UpdatePatientGroupDto } from 'src/modules/professionals/patient-groups/adapters/in/dtos/update-patient-group.dto';
 import { PatientGroup, PatientGroupDocument } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { ErrorPatientGroupEnum } from 'src/shared/enums/messages-response';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';

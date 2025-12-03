@@ -1,6 +1,6 @@
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { UserEmail } from 'src/modules/auth/users/domain/user-email';
-import { CustomBadRequestException } from 'src/shared/exceptions/custom-bad-reques-exception';
+import { CustomBadRequestException } from 'src/shared/adapters/in/exceptions/custom-bad-reques-exception';
 import { ErrorUserEntityEnum } from 'src/modules/auth/users/domain/user-enums';
 
 export class UserEntity {

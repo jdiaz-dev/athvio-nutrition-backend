@@ -5,7 +5,7 @@ import { GetProfessionalDto } from 'src/modules/professionals/professionals/adap
 import { Professional } from 'src/modules/professionals/professionals/adapters/out/professional.schema';
 import { ProfessionalUser } from 'src/modules/professionals/professionals/adapters/out/professional.types';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 //TODO : delete it, think how to udpate professional

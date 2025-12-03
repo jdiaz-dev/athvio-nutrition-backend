@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDateString, IsUUID } from 'class-validator';
-import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
+import { GetRecordsBaseDto } from 'src/shared/adapters/in/dtos/get-records-base.dto';
 
 @InputType()
 export class GetPatientPlansForWebDto extends GetRecordsBaseDto {

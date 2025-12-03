@@ -15,7 +15,7 @@ import { Program } from 'src/modules/professionals/programs/adapters/out/program
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { DuplicateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/duplicate-program.dto';
 

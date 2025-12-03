@@ -8,7 +8,7 @@ import { GetLastPlanificationDto } from 'src/modules/patients/planifications/ada
 import { GetPlanificationsDto } from 'src/modules/patients/planifications/adapters/in/dtos/get-planifications.dto';
 import { UpdatePlanificationDto } from 'src/modules/patients/planifications/adapters/in/dtos/update-planification.dto';
 import { Planification, PlanificationDocument } from 'src/modules/patients/planifications/adapters/out/planification.schema';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { Trazability } from 'src/shared/types';
 
 @Injectable()

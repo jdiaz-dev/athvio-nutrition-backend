@@ -7,7 +7,7 @@ import { SharedModule } from 'src/shared/shared.module';
 import { FoodParserService } from 'src/modules/nutrition/foods/application/foods-parser.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { InternalFood, InternalFoodSchema } from 'src/modules/nutrition/foods/adapters/out/internal-food.schema';
-import { InternalFoodsPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-foods-persistence.service';
+import { InternalFoodsPersistenceService } from 'src/shared/adapters/out/database/internal-foods-persistence.service';
 
 const resolvers = process.env.POPULATE_DATABASE ? [FoodsResolver] : [FoodsResolver];
 

@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { BaseSchema } from 'src/shared/schemas/base.schema';
-import { IngredientDetail, IngredientDetailSchema } from 'src/shared/schemas/meal-plan';
-import { Macros, MacroSchema } from 'src/shared/schemas/macros';
+import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
+import { IngredientDetail, IngredientDetailSchema } from 'src/shared/adapters/out/schemas/meal-plan';
+import { Macros, MacroSchema } from 'src/shared/adapters/out/schemas/macros';
 import { EnumSources, MealImageSources } from 'src/shared/enums/project';
 
 enum SystemMealBookSourcesEnum {

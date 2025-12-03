@@ -8,7 +8,7 @@ import { Plan } from 'src/modules/professionals/programs/adapters/out/program.sc
 import { ProgramPatial } from 'src/modules/professionals/programs/types/program';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
-import { PatientPlansPreparatorService } from 'src/shared/services/patient-plans-preparator.service';
+import { PatientPlansPreparatorService } from 'src/shared/application/patient-plans-preparator.service';
 import { CreatePatientPlanManagerService } from 'src/modules/patients/patient-plans/application/create-patient-plan-manager.service';
 import { GetPatientPlansManagerService } from 'src/modules/patients/patient-plans/application/get-patient-plans-manager.service';
 

@@ -4,7 +4,7 @@ import { finished } from 'node:stream/promises';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { LayersServer } from 'src/shared/enums/project';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { StorageService } from 'src/shared/services/storage.service';
+import { StorageService } from 'src/shared/adapters/out/storage/storage.service';
 
 @Injectable()
 export class FileUploaderService {

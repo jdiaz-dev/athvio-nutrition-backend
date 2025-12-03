@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ObjectType } from '@nestjs/graphql';
-import { BaseSchema } from 'src/shared/schemas/base.schema';
+import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 
 @Schema({ _id: false, timestamps: false })
 export class Measure {

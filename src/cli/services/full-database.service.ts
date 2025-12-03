@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { InternalFoodsPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-foods-persistence.service';
-import { FoodsProviderService } from 'src/shared/services/foods-provider.service';
+import { InternalFoodsPersistenceService } from 'src/shared/adapters/out/database/internal-foods-persistence.service';
+import { FoodsProviderService } from 'src/shared/application/foods-provider.service';
 import { TranslatorService } from 'src/cli/services/translator.service';
 
 //milk

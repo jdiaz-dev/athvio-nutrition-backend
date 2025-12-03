@@ -1,8 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { IsArray, IsEnum, IsNumber, IsString, ValidateIf, ValidateNested } from 'class-validator';
-import { IngredientInput } from 'src/shared/dtos/ingredient-input.dto';
-import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
+import { IngredientInput } from 'src/shared/adapters/in/dtos/ingredient-input.dto';
+import { MacrosInput } from 'src/shared/adapters/in/dtos/macros-input.dto';
 import { IngredientType } from 'src/shared/enums/project';
 
 @InputType()

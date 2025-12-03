@@ -1,5 +1,5 @@
 import { ErrorUserMailEmun } from 'src/modules/auth/users/domain/user-enums';
-import { CustomBadRequestException } from 'src/shared/exceptions/custom-bad-reques-exception';
+import { CustomBadRequestException } from 'src/shared/adapters/in/exceptions/custom-bad-reques-exception';
 
 export class UserEmail {
   constructor(public value: string) {

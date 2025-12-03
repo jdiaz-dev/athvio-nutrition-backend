@@ -7,7 +7,7 @@ import { GetNotesDto, GetNotesResponse } from 'src/modules/patients/notes/adapte
 import { UpdateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/update-note.dto';
 import { Note } from 'src/modules/patients/notes/adapters/out/note.schema';
 import { NotesManagerService } from 'src/modules/patients/notes/application/notes-manager.service';
-import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()

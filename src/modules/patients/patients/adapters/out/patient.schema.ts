@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { BaseSchema } from 'src/shared/schemas/base.schema';
+import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 import { AllowedGender, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { PatientGroup } from 'src/modules/professionals/patient-groups/adapters/out/patient-group.schema';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';

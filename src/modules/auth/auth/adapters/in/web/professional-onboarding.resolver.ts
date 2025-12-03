@@ -4,7 +4,7 @@ import { SignUpProfessionalWithGoogleDto } from 'src/modules/auth/auth/adapters/
 import { SignUpProfessionalDto } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-professional.dto';
 import { SignUpProfessionalService } from 'src/modules/auth/auth/application/services/sign-up-professional.service';
 import { SignUpProfessionalResponse } from 'src/modules/auth/auth/helpers/dtos/sign-up-profesional-response.dto';
-import { GqlInterceptor } from 'src/shared/interceptors/gql.interceptor';
+import { GqlInterceptor } from 'src/shared/adapters/in/interceptors/gql.interceptor';
 
 @Resolver()
 export class ProfessionalOnboardingResolver {

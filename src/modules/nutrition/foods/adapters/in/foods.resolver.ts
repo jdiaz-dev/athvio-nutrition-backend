@@ -9,7 +9,7 @@ import { FoodTextSearcherService } from 'src/modules/nutrition/foods/application
 import { GetFoodsService } from 'src/modules/nutrition/foods/application/get-foods.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { FoodDatabases } from 'src/shared/enums/project';
-import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])

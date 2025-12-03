@@ -5,7 +5,7 @@ import { DiseaseCausesManagerService } from 'src/modules/program-generator/disea
 import { DiseasesManagerService } from 'src/modules/program-generator/diseases/application/diseases-manager.service';
 import { NutritionalPreferencesManagerService } from 'src/modules/program-generator/nutritional-preferences/application/nutritional-preferences-manager.service';
 import { NutritionalPlanGeneratorService } from 'src/modules/program-generator/program-generator/application/nutritional-plan-generator.service';
-import { PatientPlansPreparatorService } from 'src/shared/services/patient-plans-preparator.service';
+import { PatientPlansPreparatorService } from 'src/shared/application/patient-plans-preparator.service';
 
 @Injectable()
 export class GeneratorManagerService {

@@ -1,14 +1,14 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { NutritionalMealsPersistenceService } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meals-persistence.service';
-import { UploadDto } from 'src/shared/dtos/upload.dto';
 import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/adapters/out/nutritional-meal.schema';
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { WrapperType } from 'src/shared/types.d';
 import { MealImageSources } from 'src/shared/enums/project';
 import { UploadImageToDefaultMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload-image-to-default-meal.dto';
-import { UploadFileManagerService } from 'src/shared/services/upload-file-manager.service';
-import { StorageService } from 'src/shared/services/storage.service';
+import { UploadFileManagerService } from 'src/shared/application/upload-file-manager.service';
+import { StorageService } from 'src/shared/adapters/out/storage/storage.service';
 import { ConfigService } from '@nestjs/config';
+import { UploadDto } from 'src/shared/adapters/in/dtos/upload.dto';
 
 @Injectable()
 export class NutritionalMealImageManagerService {

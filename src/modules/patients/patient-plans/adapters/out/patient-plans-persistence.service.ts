@@ -15,7 +15,7 @@ import {
   PatientPlanPartial,
   PatientWithAssignedDate,
 } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { Trazability } from 'src/shared/types';

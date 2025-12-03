@@ -5,7 +5,7 @@ import { MealsPersistenceService } from 'src/modules/professionals/programs/adap
 import { AddMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/add-meal.dto';
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
-import { MealImagesManagerService } from 'src/shared/services/meal-images-manager.service';
+import { MealImagesManagerService } from 'src/shared/application/meal-images-manager.service';
 
 @Injectable()
 export class PlanMealsManagerService {

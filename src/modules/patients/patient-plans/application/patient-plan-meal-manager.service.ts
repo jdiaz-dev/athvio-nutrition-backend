@@ -3,7 +3,7 @@ import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/pat
 import { PatientPlanNutritionalMealsPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-meals-persistence.service';
 import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/add-meal.dto';
 import { ErrorPatientPlanEnum } from 'src/shared/enums/messages-response';
-import { MealImagesManagerService } from 'src/shared/services/meal-images-manager.service';
+import { MealImagesManagerService } from 'src/shared/application/meal-images-manager.service';
 import { UpdatePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/update-meal.dto';
 
 @Injectable()

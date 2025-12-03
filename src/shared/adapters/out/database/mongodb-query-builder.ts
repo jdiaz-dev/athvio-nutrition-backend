@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
 import { InternalErrors } from 'src/shared/enums/messages-response';
-import { MongodbRepository } from 'src/shared/database/mongodb-repository';
+import { MongodbRepository } from 'src/shared/adapters/out/database/mongodb-repository';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
 

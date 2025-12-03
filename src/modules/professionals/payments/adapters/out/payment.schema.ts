@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { InternalPaymentStatus } from 'src/modules/professionals/payments/helpers/payment-constants';
-import { BaseSchema } from 'src/shared/schemas/base.schema';
+import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 
 @Schema({ timestamps: true, collection: 'Payments' })
 export class Payment extends BaseSchema {

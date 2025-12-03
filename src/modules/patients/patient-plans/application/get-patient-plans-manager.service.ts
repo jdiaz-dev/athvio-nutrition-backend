@@ -3,7 +3,7 @@ import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/pat
 import { PatientPlansPersistenceService } from 'src/modules/patients/patient-plans/adapters/out/patient-plans-persistence.service';
 import { GetPatientPlansForMobileDto } from 'src/modules/patients/patient-plans/adapters/in/mobile/dtos/get-patient-plans-for-mobile.dto';
 import { PatientPlanTypeDates } from 'src/modules/patients/patient-plans/helpers/enums';
-import { GetRecordsBaseDto } from 'src/shared/dtos/get-records-base.dto';
+import { GetRecordsBaseDto } from 'src/shared/adapters/in/dtos/get-records-base.dto';
 import { GetPatientPlansForWebDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/plan/get-patient-plans-for-web.dto';
 import { PatientWithAssignedDate } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
 

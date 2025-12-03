@@ -1,8 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsArray, IsUUID, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { IngredientDetailsInput } from 'src/shared/dtos/ingredient-detail-input';
-import { MacrosInput } from 'src/shared/dtos/macros-input.dto';
-import { UploadScalar } from 'src/shared/graphql/upload.scalar';
+import { IngredientDetailsInput } from 'src/shared/adapters/in/dtos/ingredient-detail-input';
+import { MacrosInput } from 'src/shared/adapters/in/dtos/macros-input.dto';
+import { UploadScalar } from 'src/shared/adapters/in/graphql/upload.scalar';
 
 @InputType()
 export class UpdateNutritionalMealDto {

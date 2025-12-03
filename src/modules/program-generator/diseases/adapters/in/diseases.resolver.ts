@@ -3,7 +3,7 @@ import { Query, Resolver } from '@nestjs/graphql';
 import { Disease } from '../out/disease.schema';
 import { UseGuards } from '@nestjs/common';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { AuthorizationProfessionalGuard } from 'src/shared/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { DiseasesManagerService } from 'src/modules/program-generator/diseases/application/diseases-manager.service';
 
 @Resolver()

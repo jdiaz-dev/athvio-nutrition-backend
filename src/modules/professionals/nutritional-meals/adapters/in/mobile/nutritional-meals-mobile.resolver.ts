@@ -5,7 +5,7 @@ import { NutritionalMeal } from 'src/modules/professionals/nutritional-meals/ada
 import { NutritionalMealsManagerService } from 'src/modules/professionals/nutritional-meals/application/nutritional-meals-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
-import { AuthorizationPatientGuard } from 'src/shared/guards/authorization-patient.guard';
+import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authorization-patient.guard';
 import { GetNutritionalMealsForPatientDto } from 'src/modules/professionals/nutritional-meals/adapters/in/mobile/dtos/get-nutritional-meals-for-patient.dto';
 
 @Resolver(() => NutritionalMeal)

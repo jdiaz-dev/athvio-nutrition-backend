@@ -7,7 +7,7 @@ import {
   InternalQuestionaryDocument,
 } from 'src/modules/nutrition/internal-questionary/adapters/out/internal-questionary.schema';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { MongodbQueryBuilder } from 'src/shared/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
 

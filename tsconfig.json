@@ -35,7 +35,6 @@
     "paths": {
       "src/*": ["./src/*"],
       "configuration/*": ["src/configuration/*"],
-      //"./src/modules*"
     },
     "preserveWatchOutput": false,
     "noEmitOnError": true, //to void create js file in root of shared folder in error case
