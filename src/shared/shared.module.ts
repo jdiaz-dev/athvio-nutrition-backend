@@ -7,11 +7,10 @@ import { FileUploaderService } from 'src/shared/application/file-uploader.servic
 import { UploadScalar } from 'src/shared/adapters/in/graphql/upload.scalar';
 import { UploadFileManagerService } from 'src/shared/application/upload-file-manager.service';
 import { MealImagesManagerService } from 'src/shared/application/meal-images-manager.service';
-import { MongoDbModule } from 'src/shared/infrastructure/mongodb.module';
 import { FoodsProviderService } from 'src/shared/application/foods-provider.service';
 
 @Module({
-  imports: [MongoDbModule, HttpModule],
+  imports: [HttpModule],
   providers: [
     HttpHandlerService,
     FoodsProviderService,

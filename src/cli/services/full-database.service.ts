@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { InternalFoodsPersistenceService } from 'src/shared/adapters/out/database/internal-foods-persistence.service';
 import { FoodsProviderService } from 'src/shared/application/foods-provider.service';
 import { TranslatorService } from 'src/cli/services/translator.service';
+import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.service';
 
 //milk
 const allFoods2: string[] = [];
@@ -12,7 +12,7 @@ export class FullDatabaseService {
   constructor(
     private readonly translatorService: TranslatorService,
     private readonly foodProvider: FoodsProviderService,
-    private readonly ifps: InternalFoodsPersistenceService,
+    private readonly ifds: InternalFoodsDaoService,
   ) {}
 
   async fullFoods(): Promise<void> {
@@ -27,12 +27,12 @@ export class FullDatabaseService {
         foodDetails: { ...food, label: spanishWords[index] },
       }));
 
-      await this.ifps.saveInternalFoods(records);
+      await this.ifds.saveInternalFoods(records);
     }, 1000);
   }
 
   async fullNamedFoods(): Promise<void> {
-    const existingFoods = await this.ifps.getInternalFoodsByNames(allFoods2);
+    const existingFoods = await this.ifds.getInternalFoodsByNames(allFoods2);
     const filteredFoods = allFoods2.filter(
       (item) => !existingFoods.some(({ foodDetails }) => foodDetails.label.toLowerCase() === item.toLowerCase()),
     );
@@ -44,7 +44,7 @@ export class FullDatabaseService {
         return;
       }
       const foodObtained = await this.foodProvider.getFoodsAndUri(filteredFoods[counter]);
-      const foundInternalFoods = await this.ifps.getInternalFoodsByNames(foodObtained[0].hints.map(({ food }) => food.label));
+      const foundInternalFoods = await this.ifds.getInternalFoodsByNames(foodObtained[0].hints.map(({ food }) => food.label));
 
       const englishWords = foodObtained[0].hints.map((item) => item.food.label);
       const spanishWords = await this.translatorService.translate({ words: englishWords, source: 'en', target: 'es' });
@@ -59,7 +59,7 @@ export class FullDatabaseService {
           !foundInternalFoods.some(({ foodDetails }) => foodDetails.label.toLowerCase() === item.foodDetails.label.toLowerCase()),
       );
 
-      await this.ifps.saveInternalFoods(records);
+      await this.ifds.saveInternalFoods(records);
 
       counter++;
     }, 1000);

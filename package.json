@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "cli:save:mongodb": "dotenvx run -f .env.development -- ts-node ./scripts/save-mongodb-records.ts",
-    "cli:populatedb": "dotenvx run -f .env.development -- ts-node -r tsconfig-paths/register src/cli/cli.ts populatedb",
+    "cli:populatedb": "dotenvx run -f .env.development -- ts-node -r tsconfig-paths/register src/cli/cli.ts populate-db-with-spanish-foods",
     "nsolid:test": "dotenvx run -f .env.development -- nsolid dist/main.js"
   },
   "dependencies": {

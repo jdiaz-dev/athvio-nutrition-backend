@@ -4,13 +4,13 @@ import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { InternalFood, InternalFoodDocument } from 'src/modules/nutrition/foods/adapters/out/internal-food.schema';
+import { InternalFood, InternalFoodDocument } from 'src/shared/adapters/out/schemas/internal-food.schema';
 import { GetFoods, GetInternalFoodsResponse } from 'src/modules/nutrition/foods/helpers/foods';
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { Trazability } from 'src/shared/types';
 
 @Injectable()
-export class InternalFoodsPersistenceService extends MongodbQueryBuilder<InternalFoodDocument> {
+export class InternalFoodsDaoService extends MongodbQueryBuilder<InternalFoodDocument> {
   constructor(
     @InjectModel(InternalFood.name) protected readonly internalFoodModel: Model<InternalFoodDocument>,
     protected readonly logger: AthvioLoggerService,

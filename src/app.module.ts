@@ -18,6 +18,7 @@ import { randomUUID } from 'node:crypto';
 import { Trazability } from 'src/shared/types';
 import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 import { NutritionSubDomainsModule } from 'src/modules/nutrition/nutrition-subdomains.module';
+import { MongoDbModule } from 'src/infraestructure/mongodb.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { NutritionSubDomainsModule } from 'src/modules/nutrition/nutrition-subdo
       validate: validateEnvironmentVariables,
     }),
     SharedModule,
+    MongoDbModule,
     SecurityModule,
     GraphqlModule,
     ObservabilityModule,

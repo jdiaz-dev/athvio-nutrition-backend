@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GetFoodsDto, GetFoodsResponse } from 'src/modules/nutrition/foods/adapters/in/dtos/get-foods.dto';
-import { InternalFoodsPersistenceService } from 'src/shared/adapters/out/database/internal-foods-persistence.service';
+import { InternalFoodsPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-foods-persistence.service';
 import { FoodParserService } from 'src/modules/nutrition/foods/application/foods-parser.service';
 import { FoodsProviderService } from 'src/shared/application/foods-provider.service';
 import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
