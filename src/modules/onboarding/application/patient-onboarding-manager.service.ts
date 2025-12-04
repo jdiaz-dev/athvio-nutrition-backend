@@ -100,13 +100,14 @@ export class PatientOnboardingManagerService {
     const { firstname: professionalFirstname, lastname: professionalLastname } = await this.ums.getUserByUuid(proffesionalUser);
     const origin = this.configService.get<string[]>('whiteListOrigins')[0];
     const url = `${origin}/activate/${patientUserId}`;
-    const mailTitle = `Invitation from ${professionalFirstname} ${professionalLastname}`;
+    const mailTitle = `Invitación de ${professionalFirstname} ${professionalLastname}`;
     const message = `
-      Hello ${patientFirstname},
-
-      I'm inviting you to use Athvio. It will help to receive your nutritional plans and chat with me!
+      Hola ${patientFirstname},
       
-      - Your Coach,
+      
+      Te invito a usar Athvio. ¡Te ayudará a recibir tus planes nutricionales y a chatear conmigo!
+      
+      - Tu Coach,
       ${professionalFirstname} ${professionalLastname}
       ${url}
     `;
