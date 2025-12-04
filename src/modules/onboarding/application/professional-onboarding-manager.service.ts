@@ -15,6 +15,7 @@ import { ProfessionalQuestionaryManager } from 'src/modules/professionals/profes
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
 import { CreatePaymentLinkService } from 'src/modules/professionals/payments/application/create-payment-link.service';
 import { PlanificationManagerService } from 'src/modules/patients/planifications/application/planification-manager.service';
+import { NotesManagerService } from 'src/modules/patients/notes/application/notes-manager.service';
 
 enum SystemProgramNames {
   PROGRAM_TO_HEAL_CANCER = 'Program to heal cancer',
@@ -39,6 +40,7 @@ export class ProfessionalOnboardingManagerService {
     private readonly qcm: ProfessionalQuestionaryManager,
     private readonly cpls: CreatePaymentLinkService,
     private readonly plms: PlanificationManagerService,
+    private readonly nms: NotesManagerService,
   ) {}
 
   async onboardProfessional(dto: SignUpProfessionalDto & { googleSub?: string; photo?: string }): Promise<string> {
@@ -101,7 +103,7 @@ export class ProfessionalOnboardingManagerService {
       {
         professional,
         userInfo: {
-          firstname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Steve' : 'Juan',
+          firstname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Kathelyn' : 'Katerin',
           lastname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Johnson [Demo]' : 'Pérez [Paciente de prueba]',
           email: `demo_${dto.email}`,
         },
@@ -117,7 +119,7 @@ export class ProfessionalOnboardingManagerService {
         weight: 58,
         height: 163,
         age: 20,
-        gender: 'male',
+        gender: 'female',
         physicActivityName: 'Sedentario',
         physicActivityFactor: 1.2,
       },
@@ -142,6 +144,17 @@ export class ProfessionalOnboardingManagerService {
       assignmentStartDate: new Date(_date.year(), _date.month(), 7),
       patients: [patient],
       startingDay: 1,
+    });
+    await this.nms.createNote({
+      patient,
+      date: new Date().toISOString(),
+      professional,
+      content: `
+      - Sufre con 7 años de depresión.
+      - Gastritis crónica por 3 meses.
+      - Sufre de fibromialgia, con dolores en la lumbar derecha y rodilla izquierda. Tiene estos dolores 6 meses
+      - Paciente parasitado.
+      `,
     });
   }
 }

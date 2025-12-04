@@ -54,7 +54,6 @@
 - fix: use Promise.allSettled instead of Promise.all
 
 - discovery: test multiple request to edamam api (1unit carrot, 100g carrot, 100g tomato )
-- fix: remove POPULATE_DATABASE env var
 
 ## Database
 - fix zanahorias search

@@ -13,9 +13,10 @@ import { NotesResolver } from 'src/modules/patients/notes/adapters/in/notes.reso
   imports: [
     MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
     forwardRef(() => AuthModule),
-    ProfessionalsModule,
-    PatientsModule,
+    forwardRef(() => ProfessionalsModule),
+    forwardRef(() => PatientsModule),
   ],
   providers: [NotesPersistenceService, NotesManagerService, NotesResolver],
+  exports: [NotesManagerService],
 })
 export class NotesModule {}

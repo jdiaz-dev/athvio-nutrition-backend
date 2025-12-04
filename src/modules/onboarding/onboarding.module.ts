@@ -10,6 +10,7 @@ import { ProfessionalQuestionariesModule } from 'src/modules/professionals/profe
 import { PatientQuestionaryModule } from 'src/modules/patients/patient-questionaries/patient-questionary.module';
 import { PaymentsModule } from 'src/modules/professionals/payments/payments.module';
 import { PlanificationModule } from 'src/modules/patients/planifications/planifications.module';
+import { NotesModule } from 'src/modules/patients/notes/notes.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PlanificationModule } from 'src/modules/patients/planifications/planifi
     forwardRef(() => ProfessionalQuestionariesModule),
     forwardRef(() => PlanificationModule),
     PatientQuestionaryModule,
+    NotesModule,
     MailModule,
     PaymentsModule,
   ],

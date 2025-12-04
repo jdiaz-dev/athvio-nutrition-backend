@@ -9,7 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/out/schemas/internal-food.schema';
 import { InternalFoodsPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-foods-persistence.service';
 
-const resolvers = process.env.POPULATE_DATABASE ? [FoodsResolver] : [FoodsResolver];
+const resolvers = [FoodsResolver];
 
 const internalServices = [GetFoodsService, FoodParserService, FoodTextSearcherService, InternalFoodsPersistenceService];
 

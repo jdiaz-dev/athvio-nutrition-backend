@@ -62,9 +62,7 @@ export class PatientOnboardingManagerService {
       })),
     });
 
-    isPatientDemo;
-    this.sendMail;
-    // if (!isPatientDemo) await this.sendMail(_proffesional.user.uuid, uuid, email, firstname);
+    if (!isPatientDemo) await this.sendMail(_proffesional.user.uuid, uuid, email, firstname);
 
     const _patient = {
       ...patient,
