@@ -7,7 +7,6 @@ import { MailModule } from 'src/modules/mail/mail.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
 import { SecurityModule } from 'src/infraestructure/security.module';
 import { PatientsSubDomainsModule } from 'src/modules/patients/patient-subdomains.module';
-import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 import { ProfessionalSubDomainsModule } from 'src/modules/professionals/professional-subdomains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
 import { BackofficeSubDomainsModule } from 'src/modules/backoffice/backoffice-subdomains.module';
@@ -41,7 +40,6 @@ import { MongoDbModule } from 'src/infraestructure/mongodb.module';
     ProfessionalSubDomainsModule,
     PatientsSubDomainsModule,
     BackofficeSubDomainsModule,
-    ProgramGeneratorDomainsModule,
   ],
   controllers: [AppController],
 })

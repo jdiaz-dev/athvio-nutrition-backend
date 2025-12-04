@@ -2,7 +2,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { SharedModule } from 'src/shared/shared.module';
 import { TranslatorService } from 'src/cli/services/translator.service';
 import { FullDatabaseService } from 'src/cli/services/full-database.service';
-import { PopulateDbWithTranslatedFoods } from 'src/cli/commands/populate-db-with-translated-foods.command';
+import { TranslateFoods } from 'src/cli/commands/translate-foods.command';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getConfiguration, validateEnvironmentVariables } from 'src/configuration';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
@@ -27,6 +27,6 @@ import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.ser
     ObservabilityModule,
     forwardRef(() => SharedModule),
   ],
-  providers: [TranslatorService, InternalFoodsDaoService, FullDatabaseService, PopulateDbWithTranslatedFoods],
+  providers: [TranslatorService, InternalFoodsDaoService, FullDatabaseService, TranslateFoods],
 })
 export class CliModule {}

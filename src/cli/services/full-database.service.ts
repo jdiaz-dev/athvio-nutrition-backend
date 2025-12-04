@@ -5,7 +5,7 @@ import { TranslatorService } from 'src/cli/services/translator.service';
 import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.service';
 
 //milk
-const allFoods2: string[] = [];
+const allFoods: string[] = [];
 
 @Injectable()
 export class FullDatabaseService {
@@ -32,8 +32,8 @@ export class FullDatabaseService {
   }
 
   async fullNamedFoods(): Promise<void> {
-    const existingFoods = await this.ifds.getInternalFoodsByNames(allFoods2);
-    const filteredFoods = allFoods2.filter(
+    const existingFoods = await this.ifds.getInternalFoodsByNames(allFoods);
+    const filteredFoods = allFoods.filter(
       (item) => !existingFoods.some(({ foodDetails }) => foodDetails.label.toLowerCase() === item.toLowerCase()),
     );
     let counter = 0;
