@@ -17,8 +17,6 @@ import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.ser
       load: [getConfiguration],
       validate: validateEnvironmentVariables,
     }),
-    forwardRef(() => SharedModule),
-    ObservabilityModule,
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -26,6 +24,8 @@ import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.ser
       }),
     }),
     MongooseModule.forFeature([{ name: InternalFood.name, schema: InternalFoodSchema }]),
+    ObservabilityModule,
+    forwardRef(() => SharedModule),
   ],
   providers: [TranslatorService, InternalFoodsDaoService, FullDatabaseService, PopulateDbWithTranslatedFoods],
 })
