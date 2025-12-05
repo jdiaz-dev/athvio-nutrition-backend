@@ -26,7 +26,7 @@ export class PatientOnboardingManagerService {
     private readonly ms: MailService,
     private readonly qcm: ProfessionalQuestionaryManager,
     private readonly pqms: PatientQuestionaryManagerService,
-    private cus: CreateUserService,
+    private readonly cus: CreateUserService,
   ) {}
   async onboardingForWeb(
     { professional, userInfo, additionalInfo }: SignUpPatientDto,
@@ -104,8 +104,7 @@ export class PatientOnboardingManagerService {
     const message = `
       Hola ${patientFirstname},
       
-      
-      Te invito a usar Athvio. ¡Te ayudará a recibir tus planes nutricionales y a chatear conmigo!
+      Te invito a usar Athvio. ¡Te ayudará a recibir tus planes nutricionales y a conversar conmigo!
       
       - Tu Coach,
       ${professionalFirstname} ${professionalLastname}

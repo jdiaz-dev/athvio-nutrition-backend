@@ -103,7 +103,7 @@ export class ProfessionalOnboardingManagerService {
       {
         professional,
         userInfo: {
-          firstname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Kathelyn' : 'Katerin',
+          firstname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Kathelyn' : 'Káterin',
           lastname: dto.detectedLanguage === SupportedLanguages.ENGLISH ? 'Johnson [Demo]' : 'Pérez [Paciente de prueba]',
           email: `demo_${dto.email}`,
         },

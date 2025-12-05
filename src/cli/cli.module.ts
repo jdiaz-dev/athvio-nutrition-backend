@@ -9,6 +9,10 @@ import { ObservabilityModule } from 'src/infraestructure/observability/observabi
 import { MongooseModule } from '@nestjs/mongoose';
 import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/out/schemas/internal-food.schema';
 import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.service';
+import { UpdateNutrientFoods } from 'src/cli/commands/update-nutrient-foods.command';
+
+const commands = [TranslateFoods, UpdateNutrientFoods];
+const services = [TranslatorService, InternalFoodsDaoService, FullDatabaseService];
 
 @Module({
   imports: [
@@ -27,6 +31,6 @@ import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.ser
     ObservabilityModule,
     forwardRef(() => SharedModule),
   ],
-  providers: [TranslatorService, InternalFoodsDaoService, FullDatabaseService, TranslateFoods],
+  providers: [...services, ...commands],
 })
 export class CliModule {}

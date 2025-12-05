@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { FoodParsedResponse } from 'src/modules/nutrition/foods/helpers/food.types';
+import { FoodNutrition, FoodParsedResponse } from 'src/modules/nutrition/foods/helpers/food.types';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
 import { HttpHandlerService } from 'src/shared/adapters/out/network/http-handler.service';
 
@@ -10,7 +10,10 @@ export class FoodsProviderService {
   private readonly appId: string;
   private readonly key: string;
 
-  constructor(private http: HttpHandlerService, private configService: ConfigService) {
+  constructor(
+    private http: HttpHandlerService,
+    private configService: ConfigService,
+  ) {
     this.baseUrl = this.configService.get('foodProvider.foodApi.edamamFoodParserUrl');
     this.appId = this.configService.get('foodProvider.foodApi.edamamFoodAppId');
     this.key = this.configService.get('foodProvider.foodApi.edamamFoodKey');
@@ -30,6 +33,13 @@ export class FoodsProviderService {
     const nextUrl = `${this.baseUrl}${parserDomain}?session=${session}&app_id=${this.appId}&app_key=${this.key}&ingr=${ingredientsText}`;
 
     const res = await this.http.get<FoodParsedResponse>(session ? nextUrl : url, ErrorFoodsProvider.GET_FOOD);
+    return res;
+  }
+  async getFoodNutrients(body: { ingredients: { quantity: 100; measureURI: string; foodId: string }[] }): Promise<FoodNutrition> {
+    const parserDomain = '/api/food-database/v2/nutrients';
+    const url = `${this.baseUrl}${parserDomain}?app_id=${this.appId}&app_key=${this.key}`;
+
+    const res = await this.http.post<FoodNutrition>(url, body, {}, ErrorFoodsProvider.GET_FOOD);
     return res;
   }
   async autoCompleteText(foodText: string): Promise<string[]> {

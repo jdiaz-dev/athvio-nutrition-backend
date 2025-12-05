@@ -23,25 +23,48 @@ export class InternalFoodsDaoService extends MongodbQueryBuilder<InternalFoodDoc
     const res = await this.initializeQuery(this.saveInternalFoods.name).insertMany(data);
     return res;
   }
+  async updateFood({
+    foodId,
+    body,
+  }: {
+    foodId: string;
+    body: {
+      dietLabels?: string[];
+      healthLabels?: string[];
+      nutrientDetails?: any | {};
+      stayedOffset?: number;
+      isSuccessfullUpdated?: boolean;
+    };
+  }) {
+    const update: any = {};
+
+    const scalarFields = [
+      'nutrientDetails',
+      'dietLabels',
+      'healthLabels',
+      'nutrientDetails',
+      'stayedOffset',
+      'isSuccessfullUpdated',
+    ] as const;
+
+    for (const key of scalarFields) {
+      if (body[key as keyof typeof body] !== undefined) {
+        update.$set = { ...(update.$set || {}), [key]: body[key as keyof typeof body] };
+      }
+    }
+
+    const food = await this.initializeQuery(this.updateFood.name).findOneAndUpdate({ 'foodDetails.foodId': foodId }, update, {
+      new: true,
+    });
+    return food;
+  }
+
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
     const hasSearch = Array.isArray(dto.search) && dto.search.join(' ').trim().length > 0;
-
+    hasSearch;
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
-        $match: {
-          ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
-          'foodDetails.category': 'Generic foods',
-        },
-      },
-      {
-        $addFields: {
-          ...(hasSearch && { score: { $meta: 'textScore' } }),
-        },
-      },
-      {
-        $sort: {
-          score: -1,
-        },
+        $match: {},
       },
       {
         $facet: {

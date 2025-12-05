@@ -15,6 +15,47 @@ export class FullDatabaseService {
     private readonly ifds: InternalFoodsDaoService,
   ) {}
 
+  async updateNutrientDetails() {
+    const totalFoods = 14628;
+    const limit = 1;
+
+    for (let offset = 0; offset < totalFoods; offset++) {
+      setInterval(async () => {
+        try {
+          const food = await this.ifds.getInternalFoods({ offset, limit, search: [] });
+          const { dietLabels, healthLabels, totalNutrients } = await this.foodProvider.getFoodNutrients({
+            ingredients: [
+              {
+                quantity: 100,
+                measureURI: 'http://www.edamam.com/ontologies/edamam.owl#Measure_gram',
+                foodId: food.data[0].foodDetails.foodId,
+              },
+            ],
+          });
+
+          try {
+            await this.ifds.updateFood({
+              foodId: food.data[0].foodDetails.foodId,
+              body: {
+                dietLabels,
+                healthLabels,
+                nutrientDetails: totalNutrients,
+                stayedOffset: offset,
+                isSuccessfullUpdated: true,
+              },
+            });
+          } catch (error) {
+            await this.ifds.updateFood({
+              foodId: food.data[0].foodDetails.foodId,
+              body: { stayedOffset: offset, isSuccessfullUpdated: false },
+            });
+          }
+        } catch (error) {
+          console.log(`Error at offset ${offset}:`, error);
+        }
+      }, 1000);
+    }
+  }
   async fullFoods(): Promise<void> {
     setInterval(async () => {
       const foods = await this.foodProvider.getFoodsAndUri('');
