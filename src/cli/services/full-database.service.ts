@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { FoodsProviderService } from 'src/shared/application/foods-provider.service';
 import { TranslatorService } from 'src/cli/services/translator.service';
 import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.service';
+import { spanishLabelMap } from 'src/cli/constants/cli-constants';
 
 //milk
 const allFoods: string[] = [];
@@ -14,46 +15,54 @@ export class FullDatabaseService {
     private readonly foodProvider: FoodsProviderService,
     private readonly ifds: InternalFoodsDaoService,
   ) {}
-
+  async sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   async updateNutrientDetails() {
-    const totalFoods = 14628;
+    const totalFoods = 1178;
     const limit = 1;
-
     for (let offset = 0; offset < totalFoods; offset++) {
-      setInterval(async () => {
-        try {
-          const food = await this.ifds.getInternalFoods({ offset, limit, search: [] });
-          const { dietLabels, healthLabels, totalNutrients } = await this.foodProvider.getFoodNutrients({
-            ingredients: [
-              {
-                quantity: 100,
-                measureURI: 'http://www.edamam.com/ontologies/edamam.owl#Measure_gram',
-                foodId: food.data[0].foodDetails.foodId,
-              },
-            ],
-          });
-
-          try {
-            await this.ifds.updateFood({
+      try {
+        const food = await this.ifds.getInternalFoods({ offset, limit, search: [] });
+        // console.log(food.data[0].foodDetails.foodId);
+        const { dietLabels, healthLabels, totalNutrients } = await this.foodProvider.getFoodNutrients({
+          ingredients: [
+            {
+              quantity: 100,
+              measureURI: 'http://www.edamam.com/ontologies/edamam.owl#Measure_gram',
               foodId: food.data[0].foodDetails.foodId,
-              body: {
-                dietLabels,
-                healthLabels,
-                nutrientDetails: totalNutrients,
-                stayedOffset: offset,
-                isSuccessfullUpdated: true,
-              },
-            });
-          } catch (error) {
-            await this.ifds.updateFood({
-              foodId: food.data[0].foodDetails.foodId,
-              body: { stayedOffset: offset, isSuccessfullUpdated: false },
-            });
-          }
-        } catch (error) {
-          console.log(`Error at offset ${offset}:`, error);
+            },
+          ],
+        });
+        let nutrientDetails: any = {};
+        for (const key in totalNutrients) {
+          nutrientDetails[key] = {
+            ...totalNutrients[key],
+            ...(spanishLabelMap[key] && { spanishLabel: spanishLabelMap[key] }),
+          };
         }
-      }, 1000);
+        try {
+          await this.ifds.updateFood({
+            foodId: food.data[0].foodDetails.foodId,
+            body: {
+              dietLabels,
+              healthLabels,
+              nutrientDetails,
+              stayedOffset: offset,
+              isSuccessfullUpdated: true,
+            },
+          });
+        } catch (error) {
+          await this.ifds.updateFood({
+            foodId: food.data[0].foodDetails.foodId,
+            body: { stayedOffset: offset, isSuccessfullUpdated: false },
+          });
+        }
+      } catch (error) {
+        console.log(`Error at offset ${offset}:`, error);
+      }
+      console.log(offset);
+      await this.sleep(1000);
     }
   }
   async fullFoods(): Promise<void> {

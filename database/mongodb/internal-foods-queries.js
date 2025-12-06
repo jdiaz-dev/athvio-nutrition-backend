@@ -25,3 +25,7 @@ db.InternalFoods.updateMany(
     arrayFilters: [{ 'elem.label': 'Gram' }],
   },
 );
+db.InternalFoods.find({ isSuccessfullUpdated: true });
+db.InternalFoods.countDocuments({ isSuccessfullUpdated: true });
+db.InternalFoods.find({ isSuccessfullUpdated: { $exists: false } });
+db.InternalFoods.updateMany({}, { $unset: { stayedOffset: '' } });

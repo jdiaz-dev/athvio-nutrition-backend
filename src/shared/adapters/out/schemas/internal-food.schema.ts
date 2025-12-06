@@ -7,6 +7,8 @@ import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 export class Nutrient {
   @Prop({ type: String, required: false })
   label?: string;
+  @Prop({ type: String, required: false })
+  spanishLabel?: string;
   @Prop({ type: Number, required: false })
   quantity?: number;
   @Prop({ type: String, required: false })
@@ -163,10 +165,6 @@ export class InternalFood extends BaseSchema {
 
   @Prop({ type: [String], required: false })
   healthLabels?: string[];
-
-  //todo: remove it
-  @Prop({ type: Number, required: false })
-  stayedOffset?: number;
 
   //todo: remove it
   @Prop({ type: Boolean, required: false })

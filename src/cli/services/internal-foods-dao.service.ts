@@ -18,7 +18,6 @@ export class InternalFoodsDaoService extends MongodbQueryBuilder<InternalFoodDoc
   ) {
     super(internalFoodModel, logger, InternalFood.name, als);
   }
-
   async saveInternalFoods(data: Omit<InternalFood, '_id' | 'createdAt' | 'updatedAt'>[]): Promise<InternalFood[]> {
     const res = await this.initializeQuery(this.saveInternalFoods.name).insertMany(data);
     return res;
@@ -64,7 +63,7 @@ export class InternalFoodsDaoService extends MongodbQueryBuilder<InternalFoodDoc
     hasSearch;
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
-        $match: {},
+        $match: { isSuccessfullUpdated: { $exists: false } },
       },
       {
         $facet: {
