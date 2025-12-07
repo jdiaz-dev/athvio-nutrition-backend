@@ -1181,6 +1181,7 @@ input UpdateNoteDto {
 input UpdateNutritionalMealDto {
   cookingInstructions: String!
   image: Upload
+  imageSource: String
   ingredientDetails: [IngredientDetailsInput!]!
   macros: MacrosInput!
   name: String!

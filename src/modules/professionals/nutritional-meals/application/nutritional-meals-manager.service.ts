@@ -81,8 +81,11 @@ export class NutritionalMealsManagerService {
 
     return nutritionalMealRes;
   }
-  async updateNutritionalMeal({ image, ...rest }: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
-    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({ ...rest, source: EnumSources.PROFESSIONAL });
+  async updateNutritionalMeal({ image, imageSource, ...rest }: UpdateNutritionalMealDto): Promise<NutritionalMeal> {
+    const nutritionalMealRes = await this.nmps.updateNutritionalMeal({
+      ...rest,
+      ...(imageSource && { imageSource: imageSource as MealImageSources }),
+    });
     if (nutritionalMealRes === null) throw new BadRequestException(ErrorNutritionalMealEnum.NUTRITIONAL_MEAL_NOT_FOUND);
     if (image && image instanceof Promise) return await this.umis.uploadImage({ nutritionalMeal: rest.nutritionalMeal, image });
 

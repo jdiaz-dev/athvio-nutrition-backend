@@ -33,4 +33,9 @@ export class UpdateNutritionalMealDto {
   @Field(() => UploadScalar, { nullable: true })
   @IsOptional()
   image?: UploadScalar;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  imageSource?: string;
 }
