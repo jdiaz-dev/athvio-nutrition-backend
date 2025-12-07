@@ -18,7 +18,6 @@ import { Trazability } from 'src/shared/types';
 import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 import { NutritionSubDomainsModule } from 'src/modules/nutrition/nutrition-subdomains.module';
 import { MongoDbModule } from 'src/infraestructure/mongodb.module';
-import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 
 @Module({
   imports: [
@@ -41,7 +40,6 @@ import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/pro
     ProfessionalSubDomainsModule,
     PatientsSubDomainsModule,
     BackofficeSubDomainsModule,
-    ProgramGeneratorDomainsModule,
   ],
   controllers: [AppController],
 })
