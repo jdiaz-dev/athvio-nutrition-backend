@@ -24,7 +24,7 @@ export class GetFoodsService {
 
     const [parsedFoods] = await Promise.all([
       this.foodsParser.parseFoods(restDto, {
-        hints: data.map(({ foodDetails, measures }) => ({ food: foodDetails, measures })),
+        hints: data.map(({ uuid, foodDetails, measures }) => ({ uuid, food: foodDetails, measures })),
       }),
     ]);
 

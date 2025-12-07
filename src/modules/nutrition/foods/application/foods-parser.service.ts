@@ -2,9 +2,9 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 import { Food, FoodsMeta, GetFoodsResponse, Measure } from 'src/modules/nutrition/foods/adapters/in/dtos/get-foods.dto';
 import {
-  FoodHint,
   FoodMeasure,
-  FoodParsedResponse,
+  InternalAndExternalFoodHint,
+  InternalAndExternalFoodParsed,
   NextLink,
 } from 'src/modules/nutrition/foods/helpers/food.types';
 import { GetFoods } from 'src/modules/nutrition/foods/helpers/foods';
@@ -32,8 +32,9 @@ export class FoodParserService {
         };
       });
   }
-  private transformFood(foods: FoodHint[]): Food[] {
+  private transformFood(foods: InternalAndExternalFoodHint[]): Food[] {
     const res = foods.map((item) => ({
+      ...(item.uuid && { uuid: item.uuid }),
       name: item.food.label,
       macros: {
         protein: item.food.nutrients.PROCNT,
@@ -48,7 +49,11 @@ export class FoodParserService {
     }));
     return res;
   }
-  private parseData(totalParsedFoods: number, foodsFromProvider: FoodParsedResponse, meta: FoodsMeta): GetFoodsResponse {
+  private parseData(
+    totalParsedFoods: number,
+    foodsFromProvider: InternalAndExternalFoodParsed,
+    meta: FoodsMeta,
+  ): GetFoodsResponse {
     try {
       let res: GetFoodsResponse;
       if (totalParsedFoods === 0) {
@@ -82,7 +87,7 @@ export class FoodParserService {
       throw new InternalServerErrorException(ErrorFoodsProvider.FOOD_INTERNAL_PARSER);
     }
   }
-  async parseFoods(dto: GetFoods, foodsFromProvider: FoodParsedResponse): Promise<GetFoodsResponse> {
+  async parseFoods(dto: GetFoods, foodsFromProvider: InternalAndExternalFoodParsed): Promise<GetFoodsResponse> {
     const totalParsedFoods = foodsFromProvider.parsed?.length || 0;
 
     const meta = {

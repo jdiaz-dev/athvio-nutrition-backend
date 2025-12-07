@@ -55,6 +55,13 @@ export interface FoodParsedResponse {
   _links?: Links;
 }
 
+export interface InternalAndExternalFoodHint extends FoodHint {
+  uuid?: string;
+}
+export interface InternalAndExternalFoodParsed extends FoodParsedResponse {
+  hints: InternalAndExternalFoodHint[];
+}
+
 /* food nutrition types */
 export interface NutrientInfo {
   label: string;

@@ -49,6 +49,12 @@ export class Measure {
 
 @ObjectType()
 export class Food {
+  @Field({ nullable: true })
+  uuid?: string;
+
+  @Field({ nullable: true })
+  foodId?: string;
+
   @Field(() => String)
   foodDatabase: FoodDatabases;
 
@@ -60,9 +66,6 @@ export class Food {
 
   @Field(() => [IngredientDetail], { nullable: true })
   ingredientDetails?: IngredientDetail[];
-
-  @Field({ nullable: true })
-  foodId?: string;
 
   @Field(() => [Measure])
   availableMeasures: Measure[];
