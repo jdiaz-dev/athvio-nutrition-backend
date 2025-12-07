@@ -19,7 +19,7 @@ export class FullDatabaseService {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   async updateNutrientDetails() {
-    const totalFoods = 1178;
+    const totalFoods = 11;
     const limit = 1;
     for (let offset = 0; offset < totalFoods; offset++) {
       try {
@@ -42,7 +42,7 @@ export class FullDatabaseService {
           };
         }
         try {
-          await this.ifds.updateFood({
+          await this.ifds.updateFoods({
             foodId: food.data[0].foodDetails.foodId,
             body: {
               dietLabels,
@@ -53,7 +53,7 @@ export class FullDatabaseService {
             },
           });
         } catch (error) {
-          await this.ifds.updateFood({
+          await this.ifds.updateFoods({
             foodId: food.data[0].foodDetails.foodId,
             body: { stayedOffset: offset, isSuccessfullUpdated: false },
           });

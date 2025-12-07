@@ -22,7 +22,7 @@ export class InternalFoodsDaoService extends MongodbQueryBuilder<InternalFoodDoc
     const res = await this.initializeQuery(this.saveInternalFoods.name).insertMany(data);
     return res;
   }
-  async updateFood({
+  async updateFoods({
     foodId,
     body,
   }: {
@@ -52,7 +52,7 @@ export class InternalFoodsDaoService extends MongodbQueryBuilder<InternalFoodDoc
       }
     }
 
-    const food = await this.initializeQuery(this.updateFood.name).findOneAndUpdate({ 'foodDetails.foodId': foodId }, update, {
+    const food = await this.initializeQuery(this.updateFoods.name).updateMany({ 'foodDetails.foodId': foodId }, update, {
       new: true,
     });
     return food;
