@@ -1,93 +1,134 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 
+@ObjectType()
 @Schema({ _id: false, timestamps: false })
 export class Nutrient {
+  @Field(() => String, { nullable: true })
   @Prop({ type: String, required: false })
   label?: string;
+  @Field(() => String, { nullable: true })
   @Prop({ type: String, required: false })
   spanishLabel?: string;
+  @Field(() => Number, { nullable: true })
   @Prop({ type: Number, required: false })
   quantity?: number;
+  @Field(() => String, { nullable: true })
   @Prop({ type: String, required: false })
   unit?: string;
 }
 export const NutrientSchema = SchemaFactory.createForClass(Nutrient);
 
+@ObjectType()
 @Schema({ _id: false, timestamps: false })
 export class NutrientDetails {
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'CA'?: Nutrient;
+  CA?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'CHOCDF.net'?: Nutrient;
+  CHOCDF_NET?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'CHOCDF'?: Nutrient;
+  CHOCDF?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'CHOLE'?: Nutrient;
+  CHOLE?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'ENERC_KCAL'?: Nutrient;
+  ENERC_KCAL?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FAMS'?: Nutrient;
+  FAMS?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FAT'?: Nutrient;
+  FAT?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FAPU'?: Nutrient;
+  FAPU?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FASAT'?: Nutrient;
+  FASAT?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FATRN'?: Nutrient;
+  FATRN?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FIBTG'?: Nutrient;
+  FIBTG?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FOLDFE'?: Nutrient;
+  FOLDFE?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FOLFD'?: Nutrient;
+  FOLFD?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FOLAC'?: Nutrient;
+  FOLAC?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'FE'?: Nutrient;
+  FE?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'K'?: Nutrient;
+  K?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'MG'?: Nutrient;
+  MG?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'NA'?: Nutrient;
+  NA?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'NIA'?: Nutrient;
+  NIA?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'P'?: Nutrient;
+  P?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'PROCNT'?: Nutrient;
+  PROCNT?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'RIBF'?: Nutrient;
+  RIBF?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'SUGAR'?: Nutrient;
+  SUGAR?: Nutrient;
+  // @Field(() => Nutrient, { nullable: true })
+  // @Prop({ type: NutrientSchema, required: false })
+  // Sugaralcohol'?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'Sugar.alcohol'?: Nutrient;
+  SUGAR_ADDED?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'SUGAR.added'?: Nutrient;
+  THIA?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'THIA'?: Nutrient;
+  TOCPHA?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'TOCPHA'?: Nutrient;
+  VITA_RAE?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'VITA_RAE'?: Nutrient;
+  VITB12?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'VITB12'?: Nutrient;
+  VITB6A?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'VITB6A'?: Nutrient;
+  VITC?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'VITC'?: Nutrient;
+  VITD?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'VITD'?: Nutrient;
+  VITK1?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'VITK1'?: Nutrient;
+  WATER?: Nutrient;
+  @Field(() => Nutrient, { nullable: true })
   @Prop({ type: NutrientSchema, required: false })
-  'WATER'?: Nutrient;
-  @Prop({ type: NutrientSchema, required: false })
-  'ZN'?: Nutrient;
+  ZN?: Nutrient;
 }
 export const NutrientDetailsSchema = SchemaFactory.createForClass(NutrientDetails);
 
@@ -98,6 +139,9 @@ export class Measure {
 
   @Prop({ type: String, required: false })
   label?: string;
+
+  @Prop({ type: String, required: false })
+  spanishLabel?: string;
 
   @Prop({ type: Number, required: false })
   weight: number;

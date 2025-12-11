@@ -8,10 +8,18 @@ import { FoodParserService } from 'src/modules/nutrition/foods/application/foods
 import { MongooseModule } from '@nestjs/mongoose';
 import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/out/schemas/internal-food.schema';
 import { InternalFoodsPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-foods-persistence.service';
+import { CalculatorResolver } from 'src/modules/nutrition/foods/adapters/in/calculator.resolver';
+import { NutrientsCalculatorService } from 'src/modules/nutrition/foods/application/nutrients-calculator.service';
 
-const resolvers = [FoodsResolver];
+const resolvers = [CalculatorResolver, FoodsResolver];
 
-const internalServices = [GetFoodsService, FoodParserService, FoodTextSearcherService, InternalFoodsPersistenceService];
+const internalServices = [
+  GetFoodsService,
+  FoodParserService,
+  FoodTextSearcherService,
+  InternalFoodsPersistenceService,
+  NutrientsCalculatorService,
+];
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: InternalFood.name, schema: InternalFoodSchema }]), SharedModule, AuthModule],

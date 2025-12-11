@@ -1,3 +1,27 @@
+# Steps to insert new fresh data in internal foods
+- verify if new food exists in db
+- get its micronutrients
+- transform this attribute nutrients:
+Sugar.alcohol, Sugar.added and CHOCDF.net
+- add spanishLabel to measures attributes
+
+# Measure unit translated for measure array 
+serving - ración
+splash - chorrito
+wedge - trozo
+drop - gota
+fluid ounce - onza líquida
+Fillet - filete
+Piece - pieza
+Pound - libra
+Ounce - onza
+Liquid ounce - onza líquida
+Grams - gramos
+Strip - Tira
+Teaspoon - cucharilla
+Slice - rebanada
+Bunch - manojo
+
 # Foods saved in internal foods in spanish
 
 ```js

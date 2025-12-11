@@ -21,7 +21,7 @@ export class FoodParserService {
     const nextSessionValue = sessionParam.split('=')[1];
     return nextSessionValue;
   }
-  private transformMeasure(measures: FoodMeasure[]): Measure[] {
+  private transformMeasure(measures: (FoodMeasure & { spanishLabel?: string })[]): Measure[] {
     return measures
       .filter((measure) => measure.label && measure.label !== 'Whole' && measure.label !== 'Kilogram')
       .map((measure) => {
@@ -29,6 +29,7 @@ export class FoodParserService {
           uri: measure.uri,
           label: measure.label,
           weightInGrams: parseFloat(Number(measure.weight).toFixed(2)),
+          ...(measure.spanishLabel && { spanishLabel: measure.spanishLabel }),
         };
       });
   }

@@ -43,6 +43,9 @@ export class Measure {
   @Field()
   label: string;
 
+  @Field({ nullable: true })
+  spanishLabel?: string;
+
   @Field()
   weightInGrams: number;
 }

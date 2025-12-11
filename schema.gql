@@ -69,6 +69,10 @@ input AssignProgramDto {
   startingDay: Float!
 }
 
+input CalculateNutrientsDto {
+  internalFoods: [FoodInput!]!
+}
+
 input CalculatedMacrosInput {
   basalEnergyRate: Float!
   carbsDensity: Float!
@@ -355,6 +359,11 @@ type Food {
   macros: Macros!
   name: String!
   uuid: String
+}
+
+input FoodInput {
+  amount: Float!
+  internalFood: String!
 }
 
 type FoodProviderSession {
@@ -713,6 +722,7 @@ input MealBodyInput {
 
 type Measure {
   label: String!
+  spanishLabel: String
   uri: String
   weightInGrams: Float!
 }
@@ -730,6 +740,7 @@ type Mutation {
   addPlanMeal(toAddInput: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
+  calculateNutrients(input: CalculateNutrientsDto!): NutrientDetails!
   createMeal(toAddInput: AddMealDto!): Program!
   createNote(input: CreateNoteDto!): Note!
   createNutritionalMeal(input: CreateNutritionalMealDto!): NutritionalMeal!
@@ -797,6 +808,50 @@ type Note {
   patient: String!
   professional: String!
   uuid: String!
+}
+
+type Nutrient {
+  label: String
+  quantity: Float
+  spanishLabel: String
+  unit: String
+}
+
+type NutrientDetails {
+  CA: Nutrient
+  CHOCDF: Nutrient
+  CHOCDF_NET: Nutrient
+  CHOLE: Nutrient
+  ENERC_KCAL: Nutrient
+  FAMS: Nutrient
+  FAPU: Nutrient
+  FASAT: Nutrient
+  FAT: Nutrient
+  FATRN: Nutrient
+  FE: Nutrient
+  FIBTG: Nutrient
+  FOLAC: Nutrient
+  FOLDFE: Nutrient
+  FOLFD: Nutrient
+  K: Nutrient
+  MG: Nutrient
+  NA: Nutrient
+  NIA: Nutrient
+  P: Nutrient
+  PROCNT: Nutrient
+  RIBF: Nutrient
+  SUGAR: Nutrient
+  SUGAR_ADDED: Nutrient
+  THIA: Nutrient
+  TOCPHA: Nutrient
+  VITA_RAE: Nutrient
+  VITB6A: Nutrient
+  VITB12: Nutrient
+  VITC: Nutrient
+  VITD: Nutrient
+  VITK1: Nutrient
+  WATER: Nutrient
+  ZN: Nutrient
 }
 
 type NutritionalMeal {
