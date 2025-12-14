@@ -9,11 +9,11 @@ export class FoodInput {
 
   @Field()
   @IsNumber()
-  amount: number;
+  amountInGrams: number;
 }
 
 @InputType()
-export class CalculateNutrientsDto {
+export class CalculateFoodsNutrientsDto {
   @Field(() => [FoodInput])
   @IsArray()
   @ValidateNested({ each: true })

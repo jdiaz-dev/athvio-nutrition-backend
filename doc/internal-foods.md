@@ -3,13 +3,13 @@
 - get its micronutrients
 - transform this attribute nutrients:
 Sugar.alcohol, Sugar.added and CHOCDF.net
-- add spanishLabel to measures attributes
+- add spanishLabel to measures attribute items
 
 # Measure unit translated for measure array 
-serving - ración
-splash - chorrito
+Serving - ración
+Splash - chorrito
 wedge - trozo
-drop - gota
+Drop - gota
 fluid ounce - onza líquida
 Fillet - filete
 Piece - pieza
@@ -21,6 +21,15 @@ Strip - Tira
 Teaspoon - cucharilla
 Slice - rebanada
 Bunch - manojo
+Container - recipiente
+Pouch - bolsa
+Package - paquete
+Head - cabeza
+Branch - rama
+Stem - ramita
+Spear - bastón
+Floweret - florete
+Box - caja
 
 # Foods saved in internal foods in spanish
 

@@ -69,8 +69,14 @@ input AssignProgramDto {
   startingDay: Float!
 }
 
-input CalculateNutrientsDto {
+input CalculateFoodsNutrientsDto {
   internalFoods: [FoodInput!]!
+}
+
+input CalculateNutrientsByMeasureDto {
+  amount: Float!
+  internalFood: String!
+  uri: String!
 }
 
 input CalculatedMacrosInput {
@@ -362,7 +368,7 @@ type Food {
 }
 
 input FoodInput {
-  amount: Float!
+  amountInGrams: Float!
   internalFood: String!
 }
 
@@ -740,7 +746,8 @@ type Mutation {
   addPlanMeal(toAddInput: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
-  calculateNutrients(input: CalculateNutrientsDto!): NutrientDetails!
+  calculateFoodsNutrients(input: CalculateFoodsNutrientsDto!): NutrientDetails!
+  calculateNutrientsByMeasure(input: CalculateNutrientsByMeasureDto!): NutrientDetails!
   createMeal(toAddInput: AddMealDto!): Program!
   createNote(input: CreateNoteDto!): Note!
   createNutritionalMeal(input: CreateNutritionalMealDto!): NutritionalMeal!
