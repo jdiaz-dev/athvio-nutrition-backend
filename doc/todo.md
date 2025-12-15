@@ -52,8 +52,9 @@
 - fix: manage upload image error when I don't upload nothing 
 - fix: add imageSource in addMeal of programs
 - fix: use Promise.allSettled instead of Promise.all
+- fix: update nutritional meals to source: SYSTEM and upload to s3
 
-- discovery: test multiple request to edamam api (1unit carrot, 100g carrot, 100g tomato )
+- fix: use workerthreads to calculate nutrients
 
 ## Database
 - fix zanahorias search

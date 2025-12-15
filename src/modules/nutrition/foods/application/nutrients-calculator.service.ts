@@ -6,6 +6,7 @@ import { NutrientDetails } from 'src/shared/adapters/out/schemas/internal-food.s
 
 @Injectable()
 export class NutrientsCalculatorService {
+  private readonly _100grams = 100;
   constructor(private readonly ifps: InternalFoodsPersistenceService) {}
 
   async calculateNutrientsByMeasure(dto: CalculateNutrientsByMeasureDto): Promise<NutrientDetails> {
@@ -22,7 +23,7 @@ export class NutrientsCalculatorService {
 
     const nutrientsAccumulated: NutrientDetails = {};
     for (const [_index, internalFood] of dto.internalFoods.entries()) {
-      const food = foods.find((f) => f.uuid === internalFood.internalFood);
+      const food = foods.find((food) => food.uuid === internalFood.internalFood);
       this.calculateNutrients(food.nutrientDetails, nutrientsAccumulated, internalFood.amountInGrams);
     }
 
@@ -36,7 +37,7 @@ export class NutrientsCalculatorService {
     for (const nutrientKey in nutrientDetails) {
       const typedKey = nutrientKey as keyof NutrientDetails;
       const quantityPer100g = nutrientDetails[typedKey].quantity;
-      const totalNutrient = (quantityPer100g * amountToCalculate) / 100;
+      const totalNutrient = (quantityPer100g * amountToCalculate) / this._100grams;
 
       if (nutrientsAccumulated[typedKey]) {
         nutrientsAccumulated[typedKey].quantity += totalNutrient;

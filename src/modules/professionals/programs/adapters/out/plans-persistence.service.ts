@@ -17,6 +17,7 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
+import { EnumSources } from 'src/shared/enums/project';
 
 @Injectable()
 export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument> {
@@ -34,7 +35,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
   ): Promise<Program> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const programRes = await this.initializeQuery(this.addProgramPlanWithMeals.name).findOneAndUpdate(
-      { uuid: program, professional, isDeleted: false },
+      { uuid: program, professional, source: EnumSources.PROFESSIONAL, isDeleted: false },
       {
         $push: {
           plans: {
@@ -61,7 +62,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
     const programRes = await this.initializeQuery(this.updatePlanAssignedWeekDay.name).findOneAndUpdate(
-      { uuid: rest.program, professional, isDeleted: false },
+      { uuid: rest.program, professional, source: EnumSources.PROFESSIONAL, isDeleted: false },
       { $set: { 'plans.$[plan].week': rest.week, 'plans.$[plan].day': rest.day } },
       {
         arrayFilters: [{ 'plan.uuid': rest.plan, 'plan.isDeleted': false }],
@@ -86,6 +87,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
         $match: {
           uuid: program,
           professional,
+          source: EnumSources.PROFESSIONAL,
           isDeleted: false,
         },
       },
@@ -116,7 +118,7 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
 
   async deleteProgramPlan({ professional, ...rest }: DeleteProgramPlanDto, selectors: string[]): Promise<Program> {
     const programRes = await this.initializeQuery(this.deleteProgramPlan.name).findOneAndUpdate(
-      { uuid: rest.program, professional, isDeleted: false },
+      { uuid: rest.program, professional, source: EnumSources.PROFESSIONAL, isDeleted: false },
       {
         $pull: {
           plans: { uuid: rest.plan, isDeleted: false },

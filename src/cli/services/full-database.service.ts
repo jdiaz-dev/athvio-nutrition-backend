@@ -6,6 +6,9 @@ import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.ser
 import { spanishLabelMap } from 'src/cli/constants/cli-constants';
 
 //milk
+//water
+//pimienta dulce
+//agua de manantial (spring water)
 const allFoods: string[] = [];
 
 @Injectable()
@@ -24,7 +27,6 @@ export class FullDatabaseService {
     for (let offset = 0; offset < totalFoods; offset++) {
       try {
         const food = await this.ifds.getInternalFoods({ offset, limit, search: [] });
-        // console.log(food.data[0].foodDetails.foodId);
         const { dietLabels, healthLabels, totalNutrients } = await this.foodProvider.getFoodNutrients({
           ingredients: [
             {

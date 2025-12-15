@@ -14,7 +14,7 @@ import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
-import { ManageProgramTags } from 'src/shared/enums/project';
+import { EnumSources, ManageProgramTags } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
 import { Trazability } from 'src/shared/types';
@@ -99,6 +99,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
       {
         $match: {
           professional,
+          source: EnumSources.PROFESSIONAL,
           isDeleted: false,
         },
       },
@@ -184,7 +185,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
   }
   async updateProgram({ professional, program, ...rest }: UpdateProgramDto): Promise<Program | null> {
     const programRes = await this.initializeQuery(this.updateProgram.name).findOneAndUpdate(
-      { uuid: program, professional, isDeleted: false },
+      { uuid: program, professional, source: EnumSources.PROFESSIONAL, isDeleted: false },
       { ...rest },
       { new: true, populate: 'programTags' },
     );
@@ -199,7 +200,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
         : { $pull: { programTags: rest.programTag } };
 
     const programRes = await this.initializeQuery(this.updateProgramTag.name).findOneAndUpdate(
-      { uuid: program, professional, isDeleted: false },
+      { uuid: program, professional, source: EnumSources.PROFESSIONAL, isDeleted: false },
       _action,
       {
         new: true,
@@ -211,7 +212,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
   }
   async updateProgramPatients(program: string, professional: string, patients: string[]): Promise<Program | null> {
     const programRes = await this.initializeQuery(this.updateProgramPatients.name).findOneAndUpdate(
-      { uuid: program, professional, isDeleted: false },
+      { uuid: program, professional, source: EnumSources.PROFESSIONAL, isDeleted: false },
       { $push: { patients } },
       {
         new: true,
@@ -228,6 +229,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
       {
         uuid: rest.program,
         professional,
+        source: EnumSources.PROFESSIONAL,
         isDeleted: false,
       },
       {

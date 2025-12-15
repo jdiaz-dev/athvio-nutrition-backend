@@ -12,6 +12,7 @@ import { Program, ProgramDocument } from 'src/modules/professionals/programs/ada
 import { AddPlanMeal } from 'src/modules/professionals/programs/types/program';
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
+import { EnumSources } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { Trazability } from 'src/shared/types';
 
@@ -29,7 +30,7 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
     const programRes = await this.initializeQuery(this.addMeal.name).findOneAndUpdate(
-      { uuid: program, professional },
+      { uuid: program, professional, source: EnumSources.PROFESSIONAL },
       { $push: { 'plans.$[plan].meals': { $each: meals.map((item) => ({ uuid: randomUUID(), ...item })) } } },
       {
         arrayFilters: [{ 'plan.uuid': plan, 'plan.isDeleted': false }],
@@ -65,7 +66,7 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
     }));
 
     const programRes = await this.initializeQuery(this.updateMeal.name).findOneAndUpdate(
-      { uuid: program, professional },
+      { uuid: program, professional, source: EnumSources.PROFESSIONAL },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
         arrayFilters: [
@@ -97,7 +98,7 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
       [`meal${index}.isDeleted`]: false,
     }));
     const programRes = await this.initializeQuery(this.deleteMeal.name).findOneAndUpdate(
-      { uuid: program, professional },
+      { uuid: program, professional, source: EnumSources.PROFESSIONAL },
       { $set: Object.assign({}, ...deleteSubDocuments) },
       {
         arrayFilters: [
