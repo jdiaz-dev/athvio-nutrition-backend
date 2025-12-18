@@ -30,6 +30,7 @@ Stem - ramita
 Spear - bastón
 Floweret - florete
 Box - caja
+Leaft - hoja
 
 # Foods saved in internal foods in spanish
 

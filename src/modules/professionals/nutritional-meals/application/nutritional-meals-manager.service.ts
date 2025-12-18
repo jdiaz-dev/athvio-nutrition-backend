@@ -54,7 +54,7 @@ export class NutritionalMealsManagerService {
           }
         : database === NutritionalMealDatabases.CUSTOM_MEALS
           ? { source: EnumSources.PROFESSIONAL }
-          : { source: EnumSources.SYSTEM };
+          : { source: EnumSources.SYSTEM, language: rest.language };
 
     const filters = {
       match: {

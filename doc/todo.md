@@ -67,3 +67,4 @@
 1. Activa la muerte celular por necroptosis
 2. apoptosis
 - fix: infusiones con adaptogenos no funciona (preferencias nutricionales)
+- fix: food list cannot get jugo de limón

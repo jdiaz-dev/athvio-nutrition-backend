@@ -44,11 +44,11 @@ db.InternalFoods.updateMany(
   {},
   {
     $set: {
-      'measures.$[tb].spanishLabel': 'Litro',
+      'measures.$[tb].spanishLabel': 'Hoja',
     },
   },
   {
-    arrayFilters: [{ 'tb.label': 'Liter' }],
+    arrayFilters: [{ 'tb.label': 'Leaf' }],
   },
 );
 

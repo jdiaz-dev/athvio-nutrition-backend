@@ -9,6 +9,8 @@ import { spanishLabelMap } from 'src/cli/constants/cli-constants';
 //water
 //pimienta dulce
 //agua de manantial (spring water)
+//platano congelado
+//mango congelado
 const allFoods: string[] = [];
 
 @Injectable()
