@@ -45,16 +45,15 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
 
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
     const hasSearch = Array.isArray(dto.search) && dto.search.join(' ').trim().length > 0;
-
-    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate(
-      [
-        {
-          $match: {
-            ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
-            'foodDetails.category': 'Generic foods',
-          },
+    console.log(hasSearch);
+    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
+      {
+        $match: {
+          ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
+          'foodDetails.category': 'Generic foods',
         },
-        /* {
+      },
+      /* {
           $addFields: {
             ...(hasSearch && { score: { $meta: 'textScore' } }),
           },
@@ -64,38 +63,44 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
             score: -1,
           },
         }, */
-        {
-          $addFields: {
-            score: {
-              $cond: [hasSearch, { $meta: 'textScore' }, null],
+      ...(hasSearch
+        ? [
+            {
+              $addFields: {
+                score: {
+                  $cond: [hasSearch, { $meta: 'textScore' }, null],
+                },
+              },
             },
-          },
+          ]
+        : []),
+      ...(hasSearch
+        ? [
+            {
+              $sort: { score: -1 as -1 },
+            },
+          ]
+        : []),
+      {
+        $facet: {
+          data: [
+            {
+              $skip: dto.offset,
+            },
+            {
+              $limit: dto.limit,
+            },
+          ],
+          meta: [{ $count: 'total' }],
         },
-
-        {
-          $sort: hasSearch ? { score: -1 } : { _id: -1 },
+      },
+      {
+        $project: {
+          data: 1,
+          total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
         },
-        {
-          $facet: {
-            data: [
-              {
-                $skip: dto.offset,
-              },
-              {
-                $limit: dto.limit,
-              },
-            ],
-            meta: [{ $count: 'total' }],
-          },
-        },
-        {
-          $project: {
-            data: 1,
-            total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
-          },
-        },
-      ],
-    );
+      },
+    ]);
 
     const res: GetInternalFoodsResponse = {
       data: foodsRes[0].data,
