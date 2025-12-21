@@ -11,6 +11,7 @@ import { spanishLabelMap } from 'src/cli/constants/cli-constants';
 //agua de manantial (spring water)
 //platano congelado
 //mango congelado
+//aceite de ricino
 const allFoods: string[] = [];
 
 @Injectable()

@@ -15,14 +15,14 @@ db.InternalFoods.aggregate([
 ]);
 
 db.InternalFoods.updateMany(
-  { 'measures.label': 'Gram' },
+  { 'measures.label': 'Grams' },
   {
     $set: {
-      'measures.$[elem].label': 'Gramos',
+      'measures.$[elem].label': 'Gram',
     },
   },
   {
-    arrayFilters: [{ 'elem.label': 'Gram' }],
+    arrayFilters: [{ 'elem.label': 'Grams' }],
   },
 );
 db.InternalFoods.find({ isSuccessfullUpdated: true });
@@ -44,11 +44,11 @@ db.InternalFoods.updateMany(
   {},
   {
     $set: {
-      'measures.$[tb].spanishLabel': 'Hoja',
+      'measures.$[tb].spanishLabel': 'Gramo',
     },
   },
   {
-    arrayFilters: [{ 'tb.label': 'Leaf' }],
+    arrayFilters: [{ 'tb.label': 'Gram' }],
   },
 );
 
