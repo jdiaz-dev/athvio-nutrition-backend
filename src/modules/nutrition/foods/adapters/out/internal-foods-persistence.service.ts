@@ -63,24 +63,8 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
             score: -1,
           },
         }, */
-      ...(hasSearch
-        ? [
-            {
-              $addFields: {
-                score: {
-                  $cond: [hasSearch, { $meta: 'textScore' }, null],
-                },
-              },
-            },
-          ]
-        : []),
-      ...(hasSearch
-        ? [
-            {
-              $sort: { score: -1 as -1 },
-            },
-          ]
-        : []),
+      ...(hasSearch ? [{ $addFields: { score: { $meta: 'textScore' } } }] : []),
+      ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
       {
         $facet: {
           data: [
