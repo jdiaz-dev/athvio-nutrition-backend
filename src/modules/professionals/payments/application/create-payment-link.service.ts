@@ -11,10 +11,10 @@ export class CreatePaymentLinkService {
     private readonly pps: PaymentsPersistenceService,
   ) {}
 
-  async createPaymentLink(professional: string): Promise<string> {
+  async createPaymentLink(professional: string, email: string): Promise<string> {
     const payment = await this.pps.createPayment({ uuid: randomUUID(), professional, status: InternalPaymentStatus.PENDING });
     const paymentLink = await this.pprs.createPaymentLink({ reference_id: payment.uuid });
-    const paymentLinkWithParam = `${paymentLink.url}?reference_id=${payment.uuid}`;
+    const paymentLinkWithParam = `${paymentLink.url}?reference_id=${payment.uuid}&customer_email=${encodeURIComponent(email)}`;
     return paymentLinkWithParam;
   }
 }

@@ -44,9 +44,9 @@ export class ProfessionalOnboardingManagerService {
   ) {}
 
   async onboardProfessional(dto: SignUpProfessionalDto & { googleSub?: string; photo?: string }): Promise<string> {
-    const { professional } = await this.createProfessionalAndUser(dto);
+    const { professional, email } = await this.createProfessionalAndUser(dto);
     this.createDefaultData(professional, dto).catch((error) => console.error(error));
-    const paymentLink = await this.cpls.createPaymentLink(professional);
+    const paymentLink = await this.cpls.createPaymentLink(professional, email);
     return paymentLink;
   }
   private async createProfessionalAndUser({
@@ -58,7 +58,7 @@ export class ProfessionalOnboardingManagerService {
     email,
     password,
     ...userDto
-  }: SignUpProfessionalDto): Promise<{ professional: string } & UserValidated> {
+  }: SignUpProfessionalDto): Promise<{ professional: string; email: string } & UserValidated> {
     const user = await this.ums.getUserByEmail(email);
     if (user) throw new BadRequestException(ErrorAuthEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
@@ -73,7 +73,7 @@ export class ProfessionalOnboardingManagerService {
       user: uuid,
       ...professionalInfo,
     });
-    return { uuid, professional: professionalUuid, role };
+    return { uuid, professional: professionalUuid, role, email };
   }
   private async createDefaultData(professional: string, dto: SignUpProfessionalDto) {
     await this.qcm.createQuestionary(professional);
