@@ -37,6 +37,7 @@ export class UsersPersistenceService extends MongodbQueryBuilder<UserDocument> {
           uuid: 1,
           role: 1,
           password: 1,
+          googleSub: 1,
         },
       },
     ]);

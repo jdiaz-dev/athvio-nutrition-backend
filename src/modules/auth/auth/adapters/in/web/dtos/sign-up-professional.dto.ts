@@ -23,8 +23,8 @@ export class SignUpProfessionalDto {
   @Field()
   @IsStrongPassword({
     minLength: 3,
-    minLowercase: 1,
-    minUppercase: 1,
+    minLowercase: 0,
+    minUppercase: 0,
     minNumbers: 0,
     minSymbols: 0,
   })

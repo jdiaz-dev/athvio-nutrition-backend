@@ -3,10 +3,15 @@ export enum InternalErrors {
   IA_PROVIDER = 'An error has happened with IA provider',
 }
 
+export enum ErrorAuthEnum {
+  EMAIL_EXISTS = 'Este correo ya está siendo utilizado.',
+  EMAIL_NOT_FOUND = 'No se ha encontrado este correo.',
+  BAD_CREDENTIALS = 'Correo o contraseña inválidos, por favor intente de nuevo.',
+  INVALID_ACCESS_METHOD = 'Método de acceso inválido, por favor intente de nuevo.',
+}
+
 export enum ErrorUsersEnum {
   USER_NOT_FOUND = 'This user does not exist.',
-  EMAIL_EXISTS = 'This email already exists.',
-  BAD_CREDENTIALS = 'Invalid email or password, please try again.',
 }
 
 export enum ProfessionalMessages {

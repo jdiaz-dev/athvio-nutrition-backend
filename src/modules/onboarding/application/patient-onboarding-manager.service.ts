@@ -9,7 +9,7 @@ import { PatientManagerService } from 'src/modules/patients/patients/application
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
-import { ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
+import { ErrorAuthEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
@@ -33,7 +33,7 @@ export class PatientOnboardingManagerService {
     isPatientDemo: boolean = false,
   ): Promise<SignUpPatientResponse> {
     const userEmail = await this.ums.getUserByEmail(userInfo.email);
-    if (userEmail) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
+    if (userEmail) throw new BadRequestException(ErrorAuthEnum.EMAIL_EXISTS, this.layer);
 
     const _proffesional = await this.prms.getProfessionalByUuid(professional, { 'uuid': 1, 'user.uuid': 1 });
     if (!_proffesional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
@@ -76,7 +76,7 @@ export class PatientOnboardingManagerService {
   }
   async onboardingForMobile({ email, password }: SignUpPatientFromMobileDto): Promise<UserValidated> {
     const user = await this.ums.getUserByEmail(email);
-    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, this.layer);
+    if (user) throw new BadRequestException(ErrorAuthEnum.EMAIL_EXISTS, this.layer);
 
     const { uuid, role } = await this.cus.createUserForMobilePatient(email, {
       password: EncryptionService.encrypt(password),

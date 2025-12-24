@@ -8,7 +8,7 @@ import { ProfessionalsManagementService } from 'src/modules/professionals/profes
 import { AssignProgramService } from 'src/modules/professionals/programs/application/assign-program.service';
 
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
-import { ErrorUsersEnum } from 'src/shared/enums/messages-response';
+import { ErrorAuthEnum } from 'src/shared/enums/messages-response';
 import { EnumSources, LayersServer, SupportedLanguages } from 'src/shared/enums/project';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
@@ -60,7 +60,7 @@ export class ProfessionalOnboardingManagerService {
     ...userDto
   }: SignUpProfessionalDto): Promise<{ professional: string } & UserValidated> {
     const user = await this.ums.getUserByEmail(email);
-    if (user) throw new BadRequestException(ErrorUsersEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
+    if (user) throw new BadRequestException(ErrorAuthEnum.EMAIL_EXISTS, LayersServer.APPLICATION);
 
     const { uuid, role } = await this.cus.createUserForProfessional(email, {
       ...userDto,

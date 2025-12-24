@@ -3,7 +3,7 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import * as bcryptjs from 'bcryptjs';
 import { IValidateUserUseCase, UserValidated } from '../ports/in/validate-user.use-case';
 import { JwtService } from '@nestjs/jwt';
-import { ErrorPatientsEnum, ErrorUsersEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
+import { ErrorAuthEnum, ErrorPatientsEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
@@ -20,12 +20,13 @@ export class AuthenticationService implements IValidateUserUseCase {
   ) {}
   async validateCredentials(email: string, _password: string): Promise<UserValidated> {
     const user = await this.ums.getUserByEmail(email);
-    if (!user) throw new NotFoundException(ErrorUsersEnum.USER_NOT_FOUND);
+    if (!user) throw new NotFoundException(ErrorAuthEnum.EMAIL_NOT_FOUND);
+    if (user && user.googleSub && _password) throw new UnauthorizedException(ErrorAuthEnum.INVALID_ACCESS_METHOD);
 
     const { uuid, role, password } = user;
     const validPassword = await bcryptjs.compare(_password, password);
 
-    if (!validPassword) throw new UnauthorizedException(ErrorUsersEnum.BAD_CREDENTIALS);
+    if (!validPassword) throw new UnauthorizedException(ErrorAuthEnum.BAD_CREDENTIALS);
 
     if (role === EnumRoles.PROFESSIONAL) {
       const professional = await this.pms.getProfessionalByUser(uuid);

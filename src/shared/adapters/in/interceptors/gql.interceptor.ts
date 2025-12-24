@@ -5,8 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { WorkFlowStreamAuditManagerService } from 'src/modules/backoffice/work-steram-audit/application/work-stream-audit-manager.service';
 import { randomUUID } from 'node:crypto';
 
-type AnyObj = Record<string, any>;
-const maskKeys = ['password', 'token', 'authorization', 'refreshToken'];
+const maskKeys = ['password', 'token', 'authorization', 'idToken'];
 
 @Injectable()
 export class GqlInterceptor implements NestInterceptor {
@@ -50,16 +49,18 @@ export class GqlInterceptor implements NestInterceptor {
       return '[unserializable]';
     }
   }
-  private mask(obj: AnyObj, keys = maskKeys) {
+  private mask(obj: Record<string, any>) {
     try {
       const clone = JSON.parse(JSON.stringify(obj ?? {}));
-      const deep = (o: AnyObj) => {
-        for (const k of Object.keys(o || {})) {
-          if (keys.includes(k.toLowerCase())) o[k] = '***';
-          else if (o[k] && typeof o[k] === 'object') deep(o[k]);
+
+      const deep = (obj: Record<string, any>) => {
+        for (const key of Object.keys(obj || {})) {
+          if (maskKeys.includes(key)) obj[key] = '***';
+          else if (obj[key] && typeof obj[key] === 'object') deep(obj[key]);
         }
       };
       deep(clone);
+
       return clone;
     } catch {
       return obj;
