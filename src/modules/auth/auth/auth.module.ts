@@ -43,7 +43,6 @@ const resolvers = [
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('tokenKey'),
-        signOptions: { expiresIn: '7d' },
       }),
     }),
     forwardRef(() => UsersModule),
