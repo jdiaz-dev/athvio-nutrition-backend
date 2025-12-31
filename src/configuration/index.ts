@@ -93,6 +93,8 @@ class OtherVariables extends StorageVariables {
   MAILS_SENDER: string;
   @IsString()
   GPT_SECRET_KEY: string;
+  @IsString()
+  PRODUCTION_TESTER_PROFESSIONAL_ID: string;
 }
 
 class EnvironmentVariables extends OtherVariables {}

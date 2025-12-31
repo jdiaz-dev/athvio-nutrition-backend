@@ -37,4 +37,5 @@ export const local: IEnvironment = {
     deeplAuthKey: process.env.DEEPL_AUTH_KEY,
   },
   mailsSender: process.env.MAILS_SENDER,
+  productionTesterProfessionalId: process.env.PRODUCTION_TESTER_PROFESSIONAL_ID,
 };

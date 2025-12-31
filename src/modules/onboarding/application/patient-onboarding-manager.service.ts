@@ -62,7 +62,10 @@ export class PatientOnboardingManagerService {
       })),
     });
 
-    if (!isPatientDemo) await this.sendMail(_proffesional.user.uuid, uuid, email, firstname);
+    const isProductionTesterProfessionalId =
+      this.configService.get<string>('productionTesterProfessionalId') === _proffesional.uuid;
+
+    if (!isPatientDemo && !isProductionTesterProfessionalId) await this.sendMail(_proffesional.user.uuid, uuid, email, firstname);
 
     const _patient = {
       ...patient,

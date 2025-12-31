@@ -50,4 +50,5 @@ export interface IEnvironment {
   translationProvider: TranslationProvider;
   port: string;
   mailsSender: string;
+  productionTesterProfessionalId: string;
 }
