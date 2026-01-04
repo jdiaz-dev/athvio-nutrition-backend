@@ -50,19 +50,9 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
       {
         $match: {
           ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
-          'foodDetails.category': 'Generic foods',
+          // 'foodDetails.category': 'Generic foods',
         },
       },
-      /* {
-          $addFields: {
-            ...(hasSearch && { score: { $meta: 'textScore' } }),
-          },
-        },
-        {
-          $sort: {
-            score: -1,
-          },
-        }, */
       ...(hasSearch ? [{ $addFields: { score: { $meta: 'textScore' } } }] : []),
       ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
       {
