@@ -7,7 +7,7 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 
 import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/delete-meal.dto';
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/dtos/meal/update-meal.dto';
-import { ProgramQueryFragmentsService } from 'src/modules/professionals/programs/adapters/out/program-query-fragments.service';
+import { ProgramQueryFragmentsService } from 'src/shared/adapters/out/database/program-query-fragments.service';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { AddPlanMeal } from 'src/modules/professionals/programs/types/program';
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';

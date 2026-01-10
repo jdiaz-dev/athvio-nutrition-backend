@@ -548,6 +548,14 @@ input GetPatientPlansForWebDto {
   startDate: String!
 }
 
+input GetPatientProgramsDto {
+  limit: Float = 30
+  offset: Float = 0
+  orderBy: String
+  patient: String!
+  search: [String!] = [""]
+}
+
 input GetPatientQuestionaryByIdDto {
   questionary: String!
 }
@@ -951,6 +959,14 @@ type PatientPlan {
   uuid: String!
 }
 
+type PatientProgram {
+  createdAt: DateTime!
+  name: String!
+  patient: String!
+  plans: [PlanBase!]!
+  uuid: String!
+}
+
 type PatientQuestionary {
   _id: ID!
   createdAt: DateTime!
@@ -994,6 +1010,16 @@ input PatientQuestionaryGroupWithAnswersInput {
 }
 
 type Plan {
+  createdAt: DateTime!
+  day: Float!
+  isDeleted: Boolean!
+  meals: [Meal!]!
+  title: String!
+  uuid: String!
+  week: Float!
+}
+
+type PlanBase {
   createdAt: DateTime!
   day: Float!
   isDeleted: Boolean!
@@ -1089,6 +1115,7 @@ type Query {
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
   getPatientPlansForMobile(patientPlans: GetPatientPlansForMobileDto!): [PatientPlan!]!
   getPatientPlansForWeb(patientPlans: GetPatientPlansForWebDto!): [PatientPlan!]!
+  getPatientPrograms(input: GetPatientProgramsDto!): Program!
   getPatientQuestionary(input: GetPatientQuestionaryDto!): PatientQuestionary!
   getPatientQuestionaryById(input: GetPatientQuestionaryByIdDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!

@@ -3,9 +3,8 @@ import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { EnumSources, SupportedLanguages } from 'src/shared/enums/project';
-import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
-import { Meal, MealSchema } from 'src/shared/adapters/out/schemas/meal-plan';
+import { SupportedLanguages } from 'src/shared/enums/project';
+import { PlanBase, ProgramBase } from 'src/shared/adapters/out/schemas/program-base.schema';
 
 @Schema({ _id: false, timestamps: false })
 export class PlanDetail {
@@ -19,29 +18,7 @@ const PlanDetailSchema = SchemaFactory.createForClass(PlanDetail);
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
-export class Plan extends BaseSchema {
-  @Field()
-  @Prop({ type: String, required: false, default: '' })
-  title!: string;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  week!: number;
-
-  @Field()
-  @Prop({ type: Number, required: true })
-  day!: number;
-
-  @Field(() => [Meal])
-  @Prop({ type: [MealSchema], required: true, default: [] })
-  meals!: Meal[];
-
-  //planWorkouts: any;
-
-  @Field()
-  @Prop({ type: Boolean, required: true, default: false })
-  isDeleted: boolean;
-
+export class Plan extends PlanBase {
   @Prop({ type: PlanDetailSchema, required: true, default: {} })
   planDetail: PlanDetail;
 }
@@ -49,14 +26,10 @@ const PlanSchema = SchemaFactory.createForClass(Plan);
 
 @ObjectType()
 @Schema({ timestamps: true, collection: 'Programs' })
-export class Program extends BaseSchema {
+export class Program extends ProgramBase {
   @Field(() => String)
   @Prop({ type: String, required: true })
   professional!: string;
-
-  @Field()
-  @Prop({ type: String, required: true })
-  name!: string;
 
   @Field()
   @Prop({ type: String, required: false })
@@ -77,12 +50,6 @@ export class Program extends BaseSchema {
   @Field()
   @Prop({ type: Boolean, required: true, default: false })
   isSyncActive: boolean;
-
-  @Prop({ type: String, required: true, enum: EnumSources, default: EnumSources.PROFESSIONAL })
-  source: EnumSources;
-
-  @Prop({ type: Boolean, required: true, default: false })
-  isDeleted!: boolean;
 
   @Prop({ type: String, enum: SupportedLanguages, required: false })
   language: SupportedLanguages;
