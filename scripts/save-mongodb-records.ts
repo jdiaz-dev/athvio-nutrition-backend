@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
 
-const bucketName = 'mongodb-records';
+const bucketName = 'mongodb-system-records';
 const filePaths = [
   {
     path: '/home/polsito/Mongodb/athvio.NutritionalMeals.json',
