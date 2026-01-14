@@ -68,9 +68,7 @@ db.InternalFoods.aggregate([
       count: { $gt: 1 },
     },
   },
-])
-.toArray().length
-
+]).toArray().length;
 
 // ------------------------------------------------- to delete repeated foods (delete excess less the first)
 const coll = db.collection; // <- change this to your collection name
@@ -80,9 +78,9 @@ const cursor = coll.aggregate([
     $group: {
       _id: {
         // foodId: "$foodDetails.foodId",
-        label: "$foodDetails.label",
+        label: '$foodDetails.label',
       },
-      ids: { $push: "$_id" }, // all docs with this pair
+      ids: { $push: '$_id' }, // all docs with this pair
       count: { $sum: 1 },
     },
   },
@@ -101,11 +99,40 @@ cursor.forEach((group) => {
   const [keepId, ...idsToDelete] = group.ids;
 
   if (idsToDelete.length > 0) {
-    print(
-      `Keeping ${keepId} for foodId=${group._id.foodId}, label=${group._id.label}, deleting:`,
-      idsToDelete
-    );
+    print(`Keeping ${keepId} for foodId=${group._id.foodId}, label=${group._id.label}, deleting:`, idsToDelete);
 
     coll.deleteMany({ _id: { $in: idsToDelete } });
   }
 });
+
+// Cáscara de psyllium en polvo, Pollo
+//['Cáscara de psyllium en polvo']
+db.InternalFoods.aggregate([
+  {
+    $match: {
+      $text: { $search: ['Cáscara de psyllium en polvo'].join(' ') },
+      // 'foodDetails.category': 'Generic foods',
+    },
+  },
+  { $addFields: { score: { $meta: 'textScore' } } },
+  { $sort: { score: -1 } },
+  {
+    $facet: {
+      data: [
+        {
+          $skip: 0,
+        },
+        {
+          $limit: 5,
+        },
+      ],
+      meta: [{ $count: 'total' }],
+    },
+  },
+  {
+    $project: {
+      data: 1,
+      total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
+    },
+  },
+]);
