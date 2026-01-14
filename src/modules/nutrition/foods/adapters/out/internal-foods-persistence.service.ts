@@ -44,20 +44,21 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
   }
 
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
-    const hasSearch = Array.isArray(dto.search) && dto.search.join(' ').trim().length > 0;
+    const textLength = dto.search.join(' ').trim().length;
+    const hasSearch = textLength > 0;
 
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
         $match: {
           ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
-          // 'foodDetails.category': 'Generic foods',
         },
       },
-      ...(hasSearch ? [{ $addFields: { score: { $meta: 'textScore' } } }] : []),
-      ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
+      ...(hasSearch && textLength !== 30 ? [{ $addFields: { score: { $meta: 'textScore' } } }] : []),
+      ...(hasSearch && textLength !== 30 ? [{ $sort: { score: -1 as -1 } }] : []),
       {
         $facet: {
           data: [
+            ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
             {
               $skip: dto.offset,
             },
