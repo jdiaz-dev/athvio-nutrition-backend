@@ -46,7 +46,7 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
     const textLength = dto.search.join(' ').trim().length;
     const hasSearch = textLength > 0;
-
+    console.log('---textLength', textLength);
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
         $match: {
