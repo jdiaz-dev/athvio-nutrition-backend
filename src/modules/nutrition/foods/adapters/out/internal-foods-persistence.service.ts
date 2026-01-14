@@ -47,35 +47,40 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
     const textLength = dto.search.join(' ').trim().length;
     const hasSearch = textLength > 0;
     console.log('---textLength', textLength);
-    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
-      {
-        $match: {
-          ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
+    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate(
+      [
+        {
+          $match: {
+            ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
+          },
         },
-      },
-      ...(hasSearch && textLength <= 27 ? [{ $addFields: { score: { $meta: 'textScore' } } }] : []),
-      ...(hasSearch && textLength <= 27 ? [{ $sort: { score: -1 as -1 } }] : []),
-      {
-        $facet: {
-          data: [
-            ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
-            {
-              $skip: dto.offset,
-            },
-            {
-              $limit: dto.limit,
-            },
-          ],
-          meta: [{ $count: 'total' }],
+        ...(hasSearch ? [{ $addFields: { score: { $meta: 'textScore' } } }] : []),
+        ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
+        {
+          $facet: {
+            data: [
+              ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
+              {
+                $skip: dto.offset,
+              },
+              {
+                $limit: dto.limit,
+              },
+            ],
+            meta: [{ $count: 'total' }],
+          },
         },
-      },
-      {
-        $project: {
-          data: 1,
-          total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
+        {
+          $project: {
+            data: 1,
+            total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
+          },
         },
+      ],
+      {
+        allowDiskUse: true,
       },
-    ]);
+    );
 
     const res: GetInternalFoodsResponse = {
       data: foodsRes[0].data,
