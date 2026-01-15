@@ -9,6 +9,7 @@ interface INeo4j {
 
 interface IDatabase {
   mongodb: string;
+  mongodb2: string;
   neo4j: INeo4j;
 }
 

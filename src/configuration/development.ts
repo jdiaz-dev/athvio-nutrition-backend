@@ -4,6 +4,7 @@ export const development: IEnvironment = {
   port: process.env.PORT,
   database: {
     mongodb: process.env.MONGO_DB_CONNECTION,
+    mongodb2: process.env.MONGO_DB_CONNECTION_2,
     neo4j: {
       database: process.env.NEO4J_DATABASE,
       scheme: process.env.NEO4J_SCHEME,
@@ -37,5 +38,5 @@ export const development: IEnvironment = {
     deeplAuthKey: process.env.DEEPL_AUTH_KEY,
   },
   mailsSender: process.env.MAILS_SENDER,
-  productionTesterProfessionalId:process.env.PRODUCTION_TESTER_PROFESSIONAL_ID
+  productionTesterProfessionalId: process.env.PRODUCTION_TESTER_PROFESSIONAL_ID,
 };
