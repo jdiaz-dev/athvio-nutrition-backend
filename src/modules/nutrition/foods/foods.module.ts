@@ -10,6 +10,7 @@ import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/out/schema
 import { InternalFoodsPersistenceService } from 'src/modules/nutrition/foods/adapters/out/internal-foods-persistence.service';
 import { CalculatorResolver } from 'src/modules/nutrition/foods/adapters/in/calculator.resolver';
 import { NutrientsCalculatorService } from 'src/modules/nutrition/foods/application/nutrients-calculator.service';
+import { enableSecondDatabase, secondDatabaseName } from 'src/infraestructure/mongodb.module';
 
 const resolvers = [CalculatorResolver, FoodsResolver];
 
@@ -22,7 +23,14 @@ const internalServices = [
 ];
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: InternalFood.name, schema: InternalFoodSchema }]), SharedModule, AuthModule],
+  imports: [
+    MongooseModule.forFeature(
+      [{ name: InternalFood.name, schema: InternalFoodSchema }],
+      enableSecondDatabase ? secondDatabaseName : undefined,
+    ),
+    SharedModule,
+    AuthModule,
+  ],
   providers: [...resolvers, ...internalServices],
 })
 export class FoodsModule {}

@@ -8,12 +8,12 @@ import { InternalFood, InternalFoodDocument } from 'src/shared/adapters/out/sche
 import { GetFoods, GetInternalFoodsResponse } from 'src/modules/nutrition/foods/helpers/foods';
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { Trazability } from 'src/shared/types';
-import { enableSecondDatabase } from 'src/infraestructure/mongodb.module';
+import { enableSecondDatabase, secondDatabaseName } from 'src/infraestructure/mongodb.module';
 
 @Injectable()
 export class InternalFoodsPersistenceService extends MongodbQueryBuilder<InternalFoodDocument> {
   constructor(
-    @InjectModel(InternalFood.name, enableSecondDatabase ? 'db_production_2' : undefined)
+    @InjectModel(InternalFood.name, enableSecondDatabase ? secondDatabaseName : undefined)
     protected readonly internalFoodModel: Model<InternalFoodDocument>,
     protected readonly logger: AthvioLoggerService,
     protected readonly als: AsyncLocalStorage<Trazability>,

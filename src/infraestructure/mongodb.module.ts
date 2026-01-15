@@ -3,6 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
 
 export const enableSecondDatabase = process.env.NODE_ENV === 'production';
+export const secondDatabaseName = 'db_production_2';
+
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -18,7 +20,7 @@ export const enableSecondDatabase = process.env.NODE_ENV === 'production';
             useFactory: (configService: ConfigService) => ({
               uri: configService.get<string>('database.mongodb2'),
             }),
-            connectionName: 'db_production_2',
+            connectionName: secondDatabaseName,
           }),
         ]
       : []),
