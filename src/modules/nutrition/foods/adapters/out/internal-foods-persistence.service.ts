@@ -88,56 +88,63 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
   }
 
   async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
+    const textLength = dto.search.join(' ').trim().length;
+    const hasSearch = textLength > 0;
+
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
         $match: {
-          $and: dto.search.map((foodName) => ({
+          $or: dto.search.map((foodName) => ({
             $or: [{ 'foodDetails.label': { $regex: foodName, $options: 'i' } }],
           })),
         },
       },
-      {
-        $addFields: {
-          exactMatchScore: {
-            $cond: [
-              {
-                $in: [{ $toLower: '$foodDetails.label' }, dto.search.map((term) => term.toLowerCase())],
+      ...(hasSearch
+        ? [
+            {
+              $addFields: {
+                exactMatchScore: {
+                  $cond: [
+                    {
+                      $in: [{ $toLower: '$foodDetails.label' }, dto.search.map((term) => term.toLowerCase())],
+                    },
+                    3, // Exact match
+                    0,
+                  ],
+                },
+                startsWithScore: {
+                  $cond: [
+                    {
+                      $or: dto.search.map((term) => ({
+                        $regexMatch: {
+                          input: { $ifNull: ['$foodDetails.label', ''] },
+                          regex: `^${term}`,
+                          options: 'i',
+                        },
+                      })),
+                    },
+                    2, // Starts with
+                    0,
+                  ],
+                },
+                containsScore: 1, // All matches at least contain the term
               },
-              3, // Exact match
-              0,
-            ],
-          },
-          startsWithScore: {
-            $cond: [
-              {
-                $or: dto.search.map((term) => ({
-                  $regexMatch: {
-                    input: { $ifNull: ['$foodDetails.label', ''] },
-                    regex: `^${term}`,
-                    options: 'i',
-                  },
-                })),
+            },
+            {
+              $addFields: {
+                totalScore: {
+                  $add: ['$exactMatchScore', '$startsWithScore', '$containsScore'],
+                },
               },
-              2, // Starts with
-              0,
-            ],
-          },
-          containsScore: 1, // All matches at least contain the term
-        },
-      },
-      {
-        $addFields: {
-          totalScore: {
-            $add: ['$exactMatchScore', '$startsWithScore', '$containsScore'],
-          },
-        },
-      },
-      {
-        $sort: {
-          'totalScore': -1,
-          'foodDetails.label': 1,
-        },
-      },
+            },
+            {
+              $sort: {
+                'totalScore': -1 as -1,
+                'foodDetails.label': 1 as 1,
+              },
+            },
+          ]
+        : []),
       {
         $facet: {
           data: [
