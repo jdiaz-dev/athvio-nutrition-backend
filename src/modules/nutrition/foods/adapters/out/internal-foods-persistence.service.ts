@@ -45,43 +45,78 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
     return foodsRes as InternalFood[];
   }
 
-  async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
-    const textLength = dto.search.join(' ').trim().length;
-    const hasSearch = textLength > 0;
-    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate(
-      [
-        {
-          $match: {
-            ...(hasSearch && { $text: { $search: dto.search.join(' ') } }),
-          },
-        },
-        ...(hasSearch ? [{ $addFields: { score: { $meta: 'textScore' } } }] : []),
-        ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
-        {
-          $facet: {
-            data: [
-              ...(hasSearch ? [{ $sort: { score: -1 as -1 } }] : []),
-              {
-                $skip: dto.offset,
-              },
-              {
-                $limit: dto.limit,
-              },
-            ],
-            meta: [{ $count: 'total' }],
-          },
-        },
-        {
-          $project: {
-            data: 1,
-            total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
-          },
-        },
-      ],
+  async getInternalFoodsByText(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
+    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
-        allowDiskUse: true,
+        $match: {
+          $text: { $search: dto.search.join(' ') },
+        },
       },
-    );
+      { $addFields: { score: { $meta: 'textScore' } } },
+      { $sort: { score: -1 as -1 } },
+      {
+        $facet: {
+          data: [
+            { $sort: { score: -1 as -1 } },
+            {
+              $skip: dto.offset,
+            },
+            {
+              $limit: dto.limit,
+            },
+          ],
+          meta: [{ $count: 'total' }],
+        },
+      },
+      {
+        $project: {
+          data: 1,
+          total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
+        },
+      },
+    ]);
+
+    const res: GetInternalFoodsResponse = {
+      data: foodsRes[0].data,
+      meta: {
+        total: foodsRes[0].total,
+        limit: dto.limit,
+        offset: dto.offset,
+      },
+    };
+
+    return res;
+  }
+
+  async getInternalFoods(dto: Omit<GetFoods, 'professional' | 'foodDatabase'>): Promise<GetInternalFoodsResponse> {
+    const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
+      {
+        $match: {
+          $or: dto.search.map((foodName) => ({
+            $or: [{ 'foodDetails.label': { $regex: foodName, $options: 'i' } }],
+          })),
+        },
+      },
+      {
+        $facet: {
+          data: [
+            {
+              $skip: dto.offset,
+            },
+            {
+              $limit: dto.limit,
+            },
+          ],
+          meta: [{ $count: 'total' }],
+        },
+      },
+      {
+        $project: {
+          data: 1,
+          total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
+        },
+      },
+    ]);
 
     const res: GetInternalFoodsResponse = {
       data: foodsRes[0].data,

@@ -17,7 +17,7 @@ export class FoodTextSearcherService {
 
   async getFoodNames({ targetLanguage, ...restDto }: GetAutocompleteFoodNamesDto): Promise<string[]> {
     if (targetLanguage === SupportedLanguages.SPANISH && restDto.foodDatabase === FoodDatabases.SYSTEM) {
-      const foods = await this.ifps.getInternalFoods({ search: [restDto.search], offset: 0, limit: 15 });
+      const foods = await this.ifps.getInternalFoodsByText({ search: [restDto.search], offset: 0, limit: 20 });
       return foods.data.map(({ foodDetails }) => foodDetails.label);
     }
 

@@ -104,35 +104,3 @@ cursor.forEach((group) => {
     coll.deleteMany({ _id: { $in: idsToDelete } });
   }
 });
-
-// Cáscara de psyllium en polvo, Pollo
-//['Cáscara de psyllium en polvo']
-db.InternalFoods.aggregate([
-  {
-    $match: {
-      $text: { $search: ['Cáscara de psyllium en polvo'].join(' ') },
-      // 'foodDetails.category': 'Generic foods',
-    },
-  },
-  { $addFields: { score: { $meta: 'textScore' } } },
-  { $sort: { score: -1 } },
-  {
-    $facet: {
-      data: [
-        {
-          $skip: 0,
-        },
-        {
-          $limit: 5,
-        },
-      ],
-      meta: [{ $count: 'total' }],
-    },
-  },
-  {
-    $project: {
-      data: 1,
-      total: { $ifNull: [{ $arrayElemAt: ['$meta.total', 0] }, 0] },
-    },
-  },
-]);
