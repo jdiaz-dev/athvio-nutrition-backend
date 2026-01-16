@@ -97,6 +97,39 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
         },
       },
       {
+        $addFields: {
+          score: {
+            $sum: dto.search.map((foodName) => ({
+              $cond: [
+                // Exact match (case insensitive)
+                {
+                  $eq: [{ $toLower: '$foodDetails.label' }, foodName.toLowerCase()],
+                },
+                100, // Highest score for exact match
+                {
+                  $cond: [
+                    // Starts with search term
+                    {
+                      $regexMatch: {
+                        input: { $ifNull: ['$foodDetails.label', ''] },
+                        regex: `^${foodName}`,
+                        options: 'i',
+                      },
+                    },
+                    50, // Medium score for starts with
+                    10, // Low score for contains
+                  ],
+                },
+              ],
+            })),
+          },
+        },
+      },
+      // Sort by score (exact matches first)
+      {
+        $sort: { score: -1 },
+      },
+      {
         $facet: {
           data: [
             {
