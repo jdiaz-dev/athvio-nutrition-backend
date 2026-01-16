@@ -96,7 +96,7 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
           })),
         },
       },
-      {
+      /* {
         $addFields: {
           score: {
             $sum: dto.search.map((foodName) => ({
@@ -128,7 +128,7 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
       // Sort by score (exact matches first)
       {
         $sort: { score: -1 },
-      },
+      }, */
       {
         $facet: {
           data: [
