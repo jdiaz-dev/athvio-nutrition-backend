@@ -91,44 +91,53 @@ export class InternalFoodsPersistenceService extends MongodbQueryBuilder<Interna
     const foodsRes = await this.initializeQuery(this.getInternalFoods.name).aggregate([
       {
         $match: {
-          $or: dto.search.map((foodName) => ({
+          $and: dto.search.map((foodName) => ({
             $or: [{ 'foodDetails.label': { $regex: foodName, $options: 'i' } }],
           })),
         },
       },
-      /* {
+      {
         $addFields: {
-          score: {
-            $sum: dto.search.map((foodName) => ({
-              $cond: [
-                // Exact match (case insensitive)
-                {
-                  $eq: [{ $toLower: '$foodDetails.label' }, foodName.toLowerCase()],
-                },
-                100, // Highest score for exact match
-                {
-                  $cond: [
-                    // Starts with search term
-                    {
-                      $regexMatch: {
-                        input: { $ifNull: ['$foodDetails.label', ''] },
-                        regex: `^${foodName}`,
-                        options: 'i',
-                      },
-                    },
-                    50, // Medium score for starts with
-                    10, // Low score for contains
-                  ],
-                },
-              ],
-            })),
+          exactMatchScore: {
+            $cond: [
+              {
+                $in: [{ $toLower: '$foodDetails.label' }, dto.search.map((term) => term.toLowerCase())],
+              },
+              3, // Exact match
+              0,
+            ],
+          },
+          startsWithScore: {
+            $cond: [
+              {
+                $or: dto.search.map((term) => ({
+                  $regexMatch: {
+                    input: { $ifNull: ['$foodDetails.label', ''] },
+                    regex: `^${term}`,
+                    options: 'i',
+                  },
+                })),
+              },
+              2, // Starts with
+              0,
+            ],
+          },
+          containsScore: 1, // All matches at least contain the term
+        },
+      },
+      {
+        $addFields: {
+          totalScore: {
+            $add: ['$exactMatchScore', '$startsWithScore', '$containsScore'],
           },
         },
       },
-      // Sort by score (exact matches first)
       {
-        $sort: { score: -1 },
-      }, */
+        $sort: {
+          'totalScore': -1,
+          'foodDetails.label': 1,
+        },
+      },
       {
         $facet: {
           data: [
