@@ -32,6 +32,16 @@ Floweret - florete
 Box - caja
 Leaft - hoja
 
+# Internal foods added in manual way
+In these food was added "manual" word at the begining of 
+"foodDetails.foodId" attribute. Example: manual_food_b1d1icuad3iktrbqby0hiagafaz7
+
+Also was added a new attribute in the record:
+"isManual":true
+
+Foods added manually
+- Aceite de ricino
+
 # Foods saved in internal foods in spanish
 
 ```js
