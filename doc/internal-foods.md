@@ -39,7 +39,7 @@ In these food was added "manual" word at the begining of
 Also was added a new attribute in the record:
 "isManual":true
 
-Foods added manually
+Foods added manually:
 - Aceite de ricino
 
 # Foods saved in internal foods in spanish
