@@ -4,7 +4,7 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   constructor() {}
 
-  @Get("ping")
+  @Get("health")
   getHello(): string {
     return 'Athvio server!';
   }
