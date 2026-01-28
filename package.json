@@ -1,10 +1,5 @@
 {
   "name": "athvio-nutrition-backend",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -21,7 +16,8 @@
     "cli:save:mongodb": "dotenvx run -f .env.development -- ts-node ./scripts/save-mongodb-records.ts",
     "cli:populatedb": "dotenvx run -f .env.development -- ts-node -r tsconfig-paths/register src/cli/cli.ts populate-db-with-spanish-foods",
     "cli:update-foods": "dotenvx run -f .env.development -- ts-node -r tsconfig-paths/register src/cli/cli.ts update-nutrient-foods",
-    "nsolid:test": "dotenvx run -f .env.development -- nsolid dist/main.js"
+    "nsolid:test": "dotenvx run -f .env.development -- nsolid dist/main.js",
+    "dev": "wattpm dev"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
@@ -43,6 +39,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-fastify": "^11.1.9",
     "@nestjs/throttler": "^6.4.0",
+    "@platformatic/nest": "^3.32.0",
     "@polar-sh/sdk": "^0.35.4",
     "apollo-server-express": "^3.13.0",
     "axios": "^1.9.0",
@@ -66,8 +63,10 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pino-http": "^10.4.0",
+    "platformatic": "^3.32.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
+    "wattpm": "^3.32.0",
     "zod": "^3.25.42"
   },
   "devDependencies": {
@@ -102,6 +101,11 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.2"
   },
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
   "jest": {
     "moduleFileExtensions": [
       "js",
@@ -118,5 +122,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=22.19.0"
   }
 }
