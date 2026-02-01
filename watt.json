@@ -4,7 +4,8 @@
     "commands": {
       "development": "npm run start:dev",
       "build": "npm ci --legacy-peer-deps --omit-dev && npm run build",
-      "production": "npm run start"
+      "production": "npm run start",
+      "install": "npm ci --legacy-peer-deps"
     }
   },
   "runtime": {
