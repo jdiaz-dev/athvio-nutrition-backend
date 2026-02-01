@@ -16,6 +16,7 @@ import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authori
 export class MasterProgramsResolver {
   constructor(private readonly prms: MasterProgramsManagerService) {}
 
+  //todo: it is temporal, possible to remove it in future
   @Query(() => GetProgramsResponse)
   async getMasterPrograms(
     @Args('input') dto: GetProgramsDto,
