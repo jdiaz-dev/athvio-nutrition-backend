@@ -4,9 +4,9 @@ import { PatientPlansModule } from 'src/modules/patients/patient-plans/patient-p
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { ProgramTagsModule } from 'src/modules/professionals/program-tags/program-tags.module';
-import { MealsResolver } from 'src/modules/professionals/programs/adapters/in/meals.resolver';
-import { PlansResolver } from 'src/modules/professionals/programs/adapters/in/plans.resolver';
-import { ProgramsResolver } from 'src/modules/professionals/programs/adapters/in/programs.resolver';
+import { MealsResolver } from 'src/modules/professionals/programs/adapters/in/web/meals.resolver';
+import { PlansResolver } from 'src/modules/professionals/programs/adapters/in/web/plans.resolver';
+import { ProgramsResolver } from 'src/modules/professionals/programs/adapters/in/web/programs.resolver';
 import { MealsPersistenceService } from 'src/modules/professionals/programs/adapters/out/meals-persistence.service';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { Program, ProgramSchema } from 'src/modules/professionals/programs/adapters/out/program.schema';
@@ -18,7 +18,7 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { PlanMealsManagerService } from 'src/modules/professionals/programs/application/plan-meals-manager.service';
 import { MasterProgramsManagerService } from 'src/modules/professionals/programs/application/master-programs-manager.service';
-import { MasterProgramsResolver } from 'src/modules/professionals/programs/adapters/in/web/programs-web.resolver';
+import { MasterProgramsResolver } from 'src/modules/professionals/programs/adapters/in/mobile/master-programs.resolver';
 
 const resolvers = [ProgramsResolver, MasterProgramsResolver, PlansResolver, MealsResolver];
 const services = [

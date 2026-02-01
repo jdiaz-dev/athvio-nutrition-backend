@@ -7,12 +7,12 @@ import {
 } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/get-programs.dto';
 
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { MasterProgramsManagerService } from 'src/modules/professionals/programs/application/master-programs-manager.service';
+import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authorization-patient.guard';
 
 @Resolver()
-@UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
+@UseGuards(...[AuthorizationGuard, AuthorizationPatientGuard])
 export class MasterProgramsResolver {
   constructor(private readonly prms: MasterProgramsManagerService) {}
 
