@@ -53,6 +53,9 @@ export class Program extends ProgramBase {
 
   @Prop({ type: String, enum: SupportedLanguages, required: false })
   language: SupportedLanguages;
+
+  @Prop({ type: Boolean, required: false })
+  isRecommendedByMaster: boolean;
 }
 
 export type ProgramDocument = HydratedDocument<Program>;

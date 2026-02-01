@@ -91,7 +91,10 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
 
     return programRes[0] as Program;
   }
-  async getPrograms({ professional, ...rest }: GetProgramsDto, selectors: Record<string, number>): Promise<GetProgramsResponse> {
+  async getPrograms(
+    { professional, isRecommendedByMaster, ...rest }: GetProgramsDto & { isRecommendedByMaster?: boolean },
+    selectors: Record<string, number>,
+  ): Promise<GetProgramsResponse> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const fieldsToSearch = searchByFieldsGenerator(['name'], rest.search);
 
@@ -101,6 +104,7 @@ export class ProgramsPersistenceService extends MongodbQueryBuilder<ProgramDocum
           professional,
           source: EnumSources.PROFESSIONAL,
           isDeleted: false,
+          ...(isRecommendedByMaster && { isRecommendedByMaster }),
         },
       },
       {

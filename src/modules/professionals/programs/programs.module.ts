@@ -17,11 +17,14 @@ import { ProgramManagerService } from 'src/modules/professionals/programs/applic
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { PlanMealsManagerService } from 'src/modules/professionals/programs/application/plan-meals-manager.service';
+import { MasterProgramsManagerService } from 'src/modules/professionals/programs/application/master-programs-manager.service';
+import { MasterProgramsResolver } from 'src/modules/professionals/programs/adapters/in/web/programs-web.resolver';
 
-const resolvers = [ProgramsResolver, PlansResolver, MealsResolver];
+const resolvers = [ProgramsResolver, MasterProgramsResolver, PlansResolver, MealsResolver];
 const services = [
   ProgramsPersistenceService,
   ProgramManagerService,
+  MasterProgramsManagerService,
   PlansPersistenceService,
   MealsPersistenceService,
   AssignProgramService,
