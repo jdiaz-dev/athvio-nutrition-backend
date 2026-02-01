@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PatientPlanPartial, PatientWithAssignedDate } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.type';
-import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/assign-program.dto';
+import { AssignProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/assign-program.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';

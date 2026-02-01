@@ -3,13 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
+import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/delete-program.dto';
 import {
   GetProgramsDto,
   GetProgramsResponse,
-} from 'src/modules/professionals/programs/adapters/in/dtos/program/get-programs.dto';
-import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
-import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
+} from 'src/modules/professionals/programs/adapters/in/web/dtos/program/get-programs.dto';
+import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/manage-program-tag.dto';
+import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/update-program.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';

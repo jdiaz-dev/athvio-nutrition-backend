@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/add-program-plan.dto';
-import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/duplicate-program-plan.dto';
+import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/add-program-plan.dto';
+import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/duplicate-program-plan.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';

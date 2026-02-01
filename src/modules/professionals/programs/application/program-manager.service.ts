@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
-import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/delete-program.dto';
-import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/manage-program-tag.dto';
-import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/update-program.dto';
+import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/delete-program.dto';
+import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/manage-program-tag.dto';
+import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/update-program.dto';
 
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramsPersistenceService } from 'src/modules/professionals/programs/adapters/out/programs-persistence.service';
@@ -13,9 +13,9 @@ import { ProgramTagsManagerService } from 'src/modules/professionals/program-tag
 import {
   GetProgramsDto,
   GetProgramsResponse,
-} from 'src/modules/professionals/programs/adapters/in/dtos/program/get-programs.dto';
-import { DuplicateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/duplicate-program.dto';
-import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/dtos/program/create-program.dto';
+} from 'src/modules/professionals/programs/adapters/in/web/dtos/program/get-programs.dto';
+import { DuplicateProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/duplicate-program.dto';
+import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/create-program.dto';
 import { MealImageSources } from 'src/shared/enums/project';
 
 @Injectable()

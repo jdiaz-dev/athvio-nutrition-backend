@@ -3,7 +3,7 @@ import { ProgramsPersistenceService } from 'src/modules/professionals/programs/a
 import {
   GetProgramsDto,
   GetProgramsResponse,
-} from 'src/modules/professionals/programs/adapters/in/dtos/program/get-programs.dto';
+} from 'src/modules/professionals/programs/adapters/in/web/dtos/program/get-programs.dto';
 
 @Injectable()
 export class MasterProgramsManagerService {

@@ -2,8 +2,8 @@ import { BadRequestException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/delete-program-plan.dto';
-import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/dtos/plan/update-plan-assigned-week-day.dto';
+import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/delete-program-plan.dto';
+import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/update-plan-assigned-week-day.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import {
   AddProgramPlanWithMeals,
