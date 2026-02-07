@@ -7,7 +7,7 @@ import { Neo4jConfig } from 'src/modules/program-generator/shared/types';
 
 @Module({})
 export class Neo4jModule {
-  static async createDriver(config: Neo4jConfig) {
+  private static async createDriver(config: Neo4jConfig) {
     const driver: Driver = neo4j.driver(
       `${config.scheme}://${config.host}:${config.port}`,
       neo4j.auth.basic(config.username, config.password),
