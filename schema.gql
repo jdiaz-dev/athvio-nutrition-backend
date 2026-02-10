@@ -139,6 +139,16 @@ input CommenterInput {
   type: String!
 }
 
+type Compound {
+  createdAt: DateTime!
+  englishName: String!
+  isActive: Boolean!
+  mechanisms: [Mechanism!]!
+  spanishName: String!
+  updatedAt: DateTime!
+  uuid: String!
+}
+
 type ConfiguredMacros {
   basalEnergyRate: Float!
   carbsDensity: Float!
@@ -313,6 +323,16 @@ input DeleteProgramTagDto {
   programTag: String!
 }
 
+type Disease {
+  spanishName: String!
+  uuid: String!
+}
+
+type DiseaseCause {
+  spanishName: String!
+  uuid: String!
+}
+
 input DuplicatePatientPlanDto {
   assignedDate: DateTime!
   patient: String!
@@ -367,6 +387,16 @@ type Food {
   uuid: String
 }
 
+type FoodAnalyzer {
+  compounds: [Compound!]!
+  createdAt: DateTime!
+  englishName: String!
+  isActive: Boolean!
+  spanishName: String!
+  updatedAt: DateTime!
+  uuid: String!
+}
+
 input FoodInput {
   amountInGrams: Float!
   internalFood: String!
@@ -396,6 +426,21 @@ type FormulaGroup {
   parameterDescription: String
   parameters: [Parameter!]!
   spanishFormulaName: String!
+}
+
+input GenerateNutritionalPlanDto {
+  diseaseCauses: [String!]!
+  diseases: [String!]!
+  macros: PatientMacrosInput!
+  mealsByDay: Float!
+  nutritionalPreferences: [String!]!
+  patient: String!
+  startDate: DateTime!
+  totalDays: Float!
+}
+
+input GetAnalyzedFoodsDto {
+  internalFoods: [String!]!
 }
 
 input GetAutocompleteFoodNamesDto {
@@ -741,6 +786,21 @@ type Measure {
   weightInGrams: Float!
 }
 
+type Mechanism {
+  createdAt: DateTime!
+  englishCategory: String!
+  englishDescription: String!
+  englishName: String!
+  englishRelatedDisease: String!
+  isActive: Boolean!
+  spanishCategory: String!
+  spanishDescription: String!
+  spanishName: String!
+  spanishRelatedDisease: String!
+  updatedAt: DateTime!
+  uuid: String!
+}
+
 type Meta {
   limit: Float!
   offset: Float!
@@ -779,6 +839,7 @@ type Mutation {
   duplicateProgram(input: DuplicateProgramDto!): Program!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
+  generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   getCpuUsage: String!
   getMemoryUsage: String!
   landingScreen: String!
@@ -887,6 +948,13 @@ type NutritionalMeal {
   yield: String!
 }
 
+type NutritionalPreference {
+  createdAt: DateTime!
+  englishName: String!
+  spanishName: String!
+  uuid: String!
+}
+
 type Organization {
   address: String!
   city: String!
@@ -944,6 +1012,13 @@ input PatientInformationInput {
   physicActivityFactor: Float!
   physicActivityName: String!
   weight: Float!
+}
+
+input PatientMacrosInput {
+  calories: Float!
+  carbs: Float!
+  fat: Float!
+  protein: Float!
 }
 
 type PatientPlan {
@@ -1099,6 +1174,10 @@ type ProgramTag {
 }
 
 type Query {
+  getAllDiseaseCauses: [DiseaseCause!]!
+  getAllDiseases: [Disease!]!
+  getAllNutritionalPreferences: [NutritionalPreference!]!
+  getAnalyzedFoods(input: GetAnalyzedFoodsDto!): [FoodAnalyzer!]!
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getChat(chat: GetChatDto!): Chat
   getFoodDatabases: [String!]!
