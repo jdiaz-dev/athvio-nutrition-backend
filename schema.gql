@@ -840,8 +840,6 @@ type Mutation {
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
   generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
-  getCpuUsage: String!
-  getMemoryUsage: String!
   landingScreen: String!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
@@ -1180,11 +1178,14 @@ type Query {
   getAnalyzedFoods(input: GetAnalyzedFoodsDto!): [FoodAnalyzer!]!
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getChat(chat: GetChatDto!): Chat
+  getCpuUsage: String!
+  getELU: String!
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getFormula: Formula!
   getLastPlanification(lastPlanification: GetLastPlanificationDto!): Planification
   getMasterPrograms(input: GetProgramsDto!): GetProgramsResponse!
+  getMemoryUsage: String!
   getNotes(input: GetNotesDto!): GetNotesResponse!
   getNutritionalMeal(input: GetNutritionalMealDto!): NutritionalMeal!
   getNutritionalMealDatabases: [String!]!
