@@ -26,6 +26,7 @@
     "@aws-sdk/client-ses": "^3.821.0",
     "@aws-sdk/client-sesv2": "^3.821.0",
     "@dotenvx/dotenvx": "^1.44.1",
+    "@nestjs/cli": "^11.0.7",
     "@fastify/cors": "^11.1.0",
     "@fastify/helmet": "^13.0.2",
     "@nestjs/apollo": "^13.2.1",
@@ -70,7 +71,6 @@
     "zod": "^3.25.42"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.7",
     "@nestjs/schematics": "^11.0.5",
     "@nestjs/testing": "^11.1.2",
     "@swc/cli": "^0.7.8",
