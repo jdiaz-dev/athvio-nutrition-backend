@@ -1,7 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
 import { SharedModule } from 'src/shared/shared.module';
 import { MailModule } from 'src/modules/mail/mail.module';
 import { GraphqlModule } from 'src/infraestructure/graphql.module';
@@ -43,7 +42,6 @@ import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/pro
     BackofficeSubDomainsModule,
     ProgramGeneratorDomainsModule,
   ],
-  controllers: [AppController],
 })
 export class AppModule implements NestModule {
   constructor(private readonly als: AsyncLocalStorage<Trazability>) {}

@@ -189,9 +189,6 @@ async function main(): Promise<void> {
   const workerFile = isDev ? 'worker.ts' : 'worker.js';
   const workerPath = path.join(__dirname, workerFile);
 
-  console.log(`Loading worker from: ${workerPath}`);
-  console.log(`Mode: ${isDev ? 'development' : 'production'}`);
-
   const workerManager = new WorkerManager(workerPath, isDev);
 
   // Start monitoring server
