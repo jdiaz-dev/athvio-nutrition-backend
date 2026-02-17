@@ -4,38 +4,12 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 // @ts-ignore
-import  processRequest from 'graphql-upload/processRequest.js';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
+import processRequest from 'graphql-upload/processRequest.js';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from 'src/app.module';
 
-async function bootstrap(): Promise<void> {
-  const adapter = new FastifyAdapter();
-  const fastify = adapter.getInstance();
-
-  fastify.addContentTypeParser(
-    'multipart/form-data',
-    (_request: any, _payload: any, done: (err: Error | null, body?: any) => void) => {
-      done(null);
-    },
-  );
-
-  fastify.addHook('preValidation', async (request: any, reply: any) => {
-    if (request.headers['content-type']?.startsWith('multipart/form-data')) {
-      request.body = await processRequest(request.raw, reply.raw);
-    }
-  });
-
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    adapter,
-  );
-
-  const configService = app.get(ConfigService);
+function securityConfig(app: NestFastifyApplication, configService: ConfigService) {
   const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
-  const port = configService.get<string>('port') || process.env.PORT;
 
   app.enableCors({
     origin: whiteListOrigins,
@@ -82,9 +56,32 @@ async function bootstrap(): Promise<void> {
     );
     next();
   });
+}
 
+async function bootstrap(): Promise<void> {
+  const adapter = new FastifyAdapter();
+  const fastify = adapter.getInstance();
+
+  fastify.addContentTypeParser(
+    'multipart/form-data',
+    (_request: any, _payload: any, done: (err: Error | null, body?: any) => void) => {
+      done(null);
+    },
+  );
+
+  fastify.addHook('preValidation', async (request: any, reply: any) => {
+    if (request.headers['content-type']?.startsWith('multipart/form-data')) {
+      request.body = await processRequest(request.raw, reply.raw);
+    }
+  });
+
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter);
+  const configService = app.get(ConfigService);
+
+  securityConfig(app, configService);
   app.useGlobalPipes(new ValidationPipe());
 
+  const port = configService.get<string>('port') || process.env.PORT;
   await app.listen(port, '0.0.0.0');
   console.log(`Server running on port ${port}`);
 }
