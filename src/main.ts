@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { parentPort } from 'worker_threads';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
@@ -59,31 +60,125 @@ function securityConfig(app: NestFastifyApplication, configService: ConfigServic
 }
 
 async function bootstrap(): Promise<void> {
-  const adapter = new FastifyAdapter();
-  const fastify = adapter.getInstance();
+  try {
+    console.log('[Worker] Initializing NestJS application...');
 
-  fastify.addContentTypeParser(
-    'multipart/form-data',
-    (_request: any, _payload: any, done: (err: Error | null, body?: any) => void) => {
-      done(null);
-    },
-  );
+    const adapter = new FastifyAdapter();
+    const fastify = adapter.getInstance();
 
-  fastify.addHook('preValidation', async (request: any, reply: any) => {
-    if (request.headers['content-type']?.startsWith('multipart/form-data')) {
-      request.body = await processRequest(request.raw, reply.raw);
+    // Add health check endpoints before NestJS takes over routing
+    fastify.get('/health', async (_request, reply) => {
+      reply.send({
+        status: 'ok',
+        worker: 'running',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+      });
+    });
+
+    fastify.get('/health/worker', async (_request, reply) => {
+      reply.send({
+        healthy: true,
+        worker: {
+          status: 'running',
+          uptime: process.uptime(),
+          memory: process.memoryUsage(),
+          pid: process.pid,
+        },
+        timestamp: new Date().toISOString(),
+      });
+    });
+
+    fastify.get('/status', async (_request, reply) => {
+      reply.send({
+        worker: {
+          status: 'running',
+          uptime: process.uptime(),
+          memory: process.memoryUsage(),
+          pid: process.pid,
+          nodeVersion: process.version,
+          platform: process.platform,
+        },
+        timestamp: new Date().toISOString(),
+      });
+    });
+
+    fastify.addContentTypeParser(
+      'multipart/form-data',
+      (_request: any, _payload: any, done: (err: Error | null, body?: any) => void) => {
+        done(null);
+      },
+    );
+
+    fastify.addHook('preValidation', async (request: any, reply: any) => {
+      if (request.headers['content-type']?.startsWith('multipart/form-data')) {
+        request.body = await processRequest(request.raw, reply.raw);
+      }
+    });
+
+    const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter);
+    const configService = app.get(ConfigService);
+
+    securityConfig(app, configService);
+    app.useGlobalPipes(new ValidationPipe());
+
+    const port = configService.get<string>('port') || process.env.PORT || 3000;
+    await app.listen(port, '0.0.0.0');
+
+    console.log(`[Worker] Server running on port ${port}`);
+
+    // Notify parent thread that worker is ready
+    if (parentPort) {
+      parentPort.postMessage({
+        type: 'ready',
+        port,
+        timestamp: new Date().toISOString(),
+      });
     }
-  });
 
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter);
-  const configService = app.get(ConfigService);
+    // Handle shutdown messages from parent
+    if (parentPort) {
+      parentPort.on('message', async (message) => {
+        if (message.type === 'shutdown') {
+          console.log('[Worker] Shutdown signal received, closing application...');
+          await app.close();
+          process.exit(0);
+        }
+      });
+    }
 
-  securityConfig(app, configService);
-  app.useGlobalPipes(new ValidationPipe());
+    // Handle uncaught exceptions
+    process.on('uncaughtException', (error) => {
+      console.error('[Worker] Uncaught Exception:', error);
+      if (parentPort) {
+        parentPort.postMessage({
+          type: 'error',
+          error: error.message,
+          stack: error.stack,
+        });
+      }
+      process.exit(1);
+    });
 
-  const port = configService.get<string>('port') || process.env.PORT;
-  await app.listen(port, '0.0.0.0');
-  console.log(`Server running on port ${port}`);
+    process.on('unhandledRejection', (reason, promise) => {
+      console.error('[Worker] Unhandled Rejection at:', promise, 'reason:', reason);
+      if (parentPort) {
+        parentPort.postMessage({
+          type: 'error',
+          error: String(reason),
+        });
+      }
+    });
+  } catch (error) {
+    console.error('[Worker] Failed to start application:', error);
+    if (parentPort) {
+      parentPort.postMessage({
+        type: 'error',
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+    process.exit(1);
+  }
 }
 
 void bootstrap();
