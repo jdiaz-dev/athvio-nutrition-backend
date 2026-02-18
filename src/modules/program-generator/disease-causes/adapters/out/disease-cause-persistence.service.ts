@@ -41,7 +41,7 @@ export class DiseaseCausesPersistenceService {
         WITH dc, COLLECT(DISTINCT {
           uuid: r.uuid,
           spanishName: r.spanishName, 
-          details: r.details,
+          details: r.spanishDetails,
           restrictions: restrictions 
         }) AS recommendations
 

@@ -36,7 +36,7 @@ export class DiseasesPersistenceService {
             CASE WHEN r IS NOT NULL THEN {
               uuid: r.uuid,
               spanishName: r.spanishName,
-              details: r.details
+              details: r.spanishDetails
             } ELSE NULL END
           ) AS recommendations,
           COLLECT(res) AS restrictions
