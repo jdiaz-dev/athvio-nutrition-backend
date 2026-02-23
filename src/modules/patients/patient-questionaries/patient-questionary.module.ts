@@ -5,7 +5,7 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 
 import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
 import { PatientInternalQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
-import { PatientQuestionaryResolver } from 'src/modules/patients/patient-questionaries/adapters/in/patient-questionary.resolver';
+import { PatientQuestionaryResolver } from 'src/modules/patients/patient-questionaries/adapters/in/web/patient-questionary.resolver';
 import {
   PatientQuestionary,
   PatientQuestionarySchema,
