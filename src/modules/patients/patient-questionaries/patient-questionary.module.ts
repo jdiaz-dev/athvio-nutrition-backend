@@ -5,7 +5,7 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 
 import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
 import { PatientInternalQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
-import { PatientQuestionaryResolver } from 'src/modules/patients/patient-questionaries/adapters/in/web/patient-questionary.resolver';
+import { PatientQuestionaryWebResolver } from 'src/modules/patients/patient-questionaries/adapters/in/web/patient-questionary-web.resolver';
 import {
   PatientQuestionary,
   PatientQuestionarySchema,
@@ -15,7 +15,7 @@ import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { MailModule } from 'src/modules/mail/mail.module';
 
-const resolvers = [PatientQuestionaryResolver];
+const resolvers = [PatientQuestionaryWebResolver];
 const services = [SendPatientQuestionaryService, PatientQuestionaryManagerService, PatientInternalQuestionaryPersistenceService];
 
 @Module({

@@ -862,7 +862,6 @@ type Mutation {
   updatePatientGroup(input: UpdatePatientGroupDto!): PatientGroup!
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
-  updatePatientQuestionaryAnswers(input: UpdateAnswersDto!): PatientQuestionary!
   updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
   updatePlanMeal(toUpdateInput: UpdatePlanMealDto!): PatientPlan!
   updatePlanification(input: UpdatePlanificationDto!): Planification!
@@ -1049,11 +1048,6 @@ type PatientQuestionary {
   uuid: String!
 }
 
-input PatientQuestionaryAnswersInput {
-  answer: String!
-  questionaryDetail: String!
-}
-
 type PatientQuestionaryDetail {
   additionalNotes: String!
   answer: String!
@@ -1074,11 +1068,6 @@ type PatientQuestionaryGroup {
 
 input PatientQuestionaryGroupInput {
   questionaryDetails: [AnswersAndAdditionalNotesInput!]!
-  questionaryGroup: String!
-}
-
-input PatientQuestionaryGroupWithAnswersInput {
-  questionaryDetails: [PatientQuestionaryAnswersInput!]!
   questionaryGroup: String!
 }
 
@@ -1311,13 +1300,6 @@ input UpdateAnswersAndAdditionalNotesDto {
   professional: String!
   questionary: String!
   questionaryGroups: [PatientQuestionaryGroupInput!]!
-}
-
-input UpdateAnswersDto {
-  patient: String!
-  professional: String!
-  questionary: String!
-  questionaryGroups: [PatientQuestionaryGroupWithAnswersInput!]!
 }
 
 input UpdateCustomQuestionaryDetailInput {

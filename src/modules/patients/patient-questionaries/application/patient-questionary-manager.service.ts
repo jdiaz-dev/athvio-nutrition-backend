@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { GetPatientQuestionaryByIdDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/get-patient-questionary-by-id';
 import { GetPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/get-patient-questionary.dto';
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/update-answers-and-additional-notes.dto';
-import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/update-answers.dto';
+import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/mobile/dtos/update-answers.dto';
 import { PatientInternalQuestionaryPersistenceService } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-persistence.service';
 import { PatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary.schema';
 import { CreatePatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/questionary-config';
