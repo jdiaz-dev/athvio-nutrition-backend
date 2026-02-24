@@ -601,10 +601,6 @@ input GetPatientProgramsDto {
   search: [String!] = [""]
 }
 
-input GetPatientQuestionaryByIdDto {
-  questionary: String!
-}
-
 input GetPatientQuestionaryDto {
   patient: String!
   professional: String!
@@ -660,6 +656,11 @@ input GetProgramsDto {
 type GetProgramsResponse {
   data: [Program!]!
   meta: Meta!
+}
+
+input GetQuestionaryForPatientDto {
+  patient: String!
+  patientQuestionary: String!
 }
 
 input GetUserDto {
@@ -1187,7 +1188,6 @@ type Query {
   getPatientPlansForWeb(patientPlans: GetPatientPlansForWebDto!): [PatientPlan!]!
   getPatientPrograms(input: GetPatientProgramsDto!): Program!
   getPatientQuestionary(input: GetPatientQuestionaryDto!): PatientQuestionary!
-  getPatientQuestionaryById(input: GetPatientQuestionaryByIdDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
   getPatients(input: GetPatientsDto!): GetPatientsResponse!
   getPhysicActivityFactors: String!
@@ -1197,6 +1197,7 @@ type Query {
   getProgram(input: GetProgramDto!): Program!
   getProgramTags(input: GetProgramTagsDto!): [ProgramTag!]!
   getPrograms(input: GetProgramsDto!): GetProgramsResponse!
+  getQuestionaryForPatient(input: GetQuestionaryForPatientDto!): PatientQuestionary!
   getUser(input: GetUserDto!): User!
 }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PatientQuestionary, PatientQuestionaryDocument } from './patient-questionary.schema';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { CreatePatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/questionary-config';
@@ -27,14 +27,14 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     });
   }
   async getPatientQuestionary(
-    { _id, patient, professional }: { _id?: string; patient?: string; professional?: string },
+    { uuid, patient, professional }: { uuid?: string; patient?: string; professional?: string },
     selectors?: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const isFromExternalRequest = selectors ? true : false;
     const questionaryRes = await this.initializeQuery(this.getPatientQuestionary.name).aggregate([
       {
         $match: {
-          ...(_id && { _id: new Types.ObjectId(_id) }),
+          ...(uuid && { uuid }),
           ...(patient && { patient }),
           ...(professional && { professional }),
         },

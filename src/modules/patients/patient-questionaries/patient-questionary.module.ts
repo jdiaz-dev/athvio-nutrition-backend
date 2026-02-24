@@ -14,8 +14,9 @@ import { SendPatientQuestionaryService } from 'src/modules/patients/patient-ques
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { ProfessionalsModule } from 'src/modules/professionals/professionals/professionals.module';
 import { MailModule } from 'src/modules/mail/mail.module';
+import { PatientQuestionaryMobileResolver } from 'src/modules/patients/patient-questionaries/adapters/in/mobile/patient-questionary-mobile.resolver';
 
-const resolvers = [PatientQuestionaryWebResolver];
+const resolvers = [PatientQuestionaryWebResolver, PatientQuestionaryMobileResolver];
 const services = [SendPatientQuestionaryService, PatientQuestionaryManagerService, PatientInternalQuestionaryPersistenceService];
 
 @Module({

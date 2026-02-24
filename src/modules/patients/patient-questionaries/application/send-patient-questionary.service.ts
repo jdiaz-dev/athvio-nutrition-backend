@@ -17,15 +17,15 @@ export class SendPatientQuestionaryService {
     private readonly ms: MailService,
   ) {}
 
-  async sendPatientQuestionary({ questionary: _id, patient, professional }: SendPatientQuestionaryDto): Promise<boolean> {
-    const questionary = await this.pqps.getPatientQuestionary({ _id, patient, professional });
+  async sendPatientQuestionary({ questionary: uuid, patient, professional }: SendPatientQuestionaryDto): Promise<boolean> {
+    const questionary = await this.pqps.getPatientQuestionary({ uuid, patient, professional });
     if (!questionary) throw new BadRequestException(ErrorPatientQuestionaryEnum.NOT_FOUND);
 
     const patientRes = await this.gpms.getPatient(patient, professional);
     const { user } = await this.pms.getProfessionalById(professional);
 
     const origin = this.configService.get<string[]>('whiteListOrigins')[0];
-    const url = `${origin}/form/${_id}`;
+    const url = `${origin}/form/${uuid}`;
     const mailTitle = `Assessment form from ${user.firstname} ${user.lastname}`;
     const message = `
       Hi ${patientRes.user.firstname},

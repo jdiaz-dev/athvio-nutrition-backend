@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { GetPatientQuestionaryByIdDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/get-patient-questionary-by-id';
 import { GetPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/get-patient-questionary.dto';
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/update-answers-and-additional-notes.dto';
 import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/adapters/in/mobile/dtos/update-answers.dto';
@@ -8,6 +7,7 @@ import { PatientInternalQuestionaryPersistenceService } from 'src/modules/patien
 import { PatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary.schema';
 import { CreatePatientQuestionary } from 'src/modules/patients/patient-questionaries/adapters/out/questionary-config';
 import { ErrorPatientQuestionaryEnum } from 'src/shared/enums/messages-response';
+import { GetQuestionaryForPatientDto } from 'src/modules/patients/patient-questionaries/adapters/in/mobile/dtos/get-questionary-for-patient.dto';
 
 @Injectable()
 export class PatientQuestionaryManagerService {
@@ -31,19 +31,19 @@ export class PatientQuestionaryManagerService {
     });
     return questionaryCreated;
   }
-  async getPatientQuestionary(
+  async getPatientQuestionaryForProfessional(
     { patient, professional }: GetPatientQuestionaryDto,
     selector: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const questionary = await this.pqps.getPatientQuestionary({ patient, professional }, selector);
     return questionary;
   }
-  async getPatientQuestionaryById(
-    { questionary }: GetPatientQuestionaryByIdDto,
+  async getQuestionaryForPatient(
+    { patient }: GetQuestionaryForPatientDto,
     selector: Record<string, number>,
   ): Promise<PatientQuestionary> {
-    const questionaryRes = await this.pqps.getPatientQuestionary({ _id: questionary }, selector);
-    return questionaryRes;
+    const questionary = await this.pqps.getPatientQuestionary({ patient }, selector);
+    return questionary;
   }
   async updateAnswers(dto: UpdateAnswersDto, selectors: Record<string, number>): Promise<PatientQuestionary> {
     const questionary = await this.pqps.updateAnwerAndAdditionalNotes(dto, selectors);

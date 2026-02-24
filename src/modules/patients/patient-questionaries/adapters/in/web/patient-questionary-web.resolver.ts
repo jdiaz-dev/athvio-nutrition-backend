@@ -9,7 +9,6 @@ import { GetPatientQuestionaryDto } from 'src/modules/patients/patient-questiona
 import { UpdateAnswersAndAdditionalNotesDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/update-answers-and-additional-notes.dto';
 import { SendPatientQuestionaryDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/send-patient-questionary.dto';
 import { SendPatientQuestionaryService } from 'src/modules/patients/patient-questionaries/application/send-patient-questionary.service';
-import { GetPatientQuestionaryByIdDto } from 'src/modules/patients/patient-questionaries/adapters/in/web/dtos/get-patient-questionary-by-id';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -24,14 +23,7 @@ export class PatientQuestionaryWebResolver {
     @Args('input') dto: GetPatientQuestionaryDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
-    return this.pqms.getPatientQuestionary(dto, selectors);
-  }
-  @Query(() => PatientQuestionary)
-  getPatientQuestionaryById(
-    @Args('input') dto: GetPatientQuestionaryByIdDto,
-    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
-  ): Promise<PatientQuestionary> {
-    return this.pqms.getPatientQuestionaryById(dto, selectors);
+    return this.pqms.getPatientQuestionaryForProfessional(dto, selectors);
   }
   @Mutation(() => PatientQuestionary)
   updateAnswersAndAdditionalNotes(

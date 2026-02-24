@@ -2,8 +2,12 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsUUID } from 'class-validator';
 
 @InputType()
-export class GetPatientQuestionaryByIdDto {
+export class GetQuestionaryForPatientDto {
   @Field()
   @IsUUID(4)
-  questionary: string;
+  patientQuestionary: string;
+
+  @Field()
+  @IsUUID(4)
+  patient: string;
 }
