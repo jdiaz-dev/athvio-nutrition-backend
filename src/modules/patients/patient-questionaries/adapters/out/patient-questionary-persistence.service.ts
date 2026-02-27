@@ -66,7 +66,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     ]);
     return questionaryRes[0];
   }
-  async updateAnwerAndAdditionalNotes(
+  async updateAnswerAndAdditionalNotes(
     { questionary, professional, patient, questionaryGroups }: UpdateAnswersDto | UpdateAnswersAndAdditionalNotesDto,
     selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
@@ -93,7 +93,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
       }
     }
 
-    const questionaryRes = await this.initializeQuery(this.updateAnwerAndAdditionalNotes.name).findOneAndUpdate(
+    const questionaryRes = await this.initializeQuery(this.updateAnswerAndAdditionalNotes.name).findOneAndUpdate(
       { uuid: questionary, professional, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {

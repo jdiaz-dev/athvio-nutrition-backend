@@ -39,14 +39,14 @@ export class PatientQuestionaryManagerService {
     return questionary;
   }
   async getQuestionaryForPatient(
-    { patient }: GetQuestionaryForPatientDto,
+    { patientQuestionary, patient, professional }: GetQuestionaryForPatientDto,
     selector: Record<string, number>,
   ): Promise<PatientQuestionary> {
-    const questionary = await this.pqps.getPatientQuestionary({ patient }, selector);
+    const questionary = await this.pqps.getPatientQuestionary({ uuid: patientQuestionary, patient, professional }, selector);
     return questionary;
   }
   async updateAnswers(dto: UpdateAnswersDto, selectors: Record<string, number>): Promise<PatientQuestionary> {
-    const questionary = await this.pqps.updateAnwerAndAdditionalNotes(dto, selectors);
+    const questionary = await this.pqps.updateAnswerAndAdditionalNotes(dto, selectors);
     if (!questionary) throw new BadRequestException(ErrorPatientQuestionaryEnum.NOT_FOUND);
     return questionary;
   }
@@ -54,7 +54,7 @@ export class PatientQuestionaryManagerService {
     dto: UpdateAnswersAndAdditionalNotesDto,
     selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
-    const questionary = await this.pqps.updateAnwerAndAdditionalNotes(dto, selectors);
+    const questionary = await this.pqps.updateAnswerAndAdditionalNotes(dto, selectors);
     if (!questionary) throw new BadRequestException(ErrorPatientQuestionaryEnum.NOT_FOUND);
     return questionary;
   }

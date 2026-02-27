@@ -10,4 +10,8 @@ export class GetQuestionaryForPatientDto {
   @Field()
   @IsUUID(4)
   patient: string;
+
+  @Field()
+  @IsUUID(4)
+  professional: string;
 }
