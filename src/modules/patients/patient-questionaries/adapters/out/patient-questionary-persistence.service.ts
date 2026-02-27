@@ -71,33 +71,41 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
-    const arrayFilters = [];
-    const updateSubDocuments = [];
 
-    for (let x = 0; x < questionaryGroups.length; x++) {
-      const { questionaryGroup, questionaryDetails } = questionaryGroups[x];
+    const { arrayFilters, updateSubDocuments } = questionaryGroups.reduce(
+      (acc, { questionaryGroup, questionaryDetails }, x) => {
+        acc.arrayFilters.push({ [`group${x}.uuid`]: questionaryGroup });
 
-      arrayFilters.push({ [`group${x}.uuid`]: questionaryGroup });
+        const { detailFilters, detailDocuments } = questionaryDetails.reduce(
+          (detailAcc, { questionaryDetail, answer, ...rest }, y) => {
+            detailAcc.detailFilters.push({ [`detail${x}with${y}.uuid`]: questionaryDetail });
+            detailAcc.detailDocuments.push({
+              [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].answer`]: answer,
+              ...((rest as Record<string, string>).additionalNotes && {
+                [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].additionalNotes`]: (
+                  rest as Record<string, string>
+                ).additionalNotes,
+              }),
+            });
 
-      for (let y = 0; y < questionaryDetails.length; y++) {
-        const { questionaryDetail, answer, ...rest } = questionaryDetails[y];
-        arrayFilters.push({ [`detail${x}with${y}.uuid`]: questionaryDetail });
-        updateSubDocuments.push({
-          [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].answer`]: answer,
-          ...((rest as Record<string, string> | undefined).additionalNotes && {
-            [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].additionalNotes`]: (
-              rest as Record<string, string> | undefined
-            ).additionalNotes,
-          }),
-        });
-      }
-    }
+            return detailAcc;
+          },
+          { detailFilters: [], detailDocuments: [] },
+        );
+
+        acc.arrayFilters.push(...detailFilters);
+        acc.updateSubDocuments.push(...detailDocuments);
+
+        return acc;
+      },
+      { arrayFilters: [], updateSubDocuments: [] },
+    );
 
     const questionaryRes = await this.initializeQuery(this.updateAnswerAndAdditionalNotes.name).findOneAndUpdate(
       { uuid: questionary, professional, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
-        arrayFilters: [...arrayFilters],
+        arrayFilters,
         new: true,
         projection: {
           ...restFields,
@@ -122,6 +130,7 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
         },
       },
     );
+
     return questionaryRes;
   }
 }
