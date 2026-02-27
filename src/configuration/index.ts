@@ -24,13 +24,13 @@ class DatabaseVariables {
 
 class AllowedOriginVariables extends DatabaseVariables {
   @IsString()
-  ORIGIN_PRODUCTION_S3_WEB: string;
+  ORIGIN_WEB_PROFESSIONAL_BUCKET_CODE: string;
   @IsString()
-  ORIGIN_PRODUCTION_WEB_DOMAIN: string;
+  ORIGIN_WEB_PROFESSIONAL: string;
   @IsString()
-  ORIGIN_PRODUCTION_S3_MOBILE: string;
+  ORIGIN_WEB_PATIENT_BUCKET_CODE: string;
   @IsString()
-  ORIGIN_PRODUCTION_MOBILE_DOMAIN: string;
+  ORIGIN_WEB_PATIENT: string;
 }
 
 class FoodProviderVariables extends AllowedOriginVariables {

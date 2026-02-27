@@ -39,9 +39,8 @@ export class PaymentsProcessorService {
   }
 
   async createPaymentLink(metadata: { reference_id: string }): Promise<CheckoutLink> {
-    const originUrl =
-      process.env.NODE_ENV === 'production' ? process.env.ORIGIN_PRODUCTION_WEB_DOMAIN : process.env.ORIGIN_WEB_LOCAL;
-    const urlWithParam = `${originUrl}/signin?checkout_id={CHECKOUT_ID}`;
+    const origin = process.env.ORIGIN_WEB_PROFESSIONAL;
+    const urlWithParam = `${origin}/signin?checkout_id={CHECKOUT_ID}`;
     try {
       const res = await this.#processor.checkoutLinks.create({
         paymentProcessor: 'stripe',

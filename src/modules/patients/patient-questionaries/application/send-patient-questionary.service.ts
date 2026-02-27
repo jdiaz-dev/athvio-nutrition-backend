@@ -17,26 +17,27 @@ export class SendPatientQuestionaryService {
     private readonly ms: MailService,
   ) {}
 
-  async sendPatientQuestionary({ questionary: uuid, patient, professional }: SendPatientQuestionaryDto): Promise<boolean> {
-    const questionary = await this.pqps.getPatientQuestionary({ uuid, patient, professional });
-    if (!questionary) throw new BadRequestException(ErrorPatientQuestionaryEnum.NOT_FOUND);
+  async sendPatientQuestionary({ questionary, patient, professional }: SendPatientQuestionaryDto): Promise<boolean> {
+    const patientQuestionary = await this.pqps.getPatientQuestionary({ uuid: questionary, patient, professional });
+    if (!patientQuestionary) throw new BadRequestException(ErrorPatientQuestionaryEnum.NOT_FOUND);
 
     const patientRes = await this.gpms.getPatient(patient, professional);
-    const { user } = await this.pms.getProfessionalById(professional);
+    const { user } = await this.pms.getProfessionalByUuid(professional);
 
-    const origin = this.configService.get<string[]>('whiteListOrigins')[0];
-    const url = `${origin}/form/${uuid}`;
-    const mailTitle = `Assessment form from ${user.firstname} ${user.lastname}`;
+    const patientWebOrigin = this.configService.get<string[]>('whiteListOrigins')[1];
+    const url = `${patientWebOrigin}/questionary?patientQuestionary=${questionary}&patient=${patient}&professional=${professional}`;
+    console.log('url', url);
+    const mailTitle = `Formulario de evaluación de estado actual de salud - ${user.firstname} ${user.lastname}`;
     const message = `
-      Hi ${patientRes.user.firstname},
+      Hola ${patientRes.user.firstname},
 
-      Before we begin the nutritional counseling, I would like you to answer a few questions regarding your health, lifestyle and eating habits.
+      Antes de empezar con la consulta, me gustaría que respondieras algunas preguntas sobre tu salud, estilo de vida y hábitos alimenticios.
 
-      These answers will be added to your profile so I can better prepare your nutritional counseling and understand your goals and needs.
+      Estas respuestas se agregarán a tu historial para que se pueda entender mejor tu estado actual, necesidades y objetivos.
 
-      Please fill in this questionnaire as soon as possible: ${url}
+      Por favor, completa este cuestionario lo antes posible: ${url}
       
-      - Your Coach,
+      - Tu Coach,
       ${user.firstname} ${user.lastname}
     `;
     await this.ms.sendEmail({

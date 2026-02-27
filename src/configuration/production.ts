@@ -24,10 +24,10 @@ export const production: IEnvironment = {
   security: { rateLimit: { ttl: process.env.RATE_LIMIT_TLL, limit: process.env.RATE_LIMIT_VALUE } },
   tokenKey: process.env.SIGN_TOKEN,
   whiteListOrigins: [
-    process.env.ORIGIN_PRODUCTION_WEB_DOMAIN,
-    process.env.ORIGIN_PRODUCTION_S3_WEB,
-    process.env.ORIGIN_PRODUCTION_S3_MOBILE,
-    process.env.ORIGIN_PRODUCTION_MOBILE_DOMAIN,
+    process.env.ORIGIN_WEB_PROFESSIONAL,
+    process.env.ORIGIN_WEB_PATIENT,
+    process.env.ORIGIN_WEB_PROFESSIONAL_BUCKET_CODE,
+    process.env.ORIGIN_WEB_PATIENT_BUCKET_CODE,
   ],
   foodProvider: {
     foodApi: {
