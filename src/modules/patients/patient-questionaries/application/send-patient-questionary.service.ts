@@ -26,7 +26,6 @@ export class SendPatientQuestionaryService {
 
     const patientWebOrigin = this.configService.get<string[]>('whiteListOrigins')[1];
     const url = `${patientWebOrigin}/questionary?patientQuestionary=${questionary}&patient=${patient}&professional=${professional}`;
-    console.log('url', url);
     const mailTitle = `Formulario de evaluación de estado actual de salud - ${user.firstname} ${user.lastname}`;
     const message = `
       Hola ${patientRes.user.firstname},
