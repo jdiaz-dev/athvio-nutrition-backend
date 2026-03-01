@@ -1,3 +1,4 @@
+import { ProfessionalQuestionaryQueryFragments } from './professional-questionary-query-fragments';
 import { Injectable } from '@nestjs/common';
 import { ProfessionalQuestionary, ProfessionalQuestionaryDocument } from './professional-questionary.schema';
 import { Model } from 'mongoose';
@@ -42,25 +43,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
         arrayFilters: [{ 'questionaryGroup.uuid': questionaryGroup, 'questionaryGroup.title': CustomFieldsGroupName }],
         new: true,
         projection: {
-          ...restFields,
-          questionaryGroups: {
-            $map: {
-              input: '$questionaryGroups',
-              as: 'group',
-              in: {
-                _id: '$$group._id',
-                uuid: '$$group.uuid',
-                title: '$$group.title',
-                questionaryDetails: {
-                  $filter: {
-                    input: '$$group.questionaryDetails',
-                    as: 'detail',
-                    cond: { $eq: ['$$detail.isDeleted', false] },
-                  },
-                },
-              },
-            },
-          },
+          ...ProfessionalQuestionaryQueryFragments.projectAndFilterDetails(restFields),
         },
       },
     );
@@ -91,25 +74,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
         arrayFilters: [{ 'group.uuid': questionaryGroup, 'group.title': CustomFieldsGroupName }, ...arrayFilters],
         new: true,
         projection: {
-          ...restFields,
-          questionaryGroups: {
-            $map: {
-              input: '$questionaryGroups',
-              as: 'group',
-              in: {
-                _id: '$$group._id',
-                uuid: '$$group.uuid',
-                title: '$$group.title',
-                questionaryDetails: {
-                  $filter: {
-                    input: '$$group.questionaryDetails',
-                    as: 'detail',
-                    cond: { $eq: ['$$detail.isDeleted', false] },
-                  },
-                },
-              },
-            },
-          },
+          ...ProfessionalQuestionaryQueryFragments.projectAndFilterDetails(restFields),
         },
       },
     );
@@ -138,25 +103,7 @@ export class CustomQuestionaryDetailsPersistenceService extends MongodbQueryBuil
         arrayFilters: [{ 'group.uuid': questionaryGroup, 'group.title': CustomFieldsGroupName }, ...arrayFilters],
         new: true,
         projection: {
-          ...restFields,
-          questionaryGroups: {
-            $map: {
-              input: '$questionaryGroups',
-              as: 'group',
-              in: {
-                _id: '$$group._id',
-                uuid: '$$group.uuid',
-                title: '$$group.title',
-                questionaryDetails: {
-                  $filter: {
-                    input: '$$group.questionaryDetails',
-                    as: 'detail',
-                    cond: { $eq: ['$$detail.isDeleted', false] },
-                  },
-                },
-              },
-            },
-          },
+          ...ProfessionalQuestionaryQueryFragments.projectAndFilterDetails(restFields),
         },
       },
     );

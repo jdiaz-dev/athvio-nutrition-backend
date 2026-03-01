@@ -10,6 +10,7 @@ import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-lo
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
+import { ProfessionalQuestionaryQueryFragments } from 'src/modules/professionals/professional-questionaries/adapters/out/professional-questionary-query-fragments';
 
 @Injectable()
 export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQueryBuilder<ProfessionalQuestionaryDocument> {
@@ -33,6 +34,8 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
     { questionary, questionaryGroup, professional, questionaryDetails }: EnableQuestionaryDetailsDto,
     selectors: Record<string, number>,
   ): Promise<ProfessionalQuestionary> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
+
     const arrayFilters = questionaryDetails.map((detail, index) => ({
       [`detail${index}.uuid`]: detail.questionaryDetail,
       [`detail${index}.isDeleted`]: false,
@@ -54,7 +57,9 @@ export class ProfessionalInternalQuestionaryPersistenceService extends MongodbQu
       {
         arrayFilters: [{ 'group.uuid': questionaryGroup, 'group.title': { $ne: CustomFieldsGroupName } }, ...arrayFilters],
         new: true,
-        projection: selectors,
+        projection: {
+          ...ProfessionalQuestionaryQueryFragments.projectAndFilterDetails(restFields),
+        },
       },
     );
 
