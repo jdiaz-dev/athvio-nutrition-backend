@@ -18,6 +18,7 @@ import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 import { NutritionSubDomainsModule } from 'src/modules/nutrition/nutrition-subdomains.module';
 import { MongoDbModule } from 'src/infraestructure/mongodb.module';
 import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
+import { HealthCheckController } from 'src/health-check.controller';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/pro
     BackofficeSubDomainsModule,
     ProgramGeneratorDomainsModule,
   ],
+  controllers: [HealthCheckController],
 })
 export class AppModule implements NestModule {
   constructor(private readonly als: AsyncLocalStorage<Trazability>) {}
