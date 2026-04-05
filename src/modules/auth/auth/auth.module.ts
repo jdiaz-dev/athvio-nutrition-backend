@@ -19,16 +19,19 @@ import { MobileWebAuthenticationResolver } from 'src/modules/auth/auth/adapters/
 import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 import { WorkFlowStreamAuditModule } from 'src/modules/backoffice/work-steram-audit/work-flow-stream-audit.module';
 import { GoogleVerifierService } from 'src/modules/auth/auth/application/services/google-verifier.service';
+import { AuthorizationModulesService } from 'src/modules/auth/auth/application/services/authorization-modules.service';
+
+const exportedServices = [SignUpPatientManagerService, AuthorizationService, AuthorizationModulesService];
 
 const services = [
   AuthenticationService,
-  AuthorizationService,
   LocalStrategy,
   JwtStrategy,
   SignUpProfessionalService,
-  SignUpPatientManagerService,
   GoogleVerifierService,
+  ...exportedServices,
 ];
+
 const resolvers = [
   ProfessionalOnboardingResolver,
   PatientOnboardingWebResolver,
@@ -52,6 +55,6 @@ const resolvers = [
     WorkFlowStreamAuditModule,
   ],
   providers: [...services, ...resolvers],
-  exports: [AuthorizationService, SignUpPatientManagerService],
+  exports: [...exportedServices],
 })
 export class AuthModule {}

@@ -528,6 +528,7 @@ input GetPatientForMobileDto {
 
 type GetPatientForMobileResponse {
   _id: ID!
+  assignedModule: String!
   birthday: DateTime
   createdAt: DateTime!
   gender: String

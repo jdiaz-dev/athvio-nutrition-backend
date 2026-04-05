@@ -95,6 +95,8 @@ class OtherVariables extends StorageVariables {
   GPT_SECRET_KEY: string;
   @IsString()
   PRODUCTION_TESTER_PROFESSIONAL_ID: string;
+  @IsString()
+  PRODUCTION_MASTER_PROFESSIONAL_ID: string;
 }
 
 class EnvironmentVariables extends OtherVariables {}

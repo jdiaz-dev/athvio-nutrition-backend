@@ -44,4 +44,5 @@ export const production: IEnvironment = {
   },
   mailsSender: process.env.MAILS_SENDER,
   productionTesterProfessionalId: process.env.PRODUCTION_TESTER_PROFESSIONAL_ID,
+  productionMasterProfessionalId: process.env.PRODUCTION_MASTER_PROFESSIONAL_ID,
 };

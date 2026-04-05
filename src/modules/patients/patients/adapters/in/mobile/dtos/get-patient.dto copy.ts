@@ -10,4 +10,7 @@ export class GetPatientForMobileDto {
 }
 
 @ObjectType()
-export class GetPatientForMobileResponse extends GetPatientForWebResponse {}
+export class GetPatientForMobileResponse extends GetPatientForWebResponse {
+  @Field()
+  assignedModule: string;
+}

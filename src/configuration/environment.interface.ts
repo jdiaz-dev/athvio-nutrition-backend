@@ -52,4 +52,5 @@ export interface IEnvironment {
   port: string;
   mailsSender: string;
   productionTesterProfessionalId: string;
+  productionMasterProfessionalId: string;
 }

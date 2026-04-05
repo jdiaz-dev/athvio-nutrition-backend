@@ -10,9 +10,16 @@ import { PatientGroupsModule } from 'src/modules/professionals/patient-groups/pa
 import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { PatientsMobileResolver } from 'src/modules/patients/patients/adapters/in/mobile/patients-mobile.resolver';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
+import { GetPatientForMobileService } from 'src/modules/patients/patients/application/get-patient-for-mobile.service';
 
 const resolvers = [PatientsWebResolver, PatientsMobileResolver];
-const services = [PatientsPersistenceService, ManagePatientGroupService, GetPatientManagerService, PatientManagerService];
+const services = [
+  PatientsPersistenceService,
+  ManagePatientGroupService,
+  GetPatientManagerService,
+  GetPatientForMobileService,
+  PatientManagerService,
+];
 
 @Module({
   imports: [
