@@ -13,6 +13,7 @@ export class GetPatientForMobileService {
     const _patient = await this.pps.getPatientPopulatedWithUser({ uuid: patient }, selectors || { _id: 1 });
 
     if (!_patient) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
-    return { ..._patient, ...this.ams.getPatientModuleAccess(_patient.professional) };
+    const { user, ...rest } = _patient;
+    return { ...rest, user: { ...(user as any), ...this.ams.getPatientModuleAccess(rest.professional) } };
   }
 }

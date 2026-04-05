@@ -365,6 +365,11 @@ input EnableQuestionaryDetailsDto {
   questionaryGroup: String!
 }
 
+type EnabledModule {
+  isEnabled: Boolean!
+  name: String!
+}
+
 type Equivalent {
   customIngredient: CustomIngredient
   ingredient: Ingredient
@@ -528,7 +533,6 @@ input GetPatientForMobileDto {
 
 type GetPatientForMobileResponse {
   _id: ID!
-  assignedModule: String!
   birthday: DateTime
   createdAt: DateTime!
   gender: String
@@ -1448,6 +1452,7 @@ type User {
   countryCode: String
   createdAt: DateTime!
   email: String!
+  enabledModules: [EnabledModule!]
   firstname: String
   isDarkMode: Boolean!
   lastname: String

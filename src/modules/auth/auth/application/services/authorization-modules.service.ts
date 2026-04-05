@@ -6,9 +6,9 @@ export class AuthorizationModulesService {
   constructor(private readonly configService: ConfigService) {}
   getPatientModuleAccess(professional: string) {
     if (professional === this.configService.get<string>('productionMasterProfessionalId')) {
-      return { assignedModule: 'programs' };
+      return { enabledModules: [{ name: 'programs', isEnabled: true }] };
     } else {
-      return { assignedModule: 'patient-plans' };
+      return { enabledModules: [{ name: 'patient-plans', isEnabled: true }] };
     }
   }
 }

@@ -5,6 +5,14 @@ import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 
 @ObjectType()
+export class EnabledModule {
+  @Field()
+  name: string;
+
+  @Field()
+  isEnabled: boolean;
+}
+@ObjectType()
 @Schema({ _id: true, timestamps: true, collection: 'Users' })
 export class User extends BaseSchema {
   _id!: string;
@@ -51,6 +59,9 @@ export class User extends BaseSchema {
 
   @Prop({ type: Boolean, required: false })
   acceptedTerms!: boolean;
+
+  @Field(() => [EnabledModule], { nullable: true })
+  enabledModules?: EnabledModule[];
 
   @Field()
   @Prop({ type: Boolean, required: true, default: true })
