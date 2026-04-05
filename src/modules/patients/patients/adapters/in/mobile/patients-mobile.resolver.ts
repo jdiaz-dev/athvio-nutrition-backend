@@ -6,7 +6,7 @@ import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-help
 import {
   GetPatientForMobileDto,
   GetPatientForMobileResponse,
-} from 'src/modules/patients/patients/adapters/in/mobile/dtos/get-patient.dto copy';
+} from 'src/modules/patients/patients/adapters/in/mobile/dtos/get-patient-for-mobile.dto';
 import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authorization-patient.guard';
 import { GetPatientForMobileService } from 'src/modules/patients/patients/application/get-patient-for-mobile.service';
 
