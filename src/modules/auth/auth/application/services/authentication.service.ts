@@ -21,7 +21,8 @@ export class AuthenticationService implements IValidateUserUseCase {
   async validateCredentials(email: string, _password: string): Promise<UserValidated> {
     const user = await this.ums.getUserByEmail(email);
     if (!user) throw new NotFoundException(ErrorAuthEnum.EMAIL_NOT_FOUND);
-    if (user && user.googleSub && _password) throw new UnauthorizedException(ErrorAuthEnum.INVALID_ACCESS_METHOD);
+    if ((user && user.googleSub && _password) || !user.password)
+      throw new UnauthorizedException(ErrorAuthEnum.INVALID_ACCESS_METHOD);
 
     const { uuid, role, password } = user;
     const validPassword = await bcryptjs.compare(_password, password);
