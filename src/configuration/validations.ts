@@ -1,0 +1,109 @@
+import { plainToInstance } from 'class-transformer';
+import { IsEnum, IsString, validateSync } from 'class-validator';
+import { EnumEnvironments } from 'src/shared/enums/project';
+
+class DatabaseVariables {
+  @IsString()
+  MONGO_DB_CONNECTION: string;
+  @IsString()
+  NEO4J_DATABASE: string;
+  @IsString()
+  NEO4J_SCHEME: string;
+  @IsString()
+  NEO4J_HOST: string;
+  @IsString()
+  NEO4J_PORT: string;
+  @IsString()
+  NEO4J_USERNAME: string;
+  @IsString()
+  NEO4J_PASSWORD: string;
+}
+
+class AllowedOriginVariables extends DatabaseVariables {
+  @IsString()
+  ORIGIN_WEB_PROFESSIONAL_BUCKET_CODE: string;
+  @IsString()
+  ORIGIN_WEB_PROFESSIONAL: string;
+  @IsString()
+  ORIGIN_WEB_PATIENT_BUCKET_CODE: string;
+  @IsString()
+  ORIGIN_WEB_PATIENT: string;
+}
+
+class FoodProviderVariables extends AllowedOriginVariables {
+  @IsString()
+  EDAMAM_FOOD_PARSER_URL: string;
+  @IsString()
+  EDAMAM_FOOD_APP_ID: string;
+  @IsString()
+  EDAMAM_FOOD_KEY: string;
+}
+
+class SecurityVariables extends FoodProviderVariables {
+  @IsString()
+  RATE_LIMIT_TLL: string;
+  @IsString()
+  RATE_LIMIT_VALUE: string;
+}
+
+class OauthVariables extends SecurityVariables {
+  @IsString()
+  OAUTH_GOOGLE_CLIENT_ID: string;
+  @IsString()
+  OAUTH_GOOGLE_CLIENT_SECRET: string;
+}
+
+enum POLAR_SERVER {
+  PRODUCTION = 'production',
+  SANDBOX = 'sandbox',
+}
+class PaymentProcessorVariables extends OauthVariables {
+  @IsString()
+  POLAR_ACCESS_TOKEN: string;
+  @IsEnum(POLAR_SERVER)
+  POLAR_SERVER: POLAR_SERVER;
+  @IsString()
+  POLAR_PRODUCT_ID: string;
+}
+
+class StorageVariables extends PaymentProcessorVariables {
+  @IsString()
+  FOOD_IMAGES_STORAGE: string;
+  @IsString()
+  FOOD_IMAGES_STORAGE_URL: string;
+  @IsString()
+  INTERNAL_FOOD_IMAGES_STORAGE: string;
+  @IsString()
+  INTERNAL_FOOD_IMAGES_DIRECTORY: string;
+  @IsString()
+  INTERNAL_FOOD_STORAGE_URL: string;
+}
+
+class OtherVariables extends StorageVariables {
+  @IsEnum(EnumEnvironments)
+  NODE_ENV: EnumEnvironments;
+  @IsString()
+  PORT: string;
+  @IsString()
+  SIGN_TOKEN: string;
+  @IsString()
+  MAILS_SENDER: string;
+  @IsString()
+  GPT_SECRET_KEY: string;
+  @IsString()
+  PRODUCTION_TESTER_PROFESSIONAL_ID: string;
+  @IsString()
+  PRODUCTION_MASTER_PROFESSIONAL_ID: string;
+}
+
+class EnvironmentVariables extends OtherVariables {}
+
+export function validateEnvironmentVariables(config: Record<string, unknown>) {
+  const validatedConfig = plainToInstance(EnvironmentVariables, config, { enableImplicitConversion: true });
+  const errors = validateSync(validatedConfig, { skipMissingProperties: false });
+
+  if (errors.length > 0) {
+    throw new Error(errors.toString());
+  }
+  return validatedConfig;
+}

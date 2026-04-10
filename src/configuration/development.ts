@@ -1,4 +1,4 @@
-import { IEnvironment } from './environment.interface';
+import { IEnvironment } from './environment';
 
 export const development: IEnvironment = {
   port: process.env.PORT,

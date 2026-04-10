@@ -1,46 +1,46 @@
-interface INeo4j {
+type INeo4j = {
   database: string;
   scheme: string;
   host: string;
   port: string;
   username: string;
   password: string;
-}
+};
 
-interface IDatabase {
+type IDatabase = {
   mongodb: string;
   mongodb2: string;
   neo4j: INeo4j;
-}
+};
 
-interface Storage {
+type Storage = {
   foodImagesStorage: string;
   foodImagesStorageUrl: string;
   internalFoodImagesStorage: string;
   internalFoodImagesDirectory: string;
   internalFoodStorageUrl: string;
-}
+};
 
-interface FoodApi {
+type FoodApi = {
   edamamFoodParserUrl: string;
   edamamFoodAppId: string;
   edamamFoodKey: string;
-}
-interface FoodProvider {
+};
+type FoodProvider = {
   foodApi: FoodApi;
-}
+};
 
-interface GptProvider {
+type GptProvider = {
   gptSecretKey: string;
-}
+};
 
-interface TranslationProvider {
+type TranslationProvider = {
   deeplAuthKey: string;
-}
-interface Security {
+};
+type Security = {
   rateLimit: { ttl: string; limit: string };
-}
-export interface IEnvironment {
+};
+export type IEnvironment = {
   database: IDatabase;
   storage: Storage;
   security: Security;
@@ -53,4 +53,4 @@ export interface IEnvironment {
   mailsSender: string;
   productionTesterProfessionalId: string;
   productionMasterProfessionalId: string;
-}
+};
