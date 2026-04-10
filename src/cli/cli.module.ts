@@ -4,7 +4,7 @@ import { TranslatorService } from 'src/cli/services/translator.service';
 import { FullDatabaseService } from 'src/cli/services/full-database.service';
 import { TranslateFoods } from 'src/cli/commands/translate-foods.command';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { getConfiguration, validateEnvironmentVariables } from 'src/configuration';
+import { getEnvironmentVariables, validateEnvironmentVariables } from 'src/configuration';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/out/schemas/internal-food.schema';
@@ -18,7 +18,7 @@ const services = [TranslatorService, InternalFoodsDaoService, FullDatabaseServic
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [getConfiguration],
+      load: [getEnvironmentVariables],
       validate: validateEnvironmentVariables,
     }),
     MongooseModule.forRootAsync({

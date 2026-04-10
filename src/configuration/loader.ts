@@ -10,7 +10,7 @@ const globalConfiguration = (environment = 'production') => {
   return availableEnvironments[environment];
 };
 
-export const getConfiguration = async () => {
+export const getEnvironmentVariables = async () => {
   const environmentVariables = await globalConfiguration(process.env.NODE_ENV);
   return {
     ...environmentVariables,
