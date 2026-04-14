@@ -1,21 +1,16 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { GetUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/get-user.dto';
 import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/update-user.dto';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
-import { GetUserById } from 'src/modules/auth/users/types/users-types';
+
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 
 @Resolver()
 export class UsersWebResolver {
   constructor(private readonly ums: UserManagamentService) {}
-  //public endpoint
-  @Query(() => User)
-  getUser(@Args('input') dto: GetUserDto): Promise<GetUserById> {
-    return this.ums.getUserByUuid(dto.user);
-  }
+
   @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
   @Mutation(() => User)
   updateUser(@Args('input') dto: UpdateUserDto): Promise<User> {

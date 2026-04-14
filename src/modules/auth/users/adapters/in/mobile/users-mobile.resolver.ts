@@ -6,11 +6,18 @@ import { GetPatientUser } from 'src/modules/auth/users/adapters/in/mobile/dtos/g
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
 import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authorization-patient.guard';
+import { GetUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/get-user.dto';
+import { GetUserById } from 'src/modules/auth/users/types/users-types';
 
 //todo: deprecate this class? , I am getting fullname and surnname patient from getPatientForMobile query
 @Resolver()
 export class UsersMobileResolver {
   constructor(private readonly ums: UserManagamentService) {}
+  //public endpoint
+  @Query(() => User)
+  getUser(@Args('input') dto: GetUserDto): Promise<GetUserById> {
+    return this.ums.getUserByUuid(dto.user);
+  }
   @UseGuards(...[AuthorizationGuard, AuthorizationPatientGuard])
   @Query(() => User)
   getPatientUserForMobile(@Args('input') dto: GetPatientUser) {

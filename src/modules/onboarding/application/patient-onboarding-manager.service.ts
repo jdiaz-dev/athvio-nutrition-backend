@@ -103,7 +103,7 @@ export class PatientOnboardingManagerService {
     patientFirstname: string,
   ): Promise<void> {
     const { firstname: professionalFirstname, lastname: professionalLastname } = await this.ums.getUserByUuid(proffesionalUser);
-    const origin = this.configService.get<string[]>('whiteListOrigins')[0];
+    const origin = this.configService.get<string[]>('whiteListOrigins')[1];
     const url = `${origin}/activate/${patientUserId}`;
     const mailTitle = `Invitación de ${professionalFirstname} ${professionalLastname}`;
     const message = `
