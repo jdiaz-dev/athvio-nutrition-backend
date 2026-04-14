@@ -3,7 +3,6 @@ import { ErrorPatientsEnum } from 'src/shared/enums/messages-response';
 import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
 import { PatientState } from 'src/shared/enums/project';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
-import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/web/dtos/activate-user.dto';
 import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
@@ -12,6 +11,7 @@ import { AuthenticationService } from 'src/modules/auth/auth/application/service
 import { PatientOnboardingManagerService } from 'src/modules/onboarding/application/patient-onboarding-manager.service';
 import { EnumRoles } from 'src/modules/auth/shared/enums';
 import { JwtDto } from 'src/modules/auth/auth/helpers/dtos/jwt.dto';
+import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/mobile/dtos/activate-user.dto';
 
 @Injectable()
 export class SignUpPatientManagerService {

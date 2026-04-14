@@ -4,12 +4,7 @@ import { SignUpPatientManagerService } from 'src/modules/auth/auth/application/s
 import { UseGuards } from '@nestjs/common';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
-import {
-  SignUpPatientDto,
-  SignUpPatientResponse,
-} from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
-import { User } from 'src/modules/auth/users/adapters/out/user.schema';
-import { ActivatePatientDto } from 'src/modules/auth/auth/adapters/in/web/dtos/activate-user.dto';
+import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
 
 @Resolver()
 export class PatientOnboardingWebResolver {
@@ -19,10 +14,5 @@ export class PatientOnboardingWebResolver {
   @Mutation(() => SignUpPatientResponse)
   signUpPatient(@Args('input') dto: SignUpPatientDto): Promise<SignUpPatientResponse> {
     return this.sppms.signUpPatientFromWeb(dto);
-  }
-  @Mutation(() => User)
-  async activatePatient(@Args('input') body: ActivatePatientDto) {
-    const activatedPatient = await this.sppms.activatePatient(body);
-    return activatedPatient;
   }
 }
