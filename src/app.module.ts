@@ -15,7 +15,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import { Trazability } from 'src/shared/types';
 import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
-import { NutritionSubDomainsModule } from 'src/modules/nutrition/nutrition-subdomains.module';
+import { NutritionSubDomainsModule } from 'src/modules/health/nutrition-subdomains.module';
 import { MongoDbModule } from 'src/infraestructure/mongodb.module';
 import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 import { HealthCheckController } from 'src/health-check.controller';
