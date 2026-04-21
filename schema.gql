@@ -974,6 +974,12 @@ type Organization {
   province: String!
 }
 
+type OtherTool {
+  createdAt: DateTime!
+  name: String!
+  uuid: String!
+}
+
 type Parameter {
   description: String!
   spanishParameterName: String!
@@ -1207,6 +1213,7 @@ type Query {
   getNutritionalMealDatabases: [String!]!
   getNutritionalMealsForPatient(input: GetNutritionalMealsForPatientDto!): GetNutritionalMealsResponse!
   getNutritionalMealsForProfessional(input: GetNutritionalMealsForProfessionalDto!): GetNutritionalMealsResponse!
+  getOtherTools: [OtherTool!]!
   getPatientForMobile(input: GetPatientForMobileDto!): GetPatientForMobileResponse!
   getPatientForWeb(patient: GetPatientForWebDto!): GetPatientForWebResponse!
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
