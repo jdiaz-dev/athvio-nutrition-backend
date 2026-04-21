@@ -673,6 +673,12 @@ input GetUserDto {
   user: String!
 }
 
+type Habit {
+  createdAt: DateTime!
+  name: String!
+  uuid: String!
+}
+
 type Ingredient {
   amount: String
   calories: Float!
@@ -1161,8 +1167,10 @@ type ProfessionalQuestionaryGroup {
 type Program {
   createdAt: DateTime!
   description: String!
+  habits: [String!]!
   isSyncActive: Boolean!
   name: String!
+  otherTools: [String!]!
   patients: [Patient!]!
   plans: [Plan!]!
   professional: String!
@@ -1190,6 +1198,7 @@ type Query {
   getFoodDatabases: [String!]!
   getFoods(input: GetFoodsDto!): GetFoodsResponse!
   getFormula: Formula!
+  getHabits: [Habit!]!
   getLastPlanification(lastPlanification: GetLastPlanificationDto!): Planification
   getMasterPrograms(input: GetProgramsDto!): GetProgramsResponse!
   getMemoryUsage: String!

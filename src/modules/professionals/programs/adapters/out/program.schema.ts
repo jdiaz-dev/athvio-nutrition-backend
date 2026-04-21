@@ -43,6 +43,14 @@ export class Program extends ProgramBase {
   @Prop({ type: [PlanSchema], required: false })
   plans!: Plan[];
 
+  @Field(() => [String])
+  @Prop({ type: [String], required: false, default: [] })
+  habits: string[];
+
+  @Field(() => [String])
+  @Prop({ type: [String], required: false, default: [] })
+  otherTools: string[];
+
   @Field(() => [Patient])
   @Prop({ type: [String], required: true, default: [], ref: Patient.name })
   patients: Patient[];
