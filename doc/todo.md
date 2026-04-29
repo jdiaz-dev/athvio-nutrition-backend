@@ -72,3 +72,4 @@
 ## Revert functionalities
 - remove habits module ?
 - remove habits attribute from programs plan schema?  
+- all the changes about the previous is in stash of git
