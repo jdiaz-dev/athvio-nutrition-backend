@@ -68,3 +68,7 @@
 2. apoptosis
 - fix: infusiones con adaptogenos no funciona (preferencias nutricionales)
 - fix: food list cannot get jugo de limón
+
+## Revert functionalities
+- remove habits module ?
+- remove habits attribute from programs plan schema?  
