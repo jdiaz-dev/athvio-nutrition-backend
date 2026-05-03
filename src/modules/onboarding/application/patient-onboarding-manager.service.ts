@@ -4,7 +4,6 @@ import { SignUpPatientFromMobileDto } from 'src/modules/auth/auth/adapters/in/mo
 import { SignUpPatientDto, SignUpPatientResponse } from 'src/modules/auth/auth/adapters/in/web/dtos/sign-up-patient.dto';
 import { EncryptionService } from 'src/modules/auth/auth/application/services/encryption.service';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
-import { MailService } from 'src/modules/mail/adapters/out/mail.service';
 import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
@@ -13,6 +12,7 @@ import { ErrorAuthEnum, ProfessionalMessages } from 'src/shared/enums/messages-r
 import { LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
+import { EmailTemplatesService } from 'src/modules/mail/adapters/out/mail-templates.service';
 
 @Injectable()
 export class PatientOnboardingManagerService {
@@ -23,10 +23,10 @@ export class PatientOnboardingManagerService {
     private readonly prms: ProfessionalsManagementService,
     private readonly ums: UserManagamentService,
     private readonly pms: PatientManagerService,
-    private readonly ms: MailService,
     private readonly qcm: ProfessionalQuestionaryManager,
     private readonly pqms: PatientQuestionaryManagerService,
     private readonly cus: CreateUserService,
+    private readonly ets: EmailTemplatesService,
   ) {}
   async onboardingForWeb(
     { professional, userInfo, additionalInfo }: SignUpPatientDto,
@@ -62,10 +62,7 @@ export class PatientOnboardingManagerService {
       })),
     });
 
-    const isProductionTesterProfessionalId =
-      this.configService.get<string>('productionTesterProfessionalId') === _proffesional.uuid;
-
-    if (!isPatientDemo && !isProductionTesterProfessionalId) await this.sendMail(_proffesional.user.uuid, uuid, email, firstname);
+    await this.sendMail(_proffesional.uuid, _proffesional.user.uuid, { uuid, firstname, lastname, email }, isPatientDemo);
 
     const _patient = {
       ...patient,
@@ -95,29 +92,24 @@ export class PatientOnboardingManagerService {
     return { uuid, role };
   }
   private async sendMail(
-    proffesionalUser: string,
-    patientUserId: string,
-    patientEmail: string,
-    patientFirstname: string,
+    professionalUUID: string,
+    professionalUserUUID: string,
+    patientUser: { uuid: string; firstname: string; lastname: string; email: string },
+    isPatientDemo: boolean,
   ): Promise<void> {
-    const { firstname: professionalFirstname, lastname: professionalLastname } = await this.ums.getUserByUuid(proffesionalUser);
-    const origin = this.configService.get<string[]>('whiteListOrigins')[1];
-    const url = `${origin}/activate/${patientUserId}`;
-    const mailTitle = `Invitación de ${professionalFirstname} ${professionalLastname}`;
-    const message = `
-      Hola ${patientFirstname},
-      
-      Te invito a usar Athvio. ¡Te ayudará a recibir tus planes nutricionales y a conversar conmigo!
-      
-      - Tu Coach,
-      ${professionalFirstname} ${professionalLastname}
-      ${url}
-    `;
-    await this.ms.sendEmail({
-      from: this.configService.get<string>('mailsSender'),
-      to: [patientEmail],
-      subject: mailTitle,
-      message,
-    });
+    const isProductionTesterProfessionalId =
+      this.configService.get<string>('productionTesterProfessionalId') === professionalUUID;
+
+    if (!isPatientDemo && !isProductionTesterProfessionalId) {
+      const { firstname: professionalFirstname, lastname: professionalLastname } =
+        await this.ums.getUserByUuid(professionalUserUUID);
+      await this.ets.sendInvitationPatientEmail(
+        professionalFirstname,
+        professionalLastname,
+        patientUser.uuid,
+        patientUser.email,
+        patientUser.firstname,
+      );
+    }
   }
 }
