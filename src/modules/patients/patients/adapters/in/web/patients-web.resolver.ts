@@ -15,6 +15,8 @@ import {
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
 import { UpdatePatientWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/update-patient.dto';
+import { ResendPatientInvitationEmailService } from 'src/modules/patients/patients/application/resend-patient-invitation-email.service';
+import { ResendPatientInvitationEmailDto } from 'src/modules/patients/patients/adapters/in/web/dtos/resend-patient-invitation-email.dto';
 
 @Resolver(() => Patient)
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
@@ -23,6 +25,7 @@ export class PatientsWebResolver {
     private readonly gps: GetPatientManagerService,
     private readonly mcgs: ManagePatientGroupService,
     private readonly pms: PatientManagerService,
+    private readonly rpie: ResendPatientInvitationEmailService,
   ) {}
 
   @Query(() => GetPatientForWebResponse)
@@ -44,7 +47,10 @@ export class PatientsWebResolver {
   }
 
   @Mutation(() => Patient)
-  updatePatientForWeb(@Args('patient') dto: UpdatePatientWebDto, @Info(...selectorExtractor()) selectors: string[]): Promise<Patient> {
+  updatePatientForWeb(
+    @Args('patient') dto: UpdatePatientWebDto,
+    @Info(...selectorExtractor()) selectors: string[],
+  ): Promise<Patient> {
     return this.pms.updatePatientInfo(dto, selectors);
   }
   @Mutation(() => Patient)
@@ -58,5 +64,9 @@ export class PatientsWebResolver {
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Patient> {
     return this.pms.managePatientState(dto, selectors);
+  }
+  @Mutation(() => Boolean)
+  resendPatientInvitationEmail(@Args('input') dto: ResendPatientInvitationEmailDto): Promise<boolean> {
+    return this.rpie.resendPatientInvitationEmail(dto);
   }
 }

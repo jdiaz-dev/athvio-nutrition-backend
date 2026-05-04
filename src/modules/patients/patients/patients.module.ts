@@ -11,6 +11,8 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { PatientsMobileResolver } from 'src/modules/patients/patients/adapters/in/mobile/patients-mobile.resolver';
 import { GetPatientManagerService } from 'src/modules/patients/patients/application/get-patient-manager.service';
 import { GetPatientForMobileService } from 'src/modules/patients/patients/application/get-patient-for-mobile.service';
+import { ResendPatientInvitationEmailService } from 'src/modules/patients/patients/application/resend-patient-invitation-email.service';
+import { MailModule } from 'src/modules/mail/mail.module';
 
 const resolvers = [PatientsWebResolver, PatientsMobileResolver];
 const services = [
@@ -19,6 +21,7 @@ const services = [
   GetPatientManagerService,
   GetPatientForMobileService,
   PatientManagerService,
+  ResendPatientInvitationEmailService,
 ];
 
 @Module({
@@ -27,6 +30,7 @@ const services = [
     forwardRef(() => AuthModule),
     forwardRef(() => PatientGroupsModule),
     forwardRef(() => ProfessionalsModule),
+    MailModule,
   ],
   providers: [...resolvers, ...services],
   exports: [PatientManagerService, GetPatientManagerService],

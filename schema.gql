@@ -857,6 +857,7 @@ type Mutation {
   managePatientGroup(input: ManagePatientGroupDto!): Patient!
   managePatientState(input: ManagePatientStateDto!): Patient!
   manageProgramTag(input: ManageProgramTagDto!): Program!
+  resendPatientInvitationEmail(input: ResendPatientInvitationEmailDto!): Boolean!
   saveChatComment(input: SaveChatCommentDto!): Chat!
   sendPatientQuestionary(input: SendPatientQuestionaryDto!): Boolean!
   signIn(input: SignInDto!): JwtDto!
@@ -1248,6 +1249,11 @@ type QuestionaryGroupBase {
   questionaryDetails: [QuestionaryDetailBase!]!
   title: String!
   uuid: String!
+}
+
+input ResendPatientInvitationEmailDto {
+  patient: String!
+  professional: String!
 }
 
 input SaveChatCommentDto {

@@ -8,7 +8,7 @@ import { PatientManagerService } from 'src/modules/patients/patients/application
 import { ProfessionalsManagementService } from 'src/modules/professionals/professionals/application/professionals-management.service';
 import { ProfessionalQuestionaryManager } from 'src/modules/professionals/professional-questionaries/application/profesional-questionary-manager.service';
 import { PatientQuestionaryManagerService } from 'src/modules/patients/patient-questionaries/application/patient-questionary-manager.service';
-import { ErrorAuthEnum, ProfessionalMessages } from 'src/shared/enums/messages-response';
+import { ErrorAuthEnum } from 'src/shared/enums/messages-response';
 import { LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/project';
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
@@ -36,7 +36,6 @@ export class PatientOnboardingManagerService {
     if (userEmail) throw new BadRequestException(ErrorAuthEnum.EMAIL_EXISTS, this.layer);
 
     const _proffesional = await this.prms.getProfessionalByUuid(professional, { 'uuid': 1, 'user.uuid': 1 });
-    if (!_proffesional) throw new BadRequestException(ProfessionalMessages.PROFESSIONAL_NOT_FOUND, this.layer);
 
     const { uuid, firstname, lastname, email } = await this.cus.createUserForWebPatient(userInfo.email, {
       firstname: userInfo.firstname,
