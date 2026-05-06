@@ -9,6 +9,9 @@ export class JwtDto {
   @Field(() => String)
   role: EnumRoles;
 
+  @Field({ nullable: true })
+  speciality: string; //naturopath or nutritionist
+
   @Field()
   token: string;
 }

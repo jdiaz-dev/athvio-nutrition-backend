@@ -43,6 +43,10 @@ export class AuthenticationService implements IValidateUserUseCase {
     const res: JwtDto = {
       uuid: await this.getUuidOfRole(userValidated),
       role: userValidated.role,
+      speciality:
+        userValidated.role === EnumRoles.PROFESSIONAL
+          ? (await this.pms.getProfessionalByUser(userValidated.uuid)).speciality
+          : null,
       token: this.jwtService.sign({ user: (await this.ums.getUserByUuid(userValidated.uuid)).uuid }, { expiresIn: '1d' }),
     };
     return res;

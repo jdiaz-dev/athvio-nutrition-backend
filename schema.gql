@@ -727,6 +727,7 @@ enum IngredientType {
 
 type JwtDto {
   role: String!
+  speciality: String
   token: String!
   uuid: String!
 }
@@ -1142,6 +1143,7 @@ type Professional {
   company: String!
   createdAt: DateTime!
   organization: Organization!
+  speciality: String
   timezone: String!
   unitPreference: String!
   user: User!

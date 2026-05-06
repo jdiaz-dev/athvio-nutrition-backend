@@ -40,6 +40,10 @@ export class Professional extends BaseSchema {
   @Prop({ type: String, required: false, ref: User.name })
   user!: User | string;
 
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
+  speciality: string; //naturopath or nutritionist
+
   @Field()
   @Prop({ type: String, required: false })
   company!: string;
