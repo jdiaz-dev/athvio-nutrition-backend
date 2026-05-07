@@ -4,6 +4,7 @@ import { CreatePatientPlanManagerService } from 'src/modules/patients/patient-pl
 import { DiseaseCausesManagerService } from 'src/modules/program-generator/disease-causes/application/disease-causes-manager.service';
 import { DiseasesManagerService } from 'src/modules/program-generator/diseases/application/diseases-manager.service';
 import { NutritionalPreferencesManagerService } from 'src/modules/program-generator/nutritional-preferences/application/nutritional-preferences-manager.service';
+import { GenerateNaturalProtocolDto } from 'src/modules/program-generator/program-generator/adapters/in/dtos/generate-natural-protocol.dto';
 import { NutritionalPlanGeneratorService } from 'src/modules/program-generator/program-generator/application/nutritional-plan-generator.service';
 import { PatientPlansPreparatorService } from 'src/shared/application/patient-plans-preparator.service';
 
@@ -46,6 +47,18 @@ export class GeneratorManagerService {
     const preparedPatientPlans: [] = [];
     this.ppps.preparePatientPlans(
       nutritionalPlan,
+      { patient: dto.patient, assignmentStartDate: dto.startDate, startingDay: 1 },
+      preparedPatientPlans,
+      true,
+    );
+    const assignedNutritionalPlans = await this.cppms.createManyPatientPlan(preparedPatientPlans);
+    return assignedNutritionalPlans;
+  }
+  async generateNaturalProtocol(dto: GenerateNaturalProtocolDto, _selectors: Record<string, number>) {
+    const generatedPlan: any = await this.npgs.generateNaturalProtocol(dto);
+    const preparedPatientPlans: [] = [];
+    this.ppps.preparePatientPlans(
+      generatedPlan,
       { patient: dto.patient, assignmentStartDate: dto.startDate, startingDay: 1 },
       preparedPatientPlans,
       true,

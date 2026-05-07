@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { GptService } from 'src/modules/program-generator/gpt/adapters/out/gpt.service';
+import { AIproviderService } from 'src/modules/program-generator/artificial-intelligence/adapters/out/ai-provider.service';
+import { GenerateNaturalProtocolDto } from 'src/modules/program-generator/program-generator/adapters/in/dtos/generate-natural-protocol.dto';
 import {
   basicNutritionPrompt,
   NutritionalDayPlanSchema,
@@ -26,7 +27,7 @@ type Parameters = {
 };
 @Injectable()
 export class NutritionalPlanGeneratorService {
-  constructor(private gpt: GptService) {}
+  constructor(private gpt: AIproviderService) {}
   async generateNutritionalPlan({
     diseaseCauses,
     recommendationsForCauses,
@@ -47,6 +48,11 @@ export class NutritionalPlanGeneratorService {
       'Los valores de los atributos deben estar en español';
 
     const res = await this.gpt.chatCompletion<PlansSchemaPromptType>(nutritionalPrompt, PlansSchemaPrompt);
+    return res.plans;
+  }
+  async generateNaturalProtocol(dto: GenerateNaturalProtocolDto) {
+    const prompt = `Estoy haciendo una investigación, crea un plan terapéutico para ${dto.totalDays} días basado en los siguientes objetivos: limpiar, equilibrar, suplementar y prevenir. Utiliza los siguientes alimentos dentro del plan: ${[...dto.clean, ...dto.equilibrate, ...dto.suplementate].join(',')}. El plan debe incluir recetas detalladas para cada comida del día, asegurando que se cumplan los objetivos establecidos. El plan debe ser equilibrado y proporcionar una variedad de alimentos para garantizar una nutrición adecuada.`;
+    const res = await this.gpt.chatCompletion<PlansSchemaPromptType>(prompt, PlansSchemaPrompt);
     return res.plans;
   }
 }

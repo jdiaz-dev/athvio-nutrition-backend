@@ -433,6 +433,16 @@ type FormulaGroup {
   spanishFormulaName: String!
 }
 
+input GenerateNaturalProtocolDto {
+  clean: [String!]!
+  equilibrate: [String!]!
+  mealsByDay: Float!
+  patient: String!
+  startDate: DateTime!
+  suplementate: [String!]!
+  totalDays: Float!
+}
+
 input GenerateNutritionalPlanDto {
   diseaseCauses: [String!]!
   diseases: [String!]!
@@ -853,6 +863,7 @@ type Mutation {
   duplicateProgram(input: DuplicateProgramDto!): Program!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
+  generateNaturalProtocol(input: GenerateNaturalProtocolDto!): [PatientPlan!]!
   generateNutritionalPlanForPatient(input: GenerateNutritionalPlanDto!): [PatientPlan!]!
   landingScreen: String!
   managePatientGroup(input: ManagePatientGroupDto!): Patient!

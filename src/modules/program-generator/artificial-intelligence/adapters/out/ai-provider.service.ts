@@ -8,7 +8,7 @@ import { LayersServer } from 'src/shared/enums/project';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
 
 @Injectable()
-export class GptService {
+export class AIproviderService {
   private openai: OpenAI;
   constructor(
     private readonly configService: ConfigService,
@@ -45,6 +45,35 @@ export class GptService {
           {
             role: 'developer',
             content: `"""Debes cumplir con las siguientes indicaciones de forma precisa:""". ${quotedPrompt}`,
+          },
+        ],
+        model: 'gpt-4.1', //posible migration to gpt-4.1 //legacy: gpt-4o
+        response_format: zodResponseFormat(schemaPrompt, 'nutri_response'),
+      });
+
+      const resParsed = JSON.parse(res.choices[0].message.content);
+      return resParsed as T;
+    } catch (error: unknown) {
+      this.logger.error({ layer: LayersServer.INFRAESTRUCTURE, message: (error as Error).message, error });
+      throw new InternalServerErrorException(InternalErrors.IA_PROVIDER);
+    }
+  }
+  async chatCompletionForTherapist<T>(prompt: string, schemaPrompt: ZodType<T>): Promise<T> {
+
+    if (process.env.NODE_ENV === 'development') console.log(prompt);
+
+    try {
+      const res = await this.openai.chat.completions.create({
+        messages: [
+          {
+            role: 'assistant',
+            content: `
+              - Eres un investigador experto en terapias naturales.
+            `,
+          },
+          {
+            role: 'developer',
+            content: `"""Debes cumplir con las siguientes indicaciones de forma precisa:""". ${prompt}`,
           },
         ],
         model: 'gpt-4.1', //posible migration to gpt-4.1 //legacy: gpt-4o

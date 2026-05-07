@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 
-export class GptService {
+export class AIproviderService {
   private openai: OpenAI;
   constructor() {
     this.openai = new OpenAI({
@@ -47,7 +47,7 @@ export class GptService {
   }
 }
 
-const gptService = new GptService();
+const gptService = new AIproviderService();
 gptService.streamResponse();
 // gptService.createResponse();
 
