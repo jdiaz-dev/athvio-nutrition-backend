@@ -9,6 +9,7 @@ import { ProgramGeneratorResolver } from 'src/modules/program-generator/program-
 import { GeneratorManagerService } from 'src/modules/program-generator/program-generator/application/generator-manager.service';
 import { NutritionalPlanGeneratorService } from 'src/modules/program-generator/program-generator/application/nutritional-plan-generator.service';
 import { SharedModule } from 'src/shared/shared.module';
+import { WorkFlowStreamAuditModule } from 'src/modules/backoffice/work-steram-audit/work-flow-stream-audit.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SharedModule } from 'src/shared/shared.module';
     NutritionalPreferencesModule,
     AIproviderModule,
     PatientPlansModule,
+    WorkFlowStreamAuditModule,
   ],
   providers: [ProgramGeneratorResolver, NutritionalPlanGeneratorService, GeneratorManagerService],
 })

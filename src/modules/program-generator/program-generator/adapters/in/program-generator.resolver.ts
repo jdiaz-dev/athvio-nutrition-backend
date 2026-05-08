@@ -4,6 +4,8 @@ import { GenerateNutritionalPlanDto } from 'src/modules/program-generator/progra
 import { GeneratorManagerService } from 'src/modules/program-generator/program-generator/application/generator-manager.service';
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { GenerateNaturalProtocolDto } from 'src/modules/program-generator/program-generator/adapters/in/dtos/generate-natural-protocol.dto';
+import { UseInterceptors } from '@nestjs/common';
+import { GqlInterceptor } from 'src/shared/adapters/in/interceptors/gql.interceptor';
 
 @Resolver()
 export class ProgramGeneratorResolver {
@@ -16,6 +18,7 @@ export class ProgramGeneratorResolver {
   ): Promise<PatientPlan[]> {
     return await this.gms.generateNutritionalPlanForPatient(dto, selectors);
   }
+  @UseInterceptors(GqlInterceptor)
   @Mutation(() => [PatientPlan])
   async generateNaturalProtocol(
     @Args('input') dto: GenerateNaturalProtocolDto,
