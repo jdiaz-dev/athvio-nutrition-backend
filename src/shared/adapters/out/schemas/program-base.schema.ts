@@ -37,6 +37,10 @@ export class ProgramBase extends BaseSchema {
   @Prop({ type: String, required: true })
   name!: string;
 
+  @Field()
+  @Prop({ type: String, required: false })
+  description!: string;
+
   @Field(() => [PlanBase])
   @Prop({ type: [PlanSchema], required: false })
   plans!: PlanBase[];

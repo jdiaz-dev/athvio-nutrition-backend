@@ -31,10 +31,6 @@ export class Program extends ProgramBase {
   @Prop({ type: String, required: true })
   professional!: string;
 
-  @Field()
-  @Prop({ type: String, required: false })
-  description!: string;
-
   @Field(() => [ProgramTag])
   @Prop({ type: [String], required: true, default: [], ref: ProgramTag.name })
   programTags: String[];

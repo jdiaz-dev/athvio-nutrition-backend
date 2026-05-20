@@ -3,10 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-program.dto';
 import {
   GetPatientProgramsDto,
   GetPatientProgramsResponse,
 } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/get-patient-programs.dto';
+import { UpdatePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/update-patient-program.dto';
 import {
   PatientProgram,
   PatientProgramDocument,
@@ -26,13 +28,18 @@ export class PatientProgramsPersistenceService extends MongodbQueryBuilder<Patie
   ) {
     super(programModel, logger, PatientProgram.name, als);
   }
+  async createPatientProgram(body: Pick<PatientProgram, 'uuid' | 'patient' | 'name' | 'description'>): Promise<PatientProgram> {
+    const programRes = await this.initializeQuery(this.createPatientProgram.name).create({
+      ...body,
+    });
 
+    return programRes;
+  }
   async createPatientPrograms(body: CreatePatientProgram[]): Promise<PatientProgramDocument[]> {
     const programRes = await this.initializeQuery(this.createPatientPrograms.name).insertMany(body);
 
     return programRes;
   }
-
   async getPatientPrograms(
     { patient, ...rest }: GetPatientProgramsDto,
     selectors: Record<string, number>,
@@ -46,7 +53,6 @@ export class PatientProgramsPersistenceService extends MongodbQueryBuilder<Patie
           isDeleted: false,
         },
       },
-
       {
         $project: {
           ...restFields,
@@ -121,5 +127,33 @@ export class PatientProgramsPersistenceService extends MongodbQueryBuilder<Patie
     };
 
     return res;
+  }
+  async updatePatientProgram({ patient, patientProgram, ...rest }: UpdatePatientProgramDto): Promise<PatientProgram | null> {
+    const programRes = await this.initializeQuery(this.updatePatientProgram.name).findOneAndUpdate(
+      { uuid: patientProgram, patient, isDeleted: false },
+      { ...rest },
+      { new: true },
+    );
+
+    return programRes;
+  }
+  async deletePatientProgram(
+    { patient, patientProgram }: DeletePatientProgramDto,
+    selectors: string[],
+  ): Promise<PatientProgram | null> {
+    selectors;
+    const programRes = await this.initializeQuery(this.deletePatientProgram.name).findOneAndUpdate(
+      {
+        uuid: patientProgram,
+        patient,
+        isDeleted: false,
+      },
+      {
+        isDeleted: true,
+      },
+      { new: true },
+    );
+
+    return programRes;
   }
 }

@@ -36,6 +36,9 @@ export enum ErrorProgramTagEnum {
 export enum ErrorProgramEnum {
   PROGRAM_NOT_FOUND = 'This program does not exist.',
 }
+export enum ErrorPatientProgramEnum {
+  PATIENT_PROGRAM_NOT_FOUND = 'This patient program does not exist.',
+}
 
 export enum ErrorPatientGroupEnum {
   CLIENT_GROUP_NOT_FOUND = 'This patient group does not exist.',

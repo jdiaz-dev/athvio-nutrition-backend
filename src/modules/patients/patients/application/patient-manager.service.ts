@@ -17,6 +17,12 @@ export class PatientManagerService {
 
     return patient;
   }
+  async getPatient(patient: string): Promise<Patient> {
+    const patientRes = await this.pps.getPatientByUuid(patient);
+    if (patientRes == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);
+
+    return patientRes;
+  }
   async updatePatientState(updatePatient: UpdatePatientState, selectors?: string[]): Promise<Patient> {
     const patient = await this.pps.updatePatientByUser(updatePatient, selectors);
     if (patient == null) throw new BadRequestException(ErrorPatientsEnum.PATIENT_NOT_FOUND);

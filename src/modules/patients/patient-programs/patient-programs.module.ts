@@ -6,6 +6,7 @@ import { PatientProgram, PatientProgramSchema } from 'src/modules/patients/patie
 import { PatientProgramsResolver } from 'src/modules/patients/patient-programs/adapters/in/patient-programs.resolver';
 import { PatientProgramsPersistenceService } from 'src/modules/patients/patient-programs/adapters/out/patient-programs-persistence.service';
 import { PatientProgramsManagerService } from 'src/modules/patients/patient-programs/application/patient-programs-manager.service';
+import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 
 const resolvers = [PatientProgramsResolver];
 const services = [PatientProgramsPersistenceService, PatientProgramsManagerService];
@@ -14,6 +15,7 @@ const services = [PatientProgramsPersistenceService, PatientProgramsManagerServi
   imports: [
     MongooseModule.forFeature([{ name: PatientProgram.name, schema: PatientProgramSchema }]),
     forwardRef(() => AuthModule),
+    PatientsModule,
     SharedModule,
   ],
   providers: [...resolvers, ...services],
