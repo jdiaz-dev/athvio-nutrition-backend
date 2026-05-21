@@ -28,6 +28,12 @@ input AddPatientPlanCommentDto {
   patientPlanId: String!
 }
 
+input AddPatientProgramPlanDto {
+  patient: String!
+  patientProgram: String!
+  planBody: PlanBodyInput!
+}
+
 input AddPlanMealDto {
   meals: [MealBodyInput!]!
   patient: String!
@@ -311,6 +317,12 @@ input DeletePatientProgramDto {
   patientProgram: String!
 }
 
+input DeletePatientProgramPlanDto {
+  patient: String!
+  patientProgram: String!
+  plan: String!
+}
+
 input DeletePlanMealDto {
   meals: [String!]!
   patient: String!
@@ -349,6 +361,14 @@ input DuplicatePatientPlanDto {
   patient: String!
   patientPlan: String!
   professional: String!
+}
+
+input DuplicatePatientProgramPlanDto {
+  day: Float!
+  patient: String!
+  patientProgram: String!
+  plan: String!
+  week: Float!
 }
 
 input DuplicateProgramDto {
@@ -619,6 +639,11 @@ input GetPatientPlansForWebDto {
   startDate: String!
 }
 
+input GetPatientProgramDto {
+  patient: String!
+  patientProgram: String!
+}
+
 input GetPatientProgramsDto {
   limit: Float = 30
   offset: Float = 0
@@ -851,6 +876,7 @@ type Mutation {
   activatePatient(input: ActivatePatientDto!): User!
   addCustomQuestionaryDetails(toAddInput: AddCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   addPatientPlanComment(input: AddPatientPlanCommentDto!): PatientPlan!
+  addPatientProgramPlan(input: AddPatientProgramPlanDto!): PatientProgram!
   addPlanMeal(toAddInput: AddPlanMealDto!): PatientPlan!
   addProgramPlan(input: AddProgramPlanDto!): Program!
   assignProgram(input: AssignProgramDto!): [PatientPlan!]!
@@ -873,11 +899,13 @@ type Mutation {
   deletePatientPlan(input: DeletePatientPlanDto!): PatientPlan!
   deletePatientPlanComment(input: DeletePatientPlanCommentDto!): PatientPlan!
   deletePatientProgram(input: DeletePatientProgramDto!): PatientProgram!
+  deletePatientProgramPlan(input: DeletePatientProgramPlanDto!): PatientProgram!
   deletePlanMeal(toDeleteInput: DeletePlanMealDto!): PatientPlan!
   deleteProgram(input: DeleteProgramDto!): Program!
   deleteProgramPlan(input: DeleteProgramPlanDto!): Program!
   deleteProgramTag(input: DeleteProgramTagDto!): ProgramTag!
   duplicatePatientPlan(input: DuplicatePatientPlanDto!): PatientPlan!
+  duplicatePatientProgramPlan(input: DuplicatePatientProgramPlanDto!): PatientProgram!
   duplicateProgram(input: DuplicateProgramDto!): Program!
   duplicateProgramPlan(input: DuplicateProgramPlanDto!): Program!
   enableQuestionaryDetails(input: EnableQuestionaryDetailsDto!): ProfessionalQuestionary!
@@ -907,6 +935,7 @@ type Mutation {
   updatePatientPlan(input: UpdatePatientPlanDto!): PatientPlan!
   updatePatientPlanComment(input: UpdatePatientPlanCommentDto!): PatientPlan!
   updatePatientProgram(input: UpdatePatientProgramDto!): PatientProgram!
+  updatePatientProgramPlanWeekDay(input: UpdatePatientProgramPlanWeekDayDto!): PatientProgram!
   updatePatientQuestionaryAnswers(input: UpdateAnswersDto!): PatientQuestionary!
   updatePlanAssignedWeekDay(input: UpdatePlanAssignedWeekDayDto!): Program!
   updatePlanMeal(toUpdateInput: UpdatePlanMealDto!): PatientPlan!
@@ -1253,6 +1282,7 @@ type Query {
   getPatientGroups(input: GetPatientGroupsDto!): [PatientGroup!]!
   getPatientPlansForMobile(patientPlans: GetPatientPlansForMobileDto!): [PatientPlan!]!
   getPatientPlansForWeb(patientPlans: GetPatientPlansForWebDto!): [PatientPlan!]!
+  getPatientProgram(input: GetPatientProgramDto!): PatientProgram!
   getPatientPrograms(input: GetPatientProgramsDto!): GetPatientProgramsResponse!
   getPatientQuestionary(input: GetPatientQuestionaryDto!): PatientQuestionary!
   getPatientUserForMobile(input: GetPatientUser!): User!
@@ -1447,6 +1477,14 @@ input UpdatePatientProgramDto {
   name: String!
   patient: String!
   patientProgram: String!
+}
+
+input UpdatePatientProgramPlanWeekDayDto {
+  day: Float!
+  patient: String!
+  patientProgram: String!
+  plan: String!
+  week: Float!
 }
 
 input UpdatePatientWebDto {

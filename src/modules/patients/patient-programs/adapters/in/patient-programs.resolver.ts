@@ -10,7 +10,8 @@ import {
 import { CreatePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/create-patient-program.dto';
 import { PatientProgram } from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';
 import { UpdatePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/update-patient-program.dto';
-import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-program.dto';
+import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-patient-program.dto';
+import { GetPatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/get-patient-program.dto';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard])
@@ -19,6 +20,14 @@ export class PatientProgramsResolver {
   @Mutation(() => PatientProgram)
   createPatientProgram(@Args('input') dto: CreatePatientProgramDto): Promise<PatientProgram> {
     return this.ppms.createPatientProgram(dto);
+  }
+  @Query(() => PatientProgram)
+  async getPatientProgram(
+    @Args('input') dto: GetPatientProgramDto,
+    @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
+  ): Promise<PatientProgram> {
+    const program = await this.ppms.getPatientProgram(dto, selectors);
+    return program;
   }
   @Query(() => GetPatientProgramsResponse)
   async getPatientPrograms(

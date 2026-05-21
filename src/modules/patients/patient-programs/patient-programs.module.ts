@@ -7,9 +7,17 @@ import { PatientProgramsResolver } from 'src/modules/patients/patient-programs/a
 import { PatientProgramsPersistenceService } from 'src/modules/patients/patient-programs/adapters/out/patient-programs-persistence.service';
 import { PatientProgramsManagerService } from 'src/modules/patients/patient-programs/application/patient-programs-manager.service';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
+import { PatientProgramPlansPersistenceService } from 'src/modules/patients/patient-programs/adapters/out/patient-program-plans-persistence.service';
+import { PatientProgramPlansResolver } from 'src/modules/patients/patient-programs/adapters/in/patient-program-plans.resolver';
+import { PatientProgramPlanManagerService } from 'src/modules/patients/patient-programs/application/patient-program-plan-manager.service';
 
-const resolvers = [PatientProgramsResolver];
-const services = [PatientProgramsPersistenceService, PatientProgramsManagerService];
+const resolvers = [PatientProgramsResolver, PatientProgramPlansResolver];
+const services = [
+  PatientProgramsPersistenceService,
+  PatientProgramPlanManagerService,
+  PatientProgramPlansPersistenceService,
+  PatientProgramsManagerService,
+];
 
 @Module({
   imports: [

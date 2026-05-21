@@ -11,7 +11,8 @@ import { CreatePatientProgram } from 'src/modules/patients/patient-programs/type
 import { PatientManagerService } from 'src/modules/patients/patients/application/patient-manager.service';
 import { UpdatePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/update-patient-program.dto';
 import { ErrorPatientProgramEnum } from 'src/shared/enums/messages-response';
-import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-program.dto';
+import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-patient-program.dto';
+import { GetPatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/get-patient-program.dto';
 
 @Injectable()
 export class PatientProgramsManagerService {
@@ -48,7 +49,12 @@ export class PatientProgramsManagerService {
 
     return patientProgram;
   }
+  async getPatientProgram(dto: GetPatientProgramDto, selectors?: Record<string, number>) {
+    const program = await this.pps.getPatientProgram(dto, selectors);
+    if (program == null) throw new BadRequestException(ErrorPatientProgramEnum.PATIENT_PROGRAM_NOT_FOUND);
 
+    return program;
+  }
   async getPatientPrograms(
     { patient, ...rest }: GetPatientProgramsDto,
     selectors: Record<string, number>,

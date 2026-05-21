@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-program.dto';
+import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-patient-program.dto';
+import { GetPatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/get-patient-program.dto';
 import {
   GetPatientProgramsDto,
   GetPatientProgramsResponse,
@@ -39,6 +40,58 @@ export class PatientProgramsPersistenceService extends MongodbQueryBuilder<Patie
     const programRes = await this.initializeQuery(this.createPatientPrograms.name).insertMany(body);
 
     return programRes;
+  }
+  async getPatientProgram(
+    { patient, patientProgram, plan }: Partial<GetPatientProgramDto>,
+    selectors?: Record<string, number>,
+  ): Promise<PatientProgram | null> {
+    const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
+
+    const programRes = await this.initializeQuery(this.getPatientProgram.name).aggregate([
+      {
+        $match: {
+          ...(patientProgram && patient && { uuid: patientProgram, patient }),
+          isDeleted: false,
+        },
+      },
+      ...(selectors
+        ? [
+            {
+              $project: {
+                ...restFields,
+                plans: {
+                  $filter: {
+                    input: '$plans',
+                    as: 'plan',
+                    cond: {
+                      $and: [{ $eq: ['$$plan.isDeleted', false] }, plan ? { $eq: ['$$plan.uuid', plan] } : {}],
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $project: {
+                ...restFields,
+                plans: ProgramQueryFragmentsService.filterPlansAndNestedMeals(),
+              },
+            },
+            {
+              $project: {
+                ...restFields,
+                plans: ProgramQueryFragmentsService.sortPlansByDay(),
+              },
+            },
+            {
+              $project: {
+                ...selectors,
+              },
+            },
+          ]
+        : []),
+    ]);
+
+    return programRes[0] as PatientProgram;
   }
   async getPatientPrograms(
     { patient, ...rest }: GetPatientProgramsDto,
