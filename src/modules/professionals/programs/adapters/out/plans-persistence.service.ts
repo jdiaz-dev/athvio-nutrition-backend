@@ -1,4 +1,3 @@
-import { BadRequestException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -10,7 +9,6 @@ import {
   ProgramPatial,
   ProgramPlanFilteredByDay,
 } from 'src/modules/professionals/programs/types/program';
-import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { ProgramQueryFragmentsService } from 'src/shared/adapters/out/database/program-query-fragments.service';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
@@ -51,7 +49,6 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
         },
       },
     );
-    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
     return programRes;
   }
 
@@ -73,7 +70,6 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
         },
       },
     );
-    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
     return programRes;
   }
@@ -129,7 +125,6 @@ export class PlansPersistenceService extends MongodbQueryBuilder<ProgramDocument
         projection: selectors,
       },
     );
-    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
 
     return programRes;
   }

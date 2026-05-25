@@ -4,7 +4,6 @@ import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/i
 import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/delete-program-plan.dto';
 import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/duplicate-program-plan.dto';
 import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/update-plan-assigned-week-day.dto';
-import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPlanManagerService } from 'src/modules/professionals/programs/application/program-plan-manager.service';
@@ -15,7 +14,7 @@ import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/h
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])
 export class PlansResolver {
-  constructor(private readonly pps: PlansPersistenceService, private readonly ppms: ProgramPlanManagerService) {}
+  constructor(private readonly ppms: ProgramPlanManagerService) {}
 
   @Mutation(() => Program)
   addProgramPlan(
@@ -36,13 +35,13 @@ export class PlansResolver {
     @Args('input') dto: UpdatePlanAssignedWeekDayDto,
     @Info(...selectorExtractorForAggregation()) selectors: Record<string, number>,
   ): Promise<Program> {
-    return this.pps.updatePlanAssignedWeekDay(dto, selectors);
+    return this.ppms.updatePlanAssignedWeekDay(dto, selectors);
   }
   @Mutation(() => Program)
   async deleteProgramPlan(
     @Args('input') dto: DeleteProgramPlanDto,
     @Info(...selectorExtractor()) selectors: string[],
   ): Promise<Program> {
-    return this.pps.deleteProgramPlan(dto, selectors);
+    return this.ppms.deleteProgramPlan(dto, selectors);
   }
 }

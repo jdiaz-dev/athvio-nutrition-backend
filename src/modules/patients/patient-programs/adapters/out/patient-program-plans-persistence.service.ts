@@ -13,8 +13,8 @@ import {
   PatientProgramDocument,
 } from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';
 import { AddPatientProgramPlanWithMeals } from 'src/modules/patients/patient-programs/types/patient-program';
-import { UpdatePatientProgramPlanWeekDayDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/update-patient-program-plan-week-day.dto';
-import { DeletePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/delete-patient-program-plan.dto';
+import { UpdatePatientProgramPlanWeekDayDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/update-patient-program-plan-week-day.dto';
+import { DeletePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/delete-patient-program-plan.dto';
 
 @Injectable()
 export class PatientProgramPlansPersistenceService extends MongodbQueryBuilder<PatientProgramDocument> {

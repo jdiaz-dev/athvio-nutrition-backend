@@ -4,18 +4,18 @@ import { IsUUID, ValidateNested } from 'class-validator';
 import { MealBodyInput } from 'src/shared/adapters/in/dtos/meal-body.input';
 
 @InputType()
-export class AddPlanMealDto {
-  @Field()
-  @IsUUID(4)
-  professional: string;
-
+export class AddPatientProgramMealDto {
   @Field()
   @IsUUID(4)
   patient: string;
 
   @Field()
   @IsUUID(4)
-  patientPlan: string;
+  patientProgram: string;
+
+  @Field()
+  @IsUUID(4)
+  plan: string;
 
   @Field(() => [MealBodyInput])
   @ValidateNested()

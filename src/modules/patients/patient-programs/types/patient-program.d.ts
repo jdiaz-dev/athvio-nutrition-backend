@@ -18,3 +18,10 @@ export type AddPatientProgramPlanWithMeals = {
       meals: RequiredDataMeal[];
     };
 };
+
+export type AddPatientProgramPlanMeal = {
+  patient: string;
+  patientProgram: string;
+  plan: string;
+  meals: RequiredDataMeal[];
+};

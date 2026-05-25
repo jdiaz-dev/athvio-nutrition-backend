@@ -4,11 +4,11 @@ import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards
 import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { PatientProgramPlanManagerService } from 'src/modules/patients/patient-programs/application/patient-program-plan-manager.service';
-import { AddPatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/add-patient-program-plan.dto';
+import { AddPatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/add-patient-program-plan.dto';
 import { PatientProgram } from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';
-import { UpdatePatientProgramPlanWeekDayDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/update-patient-program-plan-week-day.dto';
-import { DuplicatePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/duplicate-patient-program-plan.dto';
-import { DeletePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/delete-patient-program-plan.dto';
+import { UpdatePatientProgramPlanWeekDayDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/update-patient-program-plan-week-day.dto';
+import { DuplicatePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/duplicate-patient-program-plan.dto';
+import { DeletePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/delete-patient-program-plan.dto';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationProfessionalGuard])

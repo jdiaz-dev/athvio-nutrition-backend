@@ -1,21 +1,21 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Type } from 'class-transformer';
 import { IsUUID, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { MealBodyInput } from 'src/shared/adapters/in/dtos/meal-body.input';
 
 @InputType()
-export class AddPlanMealDto {
-  @Field()
-  @IsUUID(4)
-  professional: string;
-
+export class UpdatePatientProgramMealDto {
   @Field()
   @IsUUID(4)
   patient: string;
 
   @Field()
   @IsUUID(4)
-  patientPlan: string;
+  patientProgram: string;
+
+  @Field()
+  @IsUUID(4)
+  plan: string;
 
   @Field(() => [MealBodyInput])
   @ValidateNested()

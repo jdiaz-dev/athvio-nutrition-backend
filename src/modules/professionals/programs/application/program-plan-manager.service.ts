@@ -1,11 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { AddProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/add-program-plan.dto';
+import { DeleteProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/delete-program-plan.dto';
 import { DuplicateProgramPlanDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/duplicate-program-plan.dto';
+import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/plan/update-plan-assigned-week-day.dto';
 import { PlansPersistenceService } from 'src/modules/professionals/programs/adapters/out/plans-persistence.service';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramManagerService } from 'src/modules/professionals/programs/application/program-manager.service';
 import { MealImagesManagerService } from 'src/shared/application/meal-images-manager.service';
+import { ErrorProgramEnum } from 'src/shared/enums/messages-response';
 
 @Injectable()
 export class ProgramPlanManagerService {
@@ -34,6 +37,8 @@ export class ProgramPlanManagerService {
       },
       selectors,
     );
+    if (_program == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+
     return _program;
   }
   async duplicateProgramPlan(
@@ -63,5 +68,17 @@ export class ProgramPlanManagerService {
       selectors,
     );
     return programUpdated;
+  }
+  async updatePlanAssignedWeekDay(dto: UpdatePlanAssignedWeekDayDto, selectors: Record<string, number>): Promise<Program> {
+    const programRes = await this.pps.updatePlanAssignedWeekDay(dto, selectors);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+
+    return programRes;
+  }
+  async deleteProgramPlan(dto: DeleteProgramPlanDto, selectors: string[]): Promise<Program> {
+    const programRes = await this.pps.deleteProgramPlan(dto, selectors);
+    if (programRes == null) throw new BadRequestException(ErrorProgramEnum.PROGRAM_NOT_FOUND);
+
+    return programRes;
   }
 }

@@ -10,13 +10,18 @@ import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { PatientProgramPlansPersistenceService } from 'src/modules/patients/patient-programs/adapters/out/patient-program-plans-persistence.service';
 import { PatientProgramPlansResolver } from 'src/modules/patients/patient-programs/adapters/in/patient-program-plans.resolver';
 import { PatientProgramPlanManagerService } from 'src/modules/patients/patient-programs/application/patient-program-plan-manager.service';
+import { PatientProgramMealsResolver } from 'src/modules/patients/patient-programs/adapters/in/patient-program-plan-meals.resolver';
+import { PatientProgramMealsManagerService } from 'src/modules/patients/patient-programs/application/patient-program-meals-manager.service';
+import { PatientProgramMealsPersistenceService } from 'src/modules/patients/patient-programs/adapters/out/patient-program-meals-persistence.service';
 
-const resolvers = [PatientProgramsResolver, PatientProgramPlansResolver];
+const resolvers = [PatientProgramsResolver, PatientProgramPlansResolver, PatientProgramMealsResolver];
 const services = [
   PatientProgramsPersistenceService,
   PatientProgramPlanManagerService,
   PatientProgramPlansPersistenceService,
   PatientProgramsManagerService,
+  PatientProgramMealsPersistenceService,
+  PatientProgramMealsManagerService,
 ];
 
 @Module({

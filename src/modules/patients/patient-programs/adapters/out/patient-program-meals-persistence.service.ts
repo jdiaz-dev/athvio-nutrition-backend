@@ -4,32 +4,36 @@ import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-
-import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/meal/delete-meal.dto';
-import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/meal/update-meal.dto';
 import { ProgramQueryFragmentsService } from 'src/shared/adapters/out/database/program-query-fragments.service';
-import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { AddPlanMeal } from 'src/modules/professionals/programs/types/program';
 import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
-import { EnumSources } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { Trazability } from 'src/shared/types';
+import {
+  PatientProgram,
+  PatientProgramDocument,
+} from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';
+import { AddPatientProgramPlanMeal } from 'src/modules/patients/patient-programs/types/patient-program';
+import { UpdatePatientProgramMealDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plan-meals/update-patient-program-meal.dto';
+import { DeletePatientProgramMealDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plan-meals/delete-patient-program-meal.dto';
 
 @Injectable()
-export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument> {
+export class PatientProgramMealsPersistenceService extends MongodbQueryBuilder<PatientProgramDocument> {
   constructor(
-    @InjectModel(Program.name) protected readonly programModel: Model<ProgramDocument>,
+    @InjectModel(PatientProgram.name) protected readonly programModel: Model<PatientProgramDocument>,
     protected readonly logger: AthvioLoggerService,
     protected readonly als: AsyncLocalStorage<Trazability>,
   ) {
-    super(programModel, logger, Program.name, als);
+    super(programModel, logger, PatientProgram.name, als);
   }
 
-  async addMeal({ professional, program, plan, meals }: AddPlanMeal, selectors: Record<string, number>): Promise<Program> {
+  async addPatientProgramMeal(
+    { patient, patientProgram, plan, meals }: AddPatientProgramPlanMeal,
+    selectors: Record<string, number>,
+  ): Promise<PatientProgram> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
-    const programRes = await this.initializeQuery(this.addMeal.name).findOneAndUpdate(
-      { uuid: program, professional, source: EnumSources.PROFESSIONAL },
+    const programRes = await this.initializeQuery(this.addPatientProgramMeal.name).findOneAndUpdate(
+      { uuid: patientProgram, patient },
       { $push: { 'plans.$[plan].meals': { $each: meals.map((item) => ({ uuid: randomUUID(), ...item })) } } },
       {
         arrayFilters: [{ 'plan.uuid': plan, 'plan.isDeleted': false }],
@@ -44,7 +48,10 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
     return programRes;
   }
 
-  async updateMeal({ professional, program, plan, meals }: UpdateMealDto, selectors: Record<string, number>): Promise<Program> {
+  async updatePatientProgramMeal(
+    { patient, patientProgram, plan, meals }: UpdatePatientProgramMealDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientProgram> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
 
     const updateSubDocuments = meals.map((body, index) => ({
@@ -63,8 +70,8 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
       [`meal${index}.isDeleted`]: false,
     }));
 
-    const programRes = await this.initializeQuery(this.updateMeal.name).findOneAndUpdate(
-      { uuid: program, professional, source: EnumSources.PROFESSIONAL },
+    const programRes = await this.initializeQuery(this.updatePatientProgramMeal.name).findOneAndUpdate(
+      { uuid: patientProgram, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
       {
         arrayFilters: [
@@ -85,7 +92,10 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
     return programRes;
   }
 
-  async deleteMeal({ professional, program, plan, meals }: DeleteMealDto, selectors: Record<string, number>): Promise<Program> {
+  async deletePatientProgramMeal(
+    { patient, patientProgram, plan, meals }: DeletePatientProgramMealDto,
+    selectors: Record<string, number>,
+  ): Promise<PatientProgram> {
     const restFields = removeAttributesWithFieldNames(selectors, ['plans']);
     const deleteSubDocuments = meals.map((_item, index) => ({
       [`plans.$[plan].meals.$[meal${index}].isDeleted`]: true,
@@ -94,8 +104,8 @@ export class MealsPersistenceService extends MongodbQueryBuilder<ProgramDocument
       [`meal${index}.uuid`]: item,
       [`meal${index}.isDeleted`]: false,
     }));
-    const programRes = await this.initializeQuery(this.deleteMeal.name).findOneAndUpdate(
-      { uuid: program, professional, source: EnumSources.PROFESSIONAL },
+    const programRes = await this.initializeQuery(this.deletePatientProgramMeal.name).findOneAndUpdate(
+      { uuid: patientProgram, patient },
       { $set: Object.assign({}, ...deleteSubDocuments) },
       {
         arrayFilters: [

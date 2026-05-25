@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
-import { AddPatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/add-patient-program-plan.dto';
-import { DeletePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/delete-patient-program-plan.dto';
-import { DuplicatePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/duplicate-patient-program-plan.dto';
-import { UpdatePatientProgramPlanWeekDayDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/plan/update-patient-program-plan-week-day.dto';
+import { AddPatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/add-patient-program-plan.dto';
+import { DeletePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/delete-patient-program-plan.dto';
+import { DuplicatePatientProgramPlanDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/duplicate-patient-program-plan.dto';
+import { UpdatePatientProgramPlanWeekDayDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program-plans/update-patient-program-plan-week-day.dto';
 import { PatientProgramPlansPersistenceService } from 'src/modules/patients/patient-programs/adapters/out/patient-program-plans-persistence.service';
 import { PatientProgram } from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';
 import { PatientProgramsManagerService } from 'src/modules/patients/patient-programs/application/patient-programs-manager.service';
