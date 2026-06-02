@@ -68,6 +68,7 @@
 2. apoptosis
 - fix: infusiones con adaptogenos no funciona (preferencias nutricionales)
 - fix: food list cannot get jugo de limón
+- add : add seawater in db
 
 ## Revert functionalities
 - remove habits module ?
