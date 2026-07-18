@@ -13,7 +13,6 @@ import { AppModule } from 'src/app.module';
 class WorkerServer {
   private securityConfig(app: NestFastifyApplication, configService: ConfigService) {
     const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
-    console.log('---whiteListOrigins', whiteListOrigins)
     app.enableCors({
       origin: whiteListOrigins,
       credentials: true,
