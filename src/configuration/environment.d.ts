@@ -14,7 +14,7 @@ type IDatabase = {
 };
 
 type Storage = {
-  foodImagesStorage: string;
+  // foodImagesStorage: string;
   foodImagesStorageUrl: string;
   internalFoodImagesStorage: string;
   internalFoodImagesDirectory: string;

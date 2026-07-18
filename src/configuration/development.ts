@@ -15,7 +15,7 @@ export const development: IEnvironment = {
     },
   },
   storage: {
-    foodImagesStorage: process.env.FOOD_IMAGES_STORAGE,
+    // foodImagesStorage: process.env.FOOD_IMAGES_STORAGE,
     foodImagesStorageUrl: process.env.FOOD_IMAGES_STORAGE_URL,
     internalFoodImagesStorage: process.env.INTERNAL_FOOD_IMAGES_STORAGE,
     internalFoodImagesDirectory: process.env.INTERNAL_FOOD_IMAGES_DIRECTORY,
