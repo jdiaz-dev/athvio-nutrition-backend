@@ -21,7 +21,6 @@ export const production: IEnvironment = {
     internalFoodImagesDirectory: process.env.INTERNAL_FOOD_IMAGES_DIRECTORY,
     internalFoodStorageUrl: process.env.INTERNAL_FOOD_STORAGE_URL,
   },
-  security: { rateLimit: { ttl: process.env.RATE_LIMIT_TLL, limit: process.env.RATE_LIMIT_VALUE } },
   tokenKey: process.env.SIGN_TOKEN,
   whiteListOrigins: [
     process.env.ORIGIN_WEB_PROFESSIONAL,

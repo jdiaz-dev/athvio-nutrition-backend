@@ -12,8 +12,8 @@ import { GqlThrottlerGuard } from 'src/shared/adapters/in/guards/gql-throttler.g
       useFactory: (configService: ConfigService) => ({
         throttlers: [
           {
-            ttl: parseInt(configService.get<string>('security.rateLimit.ttl')),
-            limit: parseInt(configService.get<string>('security.rateLimit.limit')),
+            ttl: parseInt(configService.get<string>('RATE_LIMIT_TLL')),
+            limit: parseInt(configService.get<string>('RATE_LIMIT_VALUE')),
           },
         ],
       }),

@@ -37,13 +37,10 @@ type GptProvider = {
 type TranslationProvider = {
   deeplAuthKey: string;
 };
-type Security = {
-  rateLimit: { ttl: string; limit: string };
-};
+
 export type IEnvironment = {
   database: IDatabase;
   storage: Storage;
-  security: Security;
   tokenKey: string;
   whiteListOrigins: string[];
   foodProvider: FoodProvider;
