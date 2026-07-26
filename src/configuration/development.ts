@@ -20,7 +20,6 @@ export const development: IEnvironment = {
     internalFoodImagesDirectory: process.env.INTERNAL_FOOD_IMAGES_DIRECTORY,
     internalFoodStorageUrl: process.env.INTERNAL_FOOD_STORAGE_URL,
   },
-  tokenKey: process.env.SIGN_TOKEN,
   whiteListOrigins: [
     process.env.ORIGIN_WEB_PROFESSIONAL,
     process.env.ORIGIN_WEB_PATIENT,

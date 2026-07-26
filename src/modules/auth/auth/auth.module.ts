@@ -45,7 +45,7 @@ const resolvers = [
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('tokenKey'),
+        secret: configService.get<string>('SIGN_TOKEN'),
       }),
     }),
     forwardRef(() => UsersModule),

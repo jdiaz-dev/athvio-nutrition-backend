@@ -41,7 +41,6 @@ type TranslationProvider = {
 export type IEnvironment = {
   database: IDatabase;
   storage: Storage;
-  tokenKey: string;
   whiteListOrigins: string[];
   foodProvider: FoodProvider;
   gptProvider: GptProvider;
