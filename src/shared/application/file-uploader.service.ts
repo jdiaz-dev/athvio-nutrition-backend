@@ -3,8 +3,8 @@ import { readFileSync, createWriteStream, mkdirSync } from 'node:fs';
 import { finished } from 'node:stream/promises';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { LayersServer } from 'src/shared/enums/project';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { StorageService } from 'src/shared/adapters/out/storage/storage.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
+import { StorageService } from 'src/shared/adapters/storage/storage.service';
 
 @Injectable()
 export class FileUploaderService {

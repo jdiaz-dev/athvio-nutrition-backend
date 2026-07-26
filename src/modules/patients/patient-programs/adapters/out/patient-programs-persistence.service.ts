@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { DeletePatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/delete-patient-program.dto';
 import { GetPatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/get-patient-program.dto';
 import {
@@ -15,8 +15,8 @@ import {
   PatientProgramDocument,
 } from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';
 import { CreatePatientProgram } from 'src/modules/patients/patient-programs/types/patient-program';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
-import { ProgramQueryFragmentsService } from 'src/shared/adapters/out/database/program-query-fragments.service';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
+import { ProgramQueryFragmentsService } from 'src/shared/adapters/database/program-query-fragments.service';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { Trazability } from 'src/shared/types';
 

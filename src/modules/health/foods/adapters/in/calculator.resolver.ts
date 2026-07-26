@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { NutrientsCalculatorService } from 'src/modules/health/foods/application/nutrients-calculator.service';
 import { CalculateFoodsNutrientsDto } from 'src/modules/health/foods/adapters/in/dtos/calculate-foods-nutrients.dto';
-import { NutrientDetails } from 'src/shared/adapters/out/schemas/internal-food.schema';
+import { NutrientDetails } from 'src/shared/adapters/database/schemas/internal-food.schema';
 import { CalculateNutrientsByMeasureDto } from 'src/modules/health/foods/adapters/in/dtos/calculate-food-nutrients.dto';
 
 @Resolver()

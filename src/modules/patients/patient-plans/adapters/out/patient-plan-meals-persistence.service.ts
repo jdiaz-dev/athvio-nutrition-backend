@@ -7,9 +7,9 @@ import { UpdatePlanMealDto } from 'src/modules/patients/patient-plans/adapters/i
 import { DeletePlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/delete-meal-plan.dto';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { PatientPlanQueryFragmentsService } from 'src/modules/patients/patient-plans/adapters/out/patient-plan-query-fragments.service';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { AddPlanMealDto } from 'src/modules/patients/patient-plans/adapters/in/web/dtos/meals/add-meal.dto';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
 

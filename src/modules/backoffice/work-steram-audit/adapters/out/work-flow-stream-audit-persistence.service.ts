@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import {
   WorkFlowStreamAudit,
   WorkFlowStreamAuditDocument,

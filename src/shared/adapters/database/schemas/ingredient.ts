@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Macros } from 'src/shared/adapters/out/schemas/macros';
+import { Macros } from 'src/shared/adapters/database/schemas/macros';
 
 @ObjectType()
 @Schema({ _id: false })

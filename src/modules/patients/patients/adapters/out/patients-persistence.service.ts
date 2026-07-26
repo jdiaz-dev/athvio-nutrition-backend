@@ -13,8 +13,8 @@ import {
 } from 'src/modules/patients/patients/helpers/patient.types';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { UpdatePatientWebDto } from 'src/modules/patients/patients/adapters/in/web/dtos/update-patient.dto';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';

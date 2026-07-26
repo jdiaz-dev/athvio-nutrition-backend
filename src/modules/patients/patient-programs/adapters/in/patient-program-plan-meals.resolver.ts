@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Info, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/nestjs/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { PatientProgramMealsManagerService } from 'src/modules/patients/patient-programs/application/patient-program-meals-manager.service';
 import { PatientProgram } from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';

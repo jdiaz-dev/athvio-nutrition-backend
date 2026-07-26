@@ -1,6 +1,6 @@
 import { GetPatientProgramDto } from 'src/modules/patients/patient-programs/adapters/in/dtos/patient-program/get-patient-program.dto';
 import { PatientProgram } from 'src/modules/patients/patient-programs/adapters/out/patient-program.schema';
-import { RequiredDataMeal } from 'src/shared/adapters/out/schemas/types';
+import { RequiredDataMeal } from 'src/shared/adapters/database/schemas/types';
 
 export type CreatePatientProgram = Omit<PatientProgram, '_id'> &
   Pick<PatientProgram, 'uuid' | 'professional'> & {

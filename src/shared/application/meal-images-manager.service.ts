@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { EnumSources, MealImageSources } from 'src/shared/enums/project';
 import { UploadFileManagerService } from 'src/shared/application/upload-file-manager.service';
-import { MealBodyInput } from 'src/shared/adapters/in/dtos/meal-body.input';
-import { UploadDto } from 'src/shared/adapters/in/dtos/upload.dto';
+import { MealBodyInput } from 'src/shared/adapters/nestjs/dtos/meal-body.input';
+import { UploadDto } from 'src/shared/adapters/nestjs/dtos/upload.dto';
 
 @Injectable()
 export class MealImagesManagerService {

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { DiseaseCausesPersistenceService } from 'src/modules/program-generator/disease-causes/adapters/out/disease-cause-persistence.service';
 import { DiseaseCause } from 'src/modules/program-generator/disease-causes/adapters/out/disease-cause.schema';
 import { ErrorDiseaseCausesEnum } from 'src/modules/program-generator/shared/constants';

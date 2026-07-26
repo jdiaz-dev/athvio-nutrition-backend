@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { ProgramBase } from 'src/shared/adapters/out/schemas/program-base.schema';
+import { ProgramBase } from 'src/shared/adapters/database/schemas/program-base.schema';
 import { HydratedDocument } from 'mongoose';
 
 @ObjectType()

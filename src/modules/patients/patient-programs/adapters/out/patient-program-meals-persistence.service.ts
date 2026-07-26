@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { ProgramQueryFragmentsService } from 'src/shared/adapters/out/database/program-query-fragments.service';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
+import { ProgramQueryFragmentsService } from 'src/shared/adapters/database/program-query-fragments.service';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { Trazability } from 'src/shared/types';
 import {

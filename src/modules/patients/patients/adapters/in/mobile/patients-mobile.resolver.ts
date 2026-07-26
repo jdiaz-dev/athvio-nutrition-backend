@@ -7,7 +7,7 @@ import {
   GetPatientForMobileDto,
   GetPatientForMobileResponse,
 } from 'src/modules/patients/patients/adapters/in/mobile/dtos/get-patient-for-mobile.dto';
-import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authorization-patient.guard';
+import { AuthorizationPatientGuard } from 'src/shared/adapters/nestjs/guards/authorization-patient.guard';
 import { GetPatientForMobileService } from 'src/modules/patients/patients/application/get-patient-for-mobile.service';
 
 @Resolver(() => Patient)

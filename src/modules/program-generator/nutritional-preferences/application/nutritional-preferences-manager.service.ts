@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { NutritionalPreference } from 'src/modules/program-generator/nutritional-preferences/adapters/out/nutritional-preference.schema';
 import { NutritionalPreferencesPersistenceService } from 'src/modules/program-generator/nutritional-preferences/adapters/out/nutritional-preferences-persistence.service';
 import { ErrorNutritionalPreferencesEnum } from 'src/modules/program-generator/shared/constants';

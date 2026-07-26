@@ -4,7 +4,7 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { ProgramTag } from 'src/modules/professionals/program-tags/adapters/out/program-tag.schema';
 import { Patient } from 'src/modules/patients/patients/adapters/out/patient.schema';
 import { SupportedLanguages } from 'src/shared/enums/project';
-import { PlanBase, ProgramBase } from 'src/shared/adapters/out/schemas/program-base.schema';
+import { PlanBase, ProgramBase } from 'src/shared/adapters/database/schemas/program-base.schema';
 
 @Schema({ _id: false, timestamps: false })
 export class PlanDetail {

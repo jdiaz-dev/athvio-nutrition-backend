@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ErrorTransaltorProvider } from 'src/shared/enums/messages-response';
 import * as deepl from 'deepl-node';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
+import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
 
 @ObjectType()
 export class NutritionalPreference extends BaseSchema {

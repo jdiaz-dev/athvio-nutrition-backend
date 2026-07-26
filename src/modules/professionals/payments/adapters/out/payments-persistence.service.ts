@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { Payment, PaymentDocument } from 'src/modules/professionals/payments/adapters/out/payment.schema';
 import { PaymentWithStatus } from 'src/modules/professionals/payments/helpers/payment';
 
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { Trazability } from 'src/shared/types';
 
 @Injectable()

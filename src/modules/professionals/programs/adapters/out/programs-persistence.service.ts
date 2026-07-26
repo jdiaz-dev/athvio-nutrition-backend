@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { DeleteProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/delete-program.dto';
 import {
   GetProgramsDto,
@@ -12,8 +12,8 @@ import { ManageProgramTagDto } from 'src/modules/professionals/programs/adapters
 import { UpdateProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/update-program.dto';
 import { Program, ProgramDocument } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { CreateProgram, GetProgram } from 'src/modules/professionals/programs/types/program';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
-import { ProgramQueryFragmentsService } from 'src/shared/adapters/out/database/program-query-fragments.service';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
+import { ProgramQueryFragmentsService } from 'src/shared/adapters/database/program-query-fragments.service';
 import { EnumSources, ManageProgramTags } from 'src/shared/enums/project';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { searchByFieldsGenerator } from 'src/shared/helpers/mongodb-helpers';

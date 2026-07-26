@@ -1,7 +1,7 @@
 import { CreateProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/create-program.dto';
 import { GetProgramDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/program/get-program.dto';
 import { Plan, Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
-import { RequiredDataMeal } from 'src/shared/adapters/out/schemas/types';
+import { RequiredDataMeal } from 'src/shared/adapters/database/schemas/types';
 import { EnumSources } from 'src/shared/enums/project';
 import { Meal } from 'src/shared/schemas/meal-plan';
 

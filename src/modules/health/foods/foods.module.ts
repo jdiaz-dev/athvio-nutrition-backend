@@ -6,7 +6,7 @@ import { AuthModule } from 'src/modules/auth/auth/auth.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { FoodParserService } from 'src/modules/health/foods/application/foods-parser.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/out/schemas/internal-food.schema';
+import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/database/schemas/internal-food.schema';
 import { InternalFoodsPersistenceService } from 'src/modules/health/foods/adapters/out/internal-foods-persistence.service';
 import { CalculatorResolver } from 'src/modules/health/foods/adapters/in/calculator.resolver';
 import { NutrientsCalculatorService } from 'src/modules/health/foods/application/nutrients-calculator.service';

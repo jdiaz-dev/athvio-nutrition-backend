@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { Chat, ChatDocument } from 'src/modules/patients/chats/adapters/out/chat.schema';
 import { AddNewComment, ChatRequester } from 'src/modules/patients/chats/adapters/out/chema.types';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
 import { Trazability } from 'src/shared/types';
 

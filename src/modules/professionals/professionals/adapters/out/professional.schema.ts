@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { UnitPreference } from 'src/shared/enums/project';
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
-import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
+import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
 
 @ObjectType()
 @Schema({ _id: false })

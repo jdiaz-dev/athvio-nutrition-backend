@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { Food, FoodsMeta, GetFoodsResponse, Measure } from 'src/modules/health/foods/adapters/in/dtos/get-foods.dto';
 import {
   FoodMeasure,

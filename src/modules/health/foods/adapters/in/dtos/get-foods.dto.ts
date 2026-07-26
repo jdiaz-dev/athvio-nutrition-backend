@@ -1,10 +1,10 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEnum, IsUUID, IsOptional, IsString } from 'class-validator';
-import { GetRecordsBaseDto } from 'src/shared/adapters/in/dtos/get-records-base.dto';
-import { Meta } from 'src/shared/adapters/in/dtos/get-records-response';
+import { GetRecordsBaseDto } from 'src/shared/adapters/nestjs/dtos/get-records-base.dto';
+import { Meta } from 'src/shared/adapters/nestjs/dtos/get-records-response';
 import { FoodDatabases, SupportedLanguages } from 'src/shared/enums/project';
-import { Macros } from 'src/shared/adapters/out/schemas/macros';
-import { IngredientDetail } from 'src/shared/adapters/out/schemas/meal-plan';
+import { Macros } from 'src/shared/adapters/database/schemas/macros';
+import { IngredientDetail } from 'src/shared/adapters/database/schemas/meal-plan';
 
 @InputType()
 export class GetFoodsDto extends GetRecordsBaseDto {

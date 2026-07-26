@@ -2,13 +2,13 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { CreateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/create-note.dto';
 import { DeleteNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/delete-note.dto';
 import { GetNotesDto, GetNotesResponse } from 'src/modules/patients/notes/adapters/in/dtos/get-notes.dto';
 import { UpdateNoteDto } from 'src/modules/patients/notes/adapters/in/dtos/update-note.dto';
 import { Note, NoteDocument } from 'src/modules/patients/notes/adapters/out/note.schema';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
 import { Habit, HabitDocument } from 'src/modules/health/habits/adapters/out/habits.schema';

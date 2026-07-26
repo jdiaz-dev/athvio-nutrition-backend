@@ -5,7 +5,7 @@ import { ZodType } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 
 @Injectable()
 export class AIproviderService {

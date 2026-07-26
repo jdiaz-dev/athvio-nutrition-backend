@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FoodNutrition, FoodParsedResponse } from 'src/modules/health/foods/helpers/food.types';
 import { ErrorFoodsProvider } from 'src/shared/enums/messages-response';
-import { HttpHandlerService } from 'src/shared/adapters/out/network/http-handler.service';
+import { HttpHandlerService } from 'src/shared/adapters/networking/http-handler.service';
 
 @Injectable()
 export class FoodsProviderService {

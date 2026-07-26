@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { EnumSources } from 'src/shared/enums/project';
-import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
-import { Meal, MealSchema } from 'src/shared/adapters/out/schemas/meal-plan';
+import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
+import { Meal, MealSchema } from 'src/shared/adapters/database/schemas/meal-plan';
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })

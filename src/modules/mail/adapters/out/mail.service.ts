@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import nodemailer from 'nodemailer';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { EmailProviderService } from 'src/modules/mail/adapters/out/mail-provider.service';
 import { ErrorMailService } from 'src/shared/enums/messages-response';
 import { LayersServer } from 'src/shared/enums/project';

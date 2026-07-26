@@ -10,9 +10,9 @@ import {
   ProgramPlanFilteredByDay,
 } from 'src/modules/professionals/programs/types/program';
 import { removeAttributesWithFieldNames } from 'src/shared/helpers/graphql-helpers';
-import { ProgramQueryFragmentsService } from 'src/shared/adapters/out/database/program-query-fragments.service';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
-import { MongodbQueryBuilder } from 'src/shared/adapters/out/database/mongodb-query-builder';
+import { ProgramQueryFragmentsService } from 'src/shared/adapters/database/program-query-fragments.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
+import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
 import { EnumSources } from 'src/shared/enums/project';

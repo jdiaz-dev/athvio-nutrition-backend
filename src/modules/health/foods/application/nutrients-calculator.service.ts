@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CalculateNutrientsByMeasureDto } from 'src/modules/health/foods/adapters/in/dtos/calculate-food-nutrients.dto';
 import { CalculateFoodsNutrientsDto } from 'src/modules/health/foods/adapters/in/dtos/calculate-foods-nutrients.dto';
 import { InternalFoodsPersistenceService } from 'src/modules/health/foods/adapters/out/internal-foods-persistence.service';
-import { NutrientDetails } from 'src/shared/adapters/out/schemas/internal-food.schema';
+import { NutrientDetails } from 'src/shared/adapters/database/schemas/internal-food.schema';
 
 @Injectable()
 export class NutrientsCalculatorService {

@@ -6,9 +6,9 @@ import { WrapperType } from 'src/shared/types.d';
 import { MealImageSources } from 'src/shared/enums/project';
 import { UploadImageToDefaultMealDto } from 'src/modules/professionals/nutritional-meals/adapters/in/web/dtos/upload-image-to-default-meal.dto';
 import { UploadFileManagerService } from 'src/shared/application/upload-file-manager.service';
-import { StorageService } from 'src/shared/adapters/out/storage/storage.service';
+import { StorageService } from 'src/shared/adapters/storage/storage.service';
 import { ConfigService } from '@nestjs/config';
-import { UploadDto } from 'src/shared/adapters/in/dtos/upload.dto';
+import { UploadDto } from 'src/shared/adapters/nestjs/dtos/upload.dto';
 
 @Injectable()
 export class NutritionalMealImageManagerService {

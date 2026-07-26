@@ -5,9 +5,9 @@ import { FullDatabaseService } from 'src/cli/services/full-database.service';
 import { TranslateFoods } from 'src/cli/commands/translate-foods.command';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getEnvironmentVariables, validateEnvironmentVariables } from 'src/shared/adapters/configuration';
-import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
+import { ObservabilityModule } from 'src/shared/adapters/observability/observability.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/out/schemas/internal-food.schema';
+import { InternalFood, InternalFoodSchema } from 'src/shared/adapters/database/schemas/internal-food.schema';
 import { InternalFoodsDaoService } from 'src/cli/services/internal-foods-dao.service';
 import { UpdateNutrientFoods } from 'src/cli/commands/update-nutrient-foods.command';
 

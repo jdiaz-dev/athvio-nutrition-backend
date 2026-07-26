@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Polar, ServerList } from '@polar-sh/sdk';
 import { Checkout } from '@polar-sh/sdk/dist/commonjs/models/components/checkout';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { Trazability } from 'src/shared/types';
 import { LayersServer } from 'src/shared/enums/project';
 import { CheckoutLink } from '@polar-sh/sdk/dist/commonjs/models/components/checkoutlink';

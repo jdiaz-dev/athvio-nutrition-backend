@@ -1,9 +1,9 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { BaseSchema } from 'src/shared/adapters/out/schemas/base.schema';
+import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
 import { IngredientType, MealImageSources } from 'src/shared/enums/project';
-import { Ingredient, IngredientSchema } from 'src/shared/adapters/out/schemas/ingredient';
-import { Macros, MacroSchema } from 'src/shared/adapters/out/schemas/macros';
+import { Ingredient, IngredientSchema } from 'src/shared/adapters/database/schemas/ingredient';
+import { Macros, MacroSchema } from 'src/shared/adapters/database/schemas/macros';
 
 @ObjectType()
 @Schema({ _id: false })

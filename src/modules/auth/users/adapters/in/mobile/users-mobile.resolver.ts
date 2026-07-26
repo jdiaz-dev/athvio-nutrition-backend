@@ -5,7 +5,7 @@ import { GetPatientUser } from 'src/modules/auth/users/adapters/in/mobile/dtos/g
 
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
-import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authorization-patient.guard';
+import { AuthorizationPatientGuard } from 'src/shared/adapters/nestjs/guards/authorization-patient.guard';
 import { GetUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/get-user.dto';
 import { GetUserById } from 'src/modules/auth/users/types/users-types';
 

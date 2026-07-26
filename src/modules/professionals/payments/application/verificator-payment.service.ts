@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AsyncLocalStorage } from 'async_hooks';
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { VerificationPaymentResponse } from 'src/modules/professionals/payments/adapters/in/dtos/verify-payment.dto';
 import { PaymentsManagerService } from 'src/modules/professionals/payments/application/payments-manager.service';
 import { PaymentsProcessorService } from 'src/modules/professionals/payments/application/payments-processor.service';

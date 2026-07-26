@@ -18,7 +18,7 @@ import {
 } from 'mongoose';
 import { UpdateOptions } from 'mongodb';
 
-import { AthvioLoggerService } from 'src/infraestructure/observability/athvio-logger.service';
+import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { LayersServer } from 'src/shared/enums/project';
 import { InternalErrors } from 'src/shared/enums/messages-response';
 import { AsyncLocalStorage } from 'node:async_hooks';
