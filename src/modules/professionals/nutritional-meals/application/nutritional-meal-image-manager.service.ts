@@ -8,7 +8,7 @@ import { UploadImageToDefaultMealDto } from 'src/modules/professionals/nutrition
 import { UploadFileManagerService } from 'src/shared/application/upload-file-manager.service';
 import { StorageService } from 'src/shared/adapters/out/storage/storage.service';
 import { ConfigService } from '@nestjs/config';
-import { UploadDto } from 'src/shared/adapters/nestjs/dtos/upload.dto';
+import { UploadDto } from 'src/shared/adapters/in/dtos/upload.dto';
 
 @Injectable()
 export class NutritionalMealImageManagerService {

@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDate, IsUUID, IsOptional, IsString } from 'class-validator';
-import { MealBodyInput } from 'src/shared/adapters/nestjs/dtos/meal-body.input';
+import { MealBodyInput } from 'src/shared/adapters/in/dtos/meal-body.input';
 import { Meal } from 'src/shared/adapters/out/schemas/meal-plan';
 
 @InputType()

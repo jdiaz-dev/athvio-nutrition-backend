@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FileUploaderService } from 'src/shared/application/file-uploader.service';
 import { EnumSources } from 'src/shared/enums/project';
 import { ConfigService } from '@nestjs/config';
-import { UploadScalar } from 'src/shared/adapters/nestjs/graphql/upload.scalar';
+import { UploadScalar } from 'src/shared/adapters/in/graphql/upload.scalar';
 
 enum TemporalRole {
   MASTER = 'master',

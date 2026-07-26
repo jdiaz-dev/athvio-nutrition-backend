@@ -5,7 +5,7 @@ import { DeleteMealDto } from 'src/modules/professionals/programs/adapters/in/we
 import { UpdateMealDto } from 'src/modules/professionals/programs/adapters/in/web/dtos/meal/update-meal.dto';
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { AuthorizationProfessionalGuard } from 'src/shared/adapters/nestjs/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { PlanMealsManagerService } from 'src/modules/professionals/programs/application/plan-meals-manager.service';
 

@@ -5,7 +5,7 @@ import { UpdateUserDto } from 'src/modules/auth/users/adapters/in/web/dtos/updat
 import { User } from 'src/modules/auth/users/adapters/out/user.schema';
 
 import { UserManagamentService } from 'src/modules/auth/users/application/user-management.service';
-import { AuthorizationProfessionalGuard } from 'src/shared/adapters/nestjs/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
 
 @Resolver()
 export class UsersWebResolver {
