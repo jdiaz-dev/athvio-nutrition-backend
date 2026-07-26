@@ -9,7 +9,7 @@ import { PatientsSubDomainsModule } from 'src/modules/patients/patient-subdomain
 import { ProfessionalSubDomainsModule } from 'src/modules/professionals/professional-subdomains.module';
 import { ObservabilityModule } from 'src/infraestructure/observability/observability.module';
 import { BackofficeSubDomainsModule } from 'src/modules/backoffice/backoffice-subdomains.module';
-import { getEnvironmentVariables, validateEnvironmentVariables } from 'src/configuration';
+import { getEnvironmentVariables, validateEnvironmentVariables } from 'src/shared/adapters/configuration';
 import { AuthSubDomainsModule } from 'src/modules/auth/auth-subdomains.module';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
