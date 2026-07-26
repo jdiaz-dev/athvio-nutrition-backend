@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Info, Query, Resolver } from '@nestjs/graphql';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/nestjs/guards/authorization-professional.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { Habit } from 'src/modules/health/habits/adapters/out/habits.schema';
 import { HabitsManagerService } from 'src/modules/health/habits/application/habits-manager.service';

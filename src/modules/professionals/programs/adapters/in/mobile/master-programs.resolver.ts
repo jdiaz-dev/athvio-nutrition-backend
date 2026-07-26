@@ -9,7 +9,7 @@ import {
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
 import { selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 import { MasterProgramsManagerService } from 'src/modules/professionals/programs/application/master-programs-manager.service';
-import { AuthorizationPatientGuard } from 'src/shared/adapters/in/guards/authorization-patient.guard';
+import { AuthorizationPatientGuard } from 'src/shared/adapters/nestjs/guards/authorization-patient.guard';
 
 @Resolver()
 @UseGuards(...[AuthorizationGuard, AuthorizationPatientGuard])

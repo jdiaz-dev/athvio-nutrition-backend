@@ -5,7 +5,7 @@ import { GeneratorManagerService } from 'src/modules/program-generator/program-g
 import { PatientPlan } from 'src/modules/patients/patient-plans/adapters/out/patient-plan.schema';
 import { GenerateNaturalProtocolDto } from 'src/modules/program-generator/program-generator/adapters/in/dtos/generate-natural-protocol.dto';
 import { UseInterceptors } from '@nestjs/common';
-import { GqlInterceptor } from 'src/shared/adapters/in/interceptors/gql.interceptor';
+import { GqlInterceptor } from 'src/shared/adapters/nestjs/interceptors/gql.interceptor';
 
 @Resolver()
 export class ProgramGeneratorResolver {

@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import {  IsUUID, ValidateNested } from 'class-validator';
-import { PlanBodyInput } from 'src/shared/adapters/in/dtos/plan-body.input';
+import { PlanBodyInput } from 'src/shared/adapters/nestjs/dtos/plan-body.input';
 
 @InputType()
 export class AddProgramPlanDto {

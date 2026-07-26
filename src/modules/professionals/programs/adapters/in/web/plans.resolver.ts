@@ -8,7 +8,7 @@ import { UpdatePlanAssignedWeekDayDto } from 'src/modules/professionals/programs
 import { Program } from 'src/modules/professionals/programs/adapters/out/program.schema';
 import { ProgramPlanManagerService } from 'src/modules/professionals/programs/application/program-plan-manager.service';
 import { AuthorizationGuard } from 'src/modules/auth/auth/adapters/in/web/guards/authorization.guard';
-import { AuthorizationProfessionalGuard } from 'src/shared/adapters/in/guards/authorization-professional.guard';
+import { AuthorizationProfessionalGuard } from 'src/shared/adapters/nestjs/guards/authorization-professional.guard';
 import { selectorExtractor, selectorExtractorForAggregation } from 'src/shared/helpers/graphql-helpers';
 
 @Resolver()
