@@ -1,19 +1,6 @@
 import { IEnvironment } from './environment';
 
 export const production: IEnvironment = {
-  port: process.env.PORT,
-  database: {
-    mongodb: process.env.MONGO_DB_CONNECTION,
-    mongodb2: process.env.MONGO_DB_CONNECTION_2,
-    neo4j: {
-      database: process.env.NEO4J_DATABASE,
-      scheme: process.env.NEO4J_SCHEME,
-      host: process.env.NEO4J_HOST,
-      port: process.env.NEO4J_PORT,
-      username: process.env.NEO4J_USERNAME,
-      password: process.env.NEO4J_PASSWORD,
-    },
-  },
   storage: {
     // foodImagesStorage: process.env.FOOD_IMAGES_STORAGE,
     foodImagesStorageUrl: process.env.FOOD_IMAGES_STORAGE_URL,

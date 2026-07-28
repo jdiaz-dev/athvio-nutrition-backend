@@ -1,18 +1,3 @@
-type INeo4j = {
-  database: string;
-  scheme: string;
-  host: string;
-  port: string;
-  username: string;
-  password: string;
-};
-
-type IDatabase = {
-  mongodb: string;
-  mongodb2: string;
-  neo4j: INeo4j;
-};
-
 type Storage = {
   // foodImagesStorage: string;
   foodImagesStorageUrl: string;
@@ -39,13 +24,11 @@ type TranslationProvider = {
 };
 
 export type IEnvironment = {
-  database: IDatabase;
   storage: Storage;
   whiteListOrigins: string[];
   foodProvider: FoodProvider;
   gptProvider: GptProvider;
   translationProvider: TranslationProvider;
-  port: string;
   mailsSender: string;
   productionTesterProfessionalId: string;
   productionMasterProfessionalId: string;

@@ -115,7 +115,7 @@ class WorkerServer {
     this.securityConfig(app, configService);
     app.useGlobalPipes(new ValidationPipe());
 
-    const port = configService.get<string>('port') || process.env.PORT;
+    const port = configService.get<string>('PORT');
     await app.listen(port, '0.0.0.0');
     console.log(`[Worker] Server running on port ${port}`);
 

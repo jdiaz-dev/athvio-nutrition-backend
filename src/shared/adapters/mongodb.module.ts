@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('database.mongodb'),
+        uri: configService.get<string>('MONGO_DB_CONNECTION'),
       }),
     }),
   ],
