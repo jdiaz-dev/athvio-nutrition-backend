@@ -22,10 +22,15 @@ export class ProgramQueryFragmentsService {
           week: '$$plan.week',
           day: '$$plan.day',
           meals: {
-            $filter: {
-              input: '$$plan.meals',
-              as: 'meal',
-              cond: { $eq: ['$$meal.isDeleted', false] },
+            $sortArray: {
+              input: {
+                $filter: {
+                  input: '$$plan.meals',
+                  as: 'meal',
+                  cond: { $eq: ['$$meal.isDeleted', false] },
+                },
+              },
+              sortBy: { position: 1 },
             },
           },
         },
