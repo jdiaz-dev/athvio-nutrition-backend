@@ -9,12 +9,26 @@ import { ValidationPipe } from '@nestjs/common';
 import processRequest from 'graphql-upload/processRequest.js';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from 'src/app.module';
+import { EnumEnvironments } from 'src/shared/enums/project';
 
 class WorkerServer {
+  private originByEnvironment(configService: ConfigService) {
+    const environment = configService.get<string>('NODE_ENV');
+    const productionOrigins = [
+      configService.get<string[]>('ORIGIN_WEB_PROFESSIONAL'),
+      configService.get<string[]>('ORIGIN_WEB_PATIENT'),
+      configService.get<string[]>('ORIGIN_WEB_PROFESSIONAL_BUCKET_CODE'),
+      configService.get<string[]>('ORIGIN_WEB_PATIENT_BUCKET_CODE'),
+    ];
+
+    if (environment === EnumEnvironments.PRODUCTION) {
+      return productionOrigins;
+    }
+    return [...productionOrigins, configService.get<string[]>('ORIGIN_APOLLO_GRAPHQL_STUDIO')];
+  }
   private securityConfig(app: NestFastifyApplication, configService: ConfigService) {
-    const whiteListOrigins = configService.get<string[]>('whiteListOrigins');
     app.enableCors({
-      origin: whiteListOrigins,
+      origin: this.originByEnvironment(configService),
       credentials: true,
       methods: ['GET', 'POST', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],

@@ -25,7 +25,6 @@ type TranslationProvider = {
 
 export type IEnvironment = {
   storage: Storage;
-  whiteListOrigins: string[];
   foodProvider: FoodProvider;
   gptProvider: GptProvider;
   translationProvider: TranslationProvider;

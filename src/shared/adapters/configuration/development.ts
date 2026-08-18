@@ -7,13 +7,6 @@ export const development: IEnvironment = {
     internalFoodImagesDirectory: process.env.INTERNAL_FOOD_IMAGES_DIRECTORY,
     internalFoodStorageUrl: process.env.INTERNAL_FOOD_STORAGE_URL,
   },
-  whiteListOrigins: [
-    process.env.ORIGIN_WEB_PROFESSIONAL,
-    process.env.ORIGIN_WEB_PATIENT,
-    process.env.ORIGIN_WEB_PROFESSIONAL_BUCKET_CODE,
-    process.env.ORIGIN_WEB_PATIENT_BUCKET_CODE,
-    process.env.ORIGIN_APOLLO_GRAPHQL_STUDIO,
-  ],
   foodProvider: {
     foodApi: {
       edamamFoodParserUrl: process.env.EDAMAM_FOOD_PARSER_URL,
