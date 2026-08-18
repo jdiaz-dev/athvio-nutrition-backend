@@ -14,9 +14,9 @@ export class FoodsProviderService {
     private http: HttpHandlerService,
     private configService: ConfigService,
   ) {
-    this.baseUrl = this.configService.get('foodProvider.foodApi.edamamFoodParserUrl');
-    this.appId = this.configService.get('foodProvider.foodApi.edamamFoodAppId');
-    this.key = this.configService.get('foodProvider.foodApi.edamamFoodKey');
+    this.baseUrl = this.configService.getOrThrow('foodProvider.foodApi.edamamFoodParserUrl');
+    this.appId = this.configService.getOrThrow('foodProvider.foodApi.edamamFoodAppId');
+    this.key = this.configService.getOrThrow('foodProvider.foodApi.edamamFoodKey');
   }
 
   async getFoodsAndUri(ingredientsText = '', session?: string): Promise<[FoodParsedResponse, string]> {

@@ -24,7 +24,7 @@ const services = [TranslatorService, InternalFoodsDaoService, FullDatabaseServic
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('database.mongodb'),
+        uri: configService.getOrThrow<string>('database.mongodb'),
       }),
     }),
     MongooseModule.forFeature([{ name: InternalFood.name, schema: InternalFoodSchema }]),

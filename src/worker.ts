@@ -13,18 +13,18 @@ import { EnumEnvironments } from 'src/shared/enums/project';
 
 class WorkerServer {
   private originByEnvironment(configService: ConfigService) {
-    const environment = configService.get<string>('NODE_ENV');
+    const environment = configService.getOrThrow<string>('NODE_ENV');
     const productionOrigins = [
-      configService.get<string[]>('ORIGIN_WEB_PROFESSIONAL'),
-      configService.get<string[]>('ORIGIN_WEB_PATIENT'),
-      configService.get<string[]>('ORIGIN_WEB_PROFESSIONAL_BUCKET_CODE'),
-      configService.get<string[]>('ORIGIN_WEB_PATIENT_BUCKET_CODE'),
+      configService.getOrThrow<string>('ORIGIN_WEB_PROFESSIONAL'),
+      configService.getOrThrow<string>('ORIGIN_WEB_PATIENT'),
+      configService.getOrThrow<string>('ORIGIN_WEB_PROFESSIONAL_BUCKET_CODE'),
+      configService.getOrThrow<string>('ORIGIN_WEB_PATIENT_BUCKET_CODE'),
     ];
 
     if (environment === EnumEnvironments.PRODUCTION) {
       return productionOrigins;
     }
-    return [...productionOrigins, configService.get<string[]>('ORIGIN_APOLLO_GRAPHQL_STUDIO')];
+    return [...productionOrigins, configService.getOrThrow<string>('ORIGIN_APOLLO_GRAPHQL_STUDIO')];
   }
   private securityConfig(app: NestFastifyApplication, configService: ConfigService) {
     app.enableCors({
