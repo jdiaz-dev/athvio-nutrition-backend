@@ -10,7 +10,7 @@ export class TranslatorService {
   private readonly authKey: string;
   private readonly translator: deepl.Translator;
   constructor(private readonly configService: ConfigService, private readonly logger: AthvioLoggerService) {
-    this.authKey = this.configService.get<string>('translationProvider.deeplAuthKey');
+    this.authKey = this.configService.getOrThrow<string>('translationProvider.deeplAuthKey');
     this.translator = new deepl.Translator(this.authKey);
   }
 

@@ -12,8 +12,8 @@ import { GqlThrottlerGuard } from 'src/shared/adapters/nestjs/guards/gql-throttl
       useFactory: (configService: ConfigService) => ({
         throttlers: [
           {
-            ttl: parseInt(configService.get<string>('RATE_LIMIT_TLL')),
-            limit: parseInt(configService.get<string>('RATE_LIMIT_VALUE')),
+            ttl: parseInt(configService.getOrThrow<string>('RATE_LIMIT_TLL')),
+            limit: parseInt(configService.getOrThrow<string>('RATE_LIMIT_VALUE')),
           },
         ],
       }),

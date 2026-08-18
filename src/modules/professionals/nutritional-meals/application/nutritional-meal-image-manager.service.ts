@@ -23,7 +23,7 @@ export class NutritionalMealImageManagerService {
   private async deleteOldImage(imageSource?: string, image?: string): Promise<void> {
     if (imageSource === MealImageSources.UPLOADED && image) {
       await this.storageService.deleteFile(
-        this.configService.get<string>('FOOD_IMAGES_STORAGE'),
+        this.configService.getOrThrow<string>('FOOD_IMAGES_STORAGE'),
         this.ufms.getFilenameUploadedFromUrl(image),
       );
     }

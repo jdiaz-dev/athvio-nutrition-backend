@@ -15,7 +15,7 @@ export class AIproviderService {
     private readonly logger: AthvioLoggerService,
   ) {
     this.openai = new OpenAI({
-      apiKey: this.configService.get<string>('gptProvider.gptSecretKey'),
+      apiKey: this.configService.getOrThrow<string>('gptProvider.gptSecretKey'),
     });
   }
 

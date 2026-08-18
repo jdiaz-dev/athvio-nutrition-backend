@@ -97,7 +97,7 @@ export class PatientOnboardingManagerService {
     isPatientDemo: boolean,
   ): Promise<void> {
     const isProductionTesterProfessionalId =
-      this.configService.get<string>('productionTesterProfessionalId') === professionalUUID;
+      this.configService.getOrThrow<string>('productionTesterProfessionalId') === professionalUUID;
 
     if (!isPatientDemo && !isProductionTesterProfessionalId) {
       const { firstname: professionalFirstname, lastname: professionalLastname } =

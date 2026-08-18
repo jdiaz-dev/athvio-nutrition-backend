@@ -18,8 +18,8 @@ export class UploadFileManagerService {
   ) {}
   async getFileUploadedUrl(fileName: string, role?: string): Promise<string> {
     return role === TemporalRole.MASTER
-      ? `${this.configService.get<string>('storage.internalFoodStorageUrl')}/${this.mealDirectory}/${fileName}`
-      : `${this.configService.get<string>('storage.foodImagesStorageUrl')}/${fileName}`;
+      ? `${this.configService.getOrThrow<string>('storage.internalFoodStorageUrl')}/${this.mealDirectory}/${fileName}`
+      : `${this.configService.getOrThrow<string>('storage.foodImagesStorageUrl')}/${fileName}`;
   }
   getFilenameUploadedFromUrl(url: string): string {
     const parts = url.split('/');

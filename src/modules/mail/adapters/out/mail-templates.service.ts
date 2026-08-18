@@ -29,7 +29,7 @@ export class EmailTemplatesService {
       ${url}
     `;
     await this.ms.sendEmail({
-      from: this.configService.get<string>('mailsSender'),
+      from: this.configService.getOrThrow<string>('mailsSender'),
       to: [patientEmail],
       subject: mailTitle,
       message,

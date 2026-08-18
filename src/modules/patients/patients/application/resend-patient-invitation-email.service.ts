@@ -15,7 +15,7 @@ export class ResendPatientInvitationEmailService {
   ) {}
 
   async resendPatientInvitationEmail({ professional, patient }: ResendPatientInvitationEmailDto): Promise<boolean> {
-    const isProductionTesterProfessionalId = this.configService.get<string>('productionTesterProfessionalId') === professional;
+    const isProductionTesterProfessionalId = this.configService.getOrThrow<string>('productionTesterProfessionalId') === professional;
 
     if (!isProductionTesterProfessionalId) {
       const { user } = await this.prms.getProfessionalByUuid(professional, {
