@@ -8,8 +8,6 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         uri: configService.getOrThrow<string>('MONGO_DB_CONNECTION'),
-       /*  maxPoolSize: 100,
-        minPoolSize: 10, */
       }),
     }),
   ],
