@@ -1,18 +1,24 @@
-import { Questionary } from 'src/modules/backoffice/questionary/adapters/out/questionary.schema';
-import { QuestionaryDetail, QuestionaryGroup } from 'src/shared/schemas/questionary-base.schema';
+import {
+  QuestionaryBase,
+  QuestionaryDetailBase,
+  QuestionaryGroupBase,
+} from 'src/shared/adapters/database/schemas/questionary-base.schema';
 
-export type CreateQuestionary = Pick<Questionary, 'uuid' | 'professional'> & {
-  questionaryGroups: Omit<QuestionaryGroup, '_id'>[];
+export type CreateQuestionary = Pick<QuestionaryBase, 'uuid' | 'professional'> & {
+  questionaryGroups: Omit<QuestionaryGroupBase, '_id'>[];
 };
 
 export type AddQuestionaryDetail = {
   questionary: string;
   questionaryGroup: string;
   professional: string;
-  questionaryDetailBodies: Omit<QuestionaryDetail, 'isDeleted'>[];
+  questionaryDetailBodies: Omit<QuestionaryDetailBase, 'isDeleted'>[];
 };
 
-type QuestionaryDetailBody = Omit<QuestionaryDetail, '_id' | 'isDeleted'> & { questionaryDetail: string };
+type QuestionaryDetailBody = Omit<QuestionaryDetailBase, '_id' | 'uuid' | 'isDeleted'> & {
+  questionaryDetail: string;
+  fieldType?: string;
+};
 
 export type UpdateQuestionaryDetail = Omit<AddQuestionaryDetail, 'questionaryDetailBodies'> & {
   questionaryDetailBodies: QuestionaryDetailBody[];
