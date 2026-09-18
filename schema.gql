@@ -448,6 +448,18 @@ type FormulaGroup {
   spanishFormulaName: String!
 }
 
+type FunctionalScreening {
+  note: String
+  question: String!
+  score: FunctionalScreeningScore
+}
+
+enum FunctionalScreeningScore {
+  GOOD
+  MODERATE
+  SEVERE
+}
+
 input GetAutocompleteFoodNamesDto {
   foodDatabase: String!
   professional: String!
@@ -963,6 +975,12 @@ type NutritionalMeal {
   source: String!
   uuid: String!
   yield: String!
+}
+
+type Observation {
+  key: String!
+  label: String!
+  value: String
 }
 
 type Organization {

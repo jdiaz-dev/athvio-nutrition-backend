@@ -22,6 +22,10 @@ export enum ErrorProfessionalQuestionary {
   QUESTIONARY_NOT_FOUND = 'This questionary config does not exist.',
 }
 
+export enum ErrorTerrainAssessment {
+  BIOLOGICALASSESSMENT_NOT_FOUND = 'The master biological assessment  does not exist.',
+}
+
 export enum ErrorPatientsEnum {
   PATIENT_NOT_FOUND = 'This patient does not exist.',
   CLIENTS_TO_SEARCH_ERROR = 'An error has ocurred searching patients',

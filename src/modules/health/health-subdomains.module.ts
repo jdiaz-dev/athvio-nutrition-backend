@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TerrainAssessmentModule } from 'src/modules/health/terrain-assessment/terrain-assessment.module';
 import { FoodsModule } from 'src/modules/health/foods/foods.module';
 import { FormulasModule } from 'src/modules/health/formulas/formulas.module';
 import { HabitsModule } from 'src/modules/health/habits/habits.module';
@@ -6,6 +7,13 @@ import { InternalQuestionaryModule } from 'src/modules/health/internal-questiona
 import { OtherToolsModule } from 'src/modules/health/other-tools/other-tools.module';
 
 @Module({
-  imports: [FoodsModule, HabitsModule, OtherToolsModule, FormulasModule, InternalQuestionaryModule],
+  imports: [
+    FoodsModule,
+    HabitsModule,
+    OtherToolsModule,
+    FormulasModule,
+    InternalQuestionaryModule,
+    TerrainAssessmentModule,
+  ],
 })
-export class NutritionSubDomainsModule {}
+export class HealthSubDomainsModule {}
