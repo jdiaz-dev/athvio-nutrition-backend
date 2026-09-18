@@ -1,0 +1,73 @@
+En el siguiente array para cada item busca en (monografías OMS, ESCOP, Comisión E alemana) el rango de dosis para adulto promedio para los siguientes preparados: infusión, decocción, tintura, exudados/resinas, polvo, capsula, jarabe. Despues de encontrar la información añadela en cada item del json que te compartí.
+Para la infusión la medida debe ser cucharaditas por taza.
+Para la decocción, la medida debe ser cucharadas por medio litro.
+Para la tintura, exudados/resinas la medida debe ser gotas en medio vaso de agua.
+Para el polvo la medida debe ser cucharadita
+Para la capsula la medida debe ser partes de 1 capsula
+Para el jarabe la medida debe ser cucharada sopera
+const PLANTAS = [
+  {
+    s: 'Matricaria chamomilla',
+    fam: 'Asteraceae',
+    com: 'Manzanilla',
+    otr: 'Camomila (MX, CO); manzanilla dulce (PE); manzanilla alemana',
+    par: 'Capítulos florales secos',
+    usu: 'Infusión para cólico, gastritis, dispepsia y nervios. En compresa para conjuntivitis y en baños de asiento. Antiespasmódica y antiinflamatoria suave.',
+    sis: ['Digestivo', 'Nervioso', 'Piel'],
+  },
+  {
+    s: 'Mentha × piperita',
+    fam: 'Lamiaceae',
+    com: 'Menta',
+    otr: 'Menta piperita; hierbabuena inglesa (varía por país)',
+    par: 'Hoja',
+    usu: 'Carminativa y antiespasmódica intestinal. Infusión para gases, náusea y colon irritable. El aceite esencial se usa en inhalación.',
+    pre: 'El aceite esencial puro no se ingiere en niños pequeños ni se aplica en la cara de lactantes: puede provocar espasmo laríngeo. Puede agravar el reflujo por relajar el esfínter esofágico.',
+    sis: ['Digestivo', 'Respiratorio'],
+  },
+  {
+    s: 'Mentha spicata',
+    fam: 'Lamiaceae',
+    com: 'Hierbabuena',
+    otr: 'Yerbabuena (PE, MX, CO); menta verde; batamote de agua',
+    par: 'Hoja',
+    usu: 'La más usada en cocina y remedio casero para cólicos, gases y malestar estomacal. Más suave que la piperita, apta para niños en infusión ligera.',
+    sis: ['Digestivo'],
+  },
+  {
+    s: 'Melissa officinalis',
+    fam: 'Lamiaceae',
+    com: 'Toronjil',
+    otr: 'Melisa (toda LatAm); cidrón de hoja ancha (confusión frecuente con Aloysia)',
+    par: 'Hoja',
+    usu: 'Sedante suave y digestiva. Infusión para ansiedad, insomnio leve, palpitaciones nerviosas y estómago "de los nervios".',
+    pre: 'Uso prolongado puede interferir con la función tiroidea; precaución en hipotiroidismo tratado.',
+    sis: ['Nervioso', 'Digestivo'],
+  },
+  {
+    s: 'Aloysia citrodora',
+    fam: 'Verbenaceae',
+    com: 'Cedrón',
+    otr: 'Hierba luisa (PE — ojo, mismo nombre que Cymbopogon); cedrón (AR, UY, BO); verbena de olor (MX)',
+    par: 'Hoja',
+    usu: 'Digestiva y tranquilizante. Infusión después de comidas pesadas, para cólico y para conciliar el sueño.',
+    sis: ['Digestivo', 'Nervioso'],
+  },
+];
+
+Organiza la información para cada preparado de cada item con la siguiente estructura: 
+{
+    ...
+    dosisAdultoPromedio: {
+        infusion: {
+            startRange:     //number
+            endRange:       //number
+            measurement:    //string -> example: g, cucharadas, gotas, etc
+            frecuencyDay:   //string -> example: 1-3 veces/dia, etc
+            fullDetail:     //string -> example: 1-2 cucharaditas por  taza (tapada 5-10 min)
+        }
+    },
+    recomendedSchedules:    //string[] -> example: ["10am", "12pm", "2pm"]
+};
+
+La información debe estar español
