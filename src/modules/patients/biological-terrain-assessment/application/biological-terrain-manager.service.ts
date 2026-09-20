@@ -1,15 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { TerrainAssessmentDocument } from 'src/modules/health/terrain-assessment/adapters/out/terrain-assesment.schema';
-import { TerrainAssessmentPersistence } from 'src/modules/health/terrain-assessment/adapters/out/terrain-persistence.service';
-import { ErrorTerrainAssessment } from 'src/shared/enums/messages-response';
+import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
+import { BiologicalTerrainAssessment } from 'src/modules/patients/biological-terrain-assessment/adapters/out/biological-terrain-assesment.schema';
+import { BiologicalTerrainAssessmentPersistence } from 'src/modules/patients/biological-terrain-assessment/adapters/out/biological-terrain-assessment-persistence.service';
 
 @Injectable()
-export class TerrainAssessmentManager {
-  constructor(private readonly btap: TerrainAssessmentPersistence) {}
+export class BiologicalTerrainAssessmentManager {
+  constructor(private readonly btap: BiologicalTerrainAssessmentPersistence) {}
 
-  async getAssessment(): Promise<TerrainAssessmentDocument> {
-    const assessment = await this.btap.findAssessment();
-    if (!assessment) throw new BadRequestException(ErrorTerrainAssessment.BIOLOGICALASSESSMENT_NOT_FOUND);
+  async createAssessment(assessmentBody: Omit<BiologicalTerrainAssessment, '_id'>): Promise<BiologicalTerrainAssessment> {
+    const assessment = await this.btap.createAssessment({ uuid: randomUUID(), ...assessmentBody });
     return assessment;
   }
 }

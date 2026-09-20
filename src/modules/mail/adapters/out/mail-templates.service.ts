@@ -16,7 +16,7 @@ export class EmailTemplatesService {
     patientEmail: string,
     patientFirstname: string,
   ): Promise<void> {
-    const origin = this.configService.get<string[]>('whiteListOrigins')[1];
+    const origin = this.configService.getOrThrow<string>('ORIGIN_WEB_PATIENT');
     const url = `${origin}/activate/${patientUserId}`;
     const mailTitle = `Invitación de ${professionalFirstname} ${professionalLastname}`;
     const message = `
@@ -28,6 +28,7 @@ export class EmailTemplatesService {
       ${professionalFirstname} ${professionalLastname}
       ${url}
     `;
+
     await this.ms.sendEmail({
       from: this.configService.getOrThrow<string>('mailsSender'),
       to: [patientEmail],

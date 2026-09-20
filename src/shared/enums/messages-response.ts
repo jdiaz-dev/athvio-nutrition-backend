@@ -23,7 +23,7 @@ export enum ErrorProfessionalQuestionary {
 }
 
 export enum ErrorTerrainAssessment {
-  BIOLOGICALASSESSMENT_NOT_FOUND = 'The master biological assessment  does not exist.',
+  BIOLOGICAL_ASSESSMENT_NOT_FOUND = 'The master biological assessment  does not exist.',
 }
 
 export enum ErrorPatientsEnum {

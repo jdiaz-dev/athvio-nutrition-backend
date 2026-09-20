@@ -4,6 +4,7 @@ import { ObjectType, Field, ID, Int, registerEnumType } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
 
 @ObjectType()
+@Schema({ _id: true, timestamps: true })
 export class Observation {
   @Field(() => String)
   @Prop({ type: String, required: true })
@@ -20,17 +21,18 @@ export class Observation {
 export const ObservationSchema = SchemaFactory.createForClass(Observation);
 
 export enum FunctionalScreeningScore {
-  GOOD = 0, // 🟢 Buena función
-  MODERATE = 1, // 🟡 Alteración moderada
-  SEVERE = 2, // 🔴 Alteración importante
+  GOOD = 0,
+  MODERATE = 1,
+  SEVERE = 2,
 }
 registerEnumType(FunctionalScreeningScore, { name: 'FunctionalScreeningScore' });
 
 @ObjectType()
+@Schema({ _id: true, timestamps: true })
 export class FunctionalScreening {
   @Field(() => String)
   @Prop({ type: String, required: true })
-  question!: string;
+  question: string;
 
   @Field(() => FunctionalScreeningScore, { nullable: true })
   @Prop({ type: Number, enum: FunctionalScreeningScore, required: false })
@@ -49,11 +51,11 @@ export class TerrainAssessment extends BaseSchema {
   _id!: string;
 
   @Field(() => [Observation])
-  @Prop({ type: [ObservationSchema], required: true, default: [] })
+  @Prop({ type: [ObservationSchema], required: true })
   generalObservations!: Observation[];
 
   @Field(() => [FunctionalScreening])
-  @Prop({ type: [FunctionalScreeningAnswerSchema], required: true, default: [] })
+  @Prop({ type: [FunctionalScreeningAnswerSchema], required: true })
   functionalScreeningQuestions!: FunctionalScreening[];
 
   @Field(() => Int, { nullable: true })

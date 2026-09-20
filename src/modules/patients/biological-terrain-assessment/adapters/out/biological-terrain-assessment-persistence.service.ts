@@ -12,7 +12,7 @@ import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-lo
 import { Trazability } from 'src/shared/types';
 
 @Injectable()
-export class TerrainAssessmentPersistence extends MongodbQueryBuilder<BiologicalTerrainAssessmentDocument> {
+export class BiologicalTerrainAssessmentPersistence extends MongodbQueryBuilder<BiologicalTerrainAssessmentDocument> {
   constructor(
     @InjectModel(BiologicalTerrainAssessment.name)
     protected readonly model: Model<BiologicalTerrainAssessmentDocument>,
@@ -21,13 +21,11 @@ export class TerrainAssessmentPersistence extends MongodbQueryBuilder<Biological
   ) {
     super(model, logger, BiologicalTerrainAssessment.name, als);
   }
- /*  async createAssessment(assessment: CreateQuestionary): Promise<ProfessionalQuestionary> {
-    const questionaryRes = await this.initializeQuery(this.createAssessment.name).create({
-      ...assessment,
-    });
+  async createAssessment(assessment: Omit<BiologicalTerrainAssessment, '_id'>): Promise<BiologicalTerrainAssessment> {
+    const questionaryRes = await this.initializeQuery(this.createAssessment.name).create(assessment);
     return questionaryRes;
-  } */
-  async getAssessment(): Promise<BiologicalTerrainAssessmentDocument | null> {
-    return await this.initializeQuery(this.getAssessment.name).findOne({});
+  }
+  async getAssessment(): Promise<BiologicalTerrainAssessment | null> {
+    return await this.initializeQuery(this.getAssessment.name).findOne();
   }
 }

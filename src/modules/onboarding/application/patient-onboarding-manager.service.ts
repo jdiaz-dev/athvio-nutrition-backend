@@ -13,6 +13,8 @@ import { LayersServer, OriginPatientEnum, PatientState } from 'src/shared/enums/
 import { CreateUserService } from 'src/modules/auth/users/application/create-user.service';
 import { UserValidated } from 'src/modules/auth/auth/application/ports/in/validate-user.use-case';
 import { EmailTemplatesService } from 'src/modules/mail/adapters/out/mail-templates.service';
+import { BiologicalTerrainAssessmentManager } from 'src/modules/patients/biological-terrain-assessment/application/biological-terrain-manager.service';
+import { TerrainAssessmentManager } from 'src/modules/health/terrain-assessment/application/terrain-manager.service';
 
 @Injectable()
 export class PatientOnboardingManagerService {
@@ -26,6 +28,8 @@ export class PatientOnboardingManagerService {
     private readonly qcm: ProfessionalQuestionaryManager,
     private readonly pqms: PatientQuestionaryManagerService,
     private readonly cus: CreateUserService,
+    private readonly tam: TerrainAssessmentManager,
+    private readonly btam: BiologicalTerrainAssessmentManager,
     private readonly ets: EmailTemplatesService,
   ) {}
   async onboardingForWeb(
@@ -60,9 +64,11 @@ export class PatientOnboardingManagerService {
         questionaryDetails: questionaryDetails.map(({ _id, ...rest }) => ({ ...rest })),
       })),
     });
-
-    await this.sendMail(_proffesional.uuid, _proffesional.user.uuid, { uuid, firstname, lastname, email }, isPatientDemo);
-
+    const { _id, ...rest } = await this.tam.getAssessment();
+    await this.btam.createAssessment({ patient: patient.uuid, ...rest });
+    isPatientDemo;
+    this.sendMail;
+    // await this.sendMail(_proffesional.uuid, _proffesional.user.uuid, { uuid, firstname, lastname, email }, isPatientDemo);
     const _patient = {
       ...patient,
       userInfo: {
@@ -102,6 +108,7 @@ export class PatientOnboardingManagerService {
     if (!isPatientDemo && !isProductionTesterProfessionalId) {
       const { firstname: professionalFirstname, lastname: professionalLastname } =
         await this.ums.getUserByUuid(professionalUserUUID);
+
       await this.ets.sendInvitationPatientEmail(
         professionalFirstname,
         professionalLastname,

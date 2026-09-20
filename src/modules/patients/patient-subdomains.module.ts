@@ -7,6 +7,7 @@ import { PatientPlansModule } from 'src/modules/patients/patient-plans/patient-p
 import { PatientQuestionaryModule } from 'src/modules/patients/patient-questionaries/patient-questionary.module';
 import { PatientsModule } from 'src/modules/patients/patients/patients.module';
 import { PatientProgramsModule } from 'src/modules/patients/patient-programs/patient-programs.module';
+import { BiologicalTerrainAssessmentModule } from 'src/modules/patients/biological-terrain-assessment/biological-terrain-assessment.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PatientProgramsModule } from 'src/modules/patients/patient-programs/pat
     ChatsModule,
     PlanificationModule,
     NotesModule,
+    BiologicalTerrainAssessmentModule,
   ],
   providers: [PatientsModule],
 })

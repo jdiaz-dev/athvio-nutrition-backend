@@ -22,6 +22,7 @@ export class TerrainAssessmentPersistence extends MongodbQueryBuilder<TerrainAss
   }
 
   async findAssessment(): Promise<TerrainAssessmentDocument | null> {
-    return await this.initializeQuery(this.findAssessment.name).findOne({});
+    const assessment = await this.initializeQuery(this.findAssessment.name).findOne();
+    return assessment.toJSON();
   }
 }

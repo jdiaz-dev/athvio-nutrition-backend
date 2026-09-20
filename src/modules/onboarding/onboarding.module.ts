@@ -11,6 +11,8 @@ import { PatientQuestionaryModule } from 'src/modules/patients/patient-questiona
 import { PaymentsModule } from 'src/modules/professionals/payments/payments.module';
 import { PlanificationModule } from 'src/modules/patients/planifications/planifications.module';
 import { NotesModule } from 'src/modules/patients/notes/notes.module';
+import { BiologicalTerrainAssessmentModule } from 'src/modules/patients/biological-terrain-assessment/biological-terrain-assessment.module';
+import { TerrainAssessmentModule } from 'src/modules/health/terrain-assessment/terrain-assessment.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { NotesModule } from 'src/modules/patients/notes/notes.module';
     forwardRef(() => ProfessionalQuestionariesModule),
     forwardRef(() => PlanificationModule),
     PatientQuestionaryModule,
+    TerrainAssessmentModule,
+    BiologicalTerrainAssessmentModule,
     NotesModule,
     MailModule,
     PaymentsModule,

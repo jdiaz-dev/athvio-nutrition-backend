@@ -9,7 +9,7 @@ export class TerrainAssessmentManager {
 
   async getAssessment(): Promise<TerrainAssessmentDocument> {
     const assessment = await this.btap.findAssessment();
-    if (!assessment) throw new BadRequestException(ErrorTerrainAssessment.BIOLOGICALASSESSMENT_NOT_FOUND);
+    if (!assessment) throw new BadRequestException(ErrorTerrainAssessment.BIOLOGICAL_ASSESSMENT_NOT_FOUND);
     return assessment;
   }
 }
