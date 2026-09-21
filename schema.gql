@@ -82,6 +82,16 @@ input AssignProgramDto {
   startingDay: Float!
 }
 
+type BiologicalTerrainAssessment {
+  _id: ID!
+  createdAt: DateTime!
+  functionalScreeningQuestions: [FunctionalScreening!]!
+  generalObservations: [Observation!]!
+  patient: String!
+  totalScore: Int
+  uuid: String!
+}
+
 input CalculateFoodsNutrientsDto {
   internalFoods: [FoodInput!]!
 }
@@ -469,6 +479,10 @@ input GetAutocompleteFoodNamesDto {
 
 type GetAutocompleteFoodNamesResponse {
   foodNames: [String!]!
+}
+
+input GetBiologicalTerrainAssesmentDto {
+  patient: String!
 }
 
 input GetChatDto {
@@ -1206,6 +1220,7 @@ type ProgramTag {
 
 type Query {
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
+  getBiologicalTerrainAssessment(input: GetBiologicalTerrainAssesmentDto!): BiologicalTerrainAssessment!
   getChat(chat: GetChatDto!): Chat
   getCpuUsage: String!
   getELU: String!

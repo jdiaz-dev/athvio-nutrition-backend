@@ -65,7 +65,7 @@ export class PatientOnboardingManagerService {
       })),
     });
     const { _id, ...rest } = await this.tam.getAssessment();
-    await this.btam.createAssessment({ patient: patient.uuid, ...rest });
+    await this.btam.createBiologicalAssessment({ patient: patient.uuid, ...rest });
     isPatientDemo;
     this.sendMail;
     // await this.sendMail(_proffesional.uuid, _proffesional.user.uuid, { uuid, firstname, lastname, email }, isPatientDemo);

@@ -21,11 +21,11 @@ export class BiologicalTerrainAssessmentPersistence extends MongodbQueryBuilder<
   ) {
     super(model, logger, BiologicalTerrainAssessment.name, als);
   }
-  async createAssessment(assessment: Omit<BiologicalTerrainAssessment, '_id'>): Promise<BiologicalTerrainAssessment> {
-    const questionaryRes = await this.initializeQuery(this.createAssessment.name).create(assessment);
+  async createBiologicalTerrain(assessment: Omit<BiologicalTerrainAssessment, '_id'>): Promise<BiologicalTerrainAssessment> {
+    const questionaryRes = await this.initializeQuery(this.createBiologicalTerrain.name).create(assessment);
     return questionaryRes;
   }
-  async getAssessment(): Promise<BiologicalTerrainAssessment | null> {
-    return await this.initializeQuery(this.getAssessment.name).findOne();
+  async getBiologicalTerrain(patient: string, selectors: Record<string, number>): Promise<BiologicalTerrainAssessment | null> {
+    return await this.initializeQuery(this.getBiologicalTerrain.name).findOne({ patient }, selectors);
   }
 }
