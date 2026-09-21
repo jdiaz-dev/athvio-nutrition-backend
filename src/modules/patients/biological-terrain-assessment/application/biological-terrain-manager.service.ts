@@ -7,10 +7,20 @@ import { BiologicalTerrainAssessmentPersistence } from 'src/modules/patients/bio
 export class BiologicalTerrainAssessmentManager {
   constructor(private readonly btap: BiologicalTerrainAssessmentPersistence) {}
 
-  async createBiologicalAssessment(
-    assessmentBody: Omit<BiologicalTerrainAssessment, '_id'>,
-  ): Promise<BiologicalTerrainAssessment> {
-    const assessment = await this.btap.createBiologicalTerrain({ uuid: randomUUID(), ...assessmentBody });
+  async createBiologicalAssessment({
+    generalObservations,
+    functionalScreeningQuestions,
+    ...rest
+  }: Omit<BiologicalTerrainAssessment, '_id'>): Promise<BiologicalTerrainAssessment> {
+    const assessment = await this.btap.createBiologicalTerrain({
+      uuid: randomUUID(),
+      generalObservations: generalObservations.map((generalObservation) => ({ uuid: randomUUID(), ...generalObservation })),
+      functionalScreeningQuestions: functionalScreeningQuestions.map((functionalScreeningQuestion) => ({
+        uuid: randomUUID(),
+        ...functionalScreeningQuestion,
+      })),
+      ...rest,
+    });
     return assessment;
   }
   async getBiologicalAssessment(patient: string, selectors: Record<string, number>): Promise<BiologicalTerrainAssessment> {

@@ -459,9 +459,11 @@ type FormulaGroup {
 }
 
 type FunctionalScreening {
+  createdAt: DateTime!
   note: String
   question: String!
   score: FunctionalScreeningScore
+  uuid: String!
 }
 
 enum FunctionalScreeningScore {
@@ -992,8 +994,10 @@ type NutritionalMeal {
 }
 
 type Observation {
+  createdAt: DateTime!
   key: String!
   label: String!
+  uuid: String!
   value: String
 }
 

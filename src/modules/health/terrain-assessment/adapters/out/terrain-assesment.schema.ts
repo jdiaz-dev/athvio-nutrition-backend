@@ -5,7 +5,7 @@ import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
-export class Observation {
+export class Observation extends BaseSchema {
   @Field(() => String)
   @Prop({ type: String, required: true })
   key!: string; // stable machine key, e.g. "energyState", "emotionalState"
@@ -29,7 +29,7 @@ registerEnumType(FunctionalScreeningScore, { name: 'FunctionalScreeningScore' })
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
-export class FunctionalScreening {
+export class FunctionalScreening extends BaseSchema {
   @Field(() => String)
   @Prop({ type: String, required: true })
   question: string;
