@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsUUID, IsString, ValidateNested, IsNumber, IsOptional } from 'class-validator';
+import { IsUUID, IsString, ValidateNested, IsNumber, IsOptional, Min, Max } from 'class-validator';
 import { Type } from 'class-transformer';
 
 @InputType()
@@ -19,6 +19,8 @@ class FunctionalScreeningInput {
 
   @Field()
   @IsNumber()
+  @Min(0)
+  @Max(2)
   score: number;
 
   @Field(() => String, { nullable: true })

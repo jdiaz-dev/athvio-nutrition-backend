@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ObjectType, Field, ID, Int, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
 
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class Observation extends BaseSchema {
   @Field(() => String)
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   key!: string; // stable machine key, e.g. "energyState", "emotionalState"
 
   @Field(() => String)
@@ -20,13 +20,6 @@ export class Observation extends BaseSchema {
 }
 export const ObservationSchema = SchemaFactory.createForClass(Observation);
 
-export enum FunctionalScreeningScore {
-  GOOD = 0,
-  MODERATE = 1,
-  SEVERE = 2,
-}
-registerEnumType(FunctionalScreeningScore, { name: 'FunctionalScreeningScore' });
-
 @ObjectType()
 @Schema({ _id: true, timestamps: true })
 export class FunctionalScreening extends BaseSchema {
@@ -34,9 +27,9 @@ export class FunctionalScreening extends BaseSchema {
   @Prop({ type: String, required: true })
   question: string;
 
-  @Field(() => FunctionalScreeningScore, { nullable: true })
-  @Prop({ type: Number, enum: FunctionalScreeningScore, required: false })
-  score!: FunctionalScreeningScore;
+  @Field(() => Number, { nullable: true })
+  @Prop({ type: Number, min: 0, max: 2, required: false })
+  score!: number;
 
   @Field({ nullable: true })
   @Prop({ type: String, required: false })

@@ -41,32 +41,27 @@ export class BiologicalTerrainAssessmentPersistence extends MongodbQueryBuilder<
   ): Promise<BiologicalTerrainAssessment | null> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
 
-    const { arrayFilters, updateSubDocuments } = generalObservations.reduce(
-      (acc, { generalObservation, value }, x) => {
-        acc.arrayFilters.push({ [`generalObservations${x}.uuid`]: generalObservation });
-        acc.updateSubDocuments.push({ [`generalObservations${x}.value`]: value });
+    const arrayFilters: Record<string, any>[] = [];
+    const setDoc: Record<string, any> = {};
 
-        return acc;
-      },
-      { arrayFilters: [], updateSubDocuments: [] },
-    );
-    functionalScreeningScores;
-    /* const { arrayFilters, updateSubDocuments } = functionalScreeningScores.reduce(
-      (acc, { functionalScreening, score, note }, x) => {
-        acc.arrayFilters.push({ [`functionalScreeningQuestions${x}.uuid`]: functionalScreening });
-        acc.updateSubDocuments.push({
-          [`functionalScreeningQuestions${x}.score`]: score,
-          ...(note && { [`functionalScreeningQuestions${x}.note`]: note }),
-        });
+    generalObservations.forEach(({ generalObservation, value }, x) => {
+      const id = `go${x}`;
+      arrayFilters.push({ [`${id}.uuid`]: generalObservation });
+      setDoc[`generalObservations.$[${id}].value`] = value;
+    });
 
-        return acc;
-      },
-      { arrayFilters: [], updateSubDocuments: [] },
-    ); */
+    functionalScreeningScores.forEach(({ functionalScreening, score, note }, x) => {
+      const id = `fs${x}`;
+      arrayFilters.push({ [`${id}.uuid`]: functionalScreening });
+      setDoc[`functionalScreeningQuestions.$[${id}].score`] = score;
+      if (note) {
+        setDoc[`functionalScreeningQuestions.$[${id}].note`] = note;
+      }
+    });
 
     const questionaryRes = await this.initializeQuery(this.updateBiologicalTerrain.name).findOneAndUpdate(
       { uuid: biologicalTerrainAssessment, patient },
-      { $set: Object.assign({}, ...updateSubDocuments) },
+      { $set: setDoc },
       {
         arrayFilters,
         new: true,

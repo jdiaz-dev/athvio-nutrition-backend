@@ -462,14 +462,19 @@ type FunctionalScreening {
   createdAt: DateTime!
   note: String
   question: String!
-  score: FunctionalScreeningScore
+  score: Float
   uuid: String!
 }
 
-enum FunctionalScreeningScore {
-  GOOD
-  MODERATE
-  SEVERE
+input FunctionalScreeningInput {
+  functionalScreening: String!
+  note: String
+  score: Float!
+}
+
+input GenearalObservation {
+  generalObservation: String!
+  value: String
 }
 
 input GetAutocompleteFoodNamesDto {
@@ -898,6 +903,7 @@ type Mutation {
   signUpProfessionalScreen: String!
   signUpProfessionalWithGoogle(input: SignUpProfessionalWithGoogleDto!): SignUpProfessionalResponse!
   updateAnswersAndAdditionalNotes(input: UpdateAnswersAndAdditionalNotesDto!): PatientQuestionary!
+  updateBiologicalTerrainAssessment(input: UpdateBiologicalTerrainAssessmentDto!): BiologicalTerrainAssessment!
   updateCustomQuestionaryDetails(toUpdateInput: UpdateCustomQuestionaryDetailsDto!): ProfessionalQuestionary!
   updateMeal(toUpdateInput: UpdateMealDto!): Program!
   updateNote(input: UpdateNoteDto!): Note!
@@ -1374,6 +1380,14 @@ input UpdateAnswersDto {
   professional: String!
   questionary: String!
   questionaryGroups: [PatientQuestionaryGroupWithAnswersInput!]!
+}
+
+input UpdateBiologicalTerrainAssessmentDto {
+  biologicalTerrainAssessment: String!
+  functionalScreeningScores: [FunctionalScreeningInput!]!
+  generalObservations: [GenearalObservation!]!
+  patient: String!
+  professional: String!
 }
 
 input UpdateCustomQuestionaryDetailInput {
