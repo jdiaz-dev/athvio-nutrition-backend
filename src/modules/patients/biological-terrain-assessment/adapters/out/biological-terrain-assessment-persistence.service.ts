@@ -36,13 +36,14 @@ export class BiologicalTerrainAssessmentPersistence extends MongodbQueryBuilder<
       patient,
       generalObservations,
       functionalScreeningScores,
+      totalScore,
     }: UpdateBiologicalTerrainAssessmentDto,
     selectors: Record<string, number>,
   ): Promise<BiologicalTerrainAssessment | null> {
     const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
 
     const arrayFilters: Record<string, any>[] = [];
-    const setDoc: Record<string, any> = {};
+    const setDoc: Record<string, any> = { totalScore };
 
     generalObservations.forEach(({ generalObservation, value }, x) => {
       const id = `go${x}`;

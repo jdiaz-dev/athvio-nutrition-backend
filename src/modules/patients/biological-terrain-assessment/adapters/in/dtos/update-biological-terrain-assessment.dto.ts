@@ -51,4 +51,8 @@ export class UpdateBiologicalTerrainAssessmentDto {
   @ValidateNested()
   @Type(() => FunctionalScreeningInput)
   functionalScreeningScores: FunctionalScreeningInput[];
+
+  @Field()
+  @IsNumber()
+  totalScore: number;
 }
