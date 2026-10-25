@@ -1518,6 +1518,7 @@ input UpdateProgramTagDto {
 }
 
 input UpdateUserDto {
+  countryCode: String!
   email: String!
   firstname: String!
   lastname: String!
