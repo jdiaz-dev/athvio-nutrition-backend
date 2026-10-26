@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNumber, IsDate, IsEnum, IsUUID, IsOptional } from 'class-validator';
+import { IsNumber, IsDate, IsEnum, IsUUID, IsOptional, IsString } from 'class-validator';
 import { AllowedGender } from 'src/shared/enums/project';
 
 //class destined for app
@@ -21,7 +21,12 @@ export class UpdatePatientWebDto {
   @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
-  weight!: number;
+  weight?: number;
+
+  @Field({ nullable: true })
+  @IsNumber()
+  @IsOptional()
+  abdominalCircumference?: number;
 
   @Field()
   @IsDate()
@@ -31,4 +36,9 @@ export class UpdatePatientWebDto {
   @IsEnum(AllowedGender)
   @IsOptional()
   gender!: AllowedGender;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  occupation?: string;
 }

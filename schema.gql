@@ -566,6 +566,7 @@ input GetPatientForMobileDto {
 
 type GetPatientForMobileResponse {
   _id: ID!
+  abdominalCircumference: Float
   birthday: DateTime
   createdAt: DateTime!
   gender: String
@@ -574,6 +575,10 @@ type GetPatientForMobileResponse {
   limitation: String
   location: String
   notes: String
+  nursingMother: Boolean
+  occupation: String
+  pillsBeingTaken: String
+  pregnant: Boolean
   professional: String
   state: String
   target: String
@@ -590,6 +595,7 @@ input GetPatientForWebDto {
 
 type GetPatientForWebResponse {
   _id: ID!
+  abdominalCircumference: Float
   birthday: DateTime
   createdAt: DateTime!
   gender: String
@@ -598,6 +604,10 @@ type GetPatientForWebResponse {
   limitation: String
   location: String
   notes: String
+  nursingMother: Boolean
+  occupation: String
+  pillsBeingTaken: String
+  pregnant: Boolean
   professional: String
   state: String
   target: String
@@ -1029,6 +1039,7 @@ type Parameter {
 
 type Patient {
   _id: ID!
+  abdominalCircumference: Float
   birthday: DateTime
   createdAt: DateTime!
   gender: String
@@ -1037,6 +1048,10 @@ type Patient {
   limitation: String
   location: String
   notes: String
+  nursingMother: Boolean
+  occupation: String
+  pillsBeingTaken: String
+  pregnant: Boolean
   professional: String
   state: String
   target: String
@@ -1474,9 +1489,11 @@ input UpdatePatientProgramPlanWeekDayDto {
 }
 
 input UpdatePatientWebDto {
+  abdominalCircumference: Float
   birthday: DateTime!
   gender: String
   height: Float
+  occupation: String
   patient: String!
   professional: String!
   weight: Float

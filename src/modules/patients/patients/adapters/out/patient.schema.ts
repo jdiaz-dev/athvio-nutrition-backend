@@ -38,6 +38,10 @@ export class Patient extends BaseSchema {
 
   @Field({ nullable: true })
   @Prop({ type: Number, required: false })
+  abdominalCircumference?: number;
+
+  @Field({ nullable: true })
+  @Prop({ type: Number, required: false })
   weight!: number;
 
   @Field({ nullable: true })
@@ -55,6 +59,10 @@ export class Patient extends BaseSchema {
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
   limitation!: string;
+
+  @Field({ nullable: true })
+  @Prop({ type: String, required: false })
+  occupation?: string;
 
   @Field({ nullable: true })
   @Prop({ type: String, required: false })
