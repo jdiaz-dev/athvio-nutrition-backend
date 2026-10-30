@@ -1,0 +1,44 @@
+/* 
+
+
+Inseguridad con su apariencia.
+Rechazo social.
+Dificultades en las citas románticas.
+Comparación constante en redes sociales.
+Inseguridad en el trabajo o los estudios.
+Frustración con su imagen personal.
+Ansiedad en situaciones sociales.
+Baja autoestima.
+Insatisfacción con su cuerpo o rostro.
+Sensación de tener menos oportunidades.
+*/
+
+
+/* 
+Tienes dificualtades para tener citas románticas.
+  Si/No
+No te sientes suficiente para estar con la persona que te gusta
+  Si/No
+Te discriminan por tu aspecto físico
+  Si/No
+Crees que no tienes oportunidad con la persona que te gusta
+  Si/No
+Tus amigos te hacen bulling por tu aspecto físico
+  Si/No
+Crees que esto no tiene solución
+  Si/No
+Te tengo buenas noticias porque todo esto puede cambiar
+  Siguiente
+Tu apariencia física depende principalmente de tus niveles de salud
+  Siguiente
+Cuando tus niveles de salud se eleven empezarás empezaras a ver como se resuelven tus problemas sociales automaticamente
+  Siguiente
+Estas comprometido para empezar tu transformación ahora mismo
+  Sí/Talvez mas tarde
+
+
+Por espera, estamos preparando tu plan que transformará tu vida
+  ...
+
+
+*/
