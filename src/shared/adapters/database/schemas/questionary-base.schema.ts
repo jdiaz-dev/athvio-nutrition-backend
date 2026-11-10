@@ -2,6 +2,13 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { BaseSchema } from 'src/shared/adapters/database/schemas/base.schema';
 
+export enum OptionType {
+  MULTIPLE_SELECTOR = 'multiple_selector',
+  TEXT = 'text',
+  SELECTOR = 'selector',
+  BOOLEAN = 'boolean',
+  HOUR = 'hour',
+}
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
 export class QuestionaryDetailBase {
@@ -22,6 +29,10 @@ export class QuestionaryDetailBase {
   @Field(() => [String])
   @Prop({ type: [String], required: false })
   options?: string[];
+
+  @Field(() => String)
+  @Prop({ type: String, enum: OptionType, required: true })
+  optionType: OptionType;
 
   @Field(() => Boolean)
   @Prop({ type: Boolean, required: true, default: true })

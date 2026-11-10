@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsUUID, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsUUID, IsString, ValidateNested, IsEnum } from 'class-validator';
+import { OptionType } from 'src/shared/adapters/database/schemas/questionary-base.schema';
 
 @InputType()
 export class UpdateCustomQuestionaryDetailInput {
@@ -15,6 +16,10 @@ export class UpdateCustomQuestionaryDetailInput {
   @Field()
   @IsString()
   associatedQuestion: string;
+
+  @Field(() => OptionType)
+  @IsEnum(OptionType)
+  optionType: OptionType;
 
   @Field()
   @IsBoolean()

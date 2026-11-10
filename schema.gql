@@ -186,6 +186,7 @@ input CreateCustomQuestionaryDetailInput {
   associatedQuestion: String!
   fieldName: String!
   isEnabled: Boolean!
+  optionType: OptionType!
 }
 
 input CreateNoteDto {
@@ -575,10 +576,7 @@ type GetPatientForMobileResponse {
   limitation: String
   location: String
   notes: String
-  nursingMother: Boolean
   occupation: String
-  pillsBeingTaken: String
-  pregnant: Boolean
   professional: String
   state: String
   target: String
@@ -604,10 +602,7 @@ type GetPatientForWebResponse {
   limitation: String
   location: String
   notes: String
-  nursingMother: Boolean
   occupation: String
-  pillsBeingTaken: String
-  pregnant: Boolean
   professional: String
   state: String
   target: String
@@ -1017,6 +1012,14 @@ type Observation {
   value: String
 }
 
+enum OptionType {
+  BOOLEAN
+  HOUR
+  MULTIPLE_SELECTOR
+  SELECTOR
+  TEXT
+}
+
 type Organization {
   address: String!
   city: String!
@@ -1048,10 +1051,7 @@ type Patient {
   limitation: String
   location: String
   notes: String
-  nursingMother: Boolean
   occupation: String
-  pillsBeingTaken: String
-  pregnant: Boolean
   professional: String
   state: String
   target: String
@@ -1130,6 +1130,7 @@ type PatientQuestionaryDetail {
   fieldName: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
+  optionType: String!
   options: [String!]!
   uuid: String!
 }
@@ -1210,6 +1211,7 @@ type ProfessionalQuestionaryDetail {
   fieldName: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
+  optionType: String!
   options: [String!]!
   uuid: String!
 }
@@ -1288,6 +1290,7 @@ type QuestionaryDetailBase {
   fieldName: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
+  optionType: String!
   options: [String!]!
   uuid: String!
 }
@@ -1410,6 +1413,7 @@ input UpdateCustomQuestionaryDetailInput {
   associatedQuestion: String!
   fieldName: String!
   isEnabled: Boolean!
+  optionType: OptionType!
   questionaryDetail: String!
 }
 

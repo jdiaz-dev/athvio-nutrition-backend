@@ -1,7 +1,11 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, registerEnumType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsUUID, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsUUID, IsString, ValidateNested, IsEnum } from 'class-validator';
+import { OptionType } from 'src/shared/adapters/database/schemas/questionary-base.schema';
 
+registerEnumType(OptionType, {
+  name: 'OptionType',
+});
 @InputType()
 class CreateCustomQuestionaryDetailInput {
   @Field()
@@ -15,6 +19,10 @@ class CreateCustomQuestionaryDetailInput {
   @Field()
   @IsBoolean()
   isEnabled: boolean;
+
+  @Field(() => OptionType)
+  @IsEnum(OptionType)
+  optionType: OptionType;
 }
 
 @InputType()
