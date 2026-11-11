@@ -22,6 +22,6 @@ export class InternalQuestionaryPersistenceService extends MongodbQueryBuilder<I
   }
   async getQuestionary(): Promise<InternalQuestionary> {
     const questionaryRes = await this.initializeQuery(this.getQuestionary.name).findOne();
-    return questionaryRes;
+    return questionaryRes.toJSON();
   }
 }

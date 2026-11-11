@@ -1012,6 +1012,11 @@ type Observation {
   value: String
 }
 
+type Option {
+  name: String!
+  uuid: String!
+}
+
 enum OptionType {
   BOOLEAN
   HOUR
@@ -1131,7 +1136,7 @@ type PatientQuestionaryDetail {
   isDeleted: Boolean!
   isEnabled: Boolean!
   optionType: String!
-  options: [String!]!
+  options: [Option!]
   uuid: String!
 }
 
@@ -1212,7 +1217,7 @@ type ProfessionalQuestionaryDetail {
   isDeleted: Boolean!
   isEnabled: Boolean!
   optionType: String!
-  options: [String!]!
+  options: [Option!]
   uuid: String!
 }
 
@@ -1291,7 +1296,7 @@ type QuestionaryDetailBase {
   isDeleted: Boolean!
   isEnabled: Boolean!
   optionType: String!
-  options: [String!]!
+  options: [Option!]
   uuid: String!
 }
 

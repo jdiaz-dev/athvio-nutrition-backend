@@ -9,6 +9,20 @@ export enum OptionType {
   BOOLEAN = 'boolean',
   HOUR = 'hour',
 }
+
+@Schema({ _id: true, timestamps: false })
+@ObjectType()
+export class Option {
+  @Field()
+  @Prop({ type: String, required: true })
+  uuid: string;
+
+  @Field()
+  @Prop({ type: String, required: true })
+  name: string;
+}
+const OptionSchema = SchemaFactory.createForClass(Option);
+
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
 export class QuestionaryDetailBase {
@@ -26,9 +40,9 @@ export class QuestionaryDetailBase {
   @Prop({ type: String, required: true })
   associatedQuestion: string;
 
-  @Field(() => [String])
-  @Prop({ type: [String], required: false })
-  options?: string[];
+  @Field(() => [Option], { nullable: true })
+  @Prop({ type: [OptionSchema], required: false })
+  options?: Option[];
 
   @Field(() => String)
   @Prop({ type: String, enum: OptionType, required: true })
