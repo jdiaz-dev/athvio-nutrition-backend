@@ -495,6 +495,40 @@ db.InternalQuestionaries.insertOne({
       ],
     },
     {
+      title: 'Historia clínica',
+      description: 'Enfermedad(es) diagnosticadas y medicación del paciente',
+      questionaryDetails: [
+        {
+          fieldName: 'Patologías',
+          associatedQuestion: '¿Qué enfermedades tiene?',
+          options: [
+            {
+              uuid: createUUID(),
+              name: 'Gastritis',
+            },
+            {
+              uuid: createUUID(),
+              name: 'Estreñimiento',
+            },
+            {
+              uuid: createUUID(),
+              name: 'Piedras en la vesícula (litiasis biliar) ',
+            },
+          ],
+          optionType: 'multiple_selector',
+          isEnabled: true,
+          isDeleted: false,
+        },
+        {
+          fieldName: 'Medicación',
+          associatedQuestion: 'En caso que utilize ¿Qué medicamentos Ud. utiliza?',
+          optionType: 'text',
+          isEnabled: true,
+          isDeleted: false,
+        },
+      ],
+    },
+    {
       title: 'Personalizado',
       description: '',
       questionaryDetails: [],
