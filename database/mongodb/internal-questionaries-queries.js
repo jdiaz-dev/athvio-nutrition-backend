@@ -488,7 +488,7 @@ db.InternalQuestionaries.insertOne({
               name: 'Más de 3 litros',
             },
           ],
-          optionType: 'multiple_selector',
+          optionType: 'selector',
           isEnabled: true,
           isDeleted: false,
         },
