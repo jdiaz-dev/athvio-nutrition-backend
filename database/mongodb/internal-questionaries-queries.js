@@ -105,7 +105,7 @@ db.InternalQuestionaries.insertOne({
           isEnabled: true,
           isDeleted: false,
         },
-        {
+        /* {
           fieldName: 'Fumador',
           associatedQuestion: '¿Ud. es fumador?',
           optionType: 'boolean',
@@ -118,7 +118,7 @@ db.InternalQuestionaries.insertOne({
           optionType: 'boolean',
           isEnabled: true,
           isDeleted: false,
-        },
+        }, */
         {
           fieldName: 'Estado civil',
           associatedQuestion: '¿Cuál es su estado civil?',
@@ -505,14 +505,236 @@ db.InternalQuestionaries.insertOne({
             {
               uuid: createUUID(),
               name: 'Gastritis',
+              focusedQuestions: [
+                {
+                  fieldName: 'Ardura en el pecho y sabor agrio',
+                  associatedQuestion: '¿Siente ardura en el pecho y sabor agrio?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Sensación de llenura precoz',
+                  associatedQuestion: '¿Tiene sensación de llenarse rápido sin comer mucho?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Presencia de H. pylori confirmada',
+                  associatedQuestion: '¿Le confirmaron la presencia de H. pylori en su estómago?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Dificultad o dolor para tragar',
+                  associatedQuestion: '¿Tiene dificultad o dolor para tragar?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Vómitos que no paran',
+                  associatedQuestion: '¿Ha tenido vómitos que no paran?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Palidez',
+                  associatedQuestion: '¿Ha notado que tiene palidez?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Cansancio extremo',
+                  associatedQuestion: '¿Ha sentido cansancio extremo?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Anemia inexplicable',
+                  associatedQuestion: '¿Tiene anemia inexplicable?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Dolor intenso que va en aumento',
+                  associatedQuestion: '¿Ud. ha experimentado dolor intenso que va en aumento?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Heces negras y pedajosas',
+                  associatedQuestion: '¿Ha notado que sus deposiciones son negras y pedajosas (como brea) ?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+              ],
             },
             {
               uuid: createUUID(),
               name: 'Estreñimiento',
+              focusedQuestions: [
+                {
+                  fieldName: 'Tiempo del estreñimiento',
+                  associatedQuestion: '¿Cuánto tiempo lleva estreñido?',
+                  optionType: 'selector',
+                  options: [
+                    {
+                      uuid: createUUID(),
+                      name: '1 semana',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '2 semanas',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '3 semanas',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '1 mes',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '2 meses',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '3 meses',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '6 meses',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '1 año',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '2 años',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '3 años',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '4 años',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: '5 años',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: 'Más de 5 años',
+                    },
+                  ],
+                  isEnabled: false,
+                },
+                {
+                  fieldName: 'Esfuerzo durante las deposiciones',
+                  associatedQuestion: '¿Hace Ud. esfuerzo cuando haces sus deposiciones?',
+                  optionType: 'boolean',
+                  isEnabled: false,
+                },
+                {
+                  fieldName: 'Tiene dolor durante las deposiciones',
+                  associatedQuestion: '¿Tiene dolor cuando hace sus deposicioens?',
+                  optionType: 'boolean',
+                  isEnabled: false,
+                },
+                {
+                  fieldName: 'Pérdida de peso involuntaria',
+                  associatedQuestion: '¿Ud. ha experimentado una perdida de peso de forma involuntaria?',
+                  optionType: 'boolean',
+                  isEnabled: false,
+                },
+                {
+                  fieldName: 'Escala de bristol',
+                  associatedQuestion: 'Porfavor indique como normalmente son sus deposiciones',
+                  optionType: 'selector',
+                  options: [
+                    {
+                      uuid: createUUID(),
+                      name: 'Bolitas sueltas y duras',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: 'Salchicha de bolitas',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: 'Salchicha con grietas',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: 'Lisa y suave',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: 'Trozos blandos',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: 'Pastosa',
+                    },
+                    {
+                      uuid: createUUID(),
+                      name: 'Líquida',
+                    },
+                  ],
+                  isEnabled: false,
+                },
+                {
+                  fieldName: 'Vaciamiento completo',
+                  associatedQuestion: '¿Cuando va al baño siente Ud. que tuvo un vaciamiento completo?',
+                  optionType: 'boolean',
+                  isEnabled: false,
+                },
+                {
+                  fieldName: 'Vaciamiento completo',
+                  associatedQuestion: '¿Cuando va al baño siente Ud. que tuvo un vaciamiento completo?',
+                  optionType: 'boolean',
+                  isEnabled: false,
+                },
+                {
+                  fieldName: 'Sangrado durante las deposiciones',
+                  associatedQuestion: '¿Ha experimentado sangrado en el acto defecatorio?',
+                  optionType: 'boolean',
+                  isEnabled: false,
+                },
+              ],
             },
             {
               uuid: createUUID(),
-              name: 'Piedras en la vesícula (litiasis biliar) ',
+              name: 'Litiasis biliar (piedras en la vesícula)',
+              focusedQuestions: [
+                {
+                  fieldName: 'Dolor fuerte que no se va',
+                  associatedQuestion: '¿Ud. tiene dolor fuerte que no se va?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Fiebre',
+                  associatedQuestion: '¿Tiene fiebre?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Ojos amarillos',
+                  associatedQuestion: '¿Ud. tiene ojos amarillos?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+                {
+                  fieldName: 'Vómitos',
+                  associatedQuestion: '¿Tiene vómitos?',
+                  optionType: 'boolean',
+                  isEnabled: true,
+                },
+              ],
             },
           ],
           optionType: 'multiple_selector',
