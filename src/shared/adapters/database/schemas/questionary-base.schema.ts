@@ -24,8 +24,8 @@ export class Option {
 const OptionSchema = SchemaFactory.createForClass(Option);
 
 @Schema({ _id: true, timestamps: false })
-@ObjectType()
-export class QuestionaryDetailBase {
+@ObjectType({ isAbstract: true })
+export class QuestionaryDetailCommonBase {
   _id?: string;
 
   @Field()
@@ -40,14 +40,6 @@ export class QuestionaryDetailBase {
   @Prop({ type: String, required: true })
   associatedQuestion: string;
 
-  @Field(() => [Option], { nullable: true })
-  @Prop({ type: [OptionSchema], required: false })
-  options?: Option[];
-
-  @Field(() => String)
-  @Prop({ type: String, enum: OptionType, required: true })
-  optionType: OptionType;
-
   @Field(() => Boolean)
   @Prop({ type: Boolean, required: true, default: true })
   isEnabled: boolean;
@@ -55,6 +47,18 @@ export class QuestionaryDetailBase {
   @Field(() => Boolean)
   @Prop({ type: Boolean, required: true, default: false })
   isDeleted: boolean;
+}
+
+@Schema({ _id: true, timestamps: false })
+@ObjectType()
+export class QuestionaryDetailBase extends QuestionaryDetailCommonBase {
+  @Field(() => [Option], { nullable: true })
+  @Prop({ type: [OptionSchema], required: false })
+  options?: Option[];
+
+  @Field(() => String)
+  @Prop({ type: String, enum: OptionType, required: true })
+  optionType: OptionType;
 }
 const QuestionaryDetailBaseSchema = SchemaFactory.createForClass(QuestionaryDetailBase);
 

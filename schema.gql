@@ -1135,7 +1135,7 @@ type PatientQuestionaryDetail {
   fieldName: String!
   isDeleted: Boolean!
   isEnabled: Boolean!
-  optionType: String!
+  optionType: String
   options: [Option!]
   uuid: String!
 }

@@ -1,3 +1,9 @@
+- considerar conversion cocido -> crudo para comprar
+
+
+- considerar receta formato INIMET a el software
+
+
 anamnesis por enfermedades
     - gastritis
         - preguntar si tomó café

@@ -40,6 +40,25 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
         },
       },
       {
+        $lookup: {
+          from: 'ProfessionalQuestionaries',
+          localField: 'professional',
+          foreignField: 'professional',
+          as: 'professionalQuestionary',
+        },
+      },
+      {
+        $addFields: {
+          professionalQuestionaryDetails: {
+            $reduce: {
+              input: { $ifNull: [{ $arrayElemAt: ['$professionalQuestionary.questionaryGroups', 0] }, []] },
+              initialValue: [],
+              in: { $concatArrays: ['$$value', '$$this.questionaryDetails'] },
+            },
+          },
+        },
+      },
+      {
         $project: {
           ...(isFromExternalRequest && removeAttributesWithFieldNames(selectors, ['questionaryGroups'])),
           questionaryGroups: {
@@ -51,10 +70,42 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
                 uuid: '$$group.uuid',
                 title: '$$group.title',
                 questionaryDetails: {
-                  $filter: {
-                    input: '$$group.questionaryDetails',
+                  $map: {
+                    input: {
+                      $filter: {
+                        input: '$$group.questionaryDetails',
+                        as: 'detail',
+                        cond: { $eq: ['$$detail.isDeleted', false] },
+                      },
+                    },
                     as: 'detail',
-                    cond: { $eq: ['$$detail.isDeleted', false] },
+                    in: {
+                      $let: {
+                        vars: {
+                          professionalDetail: {
+                            $arrayElemAt: [
+                              {
+                                $filter: {
+                                  input: '$professionalQuestionaryDetails',
+                                  as: 'professionalDetail',
+                                  cond: { $eq: ['$$professionalDetail.uuid', '$$detail.professionalQuestionaryDetail'] },
+                                },
+                              },
+                              0,
+                            ],
+                          },
+                        },
+                        in: {
+                          $mergeObjects: [
+                            '$$detail',
+                            {
+                              options: { $ifNull: ['$$professionalDetail.options', '$$detail.options'] },
+                              optionType: { $ifNull: ['$$professionalDetail.optionType', '$$detail.optionType'] },
+                            },
+                          ],
+                        },
+                      },
+                    },
                   },
                 },
               },
@@ -70,8 +121,6 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     { questionary, professional, patient, questionaryGroups }: UpdateAnswersDto | UpdateAnswersAndAdditionalNotesDto,
     selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
-    const restFields = removeAttributesWithFieldNames(selectors, ['questionaryGroups']);
-
     const { arrayFilters, updateSubDocuments } = questionaryGroups.reduce(
       (acc, { questionaryGroup, questionaryDetails }, x) => {
         acc.arrayFilters.push({ [`group${x}.uuid`]: questionaryGroup });
@@ -101,36 +150,13 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
       { arrayFilters: [], updateSubDocuments: [] },
     );
 
-    const questionaryRes = await this.initializeQuery(this.updateAnswerAndAdditionalNotes.name).findOneAndUpdate(
+    const updatedQuestionary = await this.initializeQuery(this.updateAnswerAndAdditionalNotes.name).findOneAndUpdate(
       { uuid: questionary, professional, patient },
       { $set: Object.assign({}, ...updateSubDocuments) },
-      {
-        arrayFilters,
-        new: true,
-        projection: {
-          ...restFields,
-          questionaryGroups: {
-            $map: {
-              input: '$questionaryGroups',
-              as: 'group',
-              in: {
-                _id: '$$group._id',
-                uuid: '$$group.uuid',
-                title: '$$group.title',
-                questionaryDetails: {
-                  $filter: {
-                    input: '$$group.questionaryDetails',
-                    as: 'detail',
-                    cond: { $eq: ['$$detail.isDeleted', false] },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+      { arrayFilters, new: true, projection: { uuid: 1 } },
     );
+    if (!updatedQuestionary) return null;
 
-    return questionaryRes;
+    return this.getPatientQuestionary({ uuid: questionary, professional, patient }, selectors);
   }
 }

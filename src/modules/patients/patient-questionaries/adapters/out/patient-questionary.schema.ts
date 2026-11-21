@@ -1,11 +1,26 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { QuestionaryBase, QuestionaryDetailBase, QuestionaryGroupBase } from 'src/shared/adapters/database/schemas/questionary-base.schema';
+import {
+  Option,
+  OptionType,
+  QuestionaryBase,
+  QuestionaryDetailCommonBase,
+  QuestionaryGroupBase,
+} from 'src/shared/adapters/database/schemas/questionary-base.schema';
 
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
-export class PatientQuestionaryDetail extends QuestionaryDetailBase {
+export class PatientQuestionaryDetail extends QuestionaryDetailCommonBase {
+  @Prop({ type: String, required: false })
+  professionalQuestionaryDetail?: string;
+
+  @Field(() => [Option], { nullable: true })
+  options?: Option[];
+
+  @Field(() => String, { nullable: true })
+  optionType: OptionType;
+
   @Field(() => String)
   @Prop({ type: String, required: false, default: '' })
   answer?: string;
