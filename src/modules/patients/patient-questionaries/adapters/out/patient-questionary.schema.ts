@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import {
   Option,
@@ -8,6 +8,7 @@ import {
   QuestionaryDetailCommonBase,
   QuestionaryGroupBase,
 } from 'src/shared/adapters/database/schemas/questionary-base.schema';
+import { QuestionaryAnswer, QuestionaryAnswerScalar } from 'src/shared/adapters/nestjs/graphql/questionary-answer.scalar';
 
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
@@ -21,9 +22,9 @@ export class PatientQuestionaryDetail extends QuestionaryDetailCommonBase {
   @Field(() => String, { nullable: true })
   optionType: OptionType;
 
-  @Field(() => String)
-  @Prop({ type: String, required: false, default: '' })
-  answer?: string;
+  @Field(() => QuestionaryAnswerScalar, { nullable: true })
+  @Prop({ type: MongooseSchema.Types.Mixed, required: false })
+  answer?: QuestionaryAnswer;
 
   @Field(() => String)
   @Prop({ type: String, required: false, default: '' })

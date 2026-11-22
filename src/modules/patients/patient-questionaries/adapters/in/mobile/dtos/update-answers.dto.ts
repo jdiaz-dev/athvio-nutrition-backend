@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsUUID, IsString, ValidateNested } from 'class-validator';
+import { IsUUID, IsString, ValidateNested, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
+import { QuestionaryAnswer, QuestionaryAnswerScalar } from 'src/shared/adapters/nestjs/graphql/questionary-answer.scalar';
 
 @InputType()
 export class PatientQuestionaryAnswersInput {
@@ -8,9 +9,9 @@ export class PatientQuestionaryAnswersInput {
   @IsUUID(4)
   questionaryDetail: string;
 
-  @Field()
-  @IsString()
-  answer: string;
+  @Field(() => QuestionaryAnswerScalar, { nullable: true })
+  @IsOptional()
+  answer?: QuestionaryAnswer | null;
 }
 
 @InputType()

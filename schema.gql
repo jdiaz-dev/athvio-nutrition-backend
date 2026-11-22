@@ -70,7 +70,7 @@ input AdditionalInfoDto {
 
 input AnswersAndAdditionalNotesInput {
   additionalNotes: String!
-  answer: String!
+  answer: QuestionaryAnswer
   questionaryDetail: String!
 }
 
@@ -416,6 +416,19 @@ input EquivalentsInput {
   customIngredient: CustomIngredientInput
   ingredient: IngredientInput
   ingredientType: IngredientType!
+}
+
+type FocusedQuestion {
+  associatedQuestion: String!
+  fieldName: String!
+  isEnabled: Boolean!
+  optionType: String!
+  options: [FocusedQuestionOption!]
+}
+
+type FocusedQuestionOption {
+  name: String!
+  uuid: String!
 }
 
 type Food {
@@ -1013,6 +1026,7 @@ type Observation {
 }
 
 type Option {
+  focusedQuestions: [FocusedQuestion!]
   name: String!
   uuid: String!
 }
@@ -1124,13 +1138,13 @@ type PatientQuestionary {
 }
 
 input PatientQuestionaryAnswersInput {
-  answer: String!
+  answer: QuestionaryAnswer
   questionaryDetail: String!
 }
 
 type PatientQuestionaryDetail {
   additionalNotes: String!
-  answer: String!
+  answer: QuestionaryAnswer
   associatedQuestion: String!
   fieldName: String!
   isDeleted: Boolean!
@@ -1289,6 +1303,11 @@ type Query {
   getQuestionaryForPatient(input: GetQuestionaryForPatientDto!): PatientQuestionary!
   getUser(input: GetUserDto!): User!
 }
+
+"""
+Answer of a questionary detail: string | number | boolean | [{ name: String, focusedQuestions?: [{ associatedQuestion: String, answer?: String | Number | Boolean }] }]
+"""
+scalar QuestionaryAnswer
 
 type QuestionaryDetailBase {
   associatedQuestion: String!
