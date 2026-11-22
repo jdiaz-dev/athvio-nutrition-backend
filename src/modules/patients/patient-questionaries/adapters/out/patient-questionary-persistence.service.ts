@@ -100,6 +100,10 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
                           $mergeObjects: [
                             '$$detail',
                             {
+                              fieldName: { $ifNull: ['$$professionalDetail.fieldName', '$$detail.fieldName'] },
+                              associatedQuestion: {
+                                $ifNull: ['$$professionalDetail.associatedQuestion', '$$detail.associatedQuestion'],
+                              },
                               options: { $ifNull: ['$$professionalDetail.options', '$$detail.options'] },
                               optionType: { $ifNull: ['$$professionalDetail.optionType', '$$detail.optionType'] },
                               answer: PatientQuestionaryQueryFragments.answerWithFocusedQuestionsInfo(

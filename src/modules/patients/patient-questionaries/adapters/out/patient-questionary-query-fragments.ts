@@ -58,7 +58,6 @@ export class PatientQuestionaryQueryFragments {
                                       ],
                                     },
                                   },
-                                  // fields are omitted when the professional focused question no longer exists
                                   in: {
                                     $mergeObjects: [
                                       '$$focusedAnswer',

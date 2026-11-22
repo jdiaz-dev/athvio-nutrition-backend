@@ -16,6 +16,12 @@ export class PatientQuestionaryDetail extends QuestionaryDetailCommonBase {
   @Prop({ type: String, required: false })
   professionalQuestionaryDetail?: string;
 
+  @Field(() => String)
+  fieldName: string;
+
+  @Field(() => String)
+  associatedQuestion: string;
+
   @Field(() => [Option], { nullable: true })
   options?: Option[];
 

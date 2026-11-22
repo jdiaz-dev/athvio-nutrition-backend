@@ -61,11 +61,13 @@ export class PatientOnboardingManagerService {
       professional: _proffesional.uuid,
       questionaryGroups: questionaryGroups.map(({ _id, questionaryDetails, ...restGroup }) => ({
         ...restGroup,
-        questionaryDetails: questionaryDetails.map(({ _id, uuid, options, optionType, ...rest }) => ({
-          ...rest,
-          uuid,
-          professionalQuestionaryDetail: uuid,
-        })),
+        questionaryDetails: questionaryDetails.map(
+          ({ _id, uuid, options, optionType, fieldName, associatedQuestion, ...rest }) => ({
+            ...rest,
+            uuid,
+            professionalQuestionaryDetail: uuid,
+          }),
+        ),
       })),
     });
     const { _id, ...rest } = await this.tam.getAssessment();

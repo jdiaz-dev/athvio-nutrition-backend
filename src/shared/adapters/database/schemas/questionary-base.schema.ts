@@ -78,14 +78,6 @@ export class QuestionaryDetailCommonBase {
   @Prop({ type: String, required: true })
   uuid: string;
 
-  @Field(() => String)
-  @Prop({ type: String, required: true })
-  fieldName: string;
-
-  @Field(() => String)
-  @Prop({ type: String, required: true })
-  associatedQuestion: string;
-
   @Field(() => Boolean)
   @Prop({ type: Boolean, required: true, default: true })
   isEnabled: boolean;
@@ -98,6 +90,14 @@ export class QuestionaryDetailCommonBase {
 @Schema({ _id: true, timestamps: false })
 @ObjectType()
 export class QuestionaryDetailBase extends QuestionaryDetailCommonBase {
+  @Field(() => String)
+  @Prop({ type: String, required: true })
+  fieldName: string;
+
+  @Field(() => String)
+  @Prop({ type: String, required: true })
+  associatedQuestion: string;
+
   @Field(() => [Option], { nullable: true })
   @Prop({ type: [OptionSchema], required: false })
   options?: Option[];

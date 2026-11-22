@@ -4,7 +4,10 @@ import {
   PatientQuestionaryGroup,
 } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary.schema';
 
-type CreatePatientQuestionaryDetail = Omit<PatientQuestionaryDetail, '_id' | 'options' | 'optionType'>;
+type CreatePatientQuestionaryDetail = Omit<
+  PatientQuestionaryDetail,
+  '_id' | 'options' | 'optionType' | 'fieldName' | 'associatedQuestion'
+>;
 
 export type CreatePatientQuestionary = Pick<PatientQuestionaryDocument, 'uuid' | 'patient' | 'professional'> & {
   questionaryGroups: (Omit<PatientQuestionaryGroup, '_id' | 'questionaryDetails'> & {
