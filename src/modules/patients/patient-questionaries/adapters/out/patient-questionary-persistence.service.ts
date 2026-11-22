@@ -121,38 +121,32 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
     { questionary, professional, patient, questionaryGroups }: UpdateAnswersDto | UpdateAnswersAndAdditionalNotesDto,
     selectors: Record<string, number>,
   ): Promise<PatientQuestionary> {
-    const { arrayFilters, updateSubDocuments } = questionaryGroups.reduce(
-      (acc, { questionaryGroup, questionaryDetails }, x) => {
-        acc.arrayFilters.push({ [`group${x}.uuid`]: questionaryGroup });
+    const arrayFilters: Record<string, string>[] = [];
+    const $set: Record<string, unknown> = {};
 
-        const { detailFilters, detailDocuments } = questionaryDetails.reduce(
-          (detailAcc, { questionaryDetail, answer, ...rest }, y) => {
-            detailAcc.detailFilters.push({ [`detail${x}with${y}.uuid`]: questionaryDetail });
-            detailAcc.detailDocuments.push({
-              [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].answer`]: answer,
-              ...((rest as Record<string, string>).additionalNotes && {
-                [`questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}].additionalNotes`]: (
-                  rest as Record<string, string>
-                ).additionalNotes,
-              }),
-            });
+    questionaryGroups.forEach(({ questionaryGroup, questionaryDetails }, x) => {
+      let isGroupUsed = false;
 
-            return detailAcc;
-          },
-          { detailFilters: [], detailDocuments: [] },
-        );
+      questionaryDetails.forEach(({ questionaryDetail, answer, ...rest }, y) => {
+        const additionalNotes = (rest as { additionalNotes?: string }).additionalNotes;
+        const detailPath = `questionaryGroups.$[group${x}].questionaryDetails.$[detail${x}with${y}]`;
+        const detailSet: Record<string, unknown> = {
+          ...(answer !== undefined && { [`${detailPath}.answer`]: answer }),
+          ...(additionalNotes && { [`${detailPath}.additionalNotes`]: additionalNotes }),
+        };
+        if (Object.keys(detailSet).length === 0) return;
 
-        acc.arrayFilters.push(...detailFilters);
-        acc.updateSubDocuments.push(...detailDocuments);
+        isGroupUsed = true;
+        arrayFilters.push({ [`detail${x}with${y}.uuid`]: questionaryDetail });
+        Object.assign($set, detailSet);
+      });
 
-        return acc;
-      },
-      { arrayFilters: [], updateSubDocuments: [] },
-    );
+      if (isGroupUsed) arrayFilters.push({ [`group${x}.uuid`]: questionaryGroup });
+    });
 
     const updatedQuestionary = await this.initializeQuery(this.updateAnswerAndAdditionalNotes.name).findOneAndUpdate(
       { uuid: questionary, professional, patient },
-      { $set: Object.assign({}, ...updateSubDocuments) },
+      { $set: { ...$set, updatedAt: new Date() } },
       { arrayFilters, new: true, projection: { uuid: 1 } },
     );
     if (!updatedQuestionary) return null;
