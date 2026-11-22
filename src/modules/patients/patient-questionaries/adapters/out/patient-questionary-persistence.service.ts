@@ -10,6 +10,7 @@ import { UpdateAnswersDto } from 'src/modules/patients/patient-questionaries/ada
 import { MongodbQueryBuilder } from 'src/shared/adapters/database/mongodb-query-builder';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { Trazability } from 'src/shared/types';
+import { PatientQuestionaryQueryFragments } from 'src/modules/patients/patient-questionaries/adapters/out/patient-questionary-query-fragments';
 
 @Injectable()
 export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBuilder<PatientQuestionaryDocument> {
@@ -101,6 +102,10 @@ export class PatientInternalQuestionaryPersistenceService extends MongodbQueryBu
                             {
                               options: { $ifNull: ['$$professionalDetail.options', '$$detail.options'] },
                               optionType: { $ifNull: ['$$professionalDetail.optionType', '$$detail.optionType'] },
+                              answer: PatientQuestionaryQueryFragments.answerWithFocusedQuestionsInfo(
+                                '$$detail.answer',
+                                '$$professionalDetail.options',
+                              ),
                             },
                           ],
                         },

@@ -29,9 +29,17 @@ export class ProfessionalQuestionaryManager {
       professional,
       questionaryGroups: globalQuestionary.questionaryGroups.map(({ questionaryDetails, ...group }) => ({
         ...group,
-        questionaryDetails: questionaryDetails.map((detail) => ({
+        questionaryDetails: questionaryDetails.map(({ options, ...detail }) => ({
           ...detail,
           uuid: randomUUID(),
+          ...(options && {
+            options: options.map(({ focusedQuestions, ...option }) => ({
+              ...option,
+              ...(focusedQuestions && {
+                focusedQuestions: focusedQuestions.map((focusedQuestion) => ({ ...focusedQuestion, uuid: randomUUID() })),
+              }),
+            })),
+          }),
         })),
         uuid: randomUUID(),
       })),

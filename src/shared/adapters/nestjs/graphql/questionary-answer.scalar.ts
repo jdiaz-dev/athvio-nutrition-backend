@@ -3,7 +3,7 @@ import { GraphQLError, GraphQLScalarType, Kind, ValueNode } from 'graphql';
 export type PrimitiveAnswer = string | number | boolean;
 
 export type FocusedQuestionAnswer = {
-  associatedQuestion: string;
+  professionalFocusedQuestion: string; // uuid of the FocusedQuestion in the professional questionary
   answer?: PrimitiveAnswer;
 };
 
@@ -26,12 +26,13 @@ const invalid = (reason: string): never => {
 
 const parseFocusedQuestionAnswer = (value: unknown): FocusedQuestionAnswer => {
   if (!isPlainObject(value)) invalid('focusedQuestions items must be objects');
-  const { associatedQuestion, answer } = value as Record<string, unknown>;
-  if (typeof associatedQuestion !== 'string' || !associatedQuestion)
-    invalid('focusedQuestions[].associatedQuestion must be a string');
-  if (answer === undefined || answer === null) return { associatedQuestion: associatedQuestion as string };
+  const { professionalFocusedQuestion, answer } = value as Record<string, unknown>;
+  if (typeof professionalFocusedQuestion !== 'string' || !professionalFocusedQuestion) {
+    invalid('focusedQuestions[].professionalFocusedQuestion must be a string');
+  }
+  if (answer === undefined || answer === null) return { professionalFocusedQuestion: professionalFocusedQuestion as string };
   if (!isPrimitive(answer)) invalid('focusedQuestions[].answer must be a string, number or boolean');
-  return { associatedQuestion: associatedQuestion as string, answer: answer as PrimitiveAnswer };
+  return { professionalFocusedQuestion: professionalFocusedQuestion as string, answer: answer as PrimitiveAnswer };
 };
 
 const parseMultipleSelectorItem = (value: unknown): MultipleSelectorAnswerItem => {
@@ -77,7 +78,7 @@ const astToValue = (ast: ValueNode): unknown => {
 export const QuestionaryAnswerScalar = new GraphQLScalarType({
   name: 'QuestionaryAnswer',
   description:
-    'Answer of a questionary detail: string | number | boolean | [{ name: String, focusedQuestions?: [{ associatedQuestion: String, answer?: String | Number | Boolean }] }]',
+    'Answer of a questionary detail: string | number | boolean | [{ name: String, focusedQuestions?: [{ professionalFocusedQuestion: String, answer?: String | Number | Boolean }] }]. When read, focusedQuestions items also include fieldName and associatedQuestion from the professional questionary',
   serialize: (value: unknown) => (value === undefined ? null : value),
   parseValue: parseQuestionaryAnswer,
   parseLiteral: (ast) => parseQuestionaryAnswer(astToValue(ast)),

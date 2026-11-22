@@ -28,6 +28,10 @@ const FocusedQuestionOptionSchema = SchemaFactory.createForClass(FocusedQuestion
 export class FocusedQuestion {
   @Field(() => String)
   @Prop({ type: String, required: true })
+  uuid: string;
+
+  @Field(() => String)
+  @Prop({ type: String, required: true })
   fieldName: string;
 
   @Field(() => String)

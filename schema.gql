@@ -424,6 +424,7 @@ type FocusedQuestion {
   isEnabled: Boolean!
   optionType: String!
   options: [FocusedQuestionOption!]
+  uuid: String!
 }
 
 type FocusedQuestionOption {
@@ -1305,7 +1306,7 @@ type Query {
 }
 
 """
-Answer of a questionary detail: string | number | boolean | [{ name: String, focusedQuestions?: [{ associatedQuestion: String, answer?: String | Number | Boolean }] }]
+Answer of a questionary detail: string | number | boolean | [{ name: String, focusedQuestions?: [{ professionalFocusedQuestion: String, answer?: String | Number | Boolean }] }]. When read, focusedQuestions items also include fieldName and associatedQuestion from the professional questionary
 """
 scalar QuestionaryAnswer
 
