@@ -672,31 +672,31 @@ db.InternalQuestionaries.insertOne({
                   options: [
                     {
                       uuid: createUUID(),
-                      name: 'Bolitas sueltas y duras',
+                      name: 'Bolitas sueltas y duras (tipo 1)',
                     },
                     {
                       uuid: createUUID(),
-                      name: 'Salchicha de bolitas',
+                      name: 'Salchicha de bolitas (tipo 2)',
                     },
                     {
                       uuid: createUUID(),
-                      name: 'Salchicha con grietas',
+                      name: 'Salchicha con grietas (tipo 3)',
                     },
                     {
                       uuid: createUUID(),
-                      name: 'Lisa y suave',
+                      name: 'Lisa y suave (tipo 4)',
                     },
                     {
                       uuid: createUUID(),
-                      name: 'Trozos blandos',
+                      name: 'Trozos blandos (tipo 5)',
                     },
                     {
                       uuid: createUUID(),
-                      name: 'Pastosa',
+                      name: 'Pastosa (tipo 6)',
                     },
                     {
                       uuid: createUUID(),
-                      name: 'Líquida',
+                      name: 'Líquida (tipo 7)',
                     },
                   ],
                   isEnabled: true,
