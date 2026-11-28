@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import nodemailer from 'nodemailer';
+import nodemailer, { Transporter } from 'nodemailer';
 import { AthvioLoggerService } from 'src/shared/adapters/observability/athvio-logger.service';
 import { EmailProviderService } from 'src/modules/mail/adapters/out/mail-provider.service';
 import { ErrorMailService } from 'src/shared/enums/messages-response';
@@ -7,7 +7,7 @@ import { LayersServer } from 'src/shared/enums/project';
 
 @Injectable()
 export class MailService {
-  private readonly transporter: nodemailer.Transporter;
+  private readonly transporter: Transporter;
 
   constructor(private readonly logger: AthvioLoggerService) {
     this.transporter = nodemailer.createTransport({

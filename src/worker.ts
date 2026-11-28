@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 // @ts-ignore
-import processRequest from 'graphql-upload/processRequest.js';
+import processRequest from 'graphql-upload/processRequest.mjs';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from 'src/app.module';
 import { EnumEnvironments } from 'src/shared/enums/project';

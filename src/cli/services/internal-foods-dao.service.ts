@@ -52,9 +52,7 @@ export class InternalFoodsDaoService extends MongodbQueryBuilder<InternalFoodDoc
       }
     }
 
-    const food = await this.initializeQuery(this.updateFoods.name).updateMany({ 'foodDetails.foodId': foodId }, update, {
-      new: true,
-    });
+    const food = await this.initializeQuery(this.updateFoods.name).updateMany({ 'foodDetails.foodId': foodId }, update);
     return food;
   }
 
