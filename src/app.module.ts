@@ -17,6 +17,7 @@ import { Trazability } from 'src/shared/types';
 import { OnboardingModule } from 'src/modules/onboarding/onboarding.module';
 import { HealthSubDomainsModule } from 'src/modules/health/health-subdomains.module';
 import { MongoDbModule } from 'src/shared/adapters/mongodb.module';
+import { PostgreSqlModule } from 'src/shared/adapters/postgresql.module';
 // import { ProgramGeneratorDomainsModule } from 'src/modules/program-generator/program-generator-domains.module';
 import { HealthCheckController } from 'src/health-check.controller';
 
@@ -29,6 +30,7 @@ import { HealthCheckController } from 'src/health-check.controller';
     }),
     SharedModule,
     MongoDbModule,
+    PostgreSqlModule,
     SecurityModule,
     GraphqlModule,
     ObservabilityModule,

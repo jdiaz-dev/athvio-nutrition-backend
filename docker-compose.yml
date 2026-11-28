@@ -1,0 +1,45 @@
+services:
+  # mongo1:
+  #   image: mongo
+  #   restart: always
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - $PWD/mongo-data:/data/db'
+  # neo4j:
+  #   image: neo4j:latest
+  #   volumes:
+  #       - /$HOME/neo4j/logs:/logs
+  #       - /$HOME/neo4j/config:/config
+  #       - /$HOME/neo4j/data:/data
+  #       - /$HOME/neo4j/plugins:/plugins
+  #   environment:
+  #       - NEO4J_AUTH=neo4j/verySecret
+  #       - NEO4J_dbms.default_database=mycustomdb  # Set custom database name
+  #       - NEO4J_dbms.allow_upgrade=true  
+  #   ports:
+  #     - "7474:7474"
+  #     - "7687:7687"
+  #   restart: always
+  postgres:
+    image: postgres:16-alpine
+    container_name: athvio-nutrition-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-athvio}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-athvio}
+      POSTGRES_DB: ${POSTGRES_DB:-athvio}
+      TZ: UTC
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/postgresql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:

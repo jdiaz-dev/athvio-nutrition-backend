@@ -6,6 +6,8 @@ class DatabaseVariables {
   @IsString()
   MONGO_DB_CONNECTION: string;
   @IsString()
+  POSTGRES_DB_CONNECTION: string;
+  @IsString()
   NEO4J_DATABASE: string;
   @IsString()
   NEO4J_SCHEME: string;

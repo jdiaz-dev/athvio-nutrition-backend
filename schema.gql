@@ -92,6 +92,42 @@ type BiologicalTerrainAssessment {
   uuid: String!
 }
 
+type BodyMassIndexResult {
+  """IMC calculado (kg/m²)"""
+  bodyMassIndex: Float!
+
+  """Clasificación, ej. Normal, Sobrepeso"""
+  classification: String!
+
+  """Rango de la tabla en el que cae el paciente"""
+  rangeLabel: String!
+
+  """Tabla usada para clasificar, ej. Niños y adolescentes (OMS)"""
+  source: String!
+
+  """Ganancia de peso total máxima recomendada (gestantes)"""
+  weightGainMaxKg: Float
+
+  """Ganancia de peso total mínima recomendada (gestantes)"""
+  weightGainMinKg: Float
+
+  """Puntaje Z de IMC para la edad (solo niños y adolescentes 5–19 años)"""
+  zScore: Float
+}
+
+input CalculateBodyMassIndexDto {
+  """Edad en años"""
+  age: Float!
+  gender: String!
+
+  """Talla en centímetros"""
+  height: Float!
+  isPregnant: Boolean
+
+  """Peso en kilogramos"""
+  weight: Float!
+}
+
 input CalculateFoodsNutrientsDto {
   internalFoods: [FoodInput!]!
 }
@@ -1266,6 +1302,7 @@ type ProgramTag {
 }
 
 type Query {
+  calculateBodyMassIndex(input: CalculateBodyMassIndexDto!): BodyMassIndexResult!
   getAutoCompleteFoodNames(input: GetAutocompleteFoodNamesDto!): GetAutocompleteFoodNamesResponse!
   getBiologicalTerrainAssessment(input: GetBiologicalTerrainAssesmentDto!): BiologicalTerrainAssessment!
   getChat(chat: GetChatDto!): Chat
